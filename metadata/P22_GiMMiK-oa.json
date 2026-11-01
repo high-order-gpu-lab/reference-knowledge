@@ -1,0 +1,1563 @@
+{
+  "id": "https://openalex.org/W2273809747",
+  "doi": "https://doi.org/10.1016/j.cpc.2015.12.012",
+  "title": "GiMMiK—Generating bespoke matrix multiplication kernels for accelerators: Application to high-order Computational Fluid Dynamics",
+  "display_name": "GiMMiK—Generating bespoke matrix multiplication kernels for accelerators: Application to high-order Computational Fluid Dynamics",
+  "publication_year": 2016,
+  "publication_date": "2016-01-18",
+  "ids": {
+    "openalex": "https://openalex.org/W2273809747",
+    "doi": "https://doi.org/10.1016/j.cpc.2015.12.012",
+    "mag": "2273809747"
+  },
+  "language": "en",
+  "primary_location": {
+    "id": "doi:10.1016/j.cpc.2015.12.012",
+    "doi": "https://doi.org/10.1016/j.cpc.2015.12.012",
+    "is_oa": true,
+    "landing_page_url": "https://doi.org/10.1016/j.cpc.2015.12.012",
+    "pdf_url": "https://www.sciencedirect.com/science/article/pii/S0010465515004506/pdf",
+    "source": {
+      "id": "https://openalex.org/S142305363",
+      "display_name": "Computer Physics Communications",
+      "issn_l": "0010-4655",
+      "issn": [
+        "0010-4655",
+        "1879-2944"
+      ],
+      "is_oa": false,
+      "is_in_doaj": false,
+      "is_core": true,
+      "listed_in": [
+        "cwts-core",
+        "jufo-1",
+        "ki-jl-1",
+        "norway-1"
+      ],
+      "host_organization": "https://openalex.org/P4310320990",
+      "host_organization_name": "Elsevier BV",
+      "host_organization_lineage": [
+        "https://openalex.org/P4310320990"
+      ],
+      "host_organization_lineage_names": [
+        "Elsevier BV"
+      ],
+      "type": "journal"
+    },
+    "license": "cc-by",
+    "license_id": "https://openalex.org/licenses/cc-by",
+    "version": "publishedVersion",
+    "is_accepted": true,
+    "is_published": true,
+    "raw_source_name": "Computer Physics Communications",
+    "raw_type": "journal-article"
+  },
+  "volume": null,
+  "type": "article",
+  "indexed_in": [
+    "crossref"
+  ],
+  "open_access": {
+    "is_oa": true,
+    "oa_status": "hybrid",
+    "oa_url": "https://www.sciencedirect.com/science/article/pii/S0010465515004506/pdf",
+    "any_repository_has_fulltext": true
+  },
+  "authorships": [
+    {
+      "author_position": "first",
+      "author": {
+        "id": "https://openalex.org/A5067822985",
+        "display_name": "Bartosz D. Wozniak",
+        "orcid": null,
+        "observed_orcids": []
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I47508984",
+          "display_name": "Imperial College London",
+          "ror": "https://ror.org/041kmwe10",
+          "country_code": "GB",
+          "type": "education",
+          "lineage": [
+            "https://openalex.org/I47508984"
+          ]
+        }
+      ],
+      "countries": [
+        "GB"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Bartosz D. Wozniak",
+      "raw_affiliation_strings": [
+        "Department of Computing, Imperial College London, United Kingdom"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Department of Computing, Imperial College London, United Kingdom",
+          "institution_ids": [
+            "https://openalex.org/I47508984"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5067736188",
+        "display_name": "Freddie Witherden",
+        "orcid": "https://orcid.org/0000-0003-2343-412X",
+        "observed_orcids": [
+          "https://orcid.org/0000-0003-2343-412X"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I47508984",
+          "display_name": "Imperial College London",
+          "ror": "https://ror.org/041kmwe10",
+          "country_code": "GB",
+          "type": "education",
+          "lineage": [
+            "https://openalex.org/I47508984"
+          ]
+        }
+      ],
+      "countries": [
+        "GB"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Freddie D. Witherden",
+      "raw_affiliation_strings": [
+        "Department of Aeronautics, Imperial College London, United Kingdom"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Department of Aeronautics, Imperial College London, United Kingdom",
+          "institution_ids": [
+            "https://openalex.org/I47508984"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5069977488",
+        "display_name": "Francis P. Russell",
+        "orcid": "https://orcid.org/0000-0001-5831-2259",
+        "observed_orcids": [
+          "https://orcid.org/0000-0001-5831-2259"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I47508984",
+          "display_name": "Imperial College London",
+          "ror": "https://ror.org/041kmwe10",
+          "country_code": "GB",
+          "type": "education",
+          "lineage": [
+            "https://openalex.org/I47508984"
+          ]
+        }
+      ],
+      "countries": [
+        "GB"
+      ],
+      "is_corresponding": true,
+      "raw_author_name": "Francis P. Russell",
+      "raw_affiliation_strings": [
+        "Department of Computing, Imperial College London, United Kingdom"
+      ],
+      "raw_orcid": "https://orcid.org/0000-0001-5831-2259",
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Department of Computing, Imperial College London, United Kingdom",
+          "institution_ids": [
+            "https://openalex.org/I47508984"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5044945209",
+        "display_name": "Peter Vincent",
+        "orcid": "https://orcid.org/0000-0002-1314-8827",
+        "observed_orcids": [
+          "https://orcid.org/0000-0002-1314-8827"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I47508984",
+          "display_name": "Imperial College London",
+          "ror": "https://ror.org/041kmwe10",
+          "country_code": "GB",
+          "type": "education",
+          "lineage": [
+            "https://openalex.org/I47508984"
+          ]
+        }
+      ],
+      "countries": [
+        "GB"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Peter E. Vincent",
+      "raw_affiliation_strings": [
+        "Department of Aeronautics, Imperial College London, United Kingdom"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Department of Aeronautics, Imperial College London, United Kingdom",
+          "institution_ids": [
+            "https://openalex.org/I47508984"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "last",
+      "author": {
+        "id": "https://openalex.org/A5000319133",
+        "display_name": "Paul H. J. Kelly",
+        "orcid": "https://orcid.org/0000-0001-5905-1804",
+        "observed_orcids": [
+          "https://orcid.org/0000-0001-5905-1804"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I47508984",
+          "display_name": "Imperial College London",
+          "ror": "https://ror.org/041kmwe10",
+          "country_code": "GB",
+          "type": "education",
+          "lineage": [
+            "https://openalex.org/I47508984"
+          ]
+        }
+      ],
+      "countries": [
+        "GB"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Paul H.J. Kelly",
+      "raw_affiliation_strings": [
+        "Department of Computing, Imperial College London, United Kingdom"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Department of Computing, Imperial College London, United Kingdom",
+          "institution_ids": [
+            "https://openalex.org/I47508984"
+          ]
+        }
+      ]
+    }
+  ],
+  "institutions": [],
+  "countries_distinct_count": 1,
+  "institutions_distinct_count": 1,
+  "corresponding_author_ids": [
+    "https://openalex.org/A5069977488"
+  ],
+  "corresponding_institution_ids": [
+    "https://openalex.org/I47508984"
+  ],
+  "apc_list": {
+    "value": 4160,
+    "currency": "USD",
+    "value_usd": 4160
+  },
+  "apc_paid": {
+    "value": 2324,
+    "currency": "EUR",
+    "value_usd": 2506
+  },
+  "fwci": 3.9765,
+  "has_fulltext": true,
+  "cited_by_count": 30,
+  "citation_normalized_percentile": {
+    "value": 0.93696457,
+    "is_in_top_1_percent": false,
+    "is_in_top_10_percent": true
+  },
+  "cited_by_percentile_year": {
+    "min": 89,
+    "max": 99
+  },
+  "biblio": {
+    "volume": "202",
+    "issue": null,
+    "first_page": "12",
+    "last_page": "22"
+  },
+  "is_retracted": false,
+  "is_paratext": false,
+  "is_xpac": false,
+  "primary_topic": {
+    "id": "https://openalex.org/T10054",
+    "display_name": "Parallel Computing and Optimization Techniques",
+    "score": 0.9945999979972839,
+    "subfield": {
+      "id": "https://openalex.org/subfields/1708",
+      "display_name": "Hardware and Architecture"
+    },
+    "field": {
+      "id": "https://openalex.org/fields/17",
+      "display_name": "Computer Science"
+    },
+    "domain": {
+      "id": "https://openalex.org/domains/3",
+      "display_name": "Physical Sciences"
+    }
+  },
+  "topics": [
+    {
+      "id": "https://openalex.org/T10054",
+      "display_name": "Parallel Computing and Optimization Techniques",
+      "score": 0.9945999979972839,
+      "subfield": {
+        "id": "https://openalex.org/subfields/1708",
+        "display_name": "Hardware and Architecture"
+      },
+      "field": {
+        "id": "https://openalex.org/fields/17",
+        "display_name": "Computer Science"
+      },
+      "domain": {
+        "id": "https://openalex.org/domains/3",
+        "display_name": "Physical Sciences"
+      }
+    },
+    {
+      "id": "https://openalex.org/T10792",
+      "display_name": "Matrix Theory and Algorithms",
+      "score": 0.00430000014603138,
+      "subfield": {
+        "id": "https://openalex.org/subfields/1703",
+        "display_name": "Computational Theory and Mathematics"
+      },
+      "field": {
+        "id": "https://openalex.org/fields/17",
+        "display_name": "Computer Science"
+      },
+      "domain": {
+        "id": "https://openalex.org/domains/3",
+        "display_name": "Physical Sciences"
+      }
+    },
+    {
+      "id": "https://openalex.org/T10481",
+      "display_name": "Computer Graphics and Visualization Techniques",
+      "score": 0.00019999999494757503,
+      "subfield": {
+        "id": "https://openalex.org/subfields/1704",
+        "display_name": "Computer Graphics and Computer-Aided Design"
+      },
+      "field": {
+        "id": "https://openalex.org/fields/17",
+        "display_name": "Computer Science"
+      },
+      "domain": {
+        "id": "https://openalex.org/domains/3",
+        "display_name": "Physical Sciences"
+      }
+    }
+  ],
+  "keywords": [
+    {
+      "id": "https://openalex.org/keywords/cuda",
+      "display_name": "CUDA",
+      "score": 0.7749999761581421
+    },
+    {
+      "id": "https://openalex.org/keywords/opencl",
+      "display_name": "OpenCL",
+      "score": 1.0
+    },
+    {
+      "id": "https://openalex.org/keywords/cublas",
+      "display_name": "cuBLAS",
+      "score": 0.8619999885559082
+    },
+    {
+      "id": "https://openalex.org/keywords/pyfr",
+      "display_name": "PyFR",
+      "score": 0.7369999885559082
+    },
+    {
+      "id": "https://openalex.org/keywords/flux-reconstruction",
+      "display_name": "flux reconstruction",
+      "score": 0.7699999809265137
+    },
+    {
+      "id": "https://openalex.org/keywords/sparse-matrices",
+      "display_name": "sparse matrices",
+      "score": 0.7950000166893005
+    }
+  ],
+  "concepts": [
+    {
+      "id": "https://openalex.org/C41008148",
+      "wikidata": "https://www.wikidata.org/wiki/Q21198",
+      "display_name": "Computer science",
+      "level": 0,
+      "score": 0.7387373447418213
+    },
+    {
+      "id": "https://openalex.org/C173608175",
+      "wikidata": "https://www.wikidata.org/wiki/Q232661",
+      "display_name": "Parallel computing",
+      "level": 1,
+      "score": 0.7351365089416504
+    },
+    {
+      "id": "https://openalex.org/C17349429",
+      "wikidata": "https://www.wikidata.org/wiki/Q1049914",
+      "display_name": "Matrix multiplication",
+      "level": 3,
+      "score": 0.6334593892097473
+    },
+    {
+      "id": "https://openalex.org/C2778119891",
+      "wikidata": "https://www.wikidata.org/wiki/Q477690",
+      "display_name": "CUDA",
+      "level": 2,
+      "score": 0.5969449281692505
+    },
+    {
+      "id": "https://openalex.org/C2780595030",
+      "wikidata": "https://www.wikidata.org/wiki/Q3860309",
+      "display_name": "Multiplication (music)",
+      "level": 2,
+      "score": 0.5783909559249878
+    },
+    {
+      "id": "https://openalex.org/C56372850",
+      "wikidata": "https://www.wikidata.org/wiki/Q1050404",
+      "display_name": "Sparse matrix",
+      "level": 3,
+      "score": 0.5143755078315735
+    },
+    {
+      "id": "https://openalex.org/C106487976",
+      "wikidata": "https://www.wikidata.org/wiki/Q685816",
+      "display_name": "Matrix (chemical analysis)",
+      "level": 2,
+      "score": 0.5011286735534668
+    },
+    {
+      "id": "https://openalex.org/C459310",
+      "wikidata": "https://www.wikidata.org/wiki/Q117801",
+      "display_name": "Computational science",
+      "level": 1,
+      "score": 0.4988210201263428
+    },
+    {
+      "id": "https://openalex.org/C169590947",
+      "wikidata": "https://www.wikidata.org/wiki/Q47506",
+      "display_name": "Compiler",
+      "level": 2,
+      "score": 0.489329993724823
+    },
+    {
+      "id": "https://openalex.org/C133162039",
+      "wikidata": "https://www.wikidata.org/wiki/Q1061077",
+      "display_name": "Code generation",
+      "level": 3,
+      "score": 0.4647708535194397
+    },
+    {
+      "id": "https://openalex.org/C84211073",
+      "wikidata": "https://www.wikidata.org/wiki/Q117879",
+      "display_name": "Floating point",
+      "level": 2,
+      "score": 0.45209580659866333
+    },
+    {
+      "id": "https://openalex.org/C139352143",
+      "wikidata": "https://www.wikidata.org/wiki/Q82571",
+      "display_name": "Linear algebra",
+      "level": 2,
+      "score": 0.4253350496292114
+    },
+    {
+      "id": "https://openalex.org/C11413529",
+      "wikidata": "https://www.wikidata.org/wiki/Q8366",
+      "display_name": "Algorithm",
+      "level": 1,
+      "score": 0.2958762049674988
+    },
+    {
+      "id": "https://openalex.org/C33923547",
+      "wikidata": "https://www.wikidata.org/wiki/Q395",
+      "display_name": "Mathematics",
+      "level": 0,
+      "score": 0.1592535674571991
+    },
+    {
+      "id": "https://openalex.org/C26517878",
+      "wikidata": "https://www.wikidata.org/wiki/Q228039",
+      "display_name": "Key (lock)",
+      "level": 2,
+      "score": 0.099965900182724
+    },
+    {
+      "id": "https://openalex.org/C199360897",
+      "wikidata": "https://www.wikidata.org/wiki/Q9143",
+      "display_name": "Programming language",
+      "level": 1,
+      "score": 0.08500665426254272
+    },
+    {
+      "id": "https://openalex.org/C159985019",
+      "wikidata": "https://www.wikidata.org/wiki/Q181790",
+      "display_name": "Composite material",
+      "level": 1,
+      "score": 0.0
+    },
+    {
+      "id": "https://openalex.org/C84114770",
+      "wikidata": "https://www.wikidata.org/wiki/Q46344",
+      "display_name": "Quantum",
+      "level": 2,
+      "score": 0.0
+    },
+    {
+      "id": "https://openalex.org/C114614502",
+      "wikidata": "https://www.wikidata.org/wiki/Q76592",
+      "display_name": "Combinatorics",
+      "level": 1,
+      "score": 0.0
+    },
+    {
+      "id": "https://openalex.org/C163716315",
+      "wikidata": "https://www.wikidata.org/wiki/Q901177",
+      "display_name": "Gaussian",
+      "level": 2,
+      "score": 0.0
+    },
+    {
+      "id": "https://openalex.org/C192562407",
+      "wikidata": "https://www.wikidata.org/wiki/Q228736",
+      "display_name": "Materials science",
+      "level": 0,
+      "score": 0.0
+    },
+    {
+      "id": "https://openalex.org/C38652104",
+      "wikidata": "https://www.wikidata.org/wiki/Q3510521",
+      "display_name": "Computer security",
+      "level": 1,
+      "score": 0.0
+    },
+    {
+      "id": "https://openalex.org/C62520636",
+      "wikidata": "https://www.wikidata.org/wiki/Q944",
+      "display_name": "Quantum mechanics",
+      "level": 1,
+      "score": 0.0
+    },
+    {
+      "id": "https://openalex.org/C121332964",
+      "wikidata": "https://www.wikidata.org/wiki/Q413",
+      "display_name": "Physics",
+      "level": 0,
+      "score": 0.0
+    },
+    {
+      "id": "https://openalex.org/C2524010",
+      "wikidata": "https://www.wikidata.org/wiki/Q8087",
+      "display_name": "Geometry",
+      "level": 1,
+      "score": 0.0
+    }
+  ],
+  "mesh": [],
+  "locations_count": 2,
+  "locations": [
+    {
+      "id": "doi:10.1016/j.cpc.2015.12.012",
+      "doi": "https://doi.org/10.1016/j.cpc.2015.12.012",
+      "is_oa": true,
+      "landing_page_url": "https://doi.org/10.1016/j.cpc.2015.12.012",
+      "pdf_url": "https://www.sciencedirect.com/science/article/pii/S0010465515004506/pdf",
+      "source": {
+        "id": "https://openalex.org/S142305363",
+        "display_name": "Computer Physics Communications",
+        "issn_l": "0010-4655",
+        "issn": [
+          "0010-4655",
+          "1879-2944"
+        ],
+        "is_oa": false,
+        "is_in_doaj": false,
+        "is_core": true,
+        "listed_in": [
+          "cwts-core",
+          "jufo-1",
+          "ki-jl-1",
+          "norway-1"
+        ],
+        "host_organization": "https://openalex.org/P4310320990",
+        "host_organization_name": "Elsevier BV",
+        "host_organization_lineage": [
+          "https://openalex.org/P4310320990"
+        ],
+        "host_organization_lineage_names": [
+          "Elsevier BV"
+        ],
+        "type": "journal"
+      },
+      "license": "cc-by",
+      "license_id": "https://openalex.org/licenses/cc-by",
+      "version": "publishedVersion",
+      "is_accepted": true,
+      "is_published": true,
+      "raw_source_name": "Computer Physics Communications",
+      "raw_type": "journal-article"
+    },
+    {
+      "id": "pmh:oai:spiral.imperial.ac.uk:10044/1/28821",
+      "doi": null,
+      "is_oa": true,
+      "landing_page_url": "http://hdl.handle.net/10044/1/28821",
+      "pdf_url": null,
+      "source": {
+        "id": "https://openalex.org/S4306401396",
+        "display_name": "Spiral (Imperial College London)",
+        "issn_l": null,
+        "issn": null,
+        "is_oa": false,
+        "is_in_doaj": false,
+        "is_core": false,
+        "listed_in": [],
+        "host_organization": "https://openalex.org/I47508984",
+        "host_organization_name": "Imperial College London",
+        "host_organization_lineage": [
+          "https://openalex.org/I47508984"
+        ],
+        "host_organization_lineage_names": [],
+        "type": "repository"
+      },
+      "license": "other-oa",
+      "license_id": "https://openalex.org/licenses/other-oa",
+      "version": "submittedVersion",
+      "is_accepted": false,
+      "is_published": false,
+      "raw_source_name": "22",
+      "raw_type": "Journal Article"
+    }
+  ],
+  "best_oa_location": {
+    "id": "doi:10.1016/j.cpc.2015.12.012",
+    "doi": "https://doi.org/10.1016/j.cpc.2015.12.012",
+    "is_oa": true,
+    "landing_page_url": "https://doi.org/10.1016/j.cpc.2015.12.012",
+    "pdf_url": "https://www.sciencedirect.com/science/article/pii/S0010465515004506/pdf",
+    "source": {
+      "id": "https://openalex.org/S142305363",
+      "display_name": "Computer Physics Communications",
+      "issn_l": "0010-4655",
+      "issn": [
+        "0010-4655",
+        "1879-2944"
+      ],
+      "is_oa": false,
+      "is_in_doaj": false,
+      "is_core": true,
+      "listed_in": [
+        "cwts-core",
+        "jufo-1",
+        "ki-jl-1",
+        "norway-1"
+      ],
+      "host_organization": "https://openalex.org/P4310320990",
+      "host_organization_name": "Elsevier BV",
+      "host_organization_lineage": [
+        "https://openalex.org/P4310320990"
+      ],
+      "host_organization_lineage_names": [
+        "Elsevier BV"
+      ],
+      "type": "journal"
+    },
+    "license": "cc-by",
+    "license_id": "https://openalex.org/licenses/cc-by",
+    "version": "publishedVersion",
+    "is_accepted": true,
+    "is_published": true,
+    "raw_source_name": "Computer Physics Communications",
+    "raw_type": "journal-article"
+  },
+  "sustainable_development_goals": [],
+  "sustainable_development_goals_aurora": [
+    {
+      "id": "https://metadata.un.org/sdg/9",
+      "display_name": "Industry, innovation and infrastructure",
+      "score": 0.5099999904632568
+    }
+  ],
+  "study_designs": [],
+  "awards": [
+    {
+      "id": "https://openalex.org/G1194822062",
+      "display_name": "Developing Software for High-Order Simulation of Transient Compressible Flow Phenomena: Application to Design of Unmanned Aerial Vehicles",
+      "funder_award_id": "EP/K027379/1",
+      "funder_id": "https://openalex.org/F4320334627",
+      "funder_display_name": "Engineering and Physical Sciences Research Council"
+    },
+    {
+      "id": "https://openalex.org/G1278550217",
+      "display_name": "Platform: Underpinning Technologies for Finite Element Simulation",
+      "funder_award_id": "EP/L000407/1",
+      "funder_id": "https://openalex.org/F4320334627",
+      "funder_display_name": "Engineering and Physical Sciences Research Council"
+    },
+    {
+      "id": "https://openalex.org/G2249403966",
+      "display_name": null,
+      "funder_award_id": "EP/I00677X/1",
+      "funder_id": "https://openalex.org/F4320334627",
+      "funder_display_name": "Engineering and Physical Sciences Research Council"
+    },
+    {
+      "id": "https://openalex.org/G5861081951",
+      "display_name": "Multi-layered abstractions for PDEs",
+      "funder_award_id": "EP/I00677X/1",
+      "funder_id": "https://openalex.org/F4320334627",
+      "funder_display_name": "Engineering and Physical Sciences Research Council"
+    },
+    {
+      "id": "https://openalex.org/G6367779196",
+      "display_name": null,
+      "funder_award_id": "EP/I012036/1",
+      "funder_id": "https://openalex.org/F4320334627",
+      "funder_display_name": "Engineering and Physical Sciences Research Council"
+    },
+    {
+      "id": "https://openalex.org/G731814487",
+      "display_name": null,
+      "funder_award_id": "EP/I006761/1",
+      "funder_id": "https://openalex.org/F4320334627",
+      "funder_display_name": "Engineering and Physical Sciences Research Council"
+    },
+    {
+      "id": "https://openalex.org/G7554227835",
+      "display_name": null,
+      "funder_award_id": "EP/L000407/1",
+      "funder_id": "https://openalex.org/F4320334627",
+      "funder_display_name": "Engineering and Physical Sciences Research Council"
+    },
+    {
+      "id": "https://openalex.org/G8774840620",
+      "display_name": null,
+      "funder_award_id": "EP/K027379/1",
+      "funder_id": "https://openalex.org/F4320334627",
+      "funder_display_name": "Engineering and Physical Sciences Research Council"
+    },
+    {
+      "id": "https://openalex.org/G88315186",
+      "display_name": "Sustainable domain-specific software generation tools for extremely parallel particle-based simulations",
+      "funder_award_id": "EP/I006613/1",
+      "funder_id": "https://openalex.org/F4320334627",
+      "funder_display_name": "Engineering and Physical Sciences Research Council"
+    },
+    {
+      "id": "https://openalex.org/G8927820280",
+      "display_name": null,
+      "funder_award_id": "EP/I006613/1",
+      "funder_id": "https://openalex.org/F4320334627",
+      "funder_display_name": "Engineering and Physical Sciences Research Council"
+    }
+  ],
+  "funders": [
+    {
+      "id": "https://openalex.org/F4320309480",
+      "display_name": "Nvidia",
+      "ror": "https://ror.org/03jdj4y14"
+    },
+    {
+      "id": "https://openalex.org/F4320334627",
+      "display_name": "Engineering and Physical Sciences Research Council",
+      "ror": "https://ror.org/0439y7842"
+    }
+  ],
+  "has_content": {
+    "pdf": true,
+    "grobid_xml": true
+  },
+  "content_urls": {
+    "pdf": "https://content.openalex.org/works/W2273809747.pdf",
+    "grobid_xml": "https://content.openalex.org/works/W2273809747.grobid-xml"
+  },
+  "referenced_works_count": 15,
+  "referenced_works": [
+    "https://openalex.org/W1588915715",
+    "https://openalex.org/W1964031104",
+    "https://openalex.org/W1973966410",
+    "https://openalex.org/W1985312666",
+    "https://openalex.org/W1990343439",
+    "https://openalex.org/W2073061372",
+    "https://openalex.org/W2088866486",
+    "https://openalex.org/W2091371833",
+    "https://openalex.org/W2099021415",
+    "https://openalex.org/W2128539477",
+    "https://openalex.org/W2148897203",
+    "https://openalex.org/W2315982789",
+    "https://openalex.org/W2332227794",
+    "https://openalex.org/W4236293132",
+    "https://openalex.org/W4376272906"
+  ],
+  "related_works": [
+    "https://openalex.org/W2293771254",
+    "https://openalex.org/W4381050447",
+    "https://openalex.org/W3121314575",
+    "https://openalex.org/W1835670156",
+    "https://openalex.org/W2588463123",
+    "https://openalex.org/W3147497457",
+    "https://openalex.org/W2039875226",
+    "https://openalex.org/W4221142455",
+    "https://openalex.org/W3121828480",
+    "https://openalex.org/W2914631005"
+  ],
+  "abstract_inverted_index": {
+    "Matrix": [
+      0,
+      36
+    ],
+    "multiplication": [
+      1,
+      51,
+      261
+    ],
+    "is": [
+      2,
+      78,
+      92
+    ],
+    "a": [
+      3,
+      61,
+      82,
+      216,
+      245,
+      268,
+      276,
+      283
+    ],
+    "fundamental": [
+      4
+    ],
+    "linear": [
+      5
+    ],
+    "algebra": [
+      6
+    ],
+    "routine": [
+      7
+    ],
+    "ubiquitous": [
+      8
+    ],
+    "in": [
+      9,
+      39,
+      81,
+      110,
+      137,
+      222,
+      288
+    ],
+    "all": [
+      10
+    ],
+    "areas": [
+      11
+    ],
+    "of": [
+      12,
+      33,
+      48,
+      64,
+      75,
+      85,
+      97,
+      113,
+      145,
+      157,
+      169,
+      202,
+      208,
+      270,
+      278
+    ],
+    "science": [
+      13
+    ],
+    "and": [
+      14,
+      21,
+      56,
+      132,
+      149,
+      196,
+      212,
+      229,
+      241
+    ],
+    "engineering.": [
+      15
+    ],
+    "Highly": [
+      16
+    ],
+    "optimised": [
+      17,
+      176
+    ],
+    "BLAS": [
+      18
+    ],
+    "libraries": [
+      19
+    ],
+    "(cuBLAS": [
+      20
+    ],
+    "clBLAS": [
+      22
+    ],
+    "on": [
+      23,
+      122,
+      189,
+      225,
+      251,
+      292
+    ],
+    "GPUs)": [
+      24
+    ],
+    "are": [
+      25,
+      104,
+      184
+    ],
+    "the": [
+      26,
+      34,
+      54,
+      65,
+      89,
+      129,
+      138,
+      143,
+      146,
+      155,
+      167,
+      174,
+      226,
+      252,
+      259,
+      293
+    ],
+    "most": [
+      27
+    ],
+    "popular": [
+      28
+    ],
+    "choices": [
+      29
+    ],
+    "for": [
+      30,
+      53,
+      117,
+      215,
+      244,
+      275
+    ],
+    "an": [
+      31,
+      279
+    ],
+    "implementation": [
+      32,
+      112
+    ],
+    "General": [
+      35
+    ],
+    "Multiply": [
+      37
+    ],
+    "(GEMM)": [
+      38
+    ],
+    "software.": [
+      40
+    ],
+    "In": [
+      41,
+      234
+    ],
+    "this": [
+      42
+    ],
+    "paper": [
+      43
+    ],
+    "we": [
+      44,
+      183
+    ],
+    "present": [
+      45
+    ],
+    "GiMMiK—a": [
+      46
+    ],
+    "generator": [
+      47
+    ],
+    "bespoke": [
+      49
+    ],
+    "matrix": [
+      50,
+      67,
+      86,
+      91,
+      134,
+      221,
+      250,
+      260
+    ],
+    "kernels": [
+      52,
+      77,
+      171,
+      204
+    ],
+    "CUDA": [
+      55
+    ],
+    "OpenCL": [
+      57
+    ],
+    "platforms.": [
+      58
+    ],
+    "GiMMiK": [
+      59,
+      126,
+      257,
+      301
+    ],
+    "exploits": [
+      60
+    ],
+    "prior": [
+      62
+    ],
+    "knowledge": [
+      63
+    ],
+    "operator": [
+      66
+    ],
+    "to": [
+      68,
+      106,
+      140,
+      172,
+      186,
+      210,
+      266,
+      272
+    ],
+    "generate": [
+      69
+    ],
+    "highly": [
+      70
+    ],
+    "performant": [
+      71
+    ],
+    "code.": [
+      72
+    ],
+    "The": [
+      73
+    ],
+    "performance": [
+      74
+    ],
+    "GiMMiK’s": [
+      76
+    ],
+    "particularly": [
+      79
+    ],
+    "apparent": [
+      80
+    ],
+    "block-by-panel": [
+      83
+    ],
+    "type": [
+      84
+    ],
+    "multiplication,": [
+      87
+    ],
+    "where": [
+      88
+    ],
+    "block": [
+      90
+    ],
+    "typically": [
+      93
+    ],
+    "small": [
+      94
+    ],
+    "(e.g.": [
+      95
+    ],
+    "dimensions": [
+      96
+    ],
+    "96": [
+      98
+    ],
+    "×": [
+      99
+    ],
+    "64": [
+      100
+    ],
+    ").": [
+      101
+    ],
+    "Such": [
+      102
+    ],
+    "operations": [
+      103,
+      159
+    ],
+    "characteristic": [
+      105
+    ],
+    "our": [
+      107,
+      170,
+      203
+    ],
+    "motivating": [
+      108
+    ],
+    "application": [
+      109
+    ],
+    "PyFR—an": [
+      111
+    ],
+    "Flux": [
+      114
+    ],
+    "Reconstruction": [
+      115
+    ],
+    "schemes": [
+      116
+    ],
+    "high-order": [
+      118
+    ],
+    "fluid": [
+      119
+    ],
+    "flow": [
+      120,
+      281
+    ],
+    "simulations": [
+      121
+    ],
+    "mixed": [
+      123
+    ],
+    "unstructured": [
+      124
+    ],
+    "meshes.": [
+      125
+    ],
+    "fully": [
+      127
+    ],
+    "unrolls": [
+      128
+    ],
+    "matrix–vector": [
+      130
+    ],
+    "product": [
+      131
+    ],
+    "embeds": [
+      133
+    ],
+    "entries": [
+      135
+    ],
+    "directly": [
+      136
+    ],
+    "code": [
+      139
+    ],
+    "benefit": [
+      141
+    ],
+    "from": [
+      142
+    ],
+    "use": [
+      144
+    ],
+    "constant": [
+      147
+    ],
+    "cache": [
+      148
+    ],
+    "compiler": [
+      150
+    ],
+    "optimisations.": [
+      151
+    ],
+    "Further,": [
+      152
+    ],
+    "it": [
+      153
+    ],
+    "reduces": [
+      154
+    ],
+    "number": [
+      156
+    ],
+    "floating-point": [
+      158
+    ],
+    "by": [
+      160,
+      163,
+      180
+    ],
+    "removing": [
+      161
+    ],
+    "multiplications": [
+      162
+    ],
+    "zeros.": [
+      164
+    ],
+    "Together": [
+      165
+    ],
+    "with": [
+      166,
+      286,
+      300
+    ],
+    "ability": [
+      168
+    ],
+    "avoid": [
+      173
+    ],
+    "poorly": [
+      175
+    ],
+    "cleanup": [
+      177
+    ],
+    "code,": [
+      178
+    ],
+    "executed": [
+      179,
+      285
+    ],
+    "library": [
+      181
+    ],
+    "GEMM,": [
+      182
+    ],
+    "able": [
+      185
+    ],
+    "outperform": [
+      187
+    ],
+    "cuBLAS": [
+      188,
+      206
+    ],
+    "two": [
+      190,
+      253
+    ],
+    "NVIDIA": [
+      191
+    ],
+    "GPUs:": [
+      192
+    ],
+    "GTX": [
+      193,
+      230
+    ],
+    "780": [
+      194,
+      231
+    ],
+    "Ti": [
+      195,
+      232
+    ],
+    "Tesla": [
+      197,
+      227,
+      294
+    ],
+    "K40c.": [
+      198,
+      295
+    ],
+    "We": [
+      199
+    ],
+    "observe": [
+      200
+    ],
+    "speedups": [
+      201,
+      238
+    ],
+    "over": [
+      205,
+      282
+    ],
+    "GEMM": [
+      207
+    ],
+    "up": [
+      209,
+      271
+    ],
+    "9.98": [
+      211
+    ],
+    "63.30": [
+      213
+    ],
+    "times": [
+      214,
+      243
+    ],
+    "294×1029": [
+      217
+    ],
+    "99%": [
+      218
+    ],
+    "sparse": [
+      219,
+      248
+    ],
+    "PyFR": [
+      220,
+      249,
+      287
+    ],
+    "double": [
+      223,
+      289
+    ],
+    "precision": [
+      224,
+      291
+    ],
+    "K40c": [
+      228
+    ],
+    "correspondingly.": [
+      233
+    ],
+    "single": [
+      235
+    ],
+    "precision,": [
+      236
+    ],
+    "observed": [
+      237
+    ],
+    "reach": [
+      239
+    ],
+    "12.20": [
+      240
+    ],
+    "13.07": [
+      242
+    ],
+    "4×8": [
+      246
+    ],
+    "50%": [
+      247
+    ],
+    "aforementioned": [
+      254
+    ],
+    "cards.": [
+      255
+    ],
+    "Using": [
+      256
+    ],
+    "as": [
+      258
+    ],
+    "kernel": [
+      262
+    ],
+    "provider": [
+      263
+    ],
+    "allows": [
+      264
+    ],
+    "us": [
+      265
+    ],
+    "achieve": [
+      267
+    ],
+    "speedup": [
+      269
+    ],
+    "1.70": [
+      273
+    ],
+    "(2.19)": [
+      274
+    ],
+    "simulation": [
+      277
+    ],
+    "unsteady": [
+      280
+    ],
+    "cylinder": [
+      284
+    ],
+    "(single)": [
+      290
+    ],
+    "All": [
+      296
+    ],
+    "results": [
+      297
+    ],
+    "were": [
+      298
+    ],
+    "generated": [
+      299
+    ],
+    "version": [
+      302
+    ],
+    "1.0.": [
+      303
+    ]
+  },
+  "counts_by_year": [
+    {
+      "year": 2026,
+      "cited_by_count": 1
+    },
+    {
+      "year": 2025,
+      "cited_by_count": 1
+    },
+    {
+      "year": 2024,
+      "cited_by_count": 1
+    },
+    {
+      "year": 2023,
+      "cited_by_count": 2
+    },
+    {
+      "year": 2022,
+      "cited_by_count": 4
+    },
+    {
+      "year": 2021,
+      "cited_by_count": 8
+    },
+    {
+      "year": 2020,
+      "cited_by_count": 3
+    },
+    {
+      "year": 2019,
+      "cited_by_count": 1
+    },
+    {
+      "year": 2018,
+      "cited_by_count": 2
+    },
+    {
+      "year": 2017,
+      "cited_by_count": 4
+    },
+    {
+      "year": 2016,
+      "cited_by_count": 2
+    },
+    {
+      "year": 2015,
+      "cited_by_count": 1
+    }
+  ],
+  "updated_date": "2026-09-25T08:18:29.962427",
+  "created_date": "2025-10-10T00:00:00"
+}

@@ -1,0 +1,1469 @@
+                                                              Efficient Exascale Discretizations:
+                                                              High-Order Finite Element Methods
+                                         Tzanio Kolev1 , Paul Fischer2,3,4 , Misun Min2 , Jack Dongarra5 , Jed Brown6 , Veselin
+                                         Dobrev1 , Tim Warburton7 , Stanimire Tomov5 , Mark S. Shephard8 , Ahmad
+                                         Abdelfattah5 , Valeria Barra6 , Natalie Beams5 , Jean-Sylvain Camier1 , Noel Chalmers9 ,
+                                         Yohann Dudouit1 , Ali Karakus10 , Ian Karlin1 , Stefan Kerkemeier2 , Yu-Hsiang Lan2 ,
+                                         David Medina11 , Elia Merzari2,12 , Aleksandr Obabko2 , Will Pazner1 , Thilina
+                                         Rathnayake3 , Cameron W. Smith5 , Lukas Spies3 , Kasia Swirydowicz13 , Jeremy
+                                         Thompson6 , Ananias Tomboulides2,14 , Vladimir Tomov1
+arXiv:2109.04996v1 [cs.DC] 10 Sep 2021
+
+
+
+
+                                         Abstract
+                                         Efficient exploitation of exascale architectures requires rethinking of the numerical algorithms used in many
+                                         large-scale applications. These architectures favor algorithms that expose ultra fine-grain parallelism and
+                                         maximize the ratio of floating point operations to energy intensive data movement. One of the few viable
+                                         approaches to achieve high efficiency in the area of PDE discretizations on unstructured grids is to use
+                                         matrix-free / partially-assembled high-order finite element methods, since these methods can increase the
+                                         accuracy and/or lower the computational time due to reduced data motion. In this paper we provide an
+                                         overview of the research and development activities in the Center for Efficient Exascale Discretizations
+                                         (CEED), a co-design center in the Exascale Computing Project that is focused on the development of next-
+                                         generation discretization software and algorithms to enable a wide range of finite element applications to
+                                         run efficiently on future hardware. CEED is a research partnership involving more than 30 computational
+                                         scientists from two US national labs and five universities, including members of the Nek5000, MFEM, MAGMA
+                                         and PETSc projects. We discuss the CEED co-design activities based on targeted benchmarks, miniapps
+                                         and discretization libraries and our work on performance optimizations for large-scale GPU architectures. We
+                                         also provide a broad overview of research and development activities in areas such as unstructured adaptive
+                                         mesh refinement algorithms, matrix-free linear solvers, high-order data visualization, and list examples of
+                                         collaborations with several ECP and external applications.
+
+
+                                         Keywords
+                                         High-Performance Computing, Co-design, High-Order Discretizations, Unstructured Grids, PDEs
+
+
+
+                                         1   Introduction
+                                         Efficient exploitation of exascale architectures requires   1 Center for Applied Scientific Computing, Lawrence Livermore
+                                         rethinking of the numerical algorithms for solving
+                                                                                                     National Laboratory, Livermore, CA 94550
+                                         partial differential equations (PDEs) on general            2 Mathematics and Computer Science, Argonne National Labora-
+
+                                         unstructured grids. New architectures, such as general      tory, Lemont, IL 60439
+                                                                                                     3 Department of Computer Science, University of Illinois at Urbana-
+                                         purpose graphics processing units (GPUs) favor
+                                         algorithms that expose ultra fine-grain parallelism and     Champaign, Urbana, IL 61801
+                                                                                                     4 Department of Mechanical Science and Engineering, University
+                                         maximize the ratio of floating point operations to
+                                                                                                     of Illinois at Urbana-Champaign, Urbana, IL 61801
+                                         energy intensive data movement.                             5 Innovative Computing Laboratory, University of Tennessee,
+
+                                            Many large-scale PDE-based applications employ           Knoxville, TN 37996
+                                                                                                     6 Department of Computer Science, University of Colorado, Boul-
+                                         unstructured finite element discretization methods,
+                                         where practical efficiency is measured by the accuracy      der, CO 80309
+                                                                                                     8 Scientific Computation Research Center, Rensselaer Polytechnic
+                                         achieved per unit computational time. One of the few
+                                                                                                     Institute, Troy, NY 12180
+                                         viable approaches to achieve high performance in this       7 Department of Mathematics, Virginia Tech, Blacksburg, VA 24061
+
+                                         case is to use matrix-free high-order finite element        9 AMD Research, Austin, TX 78735
+                                                                                                     10 Mechanical Engineering Department, Middle East Technical
+                                         methods, since these methods can both increase the
+                                         accuracy and/or lower the computational time due to         University, 06800, Ankara, Turkey
+                                                                                                     11 Occalytics LLC, Weehawken, NJ 07086
+                                         reduced data motion. To achieve this efficiency, high-      12 Department of Nuclear Engineering, Penn State, PA 16802
+                                         order methods use mesh elements that are mapped             13 Pacific Northwest National Laboratory, WA 99352
+from canonical reference elements (hexahedra, wedges,        H(div) and L2 /DG spaces and discretizations, includ-
+pyramids, tetrahedra) and exploit, where possible, the       ing conforming and non-conforming unstructured
+tensor-product structure of the canonical mesh elements      adaptive mesh refinement (AMR).
+and finite element spaces. Through matrix-free partial       High-order/spectral finite elements. Our algorithms
+assembly, the use of canonical reference elements            and software come with comprehensive high-order
+enables substantial cache efficiency and minimizes           support: we provide efficient matrix-free operator
+extraneous data movement in comparison to traditional        evaluation for any order space on any order mesh,
+low-order approaches.                                        including high-order curved meshes and all geometries
+   The Center for Efficient Exascale Discretizations         in the de Rham complex. The CEED software also
+(CEED) is a focused team effort within the U.S.              includes optimized assembly support for low-order
+Department of Energy (DOE) Exascale Computing                methods.
+Project (ECP) that aims to develop the next-generation          The rest of the paper is organized as follows.
+discretization software and algorithms to enable a           In Section 2 we describe our co-design goals and
+wide range of finite element applications to run             organization. The needs of a complete high-order
+efficiently on future hardware. CEED is a research           software ecosystem are then reviewed in Section 3.
+partnership involving more than 30 computational             The CEED high-order benchmarks designed to test
+scientists from two DOE labs and five universities,          and compare the performance of high-order codes are
+including members of the Nek5000, MFEM, MAGMA                described in Section 4. CEED is developing a variety
+and PETSc projects (Nek5000; Anderson et al.                 of miniapps encapsulating key physics and numerical
+2020; MFEM; MAGMA; Medina et al. 2014; Balay                 kernels of high-order applications. These are described
+et al. 2019). This article provides an overview of           in Section 5. We deliver performant algorithms to
+the co-design research and development activities in         applications via discretization libraries both at low-
+the CEED project based on targeted benchmarks,               level, see libCEED described in Section 6, and high-
+miniapps and discretization libraries. We also discuss       level, see MFEM and Nek described in Section 7.
+several examples of collaborations with ECP, including       The impact of these CEED-developed technologies in
+ExaSMR, MARBL, Urban, and ExaWind, as well as                several applications is illustrated in Section 8, followed
+external applications.                                       by conclusions in Section 9.
+   Following the ECP co-design philosophy, CEED is
+positioned as a computational motif hub between appli-       2    Co-Design
+cations, hardware vendors and software technologies
+projects. As such, the main objectives of the project are    CEED’s co-design activities are organized in four R&D
+to:                                                          thrusts described below.
+                                                             Applications Thrust. The goal of CEED’s Applica-
+   1. Help applications leverage future architectures        tions thrust is to impact a wide range of ECP application
+      by providing them with state-of-the-art dis-           teams through focused one-on-one interactions, facili-
+      cretization algorithms that better exploit the hard-   tated by CEED application liaisons, as well as through
+      ware and deliver a significant performance gain        one-to-many interactions, based on the development of
+      over conventional low-order methods.                   easy-to-use discretization libraries for high-order finite
+   2. Collaborate with hardware vendors and software         element methods.
+      technologies projects to utilize and impact the        Hardware Thrust. The goal of CEED’s Hardware
+      upcoming exascale hardware and its software            thrust is to build a two-way (pull-and-push) collabora-
+      stack through CEED-developed proxies and               tion with vendors, where the CEED team will develop
+      miniapps.                                              hardware-aware technologies (pull) to understand per-
+   3. Provide an efficient and user-friendly unstruc-        formance bottlenecks and take advantage of inevitable
+      tured PDE discretization component for the             hardware trends, and vendor interactions to seek (push)
+      upcoming exascale software ecosystem.                  impact and improve hardware designs within the ECP
+                                                             scope.
+   To address these objectives, the center’s co-             Software Thrust. The goal of CEED’s Software
+design efforts are organized in four interconnected          thrust is to participate in the development of
+research and development thrusts, focused on the
+following computational motifs and their performance
+on exascale hardware:                                        14 Department of Mechanical Engineering, Aristotle University of
+
+                                                             Thessaloniki, Greece 54124
+PDE-based simulations on unstructured grids.
+CEED is producing a range of software products sup-          Corresponding author:
+porting general finite element algorithms on triangular,     Tzanio Kolev, Center for Applied Scientific Computing, Lawrence
+quadrilateral, tetrahedral and hexahedral meshes. We         Livermore National Laboratory, Livermore, CA 94550
+target the whole de Rham complex: H 1 , H(curl),             Email: tzanio@llnl.gov
+                                                                                                                               3
+
+
+                                                DOE SC, NNSA & Other
+                                                    Applica@ons
+
+
+
+
+                                                         Applica*ons
+                                     MFEM                                              Nek
+             PETSc
+
+              RAJA
+                         Libraries & So,ware                                      Vendors & Hardware
+                             Technologies                                            Technologies
+
+Figure 1. CEED research and development thrusts
+
+
+software libraries and frameworks of general interest                  members for a variety of platforms. The CEED bake-off
+to the scientific computing community, facilitate                      problems (BPs) described in Section 4 were specifically
+collaboration between CEED software packages,                          designed for that purpose. They are simple enough to
+enable integration into and/or interoperability with                   be able to be run in a simulator, but include the key
+overall ECP software technologies stack, streamline                    local and global kernels in model problem settings.
+developer and user workflows, maintain testing and                     CEED also provides well-documented miniapps that
+benchmarking infrastructure, and coordinate CEED                       are simple yet capture application-relevant physics to
+software releases.                                                     work with vendors, be used in system procurement,
+                                                                       collaborate software technologies projects, and provide
+Finite Elements Thrust. The goal of CEED’s Finite
+                                                                       test and demonstration cases for application scientists.
+Element thrust is to continue to improve the state-of-
+                                                                       These miniapps, which are one step above the
+the-art high-order finite element and spectral element
+                                                                       benchmarks are described in Section 5. One of their
+algorithms and kernels in the CEED software targeting
+                                                                       uses is to highlight performance critical paths (e.g. size
+exascale architectures, connect and contribute to the
+                                                                       of on package memory, internode latency, hardware
+efforts of the other thrusts, and lead the development
+                                                                       collectives) with the goal to impact the design of
+of discretization libraries, benchmarks and miniapps.
+                                                                       exascale architectures, and system and application
+   The CEED co-design approach is driven by                            software, for improved portability and performance
+applications, and is based on close collaboration                      of the high-order algorithms. All of the optimizations
+between the Applications, Hardware, and Software                       and performance improvements resulting from the
+thrusts, each of which has a two-way, push-and-pull                    benchmarks and miniapps work is made available
+relation with the external application, hardware and                   to applications via the CEED discretization libraries
+software technologies teams. CEED’s Finite Elements                    described in Sections 6 and 7.
+thrust serves as a central hub that ties together,
+coordinates and contributes to the efforts in all thrusts.
+For example, the development of discretization libraries
+                                                                       3   High-Order Software Ecosystem
+in CEED is led by the Finite Elements thrust but
+involves working closely with vendors (Hardware                        While the main focus of the CEED effort is the
+thrust) and software technology efforts (Software                      development and improvement of efficient discretiza-
+thrust) to take full advantage of exascale hardware.                   tion algorithms, a full-fledged high-order application
+Making sure that these libraries meet the needs of, and                software ecosystem requires many other components:
+are successfully incorporated in, ECP applications is                  from meshing, to adaptivity, solvers, visualization and
+based on collaboration between the Applications and                    more. Therefore, CEED is also engaged in improving
+Finite Elements thrusts.                                               the additional components of the overall high-order
+   To facilitate the co-design process, the CEED project               simulation pipeline. We describe some of these efforts
+is developing a number of benchmarks, libraries of                     as well as some key enabling technologies in this
+highly performant kernels, and a set of miniapps that                  section to provide a background for the discretization
+are serving multiple roles. One of these roles is to                   work discussed in the remainder of the paper. Note
+provide a mechanism to test and optimize across the                    that some of the components described below (e.g. the
+breadth of implementations already developed by team                   MAGMA and OCCA projects) are generally applicable
+and could be useful in applications that do not use finite     The MFEM finite element library provides general
+elements methods.                                            support for such non-conforming adaptive mesh refine-
+                                                             ment, including anisotropic refinement, derefinement
+High-Order Meshing                                           and parallel load balancing. In order to support the
+                                                             entire de Rham sequence of finite element spaces, at
+When applying high-order discretization methods over         arbitrarily high-order, we use a variational restriction
+domains with curved boundaries and/or curved material        approach to AMR described in (Cerveny et al. 2019).
+interfaces, the mesh must maintain a curved mesh             This approach naturally supports high-order curved
+geometric approximation, whose order is dictated by          meshes, as well as finite element techniques such as
+the order of the basis functions used to discretize the      hybridization and static condensation. It is also highly
+PDEs to ensure convergence of the solution. In the case      scalable, easy to incorporate into existing codes, and
+when Lagrangian reference frame methods are applied          can be applied to complex (anisotropic, n-irregular) 3D
+the mesh geometry will naturally become curved to            meshes, see Figure 2.
+the same order as the elements discretizing the PDEs.
+                                                                The CEED conforming mesh generation capability
+Thus, the application of high-order methods requires
+                                                             builds on the PUMI/MeshAdapt (Ibanez et al. 2016)
+the ability to generate curved initial meshes and to
+                                                             libraries developed as part of the FASTMath SciDAC
+support curved mesh adaptation whenever adaptive
+                                                             applied math institute. Within PUMI the curved mesh
+mesh control is applied. To meet these needs the
+                                                             entities, edges, faces and regions, are represented
+CEED software supports curved mesh representations
+                                                             as Bezier polynomials (Farin 2014). The use of the
+and has developed tools for curved mesh adaptation
+                                                             Bezier properties, curve containment in the convex
+that include non-conforming mesh refinement/de-
+                                                             hull of control points, derivatives and products of
+refinement of quadrilateral and hexahedral meshes,
+                                                             Bezier functions being Bezier functions, and the
+and conforming mesh adaptation of triangular and
+                                                             existence of efficient degree elevation and subdivision
+tetrahedral meshes that can refine and coarsen the mesh
+                                                             algorithms, simplify the definition of curved mesh
+to match a given anisotropic mesh metric field.
+                                                             entity operations. One critical operation is the
+                                                             conversion of curved mesh Bezier geometry into
+                    HR compressible
+                    ALE ﬂow                                  interpolating geometry that is common input to analysis
+                             DG advection,                   codes. The MeshAdapt procedures employ cavity based
+                              HR transport
+                                                             mesh modification operators that include optimization
+                                                             based entity curving, mesh entity refinement, mesh
+                                                             cavity coarsening, and mesh cavity swap operations (Lu
+                                                             et al. 2014; Luo et al. 2004). The input to MeshAdapt
+                                                             is an anisotropic mesh metric field defined over the
+                                                             entities of the current mesh. The mesh metric field can
+                     HR ﬂux-based
+                                                             be defined as any combination of sizes as dictated by
+                     radiation-diﬀusion                      error estimation/indication procedures, feature based
+                                   HR MHD,                   detection operators or other user defined size field
+                           electromagnetics
+                                                             information. Given a mesh size field MeshAdapt carries
+                                                             out a series of cavity based operations to modify the
+Figure 2. By incorporating AMR at the library level, many
+                                                             local mesh topology and/or geometry to satisfy the
+MFEM-based applications can take advantage of it with
+minimal code changes. Examples from high-order (HR)          requested mesh size field. The current curved mesh
+compressible flow, radiation diffusion/transport and         adaptation procedures operate on CPUs. Efforts have
+electromagnetics.                                            been initiated to extend the GPU based Omega h
+                                                             (Ibanez 2016b,a) straight edged mesh adaptation
+   Tensor-product mesh elements (quadrilaterals in 2D        procedures to support curved mesh entities and to
+and hexahedra in 3D) are attractive in many high-order       include additional mesh modification operators used in
+applications, because their tensor product structure         curved mesh adaptation.
+enables efficient operator evaluation (see e.g. Section         Controlling element shapes for evolving meshes
+4), as well as refinement flexibility (e.g. anisotropic      when curved elements are used introduces additional
+refinement). Unlike the conforming case however,             complexity past those encountered when straight edge
+hanging nodes that occur after local refinement of           elements are used. In particular, methods are needed
+quadrilaterals and hexahedra are not easily avoided          to effectively support the definition of well shaped
+by further refinement. Therefore, CEED researchers           elements in the application of ALE methods in
+are interested in non-conforming (irregular) meshes, in      Lagrangian reference frame simulations when meshes
+which adjacent elements need not share a complete            become highly deformed, or in the application of cavity
+face or edge and where some finite element degrees           based curved mesh modifications where new curved
+of freedom (DOFs) need to be constrained to obtain a         mesh entities must be defined within a curved mesh
+conforming solution.                                         cavity. Methods that apply direct curved element shape
+                                                                                                                     5
+
+
+optimization are being used to address these needs          portability across architectures. Similarly, the availabil-
+(Dobrev et al. 2019; Feuillet et al. 2018).                 ity of highly optimized Batched BLAS for various
+                                                            architectures can provide tensor contractions, and con-
+Performance Portability                                     sequently high-order applications, performance porta-
+                                                            bility. Therefore, CEED scientists have been working
+                                                            with vendors and the community on defining a Batched
+                                                            BLAS API, and finalized a proposed API for Batched
+              C++       C       Python   F90                BLAS (Dongarra et al. 2016, 2018).
+                                                               The MAGMA library provides the most complete
+                                                            set of highly optimized Batched BLAS, including
+                     OCCA API                               batched DGEMMs on GPUs. Very small batched
+                                                            DGEMMs have been optimized to perform at their
+                                                            theoretical performance upper bounds for a number of
+            NVIDIA               Intel   Open
+                                                            architectures (Abdelfattah et al. 2016a; Masliah et al.
+                      AMD
+            CUDA      HIP       DPC++     CL                2016). Furthermore, the tensor contraction kernels in
+                                                            CEED often require a sequence of batch DGEMMs. Such
+                                                            calls can share the same execution context so that they
+            Summit   Frontier   Aurora                      operate on the fast memory levels of the hardware,
+                                                            thus maximizing the memory bandwidth (Tomov et al.
+                                                            2019).
+Figure 3. The OCCA portability layer provides a unified        In addition, CEED has modes of operation where
+API for offloading computation to multiple backends. The    the elementwise operator evaluation can be recast
+Intel OneAPI backend is currently in progress.
+                                                            as standard batch DGEMMs on medium-to-large-sized
+                                                            matrices (Abdelfattah et al. 2016b); the MAGMA
+The MFEM, libCEED, NekRS, and libParanumal                  backend for libCEED exploits this to improve
+software packages developed as part of the CEED             performance for non-tensor finite elements (Kolev et al.
+project all include support for performance portability     2020). The use of the batch BLAS operations increases
+achieved to varying degrees using the Open Concurrent       the chances of performance portability, since BLAS
+Compute Abstraction (OCCA) (Medina et al. 2014;             is often highly optimized by vendors and other open
+OCCA). As pictured in Figure 3 OCCA includes APIs           source numerical software. This was recently illustrated
+for C, C++, F90, and Python. It provides multiple           with the MAGMA port and CEED backend for AMD
+backends enabling portability to GPUs programmed            GPUs (Brown et al. 2020a,b; Kolev et al. 2020).
+using CUDA, OpenCL, and HIP. A new DPC++
+OCCA backend is in development to provide native
+                                                            Matrix-free Linear Solvers
+support for upcoming Intel discrete GPUs. Several of
+these programming models also enable cross platform         In addition to efficient discretization and operator
+portability providing additional options to achieve cross   evaluation, matrix-free preconditioning is essential in
+platform efficiency.                                        order to obtain highly performant solvers at high
+   OCCA exposes all performance critical features of        order. Solvers based on explicitly formed matrices
+the support backends required for high-order finite         tend to have low arithmetic intensity, and the memory
+element calculations, enabling performance tuning           requirements associated with the system matrices for
+of kernels that can achieve performance similar to          high-order discretizations are typically too large to be
+kernels written to target the backends directly. We         practical on GPUs and accelerator-based architectures.
+take advantage of the OCCA capability to compile            On the other hand, many standard preconditioning
+compute kernels at run-time with just-in-time (JIT)         techniques rely on the knowledge of the matrix entries.
+specialization and optimization, which is particularly      For these reasons, matrix-free preconditioning is both
+important for high-order methods where innermost            an important and challenging topic.
+loops have bounds depending on the order.                      Multigrid methods provide one promising avenue
+                                                            for the development of matrix free linear solvers
+                                                            (Kronbichler and Ljungkvist 2019). These methods
+Small Tensor Contractions                                   have optimal complexity, and when combined with
+The numerical kernels of efficient high-order operator      effective matrix-free smoothers, have the potential to
+evaluation reduce to many small dense tensor con-           achieve excellent performance (Lottes and Fischer
+tractions, one for each element of the computational        2005). Recent work has also studied the matrix-
+mesh. These contractions can be performed in parallel       free construction of fast diagonalization smoothers
+over the elements and can be implemented as a batch         for discontinuous Galerkin methods (Pazner and
+of small matrix-matrix multiplications (DGEMMs, see         Persson 2018). Both h-multigrid, where a sequence
+Figure 4). Vendor-optimized BLAS routines have been         of geometrically coarsened meshes is used, and p-
+successfully used in many areas to provide performance      multigrid, in which a hierarchy of polynomial degrees
+Figure 4. Standardizing a Batched BLAS API, an extension to the BLAS standard, enables users to perform thousands
+of small BLAS operations in parallel while making efficient use of their hardware.
+
+
+is constructed, can be used in conjunction to obtain an   discretized using H(curl) finite elements (Kolev and
+efficient solver (Sundar et al. 2015). At the coarsest    Vassilevski 2009). Although these solvers were origi-
+level, algebraic multigrid (AMG) methods, such as         nally developed in the context of matrix-based AMG,
+those from the hypre software library, are required in    the same ideas can be extended to the matrix-free
+order to obtain a truly scalable solver.                  setting. Furthermore, uniform preconditioners for H 1
+                                                          conforming diffusion problems can be combined with a
+   An additional technique used to precondition high-
+                                                          simple diagonal scaling to obtain uniform precondition-
+order systems is to assemble a spectrally equivalent
+                                                          ers for DG diffusion problems (Antonietti et al. 2016;
+sparsified system, to which standard matrix-based
+                                                          Dobrev et al. 2006).
+preconditioning techniques may be applied. One
+                                                             An additional method that is capable of using
+method of obtaining a spectrally equivalent sparse
+                                                          fast diagonalization methods (for operators that
+matrix is using a low-order discretization on a
+                                                          admit separable approximations) is Balancing Domain
+refined mesh, and making use of the so-called finite
+                                                          Decomposition by Constraints (BDDC) (Dohrmann
+element method–spectral element method (FEM–SEM)
+                                                          2003; Zampini 2016), which offers more localized
+equivalence for tensor-product elements (Orszag 1980;
+                                                          smoother construction, faster convergence for additive
+Canuto 1994; Canuto et al. 2006). Recent work
+                                                          cycles, and more rapid coarsening than the fast
+has demonstrated that, when combined with efficient
+                                                          diagonalization technique discussed above. BDDC has
+solvers for the sparsified system, this approach can
+                                                          been used for high order elements applied to almost
+result in highly efficient solvers (Bello-Maldonado and
+                                                          incompressible elasticity (Pavarino et al. 2010), where
+Fischer 2019; Pazner 2020). One challenging property
+                                                          the condition number of the BDDC-preconditioned
+of the resulting low-order refined system is that the
+                                                          operator for single-element smoothing and coarsening
+meshes resulting from the refinement procedure are not                                                2
+shape regular with respect to the polynomial degree p:    was shown to scale as κ ≤ C 1 + log p2 , where p
+the aspect ratio of the mesh elements increases with      is the polynomial degree and C is robust to element
+increasing polynomial degree. As a result, algebraic      size/shape and the Poisson ratio. BDDC has also been
+multigrid methods with pointwise smoothers such as        analyzed as a multigrid method (Brown et al. 2019), and
+point Jacobi result in degraded convergence at high       can be composed with other multigrid methods.
+orders. Consequently, the development of specialized
+matrix-free smoothers for these anisotropic low-          High-order Data Analysis and Visualization
+order systems is also of interest. Additionally, the
+                                                          Accurate visualization of general finite element meshes
+extension of these low-order preconditioners to high-
+                                                          and functions in the de Rham complex requires
+order simplex elements is a topic of ongoing research
+                                                          finite element knowledge that may not be present
+(Chalmers and Warburton 2018).
+                                                          in visualization tools employed by applications. The
+   Also of interest is the development of efficient       visualization needs to account for the orders of the mesh
+matrix-free solvers for H(curl), H(div), and discon-      and solution fields, as well as the type of finite element
+tinuous Galerkin finite element spaces. It is often the   basis used for each of them. Our work in this direction
+case that efficient solvers for H 1 discretizations can   is based on the current capabilities in MFEM, illustrated
+be modified or supplemented to obtain good precon-        in its native GLVis visualization tool (GLVis), as well as
+ditioners for these more challenging cases. For exam-     in the VisIt visualization and data analysis application
+ple, multigrid solvers for diffusion problems can be      (VisIt).
+combined with a discrete gradient operator to obtain         An additional challenge for high-order meshes and
+uniform preconditioners for definite Maxwell problems     functions is that there is no common community
+                                                                                                                         7
+
+
+standard for the description of high-order data at             the respective stiffness and mass matrix entries are
+arbitrary other. CEED is working with visualization and                 Z                                Z
+application teams to develop a standard called Field             Aij =      ∇φi · ∇φj dV,        Bij =      φi φj dV.
+and Mesh Specification (FMS) that not only improves                       Ω                                  Ω
+visualization capabilities but also enables consistent
+                                                               These matrices are never formed, but instead are
+data transfer between high-order applications. See
+                                                               applied using fast, low-storage, tensor-product-sum
+(FMS) and (Brown et al. 2018).
+                                                               factorization that are at the heart of efficient high-order
+                                                               methods (Deville et al. 2002; Orszag 1980).
+4   Benchmarks                                                    Test problems BP1–BP2 correspond to solving
+Application-relevant performance testing and analyses          the mass matrix (α = 0, β = 1), while BP3–BP6
+are critical to effective HPC software deployment. One         correspond to solving the Poisson problem (α = 1,
+of the foundational components of CEED is a sequence           β = 0). For BP1–BP4, integration is performed over
+of PDE-motivated bake-off problems (BPs) designed to           each element using Gauss-Legendre quadrature with
+establish best practices for performant implementations        q = p + 2 nodes in each direction in Ω̂. BP5–BP6
+of high-order methods across a variety of platforms.           correspond to the spectral element formulation, in
+The idea is to pool the efforts of multiple high-              which integration is performed on the underlying
+order development groups to identify effective code            (p + 1)3 Gauss-Lobatto-Legendre nodal points, thus
+optimization strategies for candidate architectures. In        bypassing interpolation from nodes to quadrature
+an initial round of tests we compared performance from         points.
+four software development projects (Nek5000, MFEM,                An important question in the development of HPC
+deal.II, and libParanumal) on Mira, the BG/Q at ALCF,          software is to ensure that testing reflects actual use
+and Summit, the NVIDIA V100-based platform at                  modalities. On large HPC platforms, users typically use
+ORNL. The results of this bake-off were documented             as many nodes as are effective, meaning that they run
+in (Fischer et al. 2020). We are interested in peak            at the strong-scale limit, rather than the work-saturated
+performance (degrees of freedom per second, per node)          limit. Figure 5 illustrates these limits for the case of BP5
+and in strong-scale performance at a significant fraction      on up to 16,384 MPI ranks on Mira. On the left we see
+of this peak (e.g., 80%), as this regime is frequently of      standard strong-scale plots for two different problem
+paramount concern to computational scientists. While           sizes, n = 5.6 million points and n = 22 million points.
+we consider matrix-free implementations of p-type              The smaller case exhibits perfect linear speed-up up to
+finite and spectral element methods as the principal           Pc = 2048 MPI ranks whereas the larger case sustains
+vehicle for our study, the performance results are             linear speed-up out to Pc = 8192 ranks. For this class of
+relevant to a broad spectrum of numerical PDE solvers,         problems with a given code and platform the dominant
+including finite difference, finite volume, and h-type         factor governing parallel efficiency is the number of
+finite elements, and thus are widely applicable.               points per node (or core, or other independent compute
+   The first suite of CEED bake-off problems, BP1–             resource) (Fischer et al. 2015). Indeed, with this metric
+BP6, is focused on simple solver kernels—conjugate             we see a perfect data collapse in Figure 5 (center),
+gradient (CG) iterations to solve systems of the               which shows the time as a function of the number of
+form (αA + βB) ui = Bf i , which are the discrete              points per rank, and (right), which shows the work-
+equivalents of the constant-coefficient 3D positive-           rate (DOFS=degrees-of-freedom × number of iteration
+definite Helmholtz problem,                                    per second per node) and the parallel efficiency, η =
+                                                               T1 /(P TP ), where TP is the time when running on P
+    −α∇2 ui + βui         =    fi (x), x ∈ Ω ⊂ lR3 ,           MPI ranks.
+                                                                  We make several observations about Figure 5 (right).
+for i = 1, . . . , m, with homogeneous Dirichlet condi-        First, the strong-scale limit is at about 2700 points per
+tions, ui = 0 on ∂Ω. The odd-numbered BPs corre-               rank. Running with more points per rank keeps the
+spond to scalar problems (m = 1), whereas the even-            efficiency at unity but increases the runtime. Running
+numbered cases correspond to (potentially more effi-           with fewer points per rank means increasing the total
+cient) vector problems (m = 3). An important aspect            number of cycles (core-hours) to complete the job. Very
+of using CG is that it involves a mix of local work            often, users will trade some degree of inefficiency for
+with both nearest neighbor and global communication            decreased runtime. If we choose, for example, 80%
+(vector reductions), which provides at least moderate          efficiency, the value of n/P where this value is realized
+stress on the system communication.                            is denoted by n0.8 . Second, it is beneficial to increase
+   The BP discretizations are based on isoparametric           rate of work (DOFS) because fewer core-hours are then
+Qp finite elements (curvilinear bricks) on a tensor            required to complete the overall task. Wall-clock time,
+product reference domain, r ∈ Ω̂ = [−1, 1]3 , which is         however, may not be reduced if increasing the work-
+mapped through a transformation xe (r) for each of E           rate implies an increase in n/P to stay above the token
+elements, Ωe , e = 1, . . . , E. Denoting the underlying       (e.g., 80%) efficiency mark. For a problem of size n,
+                                                                                                            n
+C 0 -Lagrangian basis functions as φi (x), i = 1, . . . , n,   the time-to-solution will be tη = C η·P ·r     max
+                                                                                                                  , where η
+Figure 5. Strong-scaling analysis for BP5 in -c32 mode on Mira: (left) standard strong-scaling plots with increasing
+number of MPI ranks, Pc for Poisson problems using n=5.6M and 22M grid points; (center) data collapse manifest when
+independent variable is n/Pc ; and (right) work-rate (left ordinate) and parallel efficiency (right ordinate) vs n/Pc .
+
+                                                                                                                                                                                         H                       0 ) ( 0   % 3   R Q  / D V V H Q        9    V
+                                                                                                                                                                                              S   
+                                                                                                                                                                                                 S   
+                                                                                                                                                                                                 S   
+
+
+
+
+                                                                                > ' 2 ) V  [  & *  L W H U D W L R Q V @    > 0 3 ,  W D V N V  [  V H F R Q G V @
+                                                                                                                                                                                              S   
+                                                                                                                                                                                                 S   
+                                                                                                                                                                                                 S   
+                                                                                                                                                                                              S   
+                                                                                                                                                                                                 S   
+
+                                                                                                                                                                                 
+
+
+                                                                                                                                                                                 
+
+
+                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                    ' 2 ) V  S H U  0 3 ,  W D V N
+
+
+Figure 6. BP results: BP5 with Nek5000 on Mira; BP5 with libParanumal on Summit; BP3 with MFEM on Lassen
+
+
+is the parallel efficiency, rmax is the saturated work rate   with an n0.8 ≈ 3 million. The corresponding t0.8 for
+(e.g. per computational node), P is the number of nodes       these cases are approximately .0008s on Mira, .001s on
+used, and C is a constant that reflects the amount of         Summit, and .0015s on Lassen. We reiterate that the
+work per gridpoint. The choice η = 0.8 implies that           strong-scale limit is the fastest point where users can
+                                                   C n0.8
+n/P = n0.8 , such that the run time is t0.8 = 0.8    rmax .   (and will) run while sustaining their desired efficiency.
+The problem size n and number of nodes drop out of the        Thus, performance at other points on Figures 5 and 6
+run time formula—the only thing that influences time-         are of far less importance. Performance tuning must
+to-solution at the strong-scale limit is the ratio of the     focus on moving up and to the left in these plots.
+local problem size to peak processing rate, n0.8 /rmax .         Future BPs will look at dealiased advection kernels,
+Minimization of this ratio is of paramount importance         which are compute and memory intensive, and optimal
+for reduced run time.                                         preconditioning strategies for high-order discretizations
+                                                              of elliptic problems that represent computational
+   Motivated by the preceding analysis, we routinely          bottlenecks in several of the ECP applications.
+collect performance data for BP1–BP6 for varying
+problem sizes n = Ep3 on a variety of platforms.
+A comprehensive study entailing more than 2000                5   Miniapps
+trials was reported in (Fischer et al. 2020), which           CEED is developing a variety of miniapps encapsulat-
+considered E = 214 to E = 221 and p = 1 to p = 16             ing key physics and numerical kernels of high-order
+using MFEM, Nek5000, and deal.ii on P = 512 nodes             applications. The miniapps are designed to be used
+on ALCF’s Mira (in -c32 mode) and the OCCA-based              in a variety of co-design activities with ECP vendors,
+libParanumal code with P = 4 (24 NVIDIA V100s)                software technologies projects and external partners.
+on OLCF’s Summit. Typical BP results are shown in             For example, several of the CEED miniapps (Nekbone
+Figure 6. The left panel shows BP5 results for Nek5000        and Laghos) are used as vendor benchmarks in the
+on Mira. We see that higher polynomials generally             DOE’s CORAL-2 and LLNL’s CTS-2 procurements.
+realize a higher DOFS rate and that n0.8 ≈ 50, 000,
+with r0.8 ≈ 65 MDOFS. On Summit, libParanumal
+realizes a peak of more than 10 GDOFS with n0.8 ≈             libParanumal
+107 . We also show recent results for BP3 using MFEM          libParanumal (LIBrary of PARAllel NUMerical ALgo-
+on 256 nodes of the V100-based platform, Lassen.              rithms) is an open source project (Chalmers et al.
+Again, higher polynomial orders sustain higher DOFS,          2020) under development at Virginia Tech. It consists
+peaking at ≈ 2 GDOFS per GPU (8 GDOFS/node)                   of a collection of miniapps with high-performance
+                                                                                                                        9
+
+
+                                                             performs weak and strong scaling tests for BK5–
+        Incomp.                             Compress.
+         Navier-
+                    Fokker-    Boltzmann
+                                             Navier-         BK6* and BP5–BP6, as shown in Figure 8. The figure
+                    Planck     dynamics
+         Stokes                              Stokes          demonstrates that n0.8 is reduced from 3M points to 2M
+                                                             points per V100 when we switch from the scalar (BP5)
+                                                             solver to the vector (BP6) variant of the solver.
+                       Time-steppers                            Nekbone solves a standard Poisson equation using
+                                                             conjugate gradient iteration with a simple diagonal
+                                                             preconditioner on a block or linear geometry. It
+                                                             encapsulates one of the principal computational kernels
+                    Linear-                                  pertinent to Nek5000, which includes a mixture of
+        Elliptic                Multigrid     ogs
+                    solvers
+                                                             local (near-neighbor) and nonlocal (vector reduction)
+                                                             communication patterns that are central to efficient
+                                                             multilevel solvers. Nekbone has been updated to
+                    OCCA                      gslib          include vector solutions, which allows amortization
+                                                             of message and memory latencies. Nekbone has been
+                                                             used for assessment of advanced architectures and for
+Figure 7. The libParanumal library includes portable GPU     evaluation of light-weight MPI implementations on the
+accelerated miniapps for solving the incompressible and      ALCF BG/Q, Cetus, in collaboration with Argonne’s
+compressible Navier-Stokes, Fokker-Planck, and finite        MPICH team (Raffenetti and et al. 2017).
+moment Boltzmann gas dynamics equations among
+others.
+                                                             Laghos and Remhos
+                                                             Laghos (LAGrangian High-Order Solver) and Remhos
+portable implementations of high-order finite-element
+                                                             (REMap High-Order Solver) are MFEM-based
+discretizations for a range of different fluid flow mod-
+                                                             miniapps developed by the CEED team. The
+els. The miniapps embedded in libParanumal include
+                                                             objective of these miniapps is to provide open
+solvers for incompressible flows (Karakus et al. 2019b),
+                                                             source implementations of efficient discretizations for
+compressible flows, finite moment Boltzmann gas
+                                                             Lagrangian shock hydrodynamics (Laghos) and field
+dynamics models (Karakus et al. 2019a), and Fokker-
+                                                             remap (Remhos) based on high-order finite elements.
+Planck models. All of these miniapps are accompanied
+                                                                Laghos (Laghos) solves the time-dependent Euler
+with highly performant GPU kernels for high-order
+                                                             equations of compressible gas dynamics in a moving
+Galerkin (Swirydowicz et al. 2019) and/or discontin-
+                                                             Lagrangian frame. The miniapp is based on the
+uous Galerkin spatial discretizations with a collection
+                                                             method described in (Dobrev et al. 2012). It
+of high-order time integrators. libParanumal is con-
+                                                             exposes the principal computational kernels of explicit
+structed as a set of core libraries as shown in Figure
+                                                             time-dependent shock-capturing compressible flow,
+7 including high-performance scalable preconditioned
+                                                             including the FLOP-intensive definition of artificial
+iterative Krylov subspace solvers with optional multi-
+                                                             viscosity at quadrature points.
+grid preconditioning. All computationally intensive cal-
+culations are implemented using kernels compatible              Laghos supports two options for deriving and solving
+with the OCCA portability layer (Medina et al. 2014)         its system of equations, namely, the full assembly and
+and have been analyzed and optimized to guarantee            the partial assembly methods. Full assembly relies on
+that they achieve a high percentage of the attain-           global mass matrices in CSR format; this option is
+able DEVICE memory bandwidth on NVIDIA P100                  appropriate for first or second order methods. Partial
+(Swirydowicz et al. 2019) and V100 GPUs (Fischer             assembly utilizes the tensor structure of the finite
+et al. 2020). The libParanumal library provides core         element spaces, resulting in less data storage, memory
+GPU acceleration capabilities to NekRS and algorithms        transfers and FLOPs; this option is of interest in
+developed for it have been deployed in the MFEM              terms of efficiency for high-order discretizations. The
+cuda-gen backend.                                            Laghos implementation includes support for hardware
+                                                             devices, such as GPUs, and programming models,
+                                                             such as CUDA, OCCA, RAJA and OpenMP, based
+NekBench and Nekbone                                         on MFEM 4.1 or later. These device backends are
+NekBench is a benchmark suite representing key               selectable at runtime. Laghos also contains an AMR
+components of Nek5000/CEM/RS. This miniapp                   version demonstrating the use of dynamic adaptive
+supports a variety of benchmarks for fundamental             mesh refinement for a moving mesh with MFEM.
+analysis in different architectures. It supports a single-
+step driver that delivers timing measurements on
+CPUs and GPUs for ping-pong (one-to-one and                  ∗ The  BKs are bake-off kernels that involve only the local,
+bisection-bandwidth tests), gather-scatter, all-reduce,      elementwise, portion of the matrix-vector products, Au or Bu
+dot-product, and device-to/from-host memcopy. It also        associated with the corresponding BPs described in Section 4.
+Figure 8. Strong and weak scaling studies of BP5 and BP6 using V100s on Lassen.
+
+
+   Large-scale GPU runs of Laghos were performed                Remhos supports two execution modes, namely,
+on Lassen. All computations were kept on the device,         transport and remap, which result in slightly different
+except for the result of the dot product which is brought    algebraic operators. In the case of remap, the finite
+back on to the CPU during the iterations of the CG           element mass and advection matrices change in time,
+solver. Initial results are presented in Figure 9, showing   while they are constant for the transport case. Just like
+both the weak (gray lines) and strong (colored lines)        Laghos, Remhos supports full assembly and partial
+scaling obtained on four to one thousands of GPUs            assembly options for deriving and solving its linear
+during the CG iterations of the velocity solver, which       system. Support for different hardware devices in
+corresponds to the BP2 CEED benchmark. Ideal strong          Remhos is work in progress.
+scaling is possible for problem size large enough, while        Other computational motifs supported by both
+weak scaling is more easily reached through all the          Laghos and Remhos include: domain-decomposed
+range of the runs. The bottom panel of Figure 9 presents     MPI parallelism; support for unstructured 2D and 3D
+the throughput in DOFs per second for the Laghos             meshes, with quadrilateral and hexahedral elements;
+force kernel, reaching more than 4 TDOF/s on the same        moving high-order curved meshes; explicit high-order
+configuration.                                               time integration methods; optional in-situ visualization
+   Remhos solves the pure advection equations that           with GLVis and data output for visualization and data
+are used to perform conservative and monotonic DG            analysis with VisIt.
+advection-based discontinuous field interpolation, or
+“remap” (Remhos). Remhos combines discretization
+methods described in the following articles: (Ander-
+                                                             6   libCEED
+son et al. 2015, 2017, 2018; Hajduk et al. 2020a,b).         libCEED is CEED’s low-level API library that provides
+It exposes the principal computational kernels of            portable and performant evaluation of high-order
+explicit time-dependent Discontinuous Galerkin advec-        operators (Abdelfattah et al. 2020). It is a C99 library
+tion methods, including monotonicity treatment com-          with no required dependencies, and with Fortran
+putations that are characteristic to FCT (Flux Corrected     and Python interfaces (see for details on the Python
+Transport) methods.                                          interface (Barra et al. 2020)).
+                                                                                                                                                                                       11
+
+
+                                 10                                                                                                  104
+
+
+
+
+                                                                                       Forces rate (gigadofs x timesteps / second)
+                                                                Ideal strong scaling                                                                                              8M
+                                                                       Weak scaling                                                                                              32M
+                                                                                 8M                                                                                             128M
+  CG (H1) total time [seconds]
+
+
+                                                                                32M                                                                                             512M
+                                                                              128M                                                                                             2048M
+                                                                              512M
+                                                                             2048M
+                                                                                                                                     103
+
+
+
+                                  1
+
+
+
+                                                                                                                                     102
+
+
+
+
+                                      4   16       64            256           1024                                                           4      16     64         256   1024
+                                               Number of GPUs                                                                                              Number of GPUs
+
+
+
+Figure 9. Left: weak and strong scaling results with Laghos and MFEM-4.1: 2D problem on Lassen, using up to 1024
+GPUs. Right: throughput for the Laghos force kernel in (GDOF x timesteps / second), reaching above 4 TDOF/s on 1024
+GPUs.
+
+
+   One of the challenges with high-order methods                                                              on the subdomains, the split degrees of freedom on
+is that a global sparse matrix is no longer a good                                                            the mesh elements, and the values at quadrature points,
+representation of a high-order linear operator, both                                                          respectively (see Figure 10). We refer to the operators
+with respect to the FLOPs needed for its evaluation,                                                          that connect the different types of vectors as:
+as well as the memory transfer needed for a matvec.
+Thus, high-order methods require a new “format” that                                                                                       • P : Subdomain restriction
+still represents a linear (or more generally non-linear)                                                                                   • G: Element restriction
+operator, but not through a sparse matrix.                                                                                                 • B: Basis (DOFs-to-Qpts) evaluator
+   The goal of libCEED is to propose such a format, as                                                                                     • D: Operator at quadrature points
+well as supporting implementations and data structures,
+                                                                                                                 More generally, when the test and trial space differ,
+that enable efficient operator evaluation on a variety
+                                                                                                              they have their own versions of P , G and B.
+of computational device types (CPUs, GPUs, etc.).
+                                                                                                                 The libCEED API takes an algebraic approach,
+This new operator description, outlined below and in
+                                                                                                              where the user describes in the frontend the operators
+(Abdelfattah et al. 2020), is based on algebraically
+                                                                                                              G, B, and D and the library provides backend
+factored form, which is easy to incorporate in a wide
+                                                                                                              implementations and coordinates their action to the
+variety of applications, without significant refactoring
+                                                                                                              original operator on L-vector level (i.e. independently
+of their own discretization infrastructure.
+                                                                                                              on each device / MPI task). The subdomain restriction
+                                                                                                              operation, P is outside of the scope of the current
+Finite Element Operator Decomposition                                                                         libCEED API.
+Finite element operators are typically defined through                                                           One of the advantages of this purely algebraic
+weak formulations of partial differential equations that                                                      description is that it includes all the finite element
+involve integration over a computational mesh. The                                                            information, so the backends can operate on linear
+required integrals are computed by splitting them as a                                                        algebra level without explicit finite element code. The
+sum over the mesh elements, mapping each element to                                                           frontend description is general enough to support a
+a simple reference element (e.g. the unit square) and                                                         wide variety of finite element algorithms, as well as
+applying a quadrature rule in reference space.                                                                some other types algorithms such as spectral finite
+   This sequence of operations highlights an inherent                                                         differences. The separation of the front and backends
+hierarchical structure present in all finite element                                                          enables applications to easily switch/try different
+operators where the evaluation starts on global (trial)                                                       backends and enables backend developers to impact
+degrees of freedom (DOFs) or nodes on the whole                                                               many applications from a single implementation.
+mesh, restricts to DOFs on subdomains (groups of                                                                 The mapping between the decomposition concepts
+elements), then moves to independent DOFs on each                                                             and the code implementation is as follows:
+element, transitions to independent quadrature points
+in reference space, performs the integration, and then                                                                                     • L-, E-, and Q-vectors are represented by
+goes back in reverse order to global (test) degrees of                                                                                       CeedVector objects†
+freedom on the whole mesh.                                                                                                                 • G is represented as a CeedElemRestriction
+   This is illustrated below for the simple case of                                                                                        • B is represented as a CeedBasis
+symmetric linear operator on third order (Q3 ) scalar                                                                                      • D is represented as a CeedQFunction
+continuous (H 1 ) elements, where we use the notions T-
+vector, L-vector, E-vector, and Q-vector to represent
+the sets corresponding to the (true) degrees of freedom                                                       † A backend may choose to operate incrementally without forming
+
+on the global mesh, the split local degrees of freedom                                                        explicit E- or Q-vectors.
+                                                       Mathematical Foundations
+
+                                          FEM operator decomposi0on
+
+
+               global domain               sub-domains                                              elements                  quadrature
+              all (shared) dofs          device (local) dofs                                      element dofs                point values
+                                                                                                                                             D
+
+
+                                  P                             G                                                  B
+
+                                  PT                           GT                                                  BT
+
+                 T-vector                    L-vector                                              E-vector                    Q-vector
+                                                                                 libCEED API
+
+                      ✔ algebraic operator decomposi0on ✔ applicable to many applica0ons ✔ device-level API
+Figure 10. Finite element operator decomposition
+
+
+    • GT B T DBG the local action of the operator is                    The best performing CPU backends use the
+      represented as a CeedOperator                                  LIBXSMM library. In order to best use modern
+                                                                     CPU architectures, the basis application operations
+  Users can provide source code for pointwise                        are decomposed as small matrix multiplications, using
+application of their weak form in a single source file               tensor contractions when on tensor product bases.
+using mutually supported constructs from C99, C++11,                 LIBXSMM provides efficient computation of these
+and CUDA.                                                            small matrix-matrix products, vectorized across the
+                                                                     quadrature points for a single element or batches of
+                                                                     elements.
+CPU and GPU Performance
+                                                                                              3,000
+                                                                                                                                                    p=1
+libCEED provides a unified interface for all types of                                                                                               p=2
+hardware, allowing users to write a single source code                                        2,500
+                                                                                                                                                    p=3
+                                                                        MDoF/s per CG iteration
+
+
+
+
+and to select the desired backend at run time. Backends                                                                                             p=4
+                                                                                              2,000                                                 p=5
+differ in the hardware they target, but also in their                                                                                               p=6
+implementation and algorithmic choices.                                                       1,500                                                 p=7
+
+   libCEED provides backends for CPUs, NVIDIA                                                 1,000
+GPUs, and AMD GPUs implemented in C (with or
+without AVX intrinsics), CUDA, and HIP respectively.                                               500
+libCEED also provides backends taking advantage
+of specialized libraries like libXSMM for CPUs, or                                                         10−4             10−3             10−2
+MAGMA for NVIDIA and AMD GPUs (see Figure                                                                         Time per CG iteration
+11). The OCCA backend is special in the sense that it
+                                                                     Figure 12. Throughput vs latency for the libCEED
+aims at supporting all possible hardware in a unified
+                                                                     /cpu/self/xsmm/blocked backend solving BP3 on a
+backend.                                                             2-socket AMD EPYC 7452.
+   Backends are interoperable, allowing to use different
+backends together on heterogeneous architectures.
+Moreover, each process or thread can instantiate an                     The best performing GPU backends on the CEED
+arbitrary number of backends, this can be used to select             benchmark problems are /gpu/cuda/gen for quadri-
+the backend with the highest performance for each                    lateral and hexahedral elements, and /gpu/magma for
+operator, or to run on mixed meshes.                                 simplex elements.
+                                                                        The /gpu/cuda/gen backend is using runtime code
+                                                                     generation and JIT compilation to generate a unique
+                                                                     optimized GPU kernel for each libCEED operator. The
+                                                                     gpu/magma backend is based on the MAGMA library.
+                                                                        In order to explore the weak and strong scaling of
+                                                                     these algorithms on CPU and GPU architectures, we
+                                                                     consider the throughput in terms of the latency. High
+                                                                     throughput for low latencies are good for architectures
+                                                                     and problems that need strong scalability. On the other
+                                                                     hand, high throughput for high latency corresponds
+                                                                     to architectures that weak-scale efficiently. Comparing
+Figure 11. The role of libCEED as a low-level API.                   these measures for a 2-socket AMD EPYC 7452 CPU,
+                                                                                                                                     13
+
+
+in Figure 12, with an NVIDIA V100 GPU in Figure 13,                             Nek5000/CEM/RS
+using the best CPU and GPU backends of libCEED,
+                                                                                Nek5000 is a thermal-fluids code based on the spectral
+we observe a much better ability for the CPU to strong
+                                                                                element method (SEM) (Patera 1984) that is used
+scale over the GPU, but a better weak scalability for
+                                                                                for a wide range of scientific applications, including
+the NVIDIA V100 over the AMD EPYC 7452 on the
+                                                                                reactor thermal-hydraulics, thermal convection, ocean
+benchmark problem BP3 (in both Figures, p is the
+                                                                                modeling, combustion, vascular flows, and fundamental
+polynomial order).
+                                                                                studies of turbulence. NekCEM supports both an SEM
+   For all GPU backends the weak and strong scalability
+                                                                                and an SE discontinuous-Galerkin (SEDG) formulation
+behave similarly. A constant GPU overhead limits
+                                                                                for applications in electromagnetics, drift-diffusion,
+dramatically the strong scalability. Any kernel below
+                                                                                and quantum-mechanical systems. These codes have
+a million degrees of freedom is dominated by this
+                                                                                scaled to millions of MPI ranks using the Nek-
+constant cost, therefore the computation time between
+                                                                                based gslib communication library to handle all near-
+one and a million degrees of freedom is roughly the
+                                                                                neighbor and other stencil type communications (e.g.,
+same, which correspond to the clustering on the left
+                                                                                for algebraic multigrid). Tensor contractions constitute
+of Figure 13. However, above a million degrees of
+                                                                                the principal computational kernel, which leads to high
+freedom, we can observe a superlinear weak scalability:
+                                                                                CPU performance with a minor amount of tuning.
+a higher number of degrees of freedom results in higher
+                                                                                   Initial GPU development and testing was done
+performance per degree of freedom. The CPU backends
+                                                                                with NekCEM using OpenACC (Otten et al. 2016).
+have typical CPU performance profile, with decent
+                                                                                For portability reasons, NekRS—the GPU variant
+strong and weak scalability, and optimal performance
+                                                                                of Nek5000—was built on top of kernels from
+achieved in the middle for a number of degrees
+                                                                                libParanumal using OCCA. In both cases, node-level
+of freedom that depends on the architecture cache
+                                                                                parallelism requires kernels written at a higher level
+memories, see Figure 12.
+                                                                                than simple tensor contractions. For performance, full
+                          3,000                                                 operations (e.g., ∇u) are cast into a single kernel
+                                                                          p=1
+                                                                          p=2   call for the GPU. Significant effort has gone into
+                          2,500
+                                                                          p=3   overlapping the gather-scatter operation that is central
+    MDoF/s per CG iteration
+
+
+
+
+                                                                          p=4
+                          2,000                                           p=5
+                                                                                to matrix-free SEM/FEM operator evaluation. On a
+                                                                          p=6   CPU platform, where there are only one or two spectral
+                          1,500                                           p=7   elements per MPI rank, there is no opportunity for
+                                                                          p=8
+                          1,000
+                                                                                communication overlap. However, GPUs such as the
+                                                                                NVIDIA V100 require about 2 million gridpoints
+                              500                                               per V100 for reasonable efficiency, which means that
+                                                                                there is enough work on subdomain interior points
+                                    10−4             10−3          10−2
+                                                                                to cover some inter-node communication. Strong- and
+                                           Time per CG iteration                weak-scaling performance for NekRS and Nek5000
+                                                                                on Summit are illustrated in Figure 14. The strong-
+Figure 13. Throughput vs latency for the libCEED                                scaling plots reflect the most recent performance
+/gpu/cuda/gen backend solving BP3 on a NVIDIA
+V100.
+                                                                                enhancements in NekRS, including communication
+                                                                                overlap and improved preconditioners. Time-per-step in
+                                                                                this case is less than 0.1 seconds.
+                                                                                   A major push for Nek5000/CEM/RS applications
+7                             Nek and MFEM
+                                                                                is in the area of solvers. Effective preconditioners for
+At a higher level of abstraction, CEED provides a                               the Poisson problem are of primary importance for the
+“high-level API” to applications through the MFEM                               unsteady Navier-Stokes equations. Steady-state solvers
+and Nek discretization libraries. This API operates                             are important for the drift-diffusion equations and
+with global discretization concepts, specifying a global                        for Reynolds-averaged Navier-Stokes (RANS) models
+mesh, finite element spaces and PDE operators to be                             used in nuclear engineering. Jacobi-free Newton-
+discretized with the point-wise physics representing                            Krylov methods (Knoll and Keyes 2004) are under
+the coefficients in these operators. Given such inputs,                         development for these applications.
+CEED provides efficient discretization and evaluation
+of the requested operators, without the need for
+the application to be concerned with element-level
+                                                                                The MFEM Finite Element Library
+operations. Internally, the high-level API can make use                         MFEM is a free, lightweight, scalable C++ library
+of CEED’s low-level APIs described in the previous                              for finite element methods (Anderson et al. 2020;
+sections. The global perspective also allows CEED                               MFEM). Its goal is to enable high-performance scalable
+packages to provide general unstructured adaptive                               finite element discretization research and application
+mesh refinement support, with minimal impact in the                             development on a wide variety of platforms, ranging
+application code.                                                               from laptops to exascale supercomputers. It also
+                                                            distributed memory parallelism, OpenMP-based shared
+                                                            memory parallelism on CPUs, and GPU-acceleration
+                                                            through various backends (see below). Last but not
+                                                            least, the source distribution includes many examples
+                                                            and miniapps that can be used as an introduction to
+                                                            the library and its capabilities, as well as templates for
+                                                            developing more complex simulations.
+                                                               In addition to its built-in capabilities, MFEM pro-
+                                                            vides integration with many other scientific libraries,
+                                                            including ECP software technologies projects such as
+                                                            hypre, PETSc, SUNDIALS, PUMI, libCEED, OCCA,
+                                                            etc. Support for the GPU capabilities in some of these
+                                                            libraries is already available (e.g. OCCA, libCEED) and
+                                                            for others it is currently under active development (e.g.
+                                                            hypre, SUNDIALS).
+                                                               Starting with version 4.0 (released in May 2019),
+                                                            MFEM introduced initial support for GPU accelerators.
+                                                            Since then these capabilities are being actively
+                                                            developed to add support in more components of
+                                                            the library while also improving the performance of
+                                                            already existing kernels. The set of examples and
+                                                            miniapps in MFEM that support GPUs is growing and
+                                                            now includes a number of PDE problems: diffusion,
+Figure 14. NekRS GPU and Nek5000 CPU strong- and            advection, definite Maxwell, grad–div, Darcy, etc.
+weak-scaling performance on OLCF’s Summit. The plots        Other algorithms like AMR, TMOP (Dobrev et al.
+show the wall-time per step, averaged over 100 steps, for   2019), and multigrid are also supported (at least
+turbulent flow in a 17×17 rod-bundle example coming         partially) on GPUs.
+from ExaSMR (Figure 17a).
+                                                               The support for different hardware (CPUs and
+                                                            GPUs) and different programming models (such as
+                                                            CUDA, OpenMP, HIP, RAJA (Beckingsale et al.
+provides a range of features beyond finite elements         2019; RAJA), OCCA, libCEED) is facilitated by the
+that allow for rapid prototyping and development            concept of backends, see Figure 15. The selection of
+of scientific and engineering simulations. In CEED,         the backend happens at runtime at the start of the
+MFEM is a main component of the efforts in the              program which allows code to be developed, tested,
+Applications and Finite Element thrusts.                    and used without the need to recompile the library
+   MFEM includes capabilities for basic linear algebra:     or the application. The backends currently supported
+vectors, dense and sparse matrices and operations           (specified as strings) are: cpu, raja-cpu, occa-cpu,
+with them; iterative (Krylov) linear solvers; smoothers     ceed-cpu, omp, raja-omp, occa-omp, debug, hip,
+and preconditioners, including multigrid; nonlinear         cuda, raja-cuda, occa-cuda, and ceed-cuda.
+operators and solvers; and time stepping methods. The          To facilitate gradual transition to GPU architectures
+library offers support for a wide variety of mesh types     for users and for the library itself, MFEM introduced
+and operations on them: arbitrary high-order curvilinear    two features: a lightweight memory manager to
+meshes in 1D, 2D (triangles and quads), and 3D (tets,       simplify the handling of separate host and device
+hexes, prisms), including surface and periodic meshes;      memory spaces, and a set of MFEM FORALL macros for
+mesh import from meshing tools such as Gmsh, Netgen,        writing portable kernels that can dispatch execution to
+CUBIT; adaptive conforming mesh refinement for              different backends.
+simplicial meshes; adaptive nonconforming refinement           These capabilities are illustrated in Figure 16,
+and derefinement for all mesh types, including parallel     where we present results for the BP3 benchmark
+rebalancing; mesh optimization via node movement:           (implemented as a slightly modified version of
+TMOP (Dobrev et al. 2019). The PDE discretization           MFEM’s Example 1) on a single V100 GPU on LLNL’s
+features include: arbitrary order L2 - (discontinuous),     Lassen machine. These results show the performance
+H 1 - (continuous), H(div)-, and H(curl)-conforming         advantage of libCEED’s CUDA-gen backend (exposed
+finite elements and discretization spaces; NURBS            in MFEM as the ceed-cuda backend) over the cuda
+meshes and discretization spaces (IGA); a large variety     MFEM backend. The main reason for this improvement
+of predefined linear, bilinear, and nonlinear forms;        is the additional kernel fusion used by CUDA-gen: the
+support for many discretization approaches including        action of the operators GT B T DBG (see Section 6,
+continuous, mixed, DG, DPG, IGA, etc. In terms              and Figure 10) is implemented as one kernel whereas
+of parallel programming, MFEM supports MPI-based            the cuda backend uses three separate kernels for
+                                                                                                                                                                                                                                                                                              Device support in MFEM-4.0
+                                                                                                                                                                                                                                                                                                                                                                                                                   15
+                                                                                                                                                        MFEM-4.0 adds initial GPU support in many linear algebra and ﬁnite element operations
+
+                                                                                                                                                           Library                                                                                                                                                                          Kernels                          Backends            Hardware
+                                                                                                                                                                                                                                                                                                                                                                                CUDA
+                                                                                                                                                                                                                                                                                                                                            Memory
+                                                                                                                                                                                    linalg                                                                                                                                                                                       HIP
+                                                                                                                                                                                                                                                                                                                                       R              RW   W                                        GPU
+                                                                                                                                                                                                                                                                                                                                                                                OCCA
+                                                                                                                                                                                  mesh
+                                                                                                                                                                                                                                                                                                                                                                               libCEED
+                                                                                                                                                                                                                fem                                                                                                                            Kernel                                                CPU
+                                                                                                                                                                                                                                                                                                                                                                                RAJA
+                                                                                                                                                                                                                                                                                                                                            Execu+on
+                                                                                                                                                                                                                                                                                                                                                                                OMP
+
+                                                                                                                                  ✔ Kernels can be speciﬁed via loop-body lambda-capture, or raw CUDA, OCCA; many have single source
+  Figure 15. Conceptual diagram of MFEM’s portability abstractions.
+                                                                                                                                  ✔ Backends are runtime selectable, can be mixed                                                                                                                                                                              ✔ Recent additions: support for AMD/HIP
+
+                                                                                                          H                                                                                                                                                                         H 
+                                                                                                                                                                    S                                                                                                                         S   
+                                                                                                                                                                                                                                                                                                                                                           been demonstrated in the CEED milestone reports (Min
+                                                                                                                                                                                                                                                                           
+                                                                                                                                                                    S                                                                                                                         S                                                          et al. 2017; Brown et al. 2017; Tomov et al. 2018; Min
+                                                                                                                                                                    S                                                                                                                         S   
+ > ' 2 ) V  [  & *  L W H U D W L R Q V @    > 0 3 ,  W D V N V  [  V H F R Q G V @
+
+
+
+
+                                                                                                                                                                             > ' 2 ) V  [  & *  L W H U D W L R Q V @    > 0 3 ,  W D V N V  [  V H F R Q G V @
+
+
+
+
+                                                                                                                                                                 S                                                                                                                      S                                                          et al. 2019a; Shephard et al. 2019; Tomov et al. 2019;
+                                                                                                                                                                    S                                                                                                                         S   
+                                                                                                                                                                    S                                                                                                                         S                                                          Kolev et al. 2020) and other project reports (Merzari
+                                                                                                                                                                 S                                                                                                                      S                                                          et al. 2017; Min et al. 2019b; Ameen et al. 2020). Some
+                                                                                                                                                                                                                                                                                               S   
+                                                                                                                                                                                                                                                                                                                                                           of the results are shown in Figures 17–18.
+                                                                                                                                                                                                                                                                           
+
+
+                                                                                                                                                                                                                                                                                                                                                     Small Modular Reactor Analysis: ExaSMR
+                                                                                                    
+                                                                                                                                                       
+                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                           The goal of the ExaSMR project is to combine
+                                                                                                                           ' 2 ) V  S H U  0 3 ,  W D V N                                                                                                                                            ' 2 ) V  S H U  0 3 ,  W D V N                  advanced thermal-hydraulics modeling with scalable
+                                                                                                                                                                                                                                                                                                                                                           neutronics computations to allow reactor-scale model-
+  Figure 16. BP3 performance comparison of MFEM’s
+                                                                                                                                                                                                                                                                                                                                                           ing. For the thermal-hydraulics analysis, the reactor-
+  cuda (left) and ceed-cuda (i.e. /gpu/cuda/gen from
+  libCEED, right) backends on a single V100 GPU (Lassen                                                                                                                                                                                                                                                                                                    core comprises hundreds of thousands of channels
+  machine at LLNL).                                                                                                                                                                                                                                                                                                                                        supporting turbulent flow with very fine solution scales.
+                                                                                                                                                                                                                                                                                                                                                           The channels are typically hundreds of hydraulic
+                                                                                                                                                                                                                                                                                                                                                           diameters in length. For full reactor-core simulations,
+  GT , B T DB, and G. Another MFEM result using the                                                                                                                                                                                                                                                                                                        Reynolds-Averaged Navier Stokes (RANS) approach in
+  ceed-cuda backend to solve BP3 on 1024 V100 GPUs                                                                                                                                                                                                                                                                                                         the majority of the core with more detailed large eddy
+  on Lassen was presented earlier in the right panel of                                                                                                                                                                                                                                                                                                    simulations (LES) is required in critical regions. In
+  Figure 6.                                                                                                                                                                                                                                                                                                                                                addition, while the turbulence is challenging to resolve,
+                                                                                                                                                                                                                                                                                                                                                           it tends to reach a statistically fully developed state
+                                                                                                                                                                                                                                                                                                                                                           within just a few channel diameters, whereas thermal
+  8                                                                                                      Application Integration                                                                                                                                                                                                                           variations take place over the full core size. This poses a
+  The ultimate goal of CEED is to extend state-of-                                                                                                                                                                                                                                                                                                         challenge for coupled calculations. It is too expensive to
+  the-art high-order algorithms to DOE ECP mission                                                                                                                                                                                                                                                                                                         consider performing full large-eddy simulations (LES).
+  applications. This section illustrates the use of CEED-                                                                                                                                                                                                                                                                                                     To accelerate the time-to-solution, CEED developed
+  developed technologies for several ECP applications                                                                                                                                                                                                                                                                                                      fully implicit and steady state solvers for spectral-
+  including ExaSMR, MARBL, Urban, and ExaWind.                                                                                                                                                                                                                                                                                                             element-based thermal transport and RANS. For the
+  We also demonstrate impact over a range of other                                                                                                                                                                                                                                                                                                         nonlinear Navier-Stokes and RANS transport, the
+  important applications including work sponsored by                                                                                                                                                                                                                                                                                                       Jacobian-free Newton Krylov (JFNK) routines from
+  DOE’s Nuclear Energy Advanced Modeling and Sim-                                                                                                                                                                                                                                                                                                          NekCEM’s drift-diffusion solver (Tsai et al. 2020) have
+  ulation program, Vehicle Technologies Office, COVID-                                                                                                                                                                                                                                                                                                     been imported to Nek5000 and tested on various flow
+  19 research, and SciDAC. Applications in these areas                                                                                                                                                                                                                                                                                                     problems including vortex flow, Dean’s flow, lid-driven
+  present significant challenges with respect to scale                                                                                                                                                                                                                                                                                                     cavity, flow past cylinder and flow around rods (Brown
+  resolution, multiphysics, and complex computational                                                                                                                                                                                                                                                                                                      et al. 2018). This new steady-state solver uses an
+  domains. The CEED team has focused on develop-                                                                                                                                                                                                                                                                                                           inexact (Jacobi-free) formulation based on a first-order
+  ing algorithmic and scientific research at scale to                                                                                                                                                                                                                                                                                                      Taylor series expansion and converges to the steady
+  address these issues in collaboration with the appli-                                                                                                                                                                                                                                                                                                    state solutions with a small number of pseudo-time
+  cation teams. The outcomes of the CEED technolo-                                                                                                                                                                                                                                                                                                         steps. Preconditioning the GMRES routine within the
+  gies have been integrated into the open source codes,                                                                                                                                                                                                                                                                                                    Newton step remains as future work.
+  Nek5000/CEM/RS, MFEM, libCEED and libParanu-                                                                                                                                                                                                                                                                                                                While the thermal development time is governed
+  mal. Their impact in various application problems have                                                                                                                                                                                                                                                                                                   by the long channel length, the velocity rapidly
+Figure 17. ECP applications: (a) ExaSMR: 17 × 17 rod-bundle turbulent flow simulation. (b) MARBL: 3D multi-material
+ALE simulation that is used as a performance benchmark. (c) Urban: LES modeling for vortex flows around Lake Point
+Tower and 20 buildings in Chicago downtown block. (d) ExaWind: GABLS benchmark studies with no-slip and traction
+boundary conditions.
+
+
+reaches a statistically steady state, proportional to         MARBL is an ALE formulation based on the MFEM-
+the hydraulic diameter. By freezing the expensive-to-         driven BLAST code (Anderson et al. 2018), which
+generate velocity field, one can accelerate equilibration     solves the conservation laws of mass, momentum, and
+of the thermal field without having to laboriously            energy. The BLAST code utilizes high-order finite
+compute tens of thousands of transient turbulent              element discretizations of several physical processes
+eddies. We have developed preconditioning strategies          on a high-order (curved) moving mesh. The method
+for steady or implicit advection-diffusion and Navier-        consists of (i) a Lagrangian phase, where the multi-
+Stokes equations using tensor-product-based spectral          material compressible Euler equations are solved on a
+element methods. For the advection-diffusion problem,         moving mesh (Dobrev et al. 2012, 2016), (ii) a remesh
+p-multigrid (PMG) is used directly as a preconditioner        phase, which improves the mesh quality (Dobrev
+within a Krylov subspace projection (KSP) method              et al. 2020), and a field remap phase that performs
+such as GMRES (Tomov et al. 2018; Brubeck and                 a conservative and monotone advection between two
+Fischer 2019; Pazner and Persson 2018). For Navier-           meshes (Anderson et al. 2015).
+Stokes, PMG is part of a larger preconditioner that              The first major step towards improved efficiency
+includes restriction of velocity search directions to the     in MARBL was the introduction of matrix-free /
+space of divergence-free fields through a projection          partial-assembly based methods. The CEED-developed
+technique (Brubeck et al. 2020). These strategies have        Laghos miniapp played a critical role for that,
+been applied for turbulent thermal-stress models for rod      as it exposed the main computational kernels of
+bundle simulations (Martinez et al. 2019).                    BLAST’s Lagrangian phase, without the additional
+   For the unsteady ExaSMR simulations, the GPU-              overhead of physics-specific code. Laghos introduced
+based NekRS code has made significant advances                partial assembly versions for many of BLAST’s
+in development. For the 17 × 17 rod-bundle in                 specific kernels, which were later directly used by
+Figure 17(a), we have demonstrated improved NekRS             the application. For its more standard finite element
+simulation capabilities to extend to largest problem size     operations, BLAST utilized MFEM’s tensor-based
+to date, with 175 million spectral elements (n = 61           routines. These included partially assembled bilinear
+billion grid points) using 3520 nodes (21120 V100s) on        forms for mass, diffusion and advection; tensor-
+Summit as well as strong and weak scaling performance         based evaluation of finite element functions and their
+at large scale in (Tomov et al. 2019; Kolev et al. 2020).     gradients; matrix-free diagonal preconditioning; and
+(See Figure 14.)                                              other algorithms as well. These methods were used
+                                                              extensively throughout the application’s Lagrangian
+                                                              and remap phases. Furthermore, the CEED team
+Compressible Shock Hydrodynamics                              derived a matrix-free version of MFEM’s mesh
+MARBL is a next-gen multi-physics simulation                  optimization miniapp, which could also be used directly
+code being developed at LLNL. The code targets                by the remesh phase of the application.
+multi-material hydrodynamics and radiation/magnetic              The GPU port of MARBL/BLAST is exclusively
+diffusion simulations, with applications in inertial          based on the partial assembly technology from CEED
+confined fusion, pulsed power experiments, and                and the GPU support via the MFEM version 4.0 release.
+equation of state/material strength analysis. The goal of     The CEED team developed GPU versions of Laghos
+this application is to enhance LLNL’s modular physics         and the MFEM’s mesh optimization miniapps. GPU
+simulation capabilities, with increased performance           kernels from these miniapps, together with general
+portability and flexibility. One of the central features of   MFEM finite element operations as the ones mentioned
+                                                                                                                 17
+
+
+above, could be used directly by the MARBL code.           structures at Reynolds numbers up to Re=10 million
+Application-specific operations, on the other hand, are    (Min et al. 2019a; Tomov et al. 2019). We investigated
+implemented in MARBL, making use of the RAJA               several models for the boundary layer treatment in
+kernel abstractions and MFEM memory management,            the Nek5000 RANS solver including a wall-resolved
+GPU-friendly data structures, small dense matrix           regularized approach where we have to use adequate
+kernels, use of shared memory, etc.                        resolution inside the very thin log and viscous sub-
+  The current state of MARBL’s GPU capability              layers (Tomboulides et al. 2018) and a stability-
+provides around 15× speedup on the main benchmark          enhanced wall-resolved k-ω and k-τ models where we
+problem, which is a multi-material ALE simulation          do not need such high resolution.
+on a 3D unstructured mesh, see Figure 17(b). This
+comparison uses 4 CPU nodes (144 cores) of LLNL’s          Pebble-Bed Reactors
+rzgenie machine versus 4 GPU nodes (16 GPUs)
+of LLNL’s rzansel machine. Broken over the ALE             Flow through beds of randomly-packed spheres is
+phases, the observed speedups are 16× in the Lagrange      encountered in many science and engineering applica-
+phase, 15× in the remap phase, and 6× in the mesh          tions. The meshing challenge is to have a high quality
+optimization phase.                                        all-hex mesh with relatively few elements per sphere.
+                                                           Working with the DOE NEAMS project, the CEED
+                                                           team has developed novel scalable meshing strategies
+Flow in Urban Environments                                 for generating high-quality hexahedral element meshes
+The urban challenge problem considers the assessment       that ensure accurate representation of densely packed
+of extreme heat events on buildings in dense urban         spheres for complex pebble-bed reactor geometries.
+environments, with up to a few 1000 buildings being        Our target is to capture highly turbulent flow structures
+modeled during an event. This challenge problem            in the solution at minimal cost by using relatively few
+involves coupling of WRF (to define initial weather        elements (≈300 per sphere) of high order (p = 7).
+conditions), Nek5000 (to model heat transfer near          Algorithmic strategies including efficient edge collapse,
+buildings), and EnergyPlus (to model heat emissions        tessellation, smoothing, and projection, are presented in
+and energy performance). In collaboration with the         (Kolev et al. 2020) along with quality measurements,
+ECP-Urban team, CEED team built spectral element           flow simulations, validation, and performance results
+meshes and performed LES simulations of Lake Point         for pebble bed geometries ranging from hundreds to
+Tower and Chicago downtown block consisting of 20          thousands of pebbles. Figure 17(a) shows a case of
+buildings as shown in Figure 17(c) (Min et al. 2019a;      3344 pebbles in an annular domain using 1.1M spectral
+Shephard et al. 2019). The 20-building mesh comprises      elements.
+E = 143340 spectral elements and its simulation with
+N = 13 is performed using 1024 nodes of ALCF/Mira          Internal Combustion
+(32768 MPI ranks). This effort has also generated
+interest from other federal agencies outside of DOE.       Turbulence in IC engines presents a challenge for
+                                                           computational fluid dynamics due primarily to the
+                                                           broad range of length and time scales that need to be
+Atmospheric Boundary Layer Flows                           resolved. Specifically, simulations need to predict the
+Efficient simulation of atmospheric boundary layer         evolution of a variety of flow structures in the vicinity
+flows (ABL) is important for the study of wind farms,      of complex domains that are moving. Executing these
+urban canyons, and basic weather modeling. In collab-      simulations accurately and in a reasonable amount of
+oration with the ExaWind team, we identified an atmo-      time can ultimately lead to engine design concepts with
+spheric boundary layer benchmark problem (Church-          improved efficiency.
+field et al. 2000) to serve as a point of comparison          The CEED team has been working with researchers
+for code and modeling strategies. We have addressed        at ETH Zurich (Giannakopoulos et al. 2019) and
+cross-verification and validation of our LES results and   ANL’s Energy Systems Division (under support from
+corresponding wall models. We demonstrated the suit-       DOE’s Vehicle Technologies Office) on detailed studies
+ability of high-order methods for a well-documented        of turbulence in the IC engine cycle. We developed
+stably stratified atmospheric boundary layer benchmark     a characteristic-based spectral element method for
+problem, the Global Energy and Water Cycle Exper-          moving-domain problems (Patel et al. 2019), and
+iment (GEWEX) Atmospheric Boundary Layer Study             demonstrated it for the TCC III engine model illustrated
+(GABLS) as shown in Figure 17(d). This collaboration       in Figure 18(b). We also added a significantly enhanced
+will be extended to perform scaling studies to compare     capability for handling complex moving geometries by
+the performance of several ABL codes on CPU and            adding scalable support for overset grids, referred to
+GPU platforms.                                             as NekNek, based on generalized Schwarz overlapping
+   As another component of the ExaWind collaboration       methods (Mittal et al. 2019). The NekNek multimesh
+we performed RANS simulations to compute the drag          coupling is based entirely on the kernels in Nek’s gslib
+and lift forces of wind-turbine and NACA0012 airfoil       communication library, which has scaled to millions of
+Figure 18. Other applications: (a) DOE NEAMS: Turbulent flows around 3344 pebbles with an all-hex mesh. (b) DOE
+VTO: Exhaust stroke TCC engine modeling. (c) COVID19: LES Lagrangian particle tracking simulation for 500,000
+aerosols. (d) SciDAC RF: EM analysis of the vacuum region from a RF antenna.
+
+
+MPI ranks. A newly developed preconditioner based               These components include complete curved domain
+on the SEM/FEM spectral equivalence was shown to             definitions based on CAD system produced models
+be effective for solving the pressure-Poisson systems        of RF antenna geometries and geometry construction
+in these configurations (Bello-Maldonado and Fischer         tools for the analysis domain that support defeaturing
+2019).                                                       the antenna CAD models as desired, and combining
+                                                             the CAD geometry with the reactor wall geometry
+                                                             and any other “physics”. Historically, ad-hoc methods
+Aerosol Transport Modeling
+                                                             are employed to execute this time consuming step.
+Related to the current COVID-19 pandemic, the                Recent efforts have focused on providing a graphical
+Nek5000 team, in collaboration with NVIDIA and               construction tool for tokamak systems building on
+Utah State is researching aerosol transport analysis.        general geometry manipulation capabilities (Simmetrix
+High-resolution LES coupled with Lagrangian particle         2020). The user interface to the PetraM (Physics
+tracking is used for predicting the dynamics of virus-       EquationTranslator for MFEM) component (Shiraiwa
+laden aerosols in indoor classroom environments (Dutta       et al. 2017) supports the association of the RF
+et al. 2020). Figure 18(c) demonstrates a recent             simulation material properties, loads and boundary
+simulation, using 70 million grid points and 500,000         conditions (essential and natural) to the analysis
+five-micron aerosols with a future target of 1 billion       domain geometry. With these in place, fully automatic
+polydisperse aerosols in a full classroom size.              mesh generation of an initial curved tetrahedral mesh
+   This application uses efficient algorithms for point      using either Gmsh (Geuzaine and Remacle 2013) or
+containment and general interpolation in physical            MeshSim (Simmetrix 2020) is performed. If the curved
+space, findpts and findeval, which are available             meshes are not of sufficiently high order for the basis
+on CPU platforms in CEED’s Nek5000 and MFEM                  functions to be used, a tool has been developed to
+codes. Detailed discussion of these methods and their        increase the order of approximation of mesh edges
+porting to exascale machines is beyond the scope of this     and faces on curved domain boundaries up to order
+paper. Future developments may include synchronous           six. We then execute a high-order MFEM simulation
+utilization of the CPU or particle tracking on the device.   supplemented with PetraM routines to control needed
+                                                             field information to perform the RF analysis. This is
+                                                             followed by error estimation and mesh adaptation using
+Magnetic Fusion
+                                                             the conforming curved mesh adaptation procedure in
+Accurate radio-frequency (RF) heating simulations of         PUMI/MeshAdapt and return to the analysis step until
+fusion systems like the ITER tokamak require the             acceptable solution accuracy is obtained.
+definition of analysis domains that include detailed            Figure 18(d) shows an example of the application of
+antenna, reactor wall and physics region geometric           the basic steps in the workflow of a tokamak geometry
+representations. As is the case with other wave equation     with RF antenna geometry inserted. The result shown
+simulations, the application of high-order methods,          is for a low order mesh. Recent results up to order five
+with their higher rates of convergence and high flop rate    are showing a clear advantage to use of higher order
+to memory access, is critical for the accurate simulation    elements.
+of these classes of problems. The software components
+being integrated to address this simulation workflow
+as part of the DOE SciDAC Center for Integrated
+                                                             9   Conclusion
+Simulation of Fusion Relevant RF Actuators (Bonoli
+2020) must support higher order geometry and high            In this paper we reviewed the co-design activities in
+order analysis methods.                                      the Center for Efficient Exascale Discretizations of the
+                                                                                                                       19
+
+
+Exascale Computing Project, focused on the computa-             Medina D, Rathnayake T, Thompson JL and Tomov S
+tional motif of PDE discretizations on general unstruc-         (2020) libCEED User Manual. DOI:10.5281/zenodo.
+tured grids, with emphasis on high-order methods. We            4302737.       URL https://doi.org/10.5281/
+described our co-design approach together with the              zenodo.4302737.
+mathematical and algorithmic foundations for high-          Abdelfattah A, Haidar A, Tomov S and Dongarra JJ
+order finite element discretizations. We also reviewed          (2016b) Performance, design, and autotuning of batched
+other topics that are necessary for a complete high-            GEMM for GPUs.           In: High Performance Com-
+order ecosystem, such as matrix-free linear solvers and         puting - 31st International Conference, ISC High
+high-order mesh adaptivity, which are still active areas        Performance 2016, Frankfurt, Germany, June 19-
+of research. A number of freely available software              23, 2016, Proceedings. pp. 21–38.           DOI:10.1007/
+products are being actively developed and supported by          978-3-319-41321-1 2. URL https://doi.org/
+the center, including benchmarks, miniapps and high-            10.1007/978-3-319-41321-1_2.
+and low-level library APIs. The CEED team is very           Ameen M, Patel S, Colmenares J and Chatterjee T (2020)
+much interested in collaborations and feedback, please          Direct Numerical Simulation (DNS) and High-Fidelity
+visit our website ceed.exascaleproject.org                      Large-Eddy Simulations for Improved Prediction of In-
+to get in touch.                                                Cylinder Flow and Combustion Processes. Technical
+                                                                report, DOE Vehicle Technologies Office Annual Merit
+Acknowledgments                                                 Review.
+                                                            Anderson R, Andrej J, Barker A, Bramwell J, Camier JS,
+This research is supported by the Exascale Computing
+                                                                Dobrev JCV, Dudouit Y, Fisher A, Kolev T, Pazner W,
+Project (17-SC-20-SC), a collaborative effort of two
+                                                                Stowell M, Tomov V, Akkerman I, Dahm J, Medina D
+U.S. Department of Energy organizations (Office of
+                                                                and Zampini S (2020) MFEM: A modular finite element
+Science and the National Nuclear Security Adminis-
+                                                                library. Computers & Mathematics with Applications
+tration) responsible for the planning and preparation
+                                                                DOI:10.1016/j.camwa.2020.06.009.
+of a capable exascale ecosystem, including software,
+                                                            Anderson RW, Dobrev VA, Kolev TV, Kuzmin D, de Luna
+applications, hardware, advanced system engineering
+                                                                MQ, Rieben RN and Tomov VZ (2017) High-order local
+and early testbed platforms, in support of the nation’s
+                                                                maximum principle preserving (MPP) discontinuous
+exascale computing imperative.
+                                                                Galerkin finite element method for the transport equation.
+   The research used resources of the Argonne
+                                                                J. Comput. Phys. 334: 102–124.
+Leadership Computing Facility, which is supported by
+                                                            Anderson RW, Dobrev VA, Kolev TV and Rieben RN (2015)
+the U.S. Department of Energy, Office of Science,
+                                                                Monotonicity in high-order curvilinear finite element
+under Contract DE-AC02-06CH11357. This research
+                                                                arbitrary Lagrangian–Eulerian remap. Internat. J. Numer.
+also used resources of the Oak Ridge Leadership
+                                                                Methods Engrg. 77(5): 249–273.
+Computing Facility at Oak Ridge National Laboratory,
+which is supported by the Office of Science of the          Anderson RW, Dobrev VA, Kolev TV, Rieben RN and
+U.S. Department of Energy under Contract DE-AC05-               Tomov VZ (2018) High-order multi-material ALE
+00OR22725. Work performed under the auspices of the             hydrodynamics. SIAM J. Sci. Comp. 40(1): B32–B58.
+U.S. Department of Energy under Contract DE-AC52-           Antonietti PF, Sarti M, Verani M and Zikatanov LT (2016)
+07NA27344 (LLNL-JRNL-814059).                                   A uniform additive Schwarz preconditioner for high-
+                                                                order discontinuous Galerkin approximations of elliptic
+                                                                problems. Journal of Scientific Computing 70(2): 608–
+Funding                                                         630. DOI:10.1007/s10915-016-0259-9.
+This material is based upon work supported by               Balay S, Abhyankar S, Adams MF, Brown J, Brune P,
+the U.S. Department of Energy, Office of Science,               Buschelman K, Dalcin L, Dener A, Eijkhout V, Gropp
+under Contracts DE-AC02-06CH11357, DE-AC05-                     WD, Karpeyev D, Kaushik D, Knepley MG, May DA,
+00OR22725 and DE-AC52-07NA27344.                                McInnes LC, Mills RT, Munson T, Rupp K, Sanan
+                                                                P, Smith BF, Zampini S, Zhang H and Zhang H
+                                                                (2019) PETSc Web page. https://www.mcs.anl.
+References
+                                                                gov/petsc. URL https://www.mcs.anl.gov/
+Abdelfattah A, Baboulin M, Dobrev V, Dongarra JJ, Earl          petsc.
+   CW, Falcou J, Haidar A, Karlin I, Kolev TV, Masliah      Barra V, Brown J, Thompson J and Dudouit Y (2020)
+   I and Tomov S (2016a) High-Performance Tensor                High-performance operator evaluations with ease of
+   Contractions for GPUs. In: International Conference on       use: libCEED’s Python interface.            In: Meghann
+   Computational Science 2016, ICCS 2016, 6-8 June 2016,        Agarwal, Chris Calloway, Dillon Niederhut and David
+   San Diego, California, USA. pp. 108–118. DOI:10.1016/        Shupe (eds.) Proceedings of the 19th Python in
+   j.procs.2016.05.302. URL https://doi.org/10.                 Science Conference. pp. 85–90.             DOI:10.25080/
+   1016/j.procs.2016.05.302.                                    Majora-342d178e-00c. URL https://doi.org/
+Abdelfattah A, Barra V, Beams N, Brown J, Camier                10.25080/Majora-342d178e-00c.
+   JS, Dobrev V, Dudouit Y, Ghaffari L, Kolev T,
+Beckingsale DA, Burmark J, Hornung R, Jones H, Killian            high-order finite element library [Software].       DOI:
+    W, Kunen AJ, Pearce O, Robinson P, Ryujin BS                  10.5281/zenodo.4004744. URL https://github.
+    and Scogland TR (2019) RAJA: Portable performance             com/paranumal/libparanumal. Release 0.3.1.
+    for large-scale scientific applications. In: IEEE/ACM     Chalmers N and Warburton T (2018) Low-order precondi-
+    International Workshop on Performance, Portability and        tioning of high-order triangular finite elements. SIAM
+    Productivity in HPC (P3HPC).                                  Journal on Scientific Computing 40(6): A4040–A4059.
+Bello-Maldonado PD and Fischer PF (2019) Scalable low-            DOI:10.1137/17m1149444.
+    order finite element preconditioners for high-order       Churchfield M, Lee S and Moriatry P (2000) Adding complex
+    spectral element Poisson solvers. SIAM Journal on             terrain and stable atmospheric condition capability to
+    Scientific Computing 41(5): S2–S18. DOI:10.1137/              the OpenFOAM-based flow solver of the simulator for
+    18M1194997.                                                   on/offshore wind farm application (SOWFA). Technical
+Bonoli P (2020) Center for integrated simulation of fusion        Report NREL/CP-5000-58539, NREL.
+    relevant RF actuators. https://www.rfscidac4.             Deville M, Fischer P and Mund E (2002) High-order methods
+    org/home.                                                     for incompressible fluid flow. Cambridge University
+Brown C, Abdelfattah A, Tomov S and Dongarra J (2020a)            Press.
+    Design, optimization, and benchmarking of dense linear    Dobrev V, Knupp P, Kolev T, Mittal K and Tomov V (2019)
+    algebra algorithms on AMD GPUs. Technical Report              The Target-Matrix Optimization Paradigm for high-order
+    ICL-UT-20-12, University of Tennessee.                        meshes. SIAM Journal on Scientific Computing 41(1):
+Brown C, Abdelfattah A, Tomov S and Dongarra J                    B50–B68.
+    (2020b) hipMAGMA v2.0.0.            DOI:10.5281/zenodo.   Dobrev VA, Knupp P, Kolev TV, Mittal K, Rieben RN
+    3928667.       URL https://doi.org/10.5281/                   and Tomov VZ (2020) Simulation-driven optimization
+    zenodo.3928667.                                               of high-order meshes in ALE hydrodynamics. Comput.
+Brown J, Dobrev V, Dutta S, Fischer P, Kazem K, Kolev T,          Fluids .
+    Medina D, Min M, Ratnayaka T, Shephard M, Cameron         Dobrev VA, Kolev TV and Rieben RN (2012) High-
+    S and Thompson J (2018) Propose high-order mesh/data          order curvilinear finite element methods for Lagrangian
+    format.      Technical Report CEED-MS18, Exascale             hydrodynamics. SIAM J. Sci. Comp. 34(5): B606–B641.
+    Computing Project. DOI:10.5281/zenodo.2542346.            Dobrev VA, Kolev TV, Rieben RN and Tomov VZ
+Brown J, Dobrev V, Fischer P, Kolev T, Medina D, Merzari          (2016) Multi-material closure model for high-order finite
+    E, Obabko A, Parker S, Rahaman R, Tomov S, Tomov              element Lagrangian hydrodynamics. Internat. J. Numer.
+    V and Warburton T (2017) Initial Integration of CEED          Methods Engrg. 82(10): 689–706.
+    Software in ECP/CEED Applications. Technical Report       Dobrev VA, Lazarov RD, Vassilevski PS and Zikatanov
+    CEED-MS8, Exascale Computing Project. DOI:10.5281/            LT (2006) Two-level preconditioning of discontinuous
+    zenodo.2542338.                                               Galerkin approximations of second-order elliptic equa-
+Brown J, He Y and MacLachlan S (2019) Local Fourier               tions. Numerical Linear Algebra with Applications 13(9):
+    analysis of BDDC-like algorithms. SIAM Journal on             753–770. DOI:10.1002/nla.504.
+    Scientific Computing 41: S346–S369. DOI:10.1137/          Dohrmann C (2003) A preconditioner for substructuring
+    18M1191373.                                                   based on constrained energy minimization. SIAM Journal
+Brubeck P and Fischer P (2019) Fast diagonalization               on Scientific Computing 25: 246.
+    preconditioning for nonsymmetric spectral element         Dongarra J, Duff I, Gates M, Haidar A, Hammarling S,
+    problems. ANL/MCS-P9200-0719 .                                Higham NJ, Hogg J, Valero-Lara P, Relton SD, Tomov S
+Brubeck P, Kaneko K, Lan Y, Lu L, Fischer P and Min M             and Zounon M (2016) A proposed API for Batched Basic
+    (2020) Schwarz preconditioned spectral element methods        Linear Algebra Subprograms. MIMS EPrint 2016.25,
+    for steady flow and heat transfer. ANL/MCS-P9199-0719         Manchester Institute for Mathematical Sciences, The
+    .                                                             University of Manchester. URL http://eprints.
+Canuto C (1994) Stabilization of spectral methods by finite       ma.man.ac.uk/2464/.
+    element bubble functions. Computer Methods in Applied     Dongarra J, Duff I, Gates M, Haidar A, n Hammarling S,
+    Mechanics and Engineering 116(1-4): 13–26. DOI:               Higham NJ, Hogg J, and Piotr Luszczek PVL, Zounon
+    10.1016/s0045-7825(94)80004-9.                                M, Relton SD, and Timothy Costa ST and Knepper S
+Canuto C, Hussaini MY, Quarteroni A and Zang TA                   (2018) Batched blas (basic linear algebra subprograms)
+    (2006) Spectral methods: fundamentals in single               2018 specification .
+    domains.        Springer Berlin Heidelberg.       DOI:    Dutta S, Fischer P and et al (2020) On turbulence and particle
+    10.1007/978-3-540-30726-6.                                    transport in closed rooms. American Physical Society,
+Cerveny J, Dobrev V and Kolev T (2019) Non-conforming             Division of Fluid Dynamics Submitted.
+    mesh refinement for high-order finite elements. SIAM      Farin G (2014) Curves and surfaces for computer-aided
+    Journal on Scientific Computing 41(4): C367–C392.             geometric design: a practical guide. Elsevier.
+Chalmers N, Karakus A, Austin AP, Swirydowicz K and War-
+    burton T (2020) libParanumal: a performance portable
+                                                                                                                        21
+
+
+Feuillet R, Loseille A, Marcum D and Alauzet F (2018)          Knoll D and Keyes D (2004) Jacobian-free Newton-Krylov
+    Connectivity-change moving mesh methods for high-              methods: a survey of approaches and applications. J.
+    order meshes: Toward closed advancing-layer high-              Comp. Phys. 193: 357–397.
+    order boundary layer mesh generation. In: 2018 Fluid       Kolev T, Fischer P, Abdelfattah A, Ananthan S, Barra
+    Dynamics Conference. p. 4167.                                  V, Beams N, Bleile R, Brown J, Carson R, Camier
+Fischer P, Heisey K and Min M (2015) Scaling limits                JS, Churchfield M, Dobrev V, Dongarra J, Dudouit Y,
+    for PDE-based simulation (invited). In: 22nd AIAA              Karakus A, Kerkemeier S, Lan Y, Medina D, Merzari
+    Computational Fluid Dynamics Conference, AIAA                  E, Min M, Parker S, Ratnayaka T, Smith C, Sprague
+    Aviation. AIAA 2015-3049.                                      M, Stitt T, Thompson J, Tomboulides A, Tomov S,
+Fischer P, Min M, Rathnayake T, Dutta S, Kolev T, Dobrev V,        Tomov V, Vargas A, Warburton T and Weiss K (2020)
+    Camier JS, Kronbichler M, Warburton T, Swirydowicz K           Improve performance and capabilities of CEED-enabled
+    and Brown J (2020) Scalability of high-performance PDE         ECP applications on Summit/Sierra. Technical Report
+    solvers. The International Journal of High Performance         CEED-MS34, Exascale Computing Project. DOI:10.
+    Computing Applications 34(5): 562–586. DOI:10.1177/            5281/zenodo.3860804.
+    1094342020915762. URL https://doi.org/10.                  Kolev TV and Vassilevski PS (2009) Parallel auxiliary space
+    1177/1094342020915762.                                         AMG for h(curl) problems. Journal of Computational
+FMS (2020) FMS: High-order field and mesh specification            Mathematics 27(5): 604–623. DOI:10.4208/jcm.2009.
+    [Software]. https://github.com/CEED/FMS.                       27.5.013.
+Geuzaine C and Remacle JF (2013) Gmsh: A three-                Kronbichler M and Ljungkvist K (2019) Multigrid for matrix-
+    dimensional finite element mesh generator with built-in        free high-order finite element computations on graphics
+    pre- and post-processing facilities [Software]. http:          processors. ACM Transactions on Parallel Computing
+    //gmsh.info/.                                                  6(1): 1–32. DOI:10.1145/3322813.
+Giannakopoulos G, Frouzakis C, Fischer P, Tomboulides          Laghos (2020) Laghos: High-order Lagrangian hydrodynam-
+    A and Boulouchos K (2019) LES of the gas-exchange              ics miniapp [Software]. https://github.com/
+    process inside an internal combustion engine using a           ceed/Laghos.
+    high-order method. Flow, Turbulence and Combustion         Lottes JW and Fischer PF (2005) Hybrid multigrid/Schwarz
+    .                                                              algorithms for the spectral element method. Journal
+GLVis (2020) GLVis: OpenGL finite element visualization            of Scientific Computing 24(1): 45–78. DOI:10.1007/
+    tool [Software]. https://glvis.org. DOI:10.                    s10915-004-4787-3.
+    11578/dc.20171025.1249.                                    Lu Q, Shephard MS, Tendulkar S and Beall MW (2014)
+Hajduk H, Kuzmin D, Kolev TV and Abgrall R (2020a)                 Parallel mesh adaptation for high-order finite element
+    Matrix-free subcell residual distribution for Bernstein        methods with curved element geometry. Engineering
+    finite element discretizations of linear advection equa-       with Computers 30(2): 271–286.
+    tions. Comput. Methods Appl. Mech. Eng. .                  Luo XJ, Shephard MS, O’bara RM, Nastasia R and Beall MW
+Hajduk H, Kuzmin D, Kolev TV, Tomov VZ, Tomas I                    (2004) Automatic p-version mesh generation for curved
+    and Shadid JN (2020b) Matrix-free subcell residual             domains. Eng. with Computers 20(3): 273–285. DOI:
+    distribution for Bernstein finite elements: Monolithic         10.1007/s00366-004-0295-1.
+    limiting. Comput. Fluids .                                 MAGMA (2020) MAGMA: Matrix algebra on gpu and
+Ibanez D (2016a) Omega h GitHub repository [Software].             multicore architectures [Software]. https://icl.
+    https://github.com/ibaned/omega_h.                             utk.edu/magma.
+Ibanez D, Seol E, Smith C and Shephard M (2016)                Martinez J, Lan YH, Merzari E and Min M (2019) On the
+    Pumi: Parallel unstructured mesh infrastructure. ACM           use of LES-based turbulent thermal-stress models for rod
+    Transactions on Mathematical Software (TOMS) 42(3):            bundle simulations. International Journal of Heat and
+    17.                                                            Mass Transfer 142: 118399.
+Ibanez DA (2016b) Conformal mesh adaptation on heteroge-       Masliah I, Abdelfattah A, Haidar A, Tomov S, Baboulin
+    neous supercomputers. Rensselaer Polytechnic Institute,        M, Falcou J and Dongarra JJ (2016) High-Performance
+    Troy, NY.                                                      Matrix-Matrix Multiplications of Very Small Matri-
+Karakus A, Chalmers N, Hesthaven JS and Warburton                  ces.     In: Euro-Par 2016: Parallel Processing -
+    T (2019a) Discontinuous galerkin discretizations of            22nd International Conference on Parallel and Dis-
+    the boltzmann–bgk equations for nearly incompressible          tributed Computing, Grenoble, France, August 24-
+    flows: Semi-analytic time stepping and absorbing               26, 2016, Proceedings. pp. 659–671. DOI:10.1007/
+    boundary layers. Journal of Computational Physics 390:         978-3-319-43659-3\ 48. URL https://doi.org/
+    175–202.                                                       10.1007/978-3-319-43659-3_48.
+Karakus A, Chalmers N, Swirydowicz K and Warburton             Medina DS, St-Cyr A and Warburton T (2014) OCCA: A
+    T (2019b) A gpu accelerated discontinuous galerkin             unified approach to multi-threading languages. arXiv
+    incompressible flow solver. Journal of Computational           preprint arXiv:1403.0968 .
+    Physics 390: 380–404.
+Merzari E, Rahaman R, Patel S and Min M (2017) Cfd              RAJA (2020) RAJA performance portability layer [Software].
+    smr assembly performance baselines with nek5000.                https://github.com/LLNL/RAJA.
+    Technical Report ECP-SE-08-47, DOE ECP ExaSMR               Remhos (2020) Remhos: High-order remap miniapp [Soft-
+    Milestone Report.                                               ware]. https://github.com/ceed/Remhos.
+MFEM (2020) MFEM: Modular finite element methods                Shephard M, Barra V, Brown J, Camier JS, Dudouit Y, Fischer
+    [Software]. https://mfem.org. DOI:10.11578/dc.                  P, Kolev T, Medina D, Min M, Smith C, Siboni MH,
+    20171025.1248.                                                  Thompson J and Warburton T (2019) Improved Support
+Min M, Camier JS, Fischer P, Karakus A, Kerkemeier S,               for Parallel Adaptive Simulation in CEED. Technical
+    Kolev T, Lan Y, Medina D, Merzari E, Obabko A,                  Report CEED-MS29, Exascale Computing Project. DOI:
+    Ratnayaka T, Dillon S, Tomboulides A, Tomov V and               10.5281/zenodo.3336420.
+    Warburton T (2019a) Engage second wave ECP/CEED             Shiraiwa S, Wright J, Bonoli P, Kolev T and Stowell M (2017)
+    applications. Technical Report CEED-MS23, Exascale              Rf wave simulation for cold edge plasmas using the mfem
+    Computing Project. DOI:10.5281/zenodo.2542359.                  library. In: EPJ Web of Conferences, volume 157. EDP
+Min M, Fischer P, Tomov V, Rieben R and Kolev T (2017)              Sciences, p. 03048.
+    Engage First wave ECP/CEED Applications. Technical          Simmetrix (2020) Simmetrix: Enabling simulation-based
+    Report CEED-MS1, Exascale Computing Project. DOI:               design. http://www.simmetrix.com/.
+    10.5281/zenodo.2542292.                                     Sundar H, Stadler G and Biros G (2015) Comparison of
+Min M, Tomboulides A, Fischer P, Merzari E, Shaver                  multigrid algorithms for high-order continuous finite
+    D, Martinez J, Yuan H and Lan Y (2019b) Nek5000                 element discretizations. Numerical Linear Algebra with
+    enhancements for faster running analysis. Technical             Applications 22(4): 664–680. DOI:10.1002/nla.1979.
+    Report ANL.MCS-TM-384, ANL NEAMS Report.                    Swirydowicz K, Chalmers N, Karakus A and Warburton
+Mittal K, Dutta S and Fischer P (2019) Nonconforming                T (2019) Acceleration of tensor-product operations for
+    Schwarz-spectral element methods for incompressible             high-order finite element methods. The International
+    flow. Computers and Fluids 191.                                 Journal of High Performance Computing Applications
+Nek5000 (2020) Nek: Open source, highly scalable and                33(4): 735–757.
+    portable spectral element code [Software]. https:           Tomboulides A, Aithal M, Fischer P, Merzari E, Obabko A
+    //nek5000.mcs.anl.gov.                                          and Shaver D (2018) A novel numerical treatment of the
+OCCA (2020) OCCA: Lightweight performance portability               near-wall regions in the k-ω class of the rans models.
+    library [Software]. https://libocca.org/.                       International Journal of Heat and Fluid Flow 72: 186–
+Orszag S (1980) Spectral methods for problems in complex            199.
+    geometry. J. Comput. Phys. 37: 70–92.                       Tomov S, Abdelfattah A, Barra V, Beams N, Brown J,
+Otten M, Gong J, Mametjanov A, Vose A, Levesque J, Fischer          Camier JS, Dobrev V, Dongarra J, Dudouit Y, Fischer P,
+    P and Min M (2016) An MPI/OpenACC implementation                Karakus A, Kerkemeier S, Kolev T, Lan Y, Merzari E,
+    of a high order electromagnetics solver with GPUDirect          Min M, Obabko A, Parker S, Ratnayaka T, Thompson
+    communication. Int. J. High Perf. Comput. Appl. .               J, Tomboulides A, Tomov V and Warburton T (2019)
+Patel S, Fischer P, Min M and Tomboulides A (2019)                  Performance tuning of CEED software and 1st and 2nd
+    A characteristic-based, spectral element method for             wave apps. Technical Report CEED-MS32, Exascale
+    moving-domain problems. J. Sci. Comp. 79: 564–592.              Computing Project. DOI:10.5281/zenodo.3477618.
+Patera A (1984) A spectral element method for fluid dynamics    Tomov S, Bello-Maldonado P, Brown J, Camier JS,
+    : laminar flow in a channel expansion. J. Comp. Phys. 54:       Dobrev V, Dongarra J, Fischer P, Haidar A, Kolev T,
+    468–488.                                                        Merzari E, Min M, Obabko A, Parker S, Ratnayaka T,
+Pavarino L, Widlund O and Zampini S (2010) BDDC                     Thompson J, Abdelfattah A, Tomov V and Warburton T
+    preconditioners for spectral element discretizations of         (2018) Performance tuning of CEED software and first
+    almost incompressible elasticity in three dimensions.           wave apps. Technical Report CEED-MS20, Exascale
+    SIAM Journal on Scientific Computing 32: 3604.                  Computing Project. DOI:10.5281/zenodo.2542350.
+Pazner W (2020) Efficient low-order refined preconditioners     Tsai PH, Lan YH, Fisher P and Min M (2020) Drift-Diffusion
+    for high-order matrix-free continuous and discontinuous         Solvers Part II: Steady Problems. ANL/MCS-P9295-0420
+    Galerkin methods.         SIAM Journal on Scientific            .
+    Computing (In Press) .                                      VisIt (2020) VisIt: A distributed, parallel visualization and
+Pazner W and Persson PO (2018) Approximate tensor-                  analysis tool [Software]. https://visit.llnl.
+    product preconditioners for very high order discontinu-         gov. DOI:10.11578/dc.20171025.on.1019.
+    ous Galerkin methods. Journal of Computational Physics      Zampini S (2016) PCBDDC: a class of robust dual-primal
+    354: 344–369. DOI:10.1016/j.jcp.2017.10.030.                    methods in PETSc.          SIAM Journal on Scientific
+Raffenetti K and et al (2017) Why is MPI so slow? In:               Computing 38(5): S282–S306.
+    Proceedings of Supercomputing’17 (CD-ROM). ACM
+    SIGARCH and IEEE.
+

@@ -1,0 +1,1494 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "message": {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          10,
+          16
+        ]
+      ],
+      "date-time": "2026-10-16T12:34:33Z",
+      "timestamp": 1792154073925,
+      "version": "4.4.0"
+    },
+    "reference-count": 106,
+    "publisher": "Elsevier BV",
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2021,
+              1,
+              1
+            ]
+          ],
+          "date-time": "2021-01-01T00:00:00Z",
+          "timestamp": 1609459200000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://www.elsevier.com/tdm/userlicense/1.0/"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2021,
+              1,
+              1
+            ]
+          ],
+          "date-time": "2021-01-01T00:00:00Z",
+          "timestamp": 1609459200000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://www.elsevier.com/legal/tdmrep-license"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2025,
+              1,
+              1
+            ]
+          ],
+          "date-time": "2025-01-01T00:00:00Z",
+          "timestamp": 1735689600000
+        },
+        "content-version": "vor",
+        "delay-in-days": 1461,
+        "URL": "http://www.elsevier.com/open-access/userlicense/1.0/"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2021,
+              1,
+              1
+            ]
+          ],
+          "date-time": "2021-01-01T00:00:00Z",
+          "timestamp": 1609459200000
+        },
+        "content-version": "stm-asf",
+        "delay-in-days": 0,
+        "URL": "https://doi.org/10.15223/policy-017"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2021,
+              1,
+              1
+            ]
+          ],
+          "date-time": "2021-01-01T00:00:00Z",
+          "timestamp": 1609459200000
+        },
+        "content-version": "stm-asf",
+        "delay-in-days": 0,
+        "URL": "https://doi.org/10.15223/policy-037"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2021,
+              1,
+              1
+            ]
+          ],
+          "date-time": "2021-01-01T00:00:00Z",
+          "timestamp": 1609459200000
+        },
+        "content-version": "stm-asf",
+        "delay-in-days": 0,
+        "URL": "https://doi.org/10.15223/policy-012"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2021,
+              1,
+              1
+            ]
+          ],
+          "date-time": "2021-01-01T00:00:00Z",
+          "timestamp": 1609459200000
+        },
+        "content-version": "stm-asf",
+        "delay-in-days": 0,
+        "URL": "https://doi.org/10.15223/policy-029"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2021,
+              1,
+              1
+            ]
+          ],
+          "date-time": "2021-01-01T00:00:00Z",
+          "timestamp": 1609459200000
+        },
+        "content-version": "stm-asf",
+        "delay-in-days": 0,
+        "URL": "https://doi.org/10.15223/policy-004"
+      }
+    ],
+    "funder": [
+      {
+        "DOI": "10.13039/501100000781",
+        "name": "European Research Council",
+        "doi-asserted-by": "publisher",
+        "id": [
+          {
+            "id": "10.13039/501100000781",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      }
+    ],
+    "content-domain": {
+      "domain": [
+        "elsevier.com",
+        "sciencedirect.com"
+      ],
+      "crossmark-restriction": true
+    },
+    "short-container-title": [
+      "Computers &amp; Mathematics with Applications"
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2021,
+          1
+        ]
+      ]
+    },
+    "DOI": "10.1016/j.camwa.2020.05.004",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2020,
+          5,
+          28
+        ]
+      ],
+      "date-time": "2020-05-28T09:46:51Z",
+      "timestamp": 1590659211000
+    },
+    "page": "186-219",
+    "update-policy": "https://doi.org/10.1016/elsevier_cm_policy",
+    "source": "Crossref",
+    "is-referenced-by-count": 123,
+    "special_numbering": "C",
+    "title": [
+      "FLEXI: A high order discontinuous Galerkin framework for hyperbolic–parabolic conservation laws"
+    ],
+    "prefix": "10.1016",
+    "volume": "81",
+    "author": [
+      {
+        "ORCID": "https://orcid.org/0000-0002-8739-9530",
+        "authenticated-orcid": false,
+        "given": "Nico",
+        "family": "Krais",
+        "sequence": "first",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0003-3634-7447",
+        "authenticated-orcid": false,
+        "given": "Andrea",
+        "family": "Beck",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Thomas",
+        "family": "Bolemann",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Hannes",
+        "family": "Frank",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "David",
+        "family": "Flad",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Gregor",
+        "family": "Gassner",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Florian",
+        "family": "Hindenlang",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Malte",
+        "family": "Hoffmann",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Thomas",
+        "family": "Kuhn",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Matthias",
+        "family": "Sonntag",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Claus-Dieter",
+        "family": "Munz",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "78",
+    "reference": [
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.05.004_b1",
+        "doi-asserted-by": "crossref",
+        "first-page": "27",
+        "DOI": "10.1175/1520-0469(1954)011<0027:PWITA>2.0.CO;2",
+        "article-title": "Planetary waves in the atmosphere",
+        "volume": "11",
+        "author": "Silberman",
+        "year": "1954",
+        "journal-title": "J. Meteorol."
+      },
+      {
+        "issue": "12",
+        "key": "10.1016/j.camwa.2020.05.004_b2",
+        "doi-asserted-by": "crossref",
+        "first-page": "II",
+        "DOI": "10.1063/1.1692445",
+        "article-title": "Numerical methods for the simulation of turbulence",
+        "volume": "12",
+        "author": "Orszag",
+        "year": "1969",
+        "journal-title": "Phys. Fluids"
+      },
+      {
+        "issue": "1–3",
+        "key": "10.1016/j.camwa.2020.05.004_b3",
+        "doi-asserted-by": "crossref",
+        "first-page": "409",
+        "DOI": "10.1016/0045-7825(90)90045-N",
+        "article-title": "Pseudospectral simulation of compressible magnetohydrodynamic turbulence",
+        "volume": "80",
+        "author": "Dahlburg",
+        "year": "1990",
+        "journal-title": "Comput. Methods Appl. Mech. Engrg."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b4",
+        "series-title": "SC’02: Proceedings of the 2002 ACM/IEEE Conference on Supercomputing",
+        "first-page": "50",
+        "article-title": "16.4-Tflops direct numerical simulation of turbulence by a Fourier spectral method on the Earth Simulator",
+        "author": "Yokokawa",
+        "year": "2002"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.camwa.2020.05.004_b5",
+        "doi-asserted-by": "crossref",
+        "first-page": "693",
+        "DOI": "10.1016/j.jcp.2006.06.043",
+        "article-title": "Arbitrary high order non-oscillatory finite volume schemes on unstructured meshes for linear hyperbolic systems",
+        "volume": "221",
+        "author": "Dumbser",
+        "year": "2007",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.camwa.2020.05.004_b6",
+        "doi-asserted-by": "crossref",
+        "first-page": "107",
+        "DOI": "10.1080/1061856031000104851",
+        "article-title": "High-order finite difference and finite volume WENO schemes and discontinuous Galerkin methods for CFD",
+        "volume": "17",
+        "author": "Shu",
+        "year": "2003",
+        "journal-title": "Int. J. Comput. Fluid Dyn."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.05.004_b7",
+        "doi-asserted-by": "crossref",
+        "first-page": "1020",
+        "DOI": "10.1016/j.jcp.2007.01.023",
+        "article-title": "A stable high-order finite difference scheme for the compressible Navier–Stokes equations, far-field boundary conditions",
+        "volume": "225",
+        "author": "Svärd",
+        "year": "2007",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b8",
+        "series-title": "State-of-the-Art Surveys on Computational Mechanics",
+        "first-page": "71",
+        "article-title": "Spectral element methods for the incompressible Navier–Stokes equations",
+        "author": "Maday",
+        "year": "1989"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.camwa.2020.05.004_b9",
+        "doi-asserted-by": "crossref",
+        "first-page": "267",
+        "DOI": "10.1006/jcph.1996.5572",
+        "article-title": "A high-order accurate discontinuous finite element method for the numerical solution of the compressible Navier–Stokes equations",
+        "volume": "131",
+        "author": "Bassi",
+        "year": "1997",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b10",
+        "series-title": "Discontinuous Galerkin Methods: Theory, Computation and Applications, Vol. 11",
+        "author": "Cockburn",
+        "year": "2012"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b11",
+        "doi-asserted-by": "crossref",
+        "first-page": "205",
+        "DOI": "10.1016/j.cpc.2015.02.008",
+        "article-title": "Nektar plus plus : An open-source spectral/hp element framework",
+        "volume": "192",
+        "author": "Cantwell",
+        "year": "2015",
+        "journal-title": "Comput. Phys. Comm."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b12",
+        "unstructured": "H. Klimach, K. Jain, S. Roller, End-to-end parallel simulations with APES, in: PARCO, 2013, pp. 703–711."
+      },
+      {
+        "issue": "11",
+        "key": "10.1016/j.camwa.2020.05.004_b13",
+        "doi-asserted-by": "crossref",
+        "first-page": "3028",
+        "DOI": "10.1016/j.cpc.2014.07.011",
+        "article-title": "PyFR: An open source framework for solving advection–diffusion type problems on streaming architectures using the flux reconstruction approach",
+        "volume": "185",
+        "author": "Witherden",
+        "year": "2014",
+        "journal-title": "Comput. Phys. Comm."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b14",
+        "series-title": "Development of the Discontinuous Galerkin Method for High-Resolution, Large Scale CFD and Acoustics in Industrial Geometries",
+        "author": "Hillewaert",
+        "year": "2013"
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.camwa.2020.05.004_b15",
+        "doi-asserted-by": "crossref",
+        "first-page": "2560",
+        "DOI": "10.1137/100807211",
+        "article-title": "A comparison of the dispersion and dissipation errors of Gauss and Gauss–Lobatto discontinuous Galerkin spectral element methods",
+        "volume": "33",
+        "author": "Gassner",
+        "year": "2011",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b16",
+        "doi-asserted-by": "crossref",
+        "first-page": "615",
+        "DOI": "10.1016/j.jcp.2016.10.056",
+        "article-title": "On the eddy-resolving capability of high-order discontinuous Galerkin approaches to implicit LES/under-resolved DNS of Euler turbulence",
+        "volume": "330",
+        "author": "Moura",
+        "year": "2017",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "issue": "1899",
+        "key": "10.1016/j.camwa.2020.05.004_b17",
+        "doi-asserted-by": "crossref",
+        "first-page": "2985",
+        "DOI": "10.1098/rsta.2008.0312",
+        "article-title": "Large eddy simulation using high-resolution and high-order methods",
+        "volume": "367",
+        "author": "Drikakis",
+        "year": "2009",
+        "journal-title": "Phil. Trans. R. Soc. A"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.camwa.2020.05.004_b18",
+        "doi-asserted-by": "crossref",
+        "first-page": "251",
+        "DOI": "10.1006/jcph.1997.5454",
+        "article-title": "High-order accurate discontinuous finite element solution of the 2D Euler equations",
+        "volume": "138",
+        "author": "Bassi",
+        "year": "1997",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b19",
+        "doi-asserted-by": "crossref",
+        "unstructured": "M.J. Brazell, D.J. Mavriplis, High-order discontinuous Galerkin mesh resolved turbulent flow simulations of a NACA 0012 airfoil, in: 53rd AIAA Aerospace Sciences Meeting, 2015, p. 1529.",
+        "DOI": "10.2514/6.2015-1529"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b20",
+        "doi-asserted-by": "crossref",
+        "unstructured": "A. Uranga, P.-O. Persson, M. Drela, J. Peraire, Implicit large eddy simulation of transitional flows over airfoils and wings, in: 19th AIAA Computational Fluid Dynamics, 2009, p. 4131.",
+        "DOI": "10.2514/6.2009-4131"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b21",
+        "doi-asserted-by": "crossref",
+        "unstructured": "L.T. Diosady, S.M. Murman, DNS of flows over periodic hills using a discontinuous Galerkin spectral-element method, in: 44th AIAA Fluid Dynamics Conference, 2014, p. 2784.",
+        "DOI": "10.2514/6.2014-2784"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.camwa.2020.05.004_b22",
+        "doi-asserted-by": "crossref",
+        "first-page": "506",
+        "DOI": "10.2514/1.J054181",
+        "article-title": "Implicit large-eddy simulation of a wingtip vortex",
+        "volume": "54",
+        "author": "Lombard",
+        "year": "2016",
+        "journal-title": "AIAA J."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b23",
+        "article-title": "An entropy stable nodal discontinuous Galerkin method for the resistive MHD equations. Part I: Theory and numerical verification",
+        "author": "Bohm",
+        "year": "2018",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b24",
+        "series-title": "Mesh Curving Techniques for High Order Parallel Simulations on Unstructured Meshes",
+        "author": "Hindenlang",
+        "year": "2014"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b25",
+        "series-title": "IDIHOM: Industrialization of High-Order Methods-a Top-Down Approach",
+        "first-page": "133",
+        "article-title": "Mesh curving techniques for high order discontinuous Galerkin simulations",
+        "author": "Hindenlang",
+        "year": "2015"
+      },
+      {
+        "issue": "11",
+        "key": "10.1016/j.camwa.2020.05.004_b26",
+        "doi-asserted-by": "crossref",
+        "first-page": "1309",
+        "DOI": "10.1002/nme.2579",
+        "article-title": "Gmsh: A 3-D finite element mesh generator with built-in pre- and post-processing facilities",
+        "volume": "79",
+        "author": "Geuzaine",
+        "year": "2009",
+        "journal-title": "Internat. J. Numer. Methods Engrg."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b27",
+        "doi-asserted-by": "crossref",
+        "first-page": "8",
+        "DOI": "10.1016/j.jcp.2013.07.022",
+        "article-title": "Robust untangling of curvilinear meshes",
+        "volume": "254",
+        "author": "Toulorge",
+        "year": "2013",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b28",
+        "doi-asserted-by": "crossref",
+        "first-page": "1",
+        "DOI": "10.1016/j.jcp.2015.11.020",
+        "article-title": "High-order unstructured curved mesh generation using the Winslow equations",
+        "volume": "307",
+        "author": "Fortunato",
+        "year": "2016",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b29",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.jcp.2019.108918",
+        "article-title": "A high resolution PDE approach to quadrilateral mesh generation",
+        "author": "Marcon",
+        "year": "2019",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b30",
+        "series-title": "Hierarchical data format, version 5",
+        "author": "The HDF Group",
+        "year": "1997"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b31",
+        "series-title": "Curves and Surfaces For CAGD: A Practical Guide",
+        "author": "Farin",
+        "year": "2002"
+      },
+      {
+        "issue": "7",
+        "key": "10.1016/j.camwa.2020.05.004_b32",
+        "doi-asserted-by": "crossref",
+        "first-page": "691",
+        "DOI": "10.1016/S0167-8396(99)00031-X",
+        "article-title": "Discrete Coons patches",
+        "volume": "16",
+        "author": "Farin",
+        "year": "1999",
+        "journal-title": "Comput. Aided Geom. Design"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b33",
+        "series-title": "Advanced Computational Methods in Science and Engineering",
+        "first-page": "143",
+        "article-title": "Radial basis functions for interface interpolation and mesh deformation",
+        "author": "de Boer",
+        "year": "2009"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.camwa.2020.05.004_b34",
+        "doi-asserted-by": "crossref",
+        "first-page": "243",
+        "DOI": "10.2140/camcos.2018.13.243",
+        "article-title": "Efficient high-order discontinuous Galerkin computations of low mach number flows",
+        "volume": "13",
+        "author": "Zeifang",
+        "year": "2018",
+        "journal-title": "Commun. Appl. Math. Comput. Sci."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b35",
+        "series-title": "On the Efficiency of Implicit Discontinuous Galerkin Spectral Element Methods for the Unsteady Compressible Navier–Stokes Equations",
+        "author": "Vangelatos",
+        "year": "2019"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b36",
+        "series-title": "Sustained Simulation Performance 2015",
+        "first-page": "171",
+        "article-title": "The multicore challenge: Petascale DNS of a spatially-developing supersonic turbulent boundary layer up to high Reynolds numbers using DGSEM",
+        "author": "Atak",
+        "year": "2015"
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.05.004_b37",
+        "doi-asserted-by": "crossref",
+        "first-page": "76",
+        "DOI": "10.1137/0524006",
+        "article-title": "Classification of the Riemann problem for two-dimensional gas dynamics",
+        "volume": "24",
+        "author": "Schulz-Rinne",
+        "year": "1993",
+        "journal-title": "SIAM J. Math. Anal."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b38",
+        "doi-asserted-by": "crossref",
+        "first-page": "39",
+        "DOI": "10.1016/j.jcp.2016.09.013",
+        "article-title": "Split form nodal discontinuous Galerkin schemes with summation-by-parts property for the compressible Euler equations",
+        "volume": "327",
+        "author": "Gassner",
+        "year": "2016",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.camwa.2020.05.004_b39",
+        "doi-asserted-by": "crossref",
+        "first-page": "475",
+        "DOI": "10.1007/s10494-016-9704-y",
+        "article-title": "On the influence of polynomial de-aliasing on subgrid scale models",
+        "volume": "97",
+        "author": "Beck",
+        "year": "2016",
+        "journal-title": "Flow Turbul. Combust."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b40",
+        "doi-asserted-by": "crossref",
+        "first-page": "782",
+        "DOI": "10.1016/j.jcp.2017.09.004",
+        "article-title": "On the use of kinetic energy preserving DG-schemes for large eddy simulation",
+        "volume": "350",
+        "author": "Flad",
+        "year": "2017",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "issue": "8",
+        "key": "10.1016/j.camwa.2020.05.004_b41",
+        "doi-asserted-by": "crossref",
+        "first-page": "522",
+        "DOI": "10.1002/fld.3943",
+        "article-title": "High-order discontinuous Galerkin spectral element methods for transitional and turbulent flow simulations",
+        "volume": "76",
+        "author": "Beck",
+        "year": "2014",
+        "journal-title": "Internat. J. Numer. Methods Fluids"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b42",
+        "series-title": "Riemann Solvers and Numerical Methods for Fluid Dynamics: a Practical Introduction",
+        "author": "Toro",
+        "year": "2013"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b43",
+        "series-title": "2nd European Conference on Turbomachinery Fluid Dynamics and Thermodynamics",
+        "first-page": "99",
+        "article-title": "A high-order accurate discontinuous finite element method for inviscid and viscous turbo-machinery flows",
+        "author": "Bassi",
+        "year": "1997"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.05.004_b44",
+        "doi-asserted-by": "crossref",
+        "first-page": "99",
+        "DOI": "10.1175/1520-0493(1963)091<0099:GCEWTP>2.3.CO;2",
+        "article-title": "General circulation experiments with the primitive equations: I. The basic experiment",
+        "volume": "91",
+        "author": "Smagorinsky",
+        "year": "1963",
+        "journal-title": "Mon. Weather Rev."
+      },
+      {
+        "issue": "8",
+        "key": "10.1016/j.camwa.2020.05.004_b45",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1063/1.3623274",
+        "article-title": "Using singular values to build a subgrid-scale model for large eddy simulations",
+        "volume": "23",
+        "author": "Nicoud",
+        "year": "2011",
+        "journal-title": "Phys. Fluids"
+      },
+      {
+        "issue": "10",
+        "key": "10.1016/j.camwa.2020.05.004_b46",
+        "doi-asserted-by": "crossref",
+        "first-page": "3670",
+        "DOI": "10.1063/1.1785131",
+        "article-title": "An eddy-viscosity subgrid-scale model for turbulent shear flow: Algebraic theory and applications",
+        "volume": "16",
+        "author": "Vreman",
+        "year": "2004",
+        "journal-title": "Phys. Fluids"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b47",
+        "doi-asserted-by": "crossref",
+        "first-page": "1",
+        "DOI": "10.1016/j.jcp.2015.11.064",
+        "article-title": "Simulation of underresolved turbulent flows by adaptive filtering using the high order discontinuous Galerkin spectral element method",
+        "volume": "313",
+        "author": "Flad",
+        "year": "2016",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.05.004_b48",
+        "doi-asserted-by": "crossref",
+        "first-page": "15",
+        "DOI": "10.1299/mer.15-00418",
+        "article-title": "Large eddy simulation with modeled wall-stress: recent progress and future directions",
+        "volume": "3",
+        "author": "Larsson",
+        "year": "2016",
+        "journal-title": "Mech. Eng. Rev."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b49",
+        "doi-asserted-by": "crossref",
+        "unstructured": "P. Spalart, S. Allmaras, A one-equation turbulence model for aerodynamic flows, in: 30th Aerospace Sciences Meeting and Exhibit, 1992, p. 439.",
+        "DOI": "10.2514/6.1992-439"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b50",
+        "series-title": "Proceedings of the Summer Program 2002",
+        "first-page": "155",
+        "article-title": "Discontinuous Galerkin methods for turbulence simulation",
+        "author": "Collis",
+        "year": "2002"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.05.004_b51",
+        "doi-asserted-by": "crossref",
+        "first-page": "035115",
+        "DOI": "10.1063/1.4916019",
+        "article-title": "Anisotropic linear forcing for synthetic turbulence generation in large eddy simulation and hybrid RANS/LES modeling",
+        "volume": "27",
+        "author": "De Laage de Meux",
+        "year": "2015",
+        "journal-title": "Phys. Fluids"
+      },
+      {
+        "issue": "8",
+        "key": "10.1016/j.camwa.2020.05.004_b52",
+        "doi-asserted-by": "crossref",
+        "first-page": "2127",
+        "DOI": "10.1063/1.1582858",
+        "article-title": "The temporally filtered Navier–Stokes equations: properties of the residual stress",
+        "volume": "15",
+        "author": "Pruett",
+        "year": "2003",
+        "journal-title": "Phys. Fluids"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b53",
+        "series-title": "The Visualization Handbook, Vol. 717",
+        "article-title": "Paraview: An end-user tool for large data visualization",
+        "author": "Ahrens",
+        "year": "2005"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b54",
+        "series-title": "Blender pipeline",
+        "author": "Beck",
+        "year": "2018"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b55",
+        "series-title": "Blender - a 3D Modelling and Rendering Package",
+        "author": "Blender Online Community",
+        "year": "2018"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.05.004_b56",
+        "doi-asserted-by": "crossref",
+        "first-page": "301",
+        "DOI": "10.1007/s10915-005-9070-8",
+        "article-title": "Metric identities and the discontinuous spectral element method on curvilinear meshes",
+        "volume": "26",
+        "author": "Kopriva",
+        "year": "2006",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.camwa.2020.05.004_b57",
+        "doi-asserted-by": "crossref",
+        "first-page": "136",
+        "DOI": "10.1007/s10915-010-9372-3",
+        "article-title": "On the quadrature and weak form choices in collocation type discontinuous Galerkin spectral element methods",
+        "volume": "44",
+        "author": "Kopriva",
+        "year": "2010",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.camwa.2020.05.004_b58",
+        "doi-asserted-by": "crossref",
+        "first-page": "475",
+        "DOI": "10.1006/jcph.1996.0225",
+        "article-title": "A conservative staggered-grid Chebyshev multidomain method for compressible flows. II. a semi-structured method",
+        "volume": "128",
+        "author": "Kopriva",
+        "year": "1996",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b59",
+        "doi-asserted-by": "crossref",
+        "first-page": "518",
+        "DOI": "10.1016/j.jcp.2013.06.014",
+        "article-title": "High-order entropy stable finite difference schemes for nonlinear conservation laws: Finite domains",
+        "volume": "252",
+        "author": "Fisher",
+        "year": "2013",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "issue": "179",
+        "key": "10.1016/j.camwa.2020.05.004_b60",
+        "doi-asserted-by": "crossref",
+        "first-page": "91",
+        "DOI": "10.1090/S0025-5718-1987-0890255-3",
+        "article-title": "The numerical viscosity of entropy stable schemes for systems of conservation laws. I",
+        "volume": "49",
+        "author": "Tadmor",
+        "year": "1987",
+        "journal-title": "Math. Comp."
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.camwa.2020.05.004_b61",
+        "doi-asserted-by": "crossref",
+        "first-page": "188",
+        "DOI": "10.1007/s10915-007-9172-6",
+        "article-title": "Formulation of kinetic energy preserving conservative schemes for gas dynamics and direct numerical simulation of one-dimensional viscous compressible flow in a shock tube using entropy and kinetic energy preserving schemes",
+        "volume": "34",
+        "author": "Jameson",
+        "year": "2008",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.05.004_b62",
+        "doi-asserted-by": "crossref",
+        "first-page": "207",
+        "DOI": "10.1016/0168-9274(96)00005-0",
+        "article-title": "The effect of the formulation of nonlinear terms on aliasing errors in spectral methods",
+        "volume": "21",
+        "author": "Blaisdell",
+        "year": "1996",
+        "journal-title": "Appl. Numer. Math."
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.05.004_b63",
+        "doi-asserted-by": "crossref",
+        "first-page": "1676",
+        "DOI": "10.1016/j.jcp.2007.09.020",
+        "article-title": "Reduced aliasing formulations of the convective terms within the Navier–Stokes equations for a compressible fluid",
+        "volume": "227",
+        "author": "Kennedy",
+        "year": "2008",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.05.004_b64",
+        "doi-asserted-by": "crossref",
+        "first-page": "232",
+        "DOI": "10.1063/1.1699639",
+        "article-title": "A method for the numerical calculation of hydrodynamic shocks",
+        "volume": "21",
+        "author": "von Neumann",
+        "year": "1950",
+        "journal-title": "J. Appl. Phys."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b65",
+        "doi-asserted-by": "crossref",
+        "unstructured": "P.-O. Persson, J. Peraire, Sub-cell shock capturing for discontinuous Galerkin methods, in: 44th AIAA Aerospace Sciences Meeting and Exhibit, 2006, p. 112.",
+        "DOI": "10.2514/6.2006-112"
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.05.004_b66",
+        "doi-asserted-by": "crossref",
+        "first-page": "115",
+        "DOI": "10.1016/j.jcp.2003.07.026",
+        "article-title": "Hermite WENO schemes and their application as limiters for Runge–Kutta discontinuous Galerkin method: one-dimensional case",
+        "volume": "193",
+        "author": "Qiu",
+        "year": "2004",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "issue": "10",
+        "key": "10.1016/j.camwa.2020.05.004_b67",
+        "doi-asserted-by": "crossref",
+        "first-page": "1614",
+        "DOI": "10.1002/fld.2654",
+        "article-title": "A simple shock-capturing technique for high-order discontinuous Galerkin methods",
+        "volume": "69",
+        "author": "Huerta",
+        "year": "2012",
+        "journal-title": "Internat. J. Numer. Methods Fluids"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.05.004_b68",
+        "doi-asserted-by": "crossref",
+        "first-page": "1262",
+        "DOI": "10.1007/s10915-016-0287-5",
+        "article-title": "Efficient parallelization of a shock capturing for discontinuous Galerkin methods using finite volume sub-cells",
+        "volume": "70",
+        "author": "Sonntag",
+        "year": "2017",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b69",
+        "series-title": "Finite Volumes for Complex Applications VII-Elliptic",
+        "first-page": "945",
+        "article-title": "Shock capturing for discontinuous Galerkin methods using finite volume subcells",
+        "author": "Sonntag",
+        "year": "2014"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.05.004_b70",
+        "doi-asserted-by": "crossref",
+        "first-page": "357",
+        "DOI": "10.1016/0021-9991(83)90136-5",
+        "article-title": "High resolution schemes for hyperbolic conservation laws",
+        "volume": "49",
+        "author": "Harten",
+        "year": "1983",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.05.004_b71",
+        "doi-asserted-by": "crossref",
+        "first-page": "101",
+        "DOI": "10.1016/0021-9991(79)90145-1",
+        "article-title": "Towards the ultimate conservative difference scheme. V. A second-order sequel to Godunov’s method",
+        "volume": "32",
+        "author": "Van Leer",
+        "year": "1979",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b72",
+        "series-title": "Shape Derivatives and Shock Capturing for the Navier–Stokes Equations in Discontinuous Galerkin Methods",
+        "author": "Sonntag",
+        "year": "2017"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b73",
+        "doi-asserted-by": "crossref",
+        "first-page": "47",
+        "DOI": "10.1016/j.jcp.2014.08.009",
+        "article-title": "A posteriori subcell limiting of the discontinuous Galerkin finite element method for hyperbolic conservation laws",
+        "volume": "278",
+        "author": "Dumbser",
+        "year": "2014",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b74",
+        "doi-asserted-by": "crossref",
+        "unstructured": "A. Jameson, W. Schmidt, E. Turkel, Numerical solution of the Euler equations by finite volume methods using Runge Kutta time stepping schemes, in: 14th Fluid and Plasma Dynamics Conference, 1981, p. 1259.",
+        "DOI": "10.2514/6.1981-1259"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.camwa.2020.05.004_b75",
+        "doi-asserted-by": "crossref",
+        "first-page": "517",
+        "DOI": "10.1006/jcph.1999.6238",
+        "article-title": "Large-eddy simulation of the shock/turbulence interaction",
+        "volume": "152",
+        "author": "Ducros",
+        "year": "1999",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.05.004_b76",
+        "doi-asserted-by": "crossref",
+        "first-page": "48",
+        "DOI": "10.1016/0021-9991(80)90033-9",
+        "article-title": "Low-storage Runge-Kutta schemes",
+        "volume": "35",
+        "author": "Williamson",
+        "year": "1980",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.05.004_b77",
+        "doi-asserted-by": "crossref",
+        "first-page": "32",
+        "DOI": "10.1007/BF01448839",
+        "article-title": "Über die partiellen Differenzengleichungen der mathematischen Physik",
+        "volume": "100",
+        "author": "Courant",
+        "year": "1928",
+        "journal-title": "Math. Ann."
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.05.004_b78",
+        "doi-asserted-by": "crossref",
+        "first-page": "173",
+        "DOI": "10.1023/A:1012873910884",
+        "article-title": "Runge–Kutta discontinuous Galerkin methods for convection-dominated problems",
+        "volume": "16",
+        "author": "Cockburn",
+        "year": "2001",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "issue": "6",
+        "key": "10.1016/j.camwa.2020.05.004_b79",
+        "doi-asserted-by": "crossref",
+        "first-page": "3151",
+        "DOI": "10.1137/060672601",
+        "article-title": "Taming the CFL number for discontinuous Galerkin methods on structured meshes",
+        "volume": "46",
+        "author": "Warburton",
+        "year": "2008",
+        "journal-title": "SIAM J. Numer. Anal."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b80",
+        "doi-asserted-by": "crossref",
+        "unstructured": "C. Rumsey, B. Wedan, T. Hauser, M. Poinot, Recent updates to the CFD general notation system (CGNS), in: 50th AIAA Aerospace Sciences Meeting Including the New Horizons Forum and Aerospace Exposition, 2012, p. 1264.",
+        "DOI": "10.2514/6.2012-1264"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.05.004_b81",
+        "doi-asserted-by": "crossref",
+        "first-page": "71",
+        "DOI": "10.1002/fld.4683",
+        "article-title": "A matrix-free high-order discontinuous Galerkin compressible Navier-Stokes solver: A performance comparison of compressible and incompressible formulations for turbulent incompressible flows",
+        "volume": "89",
+        "author": "Fehn",
+        "year": "2019",
+        "journal-title": "Internat. J. Numer. Methods Fluids"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b82",
+        "series-title": "Towards Industrialization of High-Order Discontinuous Galerkin Methods for Turbulent Flows",
+        "author": "Bolemann",
+        "year": "2018"
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.05.004_b83",
+        "doi-asserted-by": "crossref",
+        "first-page": "9",
+        "DOI": "10.1007/s11023-019-09496-5",
+        "article-title": "The epistemic importance of technology in computer simulation and machine learning",
+        "volume": "29",
+        "author": "Resch",
+        "year": "2019",
+        "journal-title": "Minds Mach."
+      },
+      {
+        "issue": "6060",
+        "key": "10.1016/j.camwa.2020.05.004_b84",
+        "doi-asserted-by": "crossref",
+        "first-page": "1226",
+        "DOI": "10.1126/science.1213847",
+        "article-title": "Reproducible research in computational science",
+        "volume": "334",
+        "author": "Peng",
+        "year": "2011",
+        "journal-title": "Science"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b85",
+        "series-title": "Pro Git",
+        "author": "Chacon",
+        "year": "2014"
+      },
+      {
+        "issue": "3–4",
+        "key": "10.1016/j.camwa.2020.05.004_b86",
+        "doi-asserted-by": "crossref",
+        "first-page": "221",
+        "DOI": "10.1007/s00162-011-0253-7",
+        "article-title": "On the accuracy of high-order discretizations for underresolved turbulence simulations",
+        "volume": "27",
+        "author": "Gassner",
+        "year": "2013",
+        "journal-title": "Theor. Comput. Fluid Dyn."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b87",
+        "doi-asserted-by": "crossref",
+        "first-page": "86",
+        "DOI": "10.1016/j.compfluid.2012.03.006",
+        "article-title": "Explicit discontinuous Galerkin methods for unsteady problems",
+        "volume": "61",
+        "author": "Hindenlang",
+        "year": "2012",
+        "journal-title": "Comput. & Fluids"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b88",
+        "doi-asserted-by": "crossref",
+        "unstructured": "D. Flad, A.D. Beck, G. Gassner, C.-D. Munz, A discontinuous Galerkin spectral element method for the direct numerical simulation of aeroacoustics, in: 20th AIAA/CEAS Aeroacoustics Conference, 2014, p. 2740.",
+        "DOI": "10.2514/6.2014-2740"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b89",
+        "series-title": "High Performance Computing in Science and Engineerinǵ 15",
+        "first-page": "511",
+        "article-title": "High fidelity scale-resolving computational fluid dynamics using the high order discontinuous Galerkin spectral element method",
+        "author": "Atak",
+        "year": "2016"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b90",
+        "doi-asserted-by": "crossref",
+        "first-page": "132",
+        "DOI": "10.1016/j.jsv.2016.02.014",
+        "article-title": "Direct aeroacoustic simulation of acoustic feedback phenomena on a side-view mirror",
+        "volume": "371",
+        "author": "Frank",
+        "year": "2016",
+        "journal-title": "J. Sound Vib."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b91",
+        "doi-asserted-by": "crossref",
+        "first-page": "163",
+        "DOI": "10.1146/annurev-fluid-122109-160718",
+        "article-title": "Numerical methods for high-speed flows",
+        "volume": "43",
+        "author": "Pirozzoli",
+        "year": "2011",
+        "journal-title": "Annu. Rev. Fluid Mech."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b92",
+        "series-title": "Low Reynolds Number Aerodynamics",
+        "first-page": "1",
+        "article-title": "XFOIL: An analysis and design system for low Reynolds number airfoils",
+        "author": "Drela",
+        "year": "1989"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b93",
+        "series-title": "Advanced Numerical Approximation of Nonlinear Hyperbolic Equations",
+        "first-page": "325",
+        "article-title": "Essentially non-oscillatory and weighted essentially non-oscillatory schemes for hyperbolic conservation laws",
+        "author": "Shu",
+        "year": "1998"
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.camwa.2020.05.004_b94",
+        "doi-asserted-by": "crossref",
+        "first-page": "1252",
+        "DOI": "10.4208/cicp.170712.010313a",
+        "article-title": "Kinetic energy preserving and entropy stable finite volume schemes for compressible Euler and Navier–Stokes equations",
+        "volume": "14",
+        "author": "Chandrashekar",
+        "year": "2013",
+        "journal-title": "Commun. Comput. Phys."
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.camwa.2020.05.004_b95",
+        "doi-asserted-by": "crossref",
+        "first-page": "233",
+        "DOI": "10.1006/jcph.1998.5882",
+        "article-title": "Generation of turbulent inflow data for spatially-developing boundary layer simulations",
+        "volume": "140",
+        "author": "Lund",
+        "year": "1998",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.05.004_b96",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1063/1.3678331",
+        "article-title": "Wall-modeling in large eddy simulation: Length scales, grid resolution, and accuracy",
+        "volume": "24",
+        "author": "Kawai",
+        "year": "2012",
+        "journal-title": "Phys. Fluids"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b97",
+        "doi-asserted-by": "crossref",
+        "unstructured": "L. Erbig, N. Hu, S. Lardeau, Experimental and numerical study of passive gap noise, in: 2018 AIAA/CEAS Aeroacoustics Conference, 2018, p. 3595.",
+        "DOI": "10.2514/6.2018-3595"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b98",
+        "doi-asserted-by": "crossref",
+        "unstructured": "T. Kuhn, Zonal large eddy simulation of active open cavity noise using a high order discontinuous Galerkin method, in: 25th AIAA/CEAS Aeroacoustics Conference, 2019, p. 2465.",
+        "DOI": "10.2514/6.2019-2465"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b99",
+        "doi-asserted-by": "crossref",
+        "first-page": "347",
+        "DOI": "10.1016/j.jcp.2017.02.001",
+        "article-title": "A sharp interface method for compressible liquid–vapor flow with phase transition and surface tension",
+        "volume": "336",
+        "author": "Fechter",
+        "year": "2017",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b100",
+        "doi-asserted-by": "crossref",
+        "first-page": "167",
+        "DOI": "10.1016/j.compfluid.2016.12.024",
+        "article-title": "Simulation of real gas effects in supersonic methane jets using a tabulated equation of state with a discontinuous Galerkin spectral element method",
+        "volume": "145",
+        "author": "Hempert",
+        "year": "2017",
+        "journal-title": "Comput. & Fluids"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b101",
+        "doi-asserted-by": "crossref",
+        "first-page": "108457",
+        "DOI": "10.1016/j.ijheatfluidflow.2019.108457",
+        "article-title": "Towards high-fidelity erosion prediction: On time-accurate particle tracking in turbomachinery",
+        "volume": "79",
+        "author": "Beck",
+        "year": "2019",
+        "journal-title": "Int. J. Heat Fluid Flow"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b102",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1007/s10915-020-01171-7",
+        "article-title": "Entropy stable discontinuous Galerkin schemes on moving meshes for hyperbolic conservation laws",
+        "author": "Schnücke",
+        "year": "2020",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "issue": "14",
+        "key": "10.1016/j.camwa.2020.05.004_b103",
+        "doi-asserted-by": "crossref",
+        "first-page": "1603",
+        "DOI": "10.1140/epjst/e2019-800160-y",
+        "article-title": "High-order Particle-In-Cell simulations of laser-plasma interaction",
+        "volume": "227",
+        "author": "Copplestone",
+        "year": "2019",
+        "journal-title": "Eur. Phys. J. Spec. Top."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b104",
+        "series-title": "2017 IEEE International Conference on Plasma Science",
+        "first-page": "1",
+        "article-title": "Piclas: A highly flexible particle code for the simulation of reactive plasma flows",
+        "author": "Ortwein",
+        "year": "2017"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b105",
+        "article-title": "Uncertainty quantification for direct aeroacoustic simulations of cavity flows",
+        "author": "Kuhn",
+        "year": "2018",
+        "journal-title": "J. Comput. Acoust."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.05.004_b106",
+        "doi-asserted-by": "crossref",
+        "first-page": "250",
+        "DOI": "10.1016/j.compfluid.2016.04.003",
+        "article-title": "PreCICE – A fully parallel library for multi-physics surface coupling",
+        "volume": "141",
+        "author": "Bungartz",
+        "year": "2016",
+        "journal-title": "Comput. & Fluids"
+      }
+    ],
+    "container-title": [
+      "Computers &amp; Mathematics with Applications"
+    ],
+    "original-title": [],
+    "language": "en",
+    "link": [
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0898122120302029?httpAccept=text/xml",
+        "content-type": "text/xml",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0898122120302029?httpAccept=text/plain",
+        "content-type": "text/plain",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2025,
+          10,
+          12
+        ]
+      ],
+      "date-time": "2025-10-12T10:17:01Z",
+      "timestamp": 1760264221000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://linkinghub.elsevier.com/retrieve/pii/S0898122120302029"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2021,
+          1
+        ]
+      ]
+    },
+    "references-count": 106,
+    "alternative-id": [
+      "S0898122120302029"
+    ],
+    "URL": "https://doi.org/10.1016/j.camwa.2020.05.004",
+    "relation": {},
+    "ISSN": [
+      "0898-1221"
+    ],
+    "issn-type": [
+      {
+        "value": "0898-1221",
+        "type": "print"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2021,
+          1
+        ]
+      ]
+    },
+    "assertion": [
+      {
+        "value": "Elsevier",
+        "name": "publisher",
+        "label": "This article is maintained by"
+      },
+      {
+        "value": "FLEXI: A high order discontinuous Galerkin framework for hyperbolic–parabolic conservation laws",
+        "name": "articletitle",
+        "label": "Article Title"
+      },
+      {
+        "value": "Computers & Mathematics with Applications",
+        "name": "journaltitle",
+        "label": "Journal Title"
+      },
+      {
+        "value": "https://doi.org/10.1016/j.camwa.2020.05.004",
+        "name": "articlelink",
+        "label": "CrossRef DOI link to publisher maintained version"
+      },
+      {
+        "value": "article",
+        "name": "content_type",
+        "label": "Content Type"
+      },
+      {
+        "value": "© 2020 Elsevier Ltd.",
+        "name": "copyright",
+        "label": "Copyright"
+      }
+    ]
+  }
+}

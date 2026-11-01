@@ -1,0 +1,1007 @@
+                                                         Toward Performance-Portable PETSc for GPU-based Exascale Systems
+
+                                                 Richard Tran Millsa,∗, Mark F. Adamsc , Satish Balaya , Jed Browne , Alp Denera , Matthew Knepleyb , Scott E. Krugerf ,
+                                                  Hannah Morgand , Todd Munsona , Karl Ruppa,g , Barry F. Smithh , Stefano Zampinii , Hong Zhanga , Junchao Zhanga
+                                                                                   a Argonne National Laboratory, 9700 S. Cass Avenue, Lemont, IL 60439 US
+                                                                                                 b University at Buffalo, Buffalo, NY 14260 USA
+                                                                                       c Lawrence Berkeley National Laboratory, Berkeley, CA 94720 USA
+                                                                                                d University of Chicago, Chicago, IL 60637 USA
+                                                                                            e University of Colorado Boulder, Boulder, CO 80302 USA
+                                                                                         f Tech-X, 5260 Arapahoe Ave. Suite, A, Boulder, CO 80303 USA
+                                                                               g Institute for Microelectronics, TU Wien, Gusshausstrasse 27-29/E360, A-1040 Wien
+                                                                      h Center for Computational Mathematics, Flatiron Institute, 162 Fifth Avenue. New York, NY 10010 USA
+                                                                 i King Abdullah University of Science and Technology, Extreme Computing Research Center, Thuwal, Saudi Arabia
+arXiv:2011.00715v2 [cs.MS] 29 Sep 2021
+
+
+
+
+                                         Abstract
+                                         The Portable Extensible Toolkit for Scientific computation (PETSc) library delivers scalable solvers for nonlinear time-dependent
+                                         differential and algebraic equations and for numerical optimization. The PETSc design for performance portability addresses
+                                         fundamental GPU accelerator challenges and stresses flexibility and extensibility by separating the programming model used by
+                                         the application from that used by the library, and it enables application developers to use their preferred programming model, such
+                                         as Kokkos, RAJA, SYCL, HIP, CUDA, or OpenCL, on upcoming exascale systems. A blueprint for using GPUs from PETSc-based
+                                         codes is provided, and case studies emphasize the flexibility and high performance achieved on current GPU-based systems.
+                                         Keywords: numerical software, high-performance computing, GPU acceleration, many-core, performance portability, exascale
+                                         2010 MSC: 65F10, 65F50, 68N99, 68W10
+
+
+                                         1. Introduction                                                                     RAJA, SYCL, HIP, CUDA, or OpenCL [2, 3, 4, 5, 6, 7], on up-
+                                                                                                                             coming exascale systems. In all cases, users will be able to rely
+                                             High-performance computing (HPC) node architectures are                         on PETSc’s large assortment of composable, hierarchical, and
+                                         increasingly reliant on high degrees of fine-grained parallelism,                   nested solvers [8], as well as advanced time-stepping and ad-
+                                         driven primarily by power management considerations. Some                           joint capabilities and numerical optimization methods running
+                                         new designs place this parallelism in CPUs having many cores                        on the GPU.
+                                         and hardware threads and wide SIMD registers: a prominent
+                                         example is the Fugaku machine installed at RIKEN in Japan.                          Performance portability in PETSc                                                GPU
+
+                                         Most supercomputing centers, however, are relying on GPU-
+                                                                                                                                                     CPU             Compiler Directives          Vendor PM               C++ Lambda PM
+                                         based systems to provide the needed parallelism, and the next                                           C, C++, Fortran     OpenMP, OpenACC              CUDA, HIP              Kokkos, SYCL, RAJA
+
+                                         generation of open-science supercomputers to be fielded in the
+                                         United States will rely on GPUs from AMD, NVIDIA, or Intel.                          Application code
+                                                                                                                                                                                        Front-end PETSc vector and matrix arrays
+                                         These devices are extremely powerful but have posed funda-                           Using PETSc API                                      are shared with user programming language/model
+
+                                         mental challenges for developers and users of scientific com-
+                                         puting libraries.                                                                   PETSc computation kernels
+                                                                                                                             CPU: Use compiler options and vendor libraries for            Back-end PETSc Vector and Matrix
+                                             This paper shows how to use GPUs from applications writ-                             performance                                                      implementations
+                                         ten using the Portable, Extensible Toolkit for Scientific com-                      GPU: Chosen for either speed of development or
+                                                                                                                                   highest performance. Use GPU vendor libraries
+                                         putation (PETSc, [1]), describes the major challenges software                                              C Code             OpenCL                                         C++ data-parallel PM
+                                                                                                                                                                                                 Vendor PM
+                                                                                                                                                BLAS/LAPACK MKL
+                                         libraries face, and shows how PETSc overcomes them. The                                                                     OpenCL: ViennaCL      CUDA: cuBLAS, cuSparse     Kokkos: Kokkos-kernels
+                                                                                                                                                                                           HIP:rocBLAS, rocSPARSE         SYCL: OneAPI
+                                         PETSc design completely separates the programming model
+                                                                                                                         1
+                                         used by the application and the model used by PETSc for its                                                                                                        GPU
+                                                                                                                             Figure 1: PETSc application developers will be able to use a variety of program-
+                                         back-end computational kernels; see Figure 1. This separation                       ming models (PMs) for GPUs independently of PETSc’s internal programming
+                                         allows PETSc users from C/C++, Fortran, or Python to em-                            model.
+                                         ploy their preferred GPU programming model, such as Kokkos,
+                                                                                                                                  An application for solving time-dependent partial differen-
+                                            ∗ Corresponding author                                                           tial equations, for example, may compute the Jacobian using
+                                             Email address: rtmills@anl.gov (Richard Tran Mills )                            Kokkos and then call PETSc’s time-stepping routines and al-
+                                                                                                                             gebraic solvers that use CUDA, cuBLAS, and cuSPARSE; see
+                                         Preprint submitted to Elsevier                                                                                                                                                 October 1, 2021
+Figure 2. Applications will be able to mix and match program-            the challenges in developing efficient and portable mathemat-
+ming models, allowing, for example, some application code                ical libraries for GPU systems. We then introduce the PETSc
+in Kokkos and some in CUDA. The flexible PETSc back-end                  GPU programming model and discuss recent PETSc back-end
+support is accomplished by sharing data between the applica-             developments designed to meet these challenges. We present a
+tion and PETSc programming models but not sharing the pro-               series of case studies using PETSc with GPUs to demonstrate
+gramming models’ internal data structures. Because the data is           both the flexible design and the high performance achieved on
+shared, there are no copies between the programming models               current GPU-based systems. In the final section we summarize
+and no loss of efficiency.                                               our conclusions. Throughout this paper, we use the term “pro-
+    GPU vendors and the HPC community have developed vari-               gramming model” to refer to both the model and its supporting
+ous programming models for using GPUs. The oldest program-               runtime.
+ming model is CUDA, developed by NVIDIA for their GPUs.
+AMD adopted an essentially identical model for their hard-
+                                                                         2. Porting PETSc applications to the GPUs
+ware, calling their implementation HIP. Several generations of
+the OpenCL programming model, supported in some form by                        The common usage pattern for PETSc application codes, re-
+NVIDIA, AMD, and Intel, have been designed for portability                gardless of whether they use time integrators, nonlinear solvers,
+across multiple GPU vendors’ hardware. Moreover, there are                or linear solvers, has always been the following:
+the C++ data-parallel programming models that make use of                     • Setup application data, meshes, initial state, etc.,
+C++ lambdas and provide constructs such as parallel for                       • provide a callback for the Function that defines the prob-
+for programmers to easily express data parallelism that can be                   lem (e.g., nonlinear residual, ODE right-hand side),
+mapped by the compilers into GPU-specific implementations.                    • provide a callback for the Jacobian of the Function
+To some degree, they are C++ variants of the CUDA model.                      • call the PETSc solver, possibly in a loop.
+The oldest is Kokkos [2], which has support for CUDA, HIP,                This approach does not change with the use of GPUs. In partic-
+DPC++, and shared-memory OpenMP, but not for OpenCL.                      ular, the creation of solver, matrix, and vector objects and their
+RAJA [3] was introduced more recently. SYCL [4] is a newer                manipulation do not change. Points to consider when porting
+model that typically uses OpenCL as a back-end. A notable                 an application to GPUs are:
+SYCL implementation is DPC++ [9], developed by Intel for                      • Some data structures reside in GPU memory, either
+its new discrete GPUs. Figure 2 (upper right) shows the case                         • constructed on the CPU and copied to the GPU or
+where the application uses OpenMP offload and runs on a HIP                          • constructed directly on the GPU.
+system and (bottom) the entire web of potential programming                   • Function will call GPU kernels.
+models and back-end numerical libraries that will be employed                 • Jacobian will call GPU kernels.
+by PETSc.                                                                      The recommended approach to port PETSc CPU applica-
+                                                                          tions to the GPU is to incrementally move the computation to
+                 App                                      App             the GPU:
+        PETSc             Kokkos                PETSc              OpenMP
+                                                                              • Step 1: write code to copy the needed portions of already
+           cuLIB
+                                                                                 computed application data structures to the GPU.
+                                                   ROCm
+                     CUDA                                     HIP
+                                                                              •  Step 2: write code for Function that runs partially or
+                                                                                 entirely on the GPU.
+                                    Application                               • Step 3: write code for Jacobian that runs partially or
+                   PETSc                                                         entirely on the GPU.
+                                                                              • Step 4: evaluate the time that remains from building the
+                                                 K Kernels        OpenMP         initial application data structures on the CPU.
+                                                                                     • If the time is inconsequential relative to the entire
+                              MKL          RAJA
+        ROCm                                                                            simulation run, the port is complete;
+                   cuLIB                                          Kokkos             • otherwise port the computation of the data structure
+                                                                                        to the GPU.
+                                                                          When developing code, the developer should add the new code
+                                                                          to the existing code and use small stub routines (see Listing 4)
+            HIP                                             SYCL
+                                                                          that call the new and the old functions and compare the results
+                                  CUDA                                    as the solver runs, in order to detect any discrepancies. We fur-
+                                                                          ther recommend postponing additional refactorizations until af-
+Figure 2: PETSc usage with Kokkos-cuLIB-CUDA, OpenMP-ROCm-HIP, and        ter the code has been fully ported to the GPU, with testing, ver-
+all combinations. Here cuLIB indicates cuBLAS and cuSPARSE, and K Ker-    ification, and performance profiling performed at each step of
+nels indicates Kokkos Kernels.                                            the transition. For convenience, in the rest of this section we fo-
+                                                                          cus on an application using Kokkos; a similar process would be
+                                                                          followed for SYCL, RAJA, OpenMP offload, CUDA, and HIP.
+     This paper is organized as follows. We first provide a blueprint We recommend using the sequential non-GPU build of Kokkos
+for porting PETSc applications to use GPUs. We next survey
+                                                                     2
+     for all development; this allows debugging with traditional de-                                         The Jacobian computation is presented in Listing 3. The
+     buggers.                                                                                            callbacks are also similar except for the matrix access request
+         Listing 1 displays an excerpt of a typical PETSc main ap-                                       in the Kokkos version.
+     plication program for solving a nonlinear set of equations on a                                         In Listing 4, we conclude with the crucial stub function.
+     structured grid using Newton’s method. It creates a solver ob-                                      This stub has the same calling sequence as the two functions
+     ject SNES, a data management object DM, a vector of degrees of                                      that are to be compared and can be passed directly to the solver
+     freedom Vec, and a Mat to hold the Jacobian. Then, Function                                         routine to verify that both produce the same results while solv-
+     and Jacobian evaluation callbacks are passed to the SNES object                                     ing the equations.
+     to solve the nonlinear equations.                                                                   D M D A V e c G e t A r r a y R e a d ( da ,x ,& X ) ;
+                                                                                                         DMDA GetCorne rs ( da ,& xs , NULL , NULL ,& xm ,...) ;
+     SNESCreate ( PETSC_COMM_WORLD ,& snes ) ;
+                                                                                                         for ( i = xs ; i < xs + xm ; i ++) {
+     DMDACreate1d ( PETSC_COMM_WORLD ,... ,& ctx . da ) ;
+                                                                                                             j = { i - 1 ,i , i + 1}; A = {d , -2* d + 2* X [ i ] , d };
+     D M C r e a t e G l o b a l V e c t o r ( ctx . da ,& x ) ;
+                                                                                                     5       MatSetValues (J ,1 ,& i ,3 ,j ,A , INSERT_VALUES ) ;
+     VecDuplicate (x ,& r ) ;
+                                                                                                         }
+ 5   DMCre ateMatrix ( ctx . da ,& J ) ;
+                                                                                                         --------------------------------------------------------
+     if ( useKokkos ) {
+                                                                                                         D M D A V e c G e t K o k k o s O f f s e t V i e w ( da ,x ,& X ) ;
+       S NE SSetFunction ( snes ,r , KokkosFunction ,& ctx ) ;
+                                                                                                         MatGetKokkos (J ,& mat ) ; // handle for device view
+       S NE SSetJacobian ( snes ,J ,J , KokkosJacobian ,& ctx ) ;
+                                                                                                    10   xs = X . begin (0) ; xm = X . end (0) ;
+     } else {
+                                                                                                         Kokkos :: parallel_for (
+10     S NE SSetFunction ( snes ,r , Function ,& ctx ) ;
+                                                                                                             Kokkos :: RangePolicy < >( xs , xm ) , KOKKOS_LAMBDA
+       S NE SSetJacobian ( snes ,J ,J , Jacobian ,& ctx ) ;
+                                                                                                             ( int i ) {
+     }
+                                                                                                                 j = {i -1 ,i , i +1}; A = {d , -2* d + 2* X ( i ) ,d };
+     SNESSolve ( snes , NULL , x ) ;
+                                                                                                    15           M a t S e t V a l u e s K o k k o s ( mat ,1 ,& i ,3 ,j ,A , INSERT_VALUES ) ;}) ;
+                     Listing 1: Main application code for CPU or GPU                                       Listing 3: Traditional PETSc Jacobian (top) and Kokkos version (bottom)
+
+     D M G e t LocalVector ( da ,& xl ) ;
+                                                                                                         StubFunction ( SNES snes , Vec x , Vec r , void * ctx ) {
+     D MG lo balToLocal ( da ,x , INSERT_VALUES , xl ) ;
+                                                                                                           Function ( snes ,x ,r , ctx ) ;
+     D M D A V ec G e t A r r a y Re a d ( da , xl ,& X ) ; // only read X []
+                                                                                                           Kokko sFuncti on ( snes ,x , rk , ctx ) ;
+     D M D A V e c G e t A r r a y W r i t e ( da ,r ,& R ) ; // only write R []
+                                                                                                           VecAXPY ( rk , -1.0 , r ) ;
+ 5   D M D A V ec G e t A r r a y Re a d ( da ,f ,& F ) ; // only read F []
+                                                                                                     5     VecNorm ( rk , NORM_2 ,& norm ) ;
+     DMDAG etCorners ( da ,& xs , NULL , NULL ,& xm ,...) ;
+                                                                                                           if ( norm > tol ) Error message ;
+     for ( i = xs ; i < xs + xm ; ++ i )
+                                                                                                         }
+         R [ i ] = d *( X [i -1] -2* X [ i ]+ X [ i +1]) + X [ i ]* X [ i ] - F [ i ];
+     --------------------------------------------------------
+10   D M G e t LocalVector ( da ,& xl ) ;                                                                             Listing 4: Stub routine that runs both implementations
+     D MG lo balToLocal ( da ,x , INSERT_VALUES , xl ) ;
+     D M D A V e c G e t K o k k o s O f f s e t V i e w ( da , xl ,& X ) ; // no copy
+     D M D A V e c G e t K o k k o s O f f s e t V i e w ( da ,r ,& R , overwrite ) ;
+     D M D A V e c G e t K o k k o s O f f s e t V i e w ( da ,f ,& F ) ;
+15   xs = R . begin (0) ; xm = R . end (0) ;
+                                                                                                         3. Challenges in GPU programming for libraries
+     Kokkos :: parallel_for (
+         Kokkos :: RangePolicy < >( xs , xm ) , KOKKOS_LAMBDA                                                Three fundamental challenges arise in providing libraries
+         ( int i ) {
+             R ( i ) = d *( X (i -1) -2* X ( i ) + X ( i +1) ) + X ( i ) * X ( i ) -F ( i ) ;}) ;        that obtain high throughput performance on parallel GPU ac-
+                                                                                                         celerated systems because of the hardware and low-level soft-
+     Listing 2: Traditional PETSc Function (top) and Kokkos version (bottom). xl,
+     x, r, f are PETSc vectors. X, R, F at the top are double* or const double*
+                                                                                                         ware aspects of the GPUs; no programming model obviates or
+     like pointers but at the bottom are Kokkos unmanaged OffsetViews.                                   allows programmers to ignore them. These fundamental chal-
+                                                                                                         lenges are labeled with an F. Ancillary challenges arise in the
+         Listing 2 shows a traditional PETSc (top) and a Kokkos im-                                      process of meeting the fundamental challenges; these are la-
+     plementation (bottom) of Function. DMDAVecGetArrayRead                                              beled with an A.
+     sets the correct dimensions of the array that lies on each MPI
+     rank. XxxRead/Write here claims the caller will only read                                           Challenge F1: Portability for application codes. The first chal-
+     or write the returned data. These functions are similar in the                                      lenge for GPUs’ general use in scientific computing is the porta-
+     Kokkos version except that they do not require the Read/Write                                       bility of application code across different hardware and soft-
+     labels for the accessor routines (these are handled by using the                                    ware stacks. Different vendors support different programming
+     appropriate const qualifiers in the overloaded functions, not                                       models and provide different mathematical libraries (with dif-
+     shown). When returning OffsetViews, we wrap but do not copy                                         ferent APIs) and even different synchronization models. AMD
+     PETSc vectors’ data. Moreover, in the Kokkos version we use                                         is revising its HIP and ROCm library support; how closely it
+     the parallel for construct and determine the loop bounds                                            will mimic the CUDA (cuBLAS, cuSPARSE) standards is un-
+     from the OffsetView. For simplicity of presentation we have                                         clear. On the other hand, NVIDIA continues to develop the cuS-
+     assumed periodic boundary conditions in one dimension; the                                          PARSE API, deprecating and refactoring many common usage
+     same code pattern exists in two and three dimensions with gen-                                      patterns for sparse matrix computations. Kokkos is designed to
+     eral boundary conditions. When porting code with nontrivial                                         guarantee application codes’ portability, but it does not provide
+     boundary conditions, one should first port the main loop, test                                      distributed-memory MPI support and requires the user to work
+     and verify that the code is still running correctly, and then in-                                   in its particular C++ programming style. Likewise, OpenCL
+     crementally port each boundary condition separately, testing for                                    has portable performance as an overarching goal, but imple-
+     each.                                                                                               mentation quality has been uneven, and performance has not
+
+                                                                                                     3
+met the standard needed for many application codes [10].                            • Kernel launch instructions that control the next set of low-
+OpenMP offload poses unique difficulties for libraries. Since                          level instructions the GPU will run on its compute cores
+it is compiler based and the data structures and routines are                       • Data transfer instructions that control the movement of
+opaque, it may require specific code for each OpenMP imple-                            data
+mentation.                                                                       High-level instructions are issued in the order they arrive in the
+                                                                                 queue. Should the queue become empty, the GPU computations
+Challenge F2: Algorithms for high-throughput systems. In ad-                     and memory transfers will cease. One of the most challeng-
+dition to application porting, high-throughput systems such as                   ing problems currently faced by large-scale distributed-memory
+GPUs require developing and implementing new solver                              GPU-based computing is preventing this queue from becoming
+algorithms—in particular, algorithms that exploit high levels of                 empty. It is crucial that more entries be added to the queue
+data-parallel concurrency with low levels of memory bandwidth                    without requiring the queue to be emptied first. The process
+delivered in a data-parallel fashion. This approach generally                    of adding more entries while the queue is not empty is called
+involves algorithms with higher arithmetic intensity than most                   pipelining.
+traditional simulations require. This challenge is beyond the
+scope of this paper; a robust research program developing ad-
+                                                                                                                                                      Data channel
+vanced algorithms for GPU-based systems is being undertaken                          Multi-precision
+by the PETSc team and their collaborators.                                                                                                            Instruction channel
+                                                                                          GPU                                 GPU                     Challenge
+Challenge F3: Utilizing all GPU and CPU compute power.                                    cores                      r       Memory
+                                                                                                                 sfe                                  Solution
+
+
+                                                                                           trol
+The current focus of the PETSc library work for GPUs is high                                                 ran
+                                                                                                        ata t trol
+                                                                                      l con
+                                                                                                       D con                            NIC
+computational throughput for large simulations, keeping all the
+                                                                                                                                  l
+                                                                                         e
+                                                                                                                           ntro
+                                                                                    Kern
+
+GPU compute units as busy as possible all of the time. In order                                                      IC co
+                                                                                                                 EM N
+                                                                                                            NVSH
+to achieve this, each core must have an uninterrupted stream                        Stream                                               CPU to GPU
+                                                                                                                             l
+of instructions and a high-bandwidth stream of data within the                      queue                                 ro
+                                                                                                                        nt
+                                                                                                                     co
+constraints of the hardware and low-level software stack. The                                                    M
+                                                                                                                  PI                   CPU
+                                                                                    Ke
+
+
+
+
+                                                                                                                                                       Code management
+                                                                                                                                      Memory
+                                                                                       rn
+
+
+
+
+difficulty arises from the complex control flows and data flows,
+                                                                                          e
+
+
+
+
+                                                                                                                                                             issues
+                                                                                          l la
+                                                                                              un
+
+
+
+
+as indicated in Figure 3. With distributed-memory GPU com-
+                                                                                                  ch
+
+
+
+
+                                                                                                             CPU                                        Memory types
+puting, two levels of instruction flow exist:                                                                core                                          Precisions
+    • high-level instructions flow from the CPU memory to the                                                                                           Streams/Events
+                                                                                                   Full utilization                                    CPU to GPU status
+       GPU stream queue and the GPU memory controller, and
+    • kernel code flows from the GPU memory to the GPU                           Figure 3: Some of the challenges for which we have developed responses in the
+       compute cores.                                                            PETSc performance-portable library, related to their locations on a GPU node.
+The two levels of data flow are
+    • between GPU memories through a combination of net-
+       works, switches, and RDMA transfers and
+    • between the GPU memory and the GPU compute cores.                          Challenge A1: Managing the kernel queue. Two other tech-
+In this work, we are concerned only with the high-level instruc-                 niques besides pipelining can keep the GPU compute cores busy.
+tion and data flow and assume that the low-level is suitably han-                     One approach is kernel fusion, which combines multiple
+dled within the computational kernels and the hardware.                          kernels into a single kernel to increase the time spent in kernel
+     With a high-throughput computation on the GPU and the                       computations while reducing the number of kernel launches,
+CPU cores, the same basic rule applies. Seamless high-level                      with the additional benefit of possibly increasing the arithmetic
+data control must exist between the CPU memory and the GPU                       intensity of the computations. However, this optimization of-
+memory, and the high-level instruction flow for the CPUs and                     ten results in code that is harder to read and more difficult to
+GPUs must be coordinated and synchronized to ensure that nei-                    maintain. For thirty years, the general model for library devel-
+ther is interrupted.1 Since the exascale nodes have many more                    opment has been to write short single-concern functions that
+CPU cores than GPUs, a mismatch exists between the two for                       can be easily combined to promote code reuse. PETSc uses this
+both high-level instruction management and data flows; this is                   style where each concern is its class method.
+called the oversubscription problem.                                                  A second approach is using CUDA graphs, which allow the
+     For both the pure GPU throughput problem and the com-                       user to describe a series of operations (including CUDA ker-
+bined CPU and GPU case, one must understand in a little more                     nels) and their dependencies as a graph. These graphs can be in-
+detail how the CPU controls the GPU operation. The CPU                           stantiated once and then executed many times without involving
+sends two types of high-level instructions to the stream queue                   the CPU to amortize the high instantiation cost. This approach
+on the GPU:                                                                      is similar to pipelining except that it offers more runtime flexi-
+                                                                                 bility in determining the next operation within the GPU based
+                                                                                 on the state of the computation, whereas with pipelining the
+  1 The OLCF Summit IBM/NVIDIA system includes an additional layer,
+                                                                                 order of operations is set in advance by the CPU.
+whereby data control for transfers directly from the CPU caches to the GPU
+memory, but this will be ignored.
+
+                                                                             4
+Challenge A2: Network communication. GPU-aware MPI was                 municator during intense phases of GPU utilization. The in-
+introduced to hide latency and ease development of multi-node          dividual ranks’ data in the GPU memory can be shared with
+GPU code by allowing MPI calls to accept GPU memory ad-                the GPU’s single-rank process via interprocess communication
+dress pointers, thereby allowing MPI implementations to over-          (e.g., cudaIpc) calls. Alternatively, all the extra CPU cores as-
+lap GPU-CPU copies with communication rendezvous, chunk-               sociated with the GPU controlling rank can share a small com-
+ing, and completion, as well as on-node optimizations. For ex-         municator over which the needed communication is performed,
+ample, a CUDA-aware MPI can use NVIDIA GPUDirect point-                either by using MPI shared-memory windows or via scatter/-
+to-point to copy data between two GPUs within a compute node           gather operations.
+or use NVIDIA GPUDirect RDMA to access the remote GPU                      A different approach is to always use one MPI rank per GPU
+memory across compute nodes without requiring CPU involve-             and use, for example, OpenMP shared-memory programming
+ment.                                                                  to employ additional cores controlled by the single MPI rank
+     Unfortunately, at the time of writing, even GPU-aware MPI         that also controls the GPU. When individual library or appli-
+implementations cannot pipeline MPI calls and kernel launches          cation components use pure MPI and others use hybrid MPI-
+because the MPI API does not utilize the stream queue. Figure          OpenMP, a decrease in active ranks is also necessary.
+3 shows that the GPU-aware MPI instructions pass directly to               Undersubscription occurs when a large computation has short
+the memory controls (the black dashed lines) and do not enter          phases that are best computed on a smaller set of the compu-
+the stream queue. Thus, the stream queue must be empty for             tational cores, in other words, fewer GPUs and CPUs; this is
+every MPI call. Such expensive GPU synchronization for ev-             commonly encountered in coarse level solves of a multigrid al-
+ery MPI call involving GPU memory embodies the mismatch                gorithm. A complete library system must manage the reduction
+between MPI and GPU. This problem is analyzed in more detail           in computational cores used and the efficient movement of data
+in [11].                                                               required to utilize the fewer resources and the transition back to
+     In contrast, NVIDIA provides both NCCL [12], a library of         the full system.
+multi-GPU collective communication primitives, and NVSH-
+MEM [13], an implementation of the OpenSHMEM [14] com-                 Challenge A4: CPU-GPU communication time. CPU-GPU com-
+munications model for clusters of NVIDIA GPUs. Unlike MPI,             munications can limit the application’s overall performance. The
+these libraries can initiate communication from the CPU on             best approach to deal with the communication costs is to reduce
+streams to synchronize between computation and communica-              the amount of communication needed by moving computation
+tion taking place on the GPU. NVSHMEM also supports GPU-               to the GPU. Communication can also overlap with computa-
+initiated communication.                                               tion on the GPU by performing the computations in different
+                                                                       streams.
+Challenge A3: Over- and undersubscription. Exascale systems                On NVIDIA and AMD GPUs, the communication time can
+will have many more CPU cores than GPUs, and applications              be reduced by using pinned memory. Pinned memory is CPU
+may use both the CPU and the GPU for their computations.               memory whose pages are locked to allow the RDMA system to
+Libraries and applications must manage the mismatch between            employ the full bandwidth of the CPU-GPU interconnect; we
+the number of cores and GPUs. Two main alternatives can help           observed bandwidth gains up to a factor of 4.
+manage this challenge.
+     Oversubscription occurs when multiple CPU processes use           Challenge A5: Multiple memory types. When running on mixed
+the same GPU simultaneously. On high-end NVIDIA systems,               CPU and NVIDIA GPU systems, there are at least four types of
+the Multi-Process Service (MPS), a runtime system enabling             memory: regular memory on the CPU, pinned memory, unified
+multiprocess CUDA applications to transparently use the Hyper-         shared memory, and GPU memory. The first is usable only on
+Q hardware-managed work queues on the GPU, allows funnel-              the CPU; the second may be usable on some GPUs, but not di-
+ing the work from multiple CUDA contexts into a single con-            rectly via the host pointer; the third is usable on both the CPU
+text. In some cases, this can improve resources utilization, but       and GPU; and the fourth only on the GPU. Pointers for all of
+it can also reduce GPU efficiency. On Summit, for instance, we         them are allocated, managed, and freed by the CPU process.
+have observed reductions between 5% and 20% when sharing               AMD’s HIP API and Intel’s discrete GPUs add to the diversity
+GPUs between ranks. Many types of overhead can contribute to           of memory models that library and application developers must
+this reduced efficiency, but we group them all as GPU oversub-         support to achieve optimal performance across all systems.
+scription overhead. For example, in a standard strong scaling              When multiple types of memory are used, especially by dif-
+regime, increasing the number of processes sharing the same            ferent libraries, there must be a system to ensure that the ap-
+GPU while holding the computational load per physical GPU              propriate version of a function is called for the given memory
+constant may result in more kernel launches associated with            type. CUDA provides routines to determine whether the mem-
+smaller chunks of data, ultimately degrading performance. It           ory is GPU or CPU, but these calls are expensive (about 0.3
+is unclear what this overhead will be on future systems.               µs on OLCF Summit) and should be avoided when possible.
+     A variant of this approach maintains two communicators,           OpenMPI and MPICH implementations that are GPU-aware
+one for all the MPI processes and one with a single process for        call these routines repeatedly and thus pay this latency cost for
+each physical GPU. While the GPUs can be used at all times,            each MPI call involving memory pointers. With unified mem-
+control of the GPUs may be dropped down to the smaller com-            ory, the operating system automatically manages transferring
+
+                                                                   5
+pages of unified memory between the CPU and GPU. However,                  specified in user code or through command line options. Be-
+this approach means that callers of libraries using unified mem-           cause the higher-level classes such as the timesteppers TS ul-
+ory must ensure they use the correct memory type in application            timately employ Vec and Mat operations for the bulk of their
+code; otherwise, expensive data migration will be performed in             computations, this provides a means to offload most of the com-
+the background.                                                            putation for PETSc solvers—even the most complicated and
+                                                                           sophisticated—onto GPUs.
+Challenge A6: Use of multiple streams from libraries. Multi-                    The GPU-specific delegated classes follow the lazy-mirror
+ple streams are currently used by NVIDIA and AMD systems                   model [19]. These implementations internally manage (poten-
+to synchronize different computation and computation phases                tially) two copies of the data—one on the CPU and one on the
+directly on the GPU by providing multiple stream queues. This              GPU—and track which copy is current. When the computation
+synchronization is much faster than synchronizations done on               for that data is always on the GPU, there is no copy back to the
+the CPU. Care must be taken not to launch too many overlap-                CPU. When a GPU implementation of a requested operation is
+ping streams, however, since they can slow the rate of the com-            available, the GPU copy of the data is updated (if needed), and
+putation. Thus, it is best that a single entity be aware of all the        the GPU-optimized back-end class method is executed. Other-
+streams; this requires extra effort when different libraries are all       wise, the CPU copy of the data is updated (if needed), and the
+using streams. Moreover, if different libraries produce compu-             CPU implementation is used. (Further details of this approach
+tations that require synchronizations between the library calls,           are given in Response A4 of this section.)
+those libraries must share common streams.                                      This mechanism offers two advantages [20]. First, the full
+                                                                           set of operations for the Vec and Mat classes is always avail-
+Challenge A7: Multiprecision on the GPU. GPU systems often                 able, and developers can incrementally add more back-end class
+come with more single-precision than double-precision floating-            methods as execution bottlenecks become apparent. Second,
+point units. Even bandwidth-limited computations with single               some operations are difficult or impossible to implement effi-
+precision can be faster because they require half of the double-           ciently on GPUs, and using the CPU implementation offers ac-
+precision computations’ memory bandwidth. Sparse matrix op-                ceptable or even optimal performance.
+erations do not usually see dramatic improvements, however,                     When unified shared memory is available, the PETSc back-
+because the integer indices remain the same size.                          end classes could allocate only a single unified buffer for both
+    With the compressed sparse row matrix format, the amount               the CPU and GPU and allow the operating system to manage
+of data that needs to be transferred from the matrix is 64nz +             the CPU and GPU movement. However, having PETSc manage
+32nz for double-precision computations with 32-bit column in-              the memory transfers itself may result in better performance.
+dices and 32nz + 32nz for single-precision computations, a 2/3
+ratio. Further reductions in the factor require compression of             Response F1: Portability for application codes. Each PETSc
+the column indices or using a different storage format; see, for           back-end comprises two parts: the calls to numerical libraries
+example, [15].                                                             that provide the per GPU algorithmic implementation and the
+    Recent GPUs also contain tensor computing units that use               glue code that connects these calls to the front-end code. The
+16-bit floating-point operations. These are specialized and do             numerical libraries are cuBLAS and cuSPARSE for the CUDA
+not provide general-purpose 16-bit floating-point computations,            back-end, ROCm for HIP, ViennaCL [21] for OpenCL (and po-
+but they have significant computing power; they can be used                tentially also for CUDA and HIP), MKL for SYCL, and Kokkos
+effectively for dense [16] or even sparse matrix computations              Kernels for Kokkos. Different PETSc back-end subclasses can
+[17]. See also a recent survey on multiprecision computations              be used in the same application.
+for GPUs [18].                                                                 Our highest priority at present is to prepare for the upcom-
+                                                                           ing exascale systems. We already have a working Kokkos Ker-
+4. Progress on PETSc’s back-end for GPUs                                   nels back-end. We are completing the HIP back-end to exploit
+                                                                           the AMD GPUs planned for the upcoming Frontier system at
+    PETSc employs an object-oriented approach with the del-                Oak Ridge National Laboratory. The basic configuration for
+egation pattern; every object is an instance of a class whose              HIP is in place, as well as the initial vector operations. Devel-
+data structure and functionality is provided by specifying a del-          opment is in progress and being tested on early-access testbeds
+egated implementation type at runtime. For example, a matrix               for Frontier. We have also begun implementation for a SYCL
+in compressed sparse row representation is created as an in-               and MKL back-end for use with the Intel GPUs planned for the
+stance of class Mat with type MATAIJ, whereas a sliced ELL-                Aurora system at Argonne National Laboratory.
+PACK storage matrix has type MATSELL. We refer to the API                      As our computation kernels’ development continues, we are
+of the classes that the user code interacts with front-end while           also abstracting the fundamental types, their initialization, and
+we call the delegated classes the back-end. Using GPUs to ex-              the various libraries’ interfaces to reduce code duplication. The
+ecute the linear algebra operations defined over Vec and Mat               PETSc team will work with the Intel and AMD compiler groups
+is accomplished by choosing the appropriate delegated class.               to determine the information needed from the OpenMP offload
+For instance, the computations will use the vendor-provided                compiler to share its data with the PETSc back-end.
+kernels from NVIDIA if VECCUDA and MATAIJCUSPARSE are
+
+
+                                                                       6
+Response F3: Utilizing all GPU (and CPU) compute power.                 for computations. Each back-end class implementation pro-
+Achieving high utilization requires a rethinking of outer-level         vides two implementations, for host and device, and contains
+algorithms to take advantage of operations with higher arith-           the code to manage data transfers. This strategy allows the users
+metic intensity. Compact, dense quasi-Newton representations            of PETSc to prescribe the next group of computations to take
+present an avenue for increasing arithmetic intensity and in-           place by merely setting a flag on the object. With this approach,
+creasing GPU utilization for outer-level algorithms. Compared           running, for example, the coarser levels of multigrid on the CPU
+with conventional limited-memory matrix-free implementations,           and the finer levels on the GPU is easy. Unnecessary GPU-to-
+these formulations require fewer kernel launches, avoid dot prod-       CPU communication is avoided with this approach, and any
+ucts, and compute the approximate Jacobian action via a se-             needed communication is handled internally by the object. The
+quence of matrix-vector products constructed from accumulated           associated message passing required by the solver is managed
+quasi-Newton updates. Initial support for solving Krylov meth-          automatically by PetscSF; see Response A2.
+ods with multiple right-hand sides has been added to PETSc
+[22]. While having higher arithmetic intensity, these meth-             Response A1: Managing the kernel queue. Since MPI does not
+ods generate larger Krylov subspaces and typically converge in          use streams, inner products and ghost point updates require a
+fewer iterations, and they may thus provide algorithmic speedup         CPU synchronization at these steps; one cannot, for example,
+for calculating eigenvalues and for multiobjective adjoint com-         pipeline an entire iteration of a solver together. We will provide
+putations. These block methods significantly decrease the num-          support for NVSHMEM to allow the communication to utilize
+ber of sequentially launched kernels, providing outer loop fu-          the stream queue; see Response A2. This is an important addi-
+sion that reduces CPU-GPU latencies and calls; see challenge            tion to PETSc to eliminate the empty streams queue problem.
+F2. Even with the multiple right-hand side optimizations,
+NVIDIA’s cuSPARSE on a V100 with extremely sparse matrix-               Response A2: Network communication . PetscSF is the PETSc
+vector multiplication achieves only 4% of peak, thus indicating         communication module, which has a simple but powerful inter-
+the desirability of implementing algorithms that fundamentally          face to simplify communication code on both CPUs and GPUs
+change the performance for such simulations. Outer loop fu-             [23]. It manages proper synchronizations needed by GPU-aware
+sion will also be applied for other PETSc operations such as the        MPI, and has a series of optimizations to improve communica-
+multiple dot products operations needed in the Krylov meth-             tion performance. PetscSF is incrementally replacing all direct
+ods (replacing a collection of BLAS 1 operations with a single          use of MPI in PETSc. This will allow PETSc to utilize the fea-
+BLAS 2 operation) to reduce the number of kernel launches and           tures of NVSHMEM that are required to eliminate the problems
+get more data reuse on the GPU and higher utilization.                  of Challenge A2.
+    A cross-utilization of the CPU and GPUs can occur even                  PetscSF uses the abstraction of star forests to represent com-
+within what is conceptually a single computation. Consider              munication patterns. A star is a simple tree consisting of one
+the computation of matrix elements for a discretization scheme          root vertex connected to zero or more leaves. A star forest is
+and their insertion into a matrix data structure. Within PETSc,         a disjoint union of stars. A PetscSF is created collectively by
+value insertion is performed in a loop with the general routine         specifying, for each leaf on the current rank, the rank and offset
+MatSetValues (usage depicted in Listing 3), which efficiently           of the corresponding root, shown in Figure 4. PetscSF then
+adjusts the row sizes on the fly as values are inserted and takes       analyzes the graph and derives a communication pattern using
+care of communicating off-processor values, if needed.                  persistent nonblocking MPI send and receive (default), other
+    However, the many repeated calls to MatSetValues run on             collectives, one-sided, or neighborhood collectives. PetscSF
+the CPU and may cause a bottleneck when the assembling pro-             provides APIs such as PetscSF{Bcast,Reduce}Begin/End.
+cess runs on a GPU. To address this issue, we have developed a          The former broadcasts root values to leaves, and the latter re-
+variant of the function callable from kernels that will guarantee       duces leaf values into roots with an MPI Op. The Begin/End
+fast GPU resident assembly. In a somewhat different scenario,           split-phase design allows users to insert computations in be-
+common among complicated applications utilizing PETSc only              tween, in order to overlap with communication.
+for its robust solver functionality, the matrix values can be al-           Root and leaf indices are typically not contiguous per rank,
+ready available from the application itself; for such cases, we         so that the library has to pack and unpack the data for MPI sends
+have recently developed a new API that accepts a general ma-            and receives. If the data is in GPU memory, these pack/unpack
+trix description in a coordinate list (COO) format and directly         routines must be implemented in GPU kernels. PetscSF APIs
+assembles on the GPU utilizing efficient kernels from the Thrust        are raw pointer-based, for example,
+library that is part of the CUDA Toolkit. For numerical results,        P e t s c S F B c a s t B e g i n ( PetscSF sf , MPI_Datatype unit , const
+                                                                                 void * rootdata , void * leafdata ) ,
+see Section 5.5.
+    PETSc will use the simultaneous kernel launch capability            where unit defines the data type of the vertices in the graph.
+of NVSHMEM to begin its parallel solvers, thus making them              PetscSF originally used cudaPointerGetAttributes to in-
+more tightly integrated and remaining in step during the solve          fer root/leaf memory spaces, but that turned out to slow down
+process. This is a relatively straightforward generalization of         the operations, so we now keep track of the memory types that
+the current solver launches, and it will be opaque to the users.        are passed to the PetscSF for communication on PETSc vec-
+    The PETSc back-end model is designed to support appli-              tors. Currently, PetscSF supports CUDA and Kokkos; support
+cations and libraries using a combination of CPUs and GPUs
+                                                                    7
+             Roots                       Leaves         local remote                                   Sender                             Receiver
+                                                                                             (leafdata can be produced           (rootdata can be consumed
+                                          1100             0       (1,2)                           on any stream)                       on any stream)
+
+              11                          1200             1       (1,0)                      cudaDeviceSynchronize()          cudaStreamSynchronize(s2)
+    rank 0    12                          1300             2       (1,0)
+                                                                                         Pack<<<..,s1>>>(leafdata,...,sbuf)   Unpack<<<..,s2>>>(rootdata,..,rbuf)
+              13                          1400             3       (0,2)
+
+                                                                                             cudaStreamSynchronize(s1)                MPI_Waitall()
+              21                          2100             0       (2,0)
+              22                          2200             1       (0,0)                         MPI_Isend(sbuf,...)                MPI_Irecv(rbuf,...)
+    rank 1
+              23                          2300             3       (2,1)                                (a) Most general synchronization model
+
+              24                          2400
+                                                                                                         Sender                         Receiver
+                                                                                            (leafdata is produced on NULL) (rootdata is consumed on NULL)
+              31                          3100             0       (0,0)
+    rank 2
+              32                          3200             1       (1,0)                 Pack<<<...,0>>>(leafdata,..,sbuf)    Unpack<<<...,0>>>(rootdata,..,rbuf)
+
+                                          3300             2       (1,3)
+                                                                                             cudaStreamSynchronize(0)                 MPI_Waitall()
+
+Figure 4: Distributed star forest with associated data partitioned across three
+processes, with the specification arrays at right.                                               MPI_Isend(sbuf,...)                MPI_Irecv(rbuf,...)
+                                                                                                     (b) Synchronization model if we assume leaf/root data
+                                                                                                       is produced/consumed on default stream NULL (0)
+
+for HIP and SYCL will be added soon. We will also provide a                                Figure 5: The two MPI-GPU synchronization models in PetscSF.
+back-end that uses NVSHMEM or NCCL.
+    PetscSF prefers GPU-aware MPI, but it also supports non-
+GPU-aware MPI. Here we discuss some of the details of our
+GPU-aware support. There are multiple choices to build syn-                           as well. Traditionally, programmers chose not to distinguish
+chronization models, as shown in Figure 5, which uses CUDA                            local (i.e., self-to-self) and remote (i.e., self-to-others) commu-
+as an example. In Figure 5(a), we assume that leafdata is pro-                        nications and let MPI handle the distinction, resulting in a sim-
+duced by a kernel on a stream unknown to PetscSF. Therefore                           pler and more uniform user code. Distinguishing these types
+the sender has to call CUDADeviceSynchronize to synchro-                              of communications with GPU computation is essential, how-
+nize with all the computations on the GPU before the pack ker-                        ever. At least two benefits accrue: (1) we can directly scatter
+nel in order to make sure the leafdata is ready to pack. After the                    source data to its destination without intermediate send or re-
+pack, the implementation calls CUDAStreamSynchronize(s1)                              ceive buffers for local communication, and (2) local commu-
+to synchronize stream s1 and make sure the packed data in                             nication is done by a GPU kernel (doing a memory copy with
+sbuf is ready for MPI Isend. On the receiver side, when the                           index indirection). The kernel can be perfectly executed asyn-
+MPI Waitall returns, the received data is guaranteed to be in                         chronously with remote MPI communication, overlapping local
+the receive buffer rbuf. But we might have to call the unpack                         and remote communications.
+kernel, for example, on stream s2, to unpack the data from                                 PetscSF performs index analysis at the setup phase to pro-
+rbuf to rootdata and call CUDAStreamSynchronize(s2)                                   vide optimizations to lower the cost on GPUs further. If leaf
+to synchronize unpack so that rootdata can be consumed by                             or root indices are contiguous, we do not need pack/unpack
+kernels on any stream.                                                                and intermediate buffers: data can be sent directly to save ker-
+    Manipulating multiple streams is not an easy task. Like                           nel launch and execution time. For noncontiguous indices, the
+most codes, the PETSc default is to use only the default stream.                      indices might have specific patterns that can be taken advan-
+A simplified synchronization model is shown in Figure 5(b),                           tage of to reduce the packing or unpacking time. Currently,
+where we launch pack/unpack on the default stream and omit                            PetscSF can detect whether a set of indices are for points in a
+the CUDADeviceSynchronize before pack and CUDAStream                                  rectangular subdomain. For example, in a rectangular 3D do-
+Synchronize(s2) after unpack. But obviously, we still need                            main, the ghost regions (faces) and interior region are all such
+CUDAStreamSynchronize(NULL) before MPI Isend. A so-                                   qualified subdomains. Packing entries in such subdomains only
+lution for the MPI-GPU mismatch problem is to expose the                              need parameters describing the subdomains, instead of all en-
+CUDA streams to the MPI API; doing so will allow MPI func-                            try indices. Also, in PetscSFReduce, multiple leaves might be
+tion calls on GPU memory to behave more like kernels where                            reduced into the same root. If so, the unpack kernel needs to
+the user selects the appropriate streams to allow kernel pipelin-                     take care of the data race between threads. Instead of blindly
+ing. The MPI Forum has begun an Accelerator working group,                            using atomic operations all the time, PetscSF leverages index
+and the PETSc team is an eager customer willing to quickly                            analysis, and it uses nonatomic instructions when no duplicated
+work with the prototypes the working group develops.                                  indices are found.
+    MPI processes often need to communicate with themselves
+
+                                                                                  8
+Response A3: Oversubscription. We are focusing on the most                Response A7: Use of multiprecision on the GPU. Simple use
+critical case for PETSc exascale application codes: simulations           of single-precision floating point on GPUs within a library is
+that perform phases of the computations jointly on the CPUs               straightforward at the software level. In PETSc, each class will
+and GPUs, with other phases exclusively on the GPUs all us-               carry additional information: the precision of the data stored
+ing a purely MPI model. This case will use the approach out-              and the requested computations’ precision. Initially, PETSc
+lined above, using a large MPI communicator for all MPI cores             will support multiprecision computation by utilizing single pre-
+with shared process usage of the GPUs combined with a smaller             cision only on the GPU; this approach reduces the code com-
+communicator just for the GPUs with the highest performance               plexity since it does not affect the CPU user APIs. Also pro-
+single process usage of the GPUs. Since the bulk of the compu-            vided will be the capability of converting the formats directly
+tation will take place without sharing the GPU, this approach             on the GPU when different phases of more extensive calcula-
+tolerates the overhead that arises from sharing mentioned in              tion can benefit from different precision. The BLIS [24] pack-
+Challenge A3. Shared memory on the GPUs will allow joint                  age has an excellent system for managing the control of the
+ownership of the data used in the different phases of the compu-          various mixed-precision computations, and PETSc may adopt
+tation; communication for the data will be managed by PetscSF,            a similar approach. When data is transferred from or to the
+transparent to the application code. Other use cases can easily           GPUs, it will be converted between precisions on the fly. One
+be added as needed by the application teams. PetscSF will also            will control the precision by a low-level object such as a vec-
+provide transparent support for the undersubscription problem             tor or by a higher-level operation such as an entire linear solve
+faced, for example, by multigrid; see Section 5.3.                        by setting the flags appropriately on the controlling data object.
+                                                                          Utilization of the tensor floating-point unit for general sparse
+Response A4: GPU-CPU communication time. PETSc, by de-                    matrix computations in PETSc is currently out of scope; but if
+fault, uses pinned memory for all data that may be copied to or           other GPU numerical libraries use them, PETSc can benefit by
+from the GPU memory. As mentioned above, PETSc uses the                   providing an efficient interface to these packages. As applica-
+lazy-mirror model to reduce memory copies. At the lowest level            tion teams complete their ports to use GPUs, the PETSc team
+of the PETSc software stack, data access is controlled via get            is ready to work with them on their exact needs to determine
+operations such as VecGetArrayRead, VecGetArrayWrite,                     which parts of the computations may benefit from using lower-
+and VecGetArray, and the corresponding restoring partners,                precision computations. At this point, the determination of the
+for example VecRestoreArray. Careful use of these read and                optimal combinations will be mostly experimental; because of
+write accessors avoids unnecessary copies; the reader does not            the PETSc back-end separation from user code, the studies can
+invalidate the data in the other memory, while the writer does            all be done at runtime and would not require manually recom-
+not require copying, and it merely flags the other memory as              piling code for different precisions.
+invalid. SYCL also uses this read/write model. Once a compu-                  Additionally, the communication infrastructure must be
+tational phase, even with many stages, begins on the GPU, the             precision-aware. We will add support for PetscSF to reduce
+data remains automatically in the GPU.                                    double-precision input to single-precision output, for example,
+    PETSc does not yet provide a mechanism to prefetch mem-               for the overlapping Schwarz method.
+ory of an object, but that can be added by using the tracking
+of valid data and the get/restore model [8]. Prefetch would use
+streams to efficiently pipeline operations that depend on the re-         5. Case studies
+quired data.
+                                                                              Our performance studies have been conducted on Summit,
+Response A5: Multiple memory types. We are testing multi-                 the IBM Power System AC922 supercomputer installed at Oak
+ple related approaches for managing the life cycle of allocated           Ridge National Laboratory. Summit provides the closest avail-
+memory; its allocation, use, and release. Support for malloc              able proxy for the planned DOE exascale machines featuring
+with normal, pinned, and unified memory can be managed by                 multiple GPUs per node. Each Summit node comprises two
+marking the memory, either with flags carried in objects that             IBM POWER9 CPUs, each with twenty-one available cores
+hold the memory, within a header to the actual memory, or with            nominally clocked at 3.07 GHz, and 6 NVIDIA Volta GV100
+a separate small allocation that contains the identifier and the          GPUs. Each GPU has 16 GB high-bandwidth memory with a
+actual pointer. This last approach also supports GPU memory               bandwidth of 900 GB/s. The NVLINK interconnect fabric con-
+since the identifier header is accessible on the CPU, while the           nects each CPU directly to three GPUs, and these three GPUs
+GPU memory is not.                                                        to each other. The NVLINK connections provide 50 GB/s of
+                                                                          bidirectional bandwidth between the interconnected GPUs and
+Response A6: Use of multiple streams from libraries. PETSc                CPU, but communication between CPUs occurs through a sin-
+will incorporate streams into PETSc objects, both at the data             gle IBM X-bus link that provides 64 GB/s of bandwidth; com-
+level (vectors and matrices) and at the solvers level (linear, non-       munication between GPUs connected to different CPUs, there-
+linear, and time integrators). With this capability, entire itera-        fore, is potentially much slower than communication between
+tions of solves can be launched on different steams so their com-         GPUs that share the same CPU. GPUs on Summit can simul-
+putations are interlaced on the GPUs. This provides a straight-           taneously run CUDA kernels from multiple MPI ranks in their
+forward way to effectively use GPUs to solve many different-              own address spaces using NVIDIA MPS.
+size problems simultaneously.
+                                                                      9
+5.1. Work-time spectrum of vector operations                               allocate a buffer on the receiver side and call an unpack kernel
+     In this section, we examine the performance of basic vector           to sum the receive buffer data. The third test is called sf scatter
+operations to help understand Response F3 and provide valu-                and considers n additional leaves on rank 0, one for each root
+able information of what problem sizes are needed to achieve               on the same rank. The test has the same loop body as sf un-
+full utilization of the compute cores. The data presented here is          pack. For this configuration, in PetscSFBcastAndOP rank 0
+drawn from the more complete analysis in [27].                             has to add root values to both local and remote leaves (on rank
+     The benchmark code used is simple but exercises some ba-              1), while in PetscSFReduce both ranks contribute their leaf
+sic building blocks common to many applications, and its sim-              values to the roots on rank 0. Therefore, rank 0 has both local
+plicity allows us to construct analytical performance models               and remote communications. In local communications, it can
+that are useful for reasoning about more complicated scenar-               directly scatter source data to destination data.
+ios. The code performs the following PETSc vector operations:                  We tested the OSU latency test (osu pingpong) and these
+VecAXPY, which computes y ← αx + y, and VecCopy, which                     three tests, all with GPU data, with two MPI ranks on two GPUs
+copies a vector via memcpy on the CPU and cudaMemcpy on the                attached to the same CPU within a compute node. The average
+GPU or between the CPU and GPU. A single vector operation                  one-way latency results for the tests are shown in Table 1.
+is timed for each operation. All vector sizes refer to the vector’s         Table 1: Average one-way latency of various Ping-Pong tests on two GPUs.
+global size, spread among multiple computational units. There
+are two floating-point operations per entry for the VecAXPY op-             Msg size(bytes)        8K     32K     128K     512K      2M       4M
+eration. There are three memory accesses per vector entry for               osu pingpong(µs)      17.8    17.8     20.0     28.2    61.7    106.6
+VecAXPY and two for VecCopy.                                                sf pingpong(µs)       24.0    24.1     25.9     34.2    67.6    112.2
+     Figure 6 presents the memory throughput and VecAXPY per-               sf unpack(µs)         35.7    35.7     37.4     46.7    81.2    138.8
+formance observed on a node on a logarithmic scale. GPUs                    sf scatter(µs)        35.6    35.7     37.4     46.7    81.2    140.5
+perform significantly better than the 42 CPU cores toward the
+right side of the graph, while CPUs are faster toward the left.                Timings for sf pingpong are regularly 6 µs larger than for
+The rightmost plot presents an alternative view of the same data,          osu pingpong. Of these, 4 µs is in cudaStreamSynchronize,
+known as a static scaling or work-time spectrum plot [25, 26].             around 1 µs is spent on cudaPointerGetAttributes to get
+This view may appear confusing at first because the quantity               the memory types of the two data pointer arguments, and the
+being controlled (the vector size) does not appear on any of               software stack overhead of PetscSF is about 1 µs. Compared
+the plot axes, but it has the advantage that both the asymp-               with sf pingpong, sf unpack has an extra unpack kernel call af-
+totic bandwidth and the operations’ latency can be directly read.          ter MPI Waitall (ref. Figure 5(b)). For small messages (<2
+From the work-time spectrum plot, it is clear that the GPUs can            MB), sf unpack timings are about 11 µs larger than sf ping-
+deliver much higher memory bandwidth and throughput, while                 pong, which is about a CUDA kernel launch cost. For large
+the CPUs offer much lower latency.                                         messages, kernel execution time becomes prominent. With sf -
+                                                                           scatter, we add local communication with a bandwidth-limited
+5.2. Communication operations with PetscSF                                 kernel performing dst[i] += src[i]. For 4 MB of data, its
+    This section presents performance results for some simple              execution time is about 14 µs, including both read and write.
+PetscSF tests, related directly to Responses A2, A4, and A5.               Even including the kernel launch time, the local communica-
+The first few tests are of Ping-Pong style between two MPI                 tion time is always smaller than the MPI Ping-Pong latency,
+ranks. The last test represents communications in stencil com-             which means that it is hidden by remote communication. The
+putations with multiple MPI ranks. All tests use MPI DOUBLE                sf scatter time is almost always equal to sf unpack time except
+as the data type, and root/leaf data is allocated in GPU memory.           at 4 MB, where we hypothesize some memory system interfer-
+Results shown here are an excerpt from a complete analysis,                ence between MPI and the unpack kernel.
+involving additional rank placements, given in [28].
+                                                                           5.2.2. Stencil communication
+                                                                               We now consider communications in a 5-point stencil com-
+5.2.1. Ping-pong tests
+                                                                           putation. We build a periodic 2D grid using PETSc DMDA over
+    In a first test, sf pingpong, we consider a star-forest with           a 3 × 3 processor grid and compare two different configura-
+n contiguous roots on rank 0 and n contiguous leaves on rank               tions for process placement: the first using nine compute nodes,
+1, with leaf i connecting to root i for i in [0, n). The test re-
+                                                                           each using one GPU per node, and the second using three com-
+peatedly calls PetscSFBcast and PetscSFReduce and mim-
+                                                                           pute nodes, each using three GPUs (all attached to the same
+ics the OSU latency test from [29], which is commonly used                 CPU) per node. In both configurations, the GPUs are not shared
+to measure the latency of MPI sends and receives. No pack                  among the MPI ranks. Work and communication loads are
+or unpack kernels or intermediate buffers are needed, and the              evenly distributed: for instance, with three nodes, each rank
+root/leaf data is used directly in MPI calls. In a second test,
+                                                                           communicates with two intranode neighbors and two internode
+called sf unpack, we consider the same star forest but using the
+                                                                           neighbors.
+PetscSFBcastAndOp(..,op) and PetscSFReduce(..,op)
+                                                                               Each process owns a n × n subgrid and has to communicate
+API with op=MPI SUM in the loop body, so that root values are              the n values of the four sides of its subgrid with the correspond-
+added to leaves and vice versa. In this case, PetscSF needs to             ing neighbors. On each process, global vectors have a local
+                                                                      10
+Figure 6: Effect of vector length on vector performance and memory throughput (one MPI rank per GPU). The plot on the right depicts a work-time spectrum view
+[25, 26] of the data, from which latency and asymptotic bandwidth can be directly read.
+
+
+
+length of n2 , while local vectors have a length of (n + 2)2 , in-                 framework PCMG uses only front-end calls and can thus run en-
+cluding ghost points along the four sides. DMGlobalToLocal                         tirely on the GPU in the solve phase by exploiting available
+updates local vectors from global vectors, while the reverse is                    optimized back-end kernels.
+done with DMLocalToGlobal. Both use PetscSF functionality                               We use the PETSc SNES ex19 tutorial and employ Jacobi-
+under the hood. In this example, local communication involves                      preconditioned Chebyshev smoothers on all levels but the coars-
+the entire owned part of a global vector and the interior part                     est, where a redundant direct solver is executed on the CPU. An
+(excluding ghost points) of a local vector, while remote com-                      initial 4×4 grid is refined 10 times, resulting in a problem with
+munication involves packing and unpacking values along the                         37.8 million degrees of freedom. The experiments reported here
+four sides of a global vector and ghost points of a local vector.                  consider two types of multigrid cycles: a V-cycle, which begins
+Because the indices for these values have a structured pattern,                    at the finest level, visits each coarser level successively, and
+PetscSF can optimize the pack and unpack kernels and avoid                         then incrementally returns up to the finest level, and a W-cycle,
+copying the indices to GPUs.                                                       which begins by descending from the finest level to the coars-
+                                                                                   est as in a V-cycle but performs more sweeps on coarse levels,
+Table 2: Average one-way latency of stencil updates with respect to subgrid
+size n. Message size between a pair of MPI ranks is 8 n bytes.
+                                                                                   moving from fine to coarser levels during a gradual return to
+                                                                                   the finest level. In both cases, we use 9 levels of the multigrid
+ Subgrid size n      64   128 256 512 1024 2048 4096                               hierarchy. Level 0 is the coarsest, and level 8 is the finest.
+ 9 nodes(µs)       45.0   46.0 46.3 47.1 57.1 139.9 499.9                               The results use 24 MPI ranks, since this number yields the
+ 3 nodes(µs)       75.8   75.9 75.9 76.0 83.0 139.0 498.3                          fastest overall solution time, enabling sufficient use of the CPUs
+                                                                                   without incurring too much overhead from sharing the 6 GPUs
+    Similar to the Ping-Pong tests, we call DMGlobalToLocal                        For the problem studied here, the total solve times are equal
+and DMLocalToGlobal in a loop and measure the average one-                         when using V- or W-cycles when running on the CPU, but we
+way latency, shown in Table 2. Latency remains constant with                       examine both cases because of the importance of W-cycles for
+small subgrids (n ≤ 512) for both the nine-node and three-node                     other problems and because the larger time spent on the coarser
+configurations because remote communication hides local com-                       levels requires application of Response A3.
+munication. Within this range of sizes, the nine-node configu-                          Figure 7 compares the time spent on each level of the multi-
+ration is faster because internode GPU MPI latency is smaller                      grid solve for the CPU-only and GPU cases. For the V-cycle,
+than intranode latency for messages ≤ 128 KB [28]. With larger                     the high latency for GPU operations is clear in the plateau be-
+subgrids, local communication costs (proportional to n2 ) dom-                     tween levels 1 to 5; although level 5 is 237 times larger than
+inate remote communication cost (proportional to 4n); when                         level 1, the time spent on the two levels is nearly identical. In-
+n ≥ 2048, both configurations perform similarly since the dif-                     stead, the CPU is capable of much lower-latency solves, and it
+ference in MPI remote communication time is hidden by the                          is significantly faster than the GPU for levels 0–4. Because the
+local communication time.                                                          bulk of the computational cost is on the finer levels, the total
+                                                                                   application time for the multigrid preconditioner on the GPU is
+5.3. 2D driven cavity with geometric multigrid                                     6.5 times faster than utilizing only the CPU. Running levels 0 to
+    We examine the performance of the PETSc GPU infras-                            4 on the CPU while using the GPU only on the expensive fine
+tructure with the CUDA back-end on a straightforward appli-                        levels could produce a 10% performance improvement (details
+cation of geometric multigrid to a two-dimensional nonlinear                       not shown).
+lid-driven cavity benchmark in a velocity-vorticity formulation                         With the W-cycle multigrid, the pure GPU solver is only
+discretized by using a standard 5-point finite-difference sten-                    15% faster than the pure CPU solver, since the coarser levels
+cil on a Cartesian structured mesh. PETSc’s built-in multigrid
+                                                                              11
+                                           Total Time Per Multigrid Level, CPU vs. GPU (lower is better)            tion counts that is folded into the inefficiency) because the lines
+                                100                                                                                 are almost flat, up to 512 nodes of Summit. The slower per-
+                                                                                                                    formance of Kokkos Kernels is due to PETSc’s explicitly com-
+                                 10
+   Wall-clock time (seconds)
+
+
+
+
+                                                                                                                    puting a transpose for matrix transpose multiply, which Kokkos
+                                  1
+                                                                                                                    does not do. We note that Kokkos is faster when configured
+                                                                                                                    with using the cuSPARSE kernels (data not shown).
+                                 0.1
+
+                                                                                    V-cycles, CPU
+                                                                                    V-cycles, GPU
+                                0.01
+                                                                                   W-cycles, CPU
+                                                                                   W-cycles, GPU
+                                                      W-cycles, GPU+CPU, levels 0-4 bound to CPU
+                               0.001
+                                       0     1        2        3         4         5       6         7     8
+                                                             Grid level (0 is coarsest)
+
+
+Figure 7: Time spent on each level of the multigrid solve for the driven cavity
+example run on one node, using V-cycles and W-cycles and running 24 ranks
+purely on the CPU or sharing 6 GPUs. With the W-cycle, the best performance
+is obtained by binding levels 0–4 to execute purely on the CPU and using the
+GPUs for levels 5–8.                                                                                                Figure 8: Solve time (sec) for 10 solves of a 3D Laplacian with Q2 elements,
+                                                                                                                    a relative residual tolerance of 10−12 , configured with six ‘resource sets’ (r6)
+                                                                                                                    on each Summit node, each with one GPU (g1) and 4 MPI processes (a4):
+are visited many more times than with the V-cycle. Again, by                                                        cuSparse (left), Kokkos with Kokkos Kernels back-end (right).
+running levels 0 to 4 on the CPU, we avoid paying the high la-
+tency costs and achieve a speedup of 4.3 versus the pure CPU
+case. Note that the higher cost of level 4 is expected, since this
+                                                                                                                    5.5. OpenFOAM: An application perspective
+includes data transfers between the GPU and CPU that must
+occur between levels 4 and 5. Although binding the coarse                                                                PETSc users often utilize only its Krylov solver infrastruc-
+levels to the CPU significantly improves the performance of                                                         ture KSP, while managing time loops and nonlinear solution
+the W-cycle, this strategy should be combined with agglom-                                                          methods within the application. One example is OpenFOAM
+eration of pieces of the coarse levels onto a smaller collection                                                    [31], and its solver plugin PETSc4FOAM [32], where matrices
+of MPI ranks so that Response A3 can be used. Support for                                                           and vectors are computed on the CPU and passed to PETSc to
+such agglomeration currently exists in PETSc [30], and we will                                                      solve the linear system.
+improve the multigrid infrastructure to make this happen in an                                                           To showcase the capabilities of the PETSc GPU solver in-
+automatic, GPU-aware way.                                                                                           frastructure, we consider the time needed to perform twenty
+                                                                                                                    timesteps of a three-dimensional incompressible lid-driven cav-
+5.4. Algebraic multigrid on GPUs                                                                                    ity flow solver with a structured grid of 8 million cells [33]. The
+                                                                                                                    miniapp requires solving three momentum equations (one for
+    Responses to F3 and A3 of performance portability is demon-
+                                                                                                                    each direction) and two pressure equations at each time step.
+strated by a scaling study with PETSc’s built-in algebraic multi-
+                                                                                                                    Each momentum solve uses five iterations of BiCGstab precon-
+grid (AMG) solver, PCGAMG, using cuSPARSE and Kokkos (with
+                                                                                                                    ditioned with block-diagonal ILU(0), while the pressure equa-
+Kokkos Kernels) back-ends on our most mature device, CUDA
+                                                                                                                    tions are solved to a relative tolerance of 10−4 using the con-
+(see Figure 2, upper left). Both solvers share the same MPI
+                                                                                                                    jugate gradient method preconditioned with AMG. All PETSc
+layer. PCGAMG uses the PCMG framework and can thus take ad-
+                                                                                                                    solvers are set up on the CPU and run entirely on the GPU us-
+vantage of optimized back-end operations. This ability to ab-
+                                                                                                                    ing the cuSPARSE back-end. The miniapp is run using one
+stract the AMG algorithm with standard sparse linear algebra
+                                                                                                                    node from 1 MPI process with 1 GPU to 24 MPI processes and
+has facilitated its widespread use in the PETSc and wider com-
+                                                                                                                    4 GPUs, with a one-to-one mapping between MPI processes
+putational science community. GPU implementations of parts
+                                                                                                                    and GPU up to 6 MPI processes; when using 12 (resp. 24) pro-
+of the setup phase of PCGAMG are under development, such as
+                                                                                                                    cesses, each GPU is shared by 2 (resp. 4) MPI processes.
+the maximal independent set algorithm for graph coarsening
+                                                                                                                         Timing results are collected in Figure 9. In the upper left
+and the matrix triple product for coarse-grid construction.
+                                                                                                                    corner we compare the miniapp total time using the native Open-
+    PETSc’s built-in FEM functionality is used to discretize the
+                                                                                                                    FOAM CPU solvers and the PETSc GPU solvers as a function
+Laplacian operator with second-order elements. Each MPI pro-
+                                                                                                                    of the number of processes in a log-log plot. The speedups
+cess has a logical cube of hexahedral cells, with 24 such pro-
+                                                                                                                    range from 4 (with 1 MPI process) to 1.4 (with 24 processes).
+cesses per node (i.e., 4 MPI tasks per GPU). Increasingly larger
+                                                                                                                    The two panels on the bottom row for the pressure equations
+grids are generated by uniform refinements.
+                                                                                                                    (left) and the momentum equations (right), report timings for
+    Figure 8 shows performance data for the solve phase with
+                                                                                                                    the various PETSc computational phases, namely, Mat for op-
+several subdomain sizes as a function of the number of nodes,
+                                                                                                                    erator assembly, PC for preconditioner setup, and KSP for the
+keeping the same number of cells per MPI task, that is, weak
+                                                                                                                    Krylov method. Preconditioner setup runs on the CPU and
+scaling where horizontal lines are perfect. This shows that MPI
+                                                                                                                    tends to dominate the timings with larger local problems; how-
+parallel scaling is fairly good (there is a slight increase in itera-
+                                                                                                                    ever, these phases scale reasonably well with the number of
+                                                                                                               12
+CPU processes. On the other hand, the pure GPU phases of                           Q3 elements (992 integration points). Figure 10 shows the time
+the Krylov methods scale well only up to 6 MPI processes (1                        for the construction of the Jacobian matrix, the GPU kernel, and
+GPU each), and then computing times tend to increase with                          the CPU matrix assembly and solve as a function of the num-
+GPU oversubscription and smaller problem sizes. We expect                          ber of species. Only the Landau kernel has been ported to the
+improvements when the techniques highlighted in Response A3                        GPU. We observe that the times increase linearly with the num-
+will be fully implemented. Operators assembly only occupies                        ber of species in the GPU kernel. This implies that the kernel
+a small fraction of the total time thanks to the optimized COO                     is memory bound and not compute bound as the work increases
+assembly routine MatSetValuesCOO that relates to Response                          quadratically with the number of species. The serial matrix as-
+A4. To quantify the benefits, in the upper-right corner, we pro-                   sembly times increase quadratically. Porting the matrix assem-
+vide a log-log plot of the timings using MatSetValuesCOO or                        bly to the GPU is the subject of ongoing development.
+the standard loop with MatSetValues.
+
+
+
+
+                                                                                   Figure 10: Times (sec) for Landau Jacobian construction written in CUDA (left)
+                                                                                   and Kokkos (right)
+
+
+
+                                                                                       The Kokkos version is a little slower and required a rewrite
+                                                                                   of the Landau kernel to use a variable-length C++ 5D array
+                                                                                   (VLA) instead of a hardwired C array in the CUDA version,
+                                                                                   and the inner (third level of hierarchical parallelism in the algo-
+                                                                                   rithm) loop used a Kokkos parallel reduce instead of a manual
+Figure 9: OpenFOAM miniapp timings. Upper-left panel: total time us-
+                                                                                   parallel loop and reduce in the CUDA version. The VLA cre-
+ing native OpenFOAM or PETSc GPU solvers. Upper-right panel: assembly              ates extra overhead in abstraction but benefits from a cleaner
+times using MatSetValues or MatSetValuesCOO. Bottom row: breakdown                 and more maintainable code. We are working with NVIDIA
+of PETSc solver timings for pressure (left) and momentum equations (right).        engineers to understand the performance of both GPU imple-
+                                                                                   mentations.
+
+
+5.6. Landau collision integral solver                                              6. Conclusion
+    We show progress on performance portability with an anal-                          This paper has explored and summarized our steady progress
+ysis of PETSc’s new Landau collision operator with two im-                         toward providing performance-portable high-throughput math-
+plementations of the CUDA programming model: CUDA and                              ematical library support for GPUs. The back-end code is mostly
+Kokkos. In collaboration with the WDMApp ECP project, we                           completed for CUDA and Kokkos and roughly half-completed
+have deployed a Landau collision integral solver in PETSc [34].                    for HIP, and we are beginning to provide support for SYCL.
+This operator is wrapped in TS residual and Jacobian functions                     In each case, we have utilized the corresponding mathemati-
+and uses standard algebraic solvers to provide an implicit time                    cal libraries provided by third parties to leverage optimizations
+advance of the collision operator for kinetic plasma physics ap-                   developed within the community. We have also provided a
+plications.                                                                        blueprint for adding performance-portable PETSc utilization to
+    The Landau form of Fokker-Planck collisions is a veloc-                        PETSc application codes. PETSc can now run complete alge-
+ity space operator and is the gold standard for fusion plasmas.                    braic solvers on the GPU, and we have begun developing on-
+The kernel is well suited to vector and GPU processing, and                        device matrix assembly support, thus opening the door for PDE
+we have implemented CUDA and Kokkos versions of the GPU                            simulation applications to more completely utilize GPU-based
+kernel. Our Landau operator uses the mesh adaptivity library                       exascale computing systems.
+p4est, used by the DMForest class. Adaptive meshes reduce the                          In addition, we have summarized the many technical chal-
+cost of resolving plasma distributions such as near Maxwellian                     lenges faced in utilizing GPUs in performance-portable libraries
+distributions, which are concentrated at the origin, and the addi-                 and the techniques PETSc uses to meet them. The key is-
+tion of fast alpha particles, which require that a larger velocity                 sue identified is the provision of an uninterrupted stream of in-
+domain be resolved.                                                                structions to the compute cores for highest possible data band-
+    The Landau solver’s performance is tested on one node us-                      widths on the GPUs or in combination with the CPUs. We
+ing one MPI process with one GPU. This test problem has 62
+                                                                              13
+have discussed how the organization of PETSc’s communica-                             [13] NVIDIA, NVIDIA OpenSHMEM library (NVSHMEM) documentation,
+tion module and object management, in particular, will allow                               https://docs.nvidia.com/hpc-sdk/nvshmem/api/docs/introduction.html
+                                                                                           (2020).
+us to achieve exascale performance, and we have noted that no                         [14] Open Source Software Solutions, Inc., OpenSHMEM application pro-
+crucial outstanding technical problems remain.                                             gramming interface v1.5, http://www.openshmem.org/ (2020).
+                                                                                      [15] S. Filippone, V. Cardellini, D. Barbieri, A. Fanfarillo, Sparse matrix-
+                                                                                           vector multiplication on GPGPUs, ACM Trans. Math. Softw. 43 (4) (Jan.
+Acknowledgments                                                                            2017). doi:10.1145/3017994.
+                                                                                      [16] A. Haidar, S. Tomov, J. Dongarra, N. J. Higham, Harnessing GPU ten-
+This work was supported by the Exascale Computing Project                                  sor cores for fast FP16 arithmetic to speed up mixed-precision iterative
+(17-SC-20-SC), a collaborative effort of two US Department of                              refinement solvers, in: SC18: International Conference for High Perfor-
+                                                                                           mance Computing, Networking, Storage and Analysis, IEEE, 2018, pp.
+Energy organizations (Office of Science and the National Nu-                               603–613.
+clear Security Administration), responsible for the planning and                      [17] O. Zachariadis, N. Satpute, J. Gómez-Luna, J. Olivares, Accelerating
+preparation of a capable exascale ecosystem, including soft-                               sparse matrix–matrix multiplication with GPU tensor cores, Computers
+ware, applications, hardware, advanced system engineering, and                             & Electrical Engineering 88 (2020) 106848.
+                                                                                      [18] P. Blanchard, N. J. Higham, F. Lopez, T. Mary, S. Pranesh, Mixed pre-
+early testbed platforms, in support of the nation’s exascale com-                          cision block fused multiply-add: Error analysis and application to GPU
+puting imperative, and by the Austrian Science Fund (FWF) un-                              tensor cores, SIAM Journal on Scientific Computing 42 (3) (2020) C124–
+der grant P29119-N30. This research used resources of the Ar-                              C141.
+gonne and Oak Ridge Leadership Computing Facilities, DOE                              [19] V. Minden, B. F. Smith, M. G. Knepley, Preliminary implementation of
+                                                                                           PETSc using GPUs, in: D. A. Yuen, L. Wang, X. Chi, L. Johnsson, W. Ge,
+Office of Science User Facilities supported under Contracts DE-                            Y. Shi (Eds.), GPU Solutions to Multi-scale Problems in Science and En-
+AC02-06CH11357 and DE-AC05-00OR22725, respectively.                                        gineering, Lecture Notes in Earth System Sciences, Springer Berlin Hei-
+                                                                                           delberg, 2013, pp. 131–140. doi:10.1007/978-3-642-16405-7_7.
+                                                                                      [20] H. Anzt, E. Boman, R. Falgout, P. Ghysels, M. Heroux, X. Li, L. Curf-
+References                                                                                 man McInnes, R. Tran Mills, S. Rajamanickam, K. Rupp, et al., Preparing
+                                                                                           sparse solvers for exascale computing, Philosophical Transactions of the
+ [1] S. Balay, S. Abhyankar, M. F. Adams, J. Brown, P. Brune, K. Buschelman,               Royal Society A 378 (2166) (2020) 20190053.
+     L. Dalcin, A. Dener, V. Eijkhout, W. D. Gropp, D. Karpeyev, D. Kaushik,          [21] K. Rupp, P. Tillet, F. Rudolf, J. Weinbub, A. Morhammer, T. Grasser,
+     M. G. Knepley, D. A. May, L. C. McInnes, R. T. Mills, T. Munson,                      A. Jungel, S. Selberherr, ViennaCL—linear algebra library for multi-and
+     K. Rupp, P. Sanan, B. F. Smith, S. Zampini, H. Zhang, H. Zhang, PETSc                 many-core architectures, SIAM Journal on Scientific Computing 38 (5)
+     users manual, Tech. Rep. ANL-95/11 - Revision 3.13, Argonne National                  (2016) S412–S439.
+     Laboratory, https://www.mcs.anl.gov/petsc (2020).                                [22] P. Jolivet, J. E. Roman, S. Zampini, KSPHPDDM and PCHPDDM: Ex-
+ [2] H. C. Edwards, C. R. Trott, D. Sunderland, Kokkos: Enabling many-                     tending PETSc with robust overlapping Schwarz preconditioners and ad-
+     core performance portability through polymorphic memory access pat-                   vanced Krylov methods, Computers & Mathematics with Applications 84
+     terns, Journal of Parallel and Distributed Computing 74 (12) (2014) 3202–             (2021) 277–295. doi:10.1016/j.camwa.2021.01.003.
+     3216, Domain-Specific Languages and High-Level Frameworks for High-              [23] J. Zhang, J. Brown, S. Balay, J. Faibussowitsch, M. Knepley, O. Marin,
+     Performance Computing. doi:10.1016/j.jpdc.2014.07.003.                                R. T. Mills, T. Munson, B. F. Smith, S. Zampini, The PetscSF scalable
+ [3] D. A. Beckingsale, J. Burmark, R. Hornung, H. Jones, W. Killian, A. J.                communication layer, IEEE Transactions on Parallel & Distributed Sys-
+     Kunen, O. Pearce, P. Robinson, B. S. Ryujin, T. R. Scogland, RAJA:                    tems (2021). doi:10.1109/TPDS.2021.3084070.
+     Portable performance for large-scale scientific applications, in: 2019           [24] F. G. Van Zee, D. N. Parikh, R. A. van de Geijn, Supporting mixed-
+     IEEE/ACM International Workshop on Performance, Portability and Pro-                  domain mixed-precision matrix multiplication within the BLIS frame-
+     ductivity in HPC (P3HPC), IEEE, 2019, pp. 71–81.                                      work, ACM Transactions on Mathematical Software 47 (2) (2021). doi:
+ [4] Khronos SYCL Working Group, SYCL specification: Generic het-                          10.1145/3402225.
+     erogeneous computing for modern C++, https://www.khronos.org/-                   [25] J. Chang, K. Nakshatrala, M. G. Knepley, L. Johnsson, A performance
+     registry/SYCL/specs/sycl-2020-provisional.pdf (2020).                                 spectrum for parallel computational frameworks that solve PDEs, Concur-
+ [5] NVIDA, CUDA C++ programming guide, https://docs.nvidia.com/cuda/-                     rency and Computation: Practice and Experience 30 (11) (2018) e4401.
+     pdf/CUDA C Programming Guide.pdf (2020).                                         [26] J. Chang, M. S. Fabien, M. G. Knepley, R. T. Mills, Comparative study
+ [6] AMD, HIP programming guide, https://rocmdocs.amd.com/en/latest/-                      of finite element methods using the time-accuracy-size (TAS) spectrum
+     Programming Guides/HIP-GUIDE.html (2020).                                             analysis, SIAM Journal on Scientific Computing 40 (6) (2018) C779–
+ [7] J. E. Stone, D. Gohara, G. Shi, OpenCL: A parallel programming standard               C802.
+     for heterogeneous computing systems, Computing in science & engineer-            [27] H. M. Morgan, R. T. Mills, B. Smith, Evaluation of PETSc on a hetero-
+     ing 12 (3) (2010) 66–73.                                                              geneous architecture, the OLCF Summit system: Part I: Vector node per-
+ [8] J. Brown, M. G. Knepley, D. A. May, L. C. McInnes, B. F. Smith, Com-                  formance, Tech. Rep. ANL-19/41, Argonne National Laboratory (2020).
+     posable linear solvers for multiphysics, in: Proceeedings of the 11th In-             doi:10.2172/1614879.
+     ternational Symposium on Parallel and Distributed Computing (ISPDC               [28] J. Zhang, R. T. Mills, B. F. Smith, Evaluation of PETSc on a heteroge-
+     2012), IEEE Computer Society, 2012, pp. 55–62.                                        neous architecture, the OLCF Summit system: Part II: Basic communica-
+ [9] J. Reinders, B. Ashbaugh, J. Brodman, M. Kinsner, J. Pennycook,                       tion performance, Tech. Rep. ANL-20/76, Argonne National Laboratory
+     X. Tian, Data parallel C++: Mastering DPC++ for programming of het-                   (2020).
+     erogeneous systems using C++ and SYCL (2020).                                    [29] D. Panda, et al., OSU microbenchmarks v5.6.2, http://mvapich.cse.ohio-
+[10] S. Pennycook, S. Hammond, S. Wright, J. Herdman, I. Miller, S. Jarvis,                state.edu/benchmarks/ (2019).
+     An investigation of the performance portability of OpenCL, Journal of            [30] D. A. May, P. Sanan, K. Rupp, M. G. Knepley, B. F. Smith, Extreme-scale
+     Parallel and Distributed Computing 73 (11) (2013) 1439–1450.                          multigrid components within PETSc, in: Proceedings of the Platform for
+[11] N. Dryden, N. Maruyama, T. Moon, T. Benson, A. Yoo, M. Snir, B. Van                   Advanced Scientific Computing Conference, PASC ’16, Association for
+     Essen, Aluminum: An asynchronous, GPU-aware communication library                     Computing Machinery, New York, NY, USA, 2016, pp. 1–12.
+     optimized for large-scale training of deep neural networks on HPC sys-           [31] The OpenFOAM Foundation, OpenFOAM, https://openfoam.org/ (2020).
+     tems, in: 2018 IEEE/ACM Machine Learning in HPC Environments                     [32] S.     Bna,       M.    Olesen,      S.   Zampini,       PETSc4FOAM,
+     (MLHPC), 2018, pp. 1–13. doi:10.1109/MLHPC.2018.8638639.                              https://develop.openfoam.com/modules/external-solver (2020).
+[12] NVIDIA, NVIDIA collective communication library (NCCL) documen-                  [33] OpenFOAM HPC benchmark suite: 3D lid driven cavity flow,
+     tation, https://docs.nvidia.com/deeplearning/nccl/archives/nccl 278/user-             https://develop.openfoam.com/committees/hpc/-/tree/develop/Lid -
+     guide/docs/index.html (2020).
+
+                                                                                 14
+     driven cavity-3d/M (2020).
+[34] M. F. Adams, E. Hirvijoki, M. G. Knepley, J. Brown, T. Isaac, R. Mills,
+     Landau collision integral solver with adaptive mesh refinement on emerg-
+     ing architectures, SIAM Journal on Scientific Computing 39 (6) (2017)
+     C452–C465. doi:10.1137/17M1118828.
+
+
+
+
+                                                                                15
+The submitted manuscript has been created by UChicago Argonne, LLC,
+Operator of Argonne National Laboratory (“Argonne”). Argonne, a US
+Department of Energy Office of Science laboratory, is operated under
+Contract No. DE-AC02-06CH11357. The US Government retains for
+itself, and others acting on its behalf, a paid-up nonexclusive, irrevo-
+cable worldwide license in said article to reproduce, prepare deriva-
+tive works, distribute copies to the public, and perform publicly and
+display publicly, by or on behalf of the Government. The Depart-
+ment of Energy will provide public access to these results of federally
+sponsored research in accordance with the DOE Public Access Plan.
+http://energy.gov/downloads/doe-public-accessplan
+
+
+
+
+                                  16
+

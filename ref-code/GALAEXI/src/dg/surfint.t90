@@ -1,0 +1,833 @@
+!=================================================================================================================================
+! Copyright (c) 2010-2016  Prof. Claus-Dieter Munz
+! This file is part of FLEXI, a high-order accurate framework for numerically solving PDEs with discontinuous Galerkin methods.
+! For more information see https://www.flexi-project.org and https://nrg.iag.uni-stuttgart.de/
+!
+! FLEXI is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
+! as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! FLEXI is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+! of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License v3.0 for more details.
+!
+! You should have received a copy of the GNU General Public License along with FLEXI. If not, see <http://www.gnu.org/licenses/>.
+!=================================================================================================================================
+#include "flexi.h"
+
+!==================================================================================================================================
+!> In this routine, the surface integral will be computed
+!==================================================================================================================================
+PPURE SUBROUTINE SurfInt(&
+#ifdef WITHnVars
+        TP_nVar, &
+#endif
+        Nloc,Flux_master,Flux_slave,Ut,doMPISides,L_HatMinus,L_HatPlus)
+! MODULES
+USE MOD_Globals
+USE MOD_PreProc
+USE MOD_Mesh_Vars ,ONLY: SideToElem,nSides
+USE MOD_Mesh_Vars ,ONLY: firstMPISide_YOUR,lastMPISide_MINE
+USE MOD_Mesh_Vars ,ONLY: S2V2,nElems
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+#ifdef WITHnVars
+INTEGER,INTENT(IN) :: TP_nVar     !< number of variables
+#endif
+INTEGER,INTENT(IN) :: Nloc        !< (IN) Polynomial degree
+LOGICAL,INTENT(IN) :: doMPISides  !<= .TRUE. only MPISides_YOUR+MPIMortar are filled
+                                  !<=.FALSE. BCSides+(Mortar-)InnerSides+MPISides_MINE
+REAL,INTENT(IN)    :: Flux_master(1:TP_nVar,0:Nloc,0:ZDIM(Nloc),nSides) !< (IN) Flux on master side
+REAL,INTENT(IN)    :: Flux_slave (1:TP_nVar,0:Nloc,0:ZDIM(Nloc),nSides) !< (IN) Flux on slave side
+!> (IN) Lagrange polynomials evaluated at \f$\xi=+1\f$ and \f$\xi=-1\f$ and premultiplied by mass matrix
+REAL,INTENT(IN)    :: L_HatPlus(0:Nloc),L_HatMinus(0:Nloc)
+REAL,INTENT(INOUT) :: Ut(TP_nVar,0:Nloc,0:Nloc,0:ZDIM(Nloc),1:nElems)   !< (INOUT) Time derivative of the solution
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER            :: ElemID,nbElemID,locSideID,nblocSideID,SideID,p,q,flip
+INTEGER            :: firstSideID,lastSideID
+REAL               :: FluxTmp(1:TP_nVar,0:Nloc,0:ZDIM(Nloc))
+!==================================================================================================================================
+
+IF(doMPISides)THEN
+  ! MPI YOUR
+  firstSideID = firstMPISide_YOUR
+   lastSideID = nSides
+ELSE
+  ! inner sides and MPI mine
+  firstSideID = 1
+   lastSideID = lastMPISide_MINE
+END IF
+
+DO SideID=firstSideID,lastSideID
+  ElemID      = SideToElem(S2E_ELEM_ID,   SideID)
+  nbElemID    = SideToElem(S2E_NB_ELEM_ID,SideID)
+
+  ! master sides
+  IF(ElemID.GT.0)THEN
+    locSideID = SideToElem(S2E_LOC_SIDE_ID,SideID)
+    flip      = 0
+    ! orient flux to fit flip and locSide to element local system
+    DO q=0,ZDIM(Nloc); DO p=0,Nloc
+      ! note: for master sides, the mapping S2V2 should be a unit matrix
+      FluxTmp(:,S2V2(1,p,q,flip,locSideID),S2V2(2,p,q,flip,locSideID)) = Flux_master(:,p,q,SideID)
+    END DO; END DO ! p,q
+#if (PP_NodeType==1 || (PP_NodeType==2 && defined(EXACT_MM)))
+      CALL DoSurfInt(&
+#ifdef WITHnVars
+          TP_nVar, &
+#endif
+          Nloc,FluxTmp,L_HatMinus,   L_HatPlus,      locSideID,Ut(:,:,:,:,ElemID))
+#elif (PP_NodeType==2 && !defined(EXACT_MM))
+      CALL DoSurfInt(&
+#ifdef WITHnVars
+          TP_nVar, &
+#endif
+          Nloc,FluxTmp,L_HatMinus(0),L_HatPlus(Nloc),locSideID,Ut(:,:,:,:,ElemID))
+#endif
+  END IF
+
+  ! slave sides
+  IF(nbElemID.GT.0)THEN
+    nblocSideID = SideToElem(S2E_NB_LOC_SIDE_ID,SideID)
+    flip        = SideToElem(S2E_FLIP,SideID)
+    ! orient flux to fit flip and locSide to element local system
+    DO q=0,ZDIM(Nloc); DO p=0,Nloc
+      ! p,q are in the master RHS system, they need to be transformed to the slave volume system using S2V2 mapping
+      FluxTmp(:,S2V2(1,p,q,flip,nblocSideID),S2V2(2,p,q,flip,nblocSideID))=-Flux_slave(:,p,q,SideID)
+    END DO; END DO ! p,q
+#if (PP_NodeType==1 || (PP_NodeType==2 && defined(EXACT_MM)))
+      CALL DoSurfInt(&
+#ifdef WITHnVars
+          TP_nVar, &
+#endif
+          Nloc,FluxTmp,L_HatMinus,   L_HatPlus,      nblocSideID,Ut(:,:,:,:,nbElemID))
+#elif (PP_NodeType==2 && !defined(EXACT_MM))
+      CALL DoSurfInt(&
+#ifdef WITHnVars
+          TP_nVar, &
+#endif
+          Nloc,FluxTmp,L_HatMinus(0),L_HatPlus(Nloc),nblocSideID,Ut(:,:,:,:,nbElemID))
+#endif
+  END IF
+END DO ! SideID=1,nSides
+END SUBROUTINE SurfInt
+
+#if FV_ENABLED
+!==================================================================================================================================
+!> Update DG time derivative with corresponding SurfInt contribution
+!> Weak surface integral
+!==================================================================================================================================
+PPURE SUBROUTINE SurfInt_FV(&
+#ifdef WITHnVars
+        TP_nVar, &
+#endif
+        Nloc,Flux,FV_w_inv,locSideID,Ut)
+!MODULES
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+#ifdef WITHnVars
+INTEGER,INTENT(IN) :: TP_nVar
+#endif
+INTEGER,INTENT(IN) :: Nloc
+REAL,INTENT(IN)    :: Flux(TP_nVar,0:Nloc,0:ZDIM(Nloc))
+REAL,INTENT(IN)    :: FV_w_inv(0:Nloc)
+INTEGER,INTENT(IN) :: locSideID
+REAL,INTENT(INOUT) :: Ut(TP_nVar,0:Nloc,0:Nloc,0:ZDIM(Nloc))
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+!==================================================================================================================================
+SELECT CASE(locSideID)
+CASE(XI_MINUS)
+  Ut(:,0,:,:)   =Ut(:,0,:,:)   +Flux*FV_w_inv(0)
+CASE(ETA_MINUS)
+  Ut(:,:,0,:)   =Ut(:,:,0,:)   +Flux*FV_w_inv(0)
+CASE(ZETA_MINUS)
+  Ut(:,:,:,0)   =Ut(:,:,:,0)   +Flux*FV_w_inv(0)
+CASE(XI_PLUS)
+  Ut(:,Nloc,:,:)=Ut(:,Nloc,:,:)+Flux*FV_w_inv(Nloc)
+CASE(ETA_PLUS)
+  Ut(:,:,Nloc,:)=Ut(:,:,Nloc,:)+Flux*FV_w_inv(Nloc)
+CASE(ZETA_PLUS)
+  Ut(:,:,:,Nloc)=Ut(:,:,:,Nloc)+Flux*FV_w_inv(Nloc)
+END SELECT !locSideID
+END SUBROUTINE SurfInt_FV
+#endif
+
+!==================================================================================================================================
+!> \brief Update DG time derivative with corresponding SurfInt contribution
+!>
+!> Takes the time derivative of a single element and the surface flux on a single side as input and performs the surface integral.
+!> The time derivative will be updated. The Flux has to be provided in the volume coordinate system!
+!==================================================================================================================================
+PPURE SUBROUTINE DoSurfInt(&
+#ifdef WITHnVars
+        TP_nVar, &
+#endif
+        Nloc,Flux,L_HatMinus,L_HatPlus,locSideID,Ut)
+!MODULES
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+#ifdef WITHnVars
+INTEGER,INTENT(IN) :: TP_nVar                          !< Number of variables
+#endif
+INTEGER,INTENT(IN) :: Nloc                             !< Polynomial degree
+INTEGER,INTENT(IN) :: locSideID                        !< sideID of side in global system
+REAL,INTENT(IN)    :: Flux(TP_nVar,0:Nloc,0:ZDIM(Nloc))  !< Flux on side, in volume system of respective element
+!> Lagrange polynomials evaluated at \f$i \xi=+1 \f$ and \f$ \xi=-1 \f$ premultiplied by mass matrix
+#if (PP_NodeType==1 || (PP_NodeType==2 && defined(EXACT_MM)))
+REAL,INTENT(IN)    :: L_HatPlus(0:Nloc),L_HatMinus(0:Nloc)
+#elif (PP_NodeType==2 && !defined(EXACT_MM))
+REAL,INTENT(IN)    :: L_HatPlus,L_HatMinus
+#endif
+REAL,INTENT(INOUT) :: Ut(TP_nVar,0:Nloc,0:Nloc,0:ZDIM(Nloc)) !< Time derivative (will be updated)
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+#if (PP_NodeType==1 || (PP_NodeType==2 && defined(EXACT_MM)))
+INTEGER            :: l
+#endif
+!==================================================================================================================================
+SELECT CASE(locSideID)
+#if (PP_NodeType==1 || (PP_NodeType==2 && defined(EXACT_MM)))
+CASE(XI_MINUS)
+  DO l=0,Nloc
+    Ut(:,l,:,:) =Ut(:,l,:,:)   +Flux*L_hatMinus(l)
+  END DO
+CASE(ETA_MINUS)
+  DO l=0,Nloc
+    Ut(:,:,l,:) =Ut(:,:,l,:)   +Flux*L_hatMinus(l)
+  END DO
+CASE(ZETA_MINUS)
+  DO l=0,Nloc
+    Ut(:,:,:,l) =Ut(:,:,:,l)   +Flux*L_hatMinus(l)
+  END DO
+CASE(XI_PLUS)
+  DO l=0,Nloc
+    Ut(:,l,:,:) =Ut(:,l,:,:)   +Flux*L_hatPlus(l)
+  END DO
+CASE(ETA_PLUS)
+  DO l=0,Nloc
+    Ut(:,:,l,:) =Ut(:,:,l,:)   +Flux*L_hatPlus(l)
+  END DO
+CASE(ZETA_PLUS)
+  DO l=0,Nloc
+    Ut(:,:,:,l) =Ut(:,:,:,l)   +Flux*L_hatPlus(l)
+  END DO
+#elif (PP_NodeType==2 && !defined(EXACT_MM))
+CASE(XI_MINUS)
+  Ut(:,0,:,:)   =Ut(:,0,:,:)   +Flux*L_hatMinus
+CASE(ETA_MINUS)
+  Ut(:,:,0,:)   =Ut(:,:,0,:)   +Flux*L_hatMinus
+CASE(ZETA_MINUS)
+  Ut(:,:,:,0)   =Ut(:,:,:,0)   +Flux*L_hatMinus
+CASE(XI_PLUS)
+  Ut(:,Nloc,:,:)=Ut(:,Nloc,:,:)+Flux*L_hatPlus
+CASE(ETA_PLUS)
+  Ut(:,:,Nloc,:)=Ut(:,:,Nloc,:)+Flux*L_hatPlus
+CASE(ZETA_PLUS)
+  Ut(:,:,:,Nloc)=Ut(:,:,:,Nloc)+Flux*L_hatPlus
+#endif
+END SELECT !locSideID
+END SUBROUTINE DoSurfInt
+
+!==================================================================================================================================
+!> In this routine, the surface integral will be computed
+!==================================================================================================================================
+PPURE SUBROUTINE SurfInt_CUDA(&
+#ifdef WITHnVars
+        TP_nVar, &
+#endif
+        Nloc,d_Flux_master,d_Flux_slave,d_Ut,d_L_HatMinus,d_L_HatPlus,doApplyJacobian,streamID)
+! MODULES
+USE CUDAFOR
+USE MOD_Globals
+USE MOD_PreProc
+USE MOD_GPU       ,ONLY:DefaultStream
+USE MOD_Mesh_Vars ,ONLY:nElems,nSides
+USE MOD_Mesh_Vars ,ONLY:d_S2V2_inv,d_ElemToSide,d_sJ
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+#ifdef WITHnVars
+INTEGER,VALUE,INTENT(IN)    :: TP_nVar     !< number of variables
+#endif
+INTEGER,VALUE,INTENT(IN)    :: Nloc        !< (IN) Polynomial degree
+REAL,DEVICE,INTENT(IN)      :: d_Flux_master(1:TP_nVar,0:Nloc,0:ZDIM(Nloc),nSides) !< (IN) Flux on master side
+REAL,DEVICE,INTENT(IN)      :: d_Flux_slave (1:TP_nVar,0:Nloc,0:ZDIM(Nloc),nSides) !< (IN) Flux on slave side
+!> (IN) Lagrange polynomials evaluated at \f$\xi=+1\f$ and \f$\xi=-1\f$ and premultiplied by mass matrix
+REAL,DEVICE,INTENT(IN)      :: d_L_HatPlus(0:Nloc),d_L_HatMinus(0:Nloc)
+REAL,DEVICE,INTENT(INOUT)   :: d_Ut(TP_nVar,0:Nloc,0:Nloc,0:ZDIM(Nloc),1:nElems)   !< (INOUT) Time derivative of the solution
+LOGICAL,OPTIONAL,INTENT(IN) :: doApplyJacobian
+INTEGER(KIND=CUDA_STREAM_KIND),OPTIONAL,INTENT(IN) :: streamID
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER            :: nDOF
+INTEGER,PARAMETER  :: nThreads=128
+LOGICAL            :: doApplyJacobian_loc
+INTEGER(KIND=CUDA_STREAM_KIND) :: mystream
+!==================================================================================================================================
+mystream=DefaultStream
+IF (PRESENT(streamID)) mystream=streamID
+
+doApplyJacobian_loc = .FALSE.
+IF (PRESENT(doApplyJacobian)) doApplyJacobian_loc=doApplyJacobian
+
+nDOF = nElems*(Nloc+1)**2*(ZDIM(Nloc)+1)
+#if (PP_NodeType==1 || (PP_NodeType==2 && defined(EXACT_MM)))
+CALL SurfInt_Device<<<nDOF/nThreads+1,nThreads,0,mystream>>>(&
+#ifdef WITHnVars
+        TP_nVar, &
+#endif
+        Nloc,nSides,nElems,d_Flux_master,d_Flux_slave,d_Ut,d_sJ,d_L_HatMinus,d_L_HatPlus,d_ElemToSide,d_S2V2_inv,doApplyJacobian_loc)
+#elif (PP_NodeType==2 && !defined(EXACT_MM))
+CALL SurfInt_Device<<<nDOF/nThreads+1,nThreads,0,mystream>>>(&
+#ifdef WITHnVars
+        TP_nVar, &
+#endif
+        Nloc,nSides,nElems,d_Flux_master,d_Flux_slave,d_Ut,d_sJ,d_L_HatMinus(0),d_L_HatPlus(Nloc),d_ElemToSide,d_S2V2_inv,doApplyJacobian_loc)
+#endif
+END SUBROUTINE SurfInt_CUDA
+
+!==================================================================================================================================
+!> In this routine, the surface integral will be computed
+!==================================================================================================================================
+PPURE SUBROUTINE SurfInt_CUDA_Single_Flux(&
+#ifdef WITHnVars
+        TP_nVar, &
+#endif
+        Nloc,d_Flux,d_Ut,d_L_HatMinus,d_L_HatPlus,weak,doApplyJacobian,streamID)
+! MODULES
+USE CUDAFOR
+USE MOD_PreProc
+USE MOD_GPU      ,ONLY:DefaultStream
+USE MOD_Mesh_Vars,ONLY:nElems,nSides
+USE MOD_Mesh_Vars,ONLY:d_S2V2_inv,d_ElemToSide,d_sJ
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+#ifdef WITHnVars
+INTEGER,VALUE,INTENT(IN)    :: TP_nVar     !< number of variables
+#endif
+INTEGER,VALUE,INTENT(IN)    :: Nloc        !< (IN) Polynomial degree
+REAL,DEVICE,INTENT(IN)      :: d_Flux(1:TP_nVar,0:Nloc,0:ZDIM(Nloc),nSides) !< (IN) Flux on master side
+!> (IN) Lagrange polynomials evaluated at \f$\xi=+1\f$ and \f$\xi=-1\f$ and premultiplied by mass matrix
+REAL,DEVICE,INTENT(IN)      :: d_L_HatPlus(0:Nloc),d_L_HatMinus(0:Nloc)
+REAL,DEVICE,INTENT(INOUT)   :: d_Ut(TP_nVar,0:Nloc,0:Nloc,0:ZDIM(Nloc),1:nElems)   !< (INOUT) Time derivative of the solution
+LOGICAL,INTENT(IN)          :: weak
+LOGICAL,OPTIONAL,INTENT(IN) :: doApplyJacobian
+INTEGER(KIND=CUDA_STREAM_KIND),OPTIONAL,INTENT(IN) :: streamID
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER            :: nDOF
+INTEGER,PARAMETER  :: nThreads=128
+LOGICAL            :: doApplyJacobian_loc
+INTEGER(KIND=CUDA_STREAM_KIND) :: mystream
+!==================================================================================================================================
+mystream=DefaultStream
+IF (PRESENT(streamID)) mystream=streamID
+
+doApplyJacobian_loc = .FALSE.
+IF (PRESENT(doApplyJacobian)) doApplyJacobian_loc=doApplyJacobian
+
+nDOF = nElems*(Nloc+1)**2*(ZDIM(Nloc)+1)
+#if (PP_NodeType==1 || (PP_NodeType==2 && defined(EXACT_MM)))
+CALL SurfInt_Device_Single_Flux<<<nDOF/nThreads+1,nThreads,0,mystream>>>(&
+#ifdef WITHnVars
+        TP_nVar, &
+#endif
+        Nloc,nSides,nElems,d_Flux,d_Ut,d_sJ,d_L_HatMinus,d_L_HatPlus,d_ElemToSide,d_S2V2_inv,weak,doApplyJacobian_loc)
+#elif (PP_NodeType==2 && !defined(EXACT_MM))
+CALL SurfInt_Device_Single_Flux<<<nDOF/nThreads+1,nThreads,0,mystream>>>(&
+#ifdef WITHnVars
+        TP_nVar, &
+#endif
+        Nloc,nSides,nElems,d_Flux,d_Ut,d_sJ,d_L_HatMinus(0),d_L_HatPlus(Nloc),d_ElemToSide,d_S2V2_inv,weak,doApplyJacobian_loc)
+#endif
+END SUBROUTINE SurfInt_CUDA_Single_Flux
+
+!==================================================================================================================================
+!> In this routine, the surface integral will be computed
+!==================================================================================================================================
+PPURE ATTRIBUTES(GLOBAL) SUBROUTINE SurfInt_Device(&
+#ifdef WITHnVars
+        TP_nVar, &
+#endif
+        Nloc,nSides,nElems,Flux_master,Flux_slave,Ut,sJ,L_HatMinus,L_HatPlus,ElemToSide,S2V2,doApplyJacobian)
+! MODULES
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+#ifdef WITHnVars
+INTEGER,VALUE,INTENT(IN) :: TP_nVar !< number of variables
+#endif
+INTEGER,VALUE,INTENT(IN) :: Nloc    !< (IN) Polynomial degree
+INTEGER,VALUE,INTENT(IN) :: nSides
+INTEGER,VALUE,INTENT(IN) :: nElems
+REAL,INTENT(IN)          :: Flux_master(1:TP_nVar,0:Nloc,0:ZDIM(Nloc),nSides) !< (IN) Flux on master side
+REAL,INTENT(IN)          :: Flux_slave (1:TP_nVar,0:Nloc,0:ZDIM(Nloc),nSides) !< (IN) Flux on slave side
+#if (PP_NodeType==1 || (PP_NodeType==2 && defined(EXACT_MM)))
+REAL,INTENT(IN)          :: L_HatPlus(0:Nloc),L_HatMinus(0:Nloc)
+#elif (PP_NodeType==2 && !defined(EXACT_MM))
+REAL,INTENT(IN)          :: L_HatPlus,L_HatMinus
+#endif
+REAL,INTENT(INOUT)       :: Ut(TP_nVar,0:Nloc,0:Nloc,0:ZDIM(Nloc),1:nElems)   !< (INOUT) Time derivative of the solution
+REAL,INTENT(IN)          :: sJ(        0:Nloc,0:Nloc,0:ZDIM(Nloc),1:nElems,1) !< (IN) Jacobian
+INTEGER,INTENT(IN)       :: ElemToSide(3,6,nElems)
+INTEGER,INTENT(IN)       :: S2V2(2,0:Nloc,0:Nloc,0:4,6)
+LOGICAL,VALUE,INTENT(IN) :: doApplyJacobian
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER            :: ElemID,locSideID,SideID,p,q,flip,rest
+INTEGER            :: i,j,k,threadID
+INTEGER            :: firstSideID,lastSideID
+LOGICAL            :: isMaster
+!REAL               :: sig
+REAL               :: Ut_loc(TP_nVar)
+!==================================================================================================================================
+! Get thread indices
+threadID = (blockidx%x-1) * blockdim%x + threadidx%x
+! Get ElemID of current thread
+ElemID   =        (threadID-1)/(Nloc+1)**3+1 ! Elems are 1-indexed
+rest     = threadID-(ElemID-1)*(Nloc+1)**3
+! Get ijk indices of current thread
+k        = (rest-1)/(Nloc+1)**2
+rest     =  rest- k*(Nloc+1)**2
+j        = (rest-1)/(Nloc+1)!**1
+rest     =  rest- j*(Nloc+1)!**1
+i        = (rest-1)!/(Nloc+1)**0
+
+IF (ElemID.LE.nElems) THEN
+  ! Nullify local Ut
+  ! TODO: This could be avoided by setting the first value directly instead of adding it.
+  Ut_loc(:) = 0.
+
+  ! ----------------------------------------------
+  ! TODO: Variant 1:
+  ! Use master information to compute factor to multiply the fluxes such that on a master side Flux_master is multiplied with 1
+  ! and Flux_slave with 0 and in case of a slave side vice versa. This avoids any branching in the GPU case.
+  !
+  !DO locSideID=1,6
+  !  SideID   = ElemToSide(E2S_SIDE_ID  ,locSideID,ElemID)
+  !  flip     = ElemToSide(E2S_FLIP     ,locSideID,ElemID)
+  !
+  !  ! ATTENTION: Use master information to directly compute the correct sign for flux to avoid branching and increase performance.
+  !  !            For this use the following mapping:
+  !  !              Side is SLAVE : E2S_IS_MASTER==0  ->  sig= 0.  -> Multiply MASTER with  0., SLAVE with -1.
+  !  !              Side is MASTER: E2S_IS_MASTER==1  ->  sig= 1.  -> Multiply MASTER with +1., SLAVE with  0.
+  !  !sig = 2.*REAL(ElemToSide(E2S_IS_MASTER,locSideID,ElemID))-1.
+  !
+  !  !isMaster=1 : sigmaster=1 sigslave=0
+  !  !isMaster=0 : sigmaster=0 sigslave=-1
+  !  sig=REAL(ElemToSide(E2S_IS_MASTER     ,locSideID,ElemID))
+  !
+  !  ! Get indices of pointwise flux on locside and add
+  !  SELECT CASE(locSideID)
+  !  CASE(XI_MINUS)
+  !    p=S2V2(1,j,k,flip,locSideID)
+  !    q=S2V2(2,j,k,flip,locSideID)
+  !    Ut_loc(:) = Ut_loc(:) + sig    *Flux_master(:,p,q,SideID)*L_hatMinus(i) &
+  !                          +(sig-1.)*Flux_slave( :,p,q,SideID)*L_hatMinus(i)
+  !  CASE(ETA_MINUS)
+  !    p=S2V2(1,i,k,flip,locSideID)
+  !    q=S2V2(2,i,k,flip,locSideID)
+  !    Ut_loc(:) = Ut_loc(:) + sig    *Flux_master(:,p,q,SideID)*L_hatMinus(j) &
+  !                          +(sig-1.)*Flux_slave( :,p,q,SideID)*L_hatMinus(j)
+  !  CASE(ZETA_MINUS)
+  !    p=S2V2(1,i,j,flip,locSideID)
+  !    q=S2V2(2,i,j,flip,locSideID)
+  !    Ut_loc(:) = Ut_loc(:) + sig    *Flux_master(:,p,q,SideID)*L_hatMinus(k) &
+  !                          +(sig-1.)*Flux_slave( :,p,q,SideID)*L_hatMinus(k)
+  !  CASE(XI_PLUS)
+  !    p=S2V2(1,j,k,flip,locSideID)
+  !    q=S2V2(2,j,k,flip,locSideID)
+  !    Ut_loc(:) = Ut_loc(:) + sig    *Flux_master(:,p,q,SideID)*L_hatPlus(i) &
+  !                          +(sig-1.)*Flux_slave( :,p,q,SideID)*L_hatPlus(i)
+  !  CASE(ETA_PLUS)
+  !    p=S2V2(1,i,k,flip,locSideID)
+  !    q=S2V2(2,i,k,flip,locSideID)
+  !    Ut_loc(:) = Ut_loc(:) + sig    *Flux_master(:,p,q,SideID)*L_hatPlus(j) &
+  !                          +(sig-1.)*Flux_slave( :,p,q,SideID)*L_hatPlus(j)
+  !  CASE(ZETA_PLUS)
+  !    p=S2V2(1,i,j,flip,locSideID)
+  !    q=S2V2(2,i,j,flip,locSideID)
+  !    Ut_loc(:) = Ut_loc(:) + sig    *Flux_master(:,p,q,SideID)*L_hatPlus(k) &
+  !                          +(sig-1.)*Flux_slave( :,p,q,SideID)*L_hatPlus(k)
+  !  END SELECT !locSideID
+  !END DO
+
+  ! ----------------------------------------------
+  ! TODO: Variant 2:
+  ! Use master information to compute factor to multiply the fluxes such that the Flux_master is multiplied with 1 and Flux_slave
+  !
+  DO locSideID=1,6
+    SideID   = ElemToSide(E2S_SIDE_ID  ,locSideID,ElemID)
+    flip     = ElemToSide(E2S_FLIP     ,locSideID,ElemID)
+    isMaster = flip.EQ.0 ! master side has flip=0, slave sides flip!=0
+
+    ! Get indices of pointwise flux on locside and add
+    SELECT CASE(locSideID)
+#if (PP_NodeType==1 || (PP_NodeType==2 && defined(EXACT_MM)))
+    CASE(XI_MINUS)
+      p=S2V2(1,j,k,flip,locSideID)
+      q=S2V2(2,j,k,flip,locSideID)
+      IF(isMaster) THEN
+        Ut_loc(:) =Ut_loc(:) +Flux_master(:,p,q,SideID)*L_hatMinus(i)
+      ELSE ! slave
+        Ut_loc(:) =Ut_loc(:) -Flux_slave( :,p,q,SideID)*L_hatMinus(i)
+      END IF
+    CASE(ETA_MINUS)
+      p=S2V2(1,i,k,flip,locSideID)
+      q=S2V2(2,i,k,flip,locSideID)
+      IF(isMaster) THEN
+        Ut_loc(:) =Ut_loc(:) +Flux_master(:,p,q,SideID)*L_hatMinus(j)
+      ELSE ! slave
+        Ut_loc(:) =Ut_loc(:) -Flux_slave( :,p,q,SideID)*L_hatMinus(j)
+      END IF
+    CASE(ZETA_MINUS)
+      p=S2V2(1,i,j,flip,locSideID)
+      q=S2V2(2,i,j,flip,locSideID)
+      IF(isMaster) THEN
+        Ut_loc(:) =Ut_loc(:) +Flux_master(:,p,q,SideID)*L_hatMinus(k)
+      ELSE ! slave
+        Ut_loc(:) =Ut_loc(:) -Flux_slave( :,p,q,SideID)*L_hatMinus(k)
+      END IF
+    CASE(XI_PLUS)
+      p=S2V2(1,j,k,flip,locSideID)
+      q=S2V2(2,j,k,flip,locSideID)
+      IF(isMaster) THEN
+        Ut_loc(:) =Ut_loc(:) +Flux_master(:,p,q,SideID)*L_hatPlus(i)
+      ELSE ! slave
+        Ut_loc(:) =Ut_loc(:) -Flux_slave( :,p,q,SideID)*L_hatPlus(i)
+      END IF
+    CASE(ETA_PLUS)
+      p=S2V2(1,i,k,flip,locSideID)
+      q=S2V2(2,i,k,flip,locSideID)
+      IF(isMaster) THEN
+        Ut_loc(:) =Ut_loc(:) +Flux_master(:,p,q,SideID)*L_hatPlus(j)
+      ELSE ! slave
+        Ut_loc(:) =Ut_loc(:) -Flux_slave( :,p,q,SideID)*L_hatPlus(j)
+      END IF
+    CASE(ZETA_PLUS)
+      p=S2V2(1,i,j,flip,locSideID)
+      q=S2V2(2,i,j,flip,locSideID)
+      IF(isMaster) THEN
+        Ut_loc(:) =Ut_loc(:) +Flux_master(:,p,q,SideID)*L_hatPlus(k)
+      ELSE ! slave
+        Ut_loc(:) =Ut_loc(:) -Flux_slave( :,p,q,SideID)*L_hatPlus(k)
+      END IF
+#elif (PP_NodeType==2 && !defined(EXACT_MM))
+    CASE(XI_MINUS)
+      IF (i.NE.0) CYCLE
+      p=S2V2(1,j,k,flip,locSideID)
+      q=S2V2(2,j,k,flip,locSideID)
+      IF(isMaster) THEN
+        Ut_loc(:) =Ut_loc(:) +Flux_master(:,p,q,SideID)*L_hatMinus
+      ELSE ! slave
+        Ut_loc(:) =Ut_loc(:) -Flux_slave( :,p,q,SideID)*L_hatMinus
+      END IF
+    CASE(ETA_MINUS)
+      IF (j.NE.0) CYCLE
+      p=S2V2(1,i,k,flip,locSideID)
+      q=S2V2(2,i,k,flip,locSideID)
+      IF(isMaster) THEN
+        Ut_loc(:) =Ut_loc(:) +Flux_master(:,p,q,SideID)*L_hatMinus
+      ELSE ! slave
+        Ut_loc(:) =Ut_loc(:) -Flux_slave( :,p,q,SideID)*L_hatMinus
+      END IF
+    CASE(ZETA_MINUS)
+      IF (k.NE.0) CYCLE
+      p=S2V2(1,i,j,flip,locSideID)
+      q=S2V2(2,i,j,flip,locSideID)
+      IF(isMaster) THEN
+        Ut_loc(:) =Ut_loc(:) +Flux_master(:,p,q,SideID)*L_hatMinus
+      ELSE ! slave
+        Ut_loc(:) =Ut_loc(:) -Flux_slave( :,p,q,SideID)*L_hatMinus
+      END IF
+    CASE(XI_PLUS)
+      IF (i.NE.Nloc) CYCLE
+      p=S2V2(1,j,k,flip,locSideID)
+      q=S2V2(2,j,k,flip,locSideID)
+      IF(isMaster) THEN
+        Ut_loc(:) =Ut_loc(:) +Flux_master(:,p,q,SideID)*L_hatPlus
+      ELSE ! slave
+        Ut_loc(:) =Ut_loc(:) -Flux_slave( :,p,q,SideID)*L_hatPlus
+      END IF
+    CASE(ETA_PLUS)
+      IF (j.NE.Nloc) CYCLE
+      p=S2V2(1,i,k,flip,locSideID)
+      q=S2V2(2,i,k,flip,locSideID)
+      IF(isMaster) THEN
+        Ut_loc(:) =Ut_loc(:) +Flux_master(:,p,q,SideID)*L_hatPlus
+      ELSE ! slave
+        Ut_loc(:) =Ut_loc(:) -Flux_slave( :,p,q,SideID)*L_hatPlus
+      END IF
+    CASE(ZETA_PLUS)
+      IF (k.NE.Nloc) CYCLE
+      p=S2V2(1,i,j,flip,locSideID)
+      q=S2V2(2,i,j,flip,locSideID)
+      IF(isMaster) THEN
+        Ut_loc(:) =Ut_loc(:) +Flux_master(:,p,q,SideID)*L_hatPlus
+      ELSE ! slave
+        Ut_loc(:) =Ut_loc(:) -Flux_slave( :,p,q,SideID)*L_hatPlus
+      END IF
+#endif
+    END SELECT !locSideID
+  END DO
+
+  ! Add local Ut for my DOF (i,j,k,ElemID) to global Ut
+  IF (doApplyJacobian) THEN
+    ! If given, multiply with (inverse) Jacobian to transform J*Ut into Ut
+    Ut(:,i,j,k,ElemID) = sJ(i,j,k,ElemID,1)*(Ut(:,i,j,k,ElemID)+Ut_loc(:))
+  ELSE
+    Ut(:,i,j,k,ElemID) =                     Ut(:,i,j,k,ElemID)+Ut_loc(:)
+  END IF
+ENDIF
+END SUBROUTINE SurfInt_Device
+
+!==================================================================================================================================
+!> In this routine, the surface integral will be computed
+!==================================================================================================================================
+PPURE ATTRIBUTES(GLOBAL) SUBROUTINE SurfInt_Device_Single_Flux(&
+#ifdef WITHnVars
+        TP_nVar, &
+#endif
+        Nloc,nSides,nElems,Flux,Ut,sJ,L_HatMinus,L_HatPlus,ElemToSide,S2V2,weak,doApplyJacobian)
+! MODULES
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+#ifdef WITHnVars
+INTEGER,VALUE,INTENT(IN) :: TP_nVar !< number of variables
+#endif
+INTEGER,VALUE,INTENT(IN) :: Nloc    !< (IN) Polynomial degree
+INTEGER,VALUE,INTENT(IN) :: nSides
+INTEGER,VALUE,INTENT(IN) :: nElems
+REAL,INTENT(IN)    :: Flux(1:TP_nVar,0:Nloc,0:ZDIM(Nloc),nSides) !< (IN) Flux
+#if (PP_NodeType==1 || (PP_NodeType==2 && defined(EXACT_MM)))
+REAL,INTENT(IN)    :: L_HatPlus(0:Nloc),L_HatMinus(0:Nloc)
+#elif (PP_NodeType==2 && !defined(EXACT_MM))
+REAL,INTENT(IN)    :: L_HatPlus,L_HatMinus
+#endif
+REAL,INTENT(INOUT) :: Ut(TP_nVar,0:Nloc,0:Nloc,0:ZDIM(Nloc),1:nElems)   !< (INOUT) Time derivative of the solution
+REAL,INTENT(IN)    :: sJ(        0:Nloc,0:Nloc,0:ZDIM(Nloc),1:nElems,1)   !< (IN) Jacobian
+INTEGER,INTENT(IN) :: ElemToSide(3,6,nElems)
+INTEGER,INTENT(IN) :: S2V2(2,0:Nloc,0:Nloc,0:4,6)
+LOGICAL,VALUE,INTENT(IN) :: weak
+LOGICAL,VALUE,INTENT(IN) :: doApplyJacobian
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER            :: ElemID,locSideID,SideID,p,q,flip,rest
+INTEGER            :: i,j,k,threadID
+INTEGER            :: firstSideID,lastSideID
+REAL               :: sig
+REAL               :: Ut_loc(TP_nVar)
+!==================================================================================================================================
+! Get thread indices
+threadID = (blockidx%x-1) * blockdim%x + threadidx%x
+! Get ElemID of current thread
+ElemID   =        (threadID-1)/(Nloc+1)**3+1 ! Elems are 1-indexed
+rest     = threadID-(ElemID-1)*(Nloc+1)**3
+! Get ijk indices of current thread
+k        = (rest-1)/(Nloc+1)**2
+rest     =  rest- k*(Nloc+1)**2
+j        = (rest-1)/(Nloc+1)!**1
+rest     =  rest- j*(Nloc+1)!**1
+i        = (rest-1)!/(Nloc+1)**0
+rest     =  rest- j!*(Nloc+1)**0
+
+IF (.NOT.weak) sig=1. ! In strong form we don't have to change the sign for the slave flux
+
+IF (ElemID.LE.nElems) THEN
+  ! Nullify local Ut
+  ! TODO: This could be avoided by setting the first value directly instead of adding it.
+  Ut_loc(:) = 0.
+
+  DO locSideID=1,6
+    SideID   = ElemToSide(E2S_SIDE_ID,locSideID,ElemID)
+    flip     = ElemToSide(E2S_FLIP   ,locSideID,ElemID)
+
+    ! ATTENTION: Use master information to directly compute the correct sign for flux to avoid branching and increase performance.
+    !            For this use the following mapping:
+    !              Side is SLAVE : E2S_IS_MASTER==0  ->  sig=-1
+    !              Side is MASTER: E2S_IS_MASTER==1  ->  sig=+1
+    IF (weak) sig = 2.*REAL(ElemToSide(E2S_IS_MASTER,locSideID,ElemID))-1.
+
+    ! Get indices of pointwise flux on locside and add
+    SELECT CASE(locSideID)
+#if (PP_NodeType==1 || (PP_NodeType==2 && defined(EXACT_MM)))
+    CASE(XI_MINUS)
+      p=S2V2(1,j,k,flip,locSideID)
+      q=S2V2(2,j,k,flip,locSideID)
+      Ut_loc(:) = Ut_loc(:) +sig*Flux(:,p,q,SideID)*L_hatMinus(i)
+    CASE(ETA_MINUS)
+      p=S2V2(1,i,k,flip,locSideID)
+      q=S2V2(2,i,k,flip,locSideID)
+      Ut_loc(:) = Ut_loc(:) +sig*Flux(:,p,q,SideID)*L_hatMinus(j)
+    CASE(ZETA_MINUS)
+      p=S2V2(1,i,j,flip,locSideID)
+      q=S2V2(2,i,j,flip,locSideID)
+      Ut_loc(:) = Ut_loc(:) +sig*Flux(:,p,q,SideID)*L_hatMinus(k)
+    CASE(XI_PLUS)
+      p=S2V2(1,j,k,flip,locSideID)
+      q=S2V2(2,j,k,flip,locSideID)
+      Ut_loc(:) = Ut_loc(:) +sig*Flux(:,p,q,SideID)*L_hatPlus(i)
+    CASE(ETA_PLUS)
+      p=S2V2(1,i,k,flip,locSideID)
+      q=S2V2(2,i,k,flip,locSideID)
+      Ut_loc(:) = Ut_loc(:) +sig*Flux(:,p,q,SideID)*L_hatPlus(j)
+    CASE(ZETA_PLUS)
+      p=S2V2(1,i,j,flip,locSideID)
+      q=S2V2(2,i,j,flip,locSideID)
+      Ut_loc(:) = Ut_loc(:) +sig*Flux(:,p,q,SideID)*L_hatPlus(k)
+#elif (PP_NodeType==2 && !defined(EXACT_MM))
+    CASE(XI_MINUS)
+      IF (i.NE.0) CYCLE
+      p=S2V2(1,j,k,flip,locSideID)
+      q=S2V2(2,j,k,flip,locSideID)
+      Ut_loc(:) = Ut_loc(:) +sig*Flux(:,p,q,SideID)*L_hatMinus
+    CASE(ETA_MINUS)
+      IF (j.NE.0) CYCLE
+      p=S2V2(1,i,k,flip,locSideID)
+      q=S2V2(2,i,k,flip,locSideID)
+      Ut_loc(:) = Ut_loc(:) +sig*Flux(:,p,q,SideID)*L_hatMinus
+    CASE(ZETA_MINUS)
+      IF (k.NE.0) CYCLE
+      p=S2V2(1,i,j,flip,locSideID)
+      q=S2V2(2,i,j,flip,locSideID)
+      Ut_loc(:) = Ut_loc(:) +sig*Flux(:,p,q,SideID)*L_hatMinus
+    CASE(XI_PLUS)
+      IF (i.NE.Nloc) CYCLE
+      p=S2V2(1,j,k,flip,locSideID)
+      q=S2V2(2,j,k,flip,locSideID)
+      Ut_loc(:) = Ut_loc(:) +sig*Flux(:,p,q,SideID)*L_hatPlus
+    CASE(ETA_PLUS)
+      IF (j.NE.Nloc) CYCLE
+      p=S2V2(1,i,k,flip,locSideID)
+      q=S2V2(2,i,k,flip,locSideID)
+      Ut_loc(:) = Ut_loc(:) +sig*Flux(:,p,q,SideID)*L_hatPlus
+    CASE(ZETA_PLUS)
+      IF (k.NE.Nloc) CYCLE
+      p=S2V2(1,i,j,flip,locSideID)
+      q=S2V2(2,i,j,flip,locSideID)
+      Ut_loc(:) = Ut_loc(:) +sig*Flux(:,p,q,SideID)*L_hatPlus
+#endif
+    END SELECT !locSideID
+  END DO
+  ! Add local Ut for my DOF (i,j,k,ElemID) to global Ut
+  IF (doApplyJacobian) THEN
+    ! If given, multiply with (inverse) Jacobian to transform J*Ut into Ut
+    Ut(:,i,j,k,ElemID) = sJ(i,j,k,ElemID,1)*(Ut(:,i,j,k,ElemID)+Ut_loc(:))
+  ELSE
+    Ut(:,i,j,k,ElemID) =                     Ut(:,i,j,k,ElemID)+Ut_loc(:)
+  END IF
+ENDIF
+END SUBROUTINE SurfInt_Device_Single_Flux
+
+!==================================================================================================================================
+!> \brief Update DG time derivative with corresponding SurfInt contribution
+!>
+!> Takes the time derivative of a single element and the surface flux on a single side as input and performs the surface integral.
+!> The time derivative will be updated. The Flux has to be provided in the volume coordinate system!
+!==================================================================================================================================
+ATTRIBUTES(DEVICE) SUBROUTINE DoSurfInt_GPU(&
+#ifdef WITHnVars
+        TP_nVar, &
+#endif
+        Nloc,Flux,L_HatMinus,L_HatPlus,locSideID,Ut)
+!MODULES
+USE CUDAFOR
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+#ifdef WITHnVars
+INTEGER,VALUE,INTENT(IN) :: TP_nVar                          !< Number of variables
+#endif
+INTEGER,VALUE,INTENT(IN) :: Nloc                             !< Polynomial degree
+INTEGER,VALUE,INTENT(IN) :: locSideID                        !< sideID of side in global system
+REAL,INTENT(IN)    :: Flux(TP_nVar,0:Nloc,0:ZDIM(Nloc))  !< Flux on side, in volume system of respective element
+!> Lagrange polynomials evaluated at \f$i \xi=+1 \f$ and \f$ \xi=-1 \f$ premultiplied by mass matrix
+#if (PP_NodeType==1 || (PP_NodeType==2 && defined(EXACT_MM)))
+REAL,INTENT(IN)    :: L_HatPlus(0:Nloc),L_HatMinus(0:Nloc)
+#elif (PP_NodeType==2 && !defined(EXACT_MM))
+REAL,INTENT(IN)    :: L_HatPlus,L_HatMinus
+#endif
+REAL,INTENT(INOUT) :: Ut(TP_nVar,0:Nloc,0:Nloc,0:ZDIM(Nloc)) !< Time derivative (will be updated)
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+#if (PP_NodeType==1 || (PP_NodeType==2 && defined(EXACT_MM)))
+INTEGER            :: l
+#endif
+!==================================================================================================================================
+SELECT CASE(locSideID)
+#if (PP_NodeType==1 || (PP_NodeType==2 && defined(EXACT_MM)))
+CASE(XI_MINUS)
+  DO l=0,Nloc
+    Ut(:,l,:,:) =Ut(:,l,:,:)   +Flux*L_hatMinus(l)
+  END DO
+CASE(ETA_MINUS)
+  DO l=0,Nloc
+    Ut(:,:,l,:) =Ut(:,:,l,:)   +Flux*L_hatMinus(l)
+  END DO
+CASE(ZETA_MINUS)
+  DO l=0,Nloc
+    Ut(:,:,:,l) =Ut(:,:,:,l)   +Flux*L_hatMinus(l)
+  END DO
+CASE(XI_PLUS)
+  DO l=0,Nloc
+    Ut(:,l,:,:) =Ut(:,l,:,:)   +Flux*L_hatPlus(l)
+  END DO
+CASE(ETA_PLUS)
+  DO l=0,Nloc
+    Ut(:,:,l,:) =Ut(:,:,l,:)   +Flux*L_hatPlus(l)
+  END DO
+CASE(ZETA_PLUS)
+  DO l=0,Nloc
+    Ut(:,:,:,l) =Ut(:,:,:,l)   +Flux*L_hatPlus(l)
+  END DO
+!CASE(XI_MINUS)
+!  DO l=0,Nloc
+!    !Ut(:,l,:,:) =Ut(:,l,:,:)   +Flux*L_hatMinus(l)
+!    Ut(:,l,:,:) =ATOMICADD(Ut(:,l,:,:),Flux*L_hatMinus(l))
+!  END DO
+!CASE(ETA_MINUS)
+!  DO l=0,Nloc
+!    !Ut(:,:,l,:) =Ut(:,:,l,:)   +Flux*L_hatMinus(l)
+!    Ut(:,:,l,:) =ATOMICADD(Ut(:,:,l,:),Flux*L_hatMinus(l))
+!  END DO
+!CASE(ZETA_MINUS)
+!  DO l=0,Nloc
+!    !Ut(:,:,:,l) =Ut(:,:,:,l)   +Flux*L_hatMinus(l)
+!    Ut(:,:,:,l) =ATOMICADD(Ut(:,:,:,l),Flux*L_hatMinus(l))
+!  END DO
+!CASE(XI_PLUS)
+!  DO l=0,Nloc
+!    !Ut(:,l,:,:) =Ut(:,l,:,:)   +Flux*L_hatPlus(l)
+!    Ut(:,l,:,:) =ATOMICADD(Ut(:,l,:,:),Flux*L_hatPlus(l))
+!  END DO
+!CASE(ETA_PLUS)
+!  DO l=0,Nloc
+!    !Ut(:,:,l,:) =Ut(:,:,l,:)   +Flux*L_hatPlus(l)
+!    Ut(:,:,l,:) =ATOMICADD(Ut(:,:,l,:),Flux*L_hatPlus(l))
+!  END DO
+!CASE(ZETA_PLUS)
+!  DO l=0,Nloc
+!    !Ut(:,:,:,l) =Ut(:,:,:,l)   +Flux*L_hatPlus(l)
+!    Ut(:,:,:,l) =ATOMICADD(Ut(:,:,:,l),Flux*L_hatPlus(l))
+!  END DO
+#elif (PP_NodeType==2 && !defined(EXACT_MM))
+CASE(XI_MINUS)
+  Ut(:,0,:,:)   =Ut(:,0,:,:)   +Flux*L_hatMinus
+CASE(ETA_MINUS)
+  Ut(:,:,0,:)   =Ut(:,:,0,:)   +Flux*L_hatMinus
+CASE(ZETA_MINUS)
+  Ut(:,:,:,0)   =Ut(:,:,:,0)   +Flux*L_hatMinus
+CASE(XI_PLUS)
+  Ut(:,Nloc,:,:)=Ut(:,Nloc,:,:)+Flux*L_hatPlus
+CASE(ETA_PLUS)
+  Ut(:,:,Nloc,:)=Ut(:,:,Nloc,:)+Flux*L_hatPlus
+CASE(ZETA_PLUS)
+  Ut(:,:,:,Nloc)=Ut(:,:,:,Nloc)+Flux*L_hatPlus
+#endif
+END SELECT !locSideID
+END SUBROUTINE DoSurfInt_GPU

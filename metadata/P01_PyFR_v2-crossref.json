@@ -1,0 +1,1563 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "message": {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          10,
+          24
+        ]
+      ],
+      "date-time": "2026-10-24T03:37:55Z",
+      "timestamp": 1792813075711,
+      "version": "4.5.0"
+    },
+    "reference-count": 76,
+    "publisher": "Elsevier BV",
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2025,
+              6,
+              1
+            ]
+          ],
+          "date-time": "2025-06-01T00:00:00Z",
+          "timestamp": 1748736000000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://www.elsevier.com/tdm/userlicense/1.0/"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2025,
+              6,
+              1
+            ]
+          ],
+          "date-time": "2025-06-01T00:00:00Z",
+          "timestamp": 1748736000000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://www.elsevier.com/legal/tdmrep-license"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2025,
+              2,
+              27
+            ]
+          ],
+          "date-time": "2025-02-27T00:00:00Z",
+          "timestamp": 1740614400000
+        },
+        "content-version": "vor",
+        "delay-in-days": 0,
+        "URL": "http://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "funder": [
+      {
+        "DOI": "10.13039/100000015",
+        "name": "U.S. Department of Energy",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "DE-AC05-00OR22725"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "DE-AC05-00OR22725"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100000015",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100000015",
+        "name": "U.S. Department of Energy",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "hp190061"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "hp190061"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100000015",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100000038",
+        "name": "Natural Sciences and Engineering Research Council of Canada",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "RGPIN-2017-06773"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "RGPIN-2017-06773"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/501100000038",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100000038",
+        "name": "Natural Sciences and Engineering Research Council of Canada",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "RGPAS-2017-507988"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "RGPAS-2017-507988"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/501100000038",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100000646",
+        "name": "Japan Society for the Promotion of Science London",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "24K01074"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "24K01074"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/501100000646",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100000275",
+        "name": "Leverhulme Trust",
+        "doi-asserted-by": "publisher",
+        "id": [
+          {
+            "id": "10.13039/501100000275",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100006132",
+        "name": "Office of Science",
+        "doi-asserted-by": "publisher",
+        "id": [
+          {
+            "id": "10.13039/100006132",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100000181",
+        "name": "Air Force Office of Scientific Research",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "FA9550-23-1-0232"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "FA9550-23-1-0232"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100000181",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100000181",
+        "name": "Air Force Office of Scientific Research",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "FA9550-21-1-0190"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "FA9550-21-1-0190"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100000181",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100006227",
+        "name": "Lawrence Livermore National Laboratory",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "DE\\u2013AC52\\u201307NA27344"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "DE\\u2013AC52\\u201307NA27344"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100006227",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100002241",
+        "name": "Japan Science and Technology Agency",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "JPMJFR2124"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "JPMJFR2124"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/501100002241",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100000266",
+        "name": "Engineering and Physical Sciences Research Council",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "EP/R029423/1"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "EP/R029423/1"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/501100000266",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100000266",
+        "name": "Engineering and Physical Sciences Research Council",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "EP/R030340/1"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "EP/R030340/1"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/501100000266",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100000266",
+        "name": "Engineering and Physical Sciences Research Council",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "EP/L000407/1"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "EP/L000407/1"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/501100000266",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100000266",
+        "name": "Engineering and Physical Sciences Research Council",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "EP/K027379/1"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "EP/K027379/1"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/501100000266",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100000780",
+        "name": "European Commission",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "101138080"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "101138080"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/501100000780",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100000780",
+        "name": "European Commission",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "635962"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "635962"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/501100000780",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100000780",
+        "name": "European Commission",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "814837"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "814837"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/501100000780",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100006041",
+        "name": "Innovate UK",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "EP/M50676X/1"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "EP/M50676X/1"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/501100006041",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      }
+    ],
+    "content-domain": {
+      "domain": [
+        "elsevier.com",
+        "sciencedirect.com"
+      ],
+      "crossmark-restriction": true
+    },
+    "short-container-title": [
+      "Computer Physics Communications"
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2025,
+          6
+        ]
+      ]
+    },
+    "DOI": "10.1016/j.cpc.2025.109567",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2025,
+          2,
+          28
+        ]
+      ],
+      "date-time": "2025-02-28T11:07:38Z",
+      "timestamp": 1740740858000
+    },
+    "page": "109567",
+    "update-policy": "https://doi.org/10.1016/elsevier_cm_policy",
+    "source": "Crossref",
+    "is-referenced-by-count": 19,
+    "special_numbering": "C",
+    "title": [
+      "PyFR v2.0.3: Towards industrial adoption of scale-resolving simulations"
+    ],
+    "prefix": "10.1016",
+    "volume": "311",
+    "author": [
+      {
+        "given": "Freddie D.",
+        "family": "Witherden",
+        "sequence": "first",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-1314-8827",
+        "authenticated-orcid": false,
+        "given": "Peter E.",
+        "family": "Vincent",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Will",
+        "family": "Trojak",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Yoshiaki",
+        "family": "Abe",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Amir",
+        "family": "Akbarzadeh",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Semih",
+        "family": "Akkurt",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Mohammad",
+        "family": "Alhawwary",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Lidia",
+        "family": "Caros",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Tarik",
+        "family": "Dzanic",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Giorgio",
+        "family": "Giangaspero",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Arvind S.",
+        "family": "Iyer",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Antony",
+        "family": "Jameson",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Marius",
+        "family": "Koch",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Niki",
+        "family": "Loppi",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Sambit",
+        "family": "Mishra",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Rishit",
+        "family": "Modi",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Gonzalo",
+        "family": "Sáez-Mischlich",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Jin Seok",
+        "family": "Park",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Brian C.",
+        "family": "Vermeire",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Lai",
+        "family": "Wang",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "78",
+    "reference": [
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0010",
+        "series-title": "18th AIAA Computational Fluid Dynamics Conference",
+        "article-title": "A flux reconstruction approach to high-order schemes including discontinuous Galerkin methods",
+        "author": "Huynh",
+        "year": "2007"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0020",
+        "doi-asserted-by": "crossref",
+        "first-page": "205",
+        "DOI": "10.1016/j.cpc.2015.02.008",
+        "article-title": "Nektar++: an open-source spectral/hp element framework",
+        "volume": "192",
+        "author": "Cantwell",
+        "year": "2015",
+        "journal-title": "Comput. Phys. Commun."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0030",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.cpc.2019.107110",
+        "article-title": "Nektar++: enhancing the capability and application of high-fidelity spectral/hp element methods",
+        "volume": "249",
+        "author": "Moxey",
+        "year": "2020",
+        "journal-title": "Comput. Phys. Commun."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0040",
+        "doi-asserted-by": "crossref",
+        "first-page": "579",
+        "DOI": "10.1016/j.compfluid.2017.04.026",
+        "article-title": "Towards industrial large eddy simulation using the FR/CPR method",
+        "volume": "156",
+        "author": "Wang",
+        "year": "2017",
+        "journal-title": "Comput. Fluids"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0050",
+        "series-title": "Progress Report for HPC Europa++ Transnational Access Project 1264",
+        "article-title": "Development of a new compressible Navier-Stokes solver for numerical simulations of flows in turbomachinery",
+        "author": "Sandberg",
+        "year": "2008"
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.cpc.2025.109567_br0060",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1115/1.4028731",
+        "article-title": "Compressible direct numerical simulation of low-pressure turbines—part i: methodology",
+        "volume": "137",
+        "author": "Sandberg",
+        "year": "2015",
+        "journal-title": "J. Turbomach.",
+        "ISSN": "https://id.crossref.org/issn/0889-504X",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0070",
+        "series-title": "2018 AIAA/CEAS Aeroacoustics Conference",
+        "first-page": "3302",
+        "article-title": "Large-eddy simulations of co-annular turbulent jet using a voronoi-based mesh generation framework",
+        "author": "Bres",
+        "year": "2018"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0080",
+        "doi-asserted-by": "crossref",
+        "first-page": "E14",
+        "DOI": "10.1017/flo.2021.17",
+        "article-title": "Large eddy simulation of aircraft at affordable cost: a milestone in computational fluid dynamics",
+        "volume": "1",
+        "author": "Goc",
+        "year": "2021",
+        "journal-title": "Flow"
+      },
+      {
+        "issue": "11",
+        "key": "10.1016/j.cpc.2025.109567_br0090",
+        "doi-asserted-by": "crossref",
+        "first-page": "3028",
+        "DOI": "10.1016/j.cpc.2014.07.011",
+        "article-title": "PyFR: an open source framework for solving advection–diffusion type problems on streaming architectures using the flux reconstruction approach",
+        "volume": "185",
+        "author": "Witherden",
+        "year": "2014",
+        "journal-title": "Comput. Phys. Commun."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0100",
+        "series-title": "Spectral/hp Element Methods for Computational Fluid Dynamics",
+        "author": "Karniadakis",
+        "year": "2005"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0110",
+        "series-title": "Nodal Discontinuous Galerkin Methods: Algorithms, Analysis, and Applications",
+        "author": "Hesthaven",
+        "year": "2007"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0120",
+        "series-title": "On the development and implementation of high-order flux reconstruction schemes for computational fluid dynamics",
+        "author": "Witherden",
+        "year": "2015"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0130",
+        "doi-asserted-by": "crossref",
+        "first-page": "12",
+        "DOI": "10.1016/j.cpc.2015.12.012",
+        "article-title": "GiMMiK—generating bespoke matrix multiplication kernels for accelerators: application to high-order computational fluid dynamics",
+        "volume": "202",
+        "author": "Wozniak",
+        "year": "2016",
+        "journal-title": "Comput. Phys. Commun."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0140",
+        "series-title": "SC'16: Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis",
+        "first-page": "981",
+        "article-title": "LIBXSMM: accelerating small matrix multiplications by runtime code generation",
+        "author": "Heinecke",
+        "year": "2016"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0150",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.cpc.2021.108193",
+        "article-title": "Cache blocking strategies applied to flux reconstruction",
+        "volume": "271",
+        "author": "Akkurt",
+        "year": "2022",
+        "journal-title": "Comput. Phys. Commun."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0160",
+        "article-title": "Cache blocking strategies applied to flux reconstruction",
+        "author": "Akkurt",
+        "year": "2021",
+        "journal-title": "PyFR Semin. Ser."
+      },
+      {
+        "issue": "9",
+        "key": "10.1016/j.cpc.2025.109567_br0170",
+        "doi-asserted-by": "crossref",
+        "first-page": "1108",
+        "DOI": "10.1016/j.jpdc.2005.03.010",
+        "article-title": "MPI for Python",
+        "volume": "65",
+        "author": "Dalcín",
+        "year": "2005",
+        "journal-title": "J. Parallel Distrib. Comput."
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.cpc.2025.109567_br0180",
+        "doi-asserted-by": "crossref",
+        "first-page": "655",
+        "DOI": "10.1016/j.jpdc.2007.09.005",
+        "article-title": "MPI for Python: performance improvements and MPI-2 extensions",
+        "volume": "68",
+        "author": "Dalcín",
+        "year": "2008",
+        "journal-title": "J. Parallel Distrib. Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0190",
+        "doi-asserted-by": "crossref",
+        "first-page": "173",
+        "DOI": "10.1016/j.compfluid.2015.07.016",
+        "article-title": "Heterogeneous computing on mixed unstructured grids with PyFR",
+        "volume": "120",
+        "author": "Witherden",
+        "year": "2015",
+        "journal-title": "Comput. Fluids"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0200",
+        "series-title": "Practice and Experience in Advanced Research Computing",
+        "first-page": "221",
+        "article-title": "Scaling study of flow simulations on composable cyberinfrastructure",
+        "author": "Mishra",
+        "year": "2023"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0210",
+        "doi-asserted-by": "crossref",
+        "first-page": "434",
+        "DOI": "10.1007/s10915-011-9490-6",
+        "article-title": "On the non-linear stability of flux reconstruction schemes",
+        "volume": "50",
+        "author": "Jameson",
+        "year": "2012",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "issue": "10",
+        "key": "10.1016/j.cpc.2025.109567_br0220",
+        "doi-asserted-by": "crossref",
+        "first-page": "1232",
+        "DOI": "10.1016/j.camwa.2015.03.017",
+        "article-title": "On the identification of symmetric quadrature rules for finite element methods",
+        "volume": "69",
+        "author": "Witherden",
+        "year": "2015",
+        "journal-title": "Comput. Math. Appl."
+      },
+      {
+        "issue": "7",
+        "key": "10.1016/j.cpc.2025.109567_br0230",
+        "doi-asserted-by": "crossref",
+        "first-page": "2186",
+        "DOI": "10.2514/1.J055304",
+        "article-title": "High-order implicit large-eddy simulations of flow over a NACA0021 aerofoil",
+        "volume": "55",
+        "author": "Park",
+        "year": "2017",
+        "journal-title": "AIAA J."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0240",
+        "series-title": "44th AIAA Aerospace Sciences Meeting and Exhibit",
+        "first-page": "112",
+        "article-title": "Sub-cell shock capturing for discontinuous Galerkin methods",
+        "author": "Persson",
+        "year": "2006"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0250",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.jcp.2022.111501",
+        "article-title": "Positivity-preserving entropy-based adaptive filtering for discontinuous spectral element methods",
+        "volume": "468",
+        "author": "Dzanic",
+        "year": "2022",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0260",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.compfluid.2023.106056",
+        "article-title": "Positivity-preserving entropy filtering for the ideal magnetohydrodynamics equations",
+        "volume": "266",
+        "author": "Dzanic",
+        "year": "2023",
+        "journal-title": "Comput. Fluids"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0270",
+        "article-title": "Positivity-preserving entropy-based adaptive filtering for shock capturing",
+        "author": "Dzanic",
+        "year": "2022",
+        "journal-title": "PyFR Semin. Ser."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0280",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.compfluid.2024.106343",
+        "article-title": "Positivity-preserving discontinuous spectral element methods for compressible multi-species flows",
+        "volume": "280",
+        "author": "Trojak",
+        "year": "2024",
+        "journal-title": "Comput. Fluids"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0290",
+        "series-title": "METIS: a Software Package for Partitioning Unstructured Graphs, Partitioning Meshes, and Computing Fill-Reducing Orderings of Sparse Matrices",
+        "author": "Karypis",
+        "year": "1997"
+      },
+      {
+        "issue": "6–8",
+        "key": "10.1016/j.cpc.2025.109567_br0300",
+        "doi-asserted-by": "crossref",
+        "first-page": "318",
+        "DOI": "10.1016/j.parco.2007.12.001",
+        "article-title": "PT-Scotch: a tool for efficient parallel graph ordering",
+        "volume": "34",
+        "author": "Chevalier",
+        "year": "2008",
+        "journal-title": "Parallel Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0310",
+        "doi-asserted-by": "crossref",
+        "first-page": "301",
+        "DOI": "10.1007/s10915-005-9070-8",
+        "article-title": "Metric identities and the discontinuous spectral element method on curvilinear meshes",
+        "volume": "26",
+        "author": "Kopriva",
+        "year": "2006",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0320",
+        "doi-asserted-by": "crossref",
+        "first-page": "28",
+        "DOI": "10.1016/j.jcp.2014.10.011",
+        "article-title": "On the freestream preservation of high-order conservative flux-reconstruction schemes",
+        "volume": "281",
+        "author": "Abe",
+        "year": "2015",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0330",
+        "series-title": "Solving Ordinary Differential Equations I: Nonstiff Problems",
+        "author": "Hairer",
+        "year": "1993"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.cpc.2025.109567_br0340",
+        "doi-asserted-by": "crossref",
+        "first-page": "118",
+        "DOI": "10.1006/jcph.1997.5716",
+        "article-title": "A numerical method for solving incompressible viscous flow problems",
+        "volume": "135",
+        "author": "Chorin",
+        "year": "1997",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0350",
+        "series-title": "10th Computational Fluid Dynamics Conference",
+        "first-page": "1596",
+        "article-title": "Time dependent calculations using multigrid, with applications to unsteady flows past airfoils and wings",
+        "author": "Jameson",
+        "year": "1991"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0360",
+        "doi-asserted-by": "crossref",
+        "first-page": "193",
+        "DOI": "10.1016/j.cpc.2018.06.016",
+        "article-title": "A high-order cross-platform incompressible Navier–Stokes solver via artificial compressibility with application to a turbulent jet",
+        "volume": "233",
+        "author": "Loppi",
+        "year": "2018",
+        "journal-title": "Comput. Phys. Commun."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0370",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.jcp.2019.108913",
+        "article-title": "Locally adaptive pseudo-time stepping for high-order flux reconstruction",
+        "volume": "399",
+        "author": "Loppi",
+        "year": "2019",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0380",
+        "series-title": "Proceedings of the EDBT/ICDT 2011 Workshop on Array Databases",
+        "first-page": "36",
+        "article-title": "An overview of the HDF5 technology suite and its applications",
+        "author": "Folk",
+        "year": "2011"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0390",
+        "series-title": "Python and HDF5: Unlocking Scientific Data",
+        "author": "Collette",
+        "year": "2013"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.cpc.2025.109567_br0400",
+        "doi-asserted-by": "crossref",
+        "first-page": "1032",
+        "DOI": "10.2514/1.J061046",
+        "article-title": "Synthetic turbulence generation for high-order scale-resolving simulations on unstructured grids",
+        "volume": "60",
+        "author": "Giangaspero",
+        "year": "2022",
+        "journal-title": "AIAA J."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0410",
+        "article-title": "Synthetic turbulence generation in PyFR",
+        "author": "Giangaspero",
+        "year": "2021",
+        "journal-title": "PyFR Semin. Ser."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0420",
+        "author": "O'Neill"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0430",
+        "series-title": "Situ Visualization for Computational Science",
+        "first-page": "255",
+        "article-title": "Ascent: a flyweight in situ library for exascale simulations",
+        "author": "Larsen",
+        "year": "2022"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0440",
+        "article-title": "High-order implicit large eddy simulation of flow over a low-Reynolds turbine cascade",
+        "author": "Afshar",
+        "year": "2021",
+        "journal-title": "PyFR Semin. Ser."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0450",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.compfluid.2021.104989",
+        "article-title": "High-order accurate direct numerical simulation of flow over a mtu-t161 low pressure turbine blade",
+        "volume": "226",
+        "author": "Iyer",
+        "year": "2021",
+        "journal-title": "Comput. Fluids"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0460",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.jweia.2022.105169",
+        "article-title": "High-order scale-resolving simulations of extreme wind loads on a model high-rise building",
+        "volume": "230",
+        "author": "Giangaspero",
+        "year": "2022",
+        "journal-title": "J. Wind Eng. Ind. Aerodyn."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0470",
+        "article-title": "DNS-based optimisation of airfoils for Martian helicopters using PyFR",
+        "author": "Roca",
+        "year": "2023",
+        "journal-title": "PyFR Semin. Ser."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0480",
+        "article-title": "Martian aerodynamics with PyFR",
+        "author": "Roca",
+        "year": "2021",
+        "journal-title": "PyFR Semin. Ser."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0490",
+        "series-title": "Scale Resolving Simulations of Viking '75 Reentry Capsule Wake Flow",
+        "author": "Bhaskaran",
+        "year": "2024"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0500",
+        "article-title": "High-order implicit large-eddy simulations of flow around a projectile using PyFR",
+        "author": "Park",
+        "year": "2021",
+        "journal-title": "PyFR Semin. Ser."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0510",
+        "article-title": "Actuator line model for wind turbine wake prediction with PyFR",
+        "author": "Liang",
+        "year": "2024",
+        "journal-title": "PyFR Semin. Ser."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0520",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.renene.2024.121092",
+        "article-title": "Numerical simulation of wind turbine wake characteristics by flux reconstruction method",
+        "author": "Liang",
+        "year": "2024",
+        "journal-title": "Renew. Energy",
+        "ISSN": "https://id.crossref.org/issn/0960-1481",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0530",
+        "article-title": "Simulating a thermoacoustic engine with PyFR",
+        "author": "Blanc",
+        "year": "2023",
+        "journal-title": "PyFR Semin. Ser."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0540",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.apenergy.2024.122817",
+        "article-title": "High-fidelity numerical simulations of a standing-wave thermoacoustic engine",
+        "volume": "360",
+        "author": "Blanc",
+        "year": "2024",
+        "journal-title": "Appl. Energy"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0550",
+        "article-title": "Noise reduction of serrated trailing edges with implicit large eddy simulation using PyFR",
+        "author": "Wan",
+        "year": "2022",
+        "journal-title": "PyFR Semin. Ser."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0560",
+        "article-title": "Numerical simulations of aerofoil tonal noise reduction by roughness elements",
+        "author": "Yuan",
+        "year": "2023",
+        "journal-title": "PyFR Semin. Ser."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0570",
+        "article-title": "Implicit LES of NACA 0018 airfoil with active flow control",
+        "author": "Laufer",
+        "year": "2021",
+        "journal-title": "PyFR Semin. Ser."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0580",
+        "article-title": "Active control of compressible supersonic wall-bounded flow using direct numerical simulations with spanwise velocity modulation at the walls using PyFR",
+        "author": "Foysi",
+        "year": "2023",
+        "journal-title": "PyFR Semin. Ser."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0590",
+        "article-title": "Use of high-order curved elements for direct and large eddy simulation of flow over rough surfaces",
+        "author": "Cengiz",
+        "year": "2023",
+        "journal-title": "PyFR Semin. Ser."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.cpc.2025.109567_br0600",
+        "first-page": "38",
+        "article-title": "Use of high-order curved elements for direct and large eddy simulation of flow over rough surfaces",
+        "volume": "43",
+        "author": "Cengiz",
+        "year": "2023",
+        "journal-title": "Tech. Mech. - Eur. J. Eng. Mech."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0610",
+        "article-title": "GPU-accelerated high-fidelity implicit LES of Coanda cylinder flow instabilities",
+        "author": "Regev",
+        "year": "2023",
+        "journal-title": "PyFR Semin. Ser."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0620",
+        "article-title": "Unsteady 2D flow reconstruction around arbitrary shapes via conformal mapping aided deep neural networks",
+        "author": "Özbay",
+        "year": "2022",
+        "journal-title": "PyFR Semin. Ser."
+      },
+      {
+        "issue": "4",
+        "key": "10.1016/j.cpc.2025.109567_br0630",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1063/5.0087488",
+        "article-title": "Deep learning fluid flow reconstruction around arbitrary two-dimensional objects from sparse sensors using conformal mappings",
+        "volume": "12",
+        "author": "Özbay",
+        "year": "2022",
+        "journal-title": "AIP Adv.",
+        "ISSN": "https://id.crossref.org/issn/2158-3226",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0640",
+        "doi-asserted-by": "crossref",
+        "first-page": "758",
+        "DOI": "10.1017/jfm.2019.520",
+        "article-title": "Identifying eigenmodes of averaged small-amplitude perturbations to turbulent channel flow",
+        "volume": "875",
+        "author": "Iyer",
+        "year": "2019",
+        "journal-title": "J. Fluid Mech."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0650",
+        "article-title": "Gradient-free aerodynamic shape optimization using PyFR and MADS",
+        "author": "Aubry",
+        "year": "2021",
+        "journal-title": "PyFR Semin. Ser."
+      },
+      {
+        "issue": "11",
+        "key": "10.1016/j.cpc.2025.109567_br0660",
+        "doi-asserted-by": "crossref",
+        "first-page": "4935",
+        "DOI": "10.2514/1.J063164",
+        "article-title": "Optimization of triangular airfoils for martian helicopters using direct numerical simulations",
+        "volume": "61",
+        "author": "Caros",
+        "year": "2023",
+        "journal-title": "AIAA J."
+      },
+      {
+        "issue": "7",
+        "key": "10.1016/j.cpc.2025.109567_br0670",
+        "doi-asserted-by": "crossref",
+        "first-page": "3961",
+        "DOI": "10.2514/1.J061454",
+        "article-title": "Direct numerical simulation of flow over a triangular airfoil under martian conditions",
+        "volume": "60",
+        "author": "Caros",
+        "year": "2022",
+        "journal-title": "AIAA J."
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.cpc.2025.109567_br0680",
+        "doi-asserted-by": "crossref",
+        "first-page": "533",
+        "DOI": "10.2514/1.J059672",
+        "article-title": "Assessment of low-dissipative shock-capturing schemes for the compressible Taylor–Green vortex",
+        "volume": "59",
+        "author": "Lusher",
+        "year": "2021",
+        "journal-title": "AIAA J."
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.cpc.2025.109567_br0690",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1063/5.0206359",
+        "article-title": "Comparison of high-order numerical methodologies for the simulation of the supersonic Taylor–Green vortex flow",
+        "volume": "36",
+        "author": "Chapelier",
+        "year": "2024",
+        "journal-title": "Phys. Fluids"
+      },
+      {
+        "issue": "223",
+        "key": "10.1016/j.cpc.2025.109567_br0700",
+        "doi-asserted-by": "crossref",
+        "first-page": "507",
+        "DOI": "10.1080/14786449308620508",
+        "article-title": "III. The viscosity of gases and molecular force",
+        "volume": "36",
+        "author": "Sutherland",
+        "year": "1893",
+        "journal-title": "Lond. Edinb. Dublin Philos. Mag. J. Sci."
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.cpc.2025.109567_br0710",
+        "doi-asserted-by": "crossref",
+        "first-page": "857",
+        "DOI": "10.2514/1.C037506",
+        "article-title": "Aircraft simulations using the new CFD software from ONERA, DLR, and Airbus",
+        "volume": "61",
+        "author": "Volpiani",
+        "year": "2024",
+        "journal-title": "J. Aircr."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0720",
+        "doi-asserted-by": "crossref",
+        "first-page": "186",
+        "DOI": "10.1016/j.camwa.2020.05.004",
+        "article-title": "FLEXI: a high order discontinuous Galerkin framework for hyperbolic–parabolic conservation laws",
+        "volume": "81",
+        "author": "Krais",
+        "year": "2021",
+        "journal-title": "Comput. Math. Appl."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0730",
+        "doi-asserted-by": "crossref",
+        "first-page": "261",
+        "DOI": "10.1016/j.compfluid.2016.03.006",
+        "article-title": "A study on the numerical dissipation of the spectral difference method for freely decaying and wall-bounded turbulence",
+        "volume": "139",
+        "author": "Chapelier",
+        "year": "2016",
+        "journal-title": "Comput. Fluids"
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0740",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.cpc.2021.108063",
+        "article-title": "OpenSBLI: automated code-generation for heterogeneous computing architectures applied to compressible fluid dynamics on structured grids",
+        "volume": "267",
+        "author": "Lusher",
+        "year": "2021",
+        "journal-title": "Comput. Phys. Commun."
+      },
+      {
+        "key": "10.1016/j.cpc.2025.109567_br0750",
+        "series-title": "SC'16: Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis",
+        "first-page": "1",
+        "article-title": "Towards green aviation with python at petascale",
+        "author": "Vincent",
+        "year": "2016"
+      },
+      {
+        "issue": "8",
+        "key": "10.1016/j.cpc.2025.109567_br0760",
+        "doi-asserted-by": "crossref",
+        "first-page": "2794",
+        "DOI": "10.1016/j.jcp.2010.11.031",
+        "article-title": "A comparison of vortex and pseudo-spectral methods for the simulation of periodic vortical flows at high Reynolds numbers",
+        "volume": "230",
+        "author": "van Rees",
+        "year": "2011",
+        "journal-title": "J. Comput. Phys."
+      }
+    ],
+    "container-title": [
+      "Computer Physics Communications"
+    ],
+    "original-title": [],
+    "language": "en",
+    "link": [
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0010465525000700?httpAccept=text/xml",
+        "content-type": "text/xml",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0010465525000700?httpAccept=text/plain",
+        "content-type": "text/plain",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2026,
+          4,
+          28
+        ]
+      ],
+      "date-time": "2026-04-28T18:17:50Z",
+      "timestamp": 1777400270000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://linkinghub.elsevier.com/retrieve/pii/S0010465525000700"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2025,
+          6
+        ]
+      ]
+    },
+    "references-count": 76,
+    "alternative-id": [
+      "S0010465525000700"
+    ],
+    "URL": "https://doi.org/10.1016/j.cpc.2025.109567",
+    "relation": {},
+    "ISSN": [
+      "0010-4655"
+    ],
+    "issn-type": [
+      {
+        "value": "0010-4655",
+        "type": "print"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2025,
+          6
+        ]
+      ]
+    },
+    "assertion": [
+      {
+        "value": "Elsevier",
+        "name": "publisher",
+        "label": "This article is maintained by"
+      },
+      {
+        "value": "PyFR v2.0.3: Towards industrial adoption of scale-resolving simulations",
+        "name": "articletitle",
+        "label": "Article Title"
+      },
+      {
+        "value": "Computer Physics Communications",
+        "name": "journaltitle",
+        "label": "Journal Title"
+      },
+      {
+        "value": "https://doi.org/10.1016/j.cpc.2025.109567",
+        "name": "articlelink",
+        "label": "CrossRef DOI link to publisher maintained version"
+      },
+      {
+        "value": "article",
+        "name": "content_type",
+        "label": "Content Type"
+      },
+      {
+        "value": "© 2025 The Author(s). Published by Elsevier B.V.",
+        "name": "copyright",
+        "label": "Copyright"
+      }
+    ],
+    "article-number": "109567"
+  }
+}

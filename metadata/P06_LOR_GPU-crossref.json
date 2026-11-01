@@ -1,0 +1,518 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "message": {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          10,
+          8
+        ]
+      ],
+      "date-time": "2026-10-08T17:23:40Z",
+      "timestamp": 1791480220685,
+      "version": "4.3.4"
+    },
+    "reference-count": 45,
+    "publisher": "SAGE Publications",
+    "issue": "5",
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2024,
+              6,
+              1
+            ]
+          ],
+          "date-time": "2024-06-01T00:00:00Z",
+          "timestamp": 1717200000000
+        },
+        "content-version": "vor",
+        "delay-in-days": 366,
+        "URL": "http://www.sagepub.com/licence-information-for-chorus"
+      }
+    ],
+    "funder": [
+      {
+        "DOI": "10.13039/100006227",
+        "name": "Lawrence Livermore National Laboratory",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "LDRD 20-ERD-002"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "LDRD 20-ERD-002"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100006227",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100000015",
+        "name": "U.S. Department of Energy",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "Exascale Computing Project (17-SC-20-SC)"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "Exascale Computing Project (17-SC-20-SC)"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100000015",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      }
+    ],
+    "content-domain": {
+      "domain": [
+        "journals.sagepub.com"
+      ],
+      "crossmark-restriction": true
+    },
+    "short-container-title": [
+      "The International Journal of High Performance Computing Applications"
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2023,
+          9
+        ]
+      ]
+    },
+    "abstract": "<jats:p>In this article, we present algorithms and implementations for the end-to-end GPU acceleration of matrix-free low-order-refined preconditioning of high-order finite element problems. The methods described here allow for the construction of effective preconditioners for high-order problems with optimal memory usage and computational complexity. The preconditioners are based on the construction of a spectrally equivalent low-order discretization on a refined mesh, which is then amenable to, for example, algebraic multigrid preconditioning. The constants of equivalence are independent of mesh size and polynomial degree. For vector finite element problems in H(curl) and H(div) (e.g., for electromagnetic or radiation diffusion problems), a specially constructed interpolation–histopolation basis is used to ensure fast convergence. Detailed performance studies are carried out to analyze the efficiency of the GPU algorithms. The kernel throughput of each of the main algorithmic components is measured, and the strong and weak parallel scalability of the methods is demonstrated. The different relative weighting and significance of the algorithmic components on GPUs and CPUs is discussed. Results on problems involving adaptively refined nonconforming meshes are shown, and the use of the preconditioners on a large-scale magnetic diffusion problem using all spaces of the finite element de Rham complex is illustrated.</jats:p>",
+    "DOI": "10.1177/10943420231175462",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2023,
+          6,
+          1
+        ]
+      ],
+      "date-time": "2023-06-01T05:08:41Z",
+      "timestamp": 1685596121000
+    },
+    "page": "578-599",
+    "update-policy": "https://doi.org/10.1177/sage-journals-update-policy",
+    "source": "Crossref",
+    "is-referenced-by-count": 12,
+    "title": [
+      "End-to-end GPU acceleration of low-order-refined preconditioning for high-order finite element discretizations"
+    ],
+    "prefix": "10.1177",
+    "volume": "37",
+    "author": [
+      {
+        "ORCID": "https://orcid.org/0000-0003-4885-2934",
+        "authenticated-orcid": false,
+        "given": "Will",
+        "family": "Pazner",
+        "sequence": "first",
+        "affiliation": [
+          {
+            "name": "Fariborz Maseeh Department of Mathematics and Statistics, Portland State University, Portland, OR, USA"
+          },
+          {
+            "name": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-2810-3090",
+        "authenticated-orcid": false,
+        "given": "Tzanio",
+        "family": "Kolev",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Jean-Sylvain",
+        "family": "Camier",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "179",
+    "published-online": {
+      "date-parts": [
+        [
+          2023,
+          6,
+          1
+        ]
+      ]
+    },
+    "reference": [
+      {
+        "key": "bibr1-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.parco.2021.102841"
+      },
+      {
+        "key": "bibr2-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.camwa.2020.06.009"
+      },
+      {
+        "key": "bibr3-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/pl00005386"
+      },
+      {
+        "key": "bibr4-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/110838844"
+      },
+      {
+        "key": "bibr5-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/18M1194997"
+      },
+      {
+        "key": "bibr6-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.21105/joss.02945"
+      },
+      {
+        "key": "bibr7-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/s0045-7825(94)80004-9"
+      },
+      {
+        "key": "bibr8-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/090746367"
+      },
+      {
+        "key": "bibr9-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/s0036142995292281"
+      },
+      {
+        "key": "bibr10-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/18M1193992"
+      },
+      {
+        "key": "bibr11-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/0021-9991(85)90034-8"
+      },
+      {
+        "key": "bibr12-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/21m1392115"
+      },
+      {
+        "key": "bibr13-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.parco.2021.102840"
+      },
+      {
+        "key": "bibr14-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/3-540-47789-6_66"
+      },
+      {
+        "key": "bibr15-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1177/1094342020915762"
+      },
+      {
+        "key": "bibr16-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1006/jcph.1997.5651"
+      },
+      {
+        "key": "bibr17-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/3-540-26825-1_3"
+      },
+      {
+        "key": "bibr18-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.compfluid.2020.104541"
+      },
+      {
+        "key": "bibr19-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-3-642-11842-5_5"
+      },
+      {
+        "key": "bibr20-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.2514/1.15497"
+      },
+      {
+        "key": "bibr21-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/s0168-9274(01)00115-5"
+      },
+      {
+        "key": "bibr22-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/060660588"
+      },
+      {
+        "key": "bibr23-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-3-319-41321-1_23"
+      },
+      {
+        "key": "bibr24-10943420231175462",
+        "volume-title": "CEED ECP Milestone Report: High-Order Algorithmic Developments and Optimizations for Large-Scale GPU-Accelerated Simulations",
+        "author": "Kolev T",
+        "year": "2021"
+      },
+      {
+        "key": "bibr25-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1177/10943420211020803"
+      },
+      {
+        "key": "bibr26-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.4208/jcm.2009.27.5.013"
+      },
+      {
+        "key": "bibr27-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/110859361"
+      },
+      {
+        "key": "bibr28-10943420231175462",
+        "unstructured": "Kreeft J, Palha A, Gerritsma M (2011) Mimetic framework on curvilinear quadrilaterals of arbitrary order. ArXiv:1111.4304."
+      },
+      {
+        "key": "bibr29-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3325864"
+      },
+      {
+        "key": "bibr30-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3322813"
+      },
+      {
+        "key": "bibr31-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/16m110455x"
+      },
+      {
+        "key": "bibr32-10943420231175462",
+        "unstructured": "Ljungkvist K (2017) Matrix-free finite-element computations on graphics processors with adaptively refined unstructured meshes. Proceedings of the 25th high performance computing symposium, HPC ’17. San Diego, CA, 23-26 April 2017."
+      },
+      {
+        "key": "bibr33-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/s0045-7825(00)00322-4"
+      },
+      {
+        "key": "bibr34-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/140980260"
+      },
+      {
+        "key": "bibr35-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/0021-9991(80)90005-4"
+      },
+      {
+        "key": "bibr36-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/0732015"
+      },
+      {
+        "key": "bibr37-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/19m1282052"
+      },
+      {
+        "key": "bibr38-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/s42967-021-00136-3"
+      },
+      {
+        "key": "bibr39-10943420231175462",
+        "unstructured": "Pazner W, Kolev T, Dohrmann C (2022) Low-order preconditioning for the high-order de Rham complex. arXiv eprint 2203.02465. (Submitted for publication)."
+      },
+      {
+        "key": "bibr40-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/1.9781611977141.4"
+      },
+      {
+        "key": "bibr41-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/tmag.2005.860127"
+      },
+      {
+        "key": "bibr42-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/bf01061297"
+      },
+      {
+        "key": "bibr43-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1002/nla.1979"
+      },
+      {
+        "key": "bibr44-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/s0377-0427(00)00393-9"
+      },
+      {
+        "key": "bibr45-10943420231175462",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.nucengdes.2019.110422"
+      }
+    ],
+    "container-title": [
+      "The International Journal of High Performance Computing Applications"
+    ],
+    "original-title": [],
+    "language": "en",
+    "link": [
+      {
+        "URL": "https://journals.sagepub.com/doi/pdf/10.1177/10943420231175462",
+        "content-type": "application/pdf",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://journals.sagepub.com/doi/full-xml/10.1177/10943420231175462",
+        "content-type": "application/xml",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://journals.sagepub.com/doi/pdf/10.1177/10943420231175462",
+        "content-type": "application/pdf",
+        "content-version": "vor",
+        "intended-application": "syndication"
+      },
+      {
+        "URL": "https://journals.sagepub.com/doi/pdf/10.1177/10943420231175462",
+        "content-type": "unspecified",
+        "content-version": "vor",
+        "intended-application": "similarity-checking"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2026,
+          4,
+          29
+        ]
+      ],
+      "date-time": "2026-04-29T08:17:29Z",
+      "timestamp": 1777450649000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://journals.sagepub.com/doi/10.1177/10943420231175462"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2023,
+          6,
+          1
+        ]
+      ]
+    },
+    "references-count": 45,
+    "journal-issue": {
+      "issue": "5",
+      "published-print": {
+        "date-parts": [
+          [
+            2023,
+            9
+          ]
+        ]
+      }
+    },
+    "alternative-id": [
+      "10.1177/10943420231175462"
+    ],
+    "URL": "https://doi.org/10.1177/10943420231175462",
+    "relation": {},
+    "ISSN": [
+      "1094-3420",
+      "1741-2846"
+    ],
+    "issn-type": [
+      {
+        "value": "1094-3420",
+        "type": "print"
+      },
+      {
+        "value": "1741-2846",
+        "type": "electronic"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2023,
+          6,
+          1
+        ]
+      ]
+    }
+  }
+}

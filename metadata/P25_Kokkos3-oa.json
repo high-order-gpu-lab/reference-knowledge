@@ -1,0 +1,2144 @@
+{
+  "id": "https://openalex.org/W3195293013",
+  "doi": "https://doi.org/10.1109/tpds.2021.3097283",
+  "title": "Kokkos 3: Programming Model Extensions for the Exascale Era",
+  "display_name": "Kokkos 3: Programming Model Extensions for the Exascale Era",
+  "publication_year": 2021,
+  "publication_date": "2021-08-24",
+  "ids": {
+    "openalex": "https://openalex.org/W3195293013",
+    "doi": "https://doi.org/10.1109/tpds.2021.3097283",
+    "mag": "3195293013"
+  },
+  "language": "en",
+  "primary_location": {
+    "id": "doi:10.1109/tpds.2021.3097283",
+    "doi": "https://doi.org/10.1109/tpds.2021.3097283",
+    "is_oa": true,
+    "landing_page_url": "https://doi.org/10.1109/tpds.2021.3097283",
+    "pdf_url": "https://ieeexplore.ieee.org/ielx7/71/9575177/09485033.pdf",
+    "source": {
+      "id": "https://openalex.org/S97130795",
+      "display_name": "IEEE Transactions on Parallel and Distributed Systems",
+      "issn_l": "1045-9219",
+      "issn": [
+        "1045-9219",
+        "1558-2183",
+        "2161-9883"
+      ],
+      "is_oa": false,
+      "is_in_doaj": false,
+      "is_core": true,
+      "listed_in": [
+        "ccf-a",
+        "cwts-core",
+        "dongbi-a",
+        "jufo-2",
+        "norway-2",
+        "poland-140",
+        "russia-white-list-1",
+        "vabb-shw"
+      ],
+      "host_organization": "https://openalex.org/P4310319808",
+      "host_organization_name": "Institute of Electrical and Electronics Engineers",
+      "host_organization_lineage": [
+        "https://openalex.org/P4310319808"
+      ],
+      "host_organization_lineage_names": [
+        "Institute of Electrical and Electronics Engineers"
+      ],
+      "type": "journal"
+    },
+    "license": "cc-by",
+    "license_id": "https://openalex.org/licenses/cc-by",
+    "version": "publishedVersion",
+    "is_accepted": true,
+    "is_published": true,
+    "raw_source_name": "IEEE Transactions on Parallel and Distributed Systems",
+    "raw_type": "journal-article"
+  },
+  "volume": null,
+  "type": "article",
+  "indexed_in": [
+    "crossref"
+  ],
+  "open_access": {
+    "is_oa": true,
+    "oa_status": "hybrid",
+    "oa_url": "https://ieeexplore.ieee.org/ielx7/71/9575177/09485033.pdf",
+    "any_repository_has_fulltext": false
+  },
+  "authorships": [
+    {
+      "author_position": "first",
+      "author": {
+        "id": "https://openalex.org/A5081085090",
+        "display_name": "Christian Robert Trott",
+        "orcid": "https://orcid.org/0000-0003-0661-5594",
+        "observed_orcids": [
+          "https://orcid.org/0000-0003-0661-5594"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4210104735",
+          "display_name": "Sandia National Laboratories",
+          "ror": "https://ror.org/01apwpt12",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Christian R. Trott",
+      "raw_affiliation_strings": [
+        "Sandia National Laboratories, Albuquerque, NM, USA"
+      ],
+      "raw_orcid": "https://orcid.org/0000-0003-0661-5594",
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Sandia National Laboratories, Albuquerque, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5037788490",
+        "display_name": "Damien Lebrun-Grandié",
+        "orcid": "https://orcid.org/0000-0003-1952-7219",
+        "observed_orcids": [
+          "https://orcid.org/0000-0003-1952-7219"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I1289243028",
+          "display_name": "Oak Ridge National Laboratory",
+          "ror": "https://ror.org/01qz5mb56",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1289243028",
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I39565521",
+            "https://openalex.org/I4210159294"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Damien Lebrun-Grandie",
+      "raw_affiliation_strings": [
+        "Oak Ridge National Laboratory, Oak Ridge, TN, USA"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Oak Ridge National Laboratory, Oak Ridge, TN, USA",
+          "institution_ids": [
+            "https://openalex.org/I1289243028"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5017691593",
+        "display_name": "Daniel Arndt",
+        "orcid": "https://orcid.org/0000-0001-8773-4901",
+        "observed_orcids": [
+          "https://orcid.org/0000-0001-8773-4901"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I1289243028",
+          "display_name": "Oak Ridge National Laboratory",
+          "ror": "https://ror.org/01qz5mb56",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1289243028",
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I39565521",
+            "https://openalex.org/I4210159294"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Daniel Arndt",
+      "raw_affiliation_strings": [
+        "Oak Ridge National Laboratory, Oak Ridge, TN, USA"
+      ],
+      "raw_orcid": "https://orcid.org/0000-0001-8773-4901",
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Oak Ridge National Laboratory, Oak Ridge, TN, USA",
+          "institution_ids": [
+            "https://openalex.org/I1289243028"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5089631372",
+        "display_name": "Jan Ciesko",
+        "orcid": "https://orcid.org/0000-0003-3148-4477",
+        "observed_orcids": [
+          "https://orcid.org/0000-0003-3148-4477"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4210104735",
+          "display_name": "Sandia National Laboratories",
+          "ror": "https://ror.org/01apwpt12",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Jan Ciesko",
+      "raw_affiliation_strings": [
+        "Sandia National Laboratories, Albuquerque, NM, USA"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Sandia National Laboratories, Albuquerque, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5103071282",
+        "display_name": "Vinh Dang",
+        "orcid": "https://orcid.org/0000-0002-4958-6159",
+        "observed_orcids": [
+          "https://orcid.org/0000-0002-4958-6159"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4210104735",
+          "display_name": "Sandia National Laboratories",
+          "ror": "https://ror.org/01apwpt12",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Vinh Dang",
+      "raw_affiliation_strings": [
+        "Sandia National Laboratories, Albuquerque, NM, USA"
+      ],
+      "raw_orcid": "https://orcid.org/0000-0002-4958-6159",
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Sandia National Laboratories, Albuquerque, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5031524081",
+        "display_name": "Nathan Ellingwood",
+        "orcid": "https://orcid.org/0000-0002-7622-9667",
+        "observed_orcids": [
+          "https://orcid.org/0000-0002-7622-9667"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4210104735",
+          "display_name": "Sandia National Laboratories",
+          "ror": "https://ror.org/01apwpt12",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Nathan Ellingwood",
+      "raw_affiliation_strings": [
+        "Sandia National Laboratories, Albuquerque, NM, USA"
+      ],
+      "raw_orcid": "https://orcid.org/0000-0002-7622-9667",
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Sandia National Laboratories, Albuquerque, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5002706190",
+        "display_name": "Rahulkumar Gayatri",
+        "orcid": null,
+        "observed_orcids": []
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I148283060",
+          "display_name": "Lawrence Berkeley National Laboratory",
+          "ror": "https://ror.org/02jbv0t02",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I148283060",
+            "https://openalex.org/I39565521"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Rahulkumar Gayatri",
+      "raw_affiliation_strings": [
+        "Lawrence Berkeley National Laboratory, Berkeley, CA, USA"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Lawrence Berkeley National Laboratory, Berkeley, CA, USA",
+          "institution_ids": [
+            "https://openalex.org/I148283060"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5088507093",
+        "display_name": "Evan Harvey",
+        "orcid": "https://orcid.org/0000-0003-2772-8053",
+        "observed_orcids": [
+          "https://orcid.org/0000-0003-2772-8053"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4210104735",
+          "display_name": "Sandia National Laboratories",
+          "ror": "https://ror.org/01apwpt12",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Evan Harvey",
+      "raw_affiliation_strings": [
+        "Sandia National Laboratories, Albuquerque, NM, USA"
+      ],
+      "raw_orcid": "https://orcid.org/0000-0003-2772-8053",
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Sandia National Laboratories, Albuquerque, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5064173341",
+        "display_name": "Daisy S. Hollman",
+        "orcid": null,
+        "observed_orcids": []
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4210104735",
+          "display_name": "Sandia National Laboratories",
+          "ror": "https://ror.org/01apwpt12",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Daisy S. Hollman",
+      "raw_affiliation_strings": [
+        "Sandia National Laboratories, Albuquerque, NM, USA"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Sandia National Laboratories, Albuquerque, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5090291803",
+        "display_name": "Daniel Ibanez",
+        "orcid": "https://orcid.org/0000-0002-6537-5589",
+        "observed_orcids": [
+          "https://orcid.org/0000-0002-6537-5589"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4210104735",
+          "display_name": "Sandia National Laboratories",
+          "ror": "https://ror.org/01apwpt12",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Dan Ibanez",
+      "raw_affiliation_strings": [
+        "Sandia National Laboratories, Albuquerque, NM, USA"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Sandia National Laboratories, Albuquerque, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5009239394",
+        "display_name": "Nevin Liber",
+        "orcid": "https://orcid.org/0000-0002-0271-3181",
+        "observed_orcids": [
+          "https://orcid.org/0000-0002-0271-3181"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I1282105669",
+          "display_name": "Argonne National Laboratory",
+          "ror": "https://ror.org/05gvnxz63",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1282105669",
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I39565521",
+            "https://openalex.org/I40347166"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Nevin Liber",
+      "raw_affiliation_strings": [
+        "Argonne National Laboratory, Lemont, IL, USA"
+      ],
+      "raw_orcid": "https://orcid.org/0000-0002-0271-3181",
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Argonne National Laboratory, Lemont, IL, USA",
+          "institution_ids": [
+            "https://openalex.org/I1282105669"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5052353335",
+        "display_name": "Jonathan Madsen",
+        "orcid": null,
+        "observed_orcids": []
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I148283060",
+          "display_name": "Lawrence Berkeley National Laboratory",
+          "ror": "https://ror.org/02jbv0t02",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I148283060",
+            "https://openalex.org/I39565521"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Jonathan Madsen",
+      "raw_affiliation_strings": [
+        "Lawrence Berkeley National Laboratory, Berkeley, CA, USA"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Lawrence Berkeley National Laboratory, Berkeley, CA, USA",
+          "institution_ids": [
+            "https://openalex.org/I148283060"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": null,
+        "display_name": "Jeff Miles",
+        "orcid": null,
+        "observed_orcids": []
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4210104735",
+          "display_name": "Sandia National Laboratories",
+          "ror": "https://ror.org/01apwpt12",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Jeff Miles",
+      "raw_affiliation_strings": [
+        "Sandia National Laboratories, Albuquerque, NM, USA"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Sandia National Laboratories, Albuquerque, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5082282882",
+        "display_name": "David Poliakoff",
+        "orcid": "https://orcid.org/0000-0001-9678-0766",
+        "observed_orcids": [
+          "https://orcid.org/0000-0001-9678-0766"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4210104735",
+          "display_name": "Sandia National Laboratories",
+          "ror": "https://ror.org/01apwpt12",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "David Poliakoff",
+      "raw_affiliation_strings": [
+        "Sandia National Laboratories, Albuquerque, NM, USA"
+      ],
+      "raw_orcid": "https://orcid.org/0000-0001-9678-0766",
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Sandia National Laboratories, Albuquerque, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5091810854",
+        "display_name": "Amy Powell",
+        "orcid": null,
+        "observed_orcids": []
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4210104735",
+          "display_name": "Sandia National Laboratories",
+          "ror": "https://ror.org/01apwpt12",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Amy Powell",
+      "raw_affiliation_strings": [
+        "Sandia National Laboratories, Albuquerque, NM, USA"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Sandia National Laboratories, Albuquerque, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5023482297",
+        "display_name": "Sivasankaran Rajamanickam",
+        "orcid": "https://orcid.org/0000-0002-5854-409X",
+        "observed_orcids": [
+          "https://orcid.org/0000-0002-5854-409X"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4210104735",
+          "display_name": "Sandia National Laboratories",
+          "ror": "https://ror.org/01apwpt12",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Sivasankaran Rajamanickam",
+      "raw_affiliation_strings": [
+        "Sandia National Laboratories, Albuquerque, NM, USA"
+      ],
+      "raw_orcid": "https://orcid.org/0000-0002-5854-409X",
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Sandia National Laboratories, Albuquerque, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5088555709",
+        "display_name": "Mikael Simberg",
+        "orcid": "https://orcid.org/0000-0002-7238-8935",
+        "observed_orcids": [
+          "https://orcid.org/0000-0002-7238-8935"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4391767926",
+          "display_name": "CSCS - Swiss National Supercomputing Centre",
+          "ror": "https://ror.org/04rzmms09",
+          "country_code": "CH",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I2799323385",
+            "https://openalex.org/I35440088",
+            "https://openalex.org/I4391767926"
+          ]
+        }
+      ],
+      "countries": [
+        "CH"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Mikael Simberg",
+      "raw_affiliation_strings": [
+        "Swiss National Supercomputing Centre, Lugano, Switzerland"
+      ],
+      "raw_orcid": "https://orcid.org/0000-0002-7238-8935",
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Swiss National Supercomputing Centre, Lugano, Switzerland",
+          "institution_ids": [
+            "https://openalex.org/I4391767926"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5091359825",
+        "display_name": "Dan Sunderland",
+        "orcid": "https://orcid.org/0009-0000-7007-2833",
+        "observed_orcids": [
+          "https://orcid.org/0009-0000-7007-2833"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4210104735",
+          "display_name": "Sandia National Laboratories",
+          "ror": "https://ror.org/01apwpt12",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Dan Sunderland",
+      "raw_affiliation_strings": [
+        "Sandia National Laboratories, Albuquerque, NM, USA"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Sandia National Laboratories, Albuquerque, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5003571769",
+        "display_name": "Bruno Turcksin",
+        "orcid": "https://orcid.org/0000-0001-5954-6313",
+        "observed_orcids": [
+          "https://orcid.org/0000-0001-5954-6313"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I1289243028",
+          "display_name": "Oak Ridge National Laboratory",
+          "ror": "https://ror.org/01qz5mb56",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1289243028",
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I39565521",
+            "https://openalex.org/I4210159294"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Bruno Turcksin",
+      "raw_affiliation_strings": [
+        "Oak Ridge National Laboratory, Oak Ridge, TN, USA"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Oak Ridge National Laboratory, Oak Ridge, TN, USA",
+          "institution_ids": [
+            "https://openalex.org/I1289243028"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "last",
+      "author": {
+        "id": "https://openalex.org/A5065804395",
+        "display_name": "Jeremiah J Wilke",
+        "orcid": null,
+        "observed_orcids": []
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4210104735",
+          "display_name": "Sandia National Laboratories",
+          "ror": "https://ror.org/01apwpt12",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Jeremiah Wilke",
+      "raw_affiliation_strings": [
+        "Sandia National Laboratories, Albuquerque, NM, USA"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Sandia National Laboratories, Albuquerque, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ]
+    }
+  ],
+  "institutions": [],
+  "countries_distinct_count": 2,
+  "institutions_distinct_count": 5,
+  "corresponding_author_ids": [],
+  "corresponding_institution_ids": [],
+  "apc_list": {
+    "value": 2045,
+    "currency": "USD",
+    "value_usd": 2045
+  },
+  "apc_paid": {
+    "value": 2045,
+    "currency": "USD",
+    "value_usd": 2045
+  },
+  "fwci": 43.0095,
+  "has_fulltext": true,
+  "cited_by_count": 489,
+  "citation_normalized_percentile": {
+    "value": 0.99979287,
+    "is_in_top_1_percent": true,
+    "is_in_top_10_percent": true
+  },
+  "cited_by_percentile_year": {
+    "min": 98,
+    "max": 100
+  },
+  "biblio": {
+    "volume": "33",
+    "issue": "4",
+    "first_page": "805",
+    "last_page": "817"
+  },
+  "is_retracted": false,
+  "is_paratext": false,
+  "is_xpac": false,
+  "primary_topic": {
+    "id": "https://openalex.org/T10054",
+    "display_name": "Parallel Computing and Optimization Techniques",
+    "score": 0.9994999766349792,
+    "subfield": {
+      "id": "https://openalex.org/subfields/1708",
+      "display_name": "Hardware and Architecture"
+    },
+    "field": {
+      "id": "https://openalex.org/fields/17",
+      "display_name": "Computer Science"
+    },
+    "domain": {
+      "id": "https://openalex.org/domains/3",
+      "display_name": "Physical Sciences"
+    }
+  },
+  "topics": [
+    {
+      "id": "https://openalex.org/T10054",
+      "display_name": "Parallel Computing and Optimization Techniques",
+      "score": 0.9994999766349792,
+      "subfield": {
+        "id": "https://openalex.org/subfields/1708",
+        "display_name": "Hardware and Architecture"
+      },
+      "field": {
+        "id": "https://openalex.org/fields/17",
+        "display_name": "Computer Science"
+      },
+      "domain": {
+        "id": "https://openalex.org/domains/3",
+        "display_name": "Physical Sciences"
+      }
+    },
+    {
+      "id": "https://openalex.org/T10715",
+      "display_name": "Distributed and Parallel Computing Systems",
+      "score": 0.00019999999494757503,
+      "subfield": {
+        "id": "https://openalex.org/subfields/1705",
+        "display_name": "Computer Networks and Communications"
+      },
+      "field": {
+        "id": "https://openalex.org/fields/17",
+        "display_name": "Computer Science"
+      },
+      "domain": {
+        "id": "https://openalex.org/domains/3",
+        "display_name": "Physical Sciences"
+      }
+    },
+    {
+      "id": "https://openalex.org/T10904",
+      "display_name": "Embedded Systems Design Techniques",
+      "score": 9.999999747378752e-05,
+      "subfield": {
+        "id": "https://openalex.org/subfields/1708",
+        "display_name": "Hardware and Architecture"
+      },
+      "field": {
+        "id": "https://openalex.org/fields/17",
+        "display_name": "Computer Science"
+      },
+      "domain": {
+        "id": "https://openalex.org/domains/3",
+        "display_name": "Physical Sciences"
+      }
+    }
+  ],
+  "keywords": [
+    {
+      "id": "https://openalex.org/keywords/kokkos",
+      "display_name": "Kokkos",
+      "score": 0.9980000257492065
+    },
+    {
+      "id": "https://openalex.org/keywords/performance-portability",
+      "display_name": "performance portability",
+      "score": 0.9079999923706055
+    },
+    {
+      "id": "https://openalex.org/keywords/exascale-computing",
+      "display_name": "exascale computing",
+      "score": 0.968999981880188
+    },
+    {
+      "id": "https://openalex.org/keywords/parallel-programming-models",
+      "display_name": "parallel programming models",
+      "score": 0.703000009059906
+    },
+    {
+      "id": "https://openalex.org/keywords/hierarchical-parallelism",
+      "display_name": "hierarchical parallelism",
+      "score": 0.9610000252723694
+    },
+    {
+      "id": "https://openalex.org/keywords/containers",
+      "display_name": "containers",
+      "score": 0.777999997138977
+    },
+    {
+      "id": "https://openalex.org/keywords/task-graphs",
+      "display_name": "task graphs",
+      "score": 0.9990000128746033
+    },
+    {
+      "id": "https://openalex.org/keywords/atomic-operations",
+      "display_name": "atomic operations",
+      "score": 0.8330000042915344
+    },
+    {
+      "id": "https://openalex.org/keywords/memory-hierarchy",
+      "display_name": "memory hierarchy",
+      "score": 0.6549999713897705
+    },
+    {
+      "id": "https://openalex.org/keywords/gpu-computing",
+      "display_name": "GPU computing",
+      "score": 0.47099998593330383
+    }
+  ],
+  "concepts": [
+    {
+      "id": "https://openalex.org/C41008148",
+      "wikidata": "https://www.wikidata.org/wiki/Q21198",
+      "display_name": "Computer science",
+      "level": 0,
+      "score": 0.902302622795105
+    },
+    {
+      "id": "https://openalex.org/C63000827",
+      "wikidata": "https://www.wikidata.org/wiki/Q3080428",
+      "display_name": "Software portability",
+      "level": 2,
+      "score": 0.8331828117370605
+    },
+    {
+      "id": "https://openalex.org/C2778837361",
+      "wikidata": "https://www.wikidata.org/wiki/Q2450880",
+      "display_name": "Exascale computing",
+      "level": 3,
+      "score": 0.7181992530822754
+    },
+    {
+      "id": "https://openalex.org/C2778100165",
+      "wikidata": "https://www.wikidata.org/wiki/Q1589327",
+      "display_name": "Memory hierarchy",
+      "level": 3,
+      "score": 0.614406406879425
+    },
+    {
+      "id": "https://openalex.org/C173608175",
+      "wikidata": "https://www.wikidata.org/wiki/Q232661",
+      "display_name": "Parallel computing",
+      "level": 1,
+      "score": 0.6041318774223328
+    },
+    {
+      "id": "https://openalex.org/C26517878",
+      "wikidata": "https://www.wikidata.org/wiki/Q228039",
+      "display_name": "Key (lock)",
+      "level": 2,
+      "score": 0.5825719833374023
+    },
+    {
+      "id": "https://openalex.org/C34165917",
+      "wikidata": "https://www.wikidata.org/wiki/Q188267",
+      "display_name": "Programming paradigm",
+      "level": 2,
+      "score": 0.5823678970336914
+    },
+    {
+      "id": "https://openalex.org/C118524514",
+      "wikidata": "https://www.wikidata.org/wiki/Q173212",
+      "display_name": "Computer architecture",
+      "level": 1,
+      "score": 0.534329891204834
+    },
+    {
+      "id": "https://openalex.org/C2780870223",
+      "wikidata": "https://www.wikidata.org/wiki/Q1004415",
+      "display_name": "Runtime system",
+      "level": 2,
+      "score": 0.4715319275856018
+    },
+    {
+      "id": "https://openalex.org/C31170391",
+      "wikidata": "https://www.wikidata.org/wiki/Q188619",
+      "display_name": "Hierarchy",
+      "level": 2,
+      "score": 0.45824310183525085
+    },
+    {
+      "id": "https://openalex.org/C2780451532",
+      "wikidata": "https://www.wikidata.org/wiki/Q759676",
+      "display_name": "Task (project management)",
+      "level": 2,
+      "score": 0.44462624192237854
+    },
+    {
+      "id": "https://openalex.org/C2777904410",
+      "wikidata": "https://www.wikidata.org/wiki/Q7397",
+      "display_name": "Software",
+      "level": 2,
+      "score": 0.4319208860397339
+    },
+    {
+      "id": "https://openalex.org/C2781172179",
+      "wikidata": "https://www.wikidata.org/wiki/Q853109",
+      "display_name": "Parallelism (grammar)",
+      "level": 2,
+      "score": 0.42899852991104126
+    },
+    {
+      "id": "https://openalex.org/C83283714",
+      "wikidata": "https://www.wikidata.org/wiki/Q121117",
+      "display_name": "Supercomputer",
+      "level": 2,
+      "score": 0.36664754152297974
+    },
+    {
+      "id": "https://openalex.org/C120314980",
+      "wikidata": "https://www.wikidata.org/wiki/Q180634",
+      "display_name": "Distributed computing",
+      "level": 1,
+      "score": 0.32549920678138733
+    },
+    {
+      "id": "https://openalex.org/C111919701",
+      "wikidata": "https://www.wikidata.org/wiki/Q9135",
+      "display_name": "Operating system",
+      "level": 1,
+      "score": 0.31406617164611816
+    },
+    {
+      "id": "https://openalex.org/C199360897",
+      "wikidata": "https://www.wikidata.org/wiki/Q9143",
+      "display_name": "Programming language",
+      "level": 1,
+      "score": 0.27153533697128296
+    },
+    {
+      "id": "https://openalex.org/C34447519",
+      "wikidata": "https://www.wikidata.org/wiki/Q179522",
+      "display_name": "Market economy",
+      "level": 1,
+      "score": 0.0
+    },
+    {
+      "id": "https://openalex.org/C187736073",
+      "wikidata": "https://www.wikidata.org/wiki/Q2920921",
+      "display_name": "Management",
+      "level": 1,
+      "score": 0.0
+    },
+    {
+      "id": "https://openalex.org/C115537543",
+      "wikidata": "https://www.wikidata.org/wiki/Q165596",
+      "display_name": "Cache",
+      "level": 2,
+      "score": 0.0
+    },
+    {
+      "id": "https://openalex.org/C162324750",
+      "wikidata": "https://www.wikidata.org/wiki/Q8134",
+      "display_name": "Economics",
+      "level": 0,
+      "score": 0.0
+    }
+  ],
+  "mesh": [],
+  "locations_count": 8,
+  "locations": [
+    {
+      "id": "doi:10.1109/tpds.2021.3097283",
+      "doi": "https://doi.org/10.1109/tpds.2021.3097283",
+      "is_oa": true,
+      "landing_page_url": "https://doi.org/10.1109/tpds.2021.3097283",
+      "pdf_url": "https://ieeexplore.ieee.org/ielx7/71/9575177/09485033.pdf",
+      "source": {
+        "id": "https://openalex.org/S97130795",
+        "display_name": "IEEE Transactions on Parallel and Distributed Systems",
+        "issn_l": "1045-9219",
+        "issn": [
+          "1045-9219",
+          "1558-2183",
+          "2161-9883"
+        ],
+        "is_oa": false,
+        "is_in_doaj": false,
+        "is_core": true,
+        "listed_in": [
+          "ccf-a",
+          "cwts-core",
+          "dongbi-a",
+          "jufo-2",
+          "norway-2",
+          "poland-140",
+          "russia-white-list-1",
+          "vabb-shw"
+        ],
+        "host_organization": "https://openalex.org/P4310319808",
+        "host_organization_name": "Institute of Electrical and Electronics Engineers",
+        "host_organization_lineage": [
+          "https://openalex.org/P4310319808"
+        ],
+        "host_organization_lineage_names": [
+          "Institute of Electrical and Electronics Engineers"
+        ],
+        "type": "journal"
+      },
+      "license": "cc-by",
+      "license_id": "https://openalex.org/licenses/cc-by",
+      "version": "publishedVersion",
+      "is_accepted": true,
+      "is_published": true,
+      "raw_source_name": "IEEE Transactions on Parallel and Distributed Systems",
+      "raw_type": "journal-article"
+    },
+    {
+      "id": "pmh:oai:escholarship.org/ark:/13030/qt0wz9p9vg",
+      "doi": null,
+      "is_oa": false,
+      "landing_page_url": "https://escholarship.org/uc/item/0wz9p9vg",
+      "pdf_url": null,
+      "source": {
+        "id": "https://openalex.org/S4306400115",
+        "display_name": "eScholarship (California Digital Library)",
+        "issn_l": null,
+        "issn": null,
+        "is_oa": false,
+        "is_in_doaj": false,
+        "is_core": false,
+        "listed_in": [],
+        "host_organization": "https://openalex.org/I2801248553",
+        "host_organization_name": "California Digital Library",
+        "host_organization_lineage": [
+          "https://openalex.org/I2801248553"
+        ],
+        "host_organization_lineage_names": [],
+        "type": "repository"
+      },
+      "license": null,
+      "license_id": null,
+      "version": "submittedVersion",
+      "is_accepted": false,
+      "is_published": false,
+      "raw_source_name": "IEEE Transactions on Parallel and Distributed Systems, vol 33, iss 4",
+      "raw_type": "article"
+    },
+    {
+      "id": "pmh:oai:escholarship.org:ark:/13030/qt0wz9p9vg",
+      "doi": null,
+      "is_oa": false,
+      "landing_page_url": "https://escholarship.org/uc/item/0wz9p9vg",
+      "pdf_url": null,
+      "source": {
+        "id": "https://openalex.org/S4306400115",
+        "display_name": "eScholarship (California Digital Library)",
+        "issn_l": null,
+        "issn": null,
+        "is_oa": false,
+        "is_in_doaj": false,
+        "is_core": false,
+        "listed_in": [],
+        "host_organization": "https://openalex.org/I2801248553",
+        "host_organization_name": "California Digital Library",
+        "host_organization_lineage": [
+          "https://openalex.org/I2801248553"
+        ],
+        "host_organization_lineage_names": [],
+        "type": "repository"
+      },
+      "license": null,
+      "license_id": null,
+      "version": "submittedVersion",
+      "is_accepted": false,
+      "is_published": false,
+      "raw_source_name": "IEEE Transactions on Parallel and Distributed Systems, vol 33, iss 4",
+      "raw_type": "article"
+    },
+    {
+      "id": "pmh:oai:osti.gov:1822222",
+      "doi": null,
+      "is_oa": false,
+      "landing_page_url": "https://www.osti.gov/biblio/1822222",
+      "pdf_url": null,
+      "source": {
+        "id": "https://openalex.org/S4306402487",
+        "display_name": "OSTI OAI (U.S. Department of Energy Office of Scientific and Technical Information)",
+        "issn_l": null,
+        "issn": null,
+        "is_oa": false,
+        "is_in_doaj": false,
+        "is_core": false,
+        "listed_in": [],
+        "host_organization": "https://openalex.org/I139351228",
+        "host_organization_name": "Office of Scientific and Technical Information",
+        "host_organization_lineage": [
+          "https://openalex.org/I139351228"
+        ],
+        "host_organization_lineage_names": [],
+        "type": "repository"
+      },
+      "license": null,
+      "license_id": null,
+      "version": "submittedVersion",
+      "is_accepted": false,
+      "is_published": false,
+      "raw_source_name": null,
+      "raw_type": null
+    },
+    {
+      "id": "pmh:oai:osti.gov:1825555",
+      "doi": null,
+      "is_oa": false,
+      "landing_page_url": "https://www.osti.gov/biblio/1825555",
+      "pdf_url": null,
+      "source": {
+        "id": "https://openalex.org/S4306402487",
+        "display_name": "OSTI OAI (U.S. Department of Energy Office of Scientific and Technical Information)",
+        "issn_l": null,
+        "issn": null,
+        "is_oa": false,
+        "is_in_doaj": false,
+        "is_core": false,
+        "listed_in": [],
+        "host_organization": "https://openalex.org/I139351228",
+        "host_organization_name": "Office of Scientific and Technical Information",
+        "host_organization_lineage": [
+          "https://openalex.org/I139351228"
+        ],
+        "host_organization_lineage_names": [],
+        "type": "repository"
+      },
+      "license": null,
+      "license_id": null,
+      "version": "submittedVersion",
+      "is_accepted": false,
+      "is_published": false,
+      "raw_source_name": null,
+      "raw_type": null
+    },
+    {
+      "id": "pmh:oai:osti.gov:1825556",
+      "doi": null,
+      "is_oa": false,
+      "landing_page_url": "https://www.osti.gov/biblio/1825556",
+      "pdf_url": null,
+      "source": {
+        "id": "https://openalex.org/S4306402487",
+        "display_name": "OSTI OAI (U.S. Department of Energy Office of Scientific and Technical Information)",
+        "issn_l": null,
+        "issn": null,
+        "is_oa": false,
+        "is_in_doaj": false,
+        "is_core": false,
+        "listed_in": [],
+        "host_organization": "https://openalex.org/I139351228",
+        "host_organization_name": "Office of Scientific and Technical Information",
+        "host_organization_lineage": [
+          "https://openalex.org/I139351228"
+        ],
+        "host_organization_lineage_names": [],
+        "type": "repository"
+      },
+      "license": null,
+      "license_id": null,
+      "version": "submittedVersion",
+      "is_accepted": false,
+      "is_published": false,
+      "raw_source_name": null,
+      "raw_type": null
+    },
+    {
+      "id": "pmh:oai:osti.gov:1829069",
+      "doi": null,
+      "is_oa": false,
+      "landing_page_url": "https://www.osti.gov/biblio/1829069",
+      "pdf_url": null,
+      "source": {
+        "id": "https://openalex.org/S4306402487",
+        "display_name": "OSTI OAI (U.S. Department of Energy Office of Scientific and Technical Information)",
+        "issn_l": null,
+        "issn": null,
+        "is_oa": false,
+        "is_in_doaj": false,
+        "is_core": false,
+        "listed_in": [],
+        "host_organization": "https://openalex.org/I139351228",
+        "host_organization_name": "Office of Scientific and Technical Information",
+        "host_organization_lineage": [
+          "https://openalex.org/I139351228"
+        ],
+        "host_organization_lineage_names": [],
+        "type": "repository"
+      },
+      "license": null,
+      "license_id": null,
+      "version": "submittedVersion",
+      "is_accepted": false,
+      "is_published": false,
+      "raw_source_name": null,
+      "raw_type": null
+    },
+    {
+      "id": "pmh:oai:osti.gov:1867786",
+      "doi": null,
+      "is_oa": false,
+      "landing_page_url": "https://www.osti.gov/servlets/purl/1867786",
+      "pdf_url": null,
+      "source": {
+        "id": "https://openalex.org/S4306402487",
+        "display_name": "OSTI OAI (U.S. Department of Energy Office of Scientific and Technical Information)",
+        "issn_l": null,
+        "issn": null,
+        "is_oa": false,
+        "is_in_doaj": false,
+        "is_core": false,
+        "listed_in": [],
+        "host_organization": "https://openalex.org/I139351228",
+        "host_organization_name": "Office of Scientific and Technical Information",
+        "host_organization_lineage": [
+          "https://openalex.org/I139351228"
+        ],
+        "host_organization_lineage_names": [],
+        "type": "repository"
+      },
+      "license": null,
+      "license_id": null,
+      "version": "submittedVersion",
+      "is_accepted": false,
+      "is_published": false,
+      "raw_source_name": null,
+      "raw_type": null
+    }
+  ],
+  "best_oa_location": {
+    "id": "doi:10.1109/tpds.2021.3097283",
+    "doi": "https://doi.org/10.1109/tpds.2021.3097283",
+    "is_oa": true,
+    "landing_page_url": "https://doi.org/10.1109/tpds.2021.3097283",
+    "pdf_url": "https://ieeexplore.ieee.org/ielx7/71/9575177/09485033.pdf",
+    "source": {
+      "id": "https://openalex.org/S97130795",
+      "display_name": "IEEE Transactions on Parallel and Distributed Systems",
+      "issn_l": "1045-9219",
+      "issn": [
+        "1045-9219",
+        "1558-2183",
+        "2161-9883"
+      ],
+      "is_oa": false,
+      "is_in_doaj": false,
+      "is_core": true,
+      "listed_in": [
+        "ccf-a",
+        "cwts-core",
+        "dongbi-a",
+        "jufo-2",
+        "norway-2",
+        "poland-140",
+        "russia-white-list-1",
+        "vabb-shw"
+      ],
+      "host_organization": "https://openalex.org/P4310319808",
+      "host_organization_name": "Institute of Electrical and Electronics Engineers",
+      "host_organization_lineage": [
+        "https://openalex.org/P4310319808"
+      ],
+      "host_organization_lineage_names": [
+        "Institute of Electrical and Electronics Engineers"
+      ],
+      "type": "journal"
+    },
+    "license": "cc-by",
+    "license_id": "https://openalex.org/licenses/cc-by",
+    "version": "publishedVersion",
+    "is_accepted": true,
+    "is_published": true,
+    "raw_source_name": "IEEE Transactions on Parallel and Distributed Systems",
+    "raw_type": "journal-article"
+  },
+  "sustainable_development_goals": [],
+  "sustainable_development_goals_aurora": [],
+  "study_designs": [],
+  "awards": [
+    {
+      "id": "https://openalex.org/G102163711",
+      "display_name": null,
+      "funder_award_id": "DE‐ AC02‐06CH11357",
+      "funder_id": "https://openalex.org/F4320306084",
+      "funder_display_name": "U.S. Department of Energy"
+    },
+    {
+      "id": "https://openalex.org/G1026679911",
+      "display_name": null,
+      "funder_award_id": "DE-AC05",
+      "funder_id": "https://openalex.org/F4320316892",
+      "funder_display_name": "UT-Battelle"
+    },
+    {
+      "id": "https://openalex.org/G107546177",
+      "display_name": null,
+      "funder_award_id": "DE- AC02-06-CH11357",
+      "funder_id": "https://openalex.org/F4320338284",
+      "funder_display_name": "Argonne National Laboratory"
+    },
+    {
+      "id": "https://openalex.org/G11630931",
+      "display_name": null,
+      "funder_award_id": "DENA0003525",
+      "funder_id": "https://openalex.org/F4320306084",
+      "funder_display_name": "U.S. Department of Energy"
+    },
+    {
+      "id": "https://openalex.org/G1193633358",
+      "display_name": null,
+      "funder_award_id": "17‐SC‐20‐SC",
+      "funder_id": "https://openalex.org/F4320306084",
+      "funder_display_name": "U.S. Department of Energy"
+    },
+    {
+      "id": "https://openalex.org/G121915436",
+      "display_name": null,
+      "funder_award_id": "DEAC05- 00OR22725",
+      "funder_id": "https://openalex.org/F4320332359",
+      "funder_display_name": "Office of Science"
+    },
+    {
+      "id": "https://openalex.org/G1313983767",
+      "display_name": null,
+      "funder_award_id": "DE-AC02",
+      "funder_id": "https://openalex.org/F4320338284",
+      "funder_display_name": "Argonne National Laboratory"
+    },
+    {
+      "id": "https://openalex.org/G1645119126",
+      "display_name": null,
+      "funder_award_id": "AC05-00OR22725",
+      "funder_id": "https://openalex.org/F4320306084",
+      "funder_display_name": "U.S. Department of Energy"
+    },
+    {
+      "id": "https://openalex.org/G1664757510",
+      "display_name": null,
+      "funder_award_id": "AC02–06CH11357",
+      "funder_id": "https://openalex.org/F4320338284",
+      "funder_display_name": "Argonne National Laboratory"
+    },
+    {
+      "id": "https://openalex.org/G166562317",
+      "display_name": null,
+      "funder_award_id": "DE-AC05- 00OR22725",
+      "funder_id": "https://openalex.org/F4320306250",
+      "funder_display_name": "Battelle"
+    },
+    {
+      "id": "https://openalex.org/G1796307089",
+      "display_name": null,
+      "funder_award_id": "17- SC-20-SC",
+      "funder_id": "https://openalex.org/F4320332369",
+      "funder_display_name": "National Nuclear Security Administration"
+    },
+    {
+      "id": "https://openalex.org/G203625172",
+      "display_name": null,
+      "funder_award_id": "DE--AC05--00OR22725",
+      "funder_id": "https://openalex.org/F4320306084",
+      "funder_display_name": "U.S. Department of Energy"
+    },
+    {
+      "id": "https://openalex.org/G2287611682",
+      "display_name": null,
+      "funder_award_id": "AC02‐06CH11357",
+      "funder_id": "https://openalex.org/F4320332359",
+      "funder_display_name": "Office of Science"
+    },
+    {
+      "id": "https://openalex.org/G262962599",
+      "display_name": null,
+      "funder_award_id": "AC02‐06CH11357",
+      "funder_id": "https://openalex.org/F4320306084",
+      "funder_display_name": "U.S. Department of Energy"
+    },
+    {
+      "id": "https://openalex.org/G280414146",
+      "display_name": null,
+      "funder_award_id": "DE-NA0003525",
+      "funder_id": "https://openalex.org/F4320332359",
+      "funder_display_name": "Office of Science"
+    },
+    {
+      "id": "https://openalex.org/G288067973",
+      "display_name": null,
+      "funder_award_id": "0003525",
+      "funder_id": "https://openalex.org/F4320306084",
+      "funder_display_name": "U.S. Department of Energy"
+    },
+    {
+      "id": "https://openalex.org/G2988778103",
+      "display_name": null,
+      "funder_award_id": "DE-AC05?",
+      "funder_id": "https://openalex.org/F4320306084",
+      "funder_display_name": "U.S. Department of Energy"
+    },
+    {
+      "id": "https://openalex.org/G2998698001",
+      "display_name": null,
+      "funder_award_id": "DE-AC02-06CH11357",
+      "funder_id": "https://openalex.org/F4320306250",
+      "funder_display_name": "Battelle"
+    },
+    {
+      "id": "https://openalex.org/G3075337988",
+      "display_name": null,
+      "funder_award_id": "06CH11357",
+      "funder_id": "https://openalex.org/F4320338284",
+      "funder_display_name": "Argonne National Laboratory"
+    },
+    {
+      "id": "https://openalex.org/G313676650",
+      "display_name": null,
+      "funder_award_id": "DEAC05-00OR22725",
+      "funder_id": "https://openalex.org/F4320316892",
+      "funder_display_name": "UT-Battelle"
+    },
+    {
+      "id": "https://openalex.org/G3318903820",
+      "display_name": null,
+      "funder_award_id": "DE-AC02-06CH11357",
+      "funder_id": "https://openalex.org/F4320332369",
+      "funder_display_name": "National Nuclear Security Administration"
+    },
+    {
+      "id": "https://openalex.org/G3886122786",
+      "display_name": null,
+      "funder_award_id": "17-SC20-SC",
+      "funder_id": "https://openalex.org/F4320332359",
+      "funder_display_name": "Office of Science"
+    },
+    {
+      "id": "https://openalex.org/G3997560910",
+      "display_name": null,
+      "funder_award_id": "17-SC-20-SC",
+      "funder_id": "https://openalex.org/F4320316892",
+      "funder_display_name": "UT-Battelle"
+    },
+    {
+      "id": "https://openalex.org/G413247060",
+      "display_name": null,
+      "funder_award_id": "DE‐NA,0003525",
+      "funder_id": "https://openalex.org/F4320338291",
+      "funder_display_name": "Sandia National Laboratories"
+    },
+    {
+      "id": "https://openalex.org/G498139845",
+      "display_name": null,
+      "funder_award_id": "DE-AC02",
+      "funder_id": "https://openalex.org/F4320332359",
+      "funder_display_name": "Office of Science"
+    },
+    {
+      "id": "https://openalex.org/G5726405315",
+      "display_name": null,
+      "funder_award_id": "DE-AC05",
+      "funder_id": "https://openalex.org/F4320306250",
+      "funder_display_name": "Battelle"
+    },
+    {
+      "id": "https://openalex.org/G6848031779",
+      "display_name": null,
+      "funder_award_id": "06CH11357",
+      "funder_id": "https://openalex.org/F4320306084",
+      "funder_display_name": "U.S. Department of Energy"
+    },
+    {
+      "id": "https://openalex.org/G6918803902",
+      "display_name": null,
+      "funder_award_id": "06CH11357",
+      "funder_id": "https://openalex.org/F4320332359",
+      "funder_display_name": "Office of Science"
+    },
+    {
+      "id": "https://openalex.org/G816254390",
+      "display_name": null,
+      "funder_award_id": "#DE-AC05-00OR22725",
+      "funder_id": "https://openalex.org/F4320332369",
+      "funder_display_name": "National Nuclear Security Administration"
+    },
+    {
+      "id": "https://openalex.org/G8269158468",
+      "display_name": null,
+      "funder_award_id": "AC05-00OR22725",
+      "funder_id": "https://openalex.org/F4320332359",
+      "funder_display_name": "Office of Science"
+    },
+    {
+      "id": "https://openalex.org/G855168022",
+      "display_name": null,
+      "funder_award_id": "DENA-0003525",
+      "funder_id": "https://openalex.org/F4320332369",
+      "funder_display_name": "National Nuclear Security Administration"
+    },
+    {
+      "id": "https://openalex.org/G8906985441",
+      "display_name": null,
+      "funder_award_id": "00OR22725",
+      "funder_id": "https://openalex.org/F4320306084",
+      "funder_display_name": "U.S. Department of Energy"
+    },
+    {
+      "id": "https://openalex.org/G8943143067",
+      "display_name": null,
+      "funder_award_id": "AC05-00OR22725",
+      "funder_id": "https://openalex.org/F4320316892",
+      "funder_display_name": "UT-Battelle"
+    },
+    {
+      "id": "https://openalex.org/G969889393",
+      "display_name": null,
+      "funder_award_id": "DE-AC02-",
+      "funder_id": "https://openalex.org/F4320306084",
+      "funder_display_name": "U.S. Department of Energy"
+    },
+    {
+      "id": "https://openalex.org/G993149817",
+      "display_name": null,
+      "funder_award_id": "DE-AC02-06CH11357 ",
+      "funder_id": "https://openalex.org/F4320332359",
+      "funder_display_name": "Office of Science"
+    }
+  ],
+  "funders": [
+    {
+      "id": "https://openalex.org/F4320306084",
+      "display_name": "U.S. Department of Energy",
+      "ror": "https://ror.org/01bj3aw27"
+    },
+    {
+      "id": "https://openalex.org/F4320306250",
+      "display_name": "Battelle",
+      "ror": "https://ror.org/01h5tnr73"
+    },
+    {
+      "id": "https://openalex.org/F4320316892",
+      "display_name": "UT-Battelle",
+      "ror": "https://ror.org/04nza6677"
+    },
+    {
+      "id": "https://openalex.org/F4320332359",
+      "display_name": "Office of Science",
+      "ror": "https://ror.org/00mmn6b08"
+    },
+    {
+      "id": "https://openalex.org/F4320332369",
+      "display_name": "National Nuclear Security Administration",
+      "ror": "https://ror.org/03sk1we31"
+    },
+    {
+      "id": "https://openalex.org/F4320338284",
+      "display_name": "Argonne National Laboratory",
+      "ror": "https://ror.org/05gvnxz63"
+    },
+    {
+      "id": "https://openalex.org/F4320338291",
+      "display_name": "Sandia National Laboratories",
+      "ror": "https://ror.org/01apwpt12"
+    }
+  ],
+  "has_content": {
+    "pdf": true,
+    "grobid_xml": true
+  },
+  "content_urls": {
+    "pdf": "https://content.openalex.org/works/W3195293013.pdf",
+    "grobid_xml": "https://content.openalex.org/works/W3195293013.grobid-xml"
+  },
+  "referenced_works_count": 20,
+  "referenced_works": [
+    "https://openalex.org/W1570682973",
+    "https://openalex.org/W1988888548",
+    "https://openalex.org/W2062454596",
+    "https://openalex.org/W2078794610",
+    "https://openalex.org/W2104093353",
+    "https://openalex.org/W2142673658",
+    "https://openalex.org/W2336727235",
+    "https://openalex.org/W2523918178",
+    "https://openalex.org/W2553626380",
+    "https://openalex.org/W2809820981",
+    "https://openalex.org/W2898519564",
+    "https://openalex.org/W2944305421",
+    "https://openalex.org/W2954287266",
+    "https://openalex.org/W2994151208",
+    "https://openalex.org/W2995321663",
+    "https://openalex.org/W2995954351",
+    "https://openalex.org/W2996807164",
+    "https://openalex.org/W3037500023",
+    "https://openalex.org/W3037589579",
+    "https://openalex.org/W3047937553"
+  ],
+  "related_works": [
+    "https://openalex.org/W1520927959",
+    "https://openalex.org/W141404642",
+    "https://openalex.org/W2044174377",
+    "https://openalex.org/W4318602927",
+    "https://openalex.org/W2157166182",
+    "https://openalex.org/W2139119167",
+    "https://openalex.org/W2147358386",
+    "https://openalex.org/W2560584690",
+    "https://openalex.org/W3195293013",
+    "https://openalex.org/W3192695480"
+  ],
+  "abstract_inverted_index": {
+    "As": [
+      0
+    ],
+    "the": [
+      1,
+      8,
+      25,
+      50,
+      60,
+      90
+    ],
+    "push": [
+      2
+    ],
+    "towards": [
+      3
+    ],
+    "exascale": [
+      4,
+      85
+    ],
+    "hardware": [
+      5
+    ],
+    "has": [
+      6,
+      15
+    ],
+    "increased": [
+      7
+    ],
+    "diversity": [
+      9
+    ],
+    "of": [
+      10,
+      55,
+      92
+    ],
+    "system": [
+      11
+    ],
+    "architectures,": [
+      12
+    ],
+    "performance": [
+      13,
+      91
+    ],
+    "portability": [
+      14
+    ],
+    "become": [
+      16
+    ],
+    "a": [
+      17
+    ],
+    "critical": [
+      18
+    ],
+    "aspect": [
+      19
+    ],
+    "for": [
+      20,
+      39,
+      48,
+      84
+    ],
+    "scientific": [
+      21
+    ],
+    "software.": [
+      22
+    ],
+    "We": [
+      23,
+      58,
+      88
+    ],
+    "describe": [
+      24,
+      59
+    ],
+    "Kokkos": [
+      26,
+      44,
+      68
+    ],
+    "Performance": [
+      27
+    ],
+    "Portable": [
+      28
+    ],
+    "Programming": [
+      29
+    ],
+    "Model": [
+      30
+    ],
+    "that": [
+      31,
+      63
+    ],
+    "allows": [
+      32
+    ],
+    "developers": [
+      33
+    ],
+    "to": [
+      34,
+      67,
+      82
+    ],
+    "write": [
+      35
+    ],
+    "single": [
+      36
+    ],
+    "source": [
+      37
+    ],
+    "applications": [
+      38
+    ],
+    "diverse": [
+      40
+    ],
+    "high-performance": [
+      41
+    ],
+    "computing": [
+      42
+    ],
+    "architectures.": [
+      43,
+      87
+    ],
+    "provides": [
+      45
+    ],
+    "key": [
+      46
+    ],
+    "abstractions": [
+      47,
+      62
+    ],
+    "both": [
+      49
+    ],
+    "compute": [
+      51
+    ],
+    "and": [
+      52,
+      78,
+      101
+    ],
+    "memory": [
+      53
+    ],
+    "hierarchy": [
+      54
+    ],
+    "modern": [
+      56
+    ],
+    "hardware.": [
+      57
+    ],
+    "novel": [
+      61
+    ],
+    "have": [
+      64
+    ],
+    "been": [
+      65
+    ],
+    "added": [
+      66
+    ],
+    "version": [
+      69
+    ],
+    "3": [
+      70
+    ],
+    "such": [
+      71
+    ],
+    "as": [
+      72
+    ],
+    "hierarchical": [
+      73
+    ],
+    "parallelism,": [
+      74
+    ],
+    "containers,": [
+      75
+    ],
+    "task": [
+      76
+    ],
+    "graphs,": [
+      77
+    ],
+    "arbitrary-sized": [
+      79
+    ],
+    "atomic": [
+      80
+    ],
+    "operations": [
+      81
+    ],
+    "prepare": [
+      83
+    ],
+    "era": [
+      86
+    ],
+    "demonstrate": [
+      89
+    ],
+    "these": [
+      93
+    ],
+    "new": [
+      94
+    ],
+    "features": [
+      95
+    ],
+    "with": [
+      96
+    ],
+    "reproducible": [
+      97
+    ],
+    "benchmarks": [
+      98
+    ],
+    "on": [
+      99
+    ],
+    "CPUs": [
+      100
+    ],
+    "GPUs.": [
+      102
+    ]
+  },
+  "counts_by_year": [
+    {
+      "year": 2026,
+      "cited_by_count": 80
+    },
+    {
+      "year": 2025,
+      "cited_by_count": 146
+    },
+    {
+      "year": 2024,
+      "cited_by_count": 122
+    },
+    {
+      "year": 2023,
+      "cited_by_count": 85
+    },
+    {
+      "year": 2022,
+      "cited_by_count": 50
+    },
+    {
+      "year": 2021,
+      "cited_by_count": 6
+    }
+  ],
+  "updated_date": "2026-10-27T15:51:10.671819",
+  "created_date": "2021-08-30T00:00:00"
+}

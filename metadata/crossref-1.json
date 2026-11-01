@@ -1,0 +1,3780 @@
+{
+  "status": "ok",
+  "message-type": "work-list",
+  "message-version": "1.0.0",
+  "message": {
+    "facets": {},
+    "total-results": 31053,
+    "items": [
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              9,
+              17
+            ]
+          ],
+          "date-time": "2026-09-17T20:14:45Z",
+          "timestamp": 1789676085908,
+          "version": "4.0.1"
+        },
+        "reference-count": 67,
+        "publisher": "Global Science Press",
+        "issue": "2",
+        "license": [
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2019,
+                  12,
+                  7
+                ]
+              ],
+              "date-time": "2019-12-07T00:00:00Z",
+              "timestamp": 1575676800000
+            },
+            "content-version": "vor",
+            "delay-in-days": 0,
+            "URL": "https://creativecommons.org/licenses/by/4.0/"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "abstract": "<jats:p>We design and analyze an efficient GPU-accelerated hybridizable discontinuous Galerkin method for linear elasticity. Performance analysis of the method is\ndone using the state-of-the-art Time-Accuracy-Size (TAS) spectrum. TAS is a new performance measure which takes into account the accuracy of the solution. Standard\nperformance measures, like floating point operations or run-time, are not completely\nappropriate for gauging the performance of approximations of continuum mechanics\nproblems, as they neglect the solutions accuracy. A standard roofline model demonstrates that our method is utilizing computational resources efficiently, and as such,\nsignificant speed ups over a serial implementation are obtained. By combining traditional performance measures and the novel time-accuracy measures [7] into our performance model, we are able to draw more complete conclusions about which discretizations are best suited for an application. Several numerical experiments validate\nand verify our numerical scheme.</jats:p>",
+        "DOI": "10.4208/cicp.oa-2018-0235",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2019,
+              12,
+              8
+            ]
+          ],
+          "date-time": "2019-12-08T22:07:30Z",
+          "timestamp": 1575842850000
+        },
+        "page": "513-545",
+        "source": "Crossref",
+        "is-referenced-by-count": 6,
+        "title": [
+          "A GPU-Accelerated Hybridizable Discontinuous Galerkin Method for Linear Elasticity"
+        ],
+        "prefix": "10.4208",
+        "volume": "27",
+        "author": [
+          {
+            "given": "Maurice S.",
+            "family": "Fabien",
+            "sequence": "first",
+            "affiliation": [
+              {
+                "id": [
+                  {
+                    "id": "https://ror.org/008zs3103",
+                    "id-type": "ROR",
+                    "asserted-by": "publisher"
+                  }
+                ],
+                "name": "Department of Computational and Applied Mathematics, Rice University, Houston, United States"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "member": "2725",
+        "published-online": {
+          "date-parts": [
+            [
+              2019,
+              12,
+              7
+            ]
+          ]
+        },
+        "reference": [
+          {
+            "key": "ref1",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[1] M. ADAMS, M. BREZINA, J. HU, AND R. TUMINARO, Parallel multigrid smoothing: polynomial versus Gauss-Seidel, Journal of Computational Physics, 188 (2003), pp. 593-610.",
+            "DOI": "10.1016/S0021-9991(03)00194-3"
+          },
+          {
+            "key": "ref2",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[2] E. ANDERSON, Z. BAI, C. BISCHOF, L. S. BLACKFORD, J. DEMMEL, J. DONGARRA, J. DU CROZ, A. GREENBAUM, S. HAMMARLING, A. MCKENNEY, ET AL., LAPACK Users' guide, SIAM, 1999.",
+            "DOI": "10.1137/1.9780898719604"
+          },
+          {
+            "key": "ref3",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[3] H. ANZT, S. TOMOV, M. GATES, J. DONGARRA, AND V. HEUVELINE, Block-asynchronous multigrid smoothers for GPU-accelerated systems, Procedia Computer Science, 9 (2012), pp. 7- 16.",
+            "DOI": "10.1016/j.procs.2012.04.002"
+          },
+          {
+            "key": "ref4",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[4] N. BELL, S. DALTON, AND L. N. OLSON, Exposing fine-grained parallelism in algebraic multi-grid methods, SIAM Journal on Scientific Computing, 34 (2012), pp. C123-C152.",
+            "DOI": "10.1137/110838844"
+          },
+          {
+            "key": "ref5",
+            "unstructured": "[5] N. BELL AND M. GARLAND, Cusp: Generic parallel algorithms for sparse matrix and graph com-putations, Version 0.3. 0, 35 (2012)."
+          },
+          {
+            "key": "ref6",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[6] C. CANTWELL, S. SHERWIN, R. KIRBY, AND P. KELLY, From h to p efficiently: Strategy selection for operator evaluation on hexahedral and tetrahedral elements, Computers & Fluids, 43 (2011), pp. 23-28.",
+            "DOI": "10.1016/j.compfluid.2010.08.012"
+          },
+          {
+            "key": "ref7",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[7] J. CHANG, M. S. FABIEN, M. G. KNEPLEY, AND R. T. MILLS, Comparative study of finite element methods using the Time-Accuracy-Size (TAS) spectrum analysis, ArXiv e-prints, (2018).",
+            "DOI": "10.1137/18M1172260"
+          },
+          {
+            "key": "ref8",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[8] J. CHANG, K. B. NAKSHATRALA, M. G. KNEPLEY, AND L. JOHNSSON, A performance spec-trum for parallel computational frameworks that solve PDEs, Concurrency and Computation: Practice and Experience, 30 (2018), p. e4401.",
+            "DOI": "10.1002/cpe.4401"
+          },
+          {
+            "key": "ref9",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[9] G. CHEN AND X. XIE, A robust weak Galerkin finite element method for linear elasticity with strong symmetric stresses, Computational Methods in Applied Mathematics, 16 (2016), pp. 389-408.",
+            "DOI": "10.1515/cmam-2016-0012"
+          },
+          {
+            "key": "ref10",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[10] J. CHENG, X. LIU, T. LIU, AND H. LUO, A parallel, high-order direct discontinuous Galerkin method for the Navier-Stokes equations on 3D hybrid grids, Communications in Computational Physics, 21 (2017), pp. 1231-1257.",
+            "DOI": "10.4208/cicp.OA-2016-0090"
+          },
+          {
+            "key": "ref11",
+            "unstructured": "[11] P. CIARLET, The Finite Element Method for Elliptic Problems, Studies in Mathematics and its Applications, Elsevier Science, 1978."
+          },
+          {
+            "key": "ref12",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[12] B. COCKBURN, An introduction to the discontinuous Galerkin method for convection-dominated problems, in Advanced numerical approximation of nonlinear hyperbolic equations, Springer, 1998, pp. 150-268.",
+            "DOI": "10.1007/BFb0096353"
+          },
+          {
+            "key": "ref13",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[13] Static condensation, hybridization, and the devising of the HDG methods, in Building bridges: connections and challenges in modern approaches to numerical partial differen-tial equations, Springer, 2016, pp. 129-177.",
+            "DOI": "10.1007/978-3-319-41640-3_5"
+          },
+          {
+            "key": "ref14",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[14] B. COCKBURN, D. A. DI PIETRO, AND A. ERN, Bridging the hybrid high-order and hybridizable discontinuous Galerkin methods, ESAIM: Mathematical Modelling and Numerical Analysis, 50 (2016), pp. 635-650.",
+            "DOI": "10.1051/m2an/2015051"
+          },
+          {
+            "key": "ref15",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[15] B. COCKBURN AND G. FU, Devising superconvergent HDG methods with symmetric approximate stresses for linear elasticity by M-decompositions, IMA Journal of Numerical Analysis, 38 (2017), pp. 566-604.",
+            "DOI": "10.1093/imanum/drx025"
+          },
+          {
+            "key": "ref16",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[16] B. COCKBURN, N. NGUYEN, AND J. PERAIRE, HDG methods for hyperbolic problems, in Hand-book of Numerical Analysis, vol. 17, Elsevier, 2016, pp. 173-197.",
+            "DOI": "10.1016/bs.hna.2016.07.001"
+          },
+          {
+            "key": "ref17",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[17] B. COCKBURN AND K. SHI, Superconvergent HDG methods for linear elasticity with weakly sym-metric stresses, IMA Journal of Numerical Analysis, 33 (2012), pp. 747-770.",
+            "DOI": "10.1093/imanum/drs020"
+          },
+          {
+            "key": "ref18",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[18] D. COPPERSMITH AND S. WINOGRAD, Matrix multiplication via arithmetic progressions, Pro-ceedings of the nineteenth annual ACM symposium on Theory of computing, (1987), pp. 1- 6.",
+            "DOI": "10.1145/28395.28396"
+          },
+          {
+            "key": "ref19",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[19] B. DALLY, Computer architecture in the many-core era, in Computer Design, 2006. ICCD 2006. International Conference on, IEEE, 2007, pp. 1-1.",
+            "DOI": "10.1109/ICCD.2006.4380784"
+          },
+          {
+            "key": "ref20",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[20] D. A. DI PIETRO AND A. ERN, A hybrid high-order locking-free method for linear elasticity on general meshes, Computer Methods in Applied Mechanics and Engineering, 283 (2015), pp. 1- 21.",
+            "DOI": "10.1016/j.cma.2014.09.009"
+          },
+          {
+            "key": "ref21",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[21] M. DUBINER, Spectral methods on triangles and other domains, Journal of Scientific Computing, 6 (1991), pp. 345-390.",
+            "DOI": "10.1007/BF01060030"
+          },
+          {
+            "key": "ref22",
+            "unstructured": "[22] M. S. FABIEN, M. G. KNEPLEY, AND B. RIVIERE, Heterogeneous computing for a hybridizable discontinuous Galerkin geometric multigrid method, arXiv preprint arXiv:1705.09907, (2017)."
+          },
+          {
+            "key": "ref23",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[23] K. J. FIDKOWSKI, T. A. OLIVER, J. LU, AND D. L. DARMOFAL, p-multigrid solution of high-order discontinuous Galerkin discretizations of the compressible navier-stokes equations, Journal of Computational Physics, 207 (2005), pp. 92-113.",
+            "DOI": "10.1016/j.jcp.2005.01.005"
+          },
+          {
+            "key": "ref24",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[24] D. FORTUNATO, C. H. RYCROFT, AND R. SAYE, Efficient operator-coarsening multigrid schemes for local discontinuous Galerkin methods, ArXiv e-prints, (2018).",
+            "DOI": "10.1137/18M1206357"
+          },
+          {
+            "key": "ref25",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[25] G. FU, B. COCKBURN, AND H. STOLARSKI, Analysis of an HDG method for linear elasticity, International Journal for Numerical Methods in Engineering, 102 (2015), pp. 551-575.",
+            "DOI": "10.1002/nme.4781"
+          },
+          {
+            "key": "ref26",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[26] A. GRUNDMANN AND H.-M. MÖLLER, Invariant integration formulas for the n-simplex by com-binatorial methods, SIAM Journal on Numerical Analysis, 15 (1978), pp. 282-290.",
+            "DOI": "10.1137/0715019"
+          },
+          {
+            "key": "ref27",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[27] H. HAKULA, Y. LEINO, AND J. PITKÄRANTA, Scale resolution, locking, and high-order finite element modelling of shells, Computer methods in applied mechanics and engineering, 133 (1996), pp. 157-182.",
+            "DOI": "10.1016/0045-7825(95)00939-6"
+          },
+          {
+            "key": "ref28",
+            "unstructured": "[28] A. HEINECKE, H. PABST, AND G. HENRY, Libxsmm: a high performance library for small matrix multiplications, Technical Report, (2015)."
+          },
+          {
+            "key": "ref29",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[29] B. HELENBROOK, D. MAVRIPLIS, AND H. ATKINS, Analysis of\"p\"-multigrid for continuous and discontinuous finite element discretizations, in 16th AIAA Computational Fluid Dynamics Conference, 2003, p. 3989.",
+            "DOI": "10.2514/6.2003-3989"
+          },
+          {
+            "key": "ref30",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[30] P. HEMKER, On the order of prolongations and restrictions in multigrid procedures, Journal of Computational and Applied Mathematics, 32 (1990), pp. 423-429.",
+            "DOI": "10.1016/0377-0427(90)90047-4"
+          },
+          {
+            "key": "ref31",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[31] P. W. HEMKER, On the order of prolongations and restrictions in multigrid procedures, Journal of Computational and Applied Mathematics, 32 (1990), pp. 423 -429.",
+            "DOI": "10.1016/0377-0427(90)90047-4"
+          },
+          {
+            "key": "ref32",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[32] J. HUANG, T. M. SMITH, G. M. HENRY, AND R. A. VAN DE GEIJN, Strassen's algorithm reloaded, Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis, (2016), p. 59.",
+            "DOI": "10.1109/SC.2016.58"
+          },
+          {
+            "key": "ref33",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[33] A. HUERTA, A. ANGELOSKI, X. ROCA, AND J. PERAIRE, Efficiency of high-order elements for continuous and discontinuous Galerkin methods, International Journal for numerical methods in Engineering, 96 (2013), pp. 529-560.",
+            "DOI": "10.1002/nme.4547"
+          },
+          {
+            "key": "ref34",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[34] A. HUNGRIA, D. PRADA, AND F.-J. SAYAS, HDG methods for elastodynamics, Computers & Mathematics with Applications, 74 (2017), pp. 2671-2690.",
+            "DOI": "10.1016/j.camwa.2017.08.016"
+          },
+          {
+            "key": "ref35",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[35] H. KABARIA, A. J. LEW, AND B. COCKBURN, A hybridizable discontinuous Galerkin formula-tion for non-linear elasticity, Computer Methods in Applied Mechanics and Engineering, 283 (2015), pp. 303-329.",
+            "DOI": "10.1016/j.cma.2014.08.012"
+          },
+          {
+            "key": "ref36",
+            "unstructured": "[36] D. E. KEYES, L. C. MCINNES, C. WOODWARD, W. GROPP, E. MYRA, M. PERNICE, J. BELL, J. BROWN, A. CLO, J. CONNORS, ET AL., Multiphysics simulations: Challenges and opportu-nities, The International Journal of High Performance Computing Applications, 27 (2013), pp. 4-83."
+          },
+          {
+            "key": "ref37",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[37] J. KING, S. YAKOVLEV, Z. FU, R. M. KIRBY, AND S. J. SHERWIN, Exploiting batch processing on streaming architectures to solve 2D elliptic finite element problems: A hybridized discontinuous Galerkin (HDG) case study, Journal of Scientific Computing, 60 (2014), pp. 457-482.",
+            "DOI": "10.1007/s10915-013-9805-x"
+          },
+          {
+            "key": "ref38",
+            "unstructured": "[38] M. G. KNEPLEY, K. RUPP, AND A. R. TERREL, Finite element integration with quadrature on the GPU, arXiv preprint arXiv:1607.04245, (2016)."
+          },
+          {
+            "key": "ref39",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[39] T. KOORNWINDER, Two-variable analogues of the classical orthogonal polynomials, in Theory and application of special functions (Proc. Advanced Sem., Math. Res. Center, Univ. Wisconsin, Madison, Wis., 1975), Academic Press New York, 1975, pp. 435-495.",
+            "DOI": "10.1016/B978-0-12-064850-4.50015-X"
+          },
+          {
+            "key": "ref40",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[40] M. LARSON AND F. BENGZON, The Finite Element Method: Theory, Implementation, and Appli-cations, Texts in Computational Science and Engineering, Springer Berlin Heidelberg, 2013.",
+            "DOI": "10.1007/978-3-642-33287-6"
+          },
+          {
+            "key": "ref41",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[41] C. L. LAWSON, R. J. HANSON, D. R. KINCAID, AND F. T. KROGH, Basic linear algebra sub-programs for fortran usage, ACM Transactions on Mathematical Software (TOMS), 5 (1979), pp. 308-323.",
+            "DOI": "10.1145/355841.355847"
+          },
+          {
+            "key": "ref42",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[42] I. MASLIAH, A. ABDELFATTAH, A. HAIDAR, S. TOMOV, M. BABOULIN, J. FALCOU, AND J. DONGARRA, High-performance matrix-matrix multiplications of very small matrices, European Conference on Parallel Processing, (2016), pp. 659-671.",
+            "DOI": "10.1007/978-3-319-43659-3_48"
+          },
+          {
+            "key": "ref43",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[43] N. C. NGUYEN AND J. PERAIRE, Hybridizable discontinuous Galerkin methods for partial dif-ferential equations in continuum mechanics, Journal of Computational Physics, 231 (2012), pp. 5955-5988.",
+            "DOI": "10.1016/j.jcp.2012.02.033"
+          },
+          {
+            "key": "ref44",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[44] N. C. NGUYEN, J. PERAIRE, AND B. COCKBURN, A hybridizable discontinuous Galerkin method for Stokes flow, Computer Methods in Applied Mechanics and Engineering, 199 (2010), pp. 582-597.",
+            "DOI": "10.1016/j.cma.2009.10.007"
+          },
+          {
+            "key": "ref45",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[45] J. NICKOLLS AND W. J. DALLY, The GPU computing era, IEEE micro, 30 (2010).",
+            "DOI": "10.1109/MM.2010.41"
+          },
+          {
+            "key": "ref46",
+            "unstructured": "[46] NVIDIA, cuBLAS library, NVIDIA Corporation, Santa Clara, California, 15 (2008), p. 31."
+          },
+          {
+            "key": "ref47",
+            "unstructured": "[47] CUDA. https://developer.nvidia.com/cuda-zone, 2008. Accessed: 2017-05-30."
+          },
+          {
+            "key": "ref48",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[48] M. A. OLSHANSKII AND E. E. TYRTSHNIKOV, Iterative methods for linear systems: theory and applications, vol. 138, SIAM, 2014.",
+            "DOI": "10.1137/1.9781611973464"
+          },
+          {
+            "key": "ref49",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[49] L. N. OLSON, J. SCHRODER, AND R. S. TUMINARO, A new perspective on strength measures in algebraic multigrid, Numerical Linear Algebra with Applications, 17 (2010), pp. 713-733.",
+            "DOI": "10.1002/nla.669"
+          },
+          {
+            "key": "ref50",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[50] R. G. OWENS, Spectral approximations on the triangle, Proceedings of the Royal Society of London A: Mathematical, Physical and Engineering Sciences, 454 (1998), pp. 857-872.",
+            "DOI": "10.1098/rspa.1998.0189"
+          },
+          {
+            "key": "ref51",
+            "unstructured": "[51] J. PRORIOL, Sur une famille de polynomes á deux variables orthogonaux dans un triangle, Comptes rendus hebdomadaires des seances de l'Academie des sciences, 245 (1957), pp. 2459-2461."
+          },
+          {
+            "key": "ref52",
+            "unstructured": "[52] H. QI, L.-H. WANG, AND W.-Y. ZHENG, On locking-free finite element schemes for three-dimensional elasticity, Journal of Computational Mathematics, (2005), pp. 101-112."
+          },
+          {
+            "key": "ref53",
+            "unstructured": "[53] W. QIU, J. SHEN, AND K. SHI, An HDG method for linear elasticity with strong symmetric stresses, arXiv preprint arXiv:1312.1407, (2013)."
+          },
+          {
+            "key": "ref54",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[54] X. ROCA, N. C. NGUYEN, AND J. PERAIRE, GPU-accelerated sparse matrix-vector product for a hybridizable discontinuous Galerkin method, in 49th AIAA Aerospace Sciences Meeting includ-ing the New Horizons Forum and Aerospace Exposition, 2011, p. 687.",
+            "DOI": "10.2514/6.2011-687"
+          },
+          {
+            "key": "ref55",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[55] Y. SAAD, Iterative methods for sparse linear systems, vol. 82, siam, 2003.",
+            "DOI": "10.1137/1.9780898718003"
+          },
+          {
+            "key": "ref56",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[56] R. SEVILLA, M. GIACOMINI, AND A. HUERTA, A locking-free face-centred finite volume (FCFV) method for linear elasticity, arXiv preprint arXiv:1806.07500, (2018).",
+            "DOI": "10.1016/j.compstruc.2018.10.015"
+          },
+          {
+            "key": "ref57",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[57] R. SEVILLA, M. GIACOMINI, A. KARKOULIAS, AND A. HUERTA, A super-convergent hy-bridisable discontinuous Galerkin method for linear elasticity, arXiv preprint arXiv:1802.02123, (2018).",
+            "DOI": "10.1002/nme.5916"
+          },
+          {
+            "key": "ref58",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[58] S.-C. SOON, B. COCKBURN, AND H. K. STOLARSKI, A hybridizable discontinuous Galerkin method for linear elasticity, International journal for numerical methods in engineering, 80 (2009), pp. 1058-1092.",
+            "DOI": "10.1002/nme.2646"
+          },
+          {
+            "key": "ref59",
+            "unstructured": "[59] C. W. O. U. TROTTENBERG AND A. SCHÜLLER, Multigrid, Academic Press, 2001."
+          },
+          {
+            "key": "ref60",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[60] W. L. WAN, T. F. CHAN, AND B. SMITH, An energy-minimizing interpolation for robust multi-grid methods, SIAM Journal on Scientific Computing, 21 (1999), pp. 1632-1649.",
+            "DOI": "10.1137/S1064827598334277"
+          },
+          {
+            "key": "ref61",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[61] S. WANDZURAT AND H. XIAO, Symmetric quadrature rules on a triangle, Computers & Math-ematics with Applications, 45 (2003), pp. 1829-1840.",
+            "DOI": "10.1016/S0898-1221(03)90004-6"
+          },
+          {
+            "key": "ref62",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[62] R. WANG AND R. ZHANG, A weak Galerkin finite element method for the linear elasticity problem in mixed form, Journal of Computational Mathematics, 36 (2018), pp. 469-491.",
+            "DOI": "10.4208/jcm.1701-m2016-0733"
+          },
+          {
+            "key": "ref63",
+            "unstructured": "[63] P. WESSELING, An introduction to multigrid methods, Pure and applied mathematics, John Wiley & Sons Australia, Limited, 1992."
+          },
+          {
+            "key": "ref64",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[64] S. WILLIAMS, A. WATERMAN, AND D. PATTERSON, Roofline: an insightful visual performance model for multicore architectures, Communications of the ACM, 52 (2009), pp. 65-76.",
+            "DOI": "10.1145/1498765.1498785"
+          },
+          {
+            "key": "ref65",
+            "unstructured": "[65] V. V. WILLIAMS, Multiplying matrices in o(n2.373) time, Technical Report, (2014)."
+          },
+          {
+            "key": "ref66",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[66] Q. ZHANG, C. ZHU, AND M. ZHU, Three-dimensional numerical simulation of droplet evapora-tion using the lattice Boltzmann method based on GPU-CUDA accelerated algorithm, CCommuni-cations in Computational Physics, 23 (2018), pp. 1150-1166.",
+            "DOI": "10.4208/cicp.OA-2016-0185"
+          },
+          {
+            "key": "ref67",
+            "doi-asserted-by": "crossref",
+            "unstructured": "[67] J. ZHAO AND H. TANG, Runge-Kutta Central Discontinuous Galerkin Methods for the Special Relativistic Hydrodynamics, Communications in Computational Physics, 22 (2017), pp. 643- 682.",
+            "DOI": "10.4208/cicp.OA-2016-0192"
+          }
+        ],
+        "container-title": [
+          "Communications in Computational Physics"
+        ],
+        "link": [
+          {
+            "URL": "https://global-sci.com/article/79776/download",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2026,
+              9,
+              17
+            ]
+          ],
+          "date-time": "2026-09-17T19:49:24Z",
+          "timestamp": 1789674564000
+        },
+        "score": 30.416546,
+        "resource": {
+          "primary": {
+            "URL": "https://www.global-sci.com/cicp/article/view/6790"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2019,
+              12,
+              7
+            ]
+          ]
+        },
+        "references-count": 67,
+        "journal-issue": {
+          "issue": "2",
+          "published-online": {
+            "date-parts": [
+              [
+                2020
+              ]
+            ]
+          }
+        },
+        "URL": "https://doi.org/10.4208/cicp.oa-2018-0235",
+        "ISSN": [
+          "1815-2406",
+          "1991-7120"
+        ],
+        "issn-type": [
+          {
+            "value": "1815-2406",
+            "type": "print"
+          },
+          {
+            "value": "1991-7120",
+            "type": "electronic"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2019,
+              12,
+              7
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2024,
+              9,
+              4
+            ]
+          ],
+          "date-time": "2024-09-04T12:25:20Z",
+          "timestamp": 1725452720457
+        },
+        "reference-count": 4,
+        "publisher": "IEEE",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2019,
+              8
+            ]
+          ]
+        },
+        "DOI": "10.23919/aces48530.2019.9060656",
+        "type": "proceedings-article",
+        "created": {
+          "date-parts": [
+            [
+              2020,
+              4,
+              10
+            ]
+          ],
+          "date-time": "2020-04-10T01:12:21Z",
+          "timestamp": 1586481141000
+        },
+        "page": "1-2",
+        "source": "Crossref",
+        "is-referenced-by-count": 1,
+        "title": [
+          "GPU Parallelization of Wave Equation Based Discontinuous Galerkin Time Domain Method"
+        ],
+        "prefix": "10.23919",
+        "author": [
+          {
+            "given": "Zhen Guo",
+            "family": "Ban",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Yan",
+            "family": "Shi",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "263",
+        "reference": [
+          {
+            "key": "ref4",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/EDAPS.2017.8277015"
+          },
+          {
+            "key": "ref3",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/8.791939"
+          },
+          {
+            "key": "ref2",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/TAP.2018.2866992"
+          },
+          {
+            "key": "ref1",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/TAP.2017.2756678"
+          }
+        ],
+        "event": {
+          "name": "2019 International Applied Computational Electromagnetics Society Symposium - China (ACES)",
+          "start": {
+            "date-parts": [
+              [
+                2019,
+                8,
+                8
+              ]
+            ]
+          },
+          "location": "Nanjing, China",
+          "end": {
+            "date-parts": [
+              [
+                2019,
+                8,
+                11
+              ]
+            ]
+          }
+        },
+        "container-title": [
+          "2019 International Applied Computational Electromagnetics Society Symposium - China (ACES)"
+        ],
+        "link": [
+          {
+            "URL": "http://xplorestaging.ieee.org/ielx7/9040697/9060425/09060656.pdf?arnumber=9060656",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2020,
+              4,
+              17
+            ]
+          ],
+          "date-time": "2020-04-17T03:19:09Z",
+          "timestamp": 1587093549000
+        },
+        "score": 29.774704,
+        "resource": {
+          "primary": {
+            "URL": "https://ieeexplore.ieee.org/document/9060656/"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2019,
+              8
+            ]
+          ]
+        },
+        "references-count": 4,
+        "URL": "https://doi.org/10.23919/aces48530.2019.9060656",
+        "published": {
+          "date-parts": [
+            [
+              2019,
+              8
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              7,
+              21
+            ]
+          ],
+          "date-time": "2026-07-21T21:05:17Z",
+          "timestamp": 1784667917853,
+          "version": "3.55.0"
+        },
+        "reference-count": 40,
+        "publisher": "IEEE",
+        "license": [
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2020,
+                  9,
+                  22
+                ]
+              ],
+              "date-time": "2020-09-22T00:00:00Z",
+              "timestamp": 1600732800000
+            },
+            "content-version": "vor",
+            "delay-in-days": 0,
+            "URL": "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2020,
+                  9,
+                  22
+                ]
+              ],
+              "date-time": "2020-09-22T00:00:00Z",
+              "timestamp": 1600732800000
+            },
+            "content-version": "stm-asf",
+            "delay-in-days": 0,
+            "URL": "https://doi.org/10.15223/policy-029"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2020,
+                  9,
+                  22
+                ]
+              ],
+              "date-time": "2020-09-22T00:00:00Z",
+              "timestamp": 1600732800000
+            },
+            "content-version": "stm-asf",
+            "delay-in-days": 0,
+            "URL": "https://doi.org/10.15223/policy-037"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2020,
+              9,
+              22
+            ]
+          ]
+        },
+        "DOI": "10.1109/hpec43674.2020.9286237",
+        "type": "proceedings-article",
+        "created": {
+          "date-parts": [
+            [
+              2020,
+              12,
+              22
+            ]
+          ],
+          "date-time": "2020-12-22T16:07:15Z",
+          "timestamp": 1608653235000
+        },
+        "page": "1-7",
+        "source": "Crossref",
+        "is-referenced-by-count": 7,
+        "title": [
+          "GPU-Accelerated Discontinuous Galerkin Methods: 30x Speedup on 345 Billion Unknowns"
+        ],
+        "prefix": "10.1109",
+        "author": [
+          {
+            "given": "Andrew C.",
+            "family": "Kirby",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Dimitri J.",
+            "family": "Mavriplis",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "member": "263",
+        "reference": [
+          {
+            "key": "ref39",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/ISSCC.2019.8662426"
+          },
+          {
+            "key": "ref38",
+            "doi-asserted-by": "crossref",
+            "first-page": "803",
+            "DOI": "10.1002/cpe.728",
+            "article-title": "The LINPACK benchmark: past, present and future",
+            "volume": "15",
+            "author": "dongarra",
+            "year": "2003",
+            "journal-title": "Concurrency and Computation Practice and Experience"
+          },
+          {
+            "key": "ref33",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.2514/6.2020-1528"
+          },
+          {
+            "key": "ref32",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.jcp.2016.06.031"
+          },
+          {
+            "key": "ref31",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.2514/6.2019-1648"
+          },
+          {
+            "key": "ref30",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.2514/1.C033042"
+          },
+          {
+            "key": "ref37",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.2514/6.2017-3944",
+            "article-title": "A High-order Discontinuous-Galerkin Octree-Based AMR Solver for Overset Simulations",
+            "author": "brazell",
+            "year": "2017",
+            "journal-title": "AIAA Paper 2017&#x2013;3944 23rd AIAA Computational Fluid Dynamics Conference"
+          },
+          {
+            "key": "ref36",
+            "author": "kirby",
+            "year": "2018",
+            "journal-title": "Enabling High-order Methods for Extreme-scale Simulations"
+          },
+          {
+            "key": "ref35",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.2514/6.2015-0060"
+          },
+          {
+            "key": "ref34",
+            "article-title": "An Adaptive Explicit 3D Discontinuous Galerkin Solver For Unsteady Problems",
+            "author": "kirby",
+            "year": "2015",
+            "journal-title": "AIAA Paper 2015&#x2013;3046 22nd AIAA Computational Fluid Dynamics Conference"
+          },
+          {
+            "key": "ref10",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.4208/cicp.070114.271114a"
+          },
+          {
+            "key": "ref40",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.cpc.2020.107169"
+          },
+          {
+            "key": "ref11",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.cageo.2016.03.008"
+          },
+          {
+            "key": "ref12",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.jcp.2016.04.003"
+          },
+          {
+            "key": "ref13",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1080/10618562.2016.1155704"
+          },
+          {
+            "key": "ref14",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.camwa.2016.05.025"
+          },
+          {
+            "key": "ref15",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.jcp.2019.04.010"
+          },
+          {
+            "key": "ref16",
+            "author": "medina",
+            "year": "2014",
+            "journal-title": "OCCA A unified approach to multi-threading languages"
+          },
+          {
+            "key": "ref17",
+            "author": "medina",
+            "year": "2015",
+            "journal-title": "OKL A Unified Language for Parallel Architectures"
+          },
+          {
+            "key": "ref18",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1177/1094342017694427"
+          },
+          {
+            "key": "ref19",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1177/1094342017732395"
+          },
+          {
+            "key": "ref28",
+            "article-title": "An Overset Adaptive High-Order Approach for Blade-Resolved Wind Energy Applications",
+            "author": "kirby",
+            "year": "2016",
+            "journal-title": "AHS Forum 72"
+          },
+          {
+            "key": "ref4",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.2514/3.9315"
+          },
+          {
+            "key": "ref27",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1177/1094342019832960"
+          },
+          {
+            "key": "ref3",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/MCSE.2017.57"
+          },
+          {
+            "key": "ref6",
+            "article-title": "CFD vision 2030 study: a path to revolutionary computational aerosciences",
+            "author": "slotnick",
+            "year": "2014",
+            "journal-title": "NASA Technical Reports"
+          },
+          {
+            "key": "ref29",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.2514/6.2019-2081"
+          },
+          {
+            "key": "ref5",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.2514/3.9975"
+          },
+          {
+            "key": "ref8",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.cpc.2014.07.011"
+          },
+          {
+            "key": "ref7",
+            "author": "hesthaven",
+            "year": "2007",
+            "journal-title": "Nodal Discontinuous Galerkin Methods Algorithms Analysis and Applications"
+          },
+          {
+            "key": "ref2",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/HPEC.2019.8916327"
+          },
+          {
+            "key": "ref9",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.jcp.2009.06.041"
+          },
+          {
+            "key": "ref1",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1145/3320060"
+          },
+          {
+            "key": "ref20",
+            "volume": "11",
+            "author": "cockburn",
+            "year": "2012",
+            "journal-title": "Discontinuous Galerkin Methods Theory Computation and Applications"
+          },
+          {
+            "key": "ref22",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.2514/6.2016-2053"
+          },
+          {
+            "key": "ref21",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1137/1025002"
+          },
+          {
+            "key": "ref24",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.2514/6.2018-1171"
+          },
+          {
+            "key": "ref23",
+            "article-title": "High Fidelity Blade-Resolved Wind Plant Modeling",
+            "author": "kirby",
+            "year": "2017",
+            "journal-title": "SC17"
+          },
+          {
+            "key": "ref26",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.2514/6.2018-0256"
+          },
+          {
+            "key": "ref25",
+            "article-title": "Hover Predictions of S76 Rotor Using a High Order Discontinuous Galerkin Off-Body Discretization",
+            "author": "kara",
+            "year": "2020",
+            "journal-title": "AIAA Paper 2020&#x2013;0771 Presented at the AIAA Scitech 2020 Conference"
+          }
+        ],
+        "event": {
+          "name": "2020 IEEE High Performance Extreme Computing Conference (HPEC)",
+          "location": "Waltham, MA, USA",
+          "start": {
+            "date-parts": [
+              [
+                2020,
+                9,
+                22
+              ]
+            ]
+          },
+          "end": {
+            "date-parts": [
+              [
+                2020,
+                9,
+                24
+              ]
+            ]
+          }
+        },
+        "container-title": [
+          "2020 IEEE High Performance Extreme Computing Conference (HPEC)"
+        ],
+        "link": [
+          {
+            "URL": "http://xplorestaging.ieee.org/ielx7/9285977/9286137/09286237.pdf?arnumber=9286237",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2022,
+              6,
+              27
+            ]
+          ],
+          "date-time": "2022-06-27T11:54:02Z",
+          "timestamp": 1656330842000
+        },
+        "score": 29.774704,
+        "resource": {
+          "primary": {
+            "URL": "https://ieeexplore.ieee.org/document/9286237/"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2020,
+              9,
+              22
+            ]
+          ]
+        },
+        "references-count": 40,
+        "URL": "https://doi.org/10.1109/hpec43674.2020.9286237",
+        "published": {
+          "date-parts": [
+            [
+              2020,
+              9,
+              22
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2023,
+              8,
+              22
+            ]
+          ],
+          "date-time": "2023-08-22T05:02:40Z",
+          "timestamp": 1692680560844
+        },
+        "reference-count": 0,
+        "publisher": "CIMNE",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "DOI": "10.23967/marine.2023.065",
+        "type": "proceedings-article",
+        "created": {
+          "date-parts": [
+            [
+              2023,
+              8,
+              9
+            ]
+          ],
+          "date-time": "2023-08-09T09:56:16Z",
+          "timestamp": 1691574976000
+        },
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Accelerating 2D and 3D Ocean models with the Discontinuous Galerkin Method and GPU Computing"
+        ],
+        "prefix": "10.23967",
+        "author": [
+          {
+            "given": "M.",
+            "family": "De Le Court",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "J.",
+            "family": "Lambrechts",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "V.",
+            "family": "Legat",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "10055",
+        "published-online": {
+          "date-parts": [
+            [
+              2023
+            ]
+          ]
+        },
+        "event": {
+          "name": "10th Conference on Computational Methods in Marine Engineering",
+          "acronym": "MARINE 2023"
+        },
+        "container-title": [
+          "10th Conference on Computational Methods in Marine Engineering"
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2023,
+              8,
+              21
+            ]
+          ],
+          "date-time": "2023-08-21T12:13:46Z",
+          "timestamp": 1692620026000
+        },
+        "score": 28.52782,
+        "resource": {
+          "primary": {
+            "URL": "https://www.scipedia.com/public/De_Le_Court_et_al_2023a"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2023
+            ]
+          ]
+        },
+        "references-count": 0,
+        "URL": "https://doi.org/10.23967/marine.2023.065",
+        "published": {
+          "date-parts": [
+            [
+              2023
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              2,
+              24
+            ]
+          ],
+          "date-time": "2026-02-24T09:24:35Z",
+          "timestamp": 1771925075961,
+          "version": "3.50.1"
+        },
+        "reference-count": 22,
+        "publisher": "IEEE",
+        "license": [
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2024,
+                  8,
+                  11
+                ]
+              ],
+              "date-time": "2024-08-11T00:00:00Z",
+              "timestamp": 1723334400000
+            },
+            "content-version": "stm-asf",
+            "delay-in-days": 0,
+            "URL": "https://doi.org/10.15223/policy-029"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2024,
+                  8,
+                  11
+                ]
+              ],
+              "date-time": "2024-08-11T00:00:00Z",
+              "timestamp": 1723334400000
+            },
+            "content-version": "stm-asf",
+            "delay-in-days": 0,
+            "URL": "https://doi.org/10.15223/policy-037"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2024,
+              8,
+              11
+            ]
+          ]
+        },
+        "DOI": "10.1109/nemo59437.2024.11395659",
+        "type": "proceedings-article",
+        "created": {
+          "date-parts": [
+            [
+              2026,
+              2,
+              23
+            ]
+          ],
+          "date-time": "2026-02-23T20:46:26Z",
+          "timestamp": 1771879586000
+        },
+        "page": "1-3",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Discontinuous Galerkin Time Domain Methods in Electromagnetics GPU-Accelerated Numerical Algorithms"
+        ],
+        "prefix": "10.1109",
+        "author": [
+          {
+            "given": "Olivier",
+            "family": "Cotte",
+            "sequence": "first",
+            "affiliation": [
+              {
+                "name": "McGill University,Department of Electrical Engineering,Montreal,Canada,H3A 2A7"
+              }
+            ],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Dennis",
+            "family": "Giannacopoulos",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "McGill University,Department of Electrical Engineering,Montreal,Canada,H3A 2A7"
+              }
+            ],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "263",
+        "reference": [
+          {
+            "key": "ref1",
+            "article-title": "Nvidia cuda c++ programming guide, version 11.8",
+            "volume": "66",
+            "year": "2020"
+          },
+          {
+            "issue": "1",
+            "key": "ref2",
+            "article-title": "Eigen",
+            "volume": "3",
+            "author": "Guennebaud",
+            "year": "2010"
+          },
+          {
+            "key": "ref3",
+            "article-title": "Intel® math kernel library",
+            "author": "Basics",
+            "year": "2005"
+          },
+          {
+            "key": "ref4",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/LMWC.2013.2258462"
+          },
+          {
+            "key": "ref5",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/TAP.2018.2874798"
+          },
+          {
+            "key": "ref6",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/TMAG.2019.2897253"
+          },
+          {
+            "key": "ref7",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.2528/PIERB16021802"
+          },
+          {
+            "key": "ref8",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/ACES-China56081.2022.10064736"
+          },
+          {
+            "key": "ref9",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.jappgeo.2022.104666"
+          },
+          {
+            "key": "ref10",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/JPHOT.2020.2977233"
+          },
+          {
+            "key": "ref11",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/APS.2015.7305301"
+          },
+          {
+            "key": "ref12",
+            "article-title": "Developer reference for intel® oneapi math kernel library–c",
+            "author": "Intel",
+            "year": "2021",
+            "journal-title": "Intel R"
+          },
+          {
+            "key": "ref13",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/JLT.2017.2760913"
+          },
+          {
+            "key": "ref14",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/TMAG.2021.3066493"
+          },
+          {
+            "key": "ref15",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/TMTT.2020.2995721"
+          },
+          {
+            "key": "ref16",
+            "article-title": "Freefem++ manual",
+            "author": "Hecht",
+            "year": "2005",
+            "journal-title": "Laboratoire Jacques Louis Lions"
+          },
+          {
+            "key": "ref17",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1002/nme.2579"
+          },
+          {
+            "key": "ref18",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1002/mop.30142"
+          },
+          {
+            "key": "ref19",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/LAWP.2018.2869824"
+          },
+          {
+            "key": "ref20",
+            "article-title": "Metis: A software package for partitioning unstructured graphs, partitioning meshes, and computing fill-reducing orderings of sparse matrices",
+            "author": "Karypis",
+            "year": "1997"
+          },
+          {
+            "key": "ref21",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1177/1094342020938421"
+          },
+          {
+            "key": "ref22",
+            "article-title": "Petsc",
+            "author": "Balay",
+            "year": "2001"
+          }
+        ],
+        "event": {
+          "name": "2024 IEEE MTT-S International Conference on Numerical Electromagnetic and Multiphysics Modeling and Optimization (NEMO)",
+          "location": "Montreal, QC, Canada",
+          "start": {
+            "date-parts": [
+              [
+                2024,
+                8,
+                11
+              ]
+            ]
+          },
+          "end": {
+            "date-parts": [
+              [
+                2024,
+                8,
+                14
+              ]
+            ]
+          }
+        },
+        "container-title": [
+          "2024 IEEE MTT-S International Conference on Numerical Electromagnetic and Multiphysics Modeling and Optimization (NEMO)"
+        ],
+        "link": [
+          {
+            "URL": "http://xplorestaging.ieee.org/ielx8/11395604/11395638/11395659.pdf?arnumber=11395659",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2026,
+              2,
+              24
+            ]
+          ],
+          "date-time": "2026-02-24T08:36:24Z",
+          "timestamp": 1771922184000
+        },
+        "score": 27.819496,
+        "resource": {
+          "primary": {
+            "URL": "https://ieeexplore.ieee.org/document/11395659/"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2024,
+              8,
+              11
+            ]
+          ]
+        },
+        "references-count": 22,
+        "URL": "https://doi.org/10.1109/nemo59437.2024.11395659",
+        "published": {
+          "date-parts": [
+            [
+              2024,
+              8,
+              11
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              9,
+              12
+            ]
+          ],
+          "date-time": "2026-09-12T00:45:06Z",
+          "timestamp": 1789173906002,
+          "version": "build-2803163510"
+        },
+        "posted": {
+          "date-parts": [
+            [
+              2024,
+              10,
+              16
+            ]
+          ]
+        },
+        "group-title": "Numerical methods",
+        "reference-count": 0,
+        "publisher": "Copernicus GmbH",
+        "license": [
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2024,
+                  10,
+                  16
+                ]
+              ],
+              "date-time": "2024-10-16T00:00:00Z",
+              "timestamp": 1729036800000
+            },
+            "content-version": "vor",
+            "delay-in-days": 0,
+            "URL": "https://creativecommons.org/licenses/by/4.0/"
+          }
+        ],
+        "funder": [
+          {
+            "DOI": "10.13039/501100000266",
+            "name": "Engineering and Physical Sciences Research Council",
+            "doi-asserted-by": "publisher",
+            "award": [
+              "EP/R007349/1"
+            ],
+            "award-info": [
+              {
+                "award-number": [
+                  "EP/R007349/1"
+                ]
+              }
+            ],
+            "id": [
+              {
+                "id": "10.13039/501100000266",
+                "id-type": "DOI",
+                "asserted-by": "publisher"
+              }
+            ]
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "abstract": "<jats:p>Abstract. The second-order discontinuous Galerkin (DG2) solver of the shallow water equations in LISFLOOD-FP 8.0 is well-suited for predicting small-scale transients that emerge in rapid, multiscale floods caused by impact events like tsunamis. However, this DG2 solver can only be used for simulations on a uniform grid where it may yield inefficient runtimes even when using its graphics processing unit (GPU) parallelised version (GPU-DG2). To maximise runtime reduction, the LISFLOOD-FP 8.2 version integrates GPU parallelised dynamic (in time) grid resolution adaptivity of multiwavelets (MW) with the DG2 solver (GPU-MWDG2). The GPU-MWDG2 solver requires selecting a maximum refinement level, L, based on size and resolution of the Digital Elevation Model (DEM) and an error threshold, ε ≤ 10-3, to preserve similar accuracy as a GPU-DG2 simulation on a uniform grid. The accuracy and efficiency of dynamic GPU-MWDG2 adaptivity is assessed for four tsunami-induced flooding test cases involving increasingly complex tsunamis: from single-wave impact events to wave trains. At ε = 10-3, the GPU-MWDG2 simulations yield predictions similar to the GPU-DG2 simulations but using ε = 10-4 can improve the accuracy in velocity-related predictions. In terms of efficiency, the GPU-MWDG2 simulations show progressively larger speedups over the GPU-DG2 simulations from L ≥ 10, which become significant (≥ 3.3- and 4.5-fold at ε = 10-4 and 10-3 , respectively) for simulating a single-wave impact event. The LISFLOOD-FP 8.2 code is open source, DOI: 10.5281/zenodo.4073010, as well as the simulation data and the input files and scripts to reproduce them, DOI: 10.5281/zenodo.13909072, with additional documentation at https://www.seamlesswave.com/Adaptive (last accessed: 9 October 2024).</jats:p>",
+        "DOI": "10.5194/gmd-2024-152",
+        "type": "posted-content",
+        "created": {
+          "date-parts": [
+            [
+              2024,
+              10,
+              16
+            ]
+          ],
+          "date-time": "2024-10-16T03:25:14Z",
+          "timestamp": 1729049114000
+        },
+        "source": "Crossref",
+        "is-referenced-by-count": 1,
+        "title": [
+          "LISFLOOD-FP 8.2: GPU-accelerated multiwavelet discontinuous Galerkin solver with dynamic resolution adaptivity for rapid, multiscale flood simulation"
+        ],
+        "prefix": "10.5194",
+        "author": [
+          {
+            "given": "Alovya",
+            "family": "Chowdhury",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0003-1125-8384",
+            "authenticated-orcid": false,
+            "given": "Georges",
+            "family": "Kesserwani",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "member": "3145",
+        "deposited": {
+          "date-parts": [
+            [
+              2025,
+              12,
+              10
+            ]
+          ],
+          "date-time": "2025-12-10T05:07:07Z",
+          "timestamp": 1765343227000
+        },
+        "score": 27.491577,
+        "resource": {
+          "primary": {
+            "URL": "https://gmd.copernicus.org/articles/18/9827/2025/gmd-18-9827-2025-discussion.html"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2024,
+              10,
+              16
+            ]
+          ]
+        },
+        "references-count": 0,
+        "URL": "https://doi.org/10.5194/gmd-2024-152",
+        "relation": {
+          "has-comment": [
+            {
+              "id-type": "doi",
+              "id": "10.5194/gmd-2024-152-AC1",
+              "asserted-by": "subject"
+            }
+          ],
+          "has-review": [
+            {
+              "id-type": "doi",
+              "id": "10.5194/gmd-2024-152-RC1",
+              "asserted-by": "subject"
+            },
+            {
+              "id-type": "doi",
+              "id": "10.5194/gmd-2024-152-RC2",
+              "asserted-by": "subject"
+            },
+            {
+              "id-type": "doi",
+              "id": "10.5194/gmd-2024-152-RC3",
+              "asserted-by": "subject"
+            }
+          ],
+          "is-preprint-of": [
+            {
+              "id-type": "doi",
+              "id": "10.5194/gmd-18-9827-2025",
+              "asserted-by": "subject"
+            },
+            {
+              "id-type": "doi",
+              "id": "10.5194/gmd-18-9827-2025",
+              "asserted-by": "object"
+            }
+          ]
+        },
+        "published": {
+          "date-parts": [
+            [
+              2024,
+              10,
+              16
+            ]
+          ]
+        },
+        "subtype": "preprint"
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              6,
+              26
+            ]
+          ],
+          "date-time": "2026-06-26T04:35:29Z",
+          "timestamp": 1782448529540,
+          "version": "3.54.5"
+        },
+        "reference-count": 64,
+        "publisher": "Oxford University Press (OUP)",
+        "issue": "3",
+        "license": [
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2024,
+                  9,
+                  21
+                ]
+              ],
+              "date-time": "2024-09-21T00:00:00Z",
+              "timestamp": 1726876800000
+            },
+            "content-version": "vor",
+            "delay-in-days": 1,
+            "URL": "https://creativecommons.org/licenses/by/4.0/"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2024,
+              10,
+              4
+            ]
+          ]
+        },
+        "abstract": "<jats:title>ABSTRACT</jats:title>\n               <jats:p>We investigate the numerical performance of a Discontinuous Galerkin (DG) hydrodynamics implementation when applied to the problem of driven, isothermal supersonic turbulence. While the high-order element-based spectral approach of DG is known to efficiently produce accurate results for smooth problems (exponential convergence with expansion order), physical discontinuities in solutions, like shocks, prove challenging and may significantly diminish DG’s applicability to practical astrophysical applications. We consider whether DG is able to retain its accuracy and stability for highly supersonic turbulence, characterized by a network of shocks. We find that our new implementation, which regularizes shocks at subcell resolution with artificial viscosity, still performs well compared to standard second-order schemes for moderately high-Mach number turbulence, provided we also employ an additional projection of the primitive variables on to the polynomial basis to regularize the extrapolated values at cell interfaces. However, the accuracy advantage of DG diminishes significantly in the highly supersonic regime. Nevertheless, in turbulence simulations with a wide dynamic range that start with supersonic Mach numbers and can resolve the sonic point, the low-numerical dissipation of DG schemes still proves advantageous in the subsonic regime. Our results thus support the practical applicability of DG schemes for demanding astrophysical problems that involve strong shocks and turbulence, such as star formation in the interstellar medium. We also discuss the substantial computational cost of DG when going to high order, which needs to be weighted against the resulting accuracy gain. For problems containing shocks, this favours the use of comparatively low DG order.</jats:p>",
+        "DOI": "10.1093/mnras/stae2192",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2024,
+              9,
+              21
+            ]
+          ],
+          "date-time": "2024-09-21T02:55:11Z",
+          "timestamp": 1726887311000
+        },
+        "page": "1963-1984",
+        "source": "Crossref",
+        "is-referenced-by-count": 5,
+        "title": [
+          "Supersonic turbulence simulations with GPU-based high-order Discontinuous Galerkin hydrodynamics"
+        ],
+        "prefix": "10.1093",
+        "volume": "534",
+        "author": [
+          {
+            "ORCID": "https://orcid.org/0000-0002-5088-1745",
+            "authenticated-orcid": false,
+            "given": "Miha",
+            "family": "Cernetic",
+            "sequence": "first",
+            "affiliation": [
+              {
+                "name": "Max Planck Institut für Astrophysik , Karl-Schwarzschild-Straße 1, D-85748 Garching bei München ,",
+                "place": [
+                  "Germany"
+                ]
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Volker",
+            "family": "Springel",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Max Planck Institut für Astrophysik , Karl-Schwarzschild-Straße 1, D-85748 Garching bei München ,",
+                "place": [
+                  "Germany"
+                ]
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0002-0271-5953",
+            "authenticated-orcid": false,
+            "given": "Thomas",
+            "family": "Guillet",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Physics and Astronomy, University of Exeter , Exeter EX4 4QL ,",
+                "place": [
+                  "UK"
+                ]
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0003-3308-2420",
+            "authenticated-orcid": false,
+            "given": "Rüdiger",
+            "family": "Pakmor",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Max Planck Institut für Astrophysik , Karl-Schwarzschild-Straße 1, D-85748 Garching bei München ,",
+                "place": [
+                  "Germany"
+                ]
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "member": "286",
+        "published-online": {
+          "date-parts": [
+            [
+              2024,
+              9,
+              20
+            ]
+          ]
+        },
+        "reference": [
+          {
+            "key": "2024100803080069300_bib1",
+            "doi-asserted-by": "publisher",
+            "first-page": "e020",
+            "DOI": "10.1017/pasa.2021.4",
+            "volume": "38",
+            "author": "Anderson",
+            "year": "2021",
+            "journal-title": "Publ. Astron. Soc. Aust."
+          },
+          {
+            "key": "2024100803080069300_bib2",
+            "doi-asserted-by": "publisher",
+            "first-page": "1",
+            "DOI": "10.1103/RevModPhys.70.1",
+            "volume": "70",
+            "author": "Balbus",
+            "year": "1998",
+            "journal-title": "Rev. Mod. Phys."
+          },
+          {
+            "key": "2024100803080069300_bib3",
+            "doi-asserted-by": "publisher",
+            "first-page": "734",
+            "DOI": "10.1086/339624",
+            "volume": "570",
+            "author": "Ballesteros-Paredes",
+            "year": "2002",
+            "journal-title": "ApJ"
+          },
+          {
+            "key": "2024100803080069300_bib4",
+            "doi-asserted-by": "publisher",
+            "first-page": "76",
+            "DOI": "10.1007/s11214-020-00698-3",
+            "volume": "216",
+            "author": "Ballesteros-Paredes",
+            "year": "2020",
+            "journal-title": "Space Sci. Rev."
+          },
+          {
+            "key": "2024100803080069300_bib5",
+            "doi-asserted-by": "publisher",
+            "first-page": "2558",
+            "DOI": "10.1111/j.1365-2966.2012.21058.x",
+            "volume": "423",
+            "author": "Bauer",
+            "year": "2012",
+            "journal-title": "MNRAS"
+          },
+          {
+            "key": "2024100803080069300_bib6",
+            "doi-asserted-by": "crossref",
+            "first-page": "381",
+            "DOI": "10.1007/978-3-319-40528-5_17",
+            "volume-title": "Lecture Notes in Computational Science and Engineering, Vol. 113, Software for Exascale Computing – SPPEXA 2013–2015",
+            "author": "Bauer",
+            "year": "2016"
+          },
+          {
+            "key": "2024100803080069300_bib7",
+            "doi-asserted-by": "publisher",
+            "first-page": "4402",
+            "DOI": "10.1093/mnras/stad2981",
+            "volume": "526",
+            "author": "Bhadari",
+            "year": "2023",
+            "journal-title": "MNRAS"
+          },
+          {
+            "key": "2024100803080069300_bib8",
+            "doi-asserted-by": "publisher",
+            "first-page": "046901",
+            "DOI": "10.1088/0034-4885/74/4/046901",
+            "volume": "74",
+            "author": "Brandenburg",
+            "year": "2011",
+            "journal-title": "Rep. Prog. Phys."
+          },
+          {
+            "key": "2024100803080069300_bib9",
+            "doi-asserted-by": "crossref",
+            "first-page": "171",
+            "DOI": "10.1016/S0065-2156(08)70100-5",
+            "volume": "1",
+            "author": "Burgers",
+            "year": "1948",
+            "journal-title": "Adv. Appl. Mech."
+          },
+          {
+            "key": "2024100803080069300_bib10",
+            "doi-asserted-by": "publisher",
+            "first-page": "982",
+            "DOI": "10.1093/mnras/stad1043",
+            "volume": "522",
+            "author": "Cernetic",
+            "year": "2023",
+            "journal-title": "MNRAS"
+          },
+          {
+            "key": "2024100803080069300_bib11",
+            "doi-asserted-by": "publisher",
+            "first-page": "636",
+            "DOI": "10.2514/6.1988-3797",
+            "volume-title": "1st National Fluid Dynamics Conference",
+            "author": "Cockburn",
+            "year": "1988"
+          },
+          {
+            "key": "2024100803080069300_bib12",
+            "first-page": "411",
+            "volume": "52",
+            "author": "Cockburn",
+            "year": "1989",
+            "journal-title": "Math. Comput."
+          },
+          {
+            "key": "2024100803080069300_bib13",
+            "doi-asserted-by": "publisher",
+            "first-page": "199",
+            "DOI": "10.1006/jcph.1998.5892",
+            "volume": "141",
+            "author": "Cockburn",
+            "year": "1998",
+            "journal-title": "J. Comput. Phys."
+          },
+          {
+            "key": "2024100803080069300_bib14",
+            "doi-asserted-by": "publisher",
+            "first-page": "90",
+            "DOI": "10.1016/0021-9991(89)90183-6",
+            "volume": "84",
+            "author": "Cockburn",
+            "year": "1989",
+            "journal-title": "J. Comput. Phys."
+          },
+          {
+            "key": "2024100803080069300_bib15",
+            "doi-asserted-by": "publisher",
+            "first-page": "545",
+            "DOI": "10.2307/2008501",
+            "volume": "54",
+            "author": "Cockburn",
+            "year": "1990",
+            "journal-title": "Math. Comput."
+          },
+          {
+            "key": "2024100803080069300_bib16",
+            "doi-asserted-by": "publisher",
+            "first-page": "1245",
+            "DOI": "10.1093/mnras/stt1644",
+            "volume": "436",
+            "author": "Federrath",
+            "year": "2013",
+            "journal-title": "MNRAS"
+          },
+          {
+            "key": "2024100803080069300_bib17",
+            "doi-asserted-by": "publisher",
+            "first-page": "L79",
+            "DOI": "10.1086/595280",
+            "volume": "688",
+            "author": "Federrath",
+            "year": "2008",
+            "journal-title": "ApJ"
+          },
+          {
+            "key": "2024100803080069300_bib18",
+            "doi-asserted-by": "publisher",
+            "first-page": "364",
+            "DOI": "10.1088/0004-637X/692/1/364",
+            "volume": "692",
+            "author": "Federrath",
+            "year": "2009",
+            "journal-title": "ApJ"
+          },
+          {
+            "key": "2024100803080069300_bib19",
+            "doi-asserted-by": "publisher",
+            "first-page": "A81",
+            "DOI": "10.1051/0004-6361/200912437",
+            "volume": "512",
+            "author": "Federrath",
+            "year": "2010",
+            "journal-title": "A&A"
+          },
+          {
+            "key": "2024100803080069300_bib20",
+            "doi-asserted-by": "publisher",
+            "first-page": "365",
+            "DOI": "10.1038/s41550-020-01282-z",
+            "volume": "5",
+            "author": "Federrath",
+            "year": "2021",
+            "journal-title": "Nat. Astron."
+          },
+          {
+            "key": "2024100803080069300_bib21",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.1017/CBO9781139170666",
+            "volume-title": "Turbulence: The Legacy of A.N. Kolmogorov",
+            "author": "Frisch",
+            "year": "1995"
+          },
+          {
+            "key": "2024100803080069300_bib22",
+            "doi-asserted-by": "publisher",
+            "first-page": "6779",
+            "DOI": "10.1093/mnras/stad3640",
+            "volume": "527",
+            "author": "Girma",
+            "year": "2024",
+            "journal-title": "MNRAS"
+          },
+          {
+            "key": "2024100803080069300_bib23",
+            "doi-asserted-by": "publisher",
+            "first-page": "763",
+            "DOI": "10.1086/175121",
+            "volume": "438",
+            "author": "Goldreich",
+            "year": "1995",
+            "journal-title": "ApJ"
+          },
+          {
+            "key": "2024100803080069300_bib24",
+            "doi-asserted-by": "publisher",
+            "first-page": "4963",
+            "DOI": "10.1093/mnras/stab394",
+            "volume": "502",
+            "author": "Gómez",
+            "year": "2021",
+            "journal-title": "MNRAS"
+          },
+          {
+            "key": "2024100803080069300_bib25",
+            "doi-asserted-by": "publisher",
+            "first-page": "4209",
+            "DOI": "10.1093/mnras/stz314",
+            "volume": "485",
+            "author": "Guillet",
+            "year": "2019",
+            "journal-title": "MNRAS"
+          },
+          {
+            "key": "2024100803080069300_bib26",
+            "doi-asserted-by": "publisher",
+            "first-page": "133",
+            "DOI": "10.1017/S0022112087000892",
+            "volume": "177",
+            "author": "Kim",
+            "year": "1987",
+            "journal-title": "J. Fluid Mech."
+          },
+          {
+            "key": "2024100803080069300_bib27",
+            "doi-asserted-by": "publisher",
+            "first-page": "74",
+            "DOI": "10.1007/s11214-023-01019-0",
+            "volume": "219",
+            "author": "Klein",
+            "year": "2023",
+            "journal-title": "Space Sci. Rev."
+          },
+          {
+            "key": "2024100803080069300_bib28",
+            "doi-asserted-by": "publisher",
+            "first-page": "869",
+            "DOI": "10.1086/308854",
+            "volume": "535",
+            "author": "Klessen",
+            "year": "2000",
+            "journal-title": "ApJ"
+          },
+          {
+            "key": "2024100803080069300_bib29",
+            "first-page": "301",
+            "volume": "30",
+            "author": "Kolmogorov",
+            "year": "1941",
+            "journal-title": "Akad. Nauk SSSR Dokl."
+          },
+          {
+            "key": "2024100803080069300_bib30",
+            "doi-asserted-by": "publisher",
+            "first-page": "L1",
+            "DOI": "10.1086/376674",
+            "volume": "590",
+            "author": "Kravtsov",
+            "year": "2003",
+            "journal-title": "ApJ"
+          },
+          {
+            "key": "2024100803080069300_bib31",
+            "doi-asserted-by": "publisher",
+            "first-page": "1385",
+            "DOI": "10.1093/mnras/stz3495",
+            "volume": "492",
+            "author": "Kretschmer",
+            "year": "2020",
+            "journal-title": "MNRAS"
+          },
+          {
+            "key": "2024100803080069300_bib32",
+            "doi-asserted-by": "publisher",
+            "first-page": "809",
+            "DOI": "10.1093/mnras/194.4.809",
+            "volume": "194",
+            "author": "Larson",
+            "year": "1981",
+            "journal-title": "MNRAS"
+          },
+          {
+            "key": "2024100803080069300_bib33",
+            "doi-asserted-by": "publisher",
+            "first-page": "269",
+            "DOI": "10.1016/0045-7825(74)90029-2",
+            "volume": "3",
+            "author": "Launder",
+            "year": "1974",
+            "journal-title": "Comput. Methods Appl. Mech. Eng."
+          },
+          {
+            "key": "2024100803080069300_bib34",
+            "doi-asserted-by": "publisher",
+            "first-page": "975",
+            "DOI": "10.1086/375780",
+            "volume": "592",
+            "author": "Li",
+            "year": "2003",
+            "journal-title": "ApJ"
+          },
+          {
+            "key": "2024100803080069300_bib35",
+            "doi-asserted-by": "publisher",
+            "first-page": "110",
+            "DOI": "10.3847/1538-4357/ab84f1",
+            "volume": "896",
+            "author": "Li",
+            "year": "2020",
+            "journal-title": "ApJ"
+          },
+          {
+            "key": "2024100803080069300_bib36",
+            "doi-asserted-by": "publisher",
+            "first-page": "995",
+            "DOI": "10.1137/S1064827502402120",
+            "volume": "25",
+            "author": "Liska",
+            "year": "2003",
+            "journal-title": "SIAM J. Sci. Comput."
+          },
+          {
+            "key": "2024100803080069300_bib37",
+            "doi-asserted-by": "publisher",
+            "first-page": "864",
+            "DOI": "10.1086/430122",
+            "volume": "626",
+            "author": "Mac Low",
+            "year": "2005",
+            "journal-title": "ApJ"
+          },
+          {
+            "key": "2024100803080069300_bib38",
+            "doi-asserted-by": "publisher",
+            "first-page": "5190",
+            "DOI": "10.1093/mnras/stac3415",
+            "volume": "518",
+            "author": "Mathew",
+            "year": "2023",
+            "journal-title": "MNRAS"
+          },
+          {
+            "key": "2024100803080069300_bib39",
+            "doi-asserted-by": "publisher",
+            "first-page": "851",
+            "DOI": "10.1029/RG020i004p00851",
+            "volume": "20",
+            "author": "Mellor",
+            "year": "1982",
+            "journal-title": "Rev. Geophys. Space Phys."
+          },
+          {
+            "key": "2024100803080069300_bib40",
+            "doi-asserted-by": "publisher",
+            "first-page": "1598",
+            "DOI": "10.2514/3.12149",
+            "volume": "32",
+            "author": "Menter",
+            "year": "1994",
+            "journal-title": "AIAA J."
+          },
+          {
+            "key": "2024100803080069300_bib41",
+            "doi-asserted-by": "publisher",
+            "first-page": "374",
+            "DOI": "10.1016/0021-9991(83)90036-0",
+            "volume": "52",
+            "author": "Monaghan",
+            "year": "1983",
+            "journal-title": "J. Comput. Phys."
+          },
+          {
+            "key": "2024100803080069300_bib42",
+            "doi-asserted-by": "crossref",
+            "first-page": "4",
+            "DOI": "10.1007/s10915-022-01770-6",
+            "volume": "91",
+            "author": "Mossier",
+            "year": "2022",
+            "journal-title": "J. Sci. Comput."
+          },
+          {
+            "key": "2024100803080069300_bib43",
+            "doi-asserted-by": "publisher",
+            "first-page": "259",
+            "DOI": "10.1086/306842",
+            "volume": "513",
+            "author": "Ostriker",
+            "year": "1999",
+            "journal-title": "ApJ"
+          },
+          {
+            "key": "2024100803080069300_bib44",
+            "doi-asserted-by": "publisher",
+            "first-page": "105",
+            "DOI": "10.1093/mnras/stac1012",
+            "volume": "514",
+            "author": "Pan",
+            "year": "2022",
+            "journal-title": "MNRAS"
+          },
+          {
+            "key": "2024100803080069300_bib45",
+            "doi-asserted-by": "publisher",
+            "first-page": "4501",
+            "DOI": "10.1103/PhysRevE.58.4501",
+            "volume": "58",
+            "author": "Passot",
+            "year": "1998",
+            "journal-title": "Phys. Rev. E"
+          },
+          {
+            "key": "2024100803080069300_bib46",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.1017/CBO9780511840531",
+            "volume-title": "Turbulent Flows",
+            "author": "Pope",
+            "year": "2000"
+          },
+          {
+            "key": "2024100803080069300_bib47",
+            "doi-asserted-by": "publisher",
+            "first-page": "1659",
+            "DOI": "10.1111/j.1365-2966.2010.16810.x",
+            "volume": "406",
+            "author": "Price",
+            "year": "2010",
+            "journal-title": "MNRAS"
+          },
+          {
+            "key": "2024100803080069300_bib48",
+            "doi-asserted-by": "publisher",
+            "first-page": "297",
+            "DOI": "10.1093/mnras/stad2195",
+            "volume": "525",
+            "author": "Rabatin",
+            "year": "2023",
+            "journal-title": "MNRAS"
+          },
+          {
+            "key": "2024100803080069300_bib49",
+            "author": "Reed",
+            "year": "1973"
+          },
+          {
+            "key": "2024100803080069300_bib50",
+            "doi-asserted-by": "publisher",
+            "first-page": "835",
+            "DOI": "10.1086/306099",
+            "volume": "504",
+            "author": "Scalo",
+            "year": "1998",
+            "journal-title": "ApJ"
+          },
+          {
+            "key": "2024100803080069300_bib51",
+            "doi-asserted-by": "publisher",
+            "first-page": "4278",
+            "DOI": "10.1093/mnras/stv1859",
+            "volume": "453",
+            "author": "Schaal",
+            "year": "2015",
+            "journal-title": "MNRAS"
+          },
+          {
+            "key": "2024100803080069300_bib52",
+            "doi-asserted-by": "publisher",
+            "first-page": "265",
+            "DOI": "10.1051/0004-6361:20053617",
+            "volume": "450",
+            "author": "Schmidt",
+            "year": "2006",
+            "journal-title": "A&A"
+          },
+          {
+            "key": "2024100803080069300_bib53",
+            "doi-asserted-by": "publisher",
+            "first-page": "32",
+            "DOI": "10.1016/0021-9991(89)90222-2",
+            "volume": "83",
+            "author": "Shu",
+            "year": "1989",
+            "journal-title": "J. Comput. Phys."
+          },
+          {
+            "key": "2024100803080069300_bib54",
+            "doi-asserted-by": "publisher",
+            "first-page": "791",
+            "DOI": "10.1111/j.1365-2966.2009.15715.x",
+            "volume": "401",
+            "author": "Springel",
+            "year": "2010",
+            "journal-title": "MNRAS"
+          },
+          {
+            "key": "2024100803080069300_bib55",
+            "doi-asserted-by": "publisher",
+            "first-page": "649",
+            "DOI": "10.1046/j.1365-8711.2002.05445.x",
+            "volume": "333",
+            "author": "Springel",
+            "year": "2002",
+            "journal-title": "MNRAS"
+          },
+          {
+            "key": "2024100803080069300_bib56",
+            "doi-asserted-by": "publisher",
+            "first-page": "79",
+            "DOI": "10.1016/S1384-1076(01)00042-2",
+            "volume": "6",
+            "author": "Springel",
+            "year": "2001",
+            "journal-title": "New Astron."
+          },
+          {
+            "key": "2024100803080069300_bib57",
+            "doi-asserted-by": "publisher",
+            "first-page": "137",
+            "DOI": "10.1086/588755",
+            "volume": "178",
+            "author": "Stone",
+            "year": "2008",
+            "journal-title": "ApJS"
+          },
+          {
+            "key": "2024100803080069300_bib58",
+            "author": "Tassis",
+            "year": "2018"
+          },
+          {
+            "key": "2024100803080069300_bib59",
+            "doi-asserted-by": "publisher",
+            "first-page": "XXIV, 724",
+            "DOI": "10.1007/b79761",
+            "volume-title": "Riemann Solvers and Numerical Methods for Fluid Dynamics: A Practical Introduction",
+            "author": "Toro",
+            "year": "2009"
+          },
+          {
+            "key": "2024100803080069300_bib60",
+            "doi-asserted-by": "publisher",
+            "first-page": "1855",
+            "DOI": "10.1093/mnras/sty1192",
+            "volume": "478",
+            "author": "Velasco Romero",
+            "year": "2018",
+            "journal-title": "MNRAS"
+          },
+          {
+            "key": "2024100803080069300_bib61",
+            "doi-asserted-by": "publisher",
+            "first-page": "232",
+            "DOI": "10.1063/1.1699639",
+            "volume": "21",
+            "author": "Von Neumann",
+            "year": "1950",
+            "journal-title": "J. Appl. Phys."
+          },
+          {
+            "key": "2024100803080069300_bib62",
+            "doi-asserted-by": "publisher",
+            "first-page": "172",
+            "DOI": "10.1086/318344",
+            "volume": "547",
+            "author": "Wada",
+            "year": "2001",
+            "journal-title": "ApJ"
+          },
+          {
+            "key": "2024100803080069300_bib63",
+            "doi-asserted-by": "publisher",
+            "first-page": "32",
+            "DOI": "10.3847/1538-4365/ab908c",
+            "volume": "248",
+            "author": "Weinberger",
+            "year": "2020",
+            "journal-title": "ApJS"
+          },
+          {
+            "key": "2024100803080069300_bib64",
+            "doi-asserted-by": "publisher",
+            "first-page": "281",
+            "DOI": "10.1016/0021-9991(80)90161-8",
+            "volume": "36",
+            "author": "Wilkins",
+            "year": "1980",
+            "journal-title": "J. Comput. Phys."
+          }
+        ],
+        "container-title": [
+          "Monthly Notices of the Royal Astronomical Society"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "https://academic.oup.com/mnras/advance-article-pdf/doi/10.1093/mnras/stae2192/59215475/stae2192.pdf",
+            "content-type": "application/pdf",
+            "content-version": "am",
+            "intended-application": "syndication"
+          },
+          {
+            "URL": "https://academic.oup.com/mnras/article-pdf/534/3/1963/59633618/stae2192.pdf",
+            "content-type": "application/pdf",
+            "content-version": "vor",
+            "intended-application": "syndication"
+          },
+          {
+            "URL": "https://academic.oup.com/mnras/article-pdf/534/3/1963/59633618/stae2192.pdf",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2024,
+              10,
+              8
+            ]
+          ],
+          "date-time": "2024-10-08T03:08:21Z",
+          "timestamp": 1728356901000
+        },
+        "score": 27.046278,
+        "resource": {
+          "primary": {
+            "URL": "https://academic.oup.com/mnras/article/534/3/1963/7762969"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2024,
+              9,
+              20
+            ]
+          ]
+        },
+        "references-count": 64,
+        "journal-issue": {
+          "issue": "3",
+          "published-print": {
+            "date-parts": [
+              [
+                2024,
+                10,
+                4
+              ]
+            ]
+          }
+        },
+        "URL": "https://doi.org/10.1093/mnras/stae2192",
+        "ISSN": [
+          "0035-8711",
+          "1365-2966"
+        ],
+        "issn-type": [
+          {
+            "value": "0035-8711",
+            "type": "print"
+          },
+          {
+            "value": "1365-2966",
+            "type": "electronic"
+          }
+        ],
+        "published-other": {
+          "date-parts": [
+            [
+              2024,
+              11
+            ]
+          ]
+        },
+        "published": {
+          "date-parts": [
+            [
+              2024,
+              9,
+              20
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2025,
+              12,
+              31
+            ]
+          ],
+          "date-time": "2025-12-31T11:22:41Z",
+          "timestamp": 1767180161133,
+          "version": "build-2238731810"
+        },
+        "reference-count": 0,
+        "publisher": "Inderscience Publishers",
+        "issue": "2",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "short-container-title": [
+          "IJCSE"
+        ],
+        "published-print": {
+          "date-parts": [
+            [
+              2019
+            ]
+          ]
+        },
+        "DOI": "10.1504/ijcse.2019.103824",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2019,
+              12,
+              2
+            ]
+          ],
+          "date-time": "2019-12-02T09:34:14Z",
+          "timestamp": 1575279254000
+        },
+        "page": "209",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Accelerating the discontinuous Galerkin cell-vertex scheme solver on GPU-powered systems"
+        ],
+        "prefix": "10.1504",
+        "volume": "20",
+        "author": [
+          {
+            "given": "Xiaoqi",
+            "family": "Hu",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Mengshen",
+            "family": "Zhao",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Shuang Z.",
+            "family": "Tu",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Byunghyun",
+            "family": "Jang",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "378",
+        "container-title": [
+          "International Journal of Computational Science and Engineering"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "http://www.inderscienceonline.com/doi/full/10.1504/IJCSE.2019.103824",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2019,
+              12,
+              2
+            ]
+          ],
+          "date-time": "2019-12-02T09:34:22Z",
+          "timestamp": 1575279262000
+        },
+        "score": 26.386318,
+        "resource": {
+          "primary": {
+            "URL": "http://www.inderscience.com/link.php?id=103824"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2019
+            ]
+          ]
+        },
+        "references-count": 0,
+        "aliases": [
+          "10.1504/ijcse.2019.10025526"
+        ],
+        "journal-issue": {
+          "issue": "2",
+          "published-print": {
+            "date-parts": [
+              [
+                2019
+              ]
+            ]
+          }
+        },
+        "URL": "https://doi.org/10.1504/ijcse.2019.103824",
+        "ISSN": [
+          "1742-7185",
+          "1742-7193"
+        ],
+        "issn-type": [
+          {
+            "value": "1742-7185",
+            "type": "print"
+          },
+          {
+            "value": "1742-7193",
+            "type": "electronic"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2019
+            ]
+          ]
+        },
+        "article-number": "103824"
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              8,
+              14
+            ]
+          ],
+          "date-time": "2026-08-14T21:32:51Z",
+          "timestamp": 1786743171600,
+          "version": "build-2736575974"
+        },
+        "posted": {
+          "date-parts": [
+            [
+              2024
+            ]
+          ]
+        },
+        "group-title": "SSRN",
+        "reference-count": 20,
+        "publisher": "Elsevier BV",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "abstract": "<jats:p>FEM is a valuable approximation tool for the solution of Partial Differential Equations when the analytical&lt;br&gt;solutions are difficult or impossible to obtain due to complicated geometry or boundary conditions. The Project work involved&lt;br&gt;collecting facts related to WG and DG-FEMs. WG-FEM is a numerical method that was first proposed and analyzed by Wang&lt;br&gt;and Ye (2013) for general second-order elliptic BVPs on triangular and rectangular meshes. DG-FEMs as developed by&lt;br&gt;Cockburn et al. (1970) uses a discontinuous function space to approximate the exact solution of the equations. The comparison&lt;br&gt;and numerical examples demonstrated that WG-FEMs are viable and hold some advantages over DG-FEMs, due to their&lt;br&gt;properties. Numerical examples demonstrated that WGM generates a smaller linear system to solve than the DGMs. WG-FEM&lt;br&gt;have less unknowns, no need for choosing penalty factor and normal flux is continuous across element interfaces compared to&lt;br&gt;DG-FEMs and the implementation of WG-FEMs is easier than that of DG-FEMs based on error and convergence rate. The&lt;br&gt;computations were done by hand and with the help of MATLAB 2021Rb.</jats:p>",
+        "DOI": "10.2139/ssrn.4775021",
+        "type": "posted-content",
+        "created": {
+          "date-parts": [
+            [
+              2024,
+              4,
+              15
+            ]
+          ],
+          "date-time": "2024-04-15T14:54:00Z",
+          "timestamp": 1713192840000
+        },
+        "source": "Crossref",
+        "is-referenced-by-count": 1,
+        "title": [
+          "Comparative Study of Weak Galerkin and Discontinuous Galerkin Finite Element Methods"
+        ],
+        "prefix": "10.2139",
+        "author": [
+          {
+            "ORCID": "https://orcid.org/0000-0002-1393-5054",
+            "authenticated-orcid": true,
+            "given": "Desta",
+            "family": "Sodano Sheiso",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "member": "78",
+        "reference": [
+          {
+            "key": "ref1",
+            "doi-asserted-by": "crossref",
+            "first-page": "742",
+            "DOI": "10.1137/0719052",
+            "article-title": "An Interior Penalty Finite Element Method with discontinuous element",
+            "author": "D N Arnold",
+            "year": "1982",
+            "journal-title": "SIAM J. Numer. Anal"
+          },
+          {
+            "key": "ref2",
+            "doi-asserted-by": "crossref",
+            "first-page": "863",
+            "DOI": "10.1137/0710071",
+            "article-title": "Nonconforming Elements in the Finite Element Method with Penalty",
+            "volume": "10",
+            "author": "I Babuska",
+            "year": "1973",
+            "journal-title": "SIAM J. Num. Anal"
+          },
+          {
+            "key": "ref3",
+            "doi-asserted-by": "crossref",
+            "first-page": "333",
+            "DOI": "10.2478/cmam-2005-0016",
+            "article-title": "Three Matlab implementations of the lowest-order Raviart-Thomas MFEM with a posterior error control",
+            "volume": "5",
+            "author": "C Bahriawati",
+            "year": "2005",
+            "journal-title": "Comput Methods Appl. Math"
+          },
+          {
+            "key": "ref4",
+            "author": "G Baker",
+            "journal-title": "A, 1977: Finite element methods for elliptic equations using nonconforming"
+          },
+          {
+            "key": "ref5",
+            "author": "K Bang",
+            "year": "2000",
+            "journal-title": "The Finite Element Method Using MATLAB"
+          },
+          {
+            "key": "ref6",
+            "first-page": "83",
+            "author": "E Barnhill",
+            "year": "1973",
+            "journal-title": "Error analysis of Finite Element Methods on triangles for elliptic boundary value problems. The Mathematics of Finite Elements and Applications"
+          },
+          {
+            "key": "ref7",
+            "article-title": "A high order accurate Discontinuous Finite Element Method for inviscid and viscous turbomachinery flow",
+            "author": "F Bassi",
+            "year": "1997",
+            "journal-title": "Proceedings of the Second European Conference on Turbomachinery Fluid Dynamics and Thermodynamics"
+          },
+          {
+            "key": "ref8",
+            "doi-asserted-by": "crossref",
+            "first-page": "1043",
+            "DOI": "10.1002/fld.562",
+            "article-title": "Super convergence and H (div) projection for Discontinuous Galerkin Methods",
+            "volume": "42",
+            "author": "P Bastian",
+            "year": "2003",
+            "journal-title": "Int. J. Numer. Methods Fluids"
+          },
+          {
+            "key": "ref9",
+            "author": "E Becker",
+            "year": "1981",
+            "journal-title": "Finite Elements an Introduction"
+          },
+          {
+            "key": "ref10",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.1007/978-0-387-75934-0",
+            "author": "S Brenner",
+            "year": "2008",
+            "journal-title": "The Mathematical Theory of Finite Element Methods"
+          },
+          {
+            "key": "ref11",
+            "first-page": "365",
+            "author": "F Brezzi",
+            "year": "2000",
+            "journal-title": "Discontinuous Galerkin approximations for elliptic problems"
+          },
+          {
+            "key": "ref12",
+            "doi-asserted-by": "crossref",
+            "first-page": "524",
+            "DOI": "10.1137/S1064827501388339",
+            "article-title": "Performance of discontinuous Galerkin methods for elliptic PDEs",
+            "author": "P Castillo",
+            "year": "2002",
+            "journal-title": "Siam Journal on Scientific Computing"
+          },
+          {
+            "key": "ref13",
+            "author": "P Castillo",
+            "year": "2002",
+            "journal-title": "Performance of discontinuous Galerkin methods for elliptic PDE's"
+          },
+          {
+            "key": "ref14",
+            "first-page": "204",
+            "author": "J C Cavendish",
+            "year": "1969",
+            "journal-title": "Galerkin methods for the numerical solution of boundary value problems"
+          },
+          {
+            "key": "ref15",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.1007/978-3-642-59721-3",
+            "volume": "11",
+            "author": "B Cocburn",
+            "year": "2000",
+            "journal-title": "Discontinuous Galerkin Methods: Theory, Computation and Applications Lecture Notes in Computational Science and Engineering"
+          },
+          {
+            "key": "ref16",
+            "first-page": "1",
+            "article-title": "Foreword for the special issue on Discontinuous Galerkin methods",
+            "volume": "22",
+            "author": "B Cockburn",
+            "year": "2005",
+            "journal-title": "J. Sci. Comp"
+          },
+          {
+            "key": "ref17",
+            "doi-asserted-by": "crossref",
+            "first-page": "1742",
+            "DOI": "10.1137/060666305",
+            "article-title": "Locally conservative fluxes for the continuous Galerkin Method",
+            "volume": "45",
+            "author": "B Cockburn",
+            "year": "2007",
+            "journal-title": "SIAM Journal of Numerical Analysis"
+          },
+          {
+            "key": "ref18",
+            "article-title": "Variational methods for the solution of problems of equilibrium and vibrations",
+            "author": "R Courant",
+            "year": "1943",
+            "journal-title": "Bulletin of the American Mathematics Society"
+          },
+          {
+            "key": "ref19",
+            "article-title": "Foreword for the special issue on",
+            "volume": "195",
+            "author": "C Dawson",
+            "year": "2006",
+            "journal-title": "Discontinuous Galerkin Methods. Comput. Methods Appl. Mech. Engrg"
+          },
+          {
+            "key": "ref20",
+            "first-page": "45",
+            "volume": "7",
+            "author": "J Douglas",
+            "year": "1970",
+            "journal-title": "Galerkin methods for parabolic equations"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2026,
+              8,
+              14
+            ]
+          ],
+          "date-time": "2026-08-14T20:57:08Z",
+          "timestamp": 1786741028000
+        },
+        "score": 26.227758,
+        "resource": {
+          "primary": {
+            "URL": "https://www.ssrn.com/abstract=4775021"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2024
+            ]
+          ]
+        },
+        "references-count": 20,
+        "URL": "https://doi.org/10.2139/ssrn.4775021",
+        "published": {
+          "date-parts": [
+            [
+              2024
+            ]
+          ]
+        },
+        "subtype": "preprint"
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              5,
+              27
+            ]
+          ],
+          "date-time": "2026-05-27T23:36:30Z",
+          "timestamp": 1779924990968,
+          "version": "3.53.1"
+        },
+        "reference-count": 39,
+        "publisher": "Elsevier BV",
+        "license": [
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2019,
+                  8,
+                  1
+                ]
+              ],
+              "date-time": "2019-08-01T00:00:00Z",
+              "timestamp": 1564617600000
+            },
+            "content-version": "tdm",
+            "delay-in-days": 0,
+            "URL": "https://www.elsevier.com/tdm/userlicense/1.0/"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2020,
+                  4,
+                  18
+                ]
+              ],
+              "date-time": "2020-04-18T00:00:00Z",
+              "timestamp": 1587168000000
+            },
+            "content-version": "am",
+            "delay-in-days": 261,
+            "URL": "http://www.elsevier.com/open-access/userlicense/1.0/"
+          }
+        ],
+        "funder": [
+          {
+            "DOI": "10.13039/100000015",
+            "name": "U.S. Department of Energy",
+            "doi-asserted-by": "publisher",
+            "award": [
+              "17-SC-20-SC"
+            ],
+            "award-info": [
+              {
+                "award-number": [
+                  "17-SC-20-SC"
+                ]
+              }
+            ],
+            "id": [
+              {
+                "id": "10.13039/100000015",
+                "id-type": "DOI",
+                "asserted-by": "publisher"
+              }
+            ]
+          }
+        ],
+        "content-domain": {
+          "domain": [
+            "elsevier.com",
+            "sciencedirect.com"
+          ],
+          "crossmark-restriction": true
+        },
+        "short-container-title": [
+          "Journal of Computational Physics"
+        ],
+        "published-print": {
+          "date-parts": [
+            [
+              2019,
+              8
+            ]
+          ]
+        },
+        "DOI": "10.1016/j.jcp.2019.04.010",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2019,
+              4,
+              11
+            ]
+          ],
+          "date-time": "2019-04-11T16:20:32Z",
+          "timestamp": 1554999632000
+        },
+        "page": "380-404",
+        "update-policy": "https://doi.org/10.1016/elsevier_cm_policy",
+        "source": "Crossref",
+        "is-referenced-by-count": 30,
+        "special_numbering": "C",
+        "title": [
+          "A GPU accelerated discontinuous Galerkin incompressible flow solver"
+        ],
+        "prefix": "10.1016",
+        "volume": "390",
+        "author": [
+          {
+            "given": "A.",
+            "family": "Karakus",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "N.",
+            "family": "Chalmers",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "K.",
+            "family": "Świrydowicz",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "T.",
+            "family": "Warburton",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "member": "78",
+        "reference": [
+          {
+            "issue": "21",
+            "key": "10.1016/j.jcp.2019.04.010_br0010",
+            "doi-asserted-by": "crossref",
+            "first-page": "7863",
+            "DOI": "10.1016/j.jcp.2009.06.041",
+            "article-title": "Nodal discontinuous Galerkin methods on graphics processors",
+            "volume": "228",
+            "author": "Klöckner",
+            "year": "2009",
+            "journal-title": "J. Comput. Phys."
+          },
+          {
+            "issue": "1",
+            "key": "10.1016/j.jcp.2019.04.010_br0020",
+            "doi-asserted-by": "crossref",
+            "first-page": "37",
+            "DOI": "10.4208/cicp.070114.271114a",
+            "article-title": "GPU accelerated discontinuous Galerkin methods for shallow water equations",
+            "volume": "18",
+            "author": "Gandham",
+            "year": "2015",
+            "journal-title": "Commun. Comput. Phys."
+          },
+          {
+            "key": "10.1016/j.jcp.2019.04.010_br0030",
+            "doi-asserted-by": "crossref",
+            "first-page": "64",
+            "DOI": "10.1016/j.cageo.2016.03.008",
+            "article-title": "GPU performance analysis of a nodal discontinuous Galerkin method for acoustic and elastic models",
+            "volume": "91",
+            "author": "Modave",
+            "year": "2016",
+            "journal-title": "Comput. Geosci."
+          },
+          {
+            "key": "10.1016/j.jcp.2019.04.010_br0040",
+            "doi-asserted-by": "crossref",
+            "first-page": "142",
+            "DOI": "10.1016/j.jcp.2016.04.003",
+            "article-title": "GPU-accelerated discontinuous Galerkin methods on hybrid meshes",
+            "volume": "318",
+            "author": "Chan",
+            "year": "2016",
+            "journal-title": "J. Comput. Phys."
+          },
+          {
+            "issue": "1",
+            "key": "10.1016/j.jcp.2019.04.010_br0050",
+            "doi-asserted-by": "crossref",
+            "first-page": "56",
+            "DOI": "10.1080/10618562.2016.1155704",
+            "article-title": "A GPU-accelerated adaptive discontinuous Galerkin method for level set equation",
+            "volume": "30",
+            "author": "Karakus",
+            "year": "2016",
+            "journal-title": "Int. J. Comput. Fluid Dyn."
+          },
+          {
+            "issue": "3",
+            "key": "10.1016/j.jcp.2019.04.010_br0060",
+            "doi-asserted-by": "crossref",
+            "first-page": "755",
+            "DOI": "10.1016/j.camwa.2016.05.025",
+            "article-title": "A GPU accelerated level set reinitialization for an adaptive discontinuous Galerkin method",
+            "volume": "72",
+            "author": "Karakus",
+            "year": "2016",
+            "journal-title": "Comput. Math. Appl."
+          },
+          {
+            "key": "10.1016/j.jcp.2019.04.010_br0070",
+            "series-title": "Aerospace Sciences Meetings",
+            "first-page": "1",
+            "article-title": "GPU-accelerated sparse matrix-vector product for a hybridizable discontinuous Galerkin method",
+            "author": "Roca",
+            "year": "2011"
+          },
+          {
+            "issue": "3",
+            "key": "10.1016/j.jcp.2019.04.010_br0080",
+            "doi-asserted-by": "crossref",
+            "first-page": "817",
+            "DOI": "10.4208/cicp.290114.170414a",
+            "article-title": "Stability of projection methods for incompressible flows using high order pressure-velocity pairs of same degree: continuous and discontinuous Galerkin formulations",
+            "volume": "16",
+            "author": "Ferrer",
+            "year": "2014",
+            "journal-title": "Commun. Comput. Phys."
+          },
+          {
+            "key": "10.1016/j.jcp.2019.04.010_br0090",
+            "author": "Piatkowski"
+          },
+          {
+            "issue": "106",
+            "key": "10.1016/j.jcp.2019.04.010_br0100",
+            "doi-asserted-by": "crossref",
+            "first-page": "341",
+            "DOI": "10.1090/S0025-5718-1969-0242393-5",
+            "article-title": "On the convergence of discrete approximations to the Navier-Stokes equations",
+            "volume": "23",
+            "author": "Chorin",
+            "year": "1969",
+            "journal-title": "Math. Comput."
+          },
+          {
+            "issue": "1",
+            "key": "10.1016/j.jcp.2019.04.010_br0110",
+            "doi-asserted-by": "crossref",
+            "first-page": "391",
+            "DOI": "10.1016/j.jcp.2006.07.029",
+            "article-title": "A high-order discontinuous Galerkin method for the unsteady incompressible Navier-Stokes equations",
+            "volume": "222",
+            "author": "Shahbazi",
+            "year": "2007",
+            "journal-title": "J. Comput. Phys."
+          },
+          {
+            "issue": "44",
+            "key": "10.1016/j.jcp.2019.04.010_br0120",
+            "doi-asserted-by": "crossref",
+            "first-page": "6011",
+            "DOI": "10.1016/j.cma.2005.10.010",
+            "article-title": "An overview of projection methods for incompressible flows",
+            "volume": "195",
+            "author": "Guermond",
+            "year": "2006",
+            "journal-title": "Comput. Methods Appl. Mech. Eng."
+          },
+          {
+            "issue": "4",
+            "key": "10.1016/j.jcp.2019.04.010_br0130",
+            "doi-asserted-by": "crossref",
+            "first-page": "263",
+            "DOI": "10.1007/BF01063118",
+            "article-title": "An operator-integration-factor splitting method for time-dependent problems: application to incompressible fluid flow",
+            "volume": "5",
+            "author": "Maday",
+            "year": "1990",
+            "journal-title": "SIAM J. Sci. Comput."
+          },
+          {
+            "issue": "1",
+            "key": "10.1016/j.jcp.2019.04.010_br0140",
+            "doi-asserted-by": "crossref",
+            "first-page": "97",
+            "DOI": "10.1016/S0898-1221(03)80010-X",
+            "article-title": "Strong and weak Lagrange-Galerkin spectral element methods for the shallow water equations",
+            "volume": "45",
+            "author": "Giraldo",
+            "year": "2003",
+            "journal-title": "Comput. Math. Appl."
+          },
+          {
+            "issue": "1–2",
+            "key": "10.1016/j.jcp.2019.04.010_br0150",
+            "doi-asserted-by": "crossref",
+            "first-page": "323",
+            "DOI": "10.1007/s10915-004-4647-1",
+            "article-title": "Strong and auxiliary forms of the semi-Lagrangian method for incompressible flows",
+            "volume": "25",
+            "author": "Xiu",
+            "year": "2005",
+            "journal-title": "SIAM J. Sci. Comput."
+          },
+          {
+            "key": "10.1016/j.jcp.2019.04.010_br0160",
+            "series-title": "Multigrid",
+            "author": "Trottenberg",
+            "year": "2001"
+          },
+          {
+            "issue": "6",
+            "key": "10.1016/j.jcp.2019.04.010_br0170",
+            "first-page": "123",
+            "article-title": "An aggregation-based algebraic multigrid method",
+            "volume": "37",
+            "author": "Notay",
+            "year": "2010",
+            "journal-title": "Electron. Trans. Numer. Anal."
+          },
+          {
+            "issue": "10",
+            "key": "10.1016/j.jcp.2019.04.010_br0180",
+            "doi-asserted-by": "crossref",
+            "first-page": "1151",
+            "DOI": "10.1016/j.camwa.2014.08.022",
+            "article-title": "A GPU accelerated aggregation algebraic multigrid method",
+            "volume": "68",
+            "author": "Gandham",
+            "year": "2014",
+            "journal-title": "Comput. Math. Appl."
+          },
+          {
+            "key": "10.1016/j.jcp.2019.04.010_br0190",
+            "series-title": "International Conference for High Performance Computing, Networking, Storage and Analysis",
+            "first-page": "1",
+            "article-title": "Benchmarking GPUs to tune dense linear algebra",
+            "author": "Volkov",
+            "year": "2008"
+          },
+          {
+            "key": "10.1016/j.jcp.2019.04.010_br0200",
+            "article-title": "Acceleration of tensor-product operations for high-order finite element methods",
+            "author": "Swirydowicz",
+            "year": "2019",
+            "journal-title": "Int. J. High Perform. Comput. Appl."
+          },
+          {
+            "issue": "3",
+            "key": "10.1016/j.jcp.2019.04.010_br0210",
+            "doi-asserted-by": "crossref",
+            "first-page": "247",
+            "DOI": "10.1007/s10665-006-9086-6",
+            "article-title": "An explicit construction of interpolation nodes on the simplex",
+            "volume": "56",
+            "author": "Warburton",
+            "year": "2006",
+            "journal-title": "J. Eng. Math."
+          },
+          {
+            "issue": "3",
+            "key": "10.1016/j.jcp.2019.04.010_br0220",
+            "doi-asserted-by": "crossref",
+            "first-page": "395",
+            "DOI": "10.1142/S0218202503002568",
+            "article-title": "An analysis of three different formulations of the discontinuous Galerkin method for diffusion equations",
+            "volume": "13",
+            "author": "Zhang",
+            "year": "2003",
+            "journal-title": "Math. Models Methods Appl. Sci."
+          },
+          {
+            "issue": "1",
+            "key": "10.1016/j.jcp.2019.04.010_br0230",
+            "doi-asserted-by": "crossref",
+            "first-page": "152",
+            "DOI": "10.1137/0715010",
+            "article-title": "An elliptic collocation-finite element method with interior penalties",
+            "volume": "15",
+            "author": "Wheeler",
+            "year": "1978",
+            "journal-title": "SIAM J. Numer. Anal."
+          },
+          {
+            "issue": "4",
+            "key": "10.1016/j.jcp.2019.04.010_br0240",
+            "doi-asserted-by": "crossref",
+            "first-page": "742",
+            "DOI": "10.1137/0719052",
+            "article-title": "An interior penalty finite element method with discontinuous elements",
+            "volume": "19",
+            "author": "Arnold",
+            "year": "1982",
+            "journal-title": "SIAM J. Numer. Anal."
+          },
+          {
+            "issue": "2",
+            "key": "10.1016/j.jcp.2019.04.010_br0250",
+            "doi-asserted-by": "crossref",
+            "first-page": "401",
+            "DOI": "10.1016/j.jcp.2004.11.017",
+            "article-title": "An explicit expression for the penalty parameter of the interior penalty method",
+            "volume": "205",
+            "author": "Shahbazi",
+            "year": "2005",
+            "journal-title": "J. Comput. Phys."
+          },
+          {
+            "key": "10.1016/j.jcp.2019.04.010_br0260",
+            "series-title": "Spectral/hp Element Methods for CFD",
+            "author": "Karniadakis",
+            "year": "2005"
+          },
+          {
+            "issue": "1",
+            "key": "10.1016/j.jcp.2019.04.010_br0270",
+            "doi-asserted-by": "crossref",
+            "first-page": "48",
+            "DOI": "10.1016/0021-9991(80)90033-9",
+            "article-title": "Low-storage Runge-Kutta schemes",
+            "volume": "35",
+            "author": "Williamson",
+            "year": "1980",
+            "journal-title": "J. Comput. Phys."
+          },
+          {
+            "key": "10.1016/j.jcp.2019.04.010_br0280",
+            "series-title": "Fourth-Order 2N-Storage Runge-Kutta Schemes",
+            "author": "Carpenter",
+            "year": "1994"
+          },
+          {
+            "issue": "1",
+            "key": "10.1016/j.jcp.2019.04.010_br0290",
+            "doi-asserted-by": "crossref",
+            "first-page": "281",
+            "DOI": "10.1016/S0377-0427(00)00516-1",
+            "article-title": "A review of algebraic multigrid",
+            "volume": "128",
+            "author": "Stüben",
+            "year": "2001",
+            "journal-title": "J. Comput. Appl. Math."
+          },
+          {
+            "issue": "4",
+            "key": "10.1016/j.jcp.2019.04.010_br0300",
+            "doi-asserted-by": "crossref",
+            "first-page": "998",
+            "DOI": "10.1137/04061129X",
+            "article-title": "Aggregation-based algebraic multilevel preconditioning",
+            "volume": "27",
+            "author": "Notay",
+            "year": "2006",
+            "journal-title": "SIAM J. Matrix Anal. Appl."
+          },
+          {
+            "issue": "2",
+            "key": "10.1016/j.jcp.2019.04.010_br0310",
+            "doi-asserted-by": "crossref",
+            "first-page": "593",
+            "DOI": "10.1016/S0021-9991(03)00194-3",
+            "article-title": "Parallel multigrid smoothing: polynomial versus Gauss–Seidel",
+            "volume": "188",
+            "author": "Adams",
+            "year": "2003",
+            "journal-title": "J. Comput. Phys."
+          },
+          {
+            "issue": "1",
+            "key": "10.1016/j.jcp.2019.04.010_br0320",
+            "doi-asserted-by": "crossref",
+            "first-page": "45",
+            "DOI": "10.1007/s10915-004-4787-3",
+            "article-title": "Hybrid multigrid/Schwarz algorithms for the spectral element method",
+            "volume": "24",
+            "author": "Lottes",
+            "year": "2005",
+            "journal-title": "J. Sci. Comput."
+          },
+          {
+            "issue": "2",
+            "key": "10.1016/j.jcp.2019.04.010_br0330",
+            "doi-asserted-by": "crossref",
+            "first-page": "109",
+            "DOI": "10.1007/BF01436298",
+            "article-title": "Transfinite element methods: blending-function interpolation over arbitrary curved element domains",
+            "volume": "21",
+            "author": "Gordon",
+            "year": "1973",
+            "journal-title": "Numer. Math."
+          },
+          {
+            "key": "10.1016/j.jcp.2019.04.010_br0340",
+            "doi-asserted-by": "crossref",
+            "first-page": "215",
+            "DOI": "10.1016/j.jcp.2015.03.024",
+            "article-title": "A stable projection method for the incompressible Navier-Stokes equations on arbitrary geometries and adaptive Quad/Octrees",
+            "volume": "292",
+            "author": "Guittet",
+            "year": "2015",
+            "journal-title": "J. Comput. Phys."
+          },
+          {
+            "issue": "2",
+            "key": "10.1016/j.jcp.2019.04.010_br0350",
+            "doi-asserted-by": "crossref",
+            "first-page": "231",
+            "DOI": "10.1006/jcph.2001.6970",
+            "article-title": "A Cartesian grid method for solving the two-dimensional streamfunction-vorticity equations in irregular regions",
+            "volume": "176",
+            "author": "Calhoun",
+            "year": "2002",
+            "journal-title": "J. Comput. Phys."
+          },
+          {
+            "key": "10.1016/j.jcp.2019.04.010_br0360",
+            "doi-asserted-by": "crossref",
+            "first-page": "79",
+            "DOI": "10.1017/S0022112086003014",
+            "article-title": "Numerical study and physical analysis of the pressure and velocity fields in the near wake of a circular cylinder",
+            "volume": "165",
+            "author": "Braza",
+            "year": "1986",
+            "journal-title": "J. Fluid Mech."
+          },
+          {
+            "key": "10.1016/j.jcp.2019.04.010_br0370",
+            "doi-asserted-by": "crossref",
+            "first-page": "263",
+            "DOI": "10.1017/S0022112000002299",
+            "article-title": "Flow past a square-section cylinder with a wavy stagnation face",
+            "volume": "426",
+            "author": "Darekar",
+            "year": "2001",
+            "journal-title": "J. Fluid Mech."
+          },
+          {
+            "key": "10.1016/j.jcp.2019.04.010_br0380",
+            "author": "Medina"
+          },
+          {
+            "issue": "12",
+            "key": "10.1016/j.jcp.2019.04.010_br0390",
+            "doi-asserted-by": "crossref",
+            "first-page": "982",
+            "DOI": "10.1002/fld.3963",
+            "article-title": "Discontinuous Galerkin methods on graphics processing units for nonlinear hyperbolic conservation laws",
+            "volume": "76",
+            "author": "Fuhry",
+            "year": "2014",
+            "journal-title": "Int. J. Numer. Methods Fluids"
+          }
+        ],
+        "container-title": [
+          "Journal of Computational Physics"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "https://api.elsevier.com/content/article/PII:S0021999119302438?httpAccept=text/xml",
+            "content-type": "text/xml",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://api.elsevier.com/content/article/PII:S0021999119302438?httpAccept=text/plain",
+            "content-type": "text/plain",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2021,
+              4,
+              11
+            ]
+          ],
+          "date-time": "2021-04-11T06:03:26Z",
+          "timestamp": 1618121006000
+        },
+        "score": 25.533138,
+        "resource": {
+          "primary": {
+            "URL": "https://linkinghub.elsevier.com/retrieve/pii/S0021999119302438"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2019,
+              8
+            ]
+          ]
+        },
+        "references-count": 39,
+        "alternative-id": [
+          "S0021999119302438"
+        ],
+        "URL": "https://doi.org/10.1016/j.jcp.2019.04.010",
+        "ISSN": [
+          "0021-9991"
+        ],
+        "issn-type": [
+          {
+            "value": "0021-9991",
+            "type": "print"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2019,
+              8
+            ]
+          ]
+        },
+        "assertion": [
+          {
+            "value": "Elsevier",
+            "name": "publisher",
+            "label": "This article is maintained by"
+          },
+          {
+            "value": "A GPU accelerated discontinuous Galerkin incompressible flow solver",
+            "name": "articletitle",
+            "label": "Article Title"
+          },
+          {
+            "value": "Journal of Computational Physics",
+            "name": "journaltitle",
+            "label": "Journal Title"
+          },
+          {
+            "value": "https://doi.org/10.1016/j.jcp.2019.04.010",
+            "name": "articlelink",
+            "label": "CrossRef DOI link to publisher maintained version"
+          },
+          {
+            "value": "article",
+            "name": "content_type",
+            "label": "Content Type"
+          },
+          {
+            "value": "© 2019 Elsevier Inc. All rights reserved.",
+            "name": "copyright",
+            "label": "Copyright"
+          }
+        ]
+      }
+    ],
+    "items-per-page": 10,
+    "query": {
+      "start-index": 0,
+      "search-terms": "GALÆXI GPU discontinuous Galerkin"
+    }
+  }
+}

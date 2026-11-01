@@ -1,0 +1,723 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "message": {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          10,
+          1
+        ]
+      ],
+      "date-time": "2026-10-01T19:21:53Z",
+      "timestamp": 1790882513095,
+      "version": "4.1.0"
+    },
+    "reference-count": 42,
+    "publisher": "Elsevier BV",
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2023,
+              2,
+              1
+            ]
+          ],
+          "date-time": "2023-02-01T00:00:00Z",
+          "timestamp": 1675209600000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://www.elsevier.com/tdm/userlicense/1.0/"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2023,
+              12,
+              1
+            ]
+          ],
+          "date-time": "2023-12-01T00:00:00Z",
+          "timestamp": 1701388800000
+        },
+        "content-version": "am",
+        "delay-in-days": 303,
+        "URL": "http://www.elsevier.com/open-access/userlicense/1.0/"
+      }
+    ],
+    "funder": [
+      {
+        "DOI": "10.13039/100000015",
+        "name": "U.S. Department of Energy",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "DE-AC52-07NA27344"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "DE-AC52-07NA27344"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100000015",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100000015",
+        "name": "U.S. Department of Energy",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "LLNL-JRNL-835500"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "LLNL-JRNL-835500"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100000015",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      }
+    ],
+    "content-domain": {
+      "domain": [
+        "elsevier.com",
+        "sciencedirect.com"
+      ],
+      "crossmark-restriction": true
+    },
+    "short-container-title": [
+      "Journal of Computational Physics"
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2023,
+          2
+        ]
+      ]
+    },
+    "DOI": "10.1016/j.jcp.2022.111808",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2022,
+          12,
+          1
+        ]
+      ],
+      "date-time": "2022-12-01T13:27:17Z",
+      "timestamp": 1669901237000
+    },
+    "page": "111808",
+    "update-policy": "https://doi.org/10.1016/elsevier_cm_policy",
+    "source": "Crossref",
+    "is-referenced-by-count": 14,
+    "special_numbering": "C",
+    "title": [
+      "Accelerating high-order mesh optimization using finite element partial assembly on GPUs"
+    ],
+    "prefix": "10.1016",
+    "volume": "474",
+    "author": [
+      {
+        "given": "Jean-Sylvain",
+        "family": "Camier",
+        "sequence": "first",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Veselin",
+        "family": "Dobrev",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Patrick",
+        "family": "Knupp",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Tzanio",
+        "family": "Kolev",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Ketan",
+        "family": "Mittal",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Robert",
+        "family": "Rieben",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Vladimir",
+        "family": "Tomov",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "78",
+    "reference": [
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0010",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1177/10943420211020803",
+        "article-title": "Efficient exascale discretizations: high-order finite element methods",
+        "author": "Kolev",
+        "year": "2021",
+        "journal-title": "Int. J. High Perform. Comput. Appl."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.jcp.2022.111808_br0020",
+        "doi-asserted-by": "crossref",
+        "first-page": "B50",
+        "DOI": "10.1137/18M1167206",
+        "article-title": "The target-matrix optimization paradigm for high-order meshes",
+        "volume": "41",
+        "author": "Dobrev",
+        "year": "2019",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0030",
+        "series-title": "High-Order Methods for Incompressible Fluid Flow, vol. 9",
+        "author": "Deville",
+        "year": "2002"
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0040",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.compfluid.2020.104577",
+        "article-title": "A matrix-free hyperviscosity formulation for high-order ALE hydrodynamics",
+        "volume": "205",
+        "author": "Bello-Maldonado",
+        "year": "2020",
+        "journal-title": "Comput. Fluids"
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0050",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.compfluid.2020.104541",
+        "article-title": "High-order matrix-free incompressible flow solvers with GPU acceleration and low-order refined preconditioners",
+        "author": "Franco",
+        "year": "2020",
+        "journal-title": "Comput. Fluids"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.jcp.2022.111808_br0060",
+        "doi-asserted-by": "crossref",
+        "first-page": "1",
+        "DOI": "10.1145/3325864",
+        "article-title": "Fast matrix-free evaluation of discontinuous Galerkin finite element operators",
+        "volume": "45",
+        "author": "Kronbichler",
+        "year": "2019",
+        "journal-title": "ACM Trans. Math. Softw."
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0070",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.compfluid.2020.104602",
+        "article-title": "Simulation-driven optimization of high-order meshes in ALE hydrodynamics",
+        "author": "Dobrev",
+        "year": "2020",
+        "journal-title": "Comput. Fluids"
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0080",
+        "doi-asserted-by": "crossref",
+        "first-page": "42",
+        "DOI": "10.1016/j.camwa.2020.06.009",
+        "article-title": "MFEM: a modular finite elements methods library",
+        "volume": "81",
+        "author": "Anderson",
+        "year": "2020",
+        "journal-title": "Comput. Math. Appl."
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0090",
+        "article-title": "HR-adaptivity for nonconforming high-order meshes with the target-matrix optimization paradigm",
+        "author": "Dobrev",
+        "year": "2021",
+        "journal-title": "Eng. Comput."
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0100",
+        "first-page": "131",
+        "article-title": "Improved Laplacian smoothing of noisy surface meshes",
+        "volume": "vol. 18",
+        "author": "Vollmer",
+        "year": "1999"
+      },
+      {
+        "issue": "6",
+        "key": "10.1016/j.jcp.2022.111808_br0110",
+        "doi-asserted-by": "crossref",
+        "first-page": "709",
+        "DOI": "10.1002/cnm.1630040603",
+        "article-title": "Laplacian smoothing and Delaunay triangulations",
+        "volume": "4",
+        "author": "Field",
+        "year": "1988",
+        "journal-title": "Commun. Appl. Numer. Methods"
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0120",
+        "series-title": "Linear anisotropic mesh filtering",
+        "author": "Taubin",
+        "year": "2001"
+      },
+      {
+        "issue": "4",
+        "key": "10.1016/j.jcp.2022.111808_br0130",
+        "doi-asserted-by": "crossref",
+        "first-page": "419",
+        "DOI": "10.1007/s00366-011-0230-1",
+        "article-title": "Introducing the target-matrix paradigm for mesh optimization by node movement",
+        "volume": "28",
+        "author": "Knupp",
+        "year": "2012",
+        "journal-title": "Eng. Comput."
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.jcp.2022.111808_br0140",
+        "doi-asserted-by": "crossref",
+        "first-page": "342",
+        "DOI": "10.1002/nme.4888",
+        "article-title": "Optimization of a regularized distortion measure to generate curved high-order unstructured tetrahedral meshes",
+        "volume": "103",
+        "author": "Gargallo-Peiró",
+        "year": "2015",
+        "journal-title": "Int. J. Numer. Methods Eng."
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.jcp.2022.111808_br0150",
+        "doi-asserted-by": "crossref",
+        "first-page": "1152",
+        "DOI": "10.1007/s10915-018-0812-9",
+        "article-title": "Mesh smoothing for the spectral element method",
+        "volume": "78",
+        "author": "Mittal",
+        "year": "2019",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0160",
+        "doi-asserted-by": "crossref",
+        "first-page": "664",
+        "DOI": "10.1016/j.jcp.2017.01.049",
+        "article-title": "Dynamic mesh adaptation for front evolution using discontinuous Galerkin based weighted condition number relaxation",
+        "volume": "335",
+        "author": "Greene",
+        "year": "2017",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0170",
+        "doi-asserted-by": "crossref",
+        "first-page": "73",
+        "DOI": "10.1016/j.cad.2017.10.004",
+        "article-title": "Curvilinear mesh generation using a variational framework",
+        "volume": "103",
+        "author": "Turner",
+        "year": "2018",
+        "journal-title": "Comput. Aided Des."
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0180",
+        "series-title": "Proc. of the 27th International Meshing Roundtable",
+        "first-page": "37",
+        "article-title": "Defining a stretching and alignment aware quality measure for linear and curved 2d meshes",
+        "author": "Aparicio-Estrems",
+        "year": "2018"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.jcp.2022.111808_br0190",
+        "doi-asserted-by": "crossref",
+        "first-page": "709",
+        "DOI": "10.1137/0731038",
+        "article-title": "Moving mesh partial differential equations (MMPDES) based on the equidistribution principle",
+        "volume": "31",
+        "author": "Huang",
+        "year": "1994",
+        "journal-title": "SIAM J. Numer. Anal."
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0200",
+        "series-title": "Adaptive Moving Mesh Methods",
+        "author": "Huang",
+        "year": "2010"
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0210",
+        "series-title": "Proc. of the 29th International Meshing Roundtable",
+        "first-page": "130",
+        "article-title": "A moving mesh adaptation method by optimal transport",
+        "author": "An",
+        "year": "2021"
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0220",
+        "series-title": "Proc. of the 28th International Meshing Roundtable",
+        "first-page": "83",
+        "article-title": "Anisotropic goal-oriented mesh adaptation in firedrake",
+        "author": "Wallwork",
+        "year": "2020"
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0230",
+        "series-title": "Proc. of the 28th International Meshing Roundtable",
+        "article-title": "Discrete mesh optimization on surface and volume meshes",
+        "author": "Zint",
+        "year": "2020"
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0240",
+        "doi-asserted-by": "crossref",
+        "first-page": "353",
+        "DOI": "10.1016/j.proeng.2016.11.071",
+        "article-title": "Very high order anisotropic metric-based mesh adaptation in 3d",
+        "volume": "163",
+        "author": "Coulaud",
+        "year": "2016",
+        "journal-title": "Proc. Eng."
+      },
+      {
+        "issue": "8",
+        "key": "10.1016/j.jcp.2022.111808_br0250",
+        "doi-asserted-by": "crossref",
+        "first-page": "1127",
+        "DOI": "10.1016/j.jpdc.2013.03.007",
+        "article-title": "A CPU–GPU framework for optimizing the quality of large meshes",
+        "volume": "73",
+        "author": "D'Amato",
+        "year": "2013",
+        "journal-title": "J. Parallel Distrib. Comput."
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0260",
+        "series-title": "Proc. of the 27th International Meshing Roundtable",
+        "first-page": "445",
+        "article-title": "Discrete mesh optimization on GPU",
+        "author": "Zint",
+        "year": "2018"
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0270",
+        "doi-asserted-by": "crossref",
+        "first-page": "36",
+        "DOI": "10.1016/j.cpc.2018.03.025",
+        "article-title": "Accelerating high-order mesh optimisation with an architecture-independent programming model",
+        "volume": "229",
+        "author": "Eichstädt",
+        "year": "2018",
+        "journal-title": "Comput. Phys. Commun."
+      },
+      {
+        "issue": "11",
+        "key": "10.1016/j.jcp.2022.111808_br0280",
+        "doi-asserted-by": "crossref",
+        "first-page": "7907",
+        "DOI": "10.1007/s13369-014-1406-y",
+        "article-title": "A generic paradigm for accelerating Laplacian-based mesh smoothing on the GPU",
+        "volume": "39",
+        "author": "Mei",
+        "year": "2014",
+        "journal-title": "Arab. J. Sci. Eng."
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0290",
+        "first-page": "285",
+        "article-title": "Simple and effective GPU-based mesh optimization",
+        "volume": "25",
+        "author": "Shaffer",
+        "year": "2014",
+        "journal-title": "Parallel Comput.: Accel. Comput. Sci. Eng."
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.jcp.2022.111808_br0300",
+        "doi-asserted-by": "crossref",
+        "first-page": "562",
+        "DOI": "10.1177/1094342020915762",
+        "article-title": "Scalability of high-performance PDE solvers",
+        "volume": "34",
+        "author": "Fischer",
+        "year": "2020",
+        "journal-title": "Int. J. High Perform. Comput. Appl."
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0310",
+        "series-title": "Target formulation and construction in mesh quality improvement",
+        "author": "Knupp",
+        "year": "2019"
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0320",
+        "series-title": "Proc. of the 27th International Meshing Roundtable",
+        "first-page": "285",
+        "article-title": "Towards simulation-driven optimization of high-order meshes by the target-matrix optimization paradigm",
+        "author": "Dobrev",
+        "year": "2019"
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0330",
+        "series-title": "Metric type in the target-matrix mesh optimization paradigm",
+        "author": "Knupp",
+        "year": "2020"
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0340",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.cad.2022.103208",
+        "article-title": "Automatic penalty and degree continuation for parallel pre-conditioned mesh curving on virtual geometry",
+        "volume": "146",
+        "author": "Ruiz-Gironés",
+        "year": "2022",
+        "journal-title": "Comput. Aided Des."
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0350",
+        "series-title": "Numerical Methods for Partial Differential Equations",
+        "first-page": "273",
+        "article-title": "Spectral methods for problems in complex geometrics",
+        "author": "Orszag",
+        "year": "1979"
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0360",
+        "unstructured": "K.B. Petersen, M.S. Pedersen, The matrix cookbook (version: November 15, 2012), 2012."
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0370",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.compfluid.2019.104237",
+        "article-title": "Nonconforming Schwarz-spectral element methods for incompressible flow",
+        "volume": "191",
+        "author": "Mittal",
+        "year": "2019",
+        "journal-title": "Comput. Fluids"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.jcp.2022.111808_br0380",
+        "doi-asserted-by": "crossref",
+        "first-page": "375",
+        "DOI": "10.1016/0021-9991(81)90158-3",
+        "article-title": "Differencing of the diffusion equation in Lagrangian hydrodynamic codes",
+        "volume": "39",
+        "author": "Kershaw",
+        "year": "1981",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0390",
+        "series-title": "CEED ECP milestone report: High-order algorithmic developments and optimizations for large-scale GPU-accelerated simulations",
+        "author": "Kolev",
+        "year": "2021"
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0400",
+        "series-title": "The Multiphysics on Advanced Platforms Project",
+        "author": "Anderson",
+        "year": "2020"
+      },
+      {
+        "key": "10.1016/j.jcp.2022.111808_br0410",
+        "series-title": "24th International Symposium on Ballistics, vol. 1",
+        "first-page": "3",
+        "article-title": "A brief history of shaped charges",
+        "author": "Walters",
+        "year": "2008"
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.jcp.2022.111808_br0420",
+        "doi-asserted-by": "crossref",
+        "first-page": "B606",
+        "DOI": "10.1137/120864672",
+        "article-title": "High-order curvilinear finite element methods for Lagrangian hydrodynamics",
+        "volume": "34",
+        "author": "Dobrev",
+        "year": "2012",
+        "journal-title": "SIAM J. Sci. Comput."
+      }
+    ],
+    "container-title": [
+      "Journal of Computational Physics"
+    ],
+    "original-title": [],
+    "language": "en",
+    "link": [
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0021999122008713?httpAccept=text/xml",
+        "content-type": "text/xml",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0021999122008713?httpAccept=text/plain",
+        "content-type": "text/plain",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2023,
+          3,
+          22
+        ]
+      ],
+      "date-time": "2023-03-22T18:20:07Z",
+      "timestamp": 1679509207000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://linkinghub.elsevier.com/retrieve/pii/S0021999122008713"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2023,
+          2
+        ]
+      ]
+    },
+    "references-count": 42,
+    "alternative-id": [
+      "S0021999122008713"
+    ],
+    "URL": "https://doi.org/10.1016/j.jcp.2022.111808",
+    "relation": {},
+    "ISSN": [
+      "0021-9991"
+    ],
+    "issn-type": [
+      {
+        "value": "0021-9991",
+        "type": "print"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2023,
+          2
+        ]
+      ]
+    },
+    "assertion": [
+      {
+        "value": "Elsevier",
+        "name": "publisher",
+        "label": "This article is maintained by"
+      },
+      {
+        "value": "Accelerating high-order mesh optimization using finite element partial assembly on GPUs",
+        "name": "articletitle",
+        "label": "Article Title"
+      },
+      {
+        "value": "Journal of Computational Physics",
+        "name": "journaltitle",
+        "label": "Journal Title"
+      },
+      {
+        "value": "https://doi.org/10.1016/j.jcp.2022.111808",
+        "name": "articlelink",
+        "label": "CrossRef DOI link to publisher maintained version"
+      },
+      {
+        "value": "article",
+        "name": "content_type",
+        "label": "Content Type"
+      },
+      {
+        "value": "© 2022 Elsevier Inc. All rights reserved.",
+        "name": "copyright",
+        "label": "Copyright"
+      }
+    ],
+    "article-number": "111808"
+  }
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "M02_PyFR_user",
+    "url": "https://pyfr.readthedocs.io/en/latest/user_guide.html",
+    "retrieved": "2026-10-28",
+    "local": "ref-paper/manuals/M02_PyFR_user.html",
+    "sha256": "5cba72218ec637ebaeed834c338c7ddd8febe5a8d715ce80faaa88b345c5de04",
+    "status": "saved"
+  },
+  {
+    "id": "M02b_PyFR_tuning",
+    "url": "https://pyfr.readthedocs.io/en/latest/performance_tuning.html",
+    "retrieved": "2026-10-28",
+    "local": "ref-paper/manuals/M02b_PyFR_tuning.html",
+    "sha256": "36d612d35e7e7aad1f2d337fd4064ebaea4b4b81aa310d5b6de496fb42c437c3",
+    "status": "saved"
+  },
+  {
+    "id": "M02c_PyFR_developer",
+    "url": "https://pyfr.readthedocs.io/en/latest/developer_guide.html",
+    "retrieved": "2026-10-28",
+    "local": "ref-paper/manuals/M02c_PyFR_developer.html",
+    "sha256": "f912ee56db4c2c417bc1a6eb9f024bbc6112dbef32a2015c8da1f04d4209c949",
+    "status": "saved"
+  },
+  {
+    "id": "M06_Kokkos",
+    "url": "https://kokkos.org/kokkos-core-wiki/programmingguide.html",
+    "retrieved": "2026-10-28",
+    "local": "ref-paper/manuals/M06_Kokkos.html",
+    "sha256": "195aef9e735b62031fd50627ce9d48c94566be3af436cf70e5324c2baea366ba",
+    "status": "saved"
+  },
+  {
+    "id": "P20_libCEED",
+    "url": "https://joss.theoj.org/papers/10.21105/joss.02945.pdf",
+    "retrieved": "2026-10-28",
+    "local": "ref-paper/manuals/P20_libCEED.pdf",
+    "sha256": "09a5f72328555d6404a96d7ee6fafc06a11f6f4f183649e077cd049145e9147c",
+    "status": "saved"
+  }
+]

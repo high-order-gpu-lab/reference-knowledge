@@ -1,0 +1,1342 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "message": {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          10,
+          24
+        ]
+      ],
+      "date-time": "2026-10-24T11:05:16Z",
+      "timestamp": 1792839916939,
+      "version": "4.5.0"
+    },
+    "reference-count": 99,
+    "publisher": "Elsevier BV",
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2021,
+              1,
+              1
+            ]
+          ],
+          "date-time": "2021-01-01T00:00:00Z",
+          "timestamp": 1609459200000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://www.elsevier.com/tdm/userlicense/1.0/"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2021,
+              1,
+              1
+            ]
+          ],
+          "date-time": "2021-01-01T00:00:00Z",
+          "timestamp": 1609459200000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://www.elsevier.com/legal/tdmrep-license"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2025,
+              1,
+              1
+            ]
+          ],
+          "date-time": "2025-01-01T00:00:00Z",
+          "timestamp": 1735689600000
+        },
+        "content-version": "vor",
+        "delay-in-days": 1461,
+        "URL": "http://www.elsevier.com/open-access/userlicense/1.0/"
+      }
+    ],
+    "funder": [
+      {
+        "DOI": "10.13039/100000015",
+        "name": "U.S. Department of Energy",
+        "doi-asserted-by": "publisher",
+        "id": [
+          {
+            "id": "10.13039/100000015",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100006227",
+        "name": "Lawrence Livermore National Laboratory",
+        "doi-asserted-by": "publisher",
+        "id": [
+          {
+            "id": "10.13039/100006227",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      }
+    ],
+    "content-domain": {
+      "domain": [
+        "elsevier.com",
+        "sciencedirect.com"
+      ],
+      "crossmark-restriction": true
+    },
+    "short-container-title": [
+      "Computers &amp; Mathematics with Applications"
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2021,
+          1
+        ]
+      ]
+    },
+    "DOI": "10.1016/j.camwa.2020.06.009",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2020,
+          7,
+          11
+        ]
+      ],
+      "date-time": "2020-07-11T07:36:39Z",
+      "timestamp": 1594452999000
+    },
+    "page": "42-74",
+    "update-policy": "https://doi.org/10.1016/elsevier_cm_policy",
+    "source": "Crossref",
+    "is-referenced-by-count": 424,
+    "special_numbering": "C",
+    "title": [
+      "MFEM: A modular finite element methods library"
+    ],
+    "prefix": "10.1016",
+    "volume": "81",
+    "author": [
+      {
+        "given": "Robert",
+        "family": "Anderson",
+        "sequence": "first",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0001-7661-4840",
+        "authenticated-orcid": false,
+        "given": "Julian",
+        "family": "Andrej",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Andrew",
+        "family": "Barker",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Jamie",
+        "family": "Bramwell",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Jean-Sylvain",
+        "family": "Camier",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Jakub",
+        "family": "Cerveny",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Veselin",
+        "family": "Dobrev",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Yohann",
+        "family": "Dudouit",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Aaron",
+        "family": "Fisher",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-2810-3090",
+        "authenticated-orcid": false,
+        "given": "Tzanio",
+        "family": "Kolev",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Will",
+        "family": "Pazner",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Mark",
+        "family": "Stowell",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Vladimir",
+        "family": "Tomov",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Ido",
+        "family": "Akkerman",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Johann",
+        "family": "Dahm",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "David",
+        "family": "Medina",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-0435-0433",
+        "authenticated-orcid": false,
+        "given": "Stefano",
+        "family": "Zampini",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "78",
+    "reference": [
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b1",
+        "series-title": "The Finite Element Method for Elliptic Problems",
+        "author": "Ciarlet",
+        "year": "1978"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b2",
+        "series-title": "Numerical Solution of Partial Differential Equations By the Finite Element Method",
+        "author": "Johnson",
+        "year": "1987"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b3",
+        "series-title": "Computing with Hp-Adaptive Finite Elements. Volume I: One and Two Dimensional Elliptic and Maxwell Problems",
+        "author": "Demkowicz",
+        "year": "2006"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b4",
+        "series-title": "The Mathematical Theory of Finite Element Methods",
+        "author": "Brenner",
+        "year": "2008"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b5",
+        "series-title": "Higher-Order Finite Element Methods",
+        "author": "Solin",
+        "year": "2002"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b6",
+        "series-title": "High-Order Methods for Incompressible Fluid Flow",
+        "author": "Deville",
+        "year": "2002"
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.camwa.2020.06.009_b7",
+        "doi-asserted-by": "crossref",
+        "first-page": "1749",
+        "DOI": "10.1137/S0036142901384162",
+        "article-title": "Unified analysis of discontinuous Galerkin methods for elliptic problems",
+        "volume": "39",
+        "author": "Arnold",
+        "year": "2001",
+        "journal-title": "SIAM J. Numer. Anal."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b8",
+        "series-title": "Isogeometric Analysis: Toward Integration of CAD and FEA",
+        "author": "Cottrell",
+        "year": "2009"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b9",
+        "series-title": "MFEM: Modular finite element methods, [Computer Software]",
+        "year": "2020"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.06.009_b10",
+        "doi-asserted-by": "crossref",
+        "first-page": "137",
+        "DOI": "10.1515/jnma-2017-0058",
+        "article-title": "The deal.ii library, version 8.5",
+        "volume": "25",
+        "author": "Arndt",
+        "year": "2017",
+        "journal-title": "J. Numer. Math."
+      },
+      {
+        "issue": "100",
+        "key": "10.1016/j.camwa.2020.06.009_b11",
+        "first-page": "9",
+        "article-title": "The FEniCS project version 1.5",
+        "volume": "3",
+        "author": "Alnæs",
+        "year": "2015",
+        "journal-title": "Arch. Numer. Softw."
+      },
+      {
+        "issue": "100",
+        "key": "10.1016/j.camwa.2020.06.009_b12",
+        "first-page": "13",
+        "article-title": "The distributed and unified numerics environment, version 2.4",
+        "volume": "4",
+        "author": "Blatt",
+        "year": "2016",
+        "journal-title": "Arch. Numer. Softw."
+      },
+      {
+        "issue": "3–4",
+        "key": "10.1016/j.camwa.2020.06.009_b13",
+        "first-page": "251",
+        "article-title": "New development in FreeFem++",
+        "volume": "20",
+        "author": "Hecht",
+        "year": "2012",
+        "journal-title": "J. Numer. Math."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b14",
+        "doi-asserted-by": "crossref",
+        "first-page": "117",
+        "DOI": "10.1016/j.matcom.2007.02.011",
+        "article-title": "Arbitrary-level hanging nodes and automatic adaptivity in the hp-FEM",
+        "volume": "77",
+        "author": "Solin",
+        "year": "2008",
+        "journal-title": "Math. Comput. Simulation"
+      },
+      {
+        "issue": "3–4",
+        "key": "10.1016/j.camwa.2020.06.009_b15",
+        "doi-asserted-by": "crossref",
+        "first-page": "237",
+        "DOI": "10.1007/s00366-006-0049-3",
+        "article-title": "libmesh: A C++ library for parallel adaptive mesh refinement/coarsening simulations",
+        "volume": "22",
+        "author": "Kirk",
+        "year": "2006",
+        "journal-title": "Eng. Comput."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b16",
+        "doi-asserted-by": "crossref",
+        "first-page": "139",
+        "DOI": "10.1023/A:1014246117321",
+        "article-title": "Adaptive numerical treatment of elliptic systems on manifolds",
+        "volume": "15",
+        "author": "Holst",
+        "year": "2001",
+        "journal-title": "Adv. Comput. Math."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b17",
+        "series-title": "C++11 Implementation of Finite Elements in NGSolve",
+        "author": "Schöberl",
+        "year": "2014"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b18",
+        "series-title": "Compatible Spatial Discretizations",
+        "first-page": "23",
+        "article-title": "Differential complexes and stability of finite element methods I. The de Rham complex",
+        "author": "Arnold",
+        "year": "2006"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b19",
+        "series-title": "PETSc Users Manual",
+        "author": "Balay",
+        "year": "2018"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.06.009_b20",
+        "doi-asserted-by": "crossref",
+        "first-page": "302",
+        "DOI": "10.1145/1089014.1089017",
+        "article-title": "An overview of SuperLU",
+        "volume": "31",
+        "author": "Li",
+        "year": "2005",
+        "journal-title": "ACM Trans. Math. Software"
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.camwa.2020.06.009_b21",
+        "doi-asserted-by": "crossref",
+        "first-page": "S358",
+        "DOI": "10.1137/15M1010117",
+        "article-title": "An efficient multicore implementation of a novel HSS-structured multifrontal solver using randomized sampling",
+        "volume": "38",
+        "author": "Ghysels",
+        "year": "2016",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b22",
+        "series-title": "Direct Methods for Sparse Linear Systems",
+        "author": "Davis",
+        "year": "2006"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.06.009_b23",
+        "doi-asserted-by": "crossref",
+        "first-page": "363",
+        "DOI": "10.1145/1089014.1089020",
+        "article-title": "SUNDIALS: Suite of nonlinear and differential/algebraic equation solvers",
+        "volume": "31",
+        "author": "Hindmarsh",
+        "year": "2005",
+        "journal-title": "ACM Trans. Math. Softw."
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.06.009_b24",
+        "doi-asserted-by": "crossref",
+        "first-page": "17:1",
+        "DOI": "10.1145/2814935",
+        "article-title": "PUMI: Parallel unstructured mesh infrastructure",
+        "volume": "42",
+        "author": "Ibanez",
+        "year": "2016",
+        "journal-title": "ACM Trans. Math. Software"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b25",
+        "unstructured": "GLVis: OpenGL finite element visualization tool, [Computer Software] https://glvis.org, http://dx.doi.org/10.11578/dc.20171025.1249."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b26",
+        "series-title": "High Performance Visualization—Enabling Extreme-Scale Scientific Insight",
+        "first-page": "357",
+        "article-title": "VisIt: An end-user tool for visualizing and analyzing very large data",
+        "author": "Childs",
+        "year": "2012"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b27",
+        "unstructured": "VisIt: A distributed, parallel visualization and analysis tool, [Computer Software] https://visit.llnl.gov. http://dx.doi.org/10.11578/dc.20171025.on.1019."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b28",
+        "series-title": "hypre: High performance preconditioners, [Computer Software]",
+        "year": "2018"
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.06.009_b29",
+        "doi-asserted-by": "crossref",
+        "first-page": "359",
+        "DOI": "10.1137/S1064827595287997",
+        "article-title": "A fast and high quality multilevel scheme for partitioning irregular graphs",
+        "volume": "20",
+        "author": "Karypis",
+        "year": "1998",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b30",
+        "unstructured": "METIS: Serial graph partitioning and fill-reducing matrix ordering, [Computer Software] http://glaros.dtc.umn.edu/gkhome/metis/metis/overview."
+      },
+      {
+        "issue": "4",
+        "key": "10.1016/j.camwa.2020.06.009_b31",
+        "doi-asserted-by": "crossref",
+        "first-page": "C367",
+        "DOI": "10.1137/18M1193992",
+        "article-title": "Non-conforming mesh refinement for high-order finite elements",
+        "volume": "41",
+        "author": "Cerveny",
+        "year": "2019",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b32",
+        "series-title": "Mixed Finite Element Methods and Applications",
+        "author": "Boffi",
+        "year": "2013"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b33",
+        "series-title": "The Minimum Edge Product Linear Ordering Problem",
+        "author": "Lindstrom",
+        "year": "2011"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b34",
+        "doi-asserted-by": "crossref",
+        "first-page": "1",
+        "DOI": "10.1017/S0962492906210018",
+        "article-title": "Finite element exterior calculus, homological techniques, and applications",
+        "volume": "15",
+        "author": "Arnold",
+        "year": "2006",
+        "journal-title": "Acta Numer."
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.06.009_b35",
+        "doi-asserted-by": "crossref",
+        "first-page": "315",
+        "DOI": "10.1007/BF01396415",
+        "article-title": "Mixed finite elements in R3",
+        "volume": "35",
+        "author": "Nedelec",
+        "year": "1980",
+        "journal-title": "Numer. Math."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b36",
+        "doi-asserted-by": "crossref",
+        "first-page": "48",
+        "DOI": "10.1007/s10915-010-9396-8",
+        "article-title": "Efficient nonlinear solvers for nodal high-order finite elements in 3D",
+        "volume": "45",
+        "author": "Brown",
+        "year": "2010",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b37",
+        "unstructured": "CEED: Center for Efficient Exascale Discretizations in the U.S. Department of Energy’s Exascale Computing Project, https://ceed.exascaleproject.org."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b38",
+        "unstructured": "Netgen/NGSolve: A high performance multiphysics finite element software, [Computer Software] https://ngsolve.org."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b39",
+        "unstructured": "XYZ Scientific Applications, Inc., TrueGrid, [Computer Software], http://truegrid.com."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b40",
+        "series-title": "The Visualization Toolkit–an Object-Oriented Approach to 3D Graphics",
+        "author": "Schroeder",
+        "year": "2006"
+      },
+      {
+        "issue": "11",
+        "key": "10.1016/j.camwa.2020.06.009_b41",
+        "doi-asserted-by": "crossref",
+        "first-page": "1309",
+        "DOI": "10.1002/nme.2579",
+        "article-title": "Gmsh: A 3-D finite element mesh generator with built-in pre- and post-processing facilities",
+        "volume": "79",
+        "author": "Geuzaine",
+        "year": "2009",
+        "journal-title": "Internat. J. Numer. Methods Engrg."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b42",
+        "series-title": "User Manual for EXODUS II Mesh Converter",
+        "author": "Shemon",
+        "year": "2014"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b43",
+        "unstructured": "R.D. Hornung, A. Black, A. Capps, B. Corbett, N. Elliott, C. Harrison, R. Settgast, L. Taylor, K. Weiss, C. White, G. Zagaris, Axom, [Computer Software] https://github.com/LLNL/axom."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b44",
+        "series-title": "Conduit: Scientific Data Exchange Library for HPC Simulations",
+        "year": "2014"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.camwa.2020.06.009_b45",
+        "doi-asserted-by": "crossref",
+        "first-page": "A1187",
+        "DOI": "10.1137/16M1104780",
+        "article-title": "A scalable preconditioner for a primal discontinuous Petrov-Galerkin method",
+        "volume": "40",
+        "author": "Barker",
+        "year": "2018",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b46",
+        "series-title": "PETSc/TS: A modern scalable ODE/DAE solver library",
+        "author": "Abhyankar",
+        "year": "2018"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.06.009_b47",
+        "doi-asserted-by": "crossref",
+        "first-page": "B425",
+        "DOI": "10.1137/17M1132562",
+        "article-title": "Algebraic hybridization and static condensation with application to scalable H(div) preconditioning",
+        "volume": "41",
+        "author": "Dobrev",
+        "year": "2019",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.06.009_b48",
+        "doi-asserted-by": "crossref",
+        "first-page": "70",
+        "DOI": "10.1016/0021-9991(80)90005-4",
+        "article-title": "Spectral methods for problems in complex geometries",
+        "volume": "37",
+        "author": "Orszag",
+        "year": "1980",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b49",
+        "series-title": "High-performance implementation of matrix-free high-order discontinuous Galerkin methods",
+        "author": "Müthing",
+        "year": "2017"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.06.009_b50",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1145/3325864",
+        "article-title": "Fast matrix-free evaluation of discontinuous Galerkin finite element operators",
+        "volume": "45",
+        "author": "Kronbichler",
+        "year": "2019",
+        "journal-title": "ACM Trans. Math. Software"
+      },
+      {
+        "issue": "6",
+        "key": "10.1016/j.camwa.2020.06.009_b51",
+        "doi-asserted-by": "crossref",
+        "first-page": "3087",
+        "DOI": "10.1137/11082539X",
+        "article-title": "Bernstein–Bézier finite elements of arbitrary order and optimal assembly procedures",
+        "volume": "33",
+        "author": "Ainsworth",
+        "year": "2011",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b52",
+        "doi-asserted-by": "crossref",
+        "first-page": "604",
+        "DOI": "10.4208/jcm.2009.27.5.013",
+        "article-title": "Parallel auxiliary space AMG for H(curl) problems",
+        "volume": "27",
+        "author": "Kolev",
+        "year": "2009",
+        "journal-title": "J. Comput. Math."
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.camwa.2020.06.009_b53",
+        "doi-asserted-by": "crossref",
+        "first-page": "S282",
+        "DOI": "10.1137/15M1025785",
+        "article-title": "PCBDDC: a class of robust dual-primal methods in PETSc",
+        "volume": "38",
+        "author": "Zampini",
+        "year": "2016",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.06.009_b54",
+        "doi-asserted-by": "crossref",
+        "first-page": "A1118",
+        "DOI": "10.1137/130917399",
+        "article-title": "Isogeometric BDDC preconditioners with deluxe scaling",
+        "volume": "36",
+        "author": "da Veiga",
+        "year": "2014",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b55",
+        "series-title": "Proceedings of the Platform for Advanced Scientific Computing Conference",
+        "first-page": "6",
+        "article-title": "On the robustness and prospects of adaptive BDDC methods for finite element discretizations of elliptic PDEs with high-contrast coefficients",
+        "author": "Zampini",
+        "year": "2016"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b56",
+        "series-title": "Domain Decomposition Methods in Science and Engineering XXIII",
+        "first-page": "285",
+        "article-title": "Adaptive BDDC deluxe methods for H (curl)",
+        "author": "Zampini",
+        "year": "2017"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b57",
+        "series-title": "International Conference on Domain Decomposition Methods",
+        "first-page": "103",
+        "article-title": "Balancing domain decomposition by constraints algorithms for curl-conforming spaces of arbitrary order",
+        "author": "Zampini",
+        "year": "2017"
+      },
+      {
+        "issue": "310",
+        "key": "10.1016/j.camwa.2020.06.009_b58",
+        "doi-asserted-by": "crossref",
+        "first-page": "659",
+        "DOI": "10.1090/mcom/3254",
+        "article-title": "BDDC algorithms with deluxe scaling and adaptive selection of primal constraints for Raviart–Thomas vector fields",
+        "volume": "87",
+        "author": "Oh",
+        "year": "2018",
+        "journal-title": "Math. Comp."
+      },
+      {
+        "issue": "4",
+        "key": "10.1016/j.camwa.2020.06.009_b59",
+        "doi-asserted-by": "crossref",
+        "first-page": "A1389",
+        "DOI": "10.1137/16M1080653",
+        "article-title": "Multilevel balancing domain decomposition by constraints deluxe algorithms with adaptive coarse spaces for flow in porous media",
+        "volume": "39",
+        "author": "Zampini",
+        "year": "2017",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.06.009_b60",
+        "doi-asserted-by": "crossref",
+        "first-page": "517",
+        "DOI": "10.1016/0021-9991(85)90034-8",
+        "article-title": "Chebyshev pseudospectral solution of second-order elliptic equations with finite element preconditioning",
+        "volume": "60",
+        "author": "Deville",
+        "year": "1985",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b61",
+        "series-title": "Spectral Methods",
+        "author": "Canuto",
+        "year": "2007"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b62",
+        "series-title": "Efficient low-order refined preconditioners for high-order matrix-free continuous and discontinuous Galerkin methods",
+        "author": "Pazner",
+        "year": "2019"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b63",
+        "series-title": "High-order matrix-free incompressible flow solvers with GPU acceleration and low-order refined preconditioners",
+        "author": "Franco",
+        "year": "2019"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b64",
+        "unstructured": "OCCA: Open Concurrent Compute Abstraction, [Computer Software] https://libocca.org."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b65",
+        "unstructured": "libCEED: Code for efficient extensible discretization, [Computer Software] https://github.com/CEED/libCEED."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b66",
+        "series-title": "The RAJA Portability Layer: Overview and Status",
+        "author": "Hornung",
+        "year": "2014"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b67",
+        "unstructured": "Laghos: LAGrangian High-Order Solver, [Computer Software] https://github.com/CEED/Laghos."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b68",
+        "series-title": "CEED ECP Milestone Report: Identify Initial Kernels, Bake-Off Problems (Benchmarks) and Miniapps",
+        "author": "Dobrev",
+        "year": "2017"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b69",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1177/1094342020915762",
+        "article-title": "Scalability of high-performance PDE solvers",
+        "author": "Fischer",
+        "year": "2020",
+        "journal-title": "Int. J. High Perform. Comput. Appl."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b70",
+        "series-title": "SC16: International Conference for High Performance Computing, Networking, Storage and Analysis",
+        "article-title": "LIBXSMM: Accelerating small matrix multiplications by runtime code generation",
+        "author": "Heinecke",
+        "year": "2016"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.camwa.2020.06.009_b71",
+        "doi-asserted-by": "crossref",
+        "first-page": "431",
+        "DOI": "10.1137/S1064827597323373",
+        "article-title": "Locally adapted tetrahedral meshes using bisection",
+        "volume": "22",
+        "author": "Arnold",
+        "year": "2000",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.06.009_b72",
+        "doi-asserted-by": "crossref",
+        "first-page": "79",
+        "DOI": "10.1016/0045-7825(89)90129-1",
+        "article-title": "Toward a universal h-p adaptive finite element strategy, part 1. constrained approximation and data structure",
+        "volume": "77",
+        "author": "Demkowicz",
+        "year": "1989",
+        "journal-title": "Comput. Methods Appl. Mech. Engrg."
+      },
+      {
+        "issue": "3–4",
+        "key": "10.1016/j.camwa.2020.06.009_b73",
+        "doi-asserted-by": "crossref",
+        "first-page": "363",
+        "DOI": "10.1080/10618569508904530",
+        "article-title": "Adaptive mesh refinement methods for three-dimensional inviscid flow problems",
+        "volume": "4",
+        "author": "Schönfeld",
+        "year": "1995",
+        "journal-title": "Int. J. Comput. Fluid Dyn."
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.camwa.2020.06.009_b74",
+        "doi-asserted-by": "crossref",
+        "first-page": "203",
+        "DOI": "10.1007/s00607-007-0233-3",
+        "article-title": "H1-interpolation on quadrilateral and hexahedral meshes with hanging nodes",
+        "volume": "80",
+        "author": "Heuveline",
+        "year": "2007",
+        "journal-title": "Computing"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b75",
+        "series-title": "Proceedings Fourth International Conference on High-Performance Computing",
+        "article-title": "Parallel domain decomposition and load balancing using space-filling curves",
+        "author": "Aluru",
+        "year": "1997"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.camwa.2020.06.009_b76",
+        "first-page": "129",
+        "article-title": "The Zoltan and Isorropia parallel toolkits for combinatorial scientific computing: Partitioning, ordering, and coloring",
+        "volume": "20",
+        "author": "Boman",
+        "year": "2012",
+        "journal-title": "Sci. Program."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.06.009_b77",
+        "doi-asserted-by": "crossref",
+        "first-page": "132",
+        "DOI": "10.1016/j.finel.2009.06.016",
+        "article-title": "Curved boundary layer meshing for adaptive viscous flow simulations",
+        "volume": "46",
+        "author": "Sahni",
+        "year": "2010",
+        "journal-title": "Finite Elem. Anal. Des."
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.camwa.2020.06.009_b78",
+        "doi-asserted-by": "crossref",
+        "first-page": "B606",
+        "DOI": "10.1137/120864672",
+        "article-title": "High-order curvilinear finite element methods for Lagrangian hydrodynamics",
+        "volume": "34",
+        "author": "Dobrev",
+        "year": "2012",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.06.009_b79",
+        "doi-asserted-by": "crossref",
+        "first-page": "41",
+        "DOI": "10.1007/s00366-010-0179-5",
+        "article-title": "Moving curved mesh adaptation for higher-order finite element simulations",
+        "volume": "27",
+        "author": "Luo",
+        "year": "2011",
+        "journal-title": "Eng. Comput."
+      },
+      {
+        "issue": "4",
+        "key": "10.1016/j.camwa.2020.06.009_b80",
+        "doi-asserted-by": "crossref",
+        "first-page": "419",
+        "DOI": "10.1007/s00366-011-0230-1",
+        "article-title": "Introducing the target-matrix paradigm for mesh optimization by node movement",
+        "volume": "28",
+        "author": "Knupp",
+        "year": "2012",
+        "journal-title": "Eng. Comput."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.06.009_b81",
+        "doi-asserted-by": "crossref",
+        "first-page": "B50",
+        "DOI": "10.1137/18M1167206",
+        "article-title": "The Target-Matrix Optimization Paradigm for high-order meshes",
+        "volume": "41",
+        "author": "Dobrev",
+        "year": "2019",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.06.009_b82",
+        "doi-asserted-by": "crossref",
+        "first-page": "B32",
+        "DOI": "10.1137/17M1116453",
+        "article-title": "High-order multi-material ALE hydrodynamics",
+        "volume": "40",
+        "author": "Anderson",
+        "year": "2018",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b83",
+        "series-title": "27th International Meshing Roundtable",
+        "first-page": "285",
+        "article-title": "Towards simulation-driven optimization of high-order meshes by the Target-Matrix Optimization Paradigm",
+        "volume": "vol. 127",
+        "author": "Dobrev",
+        "year": "2019"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b84",
+        "doi-asserted-by": "crossref",
+        "first-page": "92",
+        "DOI": "10.1016/j.jcp.2014.07.031",
+        "article-title": "Constrained optimization framework for interface-aware sub-scale dynamics closure model for multimaterial cells in Lagrangian and arbitrary Lagrangian-Eulerian hydrodynamics",
+        "volume": "276",
+        "author": "Barlow",
+        "year": "2014",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b85",
+        "doi-asserted-by": "crossref",
+        "first-page": "1062",
+        "DOI": "10.1016/j.jcp.2013.01.015",
+        "article-title": "High order curvilinear finite elements for elastic–plastic Lagrangian dynamics",
+        "volume": "257",
+        "author": "Dobrev",
+        "year": "2014",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.camwa.2020.06.009_b86",
+        "doi-asserted-by": "crossref",
+        "first-page": "249",
+        "DOI": "10.1002/fld.3965",
+        "article-title": "Monotonicity in high-order curvilinear finite element ALE remap",
+        "volume": "77",
+        "author": "Anderson",
+        "year": "2014",
+        "journal-title": "Internat. J. Numer. Methods Fluids"
+      },
+      {
+        "issue": "10",
+        "key": "10.1016/j.camwa.2020.06.009_b87",
+        "doi-asserted-by": "crossref",
+        "first-page": "689",
+        "DOI": "10.1002/fld.4236",
+        "article-title": "Multi-material closure model for high-order finite element Lagrangian hydrodynamics",
+        "volume": "82",
+        "author": "Dobrev",
+        "year": "2016",
+        "journal-title": "Internat. J. Numer. Methods Fluids"
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b88",
+        "series-title": "Cardioid",
+        "author": "Cranford",
+        "year": "2018"
+      },
+      {
+        "issue": "10",
+        "key": "10.1016/j.camwa.2020.06.009_b89",
+        "doi-asserted-by": "crossref",
+        "first-page": "2243",
+        "DOI": "10.1007/s10439-012-0593-5",
+        "article-title": "A novel rule-based algorithm for assigning myocardial fiber orientation to computational heart models",
+        "volume": "40",
+        "author": "Bayer",
+        "year": "2012",
+        "journal-title": "Ann. Biomed. Eng."
+      },
+      {
+        "issue": "4",
+        "key": "10.1016/j.camwa.2020.06.009_b90",
+        "doi-asserted-by": "crossref",
+        "first-page": "829",
+        "DOI": "10.1007/s10237-014-0639-8",
+        "article-title": "A high-resolution computational model of the deforming human heart",
+        "volume": "14",
+        "author": "Gurev",
+        "year": "2015",
+        "journal-title": "Biomech. Model. Mechanobiol."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b91",
+        "first-page": "4",
+        "article-title": "Leading a revolution in design",
+        "author": "Heller",
+        "year": "2018",
+        "journal-title": "Sci. Technol. Rev."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b92",
+        "series-title": "ParElag: Element agglomeration algebraic multigrid and upscaling, [Computer Software]",
+        "year": "2018"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.camwa.2020.06.009_b93",
+        "doi-asserted-by": "crossref",
+        "first-page": "257",
+        "DOI": "10.1515/cmam-2014-0004",
+        "article-title": "The construction of coarse de Rham complexes with improved approximation properties",
+        "volume": "14",
+        "author": "Lashuk",
+        "year": "2014",
+        "journal-title": "Comput. Methods Appl. Math."
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.camwa.2020.06.009_b94",
+        "doi-asserted-by": "crossref",
+        "first-page": "2427",
+        "DOI": "10.1137/070698178",
+        "article-title": "Exact de Rham sequences of spaces defined on macro-elements in two and three spatial dimensions",
+        "volume": "30",
+        "author": "Pasciak",
+        "year": "2008",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b95",
+        "first-page": "1",
+        "article-title": "Topological optimization of structures using Fourier representations",
+        "author": "White",
+        "year": "2018",
+        "journal-title": "Struct. Multidiscip. Optim."
+      },
+      {
+        "key": "10.1016/j.camwa.2020.06.009_b96",
+        "doi-asserted-by": "crossref",
+        "first-page": "30",
+        "DOI": "10.1016/j.cageo.2018.01.004",
+        "article-title": "Stress estimation in reservoirs using an integrated inverse method",
+        "volume": "114",
+        "author": "Mazuyer",
+        "year": "2018",
+        "journal-title": "Comput. Geosci."
+      },
+      {
+        "issue": "10",
+        "key": "10.1016/j.camwa.2020.06.009_b97",
+        "doi-asserted-by": "crossref",
+        "first-page": "779",
+        "DOI": "10.1002/fld.4288",
+        "article-title": "High-order discontinuous Galerkin nonlocal transport and energy equations scheme for radiation hydrodynamics",
+        "volume": "83",
+        "author": "Holec",
+        "year": "2016",
+        "journal-title": "Internat. J. Numer. Methods Fluids"
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.camwa.2020.06.009_b98",
+        "doi-asserted-by": "crossref",
+        "first-page": "C131",
+        "DOI": "10.1137/17M1115976",
+        "article-title": "Computing the distance between two finite element solutions defined on different 3D meshes on a GPU",
+        "volume": "40",
+        "author": "Reberol",
+        "year": "2018",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.camwa.2020.06.009_b99",
+        "doi-asserted-by": "crossref",
+        "first-page": "S323",
+        "DOI": "10.1137/16M1077581",
+        "article-title": "Spectral upscaling for graph Laplacian problems with application to reservoir simulation",
+        "volume": "39",
+        "author": "Barker",
+        "year": "2017",
+        "journal-title": "SIAM J. Sci. Comput."
+      }
+    ],
+    "container-title": [
+      "Computers &amp; Mathematics with Applications"
+    ],
+    "original-title": [],
+    "language": "en",
+    "link": [
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0898122120302583?httpAccept=text/xml",
+        "content-type": "text/xml",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0898122120302583?httpAccept=text/plain",
+        "content-type": "text/plain",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2025,
+          10,
+          12
+        ]
+      ],
+      "date-time": "2025-10-12T10:17:57Z",
+      "timestamp": 1760264277000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://linkinghub.elsevier.com/retrieve/pii/S0898122120302583"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2021,
+          1
+        ]
+      ]
+    },
+    "references-count": 99,
+    "alternative-id": [
+      "S0898122120302583"
+    ],
+    "URL": "https://doi.org/10.1016/j.camwa.2020.06.009",
+    "relation": {},
+    "ISSN": [
+      "0898-1221"
+    ],
+    "issn-type": [
+      {
+        "value": "0898-1221",
+        "type": "print"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2021,
+          1
+        ]
+      ]
+    },
+    "assertion": [
+      {
+        "value": "Elsevier",
+        "name": "publisher",
+        "label": "This article is maintained by"
+      },
+      {
+        "value": "MFEM: A modular finite element methods library",
+        "name": "articletitle",
+        "label": "Article Title"
+      },
+      {
+        "value": "Computers & Mathematics with Applications",
+        "name": "journaltitle",
+        "label": "Journal Title"
+      },
+      {
+        "value": "https://doi.org/10.1016/j.camwa.2020.06.009",
+        "name": "articlelink",
+        "label": "CrossRef DOI link to publisher maintained version"
+      },
+      {
+        "value": "article",
+        "name": "content_type",
+        "label": "Content Type"
+      },
+      {
+        "value": "Published by Elsevier Ltd.",
+        "name": "copyright",
+        "label": "Copyright"
+      }
+    ]
+  }
+}

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/7yRBFnd31xE6bvMB+uUIaOnfC5s</id>
+  <title>arXiv Query: search_query=all:galaexi&amp;id_list=&amp;start=0&amp;max_results=5</title>
+  <updated>2026-10-28T09:58:32Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=all:galaexi&amp;start=0&amp;max_results=5&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>5</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2404.12703v2</id>
+    <title>GALÆXI: Solving complex compressible flows with high-order discontinuous Galerkin methods on accelerator-based systems</title>
+    <updated>2024-10-02T08:34:36Z</updated>
+    <link href="https://arxiv.org/abs/2404.12703v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2404.12703v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>This work presents GALAEXI as a novel, energy-efficient flow solver for the simulation of compressible flows on unstructured meshes leveraging the parallel computing power of modern Graphics Processing Units (GPUs). GALAEXI implements the high-order Discontinuous Galerkin Spectral Element Method (DGSEM) using shock capturing with a finite-volume subcell approach to ensure the stability of the high-order scheme near shocks. This work provides details on the general code design, the parallelization strategy, and the implementation approach for the compute kernels with a focus on the element local mappings between volume and surface data due to the unstructured mesh. GALAEXI exhibits excellent strong scaling properties up to 1024 GPUs if each GPU is assigned a minimum of one million degrees of freedom degrees of freedom. To verify its implementation, a convergence study is performed that recovers the theoretical order of convergence of the implemented numerical schemes. Moreover, the solver is validated using both the incompressible and compressible formulation of the Taylor-Green-Vortex at a Mach number of 0.1 and 1.25, respectively. A mesh convergence study shows that the results converge to the high-fidelity reference solution and that the results match the original CPU implementation. Finally, GALAEXI is applied to a large-scale wall-resolved large eddy simulation of a linear cascade of the NASA Rotor 37. Here, the supersonic region and shocks at the leading edge are captured accurately and robustly by the implemented shock-capturing approach. It is demonstrated that GALAEXI requires less than half of the energy to carry out this simulation in comparison to the reference CPU implementation. This renders GALAEXI as a potent tool for accurate and efficient simulations of compressible flows in the realm of exascale computing and the associated new HPC architectures.</summary>
+    <category term="cs.MS" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CE" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-04-19T08:21:05Z</published>
+    <arxiv:comment>19 pages, 12 figures, 3 tables. Accepted Manuscript. Code available at: https://github.com/flexi-framework/galaexi</arxiv:comment>
+    <arxiv:primary_category term="cs.MS"/>
+    <arxiv:journal_ref>Computer Physics Communications 306 (2025) 109388</arxiv:journal_ref>
+    <author>
+      <name>Daniel Kempf</name>
+    </author>
+    <author>
+      <name>Marius Kurz</name>
+    </author>
+    <author>
+      <name>Marcel Blind</name>
+    </author>
+    <author>
+      <name>Patrick Kopper</name>
+    </author>
+    <author>
+      <name>Philipp Offenhäuser</name>
+    </author>
+    <author>
+      <name>Anna Schwarz</name>
+    </author>
+    <author>
+      <name>Spencer Starr</name>
+    </author>
+    <author>
+      <name>Jens Keim</name>
+    </author>
+    <author>
+      <name>Andrea Beck</name>
+    </author>
+    <arxiv:doi>10.1016/j.cpc.2024.109388</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1016/j.cpc.2024.109388" title="doi"/>
+  </entry>
+</feed>

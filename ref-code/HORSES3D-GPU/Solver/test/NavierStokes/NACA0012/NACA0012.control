@@ -1,0 +1,62 @@
+
+/* Control file for the implicit Navier-Stokes solver */
+Flow equations        = "NS"
+mesh file name        = "../../TestMeshes/naca0012_p3.msh"
+Polynomial order    = 3 ! T
+Number of time steps  = 100
+Output Interval       = 1 ! for explicit
+autosave mode         = "iteration"
+autosave interval     = 100
+
+Convergence tolerance = 1.d-10
+!cfl                   = 0.5d0
+!dcfl                   = 0.5d0
+dt                    = 0.000001d0
+mach number           = 0.1d0
+Reynolds number       = 100.0d0
+
+discretization nodes  = Gauss
+
+solution file name    = "RESULTS/naca.hsol"
+save gradients with solution = .true.
+restart               = .false.
+restart file name     = "RESULTS/restart.hsol"
+riemann solver         = "lax-friedrichs"
+viscous discretization = "BR1"
+
+!simulation type       = time-accurate
+!final time            = 40.d0
+simulation type       = steady-state
+time integration        = explicit
+partitioning = SFC
+
+!-------------------------------------------------------------
+! Inflow
+!-------------------------------------------------------------
+#define boundary BACK
+  type = FreeSlipWall
+  ! type = Outflow
+#end
+
+#define boundary FRONT
+  type =  FreeSlipWall
+  ! type = Outflow
+#end
+
+#define boundary AIRFOILT
+  type = NoSlipWall
+  ! type = FreeSlipWall
+#end
+
+#define boundary AIRFOILB
+  type = NoSlipWall
+  ! type = FreeSlipWall
+#end
+
+#define boundary INFLOW
+  type = Inflow
+#end
+
+#define boundary OUTFLOW
+  type = Outflow
+#end

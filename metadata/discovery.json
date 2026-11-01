@@ -1,0 +1,722 @@
+{
+  "PyFR GPU performance": "429 Client Error: Too Many Requests for url: https://api.crossref.org/works?query=PyFR+GPU+performance&rows=10&filter=from-pub-date%3A2016-10-28%2Cuntil-pub-date%3A2026-10-28",
+  "GALÆXI GPU discontinuous Galerkin": [
+    {
+      "title": "A GPU-Accelerated Hybridizable Discontinuous Galerkin Method for Linear Elasticity",
+      "doi": "10.4208/cicp.oa-2018-0235",
+      "year": [
+        [
+          2019,
+          12,
+          7
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://global-sci.com/article/79776/download",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "title": "GPU Parallelization of Wave Equation Based Discontinuous Galerkin Time Domain Method",
+      "doi": "10.23919/aces48530.2019.9060656",
+      "year": [
+        [
+          2019,
+          8
+        ]
+      ],
+      "link": [
+        {
+          "URL": "http://xplorestaging.ieee.org/ielx7/9040697/9060425/09060656.pdf?arnumber=9060656",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "title": "GPU-Accelerated Discontinuous Galerkin Methods: 30x Speedup on 345 Billion Unknowns",
+      "doi": "10.1109/hpec43674.2020.9286237",
+      "year": [
+        [
+          2020,
+          9,
+          22
+        ]
+      ],
+      "link": [
+        {
+          "URL": "http://xplorestaging.ieee.org/ielx7/9285977/9286137/09286237.pdf?arnumber=9286237",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "title": "Accelerating 2D and 3D Ocean models with the Discontinuous Galerkin Method and GPU Computing",
+      "doi": "10.23967/marine.2023.065",
+      "year": [
+        [
+          2023
+        ]
+      ],
+      "link": []
+    },
+    {
+      "title": "Discontinuous Galerkin Time Domain Methods in Electromagnetics GPU-Accelerated Numerical Algorithms",
+      "doi": "10.1109/nemo59437.2024.11395659",
+      "year": [
+        [
+          2024,
+          8,
+          11
+        ]
+      ],
+      "link": [
+        {
+          "URL": "http://xplorestaging.ieee.org/ielx8/11395604/11395638/11395659.pdf?arnumber=11395659",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "title": "LISFLOOD-FP 8.2: GPU-accelerated multiwavelet discontinuous Galerkin solver with dynamic resolution adaptivity for rapid, multiscale flood simulation",
+      "doi": "10.5194/gmd-2024-152",
+      "year": [
+        [
+          2024,
+          10,
+          16
+        ]
+      ],
+      "link": []
+    },
+    {
+      "title": "Supersonic turbulence simulations with GPU-based high-order Discontinuous Galerkin hydrodynamics",
+      "doi": "10.1093/mnras/stae2192",
+      "year": [
+        [
+          2024,
+          9,
+          20
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://academic.oup.com/mnras/advance-article-pdf/doi/10.1093/mnras/stae2192/59215475/stae2192.pdf",
+          "content-type": "application/pdf",
+          "content-version": "am",
+          "intended-application": "syndication"
+        },
+        {
+          "URL": "https://academic.oup.com/mnras/article-pdf/534/3/1963/59633618/stae2192.pdf",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "syndication"
+        },
+        {
+          "URL": "https://academic.oup.com/mnras/article-pdf/534/3/1963/59633618/stae2192.pdf",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "title": "Accelerating the discontinuous Galerkin cell-vertex scheme solver on GPU-powered systems",
+      "doi": "10.1504/ijcse.2019.103824",
+      "year": [
+        [
+          2019
+        ]
+      ],
+      "link": [
+        {
+          "URL": "http://www.inderscienceonline.com/doi/full/10.1504/IJCSE.2019.103824",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "title": "Comparative Study of Weak Galerkin and Discontinuous Galerkin Finite Element Methods",
+      "doi": "10.2139/ssrn.4775021",
+      "year": [
+        [
+          2024
+        ]
+      ],
+      "link": []
+    },
+    {
+      "title": "A GPU accelerated discontinuous Galerkin incompressible flow solver",
+      "doi": "10.1016/j.jcp.2019.04.010",
+      "year": [
+        [
+          2019,
+          8
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0021999119302438?httpAccept=text/xml",
+          "content-type": "text/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0021999119302438?httpAccept=text/plain",
+          "content-type": "text/plain",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        }
+      ]
+    }
+  ],
+  "HORSES3D GPU": [
+    {
+      "title": "A multigrid immersed boundary method for the CFD solver Horses3D",
+      "doi": "10.23967/eccomas.2022.019",
+      "year": [
+        [
+          2022
+        ]
+      ],
+      "link": []
+    },
+    {
+      "title": "GPU programming: CUDA",
+      "doi": "10.1016/b978-0-12-814120-5.00015-9",
+      "year": [
+        [
+          2023
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:B9780128141205000159?httpAccept=text/xml",
+          "content-type": "text/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:B9780128141205000159?httpAccept=text/plain",
+          "content-type": "text/plain",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        }
+      ]
+    },
+    {
+      "title": "Understanding GPU Cores",
+      "doi": "10.1201/9781315368290-9",
+      "year": [
+        [
+          2018,
+          1,
+          19
+        ]
+      ],
+      "link": []
+    },
+    {
+      "title": "Understanding GPU Memory",
+      "doi": "10.1201/9781315368290-10",
+      "year": [
+        [
+          2018,
+          1,
+          19
+        ]
+      ],
+      "link": []
+    },
+    {
+      "title": "Understanding GPU Hardware Architecture",
+      "doi": "10.1201/9781315368290-8",
+      "year": [
+        [
+          2018,
+          1,
+          19
+        ]
+      ],
+      "link": []
+    },
+    {
+      "title": "GPU sorting algorithms",
+      "doi": "10.1016/b978-0-12-803738-6.00012-4",
+      "year": [
+        [
+          2017
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:B9780128037386000124?httpAccept=text/plain",
+          "content-type": "text/plain",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:B9780128037386000124?httpAccept=text/xml",
+          "content-type": "text/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        }
+      ]
+    },
+    {
+      "title": "Distributed and Multi-GPU Training Strategies",
+      "doi": "10.1007/979-8-8688-2083-0_5",
+      "year": [
+        [
+          2025
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://link.springer.com/content/pdf/10.1007/979-8-8688-2083-0_5",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "title": "GPU Architectures, Optimizations, and Deployment",
+      "doi": "10.1007/979-8-8688-2083-0_2",
+      "year": [
+        [
+          2025
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://link.springer.com/content/pdf/10.1007/979-8-8688-2083-0_2",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "title": "GPU and accelerator programming: OpenCL",
+      "doi": "10.1016/b978-0-12-814120-5.00016-0",
+      "year": [
+        [
+          2023
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:B9780128141205000160?httpAccept=text/xml",
+          "content-type": "text/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:B9780128141205000160?httpAccept=text/plain",
+          "content-type": "text/plain",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        }
+      ]
+    },
+    {
+      "title": "Coherence-Enhancing Filtering on the GPU",
+      "doi": "10.1201/9781351052221-18",
+      "year": [
+        [
+          2018,
+          12,
+          3
+        ]
+      ],
+      "link": []
+    }
+  ],
+  "HiFiLES GPU": "429 Client Error: Too Many Requests for url: https://api.crossref.org/works?query=HiFiLES+GPU&rows=10&filter=from-pub-date%3A2016-10-28%2Cuntil-pub-date%3A2026-10-28",
+  "MFEM GPU high order finite element": "429 Client Error: Too Many Requests for url: https://api.crossref.org/works?query=MFEM+GPU+high+order+finite+element&rows=10&filter=from-pub-date%3A2016-10-28%2Cuntil-pub-date%3A2026-10-28",
+  "matrix free high order GPU finite element": [
+    {
+      "title": "Enhancing data locality of the conjugate gradient method for high-order matrix-free finite-element implementations",
+      "doi": "10.1177/10943420221107880",
+      "year": [
+        [
+          2022,
+          7,
+          7
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://journals.sagepub.com/doi/pdf/10.1177/10943420221107880",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://journals.sagepub.com/doi/full-xml/10.1177/10943420221107880",
+          "content-type": "application/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://journals.sagepub.com/doi/pdf/10.1177/10943420221107880",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "title": "Multi-Material Ale Remap with Interface Sharpening Using High-Order Matrix-Free Finite Element Methods",
+      "doi": "10.2139/ssrn.5159472",
+      "year": [
+        [
+          2025
+        ]
+      ],
+      "link": []
+    },
+    {
+      "title": "Fast Hardware-Aware Matrix-Free Algorithm for Higher-Order Finite-Element Discretized Matrix Multivector Products on Distributed Systems",
+      "doi": "10.2139/ssrn.4594538",
+      "year": [
+        [
+          2023
+        ]
+      ],
+      "link": []
+    },
+    {
+      "title": "Matrix-free approaches for GPU acceleration of a high-order finite element hydrodynamics application using MFEM, Umpire, and RAJA",
+      "doi": "10.1177/10943420221100262",
+      "year": [
+        [
+          2022,
+          5,
+          25
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://journals.sagepub.com/doi/pdf/10.1177/10943420221100262",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://journals.sagepub.com/doi/full-xml/10.1177/10943420221100262",
+          "content-type": "application/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://journals.sagepub.com/doi/pdf/10.1177/10943420221100262",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "title": "A fast matrix-free approach to the high-order control volume finite element method with application to low-Mach flow",
+      "doi": "10.1016/j.compfluid.2022.105408",
+      "year": [
+        [
+          2022,
+          5
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0045793022000755?httpAccept=text/xml",
+          "content-type": "text/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0045793022000755?httpAccept=text/plain",
+          "content-type": "text/plain",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        }
+      ]
+    },
+    {
+      "title": "Simulating Compressible and Nearly-Incompressible Linear Elasticity Using an Efficient Parallel Scalable Matrix-Free High-Order Finite Element Method",
+      "doi": "10.23967/wccm-eccomas.2020.302",
+      "year": [
+        [
+          2021
+        ]
+      ],
+      "link": []
+    },
+    {
+      "title": "Matrix-Free Iterative Solution Procedure for Finite Element Problems",
+      "doi": "10.1201/b15558-9",
+      "year": [
+        [
+          2017,
+          4,
+          28
+        ]
+      ],
+      "link": [
+        {
+          "URL": "http://www.crcnetbase.com/doi/pdf/10.1201/b15558-9",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "title": "Matrix-Free Finite-Element Computations On Graphics Processors with Adaptively Refined Unstructured Meshes",
+      "doi": "10.22360/springsim.2017.hpc.004",
+      "year": [
+        [
+          2017
+        ]
+      ],
+      "link": []
+    },
+    {
+      "title": "Efficient Parallel Scalable Matrix-Free 3D High-Order Finite Element Simulation of Neo-Hookean Compressible Hyperelasticity at Finite Strain",
+      "doi": "10.1115/imece2021-70768",
+      "year": [
+        [
+          2021,
+          11,
+          1
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://asmedigitalcollection.asme.org/IMECE/proceedings-pdf/doi/10.1115/IMECE2021-70768/6829164/v012t12a027-imece2021-70768.pdf",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "syndication"
+        },
+        {
+          "URL": "https://asmedigitalcollection.asme.org/IMECE/proceedings-pdf/doi/10.1115/IMECE2021-70768/6829164/v012t12a027-imece2021-70768.pdf",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "title": "Matrix Element Calculations on the GPU",
+      "doi": "10.2172/1827838",
+      "year": [
+        [
+          2021,
+          7,
+          7
+        ]
+      ],
+      "link": []
+    }
+  ],
+  "GiMMiK GPU": "429 Client Error: Too Many Requests for url: https://api.crossref.org/works?query=GiMMiK+GPU&rows=10&filter=from-pub-date%3A2016-10-28%2Cuntil-pub-date%3A2026-10-28",
+  "libCEED GPU": "429 Client Error: Too Many Requests for url: https://api.crossref.org/works?query=libCEED+GPU&rows=10&filter=from-pub-date%3A2016-10-28%2Cuntil-pub-date%3A2026-10-28",
+  "Discontinuous Galerkin Methods for Solving Elliptic and Parabolic Equations": "429 Client Error: Too Many Requests for url: https://api.crossref.org/works?query=Discontinuous+Galerkin+Methods+for+Solving+Elliptic+and+Parabolic+Equations&rows=10&filter=from-pub-date%3A2016-10-28%2Cuntil-pub-date%3A2026-10-28",
+  "GPU discontinuous Galerkin implicit solver": [
+    {
+      "title": "A Cvfem-Based Coupled Flow Solver Combined with a Fully Implicit Discontinuous Galerkin Method for Non-Conformal Grid Interfaces",
+      "doi": "10.2139/ssrn.5026997",
+      "year": [
+        [
+          2024
+        ]
+      ],
+      "link": []
+    },
+    {
+      "title": "LISFLOOD-FP 8.2: GPU-accelerated multiwavelet discontinuous Galerkin solver with dynamic resolution adaptivity for rapid, multiscale flood simulation",
+      "doi": "10.5194/gmd-2024-152",
+      "year": [
+        [
+          2024,
+          10,
+          16
+        ]
+      ],
+      "link": []
+    },
+    {
+      "title": "Entropy conserving implicit time integration in a Discontinuous Galerkin solver in entropy variables",
+      "doi": "10.1016/j.jcp.2022.111683",
+      "year": [
+        [
+          2023,
+          1
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S002199912200746X?httpAccept=text/xml",
+          "content-type": "text/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S002199912200746X?httpAccept=text/plain",
+          "content-type": "text/plain",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        }
+      ]
+    },
+    {
+      "title": "An entropy-aware discontinuous Galerkin solver for implicit large eddy simulations of wall-bounded flows",
+      "doi": "10.1063/5.0270394",
+      "year": [
+        [
+          2025,
+          7,
+          1
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://pubs.aip.org/aip/pof/article-pdf/doi/10.1063/5.0270394/20577355/075105_1_5.0270394.pdf",
+          "content-type": "application/pdf",
+          "content-version": "vor",
+          "intended-application": "syndication"
+        },
+        {
+          "URL": "https://pubs.aip.org/aip/pof/article-pdf/doi/10.1063/5.0270394/20577355/075105_1_5.0270394.pdf",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "title": "On the Development of an Implicit Discontinuous Galerkin Solver for Turbulent Real Gas Flows",
+      "doi": "10.3390/fluids8040117",
+      "year": [
+        [
+          2023,
+          3,
+          31
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://www.mdpi.com/2311-5521/8/4/117/pdf",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "title": "Assessment of an Implicit Discontinuous Galerkin Solver for Incompressible Flow Problems with Variable Density",
+      "doi": "10.3390/app122111229",
+      "year": [
+        [
+          2022,
+          11,
+          5
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://www.mdpi.com/2076-3417/12/21/11229/pdf",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "title": "Accelerating the discontinuous Galerkin cell-vertex scheme solver on GPU-powered systems",
+      "doi": "10.1504/ijcse.2019.103824",
+      "year": [
+        [
+          2019
+        ]
+      ],
+      "link": [
+        {
+          "URL": "http://www.inderscienceonline.com/doi/full/10.1504/IJCSE.2019.103824",
+          "content-type": "unspecified",
+          "content-version": "vor",
+          "intended-application": "similarity-checking"
+        }
+      ]
+    },
+    {
+      "title": "EXPLICIT AND IMPLICIT LARGE EDDY SIMULATION FOR A NACA0012 USING A HIGH ORDER DISCONTINUOUS GALERKIN SOLVER",
+      "doi": "10.23967/eccomas.2022.113",
+      "year": [
+        [
+          2022
+        ]
+      ],
+      "link": []
+    },
+    {
+      "title": "Robustness and efficiency of an implicit time-adaptive discontinuous Galerkin solver for unsteady flows",
+      "doi": "10.1016/j.compfluid.2020.104529",
+      "year": [
+        [
+          2020,
+          5
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0045793020301031?httpAccept=text/xml",
+          "content-type": "text/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0045793020301031?httpAccept=text/plain",
+          "content-type": "text/plain",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        }
+      ]
+    },
+    {
+      "title": "A GPU accelerated discontinuous Galerkin incompressible flow solver",
+      "doi": "10.1016/j.jcp.2019.04.010",
+      "year": [
+        [
+          2019,
+          8
+        ]
+      ],
+      "link": [
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0021999119302438?httpAccept=text/xml",
+          "content-type": "text/xml",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        },
+        {
+          "URL": "https://api.elsevier.com/content/article/PII:S0021999119302438?httpAccept=text/plain",
+          "content-type": "text/plain",
+          "content-version": "vor",
+          "intended-application": "text-mining"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,242 @@
+[
+  {
+    "name": "48-fix-velocity-gradient-computation-in-multiphase-solver",
+    "commit": {
+      "sha": "1370d2bffc76c823fe7f83fa8d590df6a9f95291",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/1370d2bffc76c823fe7f83fa8d590df6a9f95291"
+    },
+    "protected": false
+  },
+  {
+    "name": "48-fix-velocity-gradient-computation-in-multiphase-solver2",
+    "commit": {
+      "sha": "9b1115b2a253bf7d65f855ee6118cb55f1770b3d",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/9b1115b2a253bf7d65f855ee6118cb55f1770b3d"
+    },
+    "protected": false
+  },
+  {
+    "name": "ALupdate",
+    "commit": {
+      "sha": "ce54b46b13141e087a21f733f9fd908181f45ff4",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/ce54b46b13141e087a21f733f9fd908181f45ff4"
+    },
+    "protected": false
+  },
+  {
+    "name": "CI-update",
+    "commit": {
+      "sha": "6fb9650e357163a0a6b80c474780687b9a4295be",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/6fb9650e357163a0a6b80c474780687b9a4295be"
+    },
+    "protected": false
+  },
+  {
+    "name": "ENABLE_THREADS_NO_PATCH",
+    "commit": {
+      "sha": "bfd3ab098a788e7b2a46e9c129d2fd49fe3f57ee",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/bfd3ab098a788e7b2a46e9c129d2fd49fe3f57ee"
+    },
+    "protected": false
+  },
+  {
+    "name": "EstebanFerrer-patch-1",
+    "commit": {
+      "sha": "0a201a48844c9ab75b7e0ee857f5fbc047ee8d30",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/0a201a48844c9ab75b7e0ee857f5fbc047ee8d30"
+    },
+    "protected": false
+  },
+  {
+    "name": "FixedTypo",
+    "commit": {
+      "sha": "c3919782eef18c9df28c55756ee8656dd50978a7",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/c3919782eef18c9df28c55756ee8656dd50978a7"
+    },
+    "protected": false
+  },
+  {
+    "name": "GMM_develop",
+    "commit": {
+      "sha": "8bb13275fefb8cf5d44465787b290d466a1ad463",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/8bb13275fefb8cf5d44465787b290d466a1ad463"
+    },
+    "protected": false
+  },
+  {
+    "name": "LES-filter-test",
+    "commit": {
+      "sha": "f4a683dc0e2d81b957b539d43fb44a5d3f3e6ec2",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/f4a683dc0e2d81b957b539d43fb44a5d3f3e6ec2"
+    },
+    "protected": false
+  },
+  {
+    "name": "MM",
+    "commit": {
+      "sha": "8fefe105c52cd1cf1ea830ba3e7c808ebcd92f1b",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/8fefe105c52cd1cf1ea830ba3e7c808ebcd92f1b"
+    },
+    "protected": false
+  },
+  {
+    "name": "MMS_convergence_test",
+    "commit": {
+      "sha": "fa8b87b8c671f606df618e05120f19db530c71c6",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/fa8b87b8c671f606df618e05120f19db530c71c6"
+    },
+    "protected": false
+  },
+  {
+    "name": "PerformanceTestAction",
+    "commit": {
+      "sha": "b4168cb913c3dcd8aec2beb73320a5b76a4451bd",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/b4168cb913c3dcd8aec2beb73320a5b76a4451bd"
+    },
+    "protected": false
+  },
+  {
+    "name": "RodrigoDev",
+    "commit": {
+      "sha": "1970abba86304d3d06a8bed59f9d343952a6ee80",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/1970abba86304d3d06a8bed59f9d343952a6ee80"
+    },
+    "protected": false
+  },
+  {
+    "name": "TGV-monitor-fix",
+    "commit": {
+      "sha": "c58a4d744539554d7a7dca058f1fb8d2b0013905",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/c58a4d744539554d7a7dca058f1fb8d2b0013905"
+    },
+    "protected": false
+  },
+  {
+    "name": "WallFunctDev",
+    "commit": {
+      "sha": "fad01bfc07e8254c0aa730d0489bf78fbd1f1aae",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/fad01bfc07e8254c0aa730d0489bf78fbd1f1aae"
+    },
+    "protected": false
+  },
+  {
+    "name": "abbas_developement",
+    "commit": {
+      "sha": "da89463db068292ba83b0cfb07890076a05c2f7e",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/da89463db068292ba83b0cfb07890076a05c2f7e"
+    },
+    "protected": false
+  },
+  {
+    "name": "arr/actuator_disk",
+    "commit": {
+      "sha": "0f1675c4255cf1bc738ef2af33fc566cd82c5dbf",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/0f1675c4255cf1bc738ef2af33fc566cd82c5dbf"
+    },
+    "protected": false
+  },
+  {
+    "name": "arr/missing_terms_grad_vars",
+    "commit": {
+      "sha": "823a2b8729c15efe10d6062a9c54cd04a9c4df95",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/823a2b8729c15efe10d6062a9c54cd04a9c4df95"
+    },
+    "protected": false
+  },
+  {
+    "name": "arr/unify_split_volume_integral",
+    "commit": {
+      "sha": "03042325925ef2e8e47e2f2a2e3400649109903d",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/03042325925ef2e8e47e2f2a2e3400649109903d"
+    },
+    "protected": false
+  },
+  {
+    "name": "arr/updates_horses_framework",
+    "commit": {
+      "sha": "9c04c9baa0b80abd9dc1459c6427c4c8644eb7a9",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/9c04c9baa0b80abd9dc1459c6427c4c8644eb7a9"
+    },
+    "protected": false
+  },
+  {
+    "name": "arr/write_partitioning_info",
+    "commit": {
+      "sha": "f6d2815927aea24de87d444a6a1bbdea3b2e591a",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/f6d2815927aea24de87d444a6a1bbdea3b2e591a"
+    },
+    "protected": false
+  },
+  {
+    "name": "bug-fix-actuator-line",
+    "commit": {
+      "sha": "0e5c9020786b1828bf7cdf6671dfc439e66b8775",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/0e5c9020786b1828bf7cdf6671dfc439e66b8775"
+    },
+    "protected": false
+  },
+  {
+    "name": "bug-fix-aliasing-sensor-realloc",
+    "commit": {
+      "sha": "0428ede16b94a235ac947b8b675b2470a7561039",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/0428ede16b94a235ac947b8b675b2470a7561039"
+    },
+    "protected": false
+  },
+  {
+    "name": "bug-fix-gpu-device-data",
+    "commit": {
+      "sha": "749ae78be5c7685625f5e9ec8c5ca355877efd1c",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/749ae78be5c7685625f5e9ec8c5ca355877efd1c"
+    },
+    "protected": false
+  },
+  {
+    "name": "bug-fix-openmp-races",
+    "commit": {
+      "sha": "c67c5939acfef253363aee3f36631d0da75dc231",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/c67c5939acfef253363aee3f36631d0da75dc231"
+    },
+    "protected": false
+  },
+  {
+    "name": "bug-fix-paramfile-regions-dealloc",
+    "commit": {
+      "sha": "1f1e1033cef9ed92ac8f740618fae2e88f9693d9",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/1f1e1033cef9ed92ac8f740618fae2e88f9693d9"
+    },
+    "protected": false
+  },
+  {
+    "name": "bug-fix-svv-energy-divv",
+    "commit": {
+      "sha": "72f3b535ed6e2464de354fe40a37b4b7933b37e5",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/72f3b535ed6e2464de354fe40a37b4b7933b37e5"
+    },
+    "protected": false
+  },
+  {
+    "name": "bug-fix-te-sensor-gpu-mpi-openmp",
+    "commit": {
+      "sha": "2ecc5bdd9571a259765f0d96d3ae880426625bde",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/2ecc5bdd9571a259765f0d96d3ae880426625bde"
+    },
+    "protected": false
+  },
+  {
+    "name": "bug-fix-te-sensor-source-term",
+    "commit": {
+      "sha": "d42a65461485ac736ad18ba8a915c07405b95277",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/d42a65461485ac736ad18ba8a915c07405b95277"
+    },
+    "protected": false
+  },
+  {
+    "name": "claude/zen-ride-onx4uo",
+    "commit": {
+      "sha": "dd3eaee62cd378e97a462d32144d8b655e63ce3c",
+      "url": "https://api.github.com/repos/horses-framework/horses3d-gpu/commits/dd3eaee62cd378e97a462d32144d8b655e63ce3c"
+    },
+    "protected": false
+  }
+]

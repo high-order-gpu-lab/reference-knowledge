@@ -1,0 +1,414 @@
+import contextlib
+import ctypes as ct
+import functools as ft
+from math import erf
+from pathlib import Path
+import sys
+
+import numpy as np
+
+
+def block_diag(arrs):
+    shapes = [a.shape for a in arrs]
+    out = np.zeros(np.sum(shapes, axis=0), dtype=arrs[0].dtype)
+
+    r, c = 0, 0
+    for i, (rr, cc) in enumerate(shapes):
+        out[r:r + rr, c:c + cc] = arrs[i]
+        r += rr
+        c += cc
+
+    return out
+
+
+def range_offsets(items, item_len=len):
+    offsets, off = {}, 0
+
+    for key, item in items:
+        offsets[key] = off
+        off += item_len(item)
+
+    return offsets, off
+
+
+def fromarrays(**fields):
+    arrs = [np.asarray(v) for v in fields.values()]
+    dtype = np.dtype([(n, a.dtype, a.shape[1:]) for n, a in zip(fields, arrs)])
+    out = np.empty(len(arrs[0]), dtype=dtype)
+    for n, a in zip(fields, arrs):
+        out[n] = a
+
+    return out
+
+
+def clean(origfn=None, tol=1e-10, ckwarg='clean'):
+    def cleanfn(fn):
+        @ft.wraps(fn)
+        def newfn(*args, **kwargs):
+            if not kwargs.pop(ckwarg, True):
+                return fn(*args, **kwargs)
+
+            arr = fn(*args, **kwargs).copy()
+
+            # Flush small elements to zero
+            arr[np.abs(arr) < tol] = 0
+
+            # Coalesce similar elements
+            if arr.size > 1:
+                amfl = np.abs(arr.flat)
+                amix = np.argsort(amfl)
+                atol = 0.1*tol
+
+                i, ix = 0, amix[0]
+                for j, jx in enumerate(amix[1:], start=1):
+                    if abs(amfl[jx] - amfl[ix]) > atol + tol*amfl[ix]:
+                        if j - i > 1:
+                            amfl[amix[i:j]] = np.median(amfl[amix[i:j]])
+                        i, ix = j, jx
+
+                if i != j:
+                    amfl[amix[i:]] = np.median(amfl[amix[i:]])
+
+                # Fix up the signs and assign
+                arr.flat = np.copysign(amfl, arr.flat)
+
+            return arr
+        return newfn
+
+    return cleanfn(origfn) if origfn else cleanfn
+
+
+def morton_encode(ipts, imax, dtype=np.uint64):
+    # Allocate the codes
+    codes = np.zeros(len(ipts), dtype=dtype)
+
+    # Determine how many bits to use for each input dimension
+    ndims = ipts.shape[1]
+    obits = 8*codes.dtype.itemsize
+    ibits = obits // ndims
+    ishift = np.array([max(int(p).bit_length() - ibits, 0) for p in imax],
+                      dtype=dtype)
+
+    # Compute the masks and shifts
+    ops = [[(1 << j, (ndims - 1)*j + i) for j in range(ibits)]
+           for i in range(ndims)]
+
+    # Cache-block the arrays
+    n = max(1, len(codes) // 16384)
+    bipts = np.array_split(ipts, n)
+    bcodes = np.array_split(codes, n)
+
+    # Loop over each block
+    for ipt, code in zip(bipts, bcodes):
+        # Loop over each dimension
+        for p, pops in zip((ipt >> ishift).T, ops):
+            # Extract and interleave the bits
+            for mask, shift in pops:
+                code |= (p & mask) << shift
+
+    return codes
+
+
+def morton_keys(pts, pmin=None, ext=None):
+    ndims = pts.shape[1]
+    fact = 2**(64 // ndims)
+
+    # Default to normalising the points by their bounding box
+    if pmin is None:
+        pmin, ext = pts.min(axis=0), np.ptp(pts, axis=0).max() or 1
+
+    # Map the points onto the integer grid the codes are built from
+    ipts = np.clip(fact*((pts - pmin) / ext), 0, fact).astype(np.uint64)
+
+    return morton_encode(ipts, [fact]*ndims)
+
+
+def search_unsorted(a, v):
+    idx = np.argsort(a)
+    return idx[np.searchsorted(a, v, sorter=idx)]
+
+
+def _fuzzysort_chunk(coords, perm, tol):
+    rows, prows, gid = np.arange(len(perm)), perm, np.zeros_like(perm)
+    npts = perm.shape[1]
+
+    # Offset which places the groups of a row in disjoint key ranges
+    span = np.ptp(coords) + 1
+
+    for dim in range(coords.shape[1]):
+        # Sort the points of each row by group and then by this dimension
+        vals = np.take_along_axis(coords[rows, dim], prows, axis=1)
+        sub = np.argsort(gid*span + vals, axis=1, kind='stable')
+
+        # Convert the per-row indices into flat indices
+        sub += (np.arange(len(rows))*npts)[:, None]
+
+        # Apply the sort to the permutation, values, and group ids
+        prows = np.take(prows, sub)
+        vals, gid = np.take(vals, sub), np.take(gid, sub)
+
+        # Update the permutation
+        perm[rows] = prows
+
+        # Split the groups where the sorted values jump by the tolerance
+        gaps = (np.diff(gid, axis=1) != 0) | (np.diff(vals, axis=1) >= tol)
+        gid[:, 1:] = np.cumsum(gaps, axis=1)
+
+        # Continue with only those rows which still have tied points
+        if (tied := ~gaps.all(axis=1)).any():
+            rows, prows, gid = rows[tied], prows[tied], gid[tied]
+        else:
+            break
+    else:
+        raise ValueError('Unable to sort coincident points')
+
+
+def fuzzysort(coords, tol=1e-6):
+    nrows, _, npts = coords.shape
+    perm = np.tile(np.arange(npts), (nrows, 1))
+
+    # Perform the sorting in cache-blocked chunks
+    for c, p in zip_chunks(2**16, coords, perm):
+        _fuzzysort_chunk(c, p, tol)
+
+    return perm
+
+
+def iter_struct(arr, n=1000, axis=0):
+    for c in np.array_split(arr, -(arr.shape[axis] // -n) or 1, axis=axis):
+        yield from c.tolist()
+
+
+def zip_chunks(n, *arrs, axis=0):
+    cuts = range(n, arrs[0].shape[axis], n)
+
+    yield from zip(*(np.split(a, cuts, axis) for a in arrs))
+
+
+bfloat16 = np.dtype('u2', metadata={'pyfr_bf16': True})
+
+
+def is_bf16(dtype):
+    md = np.dtype(dtype).metadata
+    return bool(md and md.get('pyfr_bf16'))
+
+
+def f32_to_bf16(x):
+    x = np.ascontiguousarray(x, dtype=np.float32)
+    u = x.view(np.uint32)
+    b = ((u + 0x7FFF + ((u >> 16) & 1)) >> 16).astype(np.uint16)
+
+    # Handle NaN
+    b[np.isnan(x)] = 0x7FC0
+    return b
+
+
+def bf16_to_f32(u):
+    u32 = np.ascontiguousarray(u, dtype=np.uint16).astype(np.uint32) << 16
+    return u32.view(np.float32)
+
+
+_ctype_map = {
+    np.int32: 'int', np.uint32: 'unsigned int',
+    np.int64: 'int64_t', np.uint64: 'uint64_t',
+    np.float16: 'half',
+    np.float32: 'float', np.float64: 'double'
+}
+
+
+def npdtype_to_ctype(dtype):
+    dtype = np.dtype(dtype)
+    if is_bf16(dtype):
+        return 'bf16'
+    else:
+        return _ctype_map[dtype.type]
+
+
+_ctypestype_map = {
+    np.int32: ct.c_int32, np.uint32: ct.c_uint32,
+    np.int64: ct.c_int64, np.uint64: ct.c_uint64,
+    np.float32: ct.c_float, np.float64: ct.c_double
+}
+
+
+def npdtype_to_ctypestype(dtype):
+    # Special-case None which otherwise expands to np.float
+    if dtype is None:
+        return None
+
+    return _ctypestype_map[np.dtype(dtype).type]
+
+
+class BLASThreadCtrl:
+    _instance = None
+
+    def __init__(self):
+        self._set_single = lambda: None
+        self._restore = lambda token: None
+
+        try:
+            blas = np.show_config(mode='dicts')['Build Dependencies']['blas']
+            name = blas['name'].lower()
+            if 'openblas' in name:
+                self._init_openblas()
+            elif name == 'accelerate':
+                self._init_accelerate()
+        except (AttributeError, KeyError, OSError, StopIteration):
+            pass
+
+    def _init_openblas(self):
+        nploc = Path(np.__file__).parent
+        if sys.platform == 'darwin':
+            libdir, ext = nploc / '.dylibs', 'dylib*'
+        elif sys.platform == 'win32':
+            libdir, ext = nploc.parent / 'numpy.libs', 'dll'
+        else:
+            libdir, ext = nploc.parent / 'numpy.libs', 'so*'
+
+        path = next(libdir.glob(f'libscipy_openblas*.{ext}'))
+        set_fn = ct.CDLL(str(path)).openblas_set_num_threads_local
+        set_fn.argtypes = [ct.c_int]
+
+        self._set_single = lambda: set_fn(1)
+        self._restore = set_fn
+
+    def _init_accelerate(self):
+        lib = ct.CDLL('/System/Library/Frameworks/Accelerate.framework/'
+                      'Accelerate')
+        set_fn, get_fn = lib.BLASSetThreading, lib.BLASGetThreading
+        set_fn.argtypes = [ct.c_uint]
+        get_fn.argtypes, get_fn.restype = [], ct.c_uint
+
+        def set_single():
+            prev = get_fn()
+            set_fn(1)
+            return prev
+
+        self._set_single = set_single
+        self._restore = set_fn
+
+    @classmethod
+    def instance(cls):
+        if cls._instance is None:
+            cls._instance = cls()
+
+        return cls._instance
+
+    @classmethod
+    @contextlib.contextmanager
+    def serial(cls):
+        self = cls.instance()
+        nth = self._set_single()
+        try:
+            yield
+        finally:
+            self._restore(nth)
+
+
+class GPOptimiser:
+    _ls_pad = 0.1
+    _base_noise = 0.01
+
+    def __init__(self, wsize, x_bounds):
+        self._X, self._y = np.empty((2, wsize))
+        self._nv = np.full(wsize, self._base_noise)
+        self._seq = np.empty(wsize, dtype=int)
+        self.n = 0
+        self._idx = self._step = 0
+        self.x_lo, self.x_hi = x_bounds
+
+    def reset(self, x_bounds=None):
+        self.n = 0
+        self._idx = self._step = 0
+        if x_bounds is not None:
+            self.x_lo, self.x_hi = x_bounds
+
+    def record(self, x, y, noise_var=None):
+        self._X[self._idx] = x
+        self._y[self._idx] = y
+        nv = self._base_noise if noise_var is None else noise_var
+        self._nv[self._idx] = nv
+        self._seq[self._idx] = self._step
+        self._step += 1
+        self._idx = (self._idx + 1) % len(self._X)
+        self.n = min(self.n + 1, len(self._X))
+
+    def update(self, x, y, noise_var=None, tol=0.05):
+        nearby = np.flatnonzero(np.abs(self._X[:self.n] - x) < tol)
+
+        if len(nearby):
+            newest = nearby[self._seq[nearby].argmax()]
+            self._y[newest] = y
+            if noise_var is not None:
+                self._nv[newest] = noise_var
+            self._seq[newest] = self._step
+            self._step += 1
+        else:
+            self.record(x, y, noise_var)
+
+    def _norm_cdf(self, z):
+        return np.array([0.5*(1.0 + erf(zi*2**-0.5)) for zi in z])
+
+    def _norm_pdf(self, z):
+        return np.exp(-0.5*z**2) / (2*np.pi)**0.5
+
+    def _fit(self):
+        X, y = self._X[:self.n], self._y[:self.n]
+        nv_diag = np.diag(self._nv[:self.n])
+        y_mean = y.mean()
+        y_c = y - y_mean
+
+        ls = 0.5*(np.ptp(X) + self._ls_pad)
+
+        K = np.exp(-0.5*((X[:, None] - X[None, :])/ls)**2)
+        K += nv_diag
+        alpha = np.linalg.solve(K, y_c)
+
+        x_test = np.linspace(self.x_lo, self.x_hi, 50)
+        k = np.exp(-0.5*((x_test[:, None] - X[None, :])/ls)**2)
+        mu = k @ alpha + y_mean
+
+        v = np.linalg.solve(K, k.T)
+        var = np.maximum(1.0 - np.sum(k*v.T, axis=1), 1e-10)
+
+        return x_test, mu, var
+
+    def optimum(self, minimise=True, explore=False):
+        if self.n < 2:
+            return None
+
+        x_test, mu, var = self._fit()
+
+        # Expected Improvement acquisition
+        if explore:
+            ys = self._y[:self.n]
+            f_best = np.min(ys) if minimise else np.max(ys)
+            sigma = var**0.5
+            imp = (f_best - mu) if minimise else (mu - f_best)
+            z = imp / sigma
+            ei = imp*self._norm_cdf(z) + sigma*self._norm_pdf(z)
+            return x_test[np.argmax(ei)]
+        # Pure exploitation; return the GP mean optimum
+        else:
+            idx = np.argmin(mu) if minimise else np.argmax(mu)
+            return x_test[idx]
+
+
+class LogGPOptimiser(GPOptimiser):
+    def __init__(self, wsize, x_bounds):
+        super().__init__(wsize, map(np.log, x_bounds))
+
+    def record(self, x, y, noise_var=None):
+        super().record(np.log(x), y, noise_var)
+
+    def update(self, x, y, noise_var=None, tol=0.05):
+        super().update(np.log(x), y, noise_var, tol)
+
+    def optimum(self, minimise=True, explore=False):
+        opt = super().optimum(minimise, explore)
+        return np.exp(opt) if opt is not None else None
+
+    def reset(self, x_bounds=None):
+        if x_bounds is not None:
+            x_bounds = map(np.log, x_bounds)
+        super().reset(x_bounds)

@@ -1,0 +1,1164 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "message": {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          9,
+          12
+        ]
+      ],
+      "date-time": "2026-09-12T13:51:40Z",
+      "timestamp": 1789221100994,
+      "version": "build-2803163510"
+    },
+    "reference-count": 93,
+    "publisher": "SAGE Publications",
+    "issue": "6",
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2022,
+              6,
+              8
+            ]
+          ],
+          "date-time": "2022-06-08T00:00:00Z",
+          "timestamp": 1654646400000
+        },
+        "content-version": "vor",
+        "delay-in-days": 365,
+        "URL": "http://www.sagepub.com/licence-information-for-chorus"
+      }
+    ],
+    "funder": [
+      {
+        "DOI": "10.13039/100000015",
+        "name": "U.S. Department of Energy",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "17-SC-20-SC"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "17-SC-20-SC"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100000015",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      }
+    ],
+    "content-domain": {
+      "domain": [
+        "journals.sagepub.com"
+      ],
+      "crossmark-restriction": true
+    },
+    "short-container-title": [
+      "The International Journal of High Performance Computing Applications"
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2021,
+          11
+        ]
+      ]
+    },
+    "abstract": "<jats:p>Efficient exploitation of exascale architectures requires rethinking of the numerical algorithms used in many large-scale applications. These architectures favor algorithms that expose ultra fine-grain parallelism and maximize the ratio of floating point operations to energy intensive data movement. One of the few viable approaches to achieve high efficiency in the area of PDE discretizations on unstructured grids is to use matrix-free/partially assembled high-order finite element methods, since these methods can increase the accuracy and/or lower the computational time due to reduced data motion. In this paper we provide an overview of the research and development activities in the Center for Efficient Exascale Discretizations (CEED), a co-design center in the Exascale Computing Project that is focused on the development of next-generation discretization software and algorithms to enable a wide range of finite element applications to run efficiently on future hardware. CEED is a research partnership involving more than 30 computational scientists from two US national labs and five universities, including members of the Nek5000, MFEM, MAGMA and PETSc projects. We discuss the CEED co-design activities based on targeted benchmarks, miniapps and discretization libraries and our work on performance optimizations for large-scale GPU architectures. We also provide a broad overview of research and development activities in areas such as unstructured adaptive mesh refinement algorithms, matrix-free linear solvers, high-order data visualization, and list examples of collaborations with several ECP and external applications.</jats:p>",
+    "DOI": "10.1177/10943420211020803",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2021,
+          6,
+          10
+        ]
+      ],
+      "date-time": "2021-06-10T20:35:13Z",
+      "timestamp": 1623357313000
+    },
+    "page": "527-552",
+    "update-policy": "https://doi.org/10.1177/sage-journals-update-policy",
+    "source": "Crossref",
+    "is-referenced-by-count": 69,
+    "title": [
+      "Efficient exascale discretizations: High-order finite element methods"
+    ],
+    "prefix": "10.1177",
+    "volume": "35",
+    "author": [
+      {
+        "ORCID": "https://orcid.org/0000-0002-2810-3090",
+        "authenticated-orcid": false,
+        "given": "Tzanio",
+        "family": "Kolev",
+        "sequence": "first",
+        "affiliation": [
+          {
+            "name": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Paul",
+        "family": "Fischer",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Mathematics and Computer Science, Argonne National Laboratory, Lemont, IL, USA"
+          },
+          {
+            "name": "Department of Computer Science, University of Illinois at Urbana-Champaign, Urbana, IL, USA"
+          },
+          {
+            "name": "Department of Mechanical Science and Engineering, University of Illinois at Urbana-Champaign, Urbana, IL, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-5646-5689",
+        "authenticated-orcid": false,
+        "given": "Misun",
+        "family": "Min",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Mathematics and Computer Science, Argonne National Laboratory, Lemont, IL, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Jack",
+        "family": "Dongarra",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Innovative Computing Laboratory, University of Tennessee, Knoxville, TN, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Jed",
+        "family": "Brown",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Department of Computer Science, University of Colorado, Boulder, CO, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Veselin",
+        "family": "Dobrev",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Tim",
+        "family": "Warburton",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Department of Mathematics, Virginia Tech, Blacksburg, VA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Stanimire",
+        "family": "Tomov",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Innovative Computing Laboratory, University of Tennessee, Knoxville, TN, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Mark S",
+        "family": "Shephard",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Scientific Computation Research Center, Rensselaer Polytechnic Institute, Troy, NY, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Ahmad",
+        "family": "Abdelfattah",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Innovative Computing Laboratory, University of Tennessee, Knoxville, TN, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0003-1129-2056",
+        "authenticated-orcid": false,
+        "given": "Valeria",
+        "family": "Barra",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Department of Computer Science, University of Colorado, Boulder, CO, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0001-6060-4082",
+        "authenticated-orcid": false,
+        "given": "Natalie",
+        "family": "Beams",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Innovative Computing Laboratory, University of Tennessee, Knoxville, TN, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Jean-Sylvain",
+        "family": "Camier",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Noel",
+        "family": "Chalmers",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "AMD Research, Austin, TX, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0001-5831-561X",
+        "authenticated-orcid": false,
+        "given": "Yohann",
+        "family": "Dudouit",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Ali",
+        "family": "Karakus",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Mechanical Engineering Department, Middle East Technical University, Ankara, Turkey"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Ian",
+        "family": "Karlin",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Stefan",
+        "family": "Kerkemeier",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Mathematics and Computer Science, Argonne National Laboratory, Lemont, IL, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Yu-Hsiang",
+        "family": "Lan",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Mathematics and Computer Science, Argonne National Laboratory, Lemont, IL, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "David",
+        "family": "Medina",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Occalytics LLC, Weehawken, NJ, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Elia",
+        "family": "Merzari",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Mathematics and Computer Science, Argonne National Laboratory, Lemont, IL, USA"
+          },
+          {
+            "name": "Department of Nuclear Engineering, Penn State, PA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Aleksandr",
+        "family": "Obabko",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Mathematics and Computer Science, Argonne National Laboratory, Lemont, IL, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Will",
+        "family": "Pazner",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Thilina",
+        "family": "Rathnayake",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Department of Computer Science, University of Illinois at Urbana-Champaign, Urbana, IL, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0001-9258-5226",
+        "authenticated-orcid": false,
+        "given": "Cameron W",
+        "family": "Smith",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Innovative Computing Laboratory, University of Tennessee, Knoxville, TN, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Lukas",
+        "family": "Spies",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Department of Computer Science, University of Illinois at Urbana-Champaign, Urbana, IL, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Kasia",
+        "family": "Swirydowicz",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Pacific Northwest National Laboratory, WA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Jeremy",
+        "family": "Thompson",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Department of Computer Science, University of Colorado, Boulder, CO, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Ananias",
+        "family": "Tomboulides",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Mathematics and Computer Science, Argonne National Laboratory, Lemont, IL, USA"
+          },
+          {
+            "name": "Department of Mechanical Engineering, Aristotle University of Thessaloniki, Greece"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Vladimir",
+        "family": "Tomov",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "179",
+    "published-online": {
+      "date-parts": [
+        [
+          2021,
+          6,
+          8
+        ]
+      ]
+    },
+    "reference": [
+      {
+        "key": "bibr1-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.procs.2016.05.302"
+      },
+      {
+        "key": "bibr2-10943420211020803",
+        "unstructured": "Abdelfattah A, Barra V, Beams N, et al. (2020) libCEED User Manual. DOI:10.5281/zenodo.4302737."
+      },
+      {
+        "key": "bibr3-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-3-319-41321-1_2"
+      },
+      {
+        "key": "bibr4-10943420211020803",
+        "unstructured": "Ameen M, Patel S, Colmenares J, et al. (2020) Direct Numerical Simulation (DNS) and high-fidelity large-eddy simulations for improved prediction of in-cylinder flow and combustion processes. Technical report, DOE Vehicle Technologies Office Annual Merit Review."
+      },
+      {
+        "key": "bibr5-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.camwa.2020.06.009"
+      },
+      {
+        "key": "bibr6-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1002/fld.3965"
+      },
+      {
+        "key": "bibr7-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.jcp.2016.12.031"
+      },
+      {
+        "key": "bibr8-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/17M1116453"
+      },
+      {
+        "key": "bibr9-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/s10915-016-0259-9"
+      },
+      {
+        "key": "bibr10-10943420211020803",
+        "unstructured": "Balay S, Abhyankar S, Adams MF, et al. (2019) PETSc Web page. Available at: https://www.mcs.anl.gov/petsc (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr11-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.25080/Majora-342d178e-00c"
+      },
+      {
+        "key": "bibr12-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/P3HPC49587.2019.00012"
+      },
+      {
+        "key": "bibr13-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/18M1194997"
+      },
+      {
+        "key": "bibr14-10943420211020803",
+        "unstructured": "Bonoli P (2020) Center for integrated simulation of fusion relevant RF actuators. Available at: https://www.rfscidac4.org/home (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr15-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/HPEC43674.2020.9286214"
+      },
+      {
+        "key": "bibr16-10943420211020803",
+        "unstructured": "Brown C, Abdelfattah A, Tomov S, et al. (2020b) hipMAGMA v2.0.0. DOI: 10.5281/zenodo.3928667."
+      },
+      {
+        "key": "bibr17-10943420211020803",
+        "unstructured": "Brown J, Dobrev V, Dutta S, et al. (2018) Propose high-order mesh/data format. Technical Report CEED-MS18, Exascale Computing Project. DOI: 10.5281/zenodo.2542346."
+      },
+      {
+        "key": "bibr18-10943420211020803",
+        "unstructured": "Brown J, Dobrev V, Fischer P, et al. (2017) Initial Integration of CEED Software in ECP/CEED Applications. Technical Report CEED-MS8, Exascale Computing Project. DOI: 10.5281/zenodo.2542338."
+      },
+      {
+        "key": "bibr19-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/18M1191373"
+      },
+      {
+        "key": "bibr20-10943420211020803",
+        "unstructured": "Brubeck P, Fischer P (2019) Fast diagonalization preconditioning for nonsymmetric spectral element problems.\n                      ANL/MCS-P9200-0719\n                      ."
+      },
+      {
+        "key": "bibr21-10943420211020803",
+        "unstructured": "Brubeck P, Kaneko K, Lan Y, et al. (2020) Schwarz preconditioned spectral element methods for steady flow and heat transfer.\n                      ANL/MCS-P9199-0719\n                      ."
+      },
+      {
+        "key": "bibr22-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/S0045-7825(94)80004-9"
+      },
+      {
+        "key": "bibr23-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-3-540-30726-6"
+      },
+      {
+        "key": "bibr24-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/18M1193992"
+      },
+      {
+        "key": "bibr25-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/17M1149444"
+      },
+      {
+        "key": "bibr26-10943420211020803",
+        "unstructured": "Chalmers N, Karakus A, Austin AP, et al. (2020) libParanumal: a performance portable high-order finite element library [Software]. Available at: https://github.com/paranumal/libparanumal. Release 0.3.1 (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr27-10943420211020803",
+        "unstructured": "Churchfield M, Lee S, Moriatry P (2000) Adding complex terrain and stable atmospheric condition capability to the OpenFOAM-based flow solver of the simulator for on/offshore wind farm application (SOWFA). Technical Report NREL/CP-5000-58539, NREL."
+      },
+      {
+        "key": "bibr28-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1017/CBO9780511546792"
+      },
+      {
+        "key": "bibr29-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/18M1167206"
+      },
+      {
+        "key": "bibr30-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.compfluid.2020.104602"
+      },
+      {
+        "key": "bibr31-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/120864672"
+      },
+      {
+        "key": "bibr32-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1002/fld.4236"
+      },
+      {
+        "key": "bibr33-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1002/nla.504"
+      },
+      {
+        "key": "bibr34-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/S1064827502412887"
+      },
+      {
+        "key": "bibr35-10943420211020803",
+        "unstructured": "Dongarra J, Duff I, Gates M, et al. (2016) A proposed API for Batched Basic Linear Algebra Subprograms. MIMS EPrint 2016.25, Manchester Institute for Mathematical Sciences, The University of Manchester. Available at: http://eprints.ma.man.ac.uk/2464/ (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr36-10943420211020803",
+        "unstructured": "Dongarra J, Duff I, Gates M, et al. (2018) Batched BLAS (basic linear algebra subprograms) 2018 specification. ICL-UTK technical report. Available at: https://www.icl.utk.edu/files/publications/2018/icl-utk-1170-2018.pdf (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr37-10943420211020803",
+        "author": "Dutta S",
+        "year": "2020",
+        "journal-title": "American Physical Society, Division of Fluid Dynamics"
+      },
+      {
+        "key": "bibr38-10943420211020803",
+        "volume-title": "Curves and Surfaces for Computer-Aided Geometric Design: A Practical Guide",
+        "author": "Farin G",
+        "year": "2014"
+      },
+      {
+        "key": "bibr39-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.2514/6.2018-4167"
+      },
+      {
+        "key": "bibr40-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.2514/6.2015-3049"
+      },
+      {
+        "key": "bibr41-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1177/1094342020915762"
+      },
+      {
+        "key": "bibr42-10943420211020803",
+        "unstructured": "FMS (2020) FMS: High-order field and mesh specification [Software]. Available at: https://github.com/CEED/FMS (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr43-10943420211020803",
+        "unstructured": "Geuzaine C, Remacle JF (2013) Gmsh: a three-dimensional finite element mesh generator with built-in pre- and post-processing facilities [Software]. Available at: http://gmsh.info/ (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr44-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/s10494-019-00067-3"
+      },
+      {
+        "key": "bibr45-10943420211020803",
+        "unstructured": "GLVis (2020) GLVis: OpenGL finite element visualization tool [Software]. Available at: https://glvis.org (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr46-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.cma.2019.112658"
+      },
+      {
+        "key": "bibr47-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.compfluid.2020.104451"
+      },
+      {
+        "key": "bibr48-10943420211020803",
+        "unstructured": "Ibanez D (2016a) Omega_h GitHub repository [Software]. Available at: https://github.com/ibaned/omega_h (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr49-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/2814935"
+      },
+      {
+        "key": "bibr50-10943420211020803",
+        "volume-title": "Conformal Mesh Adaptation on Heterogeneous Supercomputers",
+        "author": "Ibanez DA",
+        "year": "2016"
+      },
+      {
+        "key": "bibr51-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.jcp.2019.03.050"
+      },
+      {
+        "key": "bibr52-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.jcp.2019.04.010"
+      },
+      {
+        "key": "bibr53-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.jcp.2003.08.010"
+      },
+      {
+        "key": "bibr54-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.2172/1614965"
+      },
+      {
+        "key": "bibr55-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.4208/jcm.2009.27.5.013"
+      },
+      {
+        "key": "bibr56-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3322813"
+      },
+      {
+        "key": "bibr57-10943420211020803",
+        "unstructured": "Laghos (2020) Laghos: High-order Lagrangian hydrodynamics miniapp [Software]. Available at: https://github.com/ceed/Laghos (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr58-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/s10915-004-4787-3"
+      },
+      {
+        "key": "bibr59-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/s00366-013-0329-7"
+      },
+      {
+        "key": "bibr60-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/s00366-004-0295-1"
+      },
+      {
+        "key": "bibr61-10943420211020803",
+        "unstructured": "MAGMA (2020) MAGMA: Matrix algebra on gpu and multicore architectures [Software]. Available at: https://icl.utk.edu/magma (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr62-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.ijheatmasstransfer.2019.07.049"
+      },
+      {
+        "key": "bibr63-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-3-319-43659-3_48"
+      },
+      {
+        "key": "bibr64-10943420211020803",
+        "unstructured": "Medina DS, St-Cyr A, Warburton T (2014) OCCA: a unified approach to multi-threading languages.\n                      arXiv preprint arXiv:1403.0968\n                      ."
+      },
+      {
+        "key": "bibr65-10943420211020803",
+        "unstructured": "Merzari E, Rahaman R, Patel S, et al. (2017) Cfd smr assembly performance baselines with nek5000. Technical Report ECP-SE-08-47, DOE ECP ExaSMR Milestone Report."
+      },
+      {
+        "key": "bibr66-10943420211020803",
+        "unstructured": "MFEM (2020) MFEM: Modular finite element methods [Software]. Available at: https://mfem.org (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr67-10943420211020803",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Min M, Camier JS, Fischer P, et al. (2019a) Engage second wave ECP/CEED applications. Technical Report CEED-MS23, Exascale Computing Project. DOI: 10.5281/zenodo.2542359.",
+        "DOI": "10.2172/1845634"
+      },
+      {
+        "key": "bibr68-10943420211020803",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Min M, Fischer P, Tomov V, et al. (2017) Engage first wave ECP/CEED applications. Technical Report CEED-MS1, Exascale Computing Project. DOI: 10.5281/zenodo.2542292.",
+        "DOI": "10.2172/1845634"
+      },
+      {
+        "key": "bibr69-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.2172/1670708"
+      },
+      {
+        "key": "bibr70-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.compfluid.2019.104237"
+      },
+      {
+        "key": "bibr71-10943420211020803",
+        "unstructured": "Nek5000 (2020) Nek: Open source, highly scalable and portable spectral element code [Software]. Available at: https://nek5000.mcs.anl.gov (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr72-10943420211020803",
+        "unstructured": "OCCA (2020) OCCA: lightweight performance portability library [Software]. Available at: https://libocca.org/ (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr73-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/0021-9991(80)90005-4"
+      },
+      {
+        "key": "bibr74-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1177/1094342015626584"
+      },
+      {
+        "key": "bibr75-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/s10915-018-0876-6"
+      },
+      {
+        "key": "bibr76-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/0021-9991(84)90128-1"
+      },
+      {
+        "key": "bibr77-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/100791701"
+      },
+      {
+        "key": "bibr78-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/19M1282052"
+      },
+      {
+        "key": "bibr79-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.jcp.2017.10.030"
+      },
+      {
+        "key": "bibr80-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3126908.3126963"
+      },
+      {
+        "key": "bibr81-10943420211020803",
+        "unstructured": "RAJA (2020) RAJA performance portability layer [Software]. Available at: https://github.com/LLNL/RAJA (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr82-10943420211020803",
+        "unstructured": "Remhos (2020) Remhos: High-order remap miniapp [Software]. Available at: https://github.com/ceed/Remhos (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr83-10943420211020803",
+        "unstructured": "Shephard M, Barra V, Brown J, et al. (2019) Improved Support for Parallel Adaptive Simulation in CEED. Technical Report CEED-MS29, Exascale Computing Project. DOI: 10.5281/zenodo.3336420."
+      },
+      {
+        "key": "bibr84-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1051/epjconf/201715703048"
+      },
+      {
+        "key": "bibr85-10943420211020803",
+        "unstructured": "Simmetrix (2020) Simmetrix: Enabling simulation-based design. Available at: http://www.simmetrix.com/ (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr86-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1002/nla.1979"
+      },
+      {
+        "key": "bibr87-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1177/1094342018816368"
+      },
+      {
+        "key": "bibr88-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.ijheatfluidflow.2018.05.017"
+      },
+      {
+        "key": "bibr89-10943420211020803",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Tomov S, Abdelfattah A, Barra V, et al. (2019) Performance tuning of CEED software and 1st and 2nd wave apps. Technical Report CEED-MS32, Exascale Computing Project. DOI:10.5281/zenodo.3477618.",
+        "DOI": "10.2172/1845636"
+      },
+      {
+        "key": "bibr90-10943420211020803",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Tomov S, Bello-Maldonado P, Brown J, et al. (2018) Performance tuning of CEED software and first wave apps. Technical Report CEED-MS20, Exascale Computing Project. DOI:10.5281/zenodo.2542350.",
+        "DOI": "10.2172/1845653"
+      },
+      {
+        "key": "bibr91-10943420211020803",
+        "unstructured": "Tsai PH, Lan YH, Fisher P, et al. (2020) Drift-diffusion solvers. Part II: STEADY PROBLEMS.\n                      ANL/MCS-P9295-0420\n                      ."
+      },
+      {
+        "key": "bibr92-10943420211020803",
+        "unstructured": "VisIt (2020) VisIt: a distributed, parallel visualization and analysis tool [Software]. Available at: https://visit.llnl.gov. DOI: 10.11578/dc.20171025.on.1019 (accessed 26 May 2021)."
+      },
+      {
+        "key": "bibr93-10943420211020803",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/15M1025785"
+      }
+    ],
+    "container-title": [
+      "The International Journal of High Performance Computing Applications"
+    ],
+    "original-title": [],
+    "language": "en",
+    "link": [
+      {
+        "URL": "https://journals.sagepub.com/doi/pdf/10.1177/10943420211020803",
+        "content-type": "application/pdf",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://journals.sagepub.com/doi/full-xml/10.1177/10943420211020803",
+        "content-type": "application/xml",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://journals.sagepub.com/doi/pdf/10.1177/10943420211020803",
+        "content-type": "application/pdf",
+        "content-version": "vor",
+        "intended-application": "syndication"
+      },
+      {
+        "URL": "https://journals.sagepub.com/doi/pdf/10.1177/10943420211020803",
+        "content-type": "unspecified",
+        "content-version": "vor",
+        "intended-application": "similarity-checking"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2026,
+          4,
+          29
+        ]
+      ],
+      "date-time": "2026-04-29T08:17:14Z",
+      "timestamp": 1777450634000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://journals.sagepub.com/doi/10.1177/10943420211020803"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2021,
+          6,
+          8
+        ]
+      ]
+    },
+    "references-count": 93,
+    "journal-issue": {
+      "issue": "6",
+      "published-print": {
+        "date-parts": [
+          [
+            2021,
+            11
+          ]
+        ]
+      }
+    },
+    "alternative-id": [
+      "10.1177/10943420211020803"
+    ],
+    "URL": "https://doi.org/10.1177/10943420211020803",
+    "relation": {},
+    "ISSN": [
+      "1094-3420",
+      "1741-2846"
+    ],
+    "issn-type": [
+      {
+        "value": "1094-3420",
+        "type": "print"
+      },
+      {
+        "value": "1741-2846",
+        "type": "electronic"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2021,
+          6,
+          8
+        ]
+      ]
+    }
+  }
+}

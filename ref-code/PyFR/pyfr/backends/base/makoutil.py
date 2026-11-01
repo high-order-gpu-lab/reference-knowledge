@@ -1,0 +1,311 @@
+from collections import namedtuple
+from collections.abc import Iterable
+from inspect import signature
+import itertools as it
+import re
+
+from mako.runtime import capture, supports_caller
+import numpy as np
+
+from pyfr.dsl.codegen import CodeGenerator
+from pyfr.dsl.nodes import Var, VarDecl, map_ast
+from pyfr.dsl.rewriter import parse_expr, parse_program, rename_vars
+import pyfr.nputil as nputil
+import pyfr.util as util
+
+
+def carray(context, vals):
+    return '{ ' + ', '.join(map(str, vals)) + ' }'
+
+
+def ndrange(context, *args):
+    return util.ndrange(*args)
+
+
+def ilog2range(context, x):
+    return [2**i for i in range(x.bit_length() - 2, -1, -1)]
+
+
+def npdtype_to_ctype(context, dtype):
+    return nputil.npdtype_to_ctype(dtype)
+
+
+def fpcast(context, expr, src, dst):
+    if src == dst:
+        return expr
+
+    # Route conversions through float: decode a bf16 source, then encode
+    if src == 'bf16':
+        expr = f'bf16_to_f32({expr})'
+
+    if dst == 'bf16':
+        return f'f32_to_bf16({expr})'
+    else:
+        return f'({dst})({expr})'
+
+
+def dot(context, a_, b_=None, /, **kwargs):
+    ix, nd = util.first(kwargs.items())
+    ab = '({})*({})'.format(a_, b_ or a_)
+
+    # Allow for flexible range arguments
+    nd = nd if isinstance(nd, Iterable) else [nd]
+
+    return '(' + ' + '.join(ab.format(**{ix: i}) for i in range(*nd)) + ')'
+
+
+def matvec(context, mat, vec, n, transpose=False):
+    def row(i):
+        return f'{mat}[{{j}}][{i}]' if transpose else f'{mat}[{i}][{{j}}]'
+
+    return [dot(context, row(i), vec, j=n) for i in range(n)]
+
+
+def array(context, expr_, vals_={}, /, **kwargs):
+    ix = util.first(kwargs)
+    ni = kwargs.pop(ix)
+    items = []
+
+    # Allow for flexible range arguments
+    for i in range(*(ni if isinstance(ni, Iterable) else [ni])):
+        if kwargs:
+            items.append(array(context, expr_, vals_ | {ix: i}, **kwargs))
+        else:
+            items.append(expr_.format_map(vals_ | {ix: i}))
+
+    return '{ ' + ', '.join(items) + ' }'
+
+
+def polyfit(context, f, a, b, n, var, nqpts=500):
+    x = np.linspace(a, b, nqpts)
+    y = f(x)
+
+    coeffs = np.polynomial.polynomial.polyfit(x, y, n)
+    pfexpr = f' + {var}*('.join(str(c) for c in coeffs) + ')'*n
+
+    return f'({pfexpr})'
+
+
+Macro = namedtuple('Macro', ['params', 'externs', 'argsig', 'caller', 'id'])
+
+
+def mfilttag(source):
+    apattern = r'(\w+)=[\'"]([^\'"]*)[\'"]'
+
+    def process_tag(match):
+        # Extract all attributes from the opening tag
+        attrs = dict(re.findall(apattern, match[1]))
+
+        # Process params if they exist
+        if 'params' in attrs:
+            params = [p.strip() for p in attrs['params'].split(',')]
+            pyparams = [p[3:] for p in params if p.startswith('py:')]
+            params = [p for p in params if not p.startswith('py:')]
+
+            attrs['params'] = ', '.join(params)
+            if pyparams:
+                attrs['args'] = ', '.join(pyparams)
+
+        # Add the ID attribute
+        attrs['id'] = util.digest(match[0])
+
+        # Reconstruct the opening tag and append the body
+        attrstr = ' '.join(f'{k}="{v}"' for k, v in attrs.items())
+        return f'<%pyfr:macro {attrstr}>{match[2]}'
+
+    mpattern = r'(<%pyfr:macro\s+[^>]+>)(.*?</%pyfr:macro>)'
+    return re.sub(mpattern, process_tag, source, flags=re.S)
+
+
+@supports_caller
+def macro(context, name, params, externs='', id=''):
+    # Check for existing registration and multiple definitions
+    if name in context['_macros']:
+        # Check for multiple definitions of macro name
+        if context['_macros'][name].id != id:
+            raise ValueError(f'Attempt to redefine macro {name!r}')
+
+        # Already registered, just return (allow multiple includes)
+        return ''
+
+    # Parse and validate params/externs
+    params = [p.strip() for p in params.split(',')]
+    externs = [e.strip() for e in externs.split(',')] if externs else []
+
+    # Ensure no invalid characters in params/extern variables
+    for p in it.chain(params, externs):
+        if not re.match(r'[A-Za-z_]\w*$', p):
+            raise ValueError(f'Invalid param {p!r} in macro {name!r}')
+
+    # Extract signature from callable for Python variables
+    argsig = signature(context['caller'].body)
+
+    # Register the macro with an empty ids set
+    context['_macros'][name] = Macro(params, externs, argsig,
+                                     context['caller'].body, id)
+    return ''
+
+
+def _parse_expand_args(name, mparams, margsig, args, kwargs):
+    margs = list(margsig.parameters)
+
+    # Separate kwargs into params and Python data params
+    if unknown := set(kwargs) - set(mparams) - set(margs):
+        errs = [ValueError(f'Unknown parameter {u!r}') for u in unknown]
+        raise ExceptionGroup(f'In macro: {name}', errs)
+
+    paramskw = {k: v for k, v in kwargs.items() if k in mparams}
+    pyparamskw = {k: v for k, v in kwargs.items() if k in margs}
+
+    # Build params dict from positional args and kwargs
+    # Positional args fill in params first, then any remaining go to pyparams
+    nparamspos = len(mparams) - len(paramskw)
+    params = dict(zip(mparams, args[:nparamspos]), **paramskw)
+
+    # Check we got all params
+    if len(params) != len(mparams):
+        raise ExceptionGroup(f'In macro: {name}',
+                             [ValueError('Incomplete or duplicate params')])
+
+    # Parse pyparams
+    try:
+        bound = margsig.bind(*args[nparamspos:], **pyparamskw)
+        pyparams = dict(bound.arguments)
+    except TypeError as e:
+        raise ExceptionGroup(f'In macro: {name}', [e])
+
+    return params, pyparams
+
+
+def expand(context, name, /, *args, **kwargs):
+    mdef = context['_macros'][name]
+
+    # Parse arguments
+    params, pyparams = _parse_expand_args(name, mdef.params, mdef.argsig,
+                                          args, kwargs)
+
+    # Call macro callable with Python data
+    try:
+        body = capture(context, mdef.caller, **pyparams)
+    except Exception as e:
+        raise ExceptionGroup(f'In macro: {name}', [e]) from None
+
+    # Parse the body into an AST
+    ast = parse_program(body)
+
+    # Identify local variable declarations and the names in use
+    lvars, used = [], set()
+
+    def collect(node):
+        if isinstance(node, VarDecl):
+            lvars.append(node.name)
+        elif isinstance(node, Var):
+            used.add(node.name)
+        return map_ast(node, collect)
+
+    collect(ast)
+
+    # Suffix these variables by a '_'
+    if lvars:
+        renames = {v: Var(v + '_') for v in lvars}
+        ast = rename_vars(ast, renames)
+        used = {u + '_' if u in renames else u for u in used}
+
+    # Ensure all (used) external parameters have been passed to the kernel
+    for extrn in mdef.externs:
+        if extrn not in context['_extrns'] and extrn in used:
+            raise ExceptionGroup(f'In macro: {name}',
+                                 [ValueError(f'Missing external {extrn!r}')])
+
+    # Rename local parameters
+    renames = {p: parse_expr(str(v)) for p, v in params.items()}
+    ast = rename_vars(ast, renames)
+
+    return '{\n' + CodeGenerator().generate(ast) + '\n}'
+
+
+@supports_caller
+def fp_precise(context):
+    body = capture(context, context['caller'].body)
+
+    return '#pragma pyfr fp-precise\n{\n' + body + '\n}'
+
+
+@supports_caller
+def gpukernel(context, name, bounds=None, kargs=None, **kwargs):
+    body = capture(context, context['caller'].body)
+
+    if kargs:
+        specs = [s.strip().rsplit(None, 1) for s in kargs.split(',')]
+        args = [(n, *s.split(None, 1)) for s, n in specs]
+    else:
+        args = [(n, *s.split(None, 1)) for n, s in kwargs.items()]
+
+    ns = context['local']
+    pctx = ns.context
+
+    decl = capture(pctx, ns._kdecl, name, bounds).strip()
+    decls = [capture(pctx, ns._karg, intent, dtype, argname).strip()
+             for argname, intent, dtype in args]
+
+    if hasattr(ns, '_kextra'):
+        extra = capture(pctx, ns._kextra, body).strip()
+        if extra:
+            decls.append(extra)
+
+    astr = ',\n    '.join(decls)
+    return f'{decl}(\n    {astr})\n{{\n{body}\n}}'
+
+
+@supports_caller
+def kernel(context, name, ndim, kargs={}, **kwargs):
+    extrns = context['_extrns']
+
+    # Merge any argument declarations computed by the template
+    kwargs = kargs | kwargs
+
+    # Validate the argument list
+    if any(arg in extrns for arg in kwargs):
+        raise ValueError('Duplicate argument in {0}: {1} {2}'
+                         .format(name, list(kwargs), list(extrns)))
+
+    # Merge local and external arguments
+    kwargs = dict(kwargs, **extrns)
+
+    # Capture the kernel body
+    try:
+        body = capture(context, context['caller'].body)
+    except Exception as e:
+        raise ExceptionGroup(f'In kernel: {name}', [e]) from None
+
+    # Get the generator class and data types
+    kerngen = context['_kernel_generator']
+    fpdtype, ixdtype = context['fpdtype'], context['ixdtype']
+
+    # Instantiate
+    kern = kerngen(name, int(ndim), kwargs, body, fpdtype, ixdtype,
+                   context['soasz'])
+
+    # Save the argument/type list and region kinds for later use
+    context['_kernel_meta'][name] = (kern.argspec(), kern.regions)
+
+    # Render and return the complete kernel
+    return kern.render()
+
+
+def alias(context, name, func):
+    context['_macros'][name] = context['_macros'][func]
+    return ''
+
+
+def soa_ix(context, a, v, nv):
+    sz = context['soasz']
+    return f'(((({a}) / {sz})*({nv}) + ({v}))*{sz} + ({a}) % {sz})'
+
+
+def tiled_idx(context, e, r, c, trows, tcols, padr, padc):
+    telem = trows*tcols
+    rowblk = (padc // tcols)*telem
+    return (f'(ixdtype_t){e}*{padr*padc} + ({r} / {trows})*{rowblk}'
+            f' + ({c} / {tcols})*{telem} + ({r} % {trows})*{tcols}'
+            f' + ({c} % {tcols})')

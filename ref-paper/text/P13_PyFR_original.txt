@@ -1,0 +1,1793 @@
+                                                  PyFR: An Open Source Framework for Solving
+                                                 Advection-Diffusion Type Problems on Streaming
+                                                   Architectures using the Flux Reconstruction
+arXiv:1312.1638v2 [physics.comp-ph] 7 May 2014
+
+
+
+
+                                                                    Approach
+                                                                 F. D. Witherden∗, A. M. Farrington, P. E. Vincent
+
+                                                              Department of Aeronautics, Imperial College London, SW7 2AZ
+
+                                                                                     October 30, 2018
+
+
+
+                                                                                           Abstract
+                                                           High-order numerical methods for unstructured grids combine the su-
+                                                       perior accuracy of high-order spectral or finite difference methods with the
+                                                       geometric flexibility of low-order finite volume or finite element schemes.
+                                                       The Flux Reconstruction (FR) approach unifies various high-order schemes
+                                                       for unstructured grids within a single framework. Additionally, the FR ap-
+                                                       proach exhibits a significant degree of element locality, and is thus able to
+                                                       run efficiently on modern streaming architectures, such as Graphical Pro-
+                                                       cessing Units (GPUs). The aforementioned properties of FR mean it offers
+                                                       a promising route to performing affordable, and hence industrially relevant,
+                                                       scale-resolving simulations of hitherto intractable unsteady flows within the
+                                                       vicinity of real-world engineering geometries. In this paper we present PyFR,
+                                                       an open-source Python based framework for solving advection-diffusion type
+                                                       problems on streaming architectures using the FR approach. The framework
+                                                       is designed to solve a range of governing systems on mixed unstructured
+                                                       grids containing various element types. It is also designed to target a range
+                                                       of hardware platforms via use of an in-built domain specific language based
+                                                       on the Mako templating engine. The current release of PyFR is able to solve
+                                                       the compressible Euler and Navier-Stokes equations on grids of quadrilateral
+                                                       and triangular elements in two dimensions, and hexahedral elements in three
+                                                       dimensions, targeting clusters of CPUs, and NVIDIA GPUs. Results are
+                                                       presented for various benchmark flow problems, single-node performance is
+                                                       discussed, and scalability of the code is demonstrated on up to 104 NVIDIA
+                                                       M2090 GPUs. The software is freely available under a 3-Clause New Style
+                                                       BSD license (see www.pyfr.org).
+
+                                                     Keywords: High-order; Flux reconstruction; Parallel algorithms; Heterogeneous computing
+
+                                                 ∗
+                                                     Corresponding author; e-mail freddie.witherden08@imperial.ac.uk.
+
+
+                                                                                               1
+Program Description
+Authors F. D. Witherden, A. M. Farrington, P. E. Vincent
+
+Program title PyFR v0.1.0
+
+Licensing provisions New Style BSD license
+
+Programming language Python, CUDA and C
+
+Computer Variable, up to and including GPU clusters
+
+Operating system Recent version of Linux/UNIX
+
+RAM Variable, from hundreds of megabytes to gigabytes
+
+Number of processors used Variable, code is multi-GPU and multi-CPU aware
+    through a combination of MPI and OpenMP
+
+External routines/libraries Python 2.7, numpy, PyCUDA, mpi4py, SymPy, Mako
+
+Nature of problem Compressible Euler and Navier-Stokes equations of fluid dy-
+     namics; potential for any advection-diffusion type problem.
+
+Solution method High-order flux reconstruction approach suitable for curved,
+      mixed, unstructured grids.
+
+Unusual features Code makes extensive use of symbolic manipulation and run-
+    time code generation through a domain specific language.
+
+Running time Many small problems can be solved on a recent workstation in
+    minutes to hours.
+
+
+Nomenclature
+Throughout we adopt a convention in which dummy indices on the right hand side
+of an expression are summed. For example Ci jk = Ai jl Bilk ≡ l Ai jl Bilk where the
+                                                             P
+limits are implied from the surrounding context. All indices are assumed to be
+zero-based.
+
+Functions.                                   n       Element number
+δi j  Kronecker delta                        α       Field variable number
+det A Matrix determinant                     i, j, k Summation indices
+dim A Matrix dimensions                      ρ, σ, ν Summation indices
+
+Indices.                                     Domains.
+e      Element type                          Ω    Solution domain
+
+
+                                         2
+Ωe       All elements in Ω of type e         Adornments and suffixes.
+Ω̂e      A standard element of type e        ˜      A quantity in transformed space
+∂Ω̂e     Boundary of Ω̂e                     ˆ      A vector quantity of unit
+Ωen      Element n of type e in Ω                    magnitude
+|Ωe |    Number of elements of type e        T      Transpose
+                                              (u)   A quantity at a solution point
+Expansions.                                  ( f ) A quantity at a flux point
+℘          Polynomial order                  ( f⊥ ) A normal quantity at a flux point
+ND         Number of spatial dimensions
+NV         Number of field variables         Operators.
+`eρ        Nodal basis polynomial ρ for ele- Cα    Common solution at an interface
+           ment type e                       Fα    Common normal flux at an
+x, y, z Physical coordinates                       interface
+x̃, ỹ, z̃ Transformed coordinates
+Men Transformed to physical mapping
+
+
+
+1       Introduction
+There is an increasing desire amongst industrial practitioners of computational fluid
+dynamics (CFD) to undertake high-fidelity scale-resolving simulations of transient
+compressible flows within the vicinity of complex geometries. For example, to
+improve the design of next generation unmanned aerial vehicles (UAVs), there
+exists a need to perform simulations—at Reynolds numbers 104 –107 and Mach
+numbers M ∼ 0.1–1.0—of highly separated flow over deployed spoilers/air-brakes;
+separated flow within serpentine intake ducts; acoustic loading in weapons bays;
+and flow over entire UAV configurations at off-design conditions. Unfortunately,
+current generation industry-standard CFD software based on first- or second-order
+accurate Reynolds Averaged Navier-Stokes (RANS) approaches is not well suited to
+performing such simulations. Henceforth, there has been significant interest in the
+potential of high-order accurate methods for unstructured mixed grids, and whether
+they can offer an efficient route to performing scale-resolving simulations within
+the vicinity of complex geometries. Popular examples of high-order schemes for
+unstructured mixed grids include the discontinuous Galerkin (DG) method, first
+introduced by Reed and Hill [1], and the spectral difference (SD) methods originally
+proposed under the moniker ‘staggered-gird Chebyshev multidomain methods’ by
+Kopriva and Kolias in 1996 [2] and later popularised by Sun et al. [3]. In 2007
+Huynh proposed the flux reconstruction (FR) approach [4]; a unifying framework
+for high-order schemes for unstructured grids that incorporates both the nodal DG
+schemes of [5] and, at least for a linear flux function, any SD scheme. In addition
+to offering high-order accuracy on unstructured mixed grids, FR schemes are also
+compact in space, and thus when combined with explicit time marching offer a
+significant degree of element locality. As such, explicit high-order FR schemes are
+
+
+                                         3
+                    105     Measure
+                                 Peak FLOPS
+    MFLOP/s, MB/s
+
+
+                    104          Peak bandwidth
+
+
+                    103
+
+
+                    102
+
+
+                          1994        1997        2000   2003     2006   2009   2012
+                                                           Year
+
+Figure 1. Trends in the peak floating point performance (double precision) and
+memory bandwidth of sever-class Intel processors from 1994–2013. The quotient
+of these two measures yields the FLOPS-per-byte of a processor. Data courtesy of
+Jan Treibig.
+
+
+characterised by a large degree of structured computation.
+     Over the past two decades improvements in the arithmetic capabilities of pro-
+cessors have significantly outpaced advances in random access memory. Algo-
+rithms which have traditionally been compute bound—such as dense matrix-vector
+products—are now limited instead by the bandwidth to/from memory. This is epito-
+mised in Figure 1. Whereas the processors of two decades ago had FLOPS-per-byte
+of ∼0.2 more recent chips have ratios upwards of ∼4. This disparity is not limited
+to just conventional CPUs. Massively parallel accelerators and co-processors such
+as the NVIDIA K20X and Intel Xeon Phi 5110P have ratios of 5.24 and 3.16,
+respectively.
+     A concomitant of this disparity is that modern hardware architectures are highly
+dependent on a combination of high speed caches and/or shared memory to maintain
+throughput. However, for an algorithm to utilise these efficiently its memory access
+pattern must exhibit a degree of either spatial or temporal locality. To a first-order
+approximation the spatial locality of a method is inversely proportional to the
+amount of memory indirection. On an unstructured grid indirection arises whenever
+there is coupling between elements. This is potentially a problem for discretisations
+whose stencil is not compact. Coupling also arises in the context of implicit time
+stepping schemes. Implementations are therefore very often bound by memory
+bandwidth. As a secondary trend we note that the manner in which FLOPS are
+realised has also changed. In the early 1990s commodity CPUs were predominantly
+scalar with a single core of execution. However in 2013 processors with eight or
+more cores are not uncommon. Moreover, the cores on modern processors almost
+always contain vector processing units. Vector lengths up to 256-bits, which permit
+up to four double precision values to be operated on at once, are not uncommon.
+It is therefore imperative that compute-bound algorithms are amenable to both
+multithreading and vectorisation. A versatile means of accomplishing this is by
+
+                                                         4
+breaking the computation down into multiple, necessarily independent, streams.
+By virtue of their independence these streams can be readily divided up between
+cores and vector lanes. This leads directly to the concept of stream processing.
+We will refer to architectures amenable to this form of parallelisation as streaming
+architectures.
+    A corollary of the above discussion is that compute intensive discretisations
+which can be formulated within the stream processing paradigm are well suited to
+acceleration on current—and likely future—hardware platforms. The FR approach
+combined with explicit time stepping is an archetypical of this.
+    Our objective in this paper is to present PyFR, an open-source Python based
+framework for solving advection-diffusion type problems on streaming architectures
+using the FR approach. The framework is designed to solve a range of governing
+systems on mixed unstructured grids containing various element types. It is also
+designed to target a range of hardware platforms via use of an in-built domain
+specific language derived from the Mako templating engine. The current release
+of PyFR is able to solve the compressible Euler and Navier-Stokes equations on
+unstructured grids of quadrilateral and triangular elements in two-dimensions, and
+unstructured grids of hexahedral elements in three-dimensions, targeting clusters
+of CPUs, and NVIDIA GPUs. The paper is structured as follows. In section 2 we
+provide a overview of the FR approach for advection-diffusion type problems on
+mixed unstructured grids. In section 3 we proceed to describe our implementation
+strategy, and in section 4 we present the Euler and Navier-Stokes equations, which
+are solved by the current release of PyFR. The framework is then validated in
+section 5, single-node performance is discussed in section 6, and scalability of the
+code is demonstrated on up to 104 NVIDIA M2090 GPUs in section 7. Finally,
+conclusions are drawn in section 8.
+
+
+2    Flux Reconstruction
+A brief overview of the FR approach for solving advection-diffusion type problems
+is given below. Extended presentations can be found elsewhere [4, 6, 7, 8, 9, 10, 11,
+12, 13, 14].
+     Consider the following advection-diffusion problem inside an arbitrary domain
+Ω in ND dimensions
+                                   ∂uα
+                                       + ∇ · fα = 0,                                  (1)
+                                    ∂t
+where 0 ≤ α < NV is the field variable index, uα = uα (x, t) is a conserved quantity,
+fα = fα (u, ∇u) is the flux of this conserved quantity and x = xi ∈ RND . In defining
+the flux we have taken u in its unscripted form to refer to all of the NV field variables
+and ∇u to be an object of length ND × NV consisting of the gradient of each field
+
+
+
+
+                                           5
+variable. We start by rewriting Equation 1 as a first order system
+                                   ∂uα
+                                       + ∇ · fα (u, q) = 0,                                      (2a)
+                                    ∂t
+                                          qα − ∇uα = 0,                                          (2b)
+
+where q is an auxiliary variable. Here, as with ∇u, we have taken q in its unsub-
+scripted form to refer to the gradients of all of the field variables.
+    Take E to be the set of available element types in RND . Examples include
+quadrilaterals and triangles in two dimensions and hexahedra, prisms, pyramids
+and tetrahedra in three dimensions. Consider using these various elements types to
+construct a conformal mesh of the domain such that
+          [                                  |Ω[
+                                               e |−1                     \ |Ω\
+                                                                             e |−1
+
+     Ω=         Ωe       and        Ωe =               Ωen     and                    Ωen = ∅,
+          e∈E                                 n=0                        e∈E n=0
+
+where Ωe refers to all of the elements of type e inside of the domain, |Ωe | is the
+number of elements of this type in the decomposition, and n is an index running
+over these elements with 0 ≤ n < |Ωe |. Inside each element Ωen we require that
+                                     ∂uenα
+                                           + ∇ · fenα = 0,                                       (3a)
+                                      ∂t
+                                       qenα − ∇uenα = 0.                                         (3b)
+
+     It is convenient, for reasons of both mathematical simplicity and computational
+efficiency, to work in a transformed space. We accomplish this by introducing,
+for each element type, a standard element Ω̂e which exists in a transformed space,
+x̃ = x̃i . Next, assume the existence of a mapping function for each element such that
+
+                      xi = Meni (x̃),                          x = Men (x̃),
+                      x̃i = M−1
+                             eni (x),                          x̃ = M−1
+                                                                     en (x),
+
+along with the relevant Jacobian matrices
+                                 ∂Meni
+                Jen = Jeni j =           ,                   Jen = det Jen ,
+                                  ∂ x̃ j
+                                 ∂M−1
+                                    eni                                         1
+                J−1    −1
+                 en = Jeni j =          ,                     −1
+                                                             Jen = det J−1
+                                                                        en =       .
+                                  ∂x j                                         Jen
+These definitions provide us with a means of transforming quantities to and from
+standard element space. Taking the transformed solution, flux, and gradients inside
+each element to be
+
+                 ũenα = ũenα (x̃, t) = Jen (x̃)uenα (Men (x̃), t),                             (4a)
+                  f̃enα = f̃enα (x̃, t) = Jen (x̃)J−1
+                                                   en (Men (x̃))fenα (Men (x̃), t),              (4b)
+                                            T
+                 q̃enα = q̃enα (x̃, t) = Jen (x̃)qenα (Men (x̃), t),                             (4c)
+
+
+                                                    6
+                            y
+
+
+                                    x
+
+
+
+Figure 2. Solution points (blue circles) and flux points (orange squares) for a triangle
+and quadrangle in physical space. For the top edge of the quadrangle the normal
+vectors have been plotted. Observe how the flux points at the interface between the
+two elements are co-located.
+
+            ˜ = ∂/∂ x̃i , it can be readily verified that
+and letting ∇
+                                   ∂uenα     −1 ˜
+                                         + Jen  ∇ · f̃enα = 0,                                (5a)
+                                    ∂t
+                                                  ˜ enα = 0,
+                                         q̃enα − ∇u                                           (5b)
+
+as required. We note here the decision to multiply the first equation through by a
+            −1 . Doing so has the effect of taking ũ 7→ u which allows us to work
+factor of Jen                                           en      en
+in terms of the physical solution. This is more convenient from a computational
+standpoint.
+    We next proceed to associate a set of solution points with each standard element.
+For each type e ∈ E take { x̃(u)
+                               eρ } to be the chosen set of points where 0 ≤ ρ < Ne (℘).
+                                                                                           (u)
+                                                                             (u)
+These points can then be used to construct a nodal basis set { `eρ               (x̃) } with the
+                 (u) (u)
+property that `eρ (x̃eσ ) = δρσ . To obtain such a set we first take { ψeσ (x̃) } to be any
+basis which spans a selected order ℘ polynomial space defined inside Ω̂e . Next we
+compute the elements of the generalised Vandermonde matrix Veρσ = ψeρ (x̃(u)                   eσ ).
+                                                             (u)           −1 ψ (x̃). Along
+With these a nodal basis set can be constructed as `eρ           (x̃) = Veρσ     eσ
+with the solution points inside of each element we also define a set of flux points
+                                                                                     (f)
+on ∂Ω̂e . We denote the flux points for a particular element type as { x̃eρ } where
+            (f)
+0 ≤ ρ < Ne (℘). Let the set of corresponding normalised outward-pointing normal
+                          (f)
+vectors be given by { ñˆ eρ }. It is critical that each flux point pair along an interface
+share the same coordinates in physical space. For a pair of flux points eρn and e0 ρ0 n0
+                                                                       (f)               (f)
+at a non-periodic interface this can be formalised as Men (x̃eρ ) = Me0 n0 (x̃e0 ρ0 ). A
+pictorial illustration of this can be seen in Figure 2.
+    The first step in the FR approach is to go from the discontinuous solution at the
+solution points to the discontinuous solution at the flux points
+                                        (f)               (f)
+                                    ueσnα = u(u)   (u)
+                                             eρnα `eρ (x̃eσ ),                                 (6)
+
+where u(u)
+       eρnα is an approximate solution of field variable α inside of the nth element
+
+
+                                                 7
+of type e at solution point x̃(u)
+                              eρ . This can then be used to compute a common solution
+
+                            (f)           (f)          (f)     (f)
+                        Cα ueρnα = Cα ueg
+                                        ρnα
+                                            = Cα (ueρnα , ueg
+                                                            ρnα
+                                                                ),                     (7)
+
+where Cα (uL , uR ) is a scalar function that given two values at a point returns a
+common value. Here we have taken eg      ρn to be the element type, flux point number
+and element number of the adjoining point at the interface. Since grids in FR are
+permitted to be unstructured the relationship between eρn and eg     ρn is indirect. This
+necessitates the use of a lookup table. As the common solution function is permitted
+to perform upwinding or downwinding of the solution it is in general the case that
+     (f)     (f)           (f)   (f)
+Cα (ueρnα , ueg
+              ρnα
+                  ) , Cα (ueg  ,u
+                            ρnα eρnα
+                                     ). Hence, it is important that each flux point pair
+                                                                                      (f)
+only be visited once with the same common solution value assigned to both Cα ueρnα
+         (f)
+and Cα ueg
+         ρnα
+             .
+                                                                                     (f)
+   Further, associated with each flux point is a vector correction function geρ (x̃)
+constrained such that
+                                 (f)   (f) (f)
+                             ñˆ eσ · geρ (x̃eσ ) = δρσ ,                       (8)
+with a divergence that sits in the same polynomial space as the solution. Using these
+fields we can express the solution to Equation 5b as
+                                                                              
+                      (f) ˜     (f)          (f)      (f)       (u) ˜ (u)
+         q̃(u)      ˆ
+                                         n                 o
+           eσnα =   ñeρ · ∇ · geρ  (x̃)  C u
+                                           α eρnα − u eρnα   + ueνnα ∇`eν (x̃)   (u)
+                                                                                     , (9)
+                                                                           x̃=x̃eσ
+
+where the term inside the curly brackets is the ‘jump’ at the interface and the final
+term is an order ℘ − 1 approximation of the gradient obtained by differentiating the
+discontinuous solution polynomial. Following the approaches of Kopriva [15] and
+Sun et al. [3] we can now compute physical gradients as
+
+                                  q(u)     −T (u) (u)
+                                   eσnα = Jeσn q̃eσnα ,                               (10)
+                                   (f)     (u) ( f ) (u)
+                                  qeσnα = `eρ (x̃eσ )qeρnα ,                          (11)
+           (u)    −T (u)
+where J−T
+        eσn = Jen (x̃eσ ). Having solved the auxiliary equation we are now able to
+evaluate the transformed flux
+                              (u)     (u) −1 (u)    (u)    (u)
+                            f̃eρnα = Jeρn Jeρn fα (ueρn , qeρn ),                     (12)
+        (u)
+where Jeρn  = det Jen (x̃(u)
+                         eρ ). This can be seen to be a collocation projection of the
+flux. With this it is possible to compute the normal transformed flux at each of the
+flux points
+                                 ( f⊥ )    (u) ( f ) ˆ ( f )  (u)
+                               f˜eσnα   = `eρ (x̃eσ )ñeσ · f̃eρnα .             (13)
+Considering the physical normals at the flux points we see that
+                             (f)    (f) (f)      −T ( f ) ( f )
+                            neσn = neσn n̂eσn = Jeσn ñˆ eσ ,                         (14)
+                                                                               (f)
+which is the outward facing normal vector in physical space where neσn > 0 is
+defined as the magnitude. As the interfaces between two elements conform we must
+
+                                                8
+       (f)        (f)
+have n̂eσn = −n̂eσn . With these definitions we are now in a position to specify an
+expression for the common normal flux at a flux point pair as
+                 g
+
+
+                    (f )              (f )              (f)   (f)   (f)   (f)   (f)
+               Fα feσnα
+                     ⊥
+                        = −Fα feσnα
+                               g
+                                 ⊥
+                                    = Fα (ueσn , ueσn
+                                                  g
+                                                      , qeσn , qeσn
+                                                                g
+                                                                    , n̂eσn ).                  (15)
+                           (f )              (f )
+The relationship Fα feσnα     ⊥
+                                   = −Fα feσnα
+                                            ⊥
+                                                arises from the desire for the resulting nu-
+merical scheme to be conservative; a net outward flux from one element must be
+                                          g
+
+balanced by a corresponding inward flux on the adjoining element. It follows that
+that Fα (uL , uR , qL , qR , n̂L ) = −Fα (uR , uL , qR , qL , −n̂L ). The common normal fluxes
+in Equation 15 can now be taken into transformed space via
+                                       ( f⊥ )    (f) (f)      ( f⊥ )
+                                  Fα f˜eσnα   = Jeσn neσn Fα feσnα   ,                          (16)
+                                       ( f⊥ )    (f) (f)     ( f⊥ )
+                                  Fα f˜eσnα
+                                       g
+                                              = Jeσn n g Fα feσnα
+                                                 g eσn       g
+                                                                    ,                           (17)
+         (f)                (f)
+where Jeσn = det Jen (x̃eσ ).
+    It is now possible to compute an approximation for the divergence of the
+continuous flux. The procedure is directly analogous to the one used to calculate
+the transformed gradient in Equation 9
+                                                                       
+        ˜     (u)     ˜    (f)         ( f⊥ )  ( f⊥ )         ˜
+                                                      o (u)     (u)
+                                      ˜       ˜
+                                 n
+      (∇ · f̃)eρnα = ∇ · geσ (x̃) Fα feσnα − feσnα + f̃eνnα · ∇`eν (x̃)   (u)
+                                                                              , (18)
+                                                                                      x̃=x̃eρ
+
+which can then be used to obtain a semi-discretised form of the governing system
+
+                                  ∂u(u)
+                                    eρnα     −1 (u) ˜
+                                         = −Jeρn   (∇ · f̃)(u)
+                                                           eρnα ,                               (19)
+                                    ∂t
+         −1 (u)              (u)       (u)
+where Jeρn      = det J−1
+                       en (x̃eρ ) = 1/Jeρn .
+     This semi-discretised form is simply a system of ordinary differential equations
+in t and can be solved using one of a number of schemes, e.g. a classical fourth
+order Runge-Kutta (RK4) scheme.
+
+
+3     Implementation
+3.1    Overview
+PyFR is a Python based implementation of the FR approach described in section
+section 2. It is designed to be compact, efficient, and platform portable. Key
+functionality is summarised in table Table 1.
+    The majority of operations within an FR step can be cast in terms of matrix-
+matrix multiplications, as detailed in Appendix A. All remaining operations (e.g.
+flux evaluations) are point-wise, concerning themselves with either a single solution
+point inside of an element or two collocating flux points at an interface. Hence, in
+broad terms, there are five salient aspects of an FR implementation, specifically i.)
+definition of the constant operator matrices detailed in Appendix A, ii.) specification
+
+                                                    9
+                        Table 1. Key functionality of PyFR.
+
+            Dimensions        2D, 3D
+               Elements       Triangles, Quadrilaterals, Hexahedra
+           Spatial orders     Arbitrary
+          Time steppers       Euler, RK4, DOPRI5
+              Precisions      Single, Double
+              Platforms       CPUs via C/OpenMP, Nvidia GPUs via CUDA
+        Communication         MPI
+      Governing Systems       Euler, Compressible Navier-Stokes
+
+
+of the state matrices detailed in Appendix A, iii.) implementation of matrix multiply
+kernels, iv.) implementation of point-wise kernels, and finally v.) handling of
+distributed memory parallelism and scheduling of kernel invocations. Details
+regarding how each of the above were achieved in PyFR are presented below.
+
+3.2   Definition of Constant Operator Matrices
+Setup of the seven constant operator matrices detailed in Appendix A requires
+evaluation of various polynomial expressions, and their derivatives, at solution/flux
+points within each type of standard element. Although conceptually simple, such
+operations can be cumbersome to code. To keep the codebase compact PyFR makes
+extensive use of symbolic manipulation via SymPy [16], which brings computer
+algebra facilities similar to those found in Maple and Mathematica to Python.
+SymPy has built-in support for most common polynomials and can readily evaluate
+such expressions to arbitrary precision. Efficiency of the setup phase is not critical,
+since the operations are only performed once at start-up. Since efficiency is not
+critical, platform portability is effectively achieved by running such operations on
+the host CPU in all cases.
+
+3.3   Specification of State Matrices
+In specifying the state matrices detailed in Appendix A there is a degree of freedom
+regarding how the field variables of each element are packed along a row. The
+packing of field variables can be characterised by considering the distance, ∆ j (in
+columns) between two subsequent field variables for a given element. The case of
+∆ j = 1 corresponds to the array of structures (AoS) packing whereas the choice of
+∆ j = |Ωe | leads to the structure of arrays (SoA) packing. A hybrid approach wherein
+∆ j = k with k being constant results in the AoSoA(k) approach. An implementation
+is free to chose between any of these counting patterns so long as it is consistent.
+For simplicity PyFR uses the SoA packing order across all platforms.
+
+
+
+
+                                         10
+3.4   Matrix Multiplication Kernels
+PyFR defers matrix multiplication to the GEMM family of sub-routies provided
+a suitable Basic Linear Algebra Subprograms (BLAS) library. BLAS is available
+for virtually all platforms and optimised versions are often maintained by the
+hardware vendors themselves (e.g. cuBLAS for Nvidia GPUs). This approach
+greatly facilitates development of efficient and platform portable code. We note,
+however, that the matrix sizes encountered in PyFR are not necessarily optimal from
+a GEMM perspective. Specifically, GEMM is optimised for the multiplication of
+large square matrices, whereas the constant operator matrixes in PyFR are ‘small and
+square’ with 10–100 rows/columns, and the state matrices are ‘short and fat’ with
+10–100 rows and 10 000–100 000 columns. Moreover, we note that the constant
+operator matrices are know a priori, and do not change in time. This a priori
+knowledge could, in theory, be leveraged to design bespoke matrix multiply kernels
+that are more efficient than GEMM. Development of such bespoke kernels will be
+a topic of future research - with results easily integrated into PyFR as an optional
+replacement for GEMM.
+
+3.5   Point-Wise Kernels
+Point-wise kernels are specified using a domain specific language implemented in
+PyFR atop of the Mako templating engine [17]. The templated kernels are then
+interpreted at runtime, converted to low-level code, compiled, linked and loaded.
+Currently the templating engine can generate C/OpenMP to target CPUs, and CUDA
+(via the PyCUDA wrapper [18]) to target Nvidia GPUs. Use of a domain specific
+language avoids implementation of each point-wise kernel for each target platform;
+keeping the codebase compact and platform portable. Runtime code generation also
+means it is possible to instruct the compiler to emit binaries which are optimised for
+the current hardware architecture. Such optimisations can result in anything up to a
+fourfold improvement in performance when compared with architectural defaults.
+    As an example of a point-wise kernel we consider the evaluation of the right
+                                              −1 (u) ˜
+hand side of Equation 19, which reads −Jeρn         (∇ · f̃)(u)
+                                                            eρnα . The operation consists
+of a point-wise multiplication between the negative reciprocal of the Jacobian and
+the transformed divergence of the flux at each solution point. Figure 3 shows how
+such a kernel can be expressed in the domain specific language of PyFR. There
+are several points of note. Firstly, the kernel is purely scalar in nature. This is by
+design; in PyFR point-wise kernels need only prescribe the point-wise operation to
+be applied. Important choices such as how to vectorise a given operation or how
+to gather data from memory are all delegated to templating engine. Secondly, we
+note it is possible to utilise Python when generating the main body of kernels. This
+capability is showcased on lines four, five and six where it is used to unroll a for
+loop over each of the field variables. Finally, we also highlight the use of an abstract
+data type fpdtype_t for floating point variables which permits a single set of kernels
+to be used for both single and double precision operation. Generated CUDA source
+
+
+                                          11
+         1 <%pyfr:kernel name='negdivconf' ndim='2'
+         2               tdivtconf='inout fpdtype_t[${str(nvars)}]'
+         3               rcpdjac='in fpdtype_t'>
+         4 % for i in range(nvars):
+         5     tdivtconf[${i}] *= -rcpdjac;
+         6 % endfor
+         7 </%pyfr:kernel>
+
+Figure 3. An example of an extrinsic kernel in PyFR. The template variable nvars is
+taken to be the number of field variables, Nv . The kernel arguments tdivtconf and
+                      ˜ · f̃ and J −1 respectively with the operation being performed
+rcpdjac correspond to ∇
+in-place.
+
+
+for this kernel can be seen in Figure 4, and the equivalent C kernel can be found in
+Figure 5.
+
+3.6   Distributed Memory Parallelism and Scheduling
+PyFR is capable of operating on heigh performance computing clusters utilising
+distributed memory parallelism. This is accomplished through the Message Passing
+Interface (MPI). All MPI functionality is implemented at the Python level through
+the mpi4py [19] wrapper. To enhance the scalability of the code care has been taken
+to ensure that all requests are persistent, point-to-point and non-blocking. Further,
+the format of data that is shared between ranks has been made backend independent.
+It is therefore possible to deploy PyFR on heterogeneous clusters consisting of both
+conventional CPUs and accelerators.
+     The arrangement of kernel calls required to solve an advection-diffusion problem
+can be seen in Figure 6. Our primary objective when scheduling kernels was to
+maximise the potential for overlapping communication with computation. In order
+to help achieve this the common interface solution, Cα , and common interface flux,
+Fα , kernels have been broken apart into two separate kernels; suffixed in the figure
+by int and mpi. PyFR is therefore able to perform a significant degree of rank-local
+computation while the relevant ghost states are being exchanged.
+     Our secondary objective when scheduling kernels was to minimise the amount
+of temporary storage required during the evaluation of −∇ · f. Such optimisations
+are critical within the context of accelerators which often have an order of magnitude
+                                                                                    (u)
+less memory than a contemporary platform. In order to help achieve this U(u) , R̃ ,
+        (u)
+and R are allowed to alias. By permitting the same storage location to be used for
+both the inputted solution and the outputted flux divergence it is possible to reduce
+the storage requirements of the RK schemes. Another opportunity for memory
+reuse is in the transformed flux function where the incoming gradients, Q(u) , can
+                                                (u)
+be overwritten with the transformed flux, F̃ . A similar approach can be used in
+the common interface flux function whereby U( f ) can updated in-place with the
+              (f)
+entires of D̃ which holds the transformed common normal flux. Moreover, C( f )
+is also able to utilise the same storage as the somewhat larger Q( f ) array. These
+optimisations allow PyFR to process over 100 000 curved, unstructured, hexahedral
+
+                                         12
+      1 __global__ void
+      2 negdivconf(int _ny, int _nx,
+      3            const fpdtype_t* __restrict__ rcpdjac_v,
+      4            int ldrcpdjac,
+      5            fpdtype_t* __restrict__ tdivtconf_v,
+      6            int ldtdivtconf)
+      7 {
+      8     int _x = blockIdx.x*blockDim.x + threadIdx.x;
+      9
+     10     for (int _y = 0; _y < _ny && _x < _nx; ++_y)
+     11     {
+     12         fpdtype_t rcpdjac, tdivtconf[4];
+     13
+     14         // Load rcpdjac
+     15         rcpdjac = rcpdjac_v[ldrcpdjac*_y + _x];
+     16
+     17         // Load tdivtconf
+     18         tdivtconf[0] = tdivtconf_v[ldtdivtconf*_y + _x + _nx*0];
+     19         tdivtconf[1] = tdivtconf_v[ldtdivtconf*_y + _x + _nx*1];
+     20         tdivtconf[2] = tdivtconf_v[ldtdivtconf*_y + _x + _nx*2];
+     21         tdivtconf[3] = tdivtconf_v[ldtdivtconf*_y + _x + _nx*3];
+     22
+     23         tdivtconf[0] *= -rcpdjac;
+     24         tdivtconf[1] *= -rcpdjac;
+     25         tdivtconf[2] *= -rcpdjac;
+     26         tdivtconf[3] *= -rcpdjac;
+     27
+     28         // Store tdivtconf
+     29         tdivtconf_v[ldtdivtconf*_y + _x + _nx*0] = tdivtconf[0];
+     30         tdivtconf_v[ldtdivtconf*_y + _x + _nx*1] = tdivtconf[1];
+     31         tdivtconf_v[ldtdivtconf*_y + _x + _nx*2] = tdivtconf[2];
+     32         tdivtconf_v[ldtdivtconf*_y + _x + _nx*3] = tdivtconf[3];
+     33     }
+     34 }
+
+Figure 4. Generated CUDA source for the template in Figure 3 for when NV = 4.
+
+
+
+
+                                     13
+      1 static PYFR_NOINLINE void
+      2 negdivconf_inner(int _nx,
+      3                  const fpdtype_t *__restrict__ rcpdjac_v,
+      4                  fpdtype_t *__restrict__ tdivtconf_v0,
+      5                  fpdtype_t *__restrict__ tdivtconf_v1,
+      6                  fpdtype_t *__restrict__ tdivtconf_v2,
+      7                  fpdtype_t *__restrict__ tdivtconf_v3)
+      8 {
+      9     PYFR_ALIGNED(rcpdjac_v);
+     10     PYFR_ALIGNED(tdivtconf_v0);
+     11     PYFR_ALIGNED(tdivtconf_v1);
+     12     PYFR_ALIGNED(tdivtconf_v2);
+     13     PYFR_ALIGNED(tdivtconf_v3);
+     14
+     15     for (int _x = 0; _x < _nx; _x++)
+     16     {
+     17         fpdtype_t rcpdjac, tdivtconf[4];
+     18
+     19         // Load rcpdjac
+     20         rcpdjac = rcpdjac_v[_x];
+     21
+     22         // Load tdivtconf
+     23         tdivtconf[0] = tdivtconf_v0[_x];
+     24         tdivtconf[1] = tdivtconf_v1[_x];
+     25         tdivtconf[2] = tdivtconf_v2[_x];
+     26         tdivtconf[3] = tdivtconf_v3[_x];
+     27
+     28         tdivtconf[0] *= -rcpdjac;
+     29         tdivtconf[1] *= -rcpdjac;
+     30         tdivtconf[2] *= -rcpdjac;
+     31         tdivtconf[3] *= -rcpdjac;
+     32
+     33         // Store tdivtconf
+     34         tdivtconf_v0[_x] = tdivtconf[0];
+     35         tdivtconf_v1[_x] = tdivtconf[1];
+     36         tdivtconf_v2[_x] = tdivtconf[2];
+     37         tdivtconf_v3[_x] = tdivtconf[3];
+     38     }
+     39 }
+     40
+     41 void
+     42 negdivconf(int _ny, int _nx,
+     43            const fpdtype_t* __restrict__ rcpdjac_v,
+     44            int lsdrcpdjac,
+     45            fpdtype_t* __restrict__ tdivtconf_v,
+     46            int lsdtdivtconf)
+     47 {
+     48     #pragma omp parallel for
+     49     for (int _y = 0; _y < _ny; _y++)
+     50         negdivconf_inner(_nx, rcpdjac_v + _y*lsdrcpdjac,
+     51                          tdivtconf_v + (_y*4 + 0)*lsdtdivtconf,
+     52                          tdivtconf_v + (_y*4 + 1)*lsdtdivtconf,
+     53                          tdivtconf_v + (_y*4 + 2)*lsdtdivtconf,
+     54                          tdivtconf_v + (_y*4 + 3)*lsdtdivtconf);
+     55 }
+
+Figure 5. Generated OpenMP annotated C source code for the template in Figure 3
+for when NV = 4. The somewhat unconventional structure is necessary to ensure
+that the kernel is properly vectorised across a range of compilers.
+
+
+
+                                      14
+                 U(u)
+                                                             MPI
+                                       0            (f)
+                           GEMM(M , ) = U
+
+                                   CINT( ) = C(f)
+                                                                U(f)
+                             4     6   0        ~ (u)
+                 GEMM(M − M M , ) = Q
+
+                                 CMPI( , ) = C(f)
+                                                ~
+                         GEMM(M6, ) += Q(u)
+
+                           PhysGrad( ) = Q(u)
+
+                           GEMM(M5, ) = Q(f)
+                                                ~
+                          TransFlux( , ) = F(u)
+                                                ~
+                 GEMM(M1 − M3M2, ) = R(u)                       Q(f)
+                                                ~
+                                 FINT( , ) = D(f)
+                                                ~
+                              FMPI( , , , ) = D(f)
+                                                ~
+                         GEMM(M3, ) += R(u)
+
+                            PhysDivF( ) = R(u)
+Figure 6. Flow diagram showing the stages required to compute −∇ · f. Symbols
+correspond to those of Appendix A. For simplicity arguments referencing constant
+data have been omitted. Memory indirection is indicated by red underlines. Syn-
+chronisation points are signified by black horizontal lines. Dotted lines correspond
+to data reuse.
+
+
+
+
+                                           15
+elements at ℘ = 3 inside of a 5 GiB memory footprint.
+
+
+4     Governing Systems
+4.1    Overview
+PyFR is a framework for solving various advection-diffusion type problems. In the
+current release of PyFR two specific governing systems can be solved, specifically
+the Euler equations for inviscid compressible flow, and the compressible Navier-
+Stokes equations for viscous compressible flow. Details regarding both are given
+below.
+
+4.2    Euler Equations
+Using the framework introduced in section 2 the three dimensional Euler equations
+can be expressed in conservative form as
+                                                                          
+             
+               ρ                    
+                                            ρv x       ρvy         ρvz     
+                                             2+ p
+                                                                          
+                                         ρv            ρv   v      ρv    v
+                                                                          
+             
+             
+             
+             ρv  x
+                    
+                    
+                                      
+                                       
+                                       
+                                            x            y x          z x 
+                                                                             
+                                                                             
+                                                                             
+                               (inv)                    2
+        u=                =         =           v         +    p        v       (20)
+                                                                          
+               ρv     ,  f   f              ρv       ρv            ρv          ,
+                                                                          
+                  y                          x   y    y              z   y 
+                                                                     2+ p 
+                                                                          
+               ρv                           ρv   v     ρv   v     ρv
+                                     
+                  z                            x   z      y   z
+                                                                          
+                                                                     z
+             
+             
+                   
+                    
+                                      
+                                       
+                                                                            
+                                                                             
+                                                                             
+             E
+             
+                   
+                                      v x (E + p) vy (E + p) vz (E + p)
+                                       
+                                                                            
+                                                                             
+
+with u and f together satisfying Equation 1. In the above ρ is the mass density of
+the fluid, v = (v x , vy , vz )T is the fluid velocity vector, E is the total energy per unit
+volume and p is the pressure. For a perfect gas the pressure and total energy can be
+related by the ideal gas law
+                                         p  1
+                                  E=       + ρkvk2 ,                                    (21)
+                                        γ−1 2
+with γ = C p /Cv .
+    With the fluxes specified all that remains is to prescribe a method for computing
+the common normal flux, Fα , at interfaces as defined in Equation 15. This can
+be accomplished using an approximate Riemann solver for the Euler equations.
+There exist a variety of such solvers as detailed in [20]. A description of those
+implemented in PyFR can be found in Appendix B.
+
+4.3    Compressible Navier-Stokes Equations
+The compressible Navier-Stokes equations can be viewed as an extension of the
+Euler equations via the inclusion of viscous terms. Within the framework outlined
+
+
+
+
+                                             16
+above the flux now takes the form of f = f (inv) − f (vis) where
+                               0               0                0
+                                                                     
+                       
+                       
+                                                                     
+                                                                      
+                                                                      
+                              T               T               T
+                       
+                                                                     
+                                                                      
+                                xx              yx               zx
+                       
+                       
+                                                                     
+                                                                      
+                                                                      
+                (vis)
+                      =      T               T                T                              (22)
+                                                                     
+              f                                                         .
+                                                                     
+                               xy              yy               zy   
+                                                                      
+                              T               T                T
+                                                                     
+                                xz              yz               zz
+                       
+                       
+                                                                     
+                                                                      
+                                                                      
+                                                                     
+                       vi Tix + ∆∂ x T vi Tiy + ∆∂y T vi Tiz + ∆∂z T 
+                       
+                                                                     
+                                                                      
+
+In the above we have defined ∆ = µC p /Pr where µ is the dynamic viscosity and Pr
+is the Prandtl number. The components of the stress-energy tensor are given by
+                                                         2
+                             Ti j = µ(∂i v j + ∂ j vi ) − µδi j ∇ · v.                        (23)
+                                                         3
+Using the ideal gas law the temperature can be expressed as
+                                              1 1 p
+                                        T=               ,                                    (24)
+                                              Cv γ − 1 ρ
+with partial derivatives thereof being given according to the quotient rule.
+    Since the Navier-Stokes equations are an advection-diffusion type system it
+is necessary to both compute a common solution (Cα of Equation 7) at element
+boundaries and augment the inviscid Riemann solver to handle the viscous part of
+the flux. A popular approach is the LDG method as presented in [5, 13]. In this
+approach the common solution is given ∀α according to
+
+                             C(uL , uR ) = ( 21 − β)uL + ( 12 + β)uR ,                        (25)
+
+where β controls the degree of upwinding/downwinding. The common normal
+interface flux is then prescribed, once again ∀α, according to
+
+                           F(uL , uR , qL , qR , n̂L ) = F(inv) − F(vis) ,                    (26)
+
+where F(inv) is a suitable inviscid Riemann solver (see Appendix B) and
+
+               F(vis) = n̂L · ( 12 + β)fL(vis) + ( 12 − β)fR(vis) + τ(uL − uR ),
+                             n                                   o
+                                                                                              (27)
+
+with τ being a penalty parameter, fL(vis) = f (vis) (uL , qL ), and fR(vis) = f (vis) (uR , qR ). We
+observe here that if the common solution is upwinded then the common normal flux
+will be downwinded. Generally, β = ±1/2 as this results in the numerical scheme
+having a compact stencil and 0 ≤ τ ≤ 1.
+
+4.3.1    Presentation in Two Dimensions
+The above prescriptions of the Euler and Navier-Stokes equations are valid for the
+case of ND = 3. The two dimensional formulation can be recovered by deleting the
+fourth rows in the definitions of u, f (inv) and f (vis) along with the third columns of
+f (inv) and f (vis) . Vectors are now two dimensional with the velocity being given by
+v = (v x , vy )T .
+
+                                                17
+5     Validation
+5.1   Euler Equations: Euler Vortex Super Accuracy
+Various authors [4, 10] have shown FR schemes exhibit so-called ‘super accuracy’
+(an order of accuracy greater than the expected ℘ + 1). To confirm PyFR can
+achieve super accuracy for the Euler equations a square domain Ω = [−20, 20]2 was
+decomposed into four structured quad meshes with spacings of h = 1/3, h = 2/7,
+h = 1/4, and h = 2/9. Initial conditions were taken to be those of an isentropic
+Euler vortex in a free-stream
+                                                                ) 1
+                                         S 2 M 2 (γ − 1) exp 2 f γ−1
+                                     (
+                    ρ(x, t = 0) = 1 −                                 ,           (28)
+                                                   8π2
+                                  S y exp f             S x exp f
+                                                  (               )
+                    v(x, t = 0) =            x̂ + 1 −               ŷ,           (29)
+                                     2πR                   2πR
+                                   ργ
+                    p(x, t = 0) =       ,                                         (30)
+                                  γM 2
+
+where f = (1 − x2 − y2 )/2R2 , S = 13.5 is the strength of the vortex, M = 0.4 is the
+free-stream Mach number, and R = 1.5 is the radius. All meshes were configured
+with periodic boundary conditions along boundaries of constant x. Along boundaries
+of constant y the dynamical variables were fixed according to
+
+                               ρ(x = xx̂ ± 20ŷ, t) = 1,
+                               v(x = xx̂ ± 20ŷ, t) = ŷ,
+                                                         1
+                               p(x = xx̂ ± 20ŷ, t) =        ,
+                                                        γM 2
+which are simply the limiting values of the initial conditions. Strictly speaking
+these conditions, on account of the periodicity, result in the modelling of an infinite
+array of coupled vortices. The impact of this is mitigated by the observation that
+the exponentially decaying vortex has a characteristic radius which is far smaller
+than the extent of the domain. Neglecting these effects the analytic solution of the
+system is a time t is simply a translation of the initial conditions.
+    Using the analytical solution we can define an L2 error as
+                      Z 2 Z 2h                                  i2
+                    2
+               σ(t) =         ρδ (x + ∆y (t)ŷ, t) − ρ(x, t = 0) d2 x,            (31)
+                          −2    −2
+
+where ρδ (x, t) is the numerical mass density, ρ(x, t = 0) the analytic mass density,
+and ∆y (t) is the ordinate corresponding to the centre of the vortex at a time t and
+accounts for the fact that the vortex is translating in a free stream velocity of unity
+in the y direction. Restricting the region of consideration to a small box centred
+around the origin serves to further mitigate against the effects of vortices coupling
+together. The initial mass density along with the [−2, −2] × [2, 2] region used to
+
+                                            18
+                      20
+
+                                                             ρ
+                      10                                          1.0
+                                                                  0.9
+                y      0                                          0.8
+                                                                  0.7
+
+                     -10                                          0.6
+                                                                  0.5
+
+                     -20
+                           -20     -10   0         10   20
+                                          x
+
+Figure 7. Initial density profile for the vortex in Ω. The black box shows the region
+where the error is calculated.
+
+
+evaluate the error can be seen in Figure 7. At times, tc , when the vortex is centred on
+the box the error can be readily computed by integrating over each element inside
+the box and summing the residuals
+                            " h                                i2
+                  σ(tc )2 =       ρδi (x̃, tc ) − ρ(Mi (x̃), 0) Ji (x̃) d2 x̃,      (32)
+                                 Ω̂e
+
+where, ρδi (x̃, tc ) is the approximate mass density inside of the ith element, and Ji (x̃)
+the associated Jacobian. These integrals can be approximated by applying Gaussian
+quadrature
+                                                                                 i2
+                         σ(tc )2 ≈ Ji (x̃ j ) ρδi (x̃ j , tc ) − ρ(Mi (x̃ j ), 0) ω j
+                                             h
+
+                                                                                      (33)
+                                   h2 h δ                                    i2
+                                 =       ρ (x̃ j , tc ) − ρ(Mi (x̃ j ), 0) ω j ,
+                                    4 i
+where { x̃ j } are abscissa and { ω j } the weights of a rule determined for integration
+inside of a standard quadrilateral. So long as the rule used is of a suitable strength
+then this will be a very good approximation of the true L2 error.
+    Following [10] the initial conditions were laid onto the mesh using a collocation
+projection with ℘ = 3. The simulation was then run with three different flux
+reconstruction schemes: DG, SD, and HU as defined in [10]. Solution points
+were placed at a tensor product construction of Gauss-Legendre quadrature points.
+Common interface fluxes were computed using a Rusanov Riemann solver. To
+advance the solutions in time a classical fourth order Runge-Kutta method (RK4)
+was used. The time step was taken to be ∆t = 0.00125 with t = 0..1800 with
+solutions written out to disk every 32 000 steps. The order of accuracy of the
+scheme at a particular time can be determined by plotting log σ against log h and
+performing a least-squares fit through the four data points. The order is given by the
+gradient of the fit. A plot of order of accuracy against time for the three schemes
+can be seen in Figure 8. We note that the order of accuracy changes as a function of
+
+                                              19
+        7
+
+
+        6                                                                      Scheme
+                                                                                  DG
+Order
+
+
+
+
+        5                                                                         SD
+
+                                                                                  HU
+        4
+
+
+        3
+             0      300      600        900         1200       1500     1800
+                                        Time
+
+Figure 8. Spatial super accuracy observed for a ℘ = 3 simulation using DG, SD and
+HU as defined in [10].
+
+
+time. This is due to the fact that the error is actually of the form σ(t) = σp + σso (t)
+where σp is a constant projection error and σso is a time-dependent spatial operator
+error. The projection error arises as a consequence of the forth order collocation
+projection of the initial conditions onto the mesh. Over time the spatial operator
+error grows in magnitude and eventually dominates. Only when σso (t)  σp can
+the true order of the method be observed. The results here can be seen to be in
+excellent agreement with those of [10].
+
+5.2         Compressible Navier-Stokes Equations: Couette Flow
+Consider the case in which two parallel plates of infinite extent are separated by
+a distance H in the y direction. We treat both plates as isothermal walls at a
+temperature T w and permit the top plate to move at a velocity vw in the x direction
+with respect to the bottom plate. For simplicity we shall take the ordinate of
+the bottom plate as zero. In the case of a constant viscosity µ the Navier-Stokes
+equations admit an analytical solution in which
+
+
+                                     γ              2p
+                          ρ(φ) =                                    ,               (34)
+                                   γ − 1 2C p T w + Pr v2w φ(1 − φ)
+                          v(φ) = vw φx̂,                                            (35)
+                             p = pc ,                                               (36)
+
+where φ = y/H and pc is a constant pressure. The total energy is given by the
+ideal gas law of Equation 21. On a finite domain the Couette flow problem can
+be modelled through the imposition of periodic boundary conditions. For a two
+dimensional mesh periodicity is enforced in x whereas for three dimensional meshes
+it is enforced in both x and z. To validate the Navier-Stokes solver in PyFR we
+
+
+                                               20
+take γ = 1.4, Pr = 0.72, µ = 0.417, C p = 1005 J K−1 , H = 1 m, T w = 300 K,
+pc = 1 × 105 Pa, and vw = 69.445 m s−1 . These values correspond to a Mach
+number of 0.2 and a Reynolds number of 200. The plates were modelled as no-slip
+isothermal walls as detailed in subsection C.4 of Appendix C. A plot of the resulting
+energy profile can be seen in Figure 9. Constant initial conditions are taken as
+ρ = ρ(φ) , v = vw x̂, and p = pc . Using the analytical solution we again define an
+L2 error as
+                          Z h                    i2
+                 σ(t)2 =       E δ (x, t) − E(x) dND x                          (37)
+                            Ω
+                          Z h                             i2
+                        =          δ
+                                 Eei (x̃, t) − E(Mei (x̃)) Jei (x̃) dND x̃      (38)
+                              Ωei
+                          h                               i2
+                          δ
+                       ≈ Eei (x̃e j , t) − E(Mei (x̃e j )) Jei (x̃e j )ωe j ,    (39)
+
+where Ω is the computational domain, E δ (x, t) is the numerical total energy, and
+E(x) the analytic total energy. In the third step we have approximated each integral
+by a quadrature rule with abscissa { x̃e j } and weights { ωe j } inside of an element
+type e. Couette flow is a steady state problem and so in the limit of t → ∞ the
+numerical total energy should converge to a solution. Starting from a constant initial
+condition the L2 error was computed every 0.1 time units. The simulation was said
+to have converged when σ(t)/σ(t + 0.1) ≤ 1.01 where σ is the L2 error. We will
+denote the time at which this occurs by t∞ .
+    Once the system has converged for a range of meshes it is possible to compute
+the order of accuracy of the scheme. For a given ℘ this is the slope (plus or minus
+a standard error) of a linear least squares fit of log h ∼ log σ(t∞ ) where h is an
+approximation of the characteristic grid spacing. The expected order of accuracy is
+℘ + 1. In all simulations inviscid fluxes were computed using the Rusanov approach
+and the LDG parameters were taken to be β = 1/2 and τ = 0.1. All simulations
+were performed with DG correction functions and at double precision. Inside
+tensor product elements Gauss-Legendre solution and flux points were employed.
+Triangular elements utilised Williams-Shunn solution points and Gauss-Legendre
+flux points.
+
+Two dimensional unstructured mixed mesh. For the two dimensional test cases
+the computational domain was taken to be [−1, 1] × [0, 1]. This domain was then
+meshed with both triangles and quadrilaterals at four different refinement levels.
+The Couette flow problem described above was then solved on each of these meshes.
+Experimental L2 errors and orders of accuracy can be seen in Table 2. We note that
+in all cases the expected order of accuracy was obtained.
+
+Three dimensional extruded hexahedral mesh. For this three dimensional case
+the computational domain was taken to be [−1, 1] × [0, 1] × [0, 1]. Meshes were
+constructed through first generating a series of unstructured quadrilateral meshes in
+the x-y plane. A three layer extrusion was then performed on this meshes to yield
+
+                                             21
+          1.0                                                              E / 105 J m−3
+                                                                                 2.53
+
+
+                                                                                 2.52
+          0.5
+      y
+
+
+
+
+                                                                                 2.51
+
+          0.0
+                                                                                 2.50
+                 -1.0         -0.5      0.0           0.5            1.0
+                                         x
+
+Figure 9. Converged steady state energy profile for the two dimensional Couette
+flow problem.
+
+
+
+
+                        (a)                                    (b)
+
+
+
+
+                        (c)                                    (d)
+
+Figure 10. Unstructured mixed element meshes used for the two dimensional
+Couette flow problem.
+
+
+Table 2. L2 energy error and orders of accuracy for the Couette flow problem on
+four mixed meshes. The mesh spacing was approximated as h ∼ NE−1/2 where NE is
+the total number of elements in the mesh.
+
+                                              σ(t∞ ) / J m−3
+     Tris       Quads         ℘=1       ℘=2                 ℘=3               ℘=4
+       2            8   1.26 × 102    5.77 × 10−1     5.54 × 10−3          6.62 × 10−5
+       6           22   3.56 × 101    1.40 × 10−1     6.72 × 10−4          3.91 × 10−6
+      10           37   2.08 × 101    4.35 × 10−2     2.54 × 10−4          8.16 × 10−7
+      16           56   1.46 × 101    3.52 × 10−2     1.09 × 10−4          4.62 × 10−7
+                Order   2.21 ± 0.12   2.99 ± 0.32     3.97 ± 0.05          5.20 ± 0.38
+
+
+                                         22
+Table 3. L2 energy errors and orders of accuracy for the Couette flow problem on
+three extruded hexahedral meshes. On account of the extrusion h ∼ NE−1/2 where
+NE is the total number of elements in the mesh.
+
+                                       σ(t∞ ) / J m−3
+                Hexes       ℘=1              ℘=2          ℘=3
+                    78   3.35 × 101     5.91 × 10−2     7.28 × 10−4
+                   195   1.23 × 101     1.87 × 10−2     1.15 × 10−4
+                   405   6.15 × 100     5.49 × 10−3     2.72 × 10−5
+                 Order   2.06 ± 0.08    2.87 ± 0.24     3.99 ± 0.03
+
+
+
+
+  Figure 11. Cutaway of the unstructured hexahedral mesh with 1004 elements.
+
+
+a series of hexahedral meshes. Experimental L2 errors and orders of accuracy for
+these meshes can be seen in Table 3.
+
+Three dimensional unstructured hexahedral mesh. As a further test a domain
+of dimension [0, 1]3 was considered. This domain was meshed using completely
+unstructured hexahedra. Three levels of refinement were used resulting in meshes
+with 96, 536 and 1004 elements. A cutaway of the most refined mesh can be seen in
+Figure 11. Experimental L2 errors and the resulting orders of accuracy are presented
+in Table 4. Despite the fully unstructured nature of the mesh the expected order of
+accuracy was again obtained in all cases. We do, however, note the higher standard
+errors associated with these results.
+
+
+
+
+                                        23
+Table 4. L2 energy errors and orders of accuracy for the Couette flow problem on
+three unstructured hexahedral meshes. Mesh spacing was taken as h ∼ NE−1/3 where
+NE is the total number of elements in the mesh.
+
+                                       σ(t∞ ) / J m−3
+                Hexes       ℘=1              ℘=2          ℘=3
+                   96    1.91 × 101     4.32 × 10−2     5.83 × 10−4
+                  536    8.20 × 100     9.11 × 10−3     6.89 × 10−5
+                 1004    3.82 × 100     3.22 × 10−3     2.04 × 10−5
+                 Order   1.93 ± 0.46    3.19 ± 0.48     4.16 ± 0.44
+
+
+5.3   Compressible Navier-Stokes Equations: Flow Over a Cylinder
+In order to demonstrate the ability of PyFR to solve the unsteady Navier-Stokes
+equations flow over a cylinder at Reynolds number 3900 and Mach number M = 0.2
+was simulated. A cylinder of radius 1/2 was placed at (0, 0) inside of a domain of
+dimension [−18, 30] × [−10, 10] × [0, 3.2]. This domain was then meshed in the x-y
+plane with 4661 quadratically curved quadrilateral elements. Next, this grid was
+extruded along the z-axis to yield a total of 46610 hexahedra. The grid, which can
+be seen in Figure 12, was partitioned into four pieces. Along surfaces of y = ±10
+and x = −18 the inflow boundary condition of subsection C.2 in Appendix C was
+imposed. Along the surface of x = 30 the outflow condition of subsection C.3 in
+Appendix C was used. Periodic conditions were imposed in the z direction. On the
+surface of the cylinder the no-slip isothermal wall condition of subsection C.4 in
+Appendix C was imposed. The free-stream conditions were taken to be ρ = 1, v = x̂,
+and p = 1/γM 2 . These were also used as the initial conditions for the simulation.
+DG correction functions were used with the LDG parameters being β = 1/2 and
+τ = 0.1. The ratio of specific heats was taken as γ = 1.4 and the Prandtl number as
+Pr = 0.72.
+    The simulation was run with ℘ = 4 with four NVIDIA K20c GPUs. It contained
+some 29×106 degrees of freedom. Isosurfaces of density captured after the turbulent
+wake had fully developed can be seen in Figure 13.
+
+
+6     Single Node Performance
+The single node performance of PyFR has been evaluated on an NVIDIA M2090
+GPU. This accelerator has a theoretical peak double precision floating point perfor-
+mance of 665 GFLOP/s, and when ECC is disabled the theoretical peak memory
+bandwidth is 177 GB/s. As points of reference we observe that cuBLAS (CUDA
+5.5) is able to obtain 407 GFLOP/s when multiplying a pair of 4096 × 4096 matrices
+on this hardware, and the maximum device bandwidth obtainable by the bandwidth
+test application included with the CUDA SDK is 138.9 GiB/s when ECC is disabled.
+
+                                        24
+        10
+
+
+         5
+
+
+         0
+    y
+
+
+
+
+         -5
+
+
+        -10
+              -18       -10       -2         6        14        22        30
+                                             x
+
+Figure 12. Cross section in the x-y plane of the cylinder mesh. Colours indicate the
+partition to which the elements belong.
+
+
+
+
+              Figure 13. Isosurfaces of density around the cylinder.
+
+
+
+
+                                        25
+Table 5. Single GPU performance of PyFR for the Navier-Stokes equations when
+run on an NVIDIA M2090 with ECC disabled. As the memory bandwidth require-
+ments of DGEMM are dependent on the accumulation strategy adopted by the
+implementation these values have been omitted.
+
+                                                            Order
+                                                    ℘=2     ℘=3     ℘=4
+                    Wall time / %
+                                     DGEMM           55.7    66.2    81.4
+                                         PD          24.9    21.5    12.8
+                                          PI         19.4    12.3     5.8
+               Bandwidth / GiB/s
+                                              PD    125.5   125.0   124.8
+                                               PI   124.8   124.3   124.2
+           Arithmetic / GFLOP/s
+                                     DGEMM          205.3   368.1   305.4
+                                         PD           0.7     0.7     0.7
+                                          PI          0.9     0.8     0.9
+
+
+We shall refer to these values as realisable peaks.
+     To conduct the evaluation a fully periodic cuboidal domain was meshed with
+50 176 hexahedral elements. The double precision Navier-Stokes solver of PyFR
+was then run on this mesh at orders ℘ = 2, 3, 4 with β = 1/2. In conducting the
+analysis kernels were grouped into one of three categories: matrix multiplications
+(DGEMM), point-wise kernels with direct memory access patterns (PD) and point-
+wise kernels with some level of indirect memory access (PI). Indirection arises in the
+computation of Cα in Equation 7 and Fα in Equation 15 and occurs as a consequence
+of the unstructured nature of PyFR. The resulting breakdowns of wall-clock time,
+memory bandwidth and floating point operations can be seen in Table 5. It is clear
+that he majority of floating point operations are concentrated inside the calls to
+DGEMM with the point-wise operations are heavily memory bandwidth bound. Of
+this bandwidth some ∼15% was ascribed to register spillage above and beyond that
+which can be absorbed by the L1 cache.
+     The high fraction of peak bandwidth obtained by the indirect kernels can be
+attributed to three factors. Firstly, the constant data required for calculations at
+                 (f)       (f) (f)
+????, such as n̂eσn and Jeσn neσn , is ordered to ensure direct (coalesced) access.
+Secondly, at start-up PyFR attempts to determine an iteration ordering over the
+various flux-point pairs that will minimise the number of cache misses.
+     Many of the memory accesses are therefore are near-coalesced. Thirdly and
+finally we highlight the impressive latency-hiding capabilities of the CUDA pro-
+gramming model.
+
+
+                                         26
+Table 6. Weak scalability of PyFR for the Navier-Stokes equations with ℘ = 3.
+Runtime is normalised with respect to a single NVIDIA M2090 GPU.
+
+       # M2090s      1      2       4       8      16     32      64     104
+        Runtime      1.00   1.00    1.01    1.01   1.01   1.01    1.01   1.01
+
+
+    In line with expectations the proportion of time spent performing matrix-matrix
+multiplications increases as a function of order. When going from ℘ = 2 to ℘ = 3 a
+significant portion of the additional compute is offset by the improved performance
+of cuBLAS. However, when ℘ = 4 the performance of these kernels in absolute
+terms can be seen to regress slightly. This contributes to the greatly increased
+fraction of wall-clock time spent inside of these kernels. Nevertheless, the achieved
+rate of 305.4GFLOP/s is still over 75% of the realisable peak. Also in line with
+expectations is the invariance of the arithmetic performance of the point-wise kernels
+with respect to order. As the order is varied all that changes is the number of points
+to be processed with the operation itself remaining identical.
+
+
+7    Scalability
+The scalability of PyFR has been evaluated on the Emerald GPU cluster. It is housed
+at the STFC Rutherford Appleton Laboratory and based around 60 HP SL390 nodes
+with three NVIDIA M2090 GPUs and 24 HP SL390 nodes with eight NVIDIA
+M2090 GPUs. Nodes are connected by QDR InfiniBand.
+     For simplicity all runs herein were performed on the eight GPU nodes. As a
+starting point a domain of dimension [−16, 16] × [−16, 16] × [0, 1.75] was meshed
+isotropically with NE = 114 688 structured hexahedral elements. The mesh was con-
+figured with completely periodic boundary conditions. When run with the Navier-
+Stokes solver in PyFR with ℘ = 3 the mesh gives a working set of ∼4720 MiB. This
+is sufficient to 90% load an M2090 which when ECC is enabled has ∼5250 MiB
+memory available to the user. When examining the scalability of a code there are
+two commonly used metrics. The first of these is weak scalability in which the
+size of the target problem is increased in proportion to the number of ranks N
+with NE ∝ N. For a code with perfect weak scalability the runtime should remain
+unchanged as more ranks are added. The second metric is strong scalability wherein
+the problem size is fixed and the speedup compared to a single rank is assessed.
+Perfect strong scalability implies that the runtime scales as 1/N.
+     For the domain outlined above weak scalability was evaluated by increasing
+the dimensions of the domain according to [−16, 16] × N[−16, 16] × [0, 1.75]. This
+extension permitted the domain to be trivially decomposed along the y-axis. The
+resulting runtimes for 1 ≤ N ≤ 104 can be seen in Table 6. We note that in the
+N = 104 case that the simulation consisted of some 3.8 × 109 degrees of freedom
+with a working set of ∼485 GiB.
+
+
+                                           27
+Table 7. Strong scalability of PyFR for the Navier-Stokes equations with ℘ = 3.
+The speedup is relative to a single NVIDIA M2090 GPU.
+
+             # M2090s     1      2      4       8      16      32
+              Speedup     1.00   2.03   3.96    7.48   14.07   26.18
+
+
+    To study the strong scalability the initial domain was partitioned along the x-
+and y-axes. Each partition contained exactly NE /Ns. The resulting speedups for
+1 ≤ N ≤ 32 can be seen in Table 7. Up to eight GPUs scalability can be seen to be
+near perfect. Beyond this the relationship begins to break down. When N = 32 an
+improvement of 26 can be observed. However, in this case each GPU is loaded to
+less than 3% and so the result is to be expected.
+
+
+8    Conclusions
+In this paper we have described PyFR, an open source Python based framework for
+solving advection-diffusion type problems on streaming architectures. The structure
+and ethos of PyFR has been explained including our methodology for targeting
+multiple hardware platforms. We have shown that PyFR exhibits spatial super
+accuracy when solving the 2D Euler equations and the expected order of accuracy
+when solving Couette flow problem on a range of grids in 2D and 3D. Qualitative
+results for unsteady 3D viscous flow problems on curved grids have also been
+presented. Performance of PyFR has been validated on an NVIDIA M2090 GPU
+in three dimensions. It has been shown that the compute bound kernels are able to
+obtain between 50% and 90% of realisable peak FLOP/s whereas the bandwidth
+bound point-wise kernels are, across the board, able to obtain in excess of 89%
+realisable peak bandwidth. The scalability of PyFR has been demonstrated in the
+strong sense up to 32 NVIDIA M2090s and in the weak sense up to 104 NVIDIA
+M2090s when solving the 3D Navier-Stokes equations.
+
+
+Acknowledgements
+The authors would like to thank the Engineering and Physical Sciences Research
+Council for their support via two Doctoral Training Grants and an Early Career Fel-
+lowship (EP/K027379/1). The authors would also like to thank the e-Infrastructure
+South Centre for Innovation for granting access to the Emerald supercomputer, and
+NVIDIA for donation of three K20c GPUs.
+
+
+
+
+                                        28
+A     Matrix Representation
+It is possible to cast the majority of operations in an FR step as matrix-matrix
+multiplications of the form
+                                C ← c1 AB + c2 C,                          (40)
+where c1,2 ∈ R are constants, A is a constant operator matrix, and B and C are state
+matrices. To accomplish this we start by introducing the following constant operator
+matrix
+                         (u) ( f )                           (f)
+               M0e σρ = `eρ (x̃eσ ),            dim M0e = Ne × Ne(u) ,
+                  
+
+and the following state matrices
+                (u)       (u)
+              Ue ρ(nα) = ueρnα ,                         dim U(u)  (u)
+                                                              e = Ne × NV |Ωe |,
+               ( f )      (f)                                  (f)    (f)
+             Ue σ(nα) = ueσnα ,                          dim Ue = Ne × NV |Ωe |.
+In specifying the state matrices there is a degree of freedom associated with how the
+NV field variables for each element are packed along a row of the matrix, with the
+possible packing choices being discussed in subsection 3.3. Using these matrices
+we are able to reformulate Equation 6 as
+                                              (f)         (u)
+                                           Ue = M0e Ue .                                   (41)
+In order to apply a similar procedure to Equation 9 we let
+                    ˜ (u) 
+           M4e ρσ = ∇`    eρ (x̃) x̃=x̃(u) ,             dim M4e , = ND Ne(u) × Ne(u) ,
+               
+                                       eσ
+                    (f) ˜          (f)                                           f
+           M6e ρσ = ñˆ eρ · ∇   · geρ (x̃) x̃=x̃( f ) , dim M6e , = ND Ne(u) × Ne ,
+                                            
+                                                 eσ
+        ( f )            (f)                                  (f)    (f)
+      Ce ρ(nα) = Cα ueρnα ,                              dim Ce = Ne × NV |Ωe | ,
+        (u)          (u)                                      (u)
+      Q̃e σ(nα) = q̃eσnα ,                               dim Q̃e = ND Ne(u) × NV |Ωe | ,
+Here it is important to qualify assignments of the form Ai j = x where x is a ND
+component vector. As above there is a degree of freedom associated with the packing.
+With the benefit of foresight we take the stride between subsequent elements of x in
+                                                     (f)
+a matrix column to be either ∆i = Ne(u) or ∆i = Ne depending on the context. With
+these matrices Equation 9 reduces to
+                           (u)        (f)     (f)        (u)
+                         Q̃e = M6e Ce − Ue + M4e Ue
+                                      (f)
+                               = M6e Ce − M0e U(u) e   + M4e U(u)
+                                                              e                (42)
+                                       ( f )
+                               = M6e Ce + M4e − M6e M0e U(u) e .
+                                             
+
+Applying the procedure to Equation 11 we take
+                                                                             (f)
+                   M5e = diag(M0e , . . . , M0e )         dim M5e = ND Ne × ND Ne(u) ,
+           (u)           (u)
+         Qe      σ(nα) = qeσnα ,                         dim Q(u)     (u)
+                                                              e = ND Ne × NV |Ωe | ,
+          ( f )          (f)                                    (f)         (f)
+         Qe σ(nα) = qeσnα ,                              dim Qe = ND Ne × NV |Ωe | ,
+
+
+                                                    29
+hence
+                                                       (f)        (u)
+                                                  Qe = M5e Qe ,                                     (43)
+where we note the block diagonal structure of M5e . This is a direct consequence of
+the above choices for ∆i. Finally, to rewrite Equation 18 we write
+
+                        ˜ eρ (x̃)
+               M1e ρσ = ∇`
+                               (u)     T
+                                           ,                       dim M1e = Ne(u) × ND Ne(u) ,
+                                  x̃=x̃(u)        eσ
+                          (u)     (f)     ( f ) T                                   (f)
+               M2e ρσ = `eρ (x̃eσ )ñˆ eσ              ,           dim M2e = Ne × ND Ne(u) ,
+                    
+                                   (f)
+                        ˜ · geσ (x̃)                                                        (f)
+               M3e ρσ = ∇                     ,                    dim M3e = Ne(u) × Ne ,
+                                            
+                                     x̃=x̃(u)          eρ
+           ( f )            ˜( f⊥ )                                     (f)          (f)
+         D̃e    σ(nα) = Fα feσnα ,                                dim D̃e = Ne × NV |Ωe | ,
+           (u)          (u)                                              (u)
+         F̃e ρ(nα) = f̃eρnα ,                                     dim F̃e = ND Ne(u) × NV |Ωe | ,
+           (u)           ˜ · f̃)(u)                                      (u)
+         R̃e ρ(nα) = (∇            eρnα ,                         dim R̃e = Ne(u) × NV |Ωe | ,
+
+                                            ( f⊥ )
+and after substitution of Equation 13 for f˜eσnα   obtain
+                                  (u)              (f)           (u)           (u)
+                              R̃e = M3e D̃e − M2e F̃e                   + M1e F̃e
+                                                (f)                 (u)
+                                                                                                    (44)
+                                        = M3e D̃e + M1e − M3e M2e F̃e .
+                                                    
+
+
+B     Approximate Riemann Solvers
+B.1     Overview
+In the following section we take uL and uR to be the two discontinuous solution
+states at an interface and n̂L to be the normal vector associated with the first state.
+For convenience we take fL(inv) = f (inv) (uL ), and fR(inv) = f (inv) (uR ) with inviscid fluxes
+being prescribed by Equation 20.
+
+B.2     Rusanov
+Also known as the local Lax-Friedrichs method a Rusanov type Riemann solver
+imposes inviscid numerical interface fluxes according to
+                                         n̂L n (inv)      o s
+                          F(inv) =          · fL + fR(inv) + (uL − uR ),                            (45)
+                                          2                 2
+where s is an estimate of the maximum wave speed
+                           s
+                              γ(pL + pR ) 1
+                      s=                 + n̂L · (vL + vR ) .                                       (46)
+                               ρ L + ρR   2
+
+
+
+
+                                                             30
+C     Boundary Conditions
+C.1    Overview
+To incorporate boundary conditions into the FR approach we introduce a set of
+boundary interface types b ∈ B. At a boundary interface there is only a single flux
+point: that which belongs to the element whose edge/face is on the boundary. Asso-
+ciated with each boundary type are a pair of functions C(b)             (b)
+                                                           α (uL ) and Fα (uL , qL , n̂L )
+where uL , qL , and n̂L are the solution, solution gradient and unit normals at the
+relevant flux point. These functions prescribe the common solutions and normal
+fluxes, respectively.
+     Instead of directly imposing solutions and normal fluxes it is oftentimes more
+convenient for a boundary to instead provide ghost states. In its simplest formulation
+C(b)             (b)          (b)           (b)        (b)                  (b)
+  α = Cα (uL , B uL ) and Fα = Fα (uL , B uL , qL , B qL , n̂L ) where B uL is the
+                            (b)
+ghost solution state and B qL is the ghost solution gradient. It is straightforward
+to extend this prescription to allow for the provisioning of different ghost solution
+states for Cα and Fα and to permit B(b) qL to be a function of uL in addition to qL .
+
+C.2    Supersonic Inflow
+The supersonic inflow condition is parameterised by a free-stream density ρ f ,
+velocity v f , and pressure p f .
+
+                                                                         
+                                 
+                                 
+                                                           ρf            
+                                                                          
+                                                                          
+                    (inv)  (ldg)
+                   B uL = B uL =                                                    (47)
+                                                                         
+                                                          ρf vf             ,
+                                                                         
+                                                                          
+                                                                ρf
+                                                 p f /(γ − 1) + 2 kv f k2 
+                                 
+                                 
+                                                                         
+                                                                          
+                                                                         
+                               B(ldg) qL = 0,                                        (48)
+
+C.3    Subsonic Outflow
+Subsonic outflow boundaries are parameterised by a free-stream pressure p f .
+
+
+                                                      ρL
+                                                                 
+                                           
+                                                                 
+                                                                  
+                   B(inv) uL = B(ldg) uL =                                          (49)
+                                                                 
+                                                    ρ  v            ,
+                                                                 
+                                                      L L         
+                                                          ρ
+                                            p /(γ − 1) + L kv k2 
+                                           
+                                                                 
+                                                     f                L
+                                                                  
+                                                                 2
+                                   (ldg)
+                               B           qL = 0,                                   (50)
+
+C.4    No-slip Isothermal Wall
+The no-slip isothermal wall condition depends on the wall temperature C p T w and
+the wall velocity vw . Usually vw = 0.
+
+
+
+
+                                                31
+                                             1
+                                                         
+                             
+                             
+                                                         
+                                                          
+                                                          
+                    (inv)
+                   B uL = ρL           2v    −                                 (51)
+                                                         
+                                                v           ,
+                                                         
+                                           w      L       
+                             C p T w /γ + 1 k2vw − vL k2 
+                             
+                             
+                                                         
+                                                          
+                                            2
+                                                          
+                                         1
+                                                   
+                             
+                             
+                                                   
+                                                    
+                                                    
+                    (ldg)
+                   B uL = ρL                                                   (52)
+                                                   
+                                        v             ,
+                                                   
+                                         w          
+                             C p T w /γ + 1 kvw k2 
+                             
+                             
+                                                   
+                                                    
+                                            2
+                                                    
+                   B(ldg) qL = qL ,                                             (53)
+
+
+References
+[1] WH Reed and TR Hill. Triangular mesh methods for the neutron transport
+    equation. Technical Report LA-UR-73-479, Los Alamos Scientific Laboratory,
+    1973.
+
+[2] David A Kopriva and John H Kolias. A conservative staggered-grid Chebyshev
+    multidomain method for compressible flows. Journal of computational physics,
+    125(1):244–261, 1996.
+
+[3] Yuzhi Sun, Zhi Jian Wang, and Yen Liu. High-order multidomain spectral
+    difference method for the Navier-Stokes equations on unstructured hexahedral
+    grids. Communications in Computational Physics, 2(2):310–333, 2007.
+
+[4] HT Huynh. A flux reconstruction approach to high-order schemes including
+    discontinuous Galerkin methods. AIAA paper, 4079:2007, 2007.
+
+[5] Jan S Hesthaven and Tim Warburton. Nodal discontinuous Galerkin methods:
+    algorithms, analysis, and applications, volume 54. Springer Verlag New York,
+    2008.
+
+[6] PE Vincent, P Castonguay, and A Jameson. A new class of high-order energy
+    stable flux reconstruction schemes. Journal of Scientific Computing, 47(1):50–
+    72, 2011.
+
+[7] P Castonguay, PE Vincent, and A Jameson. A new class of high-order energy
+    stable flux reconstruction schemes for triangular elements. Journal of Scientific
+    Computing, 2011.
+
+[8] Patrice Castonguay, PE Vincent, and Antony Jameson. Application of high-
+    order energy stable flux reconstruction schemes to the Euler equations. In 49th
+    AIAA Aerospace Sciences Meeting, volume 686, 2011.
+
+[9] A Jameson, PE Vincent, and P Castonguay. On the non-linear stability of
+    flux reconstruction schemes. Journal of Scientific Computing, 50(2):434–445,
+    2011.
+
+                                        32
+[10] PE Vincent, P Castonguay, and A Jameson. Insights from von Neumann
+     analysis of high-order flux reconstruction schemes. Journal of Computational
+     Physics, 230(22):8134–8154, 2011.
+
+[11] Patrice Castonguay, Peter E Vincent, and Antony Jameson. A new class of
+     high-order energy stable flux reconstruction schemes for triangular elements.
+     Journal of Scientific Computing, 51(1):224–256, 2012.
+
+[12] DM Williams, P Castonguay, PE Vincent, and A Jameson. Energy stable flux
+     reconstruction schemes for advection-diffusion problems on triangles. Journal
+     of Computational Physics, 2013.
+
+[13] P Castonguay, DM Williams, PE Vincent, and A Jameson. Energy stable flux
+     reconstruction schemes for advection-diffusion problems. Computer Methods
+     in Applied Mechanics and Engineering, 2013.
+
+[14] D.M. Williams and A. Jameson. Energy stable flux reconstruction schemes for
+     advection-diffusion problems on tetrahedra. Journal of Scientific Computing,
+     pages 1–39, 2013.
+
+[15] David A Kopriva. A staggered-grid multidomain spectral method for the
+     compressible navier–stokes equations. Journal of Computational Physics,
+     143(1):125–158, 1998.
+
+[16] SymPy Development Team. Sympy: Python library for symbolic mathematics,
+     2013.
+
+[17] Michael Bayer. Mako: Templates for python, 2013.
+
+[18] Andreas Klöckner, Nicolas Pinto, Yunsup Lee, Bryan Catanzaro, Paul Ivanov,
+     and Ahmed Fasih. Pycuda and pyopencl: A scripting-based approach to gpu
+     run-time code generation. Parallel Comput., 38(3):157–174, 2012.
+
+[19] Lisandro Dalcin. mpi4py: Mpi for python, 2013.
+
+[20] Eleuterio F Toro. Riemann solvers and numerical methods for fluid dynamics:
+     a practical introduction. Springer, 2009.
+
+
+
+
+                                       33
+

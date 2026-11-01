@@ -1,0 +1,113 @@
+name: Fortran CI
+
+#on: [push, pull_request]
+on:
+  workflow_dispatch:   # only runs if you press "Run workflow" in GitHub Actions
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - compiler: gcc
+            version: 13
+          #- compiler: nvidia-hpc
+          #  version: 25.1
+    env:
+      METIS_HOME:  /home/runner/work/horses3d-gpu/horses3d-gpu/metis-5.1.0/build/Linux-x86_64
+
+    steps:
+      - uses: actions/checkout@v4
+
+      #- name: Patch Makefile.in (remove CUDA flags & fix link rule)
+      #  run: |
+      #    cd Solver
+      #    sed -i 's|\(NVFORTRAN_RELEASE_FLAGS=.*\)-cuda -acc|\1|g' Makefile.in
+      #    sed -i 's|NVFORTRAN_RELEASE_FLAGS= |$(NVFORTRAN_RELEASE_FLAGS) |g' src/libs/problemfile/Makefile
+      
+      # Install compiler first
+      - name: Setup Fortran
+        uses: fortran-lang/setup-fortran@v1.6.3
+        with:
+          compiler: ${{ matrix.compiler }}
+          version: ${{ matrix.version }}
+
+      # Cache NVIDIA HPC SDK only for nvfortran
+      - name: Cache NVIDIA HPC SDK
+        if: matrix.compiler == 'nvidia-hpc'
+        uses: actions/cache@v4
+        with:
+          # This is the actual path setup-fortran installs the SDK to
+          path: |
+            ~/.fortran-lang/cache/nvidia-hpc/linux-x86_64-${{ matrix.version }}
+          key: nvhpc-${{ runner.os }}-v${{ matrix.version }}
+          restore-keys: |
+            nvhpc-${{ runner.os }}-
+
+      - name: Setup MPI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libopenmpi-dev openmpi-bin
+  
+      - name: Install METIS (gnu)
+        #if: matrix.compiler == 'gcc'
+        run: |
+          wget "https://src.fedoraproject.org/lookaside/pkgs/metis/metis-5.1.0.tar.gz/5465e67079419a69e0116de24fce58fe/metis-5.1.0.tar.gz" 
+          tar -xvf metis-5.1.0.tar.gz
+          cd metis-5.1.0
+          make config cc=gcc
+          make
+          mv /home/runner/work/horses3d-gpu/horses3d-gpu/metis-5.1.0/build/Linux-x86_64/libmetis /home/runner/work/horses3d-gpu/horses3d-gpu/metis-5.1.0/build/Linux-x86_64/lib
+          mv /home/runner/work/horses3d-gpu/horses3d-gpu/metis-5.1.0/build/Linux-x86_64/programs /home/runner/work/horses3d-gpu/horses3d-gpu/metis-5.1.0/build/Linux-x86_64/bin
+
+      - name: Export compiler environment
+        run: |
+          if [ "${{ matrix.compiler }}" = "gcc" ]; then
+            echo "FC=gfortran" >> $GITHUB_ENV
+            echo "CC=gcc" >> $GITHUB_ENV
+            echo "CXX=g++" >> $GITHUB_ENV
+            echo "MPIFC=mpifort" >> $GITHUB_ENV
+          else
+            echo "FC=nvfortran" >> $GITHUB_ENV
+            echo "CC=nvc" >> $GITHUB_ENV
+            echo "CXX=nvc++" >> $GITHUB_ENV
+            echo "MPIFC=/opt/nvidia/hpc_sdk/Linux_x86_64/25.1/comm_libs/mpi/bin/mpifort" >> $GITHUB_ENV
+          fi
+
+  
+      - name: Check mpifort
+        run: |
+          which mpifort
+          mpifort --version
+          
+      - name: Configure Horses3D
+        run: |
+          cd Solver
+          ./configure
+  
+      - name: Build NS solver (GCC)
+        run: |
+          cd Solver
+          if [ "${{ matrix.compiler }}" = "gcc" ]; then
+            make ns COMPILER=gfortran COMM=PARALLEL WITH_METIS=YES ENABLE_THREADS=NO
+          fi
+
+      - name: Build NS solver (NVFORTRAN)
+        if: matrix.compiler == 'nvidia-hpc'
+        run: |
+          # Override system mpifort with NVIDIA MPI wrapper
+          sudo ln -sf /opt/nvidia/hpc_sdk/Linux_x86_64/25.1/comm_libs/mpi/bin/mpifort /bin/mpifort
+
+          which mpifort
+          mpifort --version
+          
+          cd Solver
+          make ns COMPILER=nvfortran COMM=PARALLEL WITH_METIS=YES
+
+      - name: Run BoxAroundCirclePirozzoli
+        working-directory: ./Solver/test/Euler/BoxAroundCirclePirozzoli
+        run: |
+          mpiexec -n 8 ./horses3d.ns BoxAroundCirclePirozzoli.control
+        if: '!cancelled()'     

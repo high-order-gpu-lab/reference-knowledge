@@ -1,0 +1,332 @@
+[
+  {
+    "id": "C01",
+    "repository": "PyFR",
+    "path": "ref-code/PyFR/pyfr/solvers/baseadvec/system.py",
+    "line_start": 63,
+    "line_end": 141,
+    "meaning": "对流残差以图组织：面插值、收发、局部通量、散度及修正",
+    "commit": "7139463e06094763c4f1ae7d1171f0d4ef7b7395",
+    "url": "https://github.com/PyFR/PyFR/blob/7139463e06094763c4f1ae7d1171f0d4ef7b7395/pyfr/solvers/baseadvec/system.py#L63-L141"
+  },
+  {
+    "id": "C02",
+    "repository": "PyFR",
+    "path": "ref-code/PyFR/pyfr/solvers/baseadvecdiff/system.py",
+    "line_start": 1,
+    "line_end": 220,
+    "meaning": "粘性路径独立检查，不能用纯对流图代表完整 Navier–Stokes",
+    "commit": "7139463e06094763c4f1ae7d1171f0d4ef7b7395",
+    "url": "https://github.com/PyFR/PyFR/blob/7139463e06094763c4f1ae7d1171f0d4ef7b7395/pyfr/solvers/baseadvecdiff/system.py#L1-L220"
+  },
+  {
+    "id": "C03",
+    "repository": "PyFR",
+    "path": "ref-code/PyFR/pyfr/backends/cuda/base.py",
+    "line_start": 8,
+    "line_end": 110,
+    "meaning": "CUDA 后端注册计算核、矩阵、图，SoA 块宽32和128字节对齐",
+    "commit": "7139463e06094763c4f1ae7d1171f0d4ef7b7395",
+    "url": "https://github.com/PyFR/PyFR/blob/7139463e06094763c4f1ae7d1171f0d4ef7b7395/pyfr/backends/cuda/base.py#L8-L110"
+  },
+  {
+    "id": "C04",
+    "repository": "PyFR",
+    "path": "ref-code/PyFR/pyfr/backends/hip/base.py",
+    "line_start": 9,
+    "line_end": 100,
+    "meaning": "HIP 后端依设备 warp_size 设置 SoA，支持 standard/hip-aware 配置",
+    "commit": "7139463e06094763c4f1ae7d1171f0d4ef7b7395",
+    "url": "https://github.com/PyFR/PyFR/blob/7139463e06094763c4f1ae7d1171f0d4ef7b7395/pyfr/backends/hip/base.py#L9-L100"
+  },
+  {
+    "id": "C05",
+    "repository": "PyFR",
+    "path": "ref-code/PyFR/pyfr/backends/base/types.py",
+    "line_start": 21,
+    "line_end": 120,
+    "meaning": "矩阵形状、分块、填充与布局变换",
+    "commit": "7139463e06094763c4f1ae7d1171f0d4ef7b7395",
+    "url": "https://github.com/PyFR/PyFR/blob/7139463e06094763c4f1ae7d1171f0d4ef7b7395/pyfr/backends/base/types.py#L21-L120"
+  },
+  {
+    "id": "C06",
+    "repository": "PyFR",
+    "path": "ref-code/PyFR/pyfr/backends/cuda/gimmik.py",
+    "line_start": 8,
+    "line_end": 155,
+    "meaning": "常矩阵专用生成、候选核计时、缓存及回退",
+    "commit": "7139463e06094763c4f1ae7d1171f0d4ef7b7395",
+    "url": "https://github.com/PyFR/PyFR/blob/7139463e06094763c4f1ae7d1171f0d4ef7b7395/pyfr/backends/cuda/gimmik.py#L8-L155"
+  },
+  {
+    "id": "C07",
+    "repository": "GALAEXI",
+    "path": "ref-code/GALAEXI/src/dg/dg.f90",
+    "line_start": 255,
+    "line_end": 423,
+    "meaning": "显式 DG 残差内状态/梯度/通量交换与多 stream 调度",
+    "commit": "1f574224fec3990ca4387f968c32b28f72bf6df3",
+    "url": "https://github.com/flexi-framework/galaexi/blob/1f574224fec3990ca4387f968c32b28f72bf6df3/src/dg/dg.f90#L255-L423"
+  },
+  {
+    "id": "C08",
+    "repository": "GALAEXI",
+    "path": "ref-code/GALAEXI/src/dg/volint.f90",
+    "line_start": 129,
+    "line_end": 353,
+    "meaning": "分批体积分和 split-form 点级 CUDA Fortran 核",
+    "commit": "1f574224fec3990ca4387f968c32b28f72bf6df3",
+    "url": "https://github.com/flexi-framework/galaexi/blob/1f574224fec3990ca4387f968c32b28f72bf6df3/src/dg/volint.f90#L129-L353"
+  },
+  {
+    "id": "C09",
+    "repository": "GALAEXI",
+    "path": "ref-code/GALAEXI/src/dg/applydmatrix.t90",
+    "line_start": 19,
+    "line_end": 124,
+    "meaning": "线程号映射到单元与节点，逐方向求导",
+    "commit": "1f574224fec3990ca4387f968c32b28f72bf6df3",
+    "url": "https://github.com/flexi-framework/galaexi/blob/1f574224fec3990ca4387f968c32b28f72bf6df3/src/dg/applydmatrix.t90#L19-L124"
+  },
+  {
+    "id": "C10",
+    "repository": "GALAEXI",
+    "path": "ref-code/GALAEXI/src/dg/dg_vars.f90",
+    "line_start": 25,
+    "line_end": 114,
+    "meaning": "五维状态、体/面中间量、主机/设备镜像",
+    "commit": "1f574224fec3990ca4387f968c32b28f72bf6df3",
+    "url": "https://github.com/flexi-framework/galaexi/blob/1f574224fec3990ca4387f968c32b28f72bf6df3/src/dg/dg_vars.f90#L25-L114"
+  },
+  {
+    "id": "C11",
+    "repository": "GALAEXI",
+    "path": "ref-code/GALAEXI/src/globals/gpu.f90",
+    "line_start": 18,
+    "line_end": 75,
+    "meaning": "默认 stream 与多个 stream 的集中管理",
+    "commit": "1f574224fec3990ca4387f968c32b28f72bf6df3",
+    "url": "https://github.com/flexi-framework/galaexi/blob/1f574224fec3990ca4387f968c32b28f72bf6df3/src/globals/gpu.f90#L18-L75"
+  },
+  {
+    "id": "C12",
+    "repository": "GALAEXI",
+    "path": "ref-code/GALAEXI/src/mpi/mpi.f90",
+    "line_start": 277,
+    "line_end": 387,
+    "meaning": "设备面缓冲直接 MPI 收发；发送前同步对应 stream 或整设备",
+    "commit": "1f574224fec3990ca4387f968c32b28f72bf6df3",
+    "url": "https://github.com/flexi-framework/galaexi/blob/1f574224fec3990ca4387f968c32b28f72bf6df3/src/mpi/mpi.f90#L277-L387"
+  },
+  {
+    "id": "C13",
+    "repository": "HORSES3D-GPU",
+    "path": "ref-code/HORSES3D-GPU/README.md",
+    "line_start": 96,
+    "line_end": 115,
+    "meaning": "GPU beta 功能限制，不能继承主版所有能力",
+    "commit": "c7aac6a9382029da33da823612255741912aef24",
+    "url": "https://github.com/horses-framework/horses3d-gpu/blob/c7aac6a9382029da33da823612255741912aef24/README.md#L96-L115"
+  },
+  {
+    "id": "C14",
+    "repository": "HORSES3D-GPU",
+    "path": "ref-code/HORSES3D-GPU/Solver/src/NavierStokesSolver/SpatialDiscretization.f90",
+    "line_start": 229,
+    "line_end": 315,
+    "meaning": "残差总入口及模式分支",
+    "commit": "c7aac6a9382029da33da823612255741912aef24",
+    "url": "https://github.com/horses-framework/horses3d-gpu/blob/c7aac6a9382029da33da823612255741912aef24/Solver/src/NavierStokesSolver/SpatialDiscretization.f90#L229-L315"
+  },
+  {
+    "id": "C15",
+    "repository": "HORSES3D-GPU",
+    "path": "ref-code/HORSES3D-GPU/Solver/src/NavierStokesSolver/SpatialDiscretization.f90",
+    "line_start": 372,
+    "line_end": 560,
+    "meaning": "先内部面与单元，再 MPI 面与单元；OpenACC gang/vector",
+    "commit": "c7aac6a9382029da33da823612255741912aef24",
+    "url": "https://github.com/horses-framework/horses3d-gpu/blob/c7aac6a9382029da33da823612255741912aef24/Solver/src/NavierStokesSolver/SpatialDiscretization.f90#L372-L560"
+  },
+  {
+    "id": "C16",
+    "repository": "HORSES3D-GPU",
+    "path": "ref-code/HORSES3D-GPU/Solver/src/NavierStokesSolver/SpatialDiscretization.f90",
+    "line_start": 1289,
+    "line_end": 1424,
+    "meaning": "体通量/积分循环映射，存在具体 vector_length/num_gangs 参数",
+    "commit": "c7aac6a9382029da33da823612255741912aef24",
+    "url": "https://github.com/horses-framework/horses3d-gpu/blob/c7aac6a9382029da33da823612255741912aef24/Solver/src/NavierStokesSolver/SpatialDiscretization.f90#L1289-L1424"
+  },
+  {
+    "id": "C17",
+    "repository": "HORSES3D-GPU",
+    "path": "ref-code/HORSES3D-GPU/Solver/src/libs/mesh/StorageClass.f90",
+    "line_start": 28,
+    "line_end": 120,
+    "meaning": "单元对象内状态、梯度及指针/分配数组",
+    "commit": "c7aac6a9382029da33da823612255741912aef24",
+    "url": "https://github.com/horses-framework/horses3d-gpu/blob/c7aac6a9382029da33da823612255741912aef24/Solver/src/libs/mesh/StorageClass.f90#L28-L120"
+  },
+  {
+    "id": "C18",
+    "repository": "HORSES3D-GPU",
+    "path": "ref-code/HORSES3D-GPU/Solver/src/libs/timeintegrator/ExplicitMethods.f90",
+    "line_start": 250,
+    "line_end": 310,
+    "meaning": "显式更新 OpenACC 路径示例",
+    "commit": "c7aac6a9382029da33da823612255741912aef24",
+    "url": "https://github.com/horses-framework/horses3d-gpu/blob/c7aac6a9382029da33da823612255741912aef24/Solver/src/libs/timeintegrator/ExplicitMethods.f90#L250-L310"
+  },
+  {
+    "id": "C19",
+    "repository": "HiFiLES",
+    "path": "ref-code/HiFiLES/src/HiFiLES.cpp",
+    "line_start": 150,
+    "line_end": 190,
+    "meaning": "时间步/RK stage 主循环",
+    "commit": "4c55159185667196884961b107260efc62ee3dc0",
+    "url": "https://github.com/HiFiLES/HiFiLES-solver/blob/4c55159185667196884961b107260efc62ee3dc0/src/HiFiLES.cpp#L150-L190"
+  },
+  {
+    "id": "C20",
+    "repository": "HiFiLES",
+    "path": "ref-code/HiFiLES/src/solver.cpp",
+    "line_start": 73,
+    "line_end": 235,
+    "meaning": "FR 残差流程，面通信与体运算",
+    "commit": "4c55159185667196884961b107260efc62ee3dc0",
+    "url": "https://github.com/HiFiLES/HiFiLES-solver/blob/4c55159185667196884961b107260efc62ee3dc0/src/solver.cpp#L73-L235"
+  },
+  {
+    "id": "C21",
+    "repository": "HiFiLES",
+    "path": "ref-code/HiFiLES/src/eles.cpp",
+    "line_start": 1256,
+    "line_end": 1328,
+    "meaning": "形状分组后将插值算子组织为 GEMM",
+    "commit": "4c55159185667196884961b107260efc62ee3dc0",
+    "url": "https://github.com/HiFiLES/HiFiLES-solver/blob/4c55159185667196884961b107260efc62ee3dc0/src/eles.cpp#L1256-L1328"
+  },
+  {
+    "id": "C22",
+    "repository": "HiFiLES",
+    "path": "ref-code/HiFiLES/src/eles.cpp",
+    "line_start": 1517,
+    "line_end": 1655,
+    "meaning": "散度及修正 GEMM/AXPY",
+    "commit": "4c55159185667196884961b107260efc62ee3dc0",
+    "url": "https://github.com/HiFiLES/HiFiLES-solver/blob/4c55159185667196884961b107260efc62ee3dc0/src/eles.cpp#L1517-L1655"
+  },
+  {
+    "id": "C23",
+    "repository": "HiFiLES",
+    "path": "ref-code/HiFiLES/src/cuda_kernels.cu",
+    "line_start": 36,
+    "line_end": 125,
+    "meaning": "bespoke_SPMV 核，共享内存与每块多单元",
+    "commit": "4c55159185667196884961b107260efc62ee3dc0",
+    "url": "https://github.com/HiFiLES/HiFiLES-solver/blob/4c55159185667196884961b107260efc62ee3dc0/src/cuda_kernels.cu#L36-L125"
+  },
+  {
+    "id": "C24",
+    "repository": "HiFiLES",
+    "path": "ref-code/HiFiLES/include/array.h",
+    "line_start": 288,
+    "line_end": 312,
+    "meaning": "多维数组线性索引：第一维连续",
+    "commit": "4c55159185667196884961b107260efc62ee3dc0",
+    "url": "https://github.com/HiFiLES/HiFiLES-solver/blob/4c55159185667196884961b107260efc62ee3dc0/include/array.h#L288-L312"
+  },
+  {
+    "id": "C25",
+    "repository": "HiFiLES",
+    "path": "ref-code/HiFiLES/include/array.h",
+    "line_start": 474,
+    "line_end": 570,
+    "meaning": "主机与设备缓冲显式复制",
+    "commit": "4c55159185667196884961b107260efc62ee3dc0",
+    "url": "https://github.com/HiFiLES/HiFiLES-solver/blob/4c55159185667196884961b107260efc62ee3dc0/include/array.h#L474-L570"
+  },
+  {
+    "id": "C26",
+    "repository": "MFEM",
+    "path": "ref-code/MFEM/general/device.hpp",
+    "line_start": 30,
+    "line_end": 111,
+    "meaning": "Device/Backend 将 CUDA、HIP、RAJA、OCCA、CEED 纳入统一分派",
+    "commit": "d259866bb8e42b13042907308cdba11947778a4e",
+    "url": "https://github.com/mfem/mfem/blob/d259866bb8e42b13042907308cdba11947778a4e/general/device.hpp#L30-L111"
+  },
+  {
+    "id": "C27",
+    "repository": "MFEM",
+    "path": "ref-code/MFEM/general/mem_manager.hpp",
+    "line_start": 131,
+    "line_end": 164,
+    "meaning": "Read/Write/ReadWrite 数据有效性及搬运语义",
+    "commit": "d259866bb8e42b13042907308cdba11947778a4e",
+    "url": "https://github.com/mfem/mfem/blob/d259866bb8e42b13042907308cdba11947778a4e/general/mem_manager.hpp#L131-L164"
+  },
+  {
+    "id": "C28",
+    "repository": "MFEM",
+    "path": "ref-code/MFEM/examples/ex1.cpp",
+    "line_start": 195,
+    "line_end": 285,
+    "meaning": "部分组装、Operator、预条件和求解接口",
+    "commit": "d259866bb8e42b13042907308cdba11947778a4e",
+    "url": "https://github.com/mfem/mfem/blob/d259866bb8e42b13042907308cdba11947778a4e/examples/ex1.cpp#L195-L285"
+  },
+  {
+    "id": "C29",
+    "repository": "MFEM",
+    "path": "ref-code/MFEM/fem/integ/bilininteg_diffusion_kernels.hpp",
+    "line_start": 981,
+    "line_end": 1045,
+    "meaning": "三维 PA 核的单元/线程层次、共享内存和基矩阵",
+    "commit": "d259866bb8e42b13042907308cdba11947778a4e",
+    "url": "https://github.com/mfem/mfem/blob/d259866bb8e42b13042907308cdba11947778a4e/fem/integ/bilininteg_diffusion_kernels.hpp#L981-L1045"
+  },
+  {
+    "id": "C30",
+    "repository": "MFEM",
+    "path": "ref-code/MFEM/fem/integ/bilininteg_diffusion_pa_simplices.hpp",
+    "line_start": 1,
+    "line_end": 90,
+    "meaning": "当前源码已有单纯形 PA 文件，官网旧说明不能当完整支持表",
+    "commit": "d259866bb8e42b13042907308cdba11947778a4e",
+    "url": "https://github.com/mfem/mfem/blob/d259866bb8e42b13042907308cdba11947778a4e/fem/integ/bilininteg_diffusion_pa_simplices.hpp#L1-L90"
+  },
+  {
+    "id": "C31",
+    "repository": "FLEXI",
+    "path": "ref-code/FLEXI/docs/documentation/02_codeoverview.md",
+    "line_start": 1,
+    "line_end": 100,
+    "meaning": "CPU 基线代码结构与 DG 流程说明",
+    "commit": "cfa7e7cfe73eaeb03d0cb8b7bf58152ab5dd3271",
+    "url": "https://github.com/flexi-framework/flexi/blob/cfa7e7cfe73eaeb03d0cb8b7bf58152ab5dd3271/docs/documentation/02_codeoverview.md#L1-L100"
+  },
+  {
+    "id": "C33",
+    "repository": "HiFiLES",
+    "path": "ref-code/HiFiLES/src/mpi_inters.cpp",
+    "line_start": 274,
+    "line_end": 332,
+    "meaning": "GPU 打包后主机中转 MPI，接收后复制回设备",
+    "commit": "4c55159185667196884961b107260efc62ee3dc0",
+    "url": "https://github.com/HiFiLES/HiFiLES-solver/blob/4c55159185667196884961b107260efc62ee3dc0/src/mpi_inters.cpp#L274-L332"
+  },
+  {
+    "id": "C32",
+    "repository": "HORSES3D-GPU",
+    "path": "ref-code/HORSES3D-GPU/NEWS.md",
+    "line_start": 1,
+    "line_end": 37,
+    "meaning": "GPU 显式时间步验证记录；与控制文件 Euler 方程限制需区分",
+    "commit": "c7aac6a9382029da33da823612255741912aef24",
+    "url": "https://github.com/horses-framework/horses3d-gpu/blob/c7aac6a9382029da33da823612255741912aef24/NEWS.md#L1-L37"
+  }
+]

@@ -1,0 +1,3469 @@
+{
+  "meta": {
+    "notice": "No API key, so this request shares one free daily budget ($0.10) with everyone on your network's IP address. Get a free key with its own $1/day at https://openalex.org/settings/api and add api_key=YOUR_KEY to your requests. An AI agent can get one for its user in one call: POST https://api.openalex.org/api-keys with {\"email\": \"<your user's email>\"}; we email them a link, and the key works once they click it. Docs for agents: https://help.openalex.org/llms.txt",
+    "count": 35635,
+    "db_response_time_ms": 157,
+    "page": 1,
+    "per_page": 4,
+    "groups_count": null,
+    "x_query": {
+      "oql": "get works with (Programming Massively Parallel Processors fourth edition) in the full text",
+      "x_new_oql": "get works with (Programming Massively Parallel Processors fourth edition) in the full text",
+      "oqo": {
+        "get_rows": "works",
+        "filter_rows": [
+          {
+            "column_id": "fulltext.search",
+            "value": "Programming Massively Parallel Processors fourth edition",
+            "operator": "has"
+          }
+        ]
+      },
+      "url": "/works?filter=fulltext.search:Programming Massively Parallel Processors fourth edition&per_page=4",
+      "order": "best matches first",
+      "order_default": true
+    },
+    "cost_usd": 0.001
+  },
+  "results": [
+    {
+      "id": "https://openalex.org/W2745745204",
+      "doi": null,
+      "title": "High performance histogramming on massively parallel processors",
+      "display_name": "High performance histogramming on massively parallel processors",
+      "relevance_score": 37.62553,
+      "publication_year": 2014,
+      "publication_date": "2014-09-16",
+      "ids": {
+        "openalex": "https://openalex.org/W2745745204",
+        "mag": "2745745204"
+      },
+      "language": "en",
+      "primary_location": {
+        "id": "pmh:oai:www.ideals.illinois.edu:2142/50625",
+        "doi": null,
+        "is_oa": true,
+        "landing_page_url": "https://hdl.handle.net/2142/50625",
+        "pdf_url": "https://www.ideals.illinois.edu/items/50736/bitstreams/147423/data.pdf",
+        "source": {
+          "id": "https://openalex.org/S4306401358",
+          "display_name": "Illinois Digital Environment for Access to Learning and Scholarship (University of Illinois at Urbana-Champaign)",
+          "issn_l": null,
+          "issn": null,
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": false,
+          "listed_in": [],
+          "host_organization": "https://openalex.org/I2801919071",
+          "host_organization_name": "University of Illinois System",
+          "host_organization_lineage": [
+            "https://openalex.org/I2801919071"
+          ],
+          "host_organization_lineage_names": [],
+          "type": "repository"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "submittedVersion",
+        "is_accepted": false,
+        "is_published": false,
+        "raw_source_name": null,
+        "raw_type": "text"
+      },
+      "volume": null,
+      "type": "article",
+      "indexed_in": [],
+      "open_access": {
+        "is_oa": true,
+        "oa_status": "green",
+        "oa_url": "https://www.ideals.illinois.edu/items/50736/bitstreams/147423/data.pdf",
+        "any_repository_has_fulltext": true
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": "https://openalex.org/A5070265040",
+            "display_name": "Gregory Ross",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [],
+          "countries": [],
+          "is_corresponding": true,
+          "raw_author_name": "Gregory Ross",
+          "raw_affiliation_strings": [],
+          "raw_orcid": null,
+          "affiliations": []
+        }
+      ],
+      "institutions": [],
+      "countries_distinct_count": 0,
+      "institutions_distinct_count": 0,
+      "corresponding_author_ids": [
+        "https://openalex.org/A5070265040"
+      ],
+      "corresponding_institution_ids": [],
+      "apc_list": null,
+      "apc_paid": null,
+      "fwci": 0.0,
+      "has_fulltext": true,
+      "cited_by_count": 0,
+      "citation_normalized_percentile": {
+        "value": 0.35663449,
+        "is_in_top_1_percent": false,
+        "is_in_top_10_percent": false
+      },
+      "cited_by_percentile_year": null,
+      "biblio": {
+        "volume": null,
+        "issue": null,
+        "first_page": null,
+        "last_page": null
+      },
+      "is_retracted": false,
+      "is_paratext": false,
+      "is_xpac": false,
+      "primary_topic": {
+        "id": "https://openalex.org/T10054",
+        "display_name": "Parallel Computing and Optimization Techniques",
+        "score": 0.9976000189781189,
+        "subfield": {
+          "id": "https://openalex.org/subfields/1708",
+          "display_name": "Hardware and Architecture"
+        },
+        "field": {
+          "id": "https://openalex.org/fields/17",
+          "display_name": "Computer Science"
+        },
+        "domain": {
+          "id": "https://openalex.org/domains/3",
+          "display_name": "Physical Sciences"
+        }
+      },
+      "topics": [
+        {
+          "id": "https://openalex.org/T10054",
+          "display_name": "Parallel Computing and Optimization Techniques",
+          "score": 0.9976000189781189,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1708",
+            "display_name": "Hardware and Architecture"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10481",
+          "display_name": "Computer Graphics and Visualization Techniques",
+          "score": 0.0006000000284984708,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1704",
+            "display_name": "Computer Graphics and Computer-Aided Design"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10715",
+          "display_name": "Distributed and Parallel Computing Systems",
+          "score": 0.0005000000237487257,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1705",
+            "display_name": "Computer Networks and Communications"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        }
+      ],
+      "keywords": [
+        {
+          "id": "https://openalex.org/keywords/histogramming",
+          "display_name": "histogramming",
+          "score": 0.9850000143051147
+        },
+        {
+          "id": "https://openalex.org/keywords/massively-parallel-computers",
+          "display_name": "massively parallel computers",
+          "score": 0.9900000095367432
+        },
+        {
+          "id": "https://openalex.org/keywords/parallel-computing",
+          "display_name": "parallel computing",
+          "score": 0.781000018119812
+        },
+        {
+          "id": "https://openalex.org/keywords/data-processing",
+          "display_name": "data processing",
+          "score": 0.42899999022483826
+        },
+        {
+          "id": "https://openalex.org/keywords/performance-optimization",
+          "display_name": "performance optimization",
+          "score": 0.46000000834465027
+        }
+      ],
+      "concepts": [
+        {
+          "id": "https://openalex.org/C190475519",
+          "wikidata": "https://www.wikidata.org/wiki/Q544384",
+          "display_name": "Massively parallel",
+          "level": 2,
+          "score": 0.7311661839485168
+        },
+        {
+          "id": "https://openalex.org/C41008148",
+          "wikidata": "https://www.wikidata.org/wiki/Q21198",
+          "display_name": "Computer science",
+          "level": 0,
+          "score": 0.6400780081748962
+        },
+        {
+          "id": "https://openalex.org/C173608175",
+          "wikidata": "https://www.wikidata.org/wiki/Q232661",
+          "display_name": "Parallel computing",
+          "level": 1,
+          "score": 0.5283019542694092
+        }
+      ],
+      "mesh": [],
+      "locations_count": 2,
+      "locations": [
+        {
+          "id": "pmh:oai:www.ideals.illinois.edu:2142/50625",
+          "doi": null,
+          "is_oa": true,
+          "landing_page_url": "https://hdl.handle.net/2142/50625",
+          "pdf_url": "https://www.ideals.illinois.edu/items/50736/bitstreams/147423/data.pdf",
+          "source": {
+            "id": "https://openalex.org/S4306401358",
+            "display_name": "Illinois Digital Environment for Access to Learning and Scholarship (University of Illinois at Urbana-Champaign)",
+            "issn_l": null,
+            "issn": null,
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": "https://openalex.org/I2801919071",
+            "host_organization_name": "University of Illinois System",
+            "host_organization_lineage": [
+              "https://openalex.org/I2801919071"
+            ],
+            "host_organization_lineage_names": [],
+            "type": "repository"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "submittedVersion",
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": null,
+          "raw_type": "text"
+        },
+        {
+          "id": "mag:2745745204",
+          "doi": null,
+          "is_oa": false,
+          "landing_page_url": "https://www.ideals.illinois.edu/handle/2142/50625",
+          "pdf_url": null,
+          "source": null,
+          "license": null,
+          "license_id": null,
+          "version": null,
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": null,
+          "raw_type": null
+        }
+      ],
+      "best_oa_location": {
+        "id": "pmh:oai:www.ideals.illinois.edu:2142/50625",
+        "doi": null,
+        "is_oa": true,
+        "landing_page_url": "https://hdl.handle.net/2142/50625",
+        "pdf_url": "https://www.ideals.illinois.edu/items/50736/bitstreams/147423/data.pdf",
+        "source": {
+          "id": "https://openalex.org/S4306401358",
+          "display_name": "Illinois Digital Environment for Access to Learning and Scholarship (University of Illinois at Urbana-Champaign)",
+          "issn_l": null,
+          "issn": null,
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": false,
+          "listed_in": [],
+          "host_organization": "https://openalex.org/I2801919071",
+          "host_organization_name": "University of Illinois System",
+          "host_organization_lineage": [
+            "https://openalex.org/I2801919071"
+          ],
+          "host_organization_lineage_names": [],
+          "type": "repository"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "submittedVersion",
+        "is_accepted": false,
+        "is_published": false,
+        "raw_source_name": null,
+        "raw_type": "text"
+      },
+      "sustainable_development_goals": [],
+      "sustainable_development_goals_aurora": [
+        {
+          "display_name": "Affordable and clean energy",
+          "score": 0.6499999761581421,
+          "id": "https://metadata.un.org/sdg/7"
+        }
+      ],
+      "study_designs": [],
+      "awards": [],
+      "funders": [],
+      "has_content": {
+        "pdf": true,
+        "grobid_xml": true
+      },
+      "content_urls": {
+        "pdf": "https://content.openalex.org/works/W2745745204.pdf",
+        "grobid_xml": "https://content.openalex.org/works/W2745745204.grobid-xml"
+      },
+      "referenced_works_count": 13,
+      "referenced_works": [
+        "https://openalex.org/W1574785859",
+        "https://openalex.org/W1582598281",
+        "https://openalex.org/W2034432063",
+        "https://openalex.org/W2110241600",
+        "https://openalex.org/W2112889919",
+        "https://openalex.org/W2126463539",
+        "https://openalex.org/W2132103241",
+        "https://openalex.org/W2140935196",
+        "https://openalex.org/W2145455679",
+        "https://openalex.org/W2159269372",
+        "https://openalex.org/W2159481344",
+        "https://openalex.org/W2168682262",
+        "https://openalex.org/W2169447236"
+      ],
+      "related_works": [
+        "https://openalex.org/W2056204683",
+        "https://openalex.org/W3140830304",
+        "https://openalex.org/W2148869717",
+        "https://openalex.org/W2004866094",
+        "https://openalex.org/W1523236639",
+        "https://openalex.org/W2882757721",
+        "https://openalex.org/W2147523817",
+        "https://openalex.org/W2764117718",
+        "https://openalex.org/W2879935626",
+        "https://openalex.org/W2021602823",
+        "https://openalex.org/W1964826176",
+        "https://openalex.org/W2037631693",
+        "https://openalex.org/W2085702121",
+        "https://openalex.org/W2119534391",
+        "https://openalex.org/W1993500430",
+        "https://openalex.org/W3120106206",
+        "https://openalex.org/W2023396712",
+        "https://openalex.org/W2353852602",
+        "https://openalex.org/W2545696998",
+        "https://openalex.org/W1963859303"
+      ],
+      "abstract_inverted_index": {
+        "Histogramming": [
+          0
+        ],
+        "is": [
+          1
+        ],
+        "a": [
+          2,
+          45,
+          68,
+          106,
+          115,
+          122,
+          179,
+          184,
+          187,
+          226
+        ],
+        "technique": [
+          3,
+          165
+        ],
+        "by": [
+          4,
+          196
+        ],
+        "which": [
+          5
+        ],
+        "input": [
+          6,
+          199
+        ],
+        "datasets": [
+          7
+        ],
+        "are": [
+          8,
+          193
+        ],
+        "mined": [
+          9
+        ],
+        "to": [
+          10,
+          67,
+          117,
+          139,
+          150,
+          169
+        ],
+        "extract": [
+          11
+        ],
+        "features": [
+          12
+        ],
+        "and": [
+          13,
+          32,
+          103,
+          158,
+          217
+        ],
+        "patterns.": [
+          14
+        ],
+        "Histograms": [
+          15
+        ],
+        "have": [
+          16
+        ],
+        "wide": [
+          17
+        ],
+        "range": [
+          18
+        ],
+        "of": [
+          19,
+          42,
+          51,
+          57,
+          128,
+          147,
+          155,
+          172,
+          175,
+          181,
+          229
+        ],
+        "uses": [
+          20
+        ],
+        "in": [
+          21,
+          71,
+          80,
+          105,
+          111,
+          205,
+          223
+        ],
+        "computer": [
+          22
+        ],
+        "vision,": [
+          23
+        ],
+        "machine": [
+          24
+        ],
+        "learning,": [
+          25
+        ],
+        "database": [
+          26
+        ],
+        "processing,": [
+          27
+        ],
+        "quality": [
+          28
+        ],
+        "control": [
+          29
+        ],
+        "for": [
+          30,
+          91
+        ],
+        "manufacturing,": [
+          31
+        ],
+        "many": [
+          33
+        ],
+        "applications": [
+          34
+        ],
+        "benefit": [
+          35
+        ],
+        "from": [
+          36
+        ],
+        "advance": [
+          37
+        ],
+        "knowledge": [
+          38
+        ],
+        "about": [
+          39
+        ],
+        "the": [
+          40,
+          49,
+          55,
+          81,
+          89,
+          126,
+          145,
+          153,
+          191,
+          202,
+          211
+        ],
+        "distribution": [
+          41
+        ],
+        "data.": [
+          43
+        ],
+        "Computing": [
+          44
+        ],
+        "histogram": [
+          46,
+          69,
+          141,
+          173
+        ],
+        "is,": [
+          47
+        ],
+        "essentially,": [
+          48
+        ],
+        "antithesis": [
+          50
+        ],
+        "parallel": [
+          52
+        ],
+        "processing.": [
+          53
+        ],
+        "Without": [
+          54
+        ],
+        "use": [
+          56
+        ],
+        "slow": [
+          58
+        ],
+        "atomic": [
+          59,
+          92,
+          156
+        ],
+        "operations": [
+          60,
+          93,
+          157
+        ],
+        "or": [
+          61,
+          108
+        ],
+        "serial": [
+          62
+        ],
+        "execution": [
+          63
+        ],
+        "when": [
+          64
+        ],
+        "contributing": [
+          65
+        ],
+        "data": [
+          66,
+          200
+        ],
+        "bin": [
+          70
+        ],
+        "an": [
+          72
+        ],
+        "input-driven": [
+          73
+        ],
+        "method,": [
+          74
+        ],
+        "there": [
+          75
+        ],
+        "would": [
+          76,
+          87,
+          95
+        ],
+        "likely": [
+          77
+        ],
+        "be": [
+          78,
+          167
+        ],
+        "inaccuracies": [
+          79
+        ],
+        "resulting": [
+          82
+        ],
+        "output.": [
+          83
+        ],
+        "An": [
+          84
+        ],
+        "output-driven": [
+          85
+        ],
+        "method": [
+          86,
+          116,
+          134
+        ],
+        "eliminate": [
+          88
+        ],
+        "need": [
+          90
+        ],
+        "but": [
+          94,
+          225
+        ],
+        "amplify": [
+          96
+        ],
+        "read": [
+          97
+        ],
+        "bandwidth": [
+          98
+        ],
+        "requirements,": [
+          99
+        ],
+        "reduce": [
+          100
+        ],
+        "overall": [
+          101
+        ],
+        "throughput,": [
+          102
+        ],
+        "result": [
+          104
+        ],
+        "zero": [
+          107
+        ],
+        "negative": [
+          109
+        ],
+        "gain": [
+          110
+        ],
+        "performance.": [
+          112
+        ],
+        "We": [
+          113
+        ],
+        "introduce": [
+          114
+        ],
+        "pack": [
+          118
+        ],
+        "multiple": [
+          119
+        ],
+        "bins": [
+          120
+        ],
+        "into": [
+          121
+        ],
+        "memory": [
+          123
+        ],
+        "word": [
+          124
+        ],
+        "with": [
+          125,
+          178
+        ],
+        "goal": [
+          127
+        ],
+        "better": [
+          129,
+          151
+        ],
+        "utilizing": [
+          130
+        ],
+        "GPU": [
+          131,
+          136
+        ],
+        "resources.": [
+          132
+        ],
+        "This": [
+          133,
+          164
+        ],
+        "improves": [
+          135
+        ],
+        "occupancy": [
+          137
+        ],
+        "relative": [
+          138
+        ],
+        "earlier": [
+          140
+        ],
+        "kernel": [
+          142,
+          215
+        ],
+        "implementations,": [
+          143
+        ],
+        "increases": [
+          144
+        ],
+        "number": [
+          146,
+          228
+        ],
+        "working": [
+          148
+        ],
+        "threads": [
+          149
+        ],
+        "hide": [
+          152
+        ],
+        "latency": [
+          154
+        ],
+        "collisions": [
+          159
+        ],
+        "while": [
+          160
+        ],
+        "maintaining": [
+          161
+        ],
+        "reasonable": [
+          162
+        ],
+        "throughput.": [
+          163
+        ],
+        "will": [
+          166,
+          208
+        ],
+        "demonstrated": [
+          168
+        ],
+        "improve": [
+          170
+        ],
+        "performance": [
+          171
+        ],
+        "functions": [
+          174
+        ],
+        "various": [
+          176
+        ],
+        "sizes": [
+          177
+        ],
+        "variety": [
+          180
+        ],
+        "inputs,": [
+          182
+        ],
+        "including": [
+          183
+        ],
+        "study": [
+          185
+        ],
+        "on": [
+          186,
+          198
+        ],
+        "particular": [
+          188
+        ],
+        "application.": [
+          189
+        ],
+        "While": [
+          190
+        ],
+        "results": [
+          192
+        ],
+        "heavily": [
+          194
+        ],
+        "driven": [
+          195
+        ],
+        "dependancies": [
+          197
+        ],
+        "patterns,": [
+          201
+        ],
+        "conclusions": [
+          203
+        ],
+        "gathered": [
+          204
+        ],
+        "this": [
+          206
+        ],
+        "thesis": [
+          207
+        ],
+        "outline": [
+          209
+        ],
+        "that": [
+          210
+        ],
+        "packed": [
+          212
+        ],
+        "atomics": [
+          213
+        ],
+        "histogramming": [
+          214
+        ],
+        "can": [
+          216
+        ],
+        "usually": [
+          218
+        ],
+        "does": [
+          219
+        ],
+        "outperform": [
+          220
+        ],
+        "other": [
+          221
+        ],
+        "implementations": [
+          222
+        ],
+        "all": [
+          224
+        ],
+        "select": [
+          227
+        ],
+        "exceptions.": [
+          230
+        ]
+      },
+      "counts_by_year": [],
+      "updated_date": "2026-10-22T09:42:04.148104",
+      "created_date": "2025-10-10T00:00:00"
+    },
+    {
+      "id": "https://openalex.org/W2338423052",
+      "doi": null,
+      "title": "Portable lattice QCD software for massively parallel processor systems",
+      "display_name": "Portable lattice QCD software for massively parallel processor systems",
+      "relevance_score": 34.620693,
+      "publication_year": 1994,
+      "publication_date": "1994-01-01",
+      "ids": {
+        "openalex": "https://openalex.org/W2338423052",
+        "mag": "2338423052"
+      },
+      "language": "en",
+      "primary_location": {
+        "id": "pmh:oai:era.ed.ac.uk:1842/14479",
+        "doi": null,
+        "is_oa": true,
+        "landing_page_url": "http://hdl.handle.net/1842/14479",
+        "pdf_url": "http://hdl.handle.net/1842/14479",
+        "source": {
+          "id": "https://openalex.org/S7407055182",
+          "display_name": "ERA",
+          "issn_l": null,
+          "issn": null,
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": false,
+          "listed_in": [],
+          "host_organization": null,
+          "host_organization_name": null,
+          "host_organization_lineage": [],
+          "host_organization_lineage_names": [],
+          "type": "repository"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "submittedVersion",
+        "is_accepted": false,
+        "is_published": false,
+        "raw_source_name": null,
+        "raw_type": "Thesis or Dissertation"
+      },
+      "volume": null,
+      "type": "dissertation",
+      "indexed_in": [],
+      "open_access": {
+        "is_oa": true,
+        "oa_status": "green",
+        "oa_url": "http://hdl.handle.net/1842/14479",
+        "any_repository_has_fulltext": true
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": "https://openalex.org/A5025379575",
+            "display_name": "Nicholas Paul Stanford",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [],
+          "countries": [],
+          "is_corresponding": true,
+          "raw_author_name": "Nicholas Paul Stanford",
+          "raw_affiliation_strings": [],
+          "raw_orcid": null,
+          "affiliations": []
+        }
+      ],
+      "institutions": [],
+      "countries_distinct_count": 0,
+      "institutions_distinct_count": 0,
+      "corresponding_author_ids": [
+        "https://openalex.org/A5025379575"
+      ],
+      "corresponding_institution_ids": [],
+      "apc_list": null,
+      "apc_paid": null,
+      "fwci": null,
+      "has_fulltext": true,
+      "cited_by_count": 0,
+      "citation_normalized_percentile": null,
+      "cited_by_percentile_year": null,
+      "biblio": {
+        "volume": null,
+        "issue": null,
+        "first_page": null,
+        "last_page": null
+      },
+      "is_retracted": false,
+      "is_paratext": false,
+      "is_xpac": false,
+      "primary_topic": {
+        "id": "https://openalex.org/T10224",
+        "display_name": "Quantum Chromodynamics and Particle Interactions",
+        "score": 0.9648000001907349,
+        "subfield": {
+          "id": "https://openalex.org/subfields/3106",
+          "display_name": "Nuclear and High Energy Physics"
+        },
+        "field": {
+          "id": "https://openalex.org/fields/31",
+          "display_name": "Physics and Astronomy"
+        },
+        "domain": {
+          "id": "https://openalex.org/domains/3",
+          "display_name": "Physical Sciences"
+        }
+      },
+      "topics": [
+        {
+          "id": "https://openalex.org/T10224",
+          "display_name": "Quantum Chromodynamics and Particle Interactions",
+          "score": 0.9648000001907349,
+          "subfield": {
+            "id": "https://openalex.org/subfields/3106",
+            "display_name": "Nuclear and High Energy Physics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/31",
+            "display_name": "Physics and Astronomy"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10054",
+          "display_name": "Parallel Computing and Optimization Techniques",
+          "score": 0.013899999670684338,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1708",
+            "display_name": "Hardware and Architecture"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10048",
+          "display_name": "Particle physics theoretical and experimental studies",
+          "score": 0.006300000008195639,
+          "subfield": {
+            "id": "https://openalex.org/subfields/3106",
+            "display_name": "Nuclear and High Energy Physics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/31",
+            "display_name": "Physics and Astronomy"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        }
+      ],
+      "keywords": [
+        {
+          "id": "https://openalex.org/keywords/lattice-qcd",
+          "display_name": "lattice QCD",
+          "score": 0.9829999804496765
+        },
+        {
+          "id": "https://openalex.org/keywords/quantum-chromodynamics",
+          "display_name": "QCD",
+          "score": 0.8679999709129333
+        },
+        {
+          "id": "https://openalex.org/keywords/massively-parallel-computers",
+          "display_name": "massively parallel computers",
+          "score": 0.9430000185966492
+        },
+        {
+          "id": "https://openalex.org/keywords/portable-software",
+          "display_name": "portable software",
+          "score": 0.7129999995231628
+        },
+        {
+          "id": "https://openalex.org/keywords/mimd-architecture",
+          "display_name": "MIMD architecture",
+          "score": 0.746999979019165
+        },
+        {
+          "id": "https://openalex.org/keywords/simd-architecture",
+          "display_name": "SIMD architecture",
+          "score": 1.0
+        },
+        {
+          "id": "https://openalex.org/keywords/high-performance-computing",
+          "display_name": "high-performance computing",
+          "score": 0.6610000133514404
+        },
+        {
+          "id": "https://openalex.org/keywords/quark-gluon-interactions",
+          "display_name": "quark-gluon interactions",
+          "score": 0.722000002861023
+        }
+      ],
+      "concepts": [
+        {
+          "id": "https://openalex.org/C190475519",
+          "wikidata": "https://www.wikidata.org/wiki/Q544384",
+          "display_name": "Massively parallel",
+          "level": 2,
+          "score": 0.8620679378509521
+        },
+        {
+          "id": "https://openalex.org/C3909970",
+          "wikidata": "https://www.wikidata.org/wiki/Q6166044",
+          "display_name": "Lattice QCD",
+          "level": 3,
+          "score": 0.6086310744285583
+        },
+        {
+          "id": "https://openalex.org/C41008148",
+          "wikidata": "https://www.wikidata.org/wiki/Q21198",
+          "display_name": "Computer science",
+          "level": 0,
+          "score": 0.565570592880249
+        },
+        {
+          "id": "https://openalex.org/C2777904410",
+          "wikidata": "https://www.wikidata.org/wiki/Q7397",
+          "display_name": "Software",
+          "level": 2,
+          "score": 0.5364329218864441
+        },
+        {
+          "id": "https://openalex.org/C173608175",
+          "wikidata": "https://www.wikidata.org/wiki/Q232661",
+          "display_name": "Parallel computing",
+          "level": 1,
+          "score": 0.5072974562644958
+        },
+        {
+          "id": "https://openalex.org/C459310",
+          "wikidata": "https://www.wikidata.org/wiki/Q117801",
+          "display_name": "Computational science",
+          "level": 1,
+          "score": 0.3840944468975067
+        },
+        {
+          "id": "https://openalex.org/C109214941",
+          "wikidata": "https://www.wikidata.org/wiki/Q18334",
+          "display_name": "Particle physics",
+          "level": 1,
+          "score": 0.33065903186798096
+        },
+        {
+          "id": "https://openalex.org/C117137515",
+          "wikidata": "https://www.wikidata.org/wiki/Q238170",
+          "display_name": "Quantum chromodynamics",
+          "level": 2,
+          "score": 0.30665338039398193
+        },
+        {
+          "id": "https://openalex.org/C121332964",
+          "wikidata": "https://www.wikidata.org/wiki/Q413",
+          "display_name": "Physics",
+          "level": 0,
+          "score": 0.30328667163848877
+        },
+        {
+          "id": "https://openalex.org/C111919701",
+          "wikidata": "https://www.wikidata.org/wiki/Q9135",
+          "display_name": "Operating system",
+          "level": 1,
+          "score": 0.3010043501853943
+        }
+      ],
+      "mesh": [],
+      "locations_count": 2,
+      "locations": [
+        {
+          "id": "pmh:oai:era.ed.ac.uk:1842/14479",
+          "doi": null,
+          "is_oa": true,
+          "landing_page_url": "http://hdl.handle.net/1842/14479",
+          "pdf_url": "http://hdl.handle.net/1842/14479",
+          "source": {
+            "id": "https://openalex.org/S7407055182",
+            "display_name": "ERA",
+            "issn_l": null,
+            "issn": null,
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": null,
+            "host_organization_name": null,
+            "host_organization_lineage": [],
+            "host_organization_lineage_names": [],
+            "type": "repository"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "submittedVersion",
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": null,
+          "raw_type": "Thesis or Dissertation"
+        },
+        {
+          "id": "mag:2338423052",
+          "doi": null,
+          "is_oa": false,
+          "landing_page_url": "https://ethos.bl.uk/OrderDetails.do?uin=uk.bl.ethos.662356",
+          "pdf_url": null,
+          "source": null,
+          "license": null,
+          "license_id": null,
+          "version": null,
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": null,
+          "raw_type": null
+        }
+      ],
+      "best_oa_location": {
+        "id": "pmh:oai:era.ed.ac.uk:1842/14479",
+        "doi": null,
+        "is_oa": true,
+        "landing_page_url": "http://hdl.handle.net/1842/14479",
+        "pdf_url": "http://hdl.handle.net/1842/14479",
+        "source": {
+          "id": "https://openalex.org/S7407055182",
+          "display_name": "ERA",
+          "issn_l": null,
+          "issn": null,
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": false,
+          "listed_in": [],
+          "host_organization": null,
+          "host_organization_name": null,
+          "host_organization_lineage": [],
+          "host_organization_lineage_names": [],
+          "type": "repository"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "submittedVersion",
+        "is_accepted": false,
+        "is_published": false,
+        "raw_source_name": null,
+        "raw_type": "Thesis or Dissertation"
+      },
+      "sustainable_development_goals": [],
+      "sustainable_development_goals_aurora": [
+        {
+          "display_name": "Affordable and clean energy",
+          "score": 0.4399999976158142,
+          "id": "https://metadata.un.org/sdg/7"
+        }
+      ],
+      "study_designs": [],
+      "awards": [],
+      "funders": [
+        {
+          "id": "https://openalex.org/F4320334627",
+          "display_name": "Engineering and Physical Sciences Research Council",
+          "ror": "https://ror.org/0439y7842"
+        }
+      ],
+      "has_content": {
+        "pdf": true,
+        "grobid_xml": true
+      },
+      "content_urls": {
+        "pdf": "https://content.openalex.org/works/W2338423052.pdf",
+        "grobid_xml": "https://content.openalex.org/works/W2338423052.grobid-xml"
+      },
+      "referenced_works_count": 0,
+      "referenced_works": [],
+      "related_works": [
+        "https://openalex.org/W2339243742",
+        "https://openalex.org/W2288283531",
+        "https://openalex.org/W2964852566",
+        "https://openalex.org/W2596166977",
+        "https://openalex.org/W1739120387",
+        "https://openalex.org/W63159247",
+        "https://openalex.org/W1613394714",
+        "https://openalex.org/W2410458671",
+        "https://openalex.org/W2118179342",
+        "https://openalex.org/W1984160626",
+        "https://openalex.org/W2099798243",
+        "https://openalex.org/W2496314079",
+        "https://openalex.org/W2166359023",
+        "https://openalex.org/W2969364634",
+        "https://openalex.org/W2060344968",
+        "https://openalex.org/W2022282155",
+        "https://openalex.org/W369698052",
+        "https://openalex.org/W1826612978",
+        "https://openalex.org/W2143975406",
+        "https://openalex.org/W2581288152"
+      ],
+      "abstract_inverted_index": {
+        "Quantum": [
+          0
+        ],
+        "Chromodynamics": [
+          1
+        ],
+        "(QCD),": [
+          2
+        ],
+        "which": [
+          3,
+          74
+        ],
+        "models": [
+          4
+        ],
+        "the": [
+          5,
+          14,
+          18,
+          32,
+          70,
+          123,
+          144,
+          147,
+          150,
+          163
+        ],
+        "interactions": [
+          6
+        ],
+        "of": [
+          7,
+          13,
+          22,
+          30,
+          34,
+          73,
+          103,
+          125,
+          149
+        ],
+        "quarks": [
+          8
+        ],
+        "and": [
+          9,
+          94,
+          130,
+          143
+        ],
+        "gluons,": [
+          10
+        ],
+        "forms": [
+          11
+        ],
+        "part": [
+          12
+        ],
+        "standard": [
+          15
+        ],
+        "model,": [
+          16
+        ],
+        "currently": [
+          17,
+          113
+        ],
+        "best": [
+          19
+        ],
+        "theoretical": [
+          20
+        ],
+        "framework": [
+          21
+        ],
+        "unified": [
+          23
+        ],
+        "particle": [
+          24,
+          44,
+          59
+        ],
+        "interactions.Lattice": [
+          25
+        ],
+        "QCD": [
+          26,
+          35,
+          63,
+          105
+        ],
+        "is": [
+          27,
+          46,
+          117
+        ],
+        "a": [
+          28,
+          37,
+          51,
+          101,
+          126
+        ],
+        "method": [
+          29
+        ],
+        "simulating": [
+          31
+        ],
+        "theory": [
+          33
+        ],
+        "in": [
+          36,
+          84,
+          159
+        ],
+        "discretised": [
+          38
+        ],
+        "form": [
+          39
+        ],
+        "on": [
+          40,
+          132
+        ],
+        "computers.This": [
+          41
+        ],
+        "approach": [
+          42
+        ],
+        "to": [
+          43,
+          108
+        ],
+        "physics": [
+          45
+        ],
+        "vitally": [
+          47
+        ],
+        "important": [
+          48
+        ],
+        "for": [
+          49,
+          122,
+          137,
+          156
+        ],
+        "providing": [
+          50,
+          138
+        ],
+        "comparison": [
+          52
+        ],
+        "with": [
+          53,
+          140
+        ],
+        "experimental": [
+          54
+        ],
+        "measurements": [
+          55
+        ],
+        "-and": [
+          56
+        ],
+        "predicting": [
+          57
+        ],
+        "new": [
+          58
+        ],
+        "-properties.To": [
+          60
+        ],
+        "implement": [
+          61
+        ],
+        "---lattice": [
+          62
+        ],
+        "we": [
+          64
+        ],
+        "require": [
+          65
+        ],
+        "very": [
+          66
+        ],
+        "high": [
+          67,
+          160
+        ],
+        "performance": [
+          68
+        ],
+        "computers,": [
+          69
+        ],
+        "latest": [
+          71
+        ],
+        "generation": [
+          72
+        ],
+        "are": [
+          75,
+          82
+        ],
+        "known": [
+          76
+        ],
+        "as": [
+          77
+        ],
+        "Massively": [
+          78
+        ],
+        "Parallel": [
+          79
+        ],
+        "Processors": [
+          80
+        ],
+        "(MPPs).These": [
+          81
+        ],
+        "available": [
+          83,
+          114
+        ],
+        "two": [
+          85
+        ],
+        "main": [
+          86
+        ],
+        "distinct": [
+          87
+        ],
+        "architectures,": [
+          88
+        ],
+        "Multiple": [
+          89,
+          91,
+          97
+        ],
+        "Instruction": [
+          90,
+          96
+        ],
+        "Data": [
+          92,
+          98
+        ],
+        "(MIMD)": [
+          93
+        ],
+        "Single": [
+          95
+        ],
+        "(SIMD).We": [
+          99
+        ],
+        "present": [
+          100
+        ],
+        "suite": [
+          102
+        ],
+        "lattice": [
+          104
+        ],
+        "software": [
+          106
+        ],
+        "intended": [
+          107
+        ],
+        "be": [
+          109
+        ],
+        "portable": [
+          110
+        ],
+        "across": [
+          111
+        ],
+        "all": [
+          112
+        ],
+        "MPP": [
+          115
+        ],
+        "platforms.This": [
+          116
+        ],
+        "achieved": [
+          118
+        ],
+        "by": [
+          119
+        ],
+        "utilising": [
+          120
+        ],
+        "emerging": [
+          121
+        ],
+        "use": [
+          124
+        ],
+        "Connection": [
+          127
+        ],
+        "Machine": [
+          128
+        ],
+        "CM5": [
+          129
+        ],
+        "advice": [
+          131
+        ],
+        "its": [
+          133
+        ],
+        "use;": [
+          134
+        ],
+        "Andersen": [
+          135
+        ],
+        "Consulting": [
+          136
+        ],
+        "me": [
+          139,
+          158
+        ],
+        "post-PhD": [
+          141
+        ],
+        "employment": [
+          142
+        ],
+        "light": [
+          145
+        ],
+        "at": [
+          146
+        ],
+        "end": [
+          148
+        ],
+        "tunnel.And": [
+          151
+        ],
+        "finally,": [
+          152
+        ],
+        "my": [
+          153
+        ],
+        "wife": [
+          154
+        ],
+        "Alison": [
+          155
+        ],
+        "keeping": [
+          157
+        ],
+        "spirits": [
+          161
+        ],
+        "throughout": [
+          162
+        ],
+        "final": [
+          164
+        ],
+        "year.": [
+          165
+        ]
+      },
+      "counts_by_year": [],
+      "updated_date": "2026-08-30T07:30:35.949966",
+      "created_date": "2025-10-10T00:00:00"
+    },
+    {
+      "id": "https://openalex.org/W2408728055",
+      "doi": "https://doi.org/10.14279/depositonce-5132",
+      "title": "Massively parallel stream processing with latency guarantees",
+      "display_name": "Massively parallel stream processing with latency guarantees",
+      "relevance_score": 34.169685,
+      "publication_year": 2016,
+      "publication_date": "2016-01-01",
+      "ids": {
+        "openalex": "https://openalex.org/W2408728055",
+        "doi": "https://doi.org/10.14279/depositonce-5132",
+        "mag": "2408728055"
+      },
+      "language": "en",
+      "primary_location": {
+        "id": "pmh:oai:depositonce.tu-berlin.de:11303/5461",
+        "doi": null,
+        "is_oa": true,
+        "landing_page_url": "https://depositonce.tu-berlin.de/handle/11303/5461",
+        "pdf_url": "http://depositonce.tu-berlin.de/handle/11303/5461",
+        "source": {
+          "id": "https://openalex.org/S4406922277",
+          "display_name": "DepositOnce",
+          "issn_l": null,
+          "issn": null,
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": false,
+          "listed_in": [],
+          "host_organization": null,
+          "host_organization_name": null,
+          "host_organization_lineage": [],
+          "host_organization_lineage_names": [],
+          "type": "repository"
+        },
+        "license": "cc-by",
+        "license_id": "https://openalex.org/licenses/cc-by",
+        "version": "submittedVersion",
+        "is_accepted": false,
+        "is_published": false,
+        "raw_source_name": null,
+        "raw_type": "Doctoral Thesis"
+      },
+      "volume": null,
+      "type": "dissertation",
+      "indexed_in": [
+        "datacite"
+      ],
+      "open_access": {
+        "is_oa": true,
+        "oa_status": "green",
+        "oa_url": "http://depositonce.tu-berlin.de/handle/11303/5461",
+        "any_repository_has_fulltext": true
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": "https://openalex.org/A5042467668",
+            "display_name": "Björn Lohrmann",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [],
+          "countries": [],
+          "is_corresponding": true,
+          "raw_author_name": "Lohrmann, Björn",
+          "raw_affiliation_strings": [],
+          "raw_orcid": null,
+          "affiliations": []
+        }
+      ],
+      "institutions": [],
+      "countries_distinct_count": 0,
+      "institutions_distinct_count": 0,
+      "corresponding_author_ids": [
+        "https://openalex.org/A5042467668"
+      ],
+      "corresponding_institution_ids": [],
+      "apc_list": null,
+      "apc_paid": null,
+      "fwci": null,
+      "has_fulltext": true,
+      "cited_by_count": 0,
+      "citation_normalized_percentile": null,
+      "cited_by_percentile_year": null,
+      "biblio": {
+        "volume": null,
+        "issue": null,
+        "first_page": null,
+        "last_page": null
+      },
+      "is_retracted": false,
+      "is_paratext": false,
+      "is_xpac": false,
+      "primary_topic": {
+        "id": "https://openalex.org/T10317",
+        "display_name": "Advanced Database Systems and Queries",
+        "score": 0.9854000210762024,
+        "subfield": {
+          "id": "https://openalex.org/subfields/1705",
+          "display_name": "Computer Networks and Communications"
+        },
+        "field": {
+          "id": "https://openalex.org/fields/17",
+          "display_name": "Computer Science"
+        },
+        "domain": {
+          "id": "https://openalex.org/domains/3",
+          "display_name": "Physical Sciences"
+        }
+      },
+      "topics": [
+        {
+          "id": "https://openalex.org/T10317",
+          "display_name": "Advanced Database Systems and Queries",
+          "score": 0.9854000210762024,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1705",
+            "display_name": "Computer Networks and Communications"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10101",
+          "display_name": "Cloud Computing and Resource Management",
+          "score": 0.005900000222027302,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1710",
+            "display_name": "Information Systems"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10715",
+          "display_name": "Distributed and Parallel Computing Systems",
+          "score": 0.002400000113993883,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1705",
+            "display_name": "Computer Networks and Communications"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        }
+      ],
+      "keywords": [
+        {
+          "id": "https://openalex.org/keywords/stream-processing-systems",
+          "display_name": "stream processing systems",
+          "score": 0.9729999899864197
+        },
+        {
+          "id": "https://openalex.org/keywords/latency-guarantees",
+          "display_name": "latency guarantees",
+          "score": 0.9549999833106995
+        },
+        {
+          "id": "https://openalex.org/keywords/latency-requirements",
+          "display_name": "latency requirements",
+          "score": 0.7229999899864197
+        },
+        {
+          "id": "https://openalex.org/keywords/massively-parallel-processing",
+          "display_name": "massively parallel computing",
+          "score": 0.6769999861717224
+        },
+        {
+          "id": "https://openalex.org/keywords/mapreduce",
+          "display_name": "MapReduce",
+          "score": 0.45899999141693115
+        },
+        {
+          "id": "https://openalex.org/keywords/streams",
+          "display_name": "streams",
+          "score": 0.4169999957084656
+        },
+        {
+          "id": "https://openalex.org/keywords/borealis",
+          "display_name": "Borealis",
+          "score": 0.8029999732971191
+        }
+      ],
+      "concepts": [
+        {
+          "id": "https://openalex.org/C107027933",
+          "wikidata": "https://www.wikidata.org/wiki/Q2006448",
+          "display_name": "Stream processing",
+          "level": 2,
+          "score": 0.8118506073951721
+        },
+        {
+          "id": "https://openalex.org/C41008148",
+          "wikidata": "https://www.wikidata.org/wiki/Q21198",
+          "display_name": "Computer science",
+          "level": 0,
+          "score": 0.8049278259277344
+        },
+        {
+          "id": "https://openalex.org/C120314980",
+          "wikidata": "https://www.wikidata.org/wiki/Q180634",
+          "display_name": "Distributed computing",
+          "level": 1,
+          "score": 0.5358012914657593
+        },
+        {
+          "id": "https://openalex.org/C75684735",
+          "wikidata": "https://www.wikidata.org/wiki/Q858810",
+          "display_name": "Big data",
+          "level": 2,
+          "score": 0.45175492763519287
+        },
+        {
+          "id": "https://openalex.org/C79158427",
+          "wikidata": "https://www.wikidata.org/wiki/Q485396",
+          "display_name": "Analytics",
+          "level": 2,
+          "score": 0.4476918578147888
+        },
+        {
+          "id": "https://openalex.org/C82876162",
+          "wikidata": "https://www.wikidata.org/wiki/Q17096504",
+          "display_name": "Latency (audio)",
+          "level": 2,
+          "score": 0.4138491153717041
+        },
+        {
+          "id": "https://openalex.org/C77088390",
+          "wikidata": "https://www.wikidata.org/wiki/Q8513",
+          "display_name": "Database",
+          "level": 1,
+          "score": 0.2992793619632721
+        },
+        {
+          "id": "https://openalex.org/C111919701",
+          "wikidata": "https://www.wikidata.org/wiki/Q9135",
+          "display_name": "Operating system",
+          "level": 1,
+          "score": 0.18610748648643494
+        },
+        {
+          "id": "https://openalex.org/C76155785",
+          "wikidata": "https://www.wikidata.org/wiki/Q418",
+          "display_name": "Telecommunications",
+          "level": 1,
+          "score": 0.0
+        }
+      ],
+      "mesh": [],
+      "locations_count": 3,
+      "locations": [
+        {
+          "id": "pmh:oai:depositonce.tu-berlin.de:11303/5461",
+          "doi": null,
+          "is_oa": true,
+          "landing_page_url": "https://depositonce.tu-berlin.de/handle/11303/5461",
+          "pdf_url": "http://depositonce.tu-berlin.de/handle/11303/5461",
+          "source": {
+            "id": "https://openalex.org/S4406922277",
+            "display_name": "DepositOnce",
+            "issn_l": null,
+            "issn": null,
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": null,
+            "host_organization_name": null,
+            "host_organization_lineage": [],
+            "host_organization_lineage_names": [],
+            "type": "repository"
+          },
+          "license": "cc-by",
+          "license_id": "https://openalex.org/licenses/cc-by",
+          "version": "submittedVersion",
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": null,
+          "raw_type": "Doctoral Thesis"
+        },
+        {
+          "id": "doi:10.14279/depositonce-5132",
+          "doi": "https://doi.org/10.14279/depositonce-5132",
+          "is_oa": true,
+          "landing_page_url": "https://doi.org/10.14279/depositonce-5132",
+          "pdf_url": null,
+          "source": {
+            "id": "https://openalex.org/S7407052985",
+            "display_name": "Technische Universität Berlin – Universitätsbibliothek",
+            "issn_l": null,
+            "issn": null,
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": "https://openalex.org/I4577782",
+            "host_organization_name": "Technische Universität Berlin",
+            "host_organization_lineage": [
+              "https://openalex.org/I4577782"
+            ],
+            "host_organization_lineage_names": [],
+            "type": "repository"
+          },
+          "license": "cc-by",
+          "license_id": "https://openalex.org/licenses/cc-by",
+          "version": null,
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": null,
+          "raw_type": "article-journal"
+        },
+        {
+          "id": "mag:2408728055",
+          "doi": null,
+          "is_oa": false,
+          "landing_page_url": "https://depositonce.tu-berlin.de/bitstream/11303/5461/4/lohrmann_bjoern.pdf",
+          "pdf_url": null,
+          "source": null,
+          "license": null,
+          "license_id": null,
+          "version": null,
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": null,
+          "raw_type": null
+        }
+      ],
+      "best_oa_location": {
+        "id": "pmh:oai:depositonce.tu-berlin.de:11303/5461",
+        "doi": null,
+        "is_oa": true,
+        "landing_page_url": "https://depositonce.tu-berlin.de/handle/11303/5461",
+        "pdf_url": "http://depositonce.tu-berlin.de/handle/11303/5461",
+        "source": {
+          "id": "https://openalex.org/S4406922277",
+          "display_name": "DepositOnce",
+          "issn_l": null,
+          "issn": null,
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": false,
+          "listed_in": [],
+          "host_organization": null,
+          "host_organization_name": null,
+          "host_organization_lineage": [],
+          "host_organization_lineage_names": [],
+          "type": "repository"
+        },
+        "license": "cc-by",
+        "license_id": "https://openalex.org/licenses/cc-by",
+        "version": "submittedVersion",
+        "is_accepted": false,
+        "is_published": false,
+        "raw_source_name": null,
+        "raw_type": "Doctoral Thesis"
+      },
+      "sustainable_development_goals": [],
+      "sustainable_development_goals_aurora": [
+        {
+          "display_name": "Decent work and economic growth",
+          "score": 0.41999998688697815,
+          "id": "https://metadata.un.org/sdg/8"
+        }
+      ],
+      "study_designs": [],
+      "awards": [],
+      "funders": [],
+      "has_content": {
+        "pdf": true,
+        "grobid_xml": true
+      },
+      "content_urls": {
+        "pdf": "https://content.openalex.org/works/W2408728055.pdf",
+        "grobid_xml": "https://content.openalex.org/works/W2408728055.grobid-xml"
+      },
+      "referenced_works_count": 90,
+      "referenced_works": [
+        "https://openalex.org/W192446467",
+        "https://openalex.org/W605455085",
+        "https://openalex.org/W829794651",
+        "https://openalex.org/W1510252230",
+        "https://openalex.org/W1517320208",
+        "https://openalex.org/W1532659787",
+        "https://openalex.org/W1548186255",
+        "https://openalex.org/W1568192366",
+        "https://openalex.org/W1579308114",
+        "https://openalex.org/W1646696449",
+        "https://openalex.org/W1654369324",
+        "https://openalex.org/W1692590824",
+        "https://openalex.org/W1736726159",
+        "https://openalex.org/W1884959966",
+        "https://openalex.org/W1973026225",
+        "https://openalex.org/W1976821017",
+        "https://openalex.org/W1978235430",
+        "https://openalex.org/W1981663184",
+        "https://openalex.org/W1983560552",
+        "https://openalex.org/W1984220394",
+        "https://openalex.org/W1996185014",
+        "https://openalex.org/W1999955156",
+        "https://openalex.org/W2001474264",
+        "https://openalex.org/W2015244008",
+        "https://openalex.org/W2017203676",
+        "https://openalex.org/W2018802579",
+        "https://openalex.org/W2024621423",
+        "https://openalex.org/W2024758283",
+        "https://openalex.org/W2027583975",
+        "https://openalex.org/W2031408742",
+        "https://openalex.org/W2037948924",
+        "https://openalex.org/W2043718972",
+        "https://openalex.org/W2052464302",
+        "https://openalex.org/W2060204338",
+        "https://openalex.org/W2060280513",
+        "https://openalex.org/W2071965227",
+        "https://openalex.org/W2088675571",
+        "https://openalex.org/W2096092966",
+        "https://openalex.org/W2097726431",
+        "https://openalex.org/W2100779981",
+        "https://openalex.org/W2100830825",
+        "https://openalex.org/W2102558581",
+        "https://openalex.org/W2103701698",
+        "https://openalex.org/W2104332750",
+        "https://openalex.org/W2106098710",
+        "https://openalex.org/W2106990403",
+        "https://openalex.org/W2111898907",
+        "https://openalex.org/W2112215401",
+        "https://openalex.org/W2112962595",
+        "https://openalex.org/W2115852795",
+        "https://openalex.org/W2119438912",
+        "https://openalex.org/W2119745055",
+        "https://openalex.org/W2120422789",
+        "https://openalex.org/W2123029420",
+        "https://openalex.org/W2125262761",
+        "https://openalex.org/W2126022651",
+        "https://openalex.org/W2128362607",
+        "https://openalex.org/W2129542763",
+        "https://openalex.org/W2130531694",
+        "https://openalex.org/W2132364035",
+        "https://openalex.org/W2137240782",
+        "https://openalex.org/W2140332639",
+        "https://openalex.org/W2140953464",
+        "https://openalex.org/W2141684031",
+        "https://openalex.org/W2143408306",
+        "https://openalex.org/W2145457647",
+        "https://openalex.org/W2148222209",
+        "https://openalex.org/W2148268106",
+        "https://openalex.org/W2149576945",
+        "https://openalex.org/W2151350425",
+        "https://openalex.org/W2152530926",
+        "https://openalex.org/W2152558130",
+        "https://openalex.org/W2153399951",
+        "https://openalex.org/W2153972927",
+        "https://openalex.org/W2158460713",
+        "https://openalex.org/W2159170714",
+        "https://openalex.org/W2159844592",
+        "https://openalex.org/W2161569281",
+        "https://openalex.org/W2162553498",
+        "https://openalex.org/W2163961697",
+        "https://openalex.org/W2166604013",
+        "https://openalex.org/W2167090833",
+        "https://openalex.org/W2167274498",
+        "https://openalex.org/W2169070268",
+        "https://openalex.org/W2189465200",
+        "https://openalex.org/W2404740612",
+        "https://openalex.org/W2562847785",
+        "https://openalex.org/W2912802084",
+        "https://openalex.org/W2913854892",
+        "https://openalex.org/W3121961986"
+      ],
+      "related_works": [
+        "https://openalex.org/W109376764",
+        "https://openalex.org/W2020182541",
+        "https://openalex.org/W2805219693",
+        "https://openalex.org/W1605342827",
+        "https://openalex.org/W2044521103",
+        "https://openalex.org/W3137936197",
+        "https://openalex.org/W2605100096",
+        "https://openalex.org/W2735362045",
+        "https://openalex.org/W3013339054",
+        "https://openalex.org/W2043548159",
+        "https://openalex.org/W2133995837",
+        "https://openalex.org/W1885644741",
+        "https://openalex.org/W1532738915",
+        "https://openalex.org/W1554618924",
+        "https://openalex.org/W2314805133",
+        "https://openalex.org/W2339366892",
+        "https://openalex.org/W1964880723",
+        "https://openalex.org/W2796144899",
+        "https://openalex.org/W2155742404",
+        "https://openalex.org/W2023578404"
+      ],
+      "abstract_inverted_index": {
+        "A": [
+          0
+        ],
+        "new": [
+          1,
+          33,
+          95,
+          150
+        ],
+        "class": [
+          2,
+          96,
+          151
+        ],
+        "of": [
+          3,
+          78,
+          97,
+          121,
+          148,
+          152,
+          203,
+          214,
+          217,
+          266
+        ],
+        "stream": [
+          4,
+          51,
+          82,
+          153,
+          197
+        ],
+        "processing": [
+          5,
+          41,
+          52,
+          83,
+          154,
+          198
+        ],
+        "engines": [
+          6,
+          34,
+          53,
+          98,
+          175,
+          206
+        ],
+        "has": [
+          7,
+          291
+        ],
+        "recently": [
+          8
+        ],
+        "established": [
+          9
+        ],
+        "itself": [
+          10
+        ],
+        "as": [
+          11,
+          20,
+          48,
+          105,
+          134
+        ],
+        "a": [
+          12,
+          67,
+          129,
+          177,
+          187,
+          201,
+          280,
+          295
+        ],
+        "platform": [
+          13
+        ],
+        "for": [
+          14,
+          140,
+          192,
+          196,
+          205
+        ],
+        "applications": [
+          15,
+          84
+        ],
+        "in": [
+          16,
+          66,
+          109,
+          176,
+          279
+        ],
+        "numerous": [
+          17
+        ],
+        "domains,": [
+          18
+        ],
+        "such": [
+          19
+        ],
+        "personalized": [
+          21
+        ],
+        "content-": [
+          22
+        ],
+        "and": [
+          23,
+          45,
+          56,
+          70,
+          117,
+          170,
+          189,
+          210,
+          238,
+          244,
+          283
+        ],
+        "ad-serving,": [
+          24
+        ],
+        "online": [
+          25
+        ],
+        "recommender": [
+          26
+        ],
+        "systems": [
+          27
+        ],
+        "or": [
+          28
+        ],
+        "social": [
+          29
+        ],
+        "media": [
+          30
+        ],
+        "analytics.": [
+          31
+        ],
+        "These": [
+          32
+        ],
+        "draw": [
+          35
+        ],
+        "inspiration": [
+          36
+        ],
+        "from": [
+          37
+        ],
+        "Big": [
+          38
+        ],
+        "Data": [
+          39
+        ],
+        "batch": [
+          40
+        ],
+        "frameworks": [
+          42
+        ],
+        "(Google's": [
+          43
+        ],
+        "MapReduce": [
+          44
+        ],
+        "its": [
+          46
+        ],
+        "descendants)": [
+          47
+        ],
+        "well": [
+          49
+        ],
+        "existing": [
+          50
+        ],
+        "(e.g.": [
+          54
+        ],
+        "Borealis": [
+          55
+        ],
+        "STREAM).": [
+          57
+        ],
+        "They": [
+          58
+        ],
+        "process": [
+          59,
+          88
+        ],
+        "data": [
+          60,
+          90,
+          231,
+          235
+        ],
+        "on-the-fly": [
+          61
+        ],
+        "without": [
+          62
+        ],
+        "first": [
+          63
+        ],
+        "storing": [
+          64
+        ],
+        "it": [
+          65
+        ],
+        "file": [
+          68
+        ],
+        "system": [
+          69
+        ],
+        "their": [
+          71,
+          273
+        ],
+        "core": [
+          72,
+          157
+        ],
+        "programming": [
+          73
+        ],
+        "abstractions": [
+          74
+        ],
+        "hide": [
+          75
+        ],
+        "the": [
+          76,
+          119,
+          122,
+          141,
+          146,
+          215,
+          218,
+          230,
+          240,
+          259,
+          264
+        ],
+        "complexity": [
+          77
+        ],
+        "distributed-parallel": [
+          79
+        ],
+        "programming.": [
+          80
+        ],
+        "Although": [
+          81
+        ],
+        "commonly": [
+          85
+        ],
+        "need": [
+          86
+        ],
+        "to": [
+          87,
+          115,
+          128,
+          207
+        ],
+        "ingested": [
+          89
+        ],
+        "within": [
+          91,
+          173
+        ],
+        "time": [
+          92
+        ],
+        "bounds,": [
+          93
+        ],
+        "this": [
+          94,
+          124,
+          149,
+          161,
+          181,
+          183
+        ],
+        "so": [
+          99
+        ],
+        "far": [
+          100
+        ],
+        "computes": [
+          101
+        ],
+        "results": [
+          102
+        ],
+        "\"as": [
+          103,
+          132
+        ],
+        "fast": [
+          104,
+          133,
+          138
+        ],
+        "possible\".": [
+          106
+        ],
+        "As": [
+          107
+        ],
+        "variations": [
+          108
+        ],
+        "workload": [
+          110,
+          252
+        ],
+        "characteristics": [
+          111
+        ],
+        "are": [
+          112
+        ],
+        "often": [
+          113
+        ],
+        "hard": [
+          114
+        ],
+        "predict": [
+          116
+        ],
+        "outside": [
+          118
+        ],
+        "control": [
+          120
+        ],
+        "application,": [
+          123
+        ],
+        "may": [
+          125
+        ],
+        "quickly": [
+          126
+        ],
+        "lead": [
+          127
+        ],
+        "situation": [
+          130
+        ],
+        "where": [
+          131
+        ],
+        "possible\"": [
+          135
+        ],
+        "becomes": [
+          136
+        ],
+        "\"not": [
+          137
+        ],
+        "enough\"": [
+          139
+        ],
+        "application.": [
+          142
+        ],
+        "This": [
+          143
+        ],
+        "thesis": [
+          144,
+          162,
+          184
+        ],
+        "revisits": [
+          145
+        ],
+        "design": [
+          147
+        ],
+        "engines.": [
+          155
+        ],
+        "The": [
+          156,
+          221
+        ],
+        "question": [
+          158
+        ],
+        "addressed": [
+          159
+        ],
+        "by": [
+          160,
+          227,
+          262
+        ],
+        "is": [
+          163
+        ],
+        "how": [
+          164
+        ],
+        "latency": [
+          165,
+          194
+        ],
+        "requirements": [
+          166,
+          195
+        ],
+        "can": [
+          167
+        ],
+        "be": [
+          168
+        ],
+        "specified": [
+          169
+        ],
+        "continuously": [
+          171
+        ],
+        "enforced": [
+          172
+        ],
+        "these": [
+          174
+        ],
+        "resource-efficient": [
+          178
+        ],
+        "manner.": [
+          179
+        ],
+        "To": [
+          180,
+          271
+        ],
+        "end,": [
+          182
+        ],
+        "contributes": [
+          185
+        ],
+        "(1)": [
+          186
+        ],
+        "formalism": [
+          188
+        ],
+        "associated": [
+          190
+        ],
+        "semantics": [
+          191
+        ],
+        "expressing": [
+          193
+        ],
+        "applications,": [
+          199
+        ],
+        "(2)": [
+          200
+        ],
+        "set": [
+          202
+        ],
+        "techniques": [
+          204,
+          223
+        ],
+        "enforce": [
+          208
+        ],
+        "them": [
+          209
+        ],
+        "(3)": [
+          211
+        ],
+        "an": [
+          212,
+          284
+        ],
+        "evaluation": [
+          213,
+          286
+        ],
+        "effectiveness": [
+          216
+        ],
+        "presented": [
+          219
+        ],
+        "techniques.": [
+          220
+        ],
+        "proposed": [
+          222
+        ],
+        "optimize": [
+          224
+        ],
+        "resource": [
+          225
+        ],
+        "efficiency": [
+          226
+        ],
+        "automatically": [
+          228
+        ],
+        "adjusting": [
+          229
+        ],
+        "shipping": [
+          232
+        ],
+        "strategy": [
+          233
+        ],
+        "between": [
+          234,
+          242
+        ],
+        "flow": [
+          236
+        ],
+        "tasks": [
+          237,
+          243
+        ],
+        "adapting": [
+          239
+        ],
+        "mapping": [
+          241
+        ],
+        "execution": [
+          245
+        ],
+        "threads": [
+          246
+        ],
+        "at": [
+          247,
+          255
+        ],
+        "runtime.": [
+          248
+        ],
+        "Furthermore,": [
+          249
+        ],
+        "based": [
+          250
+        ],
+        "on": [
+          251,
+          294
+        ],
+        "statistics": [
+          253
+        ],
+        "measured": [
+          254
+        ],
+        "runtime,": [
+          256
+        ],
+        "they": [
+          257,
+          275
+        ],
+        "adapt": [
+          258
+        ],
+        "application's": [
+          260
+        ],
+        "parallelism": [
+          261
+        ],
+        "exploiting": [
+          263
+        ],
+        "elasticity": [
+          265
+        ],
+        "shared,": [
+          267
+        ],
+        "resource-managed": [
+          268
+        ],
+        "compute": [
+          269
+        ],
+        "clusters.": [
+          270
+        ],
+        "evaluate": [
+          272
+        ],
+        "effectiveness,": [
+          274
+        ],
+        "have": [
+          276
+        ],
+        "been": [
+          277,
+          292
+        ],
+        "implemented": [
+          278
+        ],
+        "research": [
+          281
+        ],
+        "prototype": [
+          282
+        ],
+        "experimental": [
+          285
+        ],
+        "with": [
+          287
+        ],
+        "several": [
+          288
+        ],
+        "application": [
+          289
+        ],
+        "workloads": [
+          290
+        ],
+        "conducted": [
+          293
+        ],
+        "large": [
+          296
+        ],
+        "commodity": [
+          297
+        ],
+        "cluster.": [
+          298
+        ]
+      },
+      "counts_by_year": [],
+      "updated_date": "2026-09-26T08:19:03.415552",
+      "created_date": "2025-10-10T00:00:00"
+    },
+    {
+      "id": "https://openalex.org/W7139803063",
+      "doi": null,
+      "title": "Prototyping a scalable massively-parallel supercomputer architecture with field programmable gate arrays",
+      "display_name": "Prototyping a scalable massively-parallel supercomputer architecture with field programmable gate arrays",
+      "relevance_score": 33.597622,
+      "publication_year": 2001,
+      "publication_date": "2001-01-01",
+      "ids": {
+        "openalex": "https://openalex.org/W7139803063"
+      },
+      "language": "en",
+      "primary_location": {
+        "id": "pmh:oai:dspace.mit.edu:1721.1/86697",
+        "doi": null,
+        "is_oa": true,
+        "landing_page_url": "http://hdl.handle.net/1721.1/86697",
+        "pdf_url": "http://hdl.handle.net/1721.1/86697",
+        "source": {
+          "id": "https://openalex.org/S4306400425",
+          "display_name": "DSpace@MIT (Massachusetts Institute of Technology)",
+          "issn_l": null,
+          "issn": null,
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": false,
+          "listed_in": [],
+          "host_organization": "https://openalex.org/I63966007",
+          "host_organization_name": "Massachusetts Institute of Technology",
+          "host_organization_lineage": [
+            "https://openalex.org/I63966007"
+          ],
+          "host_organization_lineage_names": [],
+          "type": "repository"
+        },
+        "license": "cc-by-nc",
+        "license_id": "https://openalex.org/licenses/cc-by-nc",
+        "version": "submittedVersion",
+        "is_accepted": false,
+        "is_published": false,
+        "raw_source_name": null,
+        "raw_type": "Thesis"
+      },
+      "volume": null,
+      "type": "dissertation",
+      "indexed_in": [],
+      "open_access": {
+        "is_oa": true,
+        "oa_status": "green",
+        "oa_url": "http://hdl.handle.net/1721.1/86697",
+        "any_repository_has_fulltext": true
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": null,
+            "display_name": "Phillips, Michael P. (Michael Patrick), 1977-",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I63966007",
+              "display_name": "Massachusetts Institute of Technology",
+              "ror": "https://ror.org/042nb2s44",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I63966007"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": true,
+          "raw_author_name": "Phillips, Michael P. (Michael Patrick), 1977-",
+          "raw_affiliation_strings": [
+            "MASSACHUSETTS INSTITUTE OF TECHNOLOGY"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "MASSACHUSETTS INSTITUTE OF TECHNOLOGY",
+              "institution_ids": [
+                "https://openalex.org/I63966007"
+              ]
+            }
+          ]
+        }
+      ],
+      "institutions": [],
+      "countries_distinct_count": 1,
+      "institutions_distinct_count": 1,
+      "corresponding_author_ids": [],
+      "corresponding_institution_ids": [
+        "https://openalex.org/I63966007"
+      ],
+      "apc_list": null,
+      "apc_paid": null,
+      "fwci": null,
+      "has_fulltext": true,
+      "cited_by_count": 0,
+      "citation_normalized_percentile": null,
+      "cited_by_percentile_year": null,
+      "biblio": {
+        "volume": null,
+        "issue": null,
+        "first_page": null,
+        "last_page": null
+      },
+      "is_retracted": false,
+      "is_paratext": false,
+      "is_xpac": false,
+      "primary_topic": {
+        "id": "https://openalex.org/T10904",
+        "display_name": "Embedded Systems Design Techniques",
+        "score": 0.36649999022483826,
+        "subfield": {
+          "id": "https://openalex.org/subfields/1708",
+          "display_name": "Hardware and Architecture"
+        },
+        "field": {
+          "id": "https://openalex.org/fields/17",
+          "display_name": "Computer Science"
+        },
+        "domain": {
+          "id": "https://openalex.org/domains/3",
+          "display_name": "Physical Sciences"
+        }
+      },
+      "topics": [
+        {
+          "id": "https://openalex.org/T10904",
+          "display_name": "Embedded Systems Design Techniques",
+          "score": 0.36649999022483826,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1708",
+            "display_name": "Hardware and Architecture"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T11522",
+          "display_name": "VLSI and FPGA Design Techniques",
+          "score": 0.2831999957561493,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2208",
+            "display_name": "Electrical and Electronic Engineering"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10829",
+          "display_name": "Interconnection Networks and Systems",
+          "score": 0.2037000060081482,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1705",
+            "display_name": "Computer Networks and Communications"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        }
+      ],
+      "keywords": [
+        {
+          "id": "https://openalex.org/keywords/massively-parallel-computers",
+          "display_name": "massively parallel computers",
+          "score": 0.7990000247955322
+        },
+        {
+          "id": "https://openalex.org/keywords/fpga",
+          "display_name": "FPGA",
+          "score": 0.9279999732971191
+        },
+        {
+          "id": "https://openalex.org/keywords/supercomputer-architecture",
+          "display_name": "supercomputer architecture",
+          "score": 0.7710000276565552
+        },
+        {
+          "id": "https://openalex.org/keywords/parallel-computing",
+          "display_name": "parallel computing",
+          "score": 0.41600000858306885
+        }
+      ],
+      "concepts": [
+        {
+          "id": "https://openalex.org/C83283714",
+          "wikidata": "https://www.wikidata.org/wiki/Q121117",
+          "display_name": "Supercomputer",
+          "level": 2,
+          "score": 0.6534000039100647
+        },
+        {
+          "id": "https://openalex.org/C48044578",
+          "wikidata": "https://www.wikidata.org/wiki/Q727490",
+          "display_name": "Scalability",
+          "level": 2,
+          "score": 0.614300012588501
+        },
+        {
+          "id": "https://openalex.org/C41008148",
+          "wikidata": "https://www.wikidata.org/wiki/Q21198",
+          "display_name": "Computer science",
+          "level": 0,
+          "score": 0.5992000102996826
+        },
+        {
+          "id": "https://openalex.org/C9652623",
+          "wikidata": "https://www.wikidata.org/wiki/Q190109",
+          "display_name": "Field (mathematics)",
+          "level": 2,
+          "score": 0.527999997138977
+        },
+        {
+          "id": "https://openalex.org/C118524514",
+          "wikidata": "https://www.wikidata.org/wiki/Q173212",
+          "display_name": "Computer architecture",
+          "level": 1,
+          "score": 0.49950000643730164
+        },
+        {
+          "id": "https://openalex.org/C123657996",
+          "wikidata": "https://www.wikidata.org/wiki/Q12271",
+          "display_name": "Architecture",
+          "level": 2,
+          "score": 0.41179999709129333
+        },
+        {
+          "id": "https://openalex.org/C149635348",
+          "wikidata": "https://www.wikidata.org/wiki/Q193040",
+          "display_name": "Embedded system",
+          "level": 1,
+          "score": 0.40459999442100525
+        },
+        {
+          "id": "https://openalex.org/C2988810909",
+          "wikidata": "https://www.wikidata.org/wiki/Q173212",
+          "display_name": "Computer design",
+          "level": 2,
+          "score": 0.3587999939918518
+        },
+        {
+          "id": "https://openalex.org/C2780395129",
+          "wikidata": "https://www.wikidata.org/wiki/Q1128971",
+          "display_name": "Rapid prototyping",
+          "level": 2,
+          "score": 0.3521000146865845
+        },
+        {
+          "id": "https://openalex.org/C18789546",
+          "wikidata": "https://www.wikidata.org/wiki/Q1341206",
+          "display_name": "Hybrid computer",
+          "level": 2,
+          "score": 0.35120001435279846
+        },
+        {
+          "id": "https://openalex.org/C42935608",
+          "wikidata": "https://www.wikidata.org/wiki/Q190411",
+          "display_name": "Field-programmable gate array",
+          "level": 2,
+          "score": 0.3411000072956085
+        },
+        {
+          "id": "https://openalex.org/C127413603",
+          "wikidata": "https://www.wikidata.org/wiki/Q11023",
+          "display_name": "Engineering",
+          "level": 0,
+          "score": 0.33169999718666077
+        },
+        {
+          "id": "https://openalex.org/C114237110",
+          "wikidata": "https://www.wikidata.org/wiki/Q114901",
+          "display_name": "Gate array",
+          "level": 3,
+          "score": 0.3203999996185303
+        },
+        {
+          "id": "https://openalex.org/C26517878",
+          "wikidata": "https://www.wikidata.org/wiki/Q228039",
+          "display_name": "Key (lock)",
+          "level": 2,
+          "score": 0.3199000060558319
+        },
+        {
+          "id": "https://openalex.org/C2778755073",
+          "wikidata": "https://www.wikidata.org/wiki/Q10858537",
+          "display_name": "Scale (ratio)",
+          "level": 2,
+          "score": 0.3075000047683716
+        },
+        {
+          "id": "https://openalex.org/C459310",
+          "wikidata": "https://www.wikidata.org/wiki/Q117801",
+          "display_name": "Computational science",
+          "level": 1,
+          "score": 0.30709999799728394
+        },
+        {
+          "id": "https://openalex.org/C131017901",
+          "wikidata": "https://www.wikidata.org/wiki/Q170451",
+          "display_name": "Logic gate",
+          "level": 2,
+          "score": 0.30410000681877136
+        },
+        {
+          "id": "https://openalex.org/C9390403",
+          "wikidata": "https://www.wikidata.org/wiki/Q3966",
+          "display_name": "Computer hardware",
+          "level": 1,
+          "score": 0.30070000886917114
+        },
+        {
+          "id": "https://openalex.org/C545109879",
+          "wikidata": "https://www.wikidata.org/wiki/Q5157412",
+          "display_name": "Computer Applications",
+          "level": 2,
+          "score": 0.2969000041484833
+        },
+        {
+          "id": "https://openalex.org/C98025372",
+          "wikidata": "https://www.wikidata.org/wiki/Q477538",
+          "display_name": "Systems architecture",
+          "level": 3,
+          "score": 0.2953000068664551
+        },
+        {
+          "id": "https://openalex.org/C119599485",
+          "wikidata": "https://www.wikidata.org/wiki/Q43035",
+          "display_name": "Electrical engineering",
+          "level": 1,
+          "score": 0.28760001063346863
+        },
+        {
+          "id": "https://openalex.org/C119823426",
+          "wikidata": "https://www.wikidata.org/wiki/Q184793",
+          "display_name": "Computer Aided Design",
+          "level": 2,
+          "score": 0.25999999046325684
+        },
+        {
+          "id": "https://openalex.org/C2777904410",
+          "wikidata": "https://www.wikidata.org/wiki/Q7397",
+          "display_name": "Software",
+          "level": 2,
+          "score": 0.2587999999523163
+        },
+        {
+          "id": "https://openalex.org/C530198007",
+          "wikidata": "https://www.wikidata.org/wiki/Q80831",
+          "display_name": "Integrated circuit",
+          "level": 2,
+          "score": 0.2531999945640564
+        },
+        {
+          "id": "https://openalex.org/C190560348",
+          "wikidata": "https://www.wikidata.org/wiki/Q3245116",
+          "display_name": "Circuit design",
+          "level": 2,
+          "score": 0.2502000033855438
+        }
+      ],
+      "mesh": [],
+      "locations_count": 1,
+      "locations": [
+        {
+          "id": "pmh:oai:dspace.mit.edu:1721.1/86697",
+          "doi": null,
+          "is_oa": true,
+          "landing_page_url": "http://hdl.handle.net/1721.1/86697",
+          "pdf_url": "http://hdl.handle.net/1721.1/86697",
+          "source": {
+            "id": "https://openalex.org/S4306400425",
+            "display_name": "DSpace@MIT (Massachusetts Institute of Technology)",
+            "issn_l": null,
+            "issn": null,
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": "https://openalex.org/I63966007",
+            "host_organization_name": "Massachusetts Institute of Technology",
+            "host_organization_lineage": [
+              "https://openalex.org/I63966007"
+            ],
+            "host_organization_lineage_names": [],
+            "type": "repository"
+          },
+          "license": "cc-by-nc",
+          "license_id": "https://openalex.org/licenses/cc-by-nc",
+          "version": "submittedVersion",
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": null,
+          "raw_type": "Thesis"
+        }
+      ],
+      "best_oa_location": {
+        "id": "pmh:oai:dspace.mit.edu:1721.1/86697",
+        "doi": null,
+        "is_oa": true,
+        "landing_page_url": "http://hdl.handle.net/1721.1/86697",
+        "pdf_url": "http://hdl.handle.net/1721.1/86697",
+        "source": {
+          "id": "https://openalex.org/S4306400425",
+          "display_name": "DSpace@MIT (Massachusetts Institute of Technology)",
+          "issn_l": null,
+          "issn": null,
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": false,
+          "listed_in": [],
+          "host_organization": "https://openalex.org/I63966007",
+          "host_organization_name": "Massachusetts Institute of Technology",
+          "host_organization_lineage": [
+            "https://openalex.org/I63966007"
+          ],
+          "host_organization_lineage_names": [],
+          "type": "repository"
+        },
+        "license": "cc-by-nc",
+        "license_id": "https://openalex.org/licenses/cc-by-nc",
+        "version": "submittedVersion",
+        "is_accepted": false,
+        "is_published": false,
+        "raw_source_name": null,
+        "raw_type": "Thesis"
+      },
+      "sustainable_development_goals": [],
+      "sustainable_development_goals_aurora": [
+        {
+          "display_name": "Sustainable cities and communities",
+          "score": 0.43143486976623535,
+          "id": "https://metadata.un.org/sdg/11"
+        }
+      ],
+      "study_designs": [],
+      "awards": [],
+      "funders": [],
+      "has_content": {
+        "pdf": true,
+        "grobid_xml": true
+      },
+      "content_urls": {
+        "pdf": "https://content.openalex.org/works/W7139803063.pdf",
+        "grobid_xml": "https://content.openalex.org/works/W7139803063.grobid-xml"
+      },
+      "referenced_works_count": 0,
+      "referenced_works": [],
+      "related_works": [],
+      "abstract_inverted_index": {
+        "Thesis": [
+          0
+        ],
+        "(M.Eng.": [
+          1
+        ],
+        "and": [
+          2,
+          11
+        ],
+        "S.B.)--Massachusetts": [
+          3
+        ],
+        "Institute": [
+          4
+        ],
+        "of": [
+          5,
+          8
+        ],
+        "Technology,": [
+          6
+        ],
+        "Dept.": [
+          7
+        ],
+        "Electrical": [
+          9
+        ],
+        "Engineering": [
+          10
+        ],
+        "Computer": [
+          12
+        ],
+        "Science,": [
+          13
+        ],
+        "2001.": [
+          14
+        ]
+      },
+      "counts_by_year": [],
+      "updated_date": "2026-10-14T16:39:01.820549",
+      "created_date": "2026-03-20T00:00:00"
+    }
+  ],
+  "group_by": []
+}

@@ -1,0 +1,40 @@
+[
+  {
+    "name": "HORSES3D",
+    "repo": "horses-framework/horses3d",
+    "url": "https://github.com/horses-framework/horses3d",
+    "branch": "master",
+    "commit": "f751d86f5536b1c4489dd3f1eb3e6448a39ab8d7",
+    "commit_date": "2026-10-20T14:19:49Z",
+    "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    },
+    "archive_url": "https://codeload.github.com/horses-framework/horses3d/tar.gz/f751d86f5536b1c4489dd3f1eb3e6448a39ab8d7",
+    "archive_sha256": "0293c0eaa5bee873416caf74fb79b4dd04e15f30629de7ea718c2f7cfc9ad56e",
+    "retrieved": "2026-10-28",
+    "bytes": 64127875
+  },
+  {
+    "name": "HORSES3D-GPU",
+    "repo": "horses-framework/horses3d-gpu",
+    "url": "https://github.com/horses-framework/horses3d-gpu",
+    "branch": "main",
+    "commit": "c7aac6a9382029da33da823612255741912aef24",
+    "commit_date": "2026-10-06T08:28:21Z",
+    "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    },
+    "archive_url": "https://codeload.github.com/horses-framework/horses3d-gpu/tar.gz/c7aac6a9382029da33da823612255741912aef24",
+    "archive_sha256": "83542191816eaf02d94565107120b5b63e38893c44aeb3d43ca6256df7b15b98",
+    "retrieved": "2026-10-28",
+    "bytes": 146929962
+  }
+]

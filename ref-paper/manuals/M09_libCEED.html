@@ -1,0 +1,838 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to libCEED’s User Manual! &mdash; libCEED 1.0.1
+ documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/altair-plot.css?v=35a8d5d5" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" />
+      <link rel="stylesheet" type="text/css" href="_static/katex-math.css?v=05624691" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=433b19ab"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
+      <script src="https://cdn.jsdelivr.net/npm/vega-lite@6.4.1"></script>
+      <script src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+      <script src="_static/katex.min.js?v=5cc8ed51"></script>
+      <script src="_static/auto-render.min.js?v=af98beb9"></script>
+      <script src="_static/katex_autorenderer.js?v=22f1845a"></script>
+    <script src="_static/js/theme.js"></script>
+    <script src="_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="genindex/" />
+    <link rel="search" title="Search" href="search/" />
+    <link rel="next" title="Introduction" href="intro/" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libceed" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            libCEED
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro/">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted/">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libCEEDapi/">Interface Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ffi/">Julia, Python, and Rust Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu/">GPU Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="precision/">Floating Point Precision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libCEEDdev/">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING/">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CODE_OF_CONDUCT/">Code of Conduct</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CHANGELOG/">Release Notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">libCEED</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Welcome to libCEED’s User Manual!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="welcome-to-libceed-s-user-manual">
+<h1>Welcome to libCEED’s User Manual!<a class="headerlink" href="#welcome-to-libceed-s-user-manual" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro/">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted/">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gettingstarted/#building">Building</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gettingstarted/#webassembly">WebAssembly</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gettingstarted/#additional-language-interfaces">Additional Language Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettingstarted/#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettingstarted/#backends">Backends</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="libCEEDapi/">Interface Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="libCEEDapi/#theoretical-framework">Theoretical Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libCEEDapi/#finite-element-operator-decomposition">Finite Element Operator Decomposition</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="libCEEDapi/#terminology-and-notation">Terminology and Notation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libCEEDapi/#partial-assembly">Partial Assembly</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libCEEDapi/#parallel-decomposition">Parallel Decomposition</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="libCEEDapi/#api-description">API Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libCEEDapi/#gallery-of-qfunctions">Gallery of QFunctions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libCEEDapi/#interface-principles-and-evolution">Interface Principles and Evolution</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/notation/">Common notation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/ceed/">Standalone libCEED</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/ceed/#ex1-volume">Ex1-Volume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/ceed/#ex2-surface">Ex2-Surface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/ceed/#ex3-volume">Ex3-Volume</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/bps/">CEED Bakeoff Problems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/bps/#mass-operator">Mass Operator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/bps/#laplace-operator">Laplace Operator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/petsc/">PETSc demos and BPs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/petsc/#area">Area</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/petsc/#cube">Cube</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/petsc/#sphere">Sphere</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/petsc/#bakeoff-problems-and-generalizations">Bakeoff problems and generalizations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/petsc/#bakeoff-problems-on-the-cubed-sphere">Bakeoff problems on the cubed-sphere</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/petsc/#multigrid">Multigrid</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/fluids/">Compressible Navier-Stokes mini-app</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/fluids/#running-the-mini-app">Running the mini-app</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/fluids/#boundary-conditions">Boundary conditions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/fluids/#advection">Advection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/fluids/#inviscid-ideal-gas">Inviscid Ideal Gas</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/fluids/#newtonian-viscosity-ideal-gas">Newtonian viscosity, Ideal Gas</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/fluids/#the-navier-stokes-equations">The Navier-Stokes equations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/fluids/#finite-element-formulation-spatial-discretization">Finite Element Formulation (Spatial Discretization)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/fluids/#time-discretization">Time Discretization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/fluids/#stabilization">Stabilization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/fluids/#statistics-collection">Statistics Collection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/fluids/#differential-filtering">Differential Filtering</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/fluids/#advection-diffusion">Advection-Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/fluids/#isentropic-vortex">Isentropic Vortex</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/fluids/#shock-tube">Shock Tube</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/fluids/#problem-density-current">Gaussian Wave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/fluids/#id21">Vortex Shedding - Flow past Cylinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/fluids/#id23">Density Current</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/fluids/#channel">Channel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/fluids/#flat-plate-boundary-layer">Flat Plate Boundary Layer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/fluids/#laminar-boundary-layer-blasius">Laminar Boundary Layer - Blasius</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/fluids/#turbulent-boundary-layer">Turbulent Boundary Layer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/fluids/#meshing">Meshing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/fluids/#taylor-green-vortex">Taylor-Green Vortex</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/solids/">Solid mechanics mini-app</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/solids/#running-the-mini-app">Running the mini-app</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/solids/#on-algebraic-solvers">On algebraic solvers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/solids/#nondimensionalization">Nondimensionalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/solids/#diagnostic-quantities">Diagnostic Quantities</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/solids/#linear-elasticity">Linear Elasticity</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/solids/#constitutive-modeling">Constitutive modeling</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/solids/#hyperelasticity-at-small-strain">Hyperelasticity at Small Strain</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/solids/#newton-linearization">Newton linearization</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/solids/#hyperelasticity-at-finite-strain">Hyperelasticity at Finite Strain</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/solids/#id3">Constitutive modeling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/solids/#weak-form">Weak form</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/solids/#id5">Newton linearization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/">API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/#public-api">Public API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/Ceed/">Ceed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/Ceed/#base-library-resources">Base library resources</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/CeedVector/">CeedVector</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/CeedVector/#basic-vector-operations">Basic vector operations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/CeedElemRestriction/">CeedElemRestriction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/CeedElemRestriction/#expressing-element-decomposition-and-degrees-of-freedom-over-a-mesh">Expressing element decomposition and degrees of freedom over a mesh</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/CeedBasis/">CeedBasis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/CeedBasis/#discrete-element-bases-and-quadrature">Discrete element bases and quadrature</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/CeedQFunction/">CeedQFunction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/CeedQFunction/#resolution-space-independent-weak-forms-and-quadrature-based-operations">Resolution/space-independent weak forms and quadrature-based operations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/CeedOperator/">CeedOperator</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/CeedOperator/#discrete-operators-on-user-vectors">Discrete operators on user vectors</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/#backend-api">Backend API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/backend/Ceed/">Ceed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedObjectCreate"><code class="docutils literal notranslate"><span class="pre">CeedObjectCreate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedObjectReference"><code class="docutils literal notranslate"><span class="pre">CeedObjectReference()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedObjectDereference"><code class="docutils literal notranslate"><span class="pre">CeedObjectDereference()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedObjectDestroy_Private"><code class="docutils literal notranslate"><span class="pre">CeedObjectDestroy_Private()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedDebugFlag"><code class="docutils literal notranslate"><span class="pre">CeedDebugFlag()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedGetEnableDebug"><code class="docutils literal notranslate"><span class="pre">CeedGetEnableDebug()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedSetEnableDebug"><code class="docutils literal notranslate"><span class="pre">CeedSetEnableDebug()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedDebugImpl256"><code class="docutils literal notranslate"><span class="pre">CeedDebugImpl256()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedMallocArray"><code class="docutils literal notranslate"><span class="pre">CeedMallocArray()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedCallocArray"><code class="docutils literal notranslate"><span class="pre">CeedCallocArray()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedReallocArray"><code class="docutils literal notranslate"><span class="pre">CeedReallocArray()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedStringAllocCopy"><code class="docutils literal notranslate"><span class="pre">CeedStringAllocCopy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedFree"><code class="docutils literal notranslate"><span class="pre">CeedFree()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedSetHostGenericArray"><code class="docutils literal notranslate"><span class="pre">CeedSetHostGenericArray()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedSetHostBoolArray"><code class="docutils literal notranslate"><span class="pre">CeedSetHostBoolArray()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedSetHostCeedInt8Array"><code class="docutils literal notranslate"><span class="pre">CeedSetHostCeedInt8Array()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedSetHostCeedIntArray"><code class="docutils literal notranslate"><span class="pre">CeedSetHostCeedIntArray()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedSetHostCeedScalarArray"><code class="docutils literal notranslate"><span class="pre">CeedSetHostCeedScalarArray()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedRegister"><code class="docutils literal notranslate"><span class="pre">CeedRegister()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedGetResourceRoot"><code class="docutils literal notranslate"><span class="pre">CeedGetResourceRoot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedGetParent"><code class="docutils literal notranslate"><span class="pre">CeedGetParent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedGetDelegate"><code class="docutils literal notranslate"><span class="pre">CeedGetDelegate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedSetDelegate"><code class="docutils literal notranslate"><span class="pre">CeedSetDelegate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedGetObjectDelegate"><code class="docutils literal notranslate"><span class="pre">CeedGetObjectDelegate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedSetObjectDelegate"><code class="docutils literal notranslate"><span class="pre">CeedSetObjectDelegate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedGetOperatorFallbackCeed"><code class="docutils literal notranslate"><span class="pre">CeedGetOperatorFallbackCeed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedSetOperatorFallbackCeed"><code class="docutils literal notranslate"><span class="pre">CeedSetOperatorFallbackCeed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedSetDeterministic"><code class="docutils literal notranslate"><span class="pre">CeedSetDeterministic()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedSetBackendFunctionImpl"><code class="docutils literal notranslate"><span class="pre">CeedSetBackendFunctionImpl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedGetData"><code class="docutils literal notranslate"><span class="pre">CeedGetData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedSetData"><code class="docutils literal notranslate"><span class="pre">CeedSetData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedReference"><code class="docutils literal notranslate"><span class="pre">CeedReference()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedGetWorkVectorMemoryUsage"><code class="docutils literal notranslate"><span class="pre">CeedGetWorkVectorMemoryUsage()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedClearWorkVectors"><code class="docutils literal notranslate"><span class="pre">CeedClearWorkVectors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedGetWorkVector"><code class="docutils literal notranslate"><span class="pre">CeedGetWorkVector()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedRestoreWorkVector"><code class="docutils literal notranslate"><span class="pre">CeedRestoreWorkVector()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedGetJitSourceRoots"><code class="docutils literal notranslate"><span class="pre">CeedGetJitSourceRoots()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedGetRustSourceRoots"><code class="docutils literal notranslate"><span class="pre">CeedGetRustSourceRoots()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedRestoreJitSourceRoots"><code class="docutils literal notranslate"><span class="pre">CeedRestoreJitSourceRoots()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedRestoreRustSourceRoots"><code class="docutils literal notranslate"><span class="pre">CeedRestoreRustSourceRoots()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedGetJitDefines"><code class="docutils literal notranslate"><span class="pre">CeedGetJitDefines()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedRestoreJitDefines"><code class="docutils literal notranslate"><span class="pre">CeedRestoreJitDefines()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedMkdirParents"><code class="docutils literal notranslate"><span class="pre">CeedMkdirParents()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedGetCacheDir"><code class="docutils literal notranslate"><span class="pre">CeedGetCacheDir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#c.CeedRestoreCacheDir"><code class="docutils literal notranslate"><span class="pre">CeedRestoreCacheDir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#macros">Macros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/Ceed/#typedefs-and-enumerations">Typedefs and Enumerations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/backend/CeedVector/">CeedVector</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedVector/#c.CeedVectorHasValidArray"><code class="docutils literal notranslate"><span class="pre">CeedVectorHasValidArray()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedVector/#c.CeedVectorHasBorrowedArrayOfType"><code class="docutils literal notranslate"><span class="pre">CeedVectorHasBorrowedArrayOfType()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedVector/#c.CeedVectorGetState"><code class="docutils literal notranslate"><span class="pre">CeedVectorGetState()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedVector/#c.CeedVectorGetData"><code class="docutils literal notranslate"><span class="pre">CeedVectorGetData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedVector/#c.CeedVectorSetData"><code class="docutils literal notranslate"><span class="pre">CeedVectorSetData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedVector/#c.CeedVectorReference"><code class="docutils literal notranslate"><span class="pre">CeedVectorReference()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/backend/CeedElemRestriction/">CeedElemRestriction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionGetType"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionGetType()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionIsStrided"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionIsStrided()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionIsAtPoints"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionIsAtPoints()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionAtPointsAreCompatible"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionAtPointsAreCompatible()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionGetStrides"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionGetStrides()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionHasBackendStrides"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionHasBackendStrides()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionGetOffsets"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionGetOffsets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionRestoreOffsets"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionRestoreOffsets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionGetOrientations"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionGetOrientations()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionRestoreOrientations"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionRestoreOrientations()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionGetCurlOrientations"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionGetCurlOrientations()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionRestoreCurlOrientations"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionRestoreCurlOrientations()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionGetLLayout"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionGetLLayout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionSetLLayout"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionSetLLayout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionGetELayout"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionGetELayout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionSetELayout"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionSetELayout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionGetAtPointsElementOffset"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionGetAtPointsElementOffset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionSetAtPointsEVectorSize"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionSetAtPointsEVectorSize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionGetData"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionGetData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionSetData"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionSetData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionGetBlockedElemRestriction"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionGetBlockedElemRestriction()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionReference"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionReference()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedElemRestriction/#c.CeedElemRestrictionGetFlopsEstimate"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionGetFlopsEstimate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/backend/CeedBasis/">CeedBasis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedBasisCreateH1Fallback"><code class="docutils literal notranslate"><span class="pre">CeedBasisCreateH1Fallback()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedBasisGetChebyshevInterp1D"><code class="docutils literal notranslate"><span class="pre">CeedBasisGetChebyshevInterp1D()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedBasisIsTensor"><code class="docutils literal notranslate"><span class="pre">CeedBasisIsTensor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedBasisComputeIsCollocated"><code class="docutils literal notranslate"><span class="pre">CeedBasisComputeIsCollocated()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedBasisIsCollocated"><code class="docutils literal notranslate"><span class="pre">CeedBasisIsCollocated()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedBasisHasCollocatedGrad"><code class="docutils literal notranslate"><span class="pre">CeedBasisHasCollocatedGrad()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedBasisGetData"><code class="docutils literal notranslate"><span class="pre">CeedBasisGetData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedBasisSetData"><code class="docutils literal notranslate"><span class="pre">CeedBasisSetData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedBasisReference"><code class="docutils literal notranslate"><span class="pre">CeedBasisReference()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedBasisGetNumQuadratureComponents"><code class="docutils literal notranslate"><span class="pre">CeedBasisGetNumQuadratureComponents()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedBasisGetFlopsEstimate"><code class="docutils literal notranslate"><span class="pre">CeedBasisGetFlopsEstimate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedBasisGetFESpace"><code class="docutils literal notranslate"><span class="pre">CeedBasisGetFESpace()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedBasisGetTopologyDimension"><code class="docutils literal notranslate"><span class="pre">CeedBasisGetTopologyDimension()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedBasisGetTensorContract"><code class="docutils literal notranslate"><span class="pre">CeedBasisGetTensorContract()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedBasisSetTensorContract"><code class="docutils literal notranslate"><span class="pre">CeedBasisSetTensorContract()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedBasisGetChebyshevData"><code class="docutils literal notranslate"><span class="pre">CeedBasisGetChebyshevData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedMatrixMatrixMultiply"><code class="docutils literal notranslate"><span class="pre">CeedMatrixMatrixMultiply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedQRFactorization"><code class="docutils literal notranslate"><span class="pre">CeedQRFactorization()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedHouseholderApplyQ"><code class="docutils literal notranslate"><span class="pre">CeedHouseholderApplyQ()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedMatrixPseudoinverse"><code class="docutils literal notranslate"><span class="pre">CeedMatrixPseudoinverse()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedSymmetricSchurDecomposition"><code class="docutils literal notranslate"><span class="pre">CeedSymmetricSchurDecomposition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedSimultaneousDiagonalization"><code class="docutils literal notranslate"><span class="pre">CeedSimultaneousDiagonalization()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedTensorContractCreate"><code class="docutils literal notranslate"><span class="pre">CeedTensorContractCreate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedTensorContractApply"><code class="docutils literal notranslate"><span class="pre">CeedTensorContractApply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedTensorContractApplyEvenOdd"><code class="docutils literal notranslate"><span class="pre">CeedTensorContractApplyEvenOdd()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedTensorContractStridedApply"><code class="docutils literal notranslate"><span class="pre">CeedTensorContractStridedApply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedTensorContractGetCeed"><code class="docutils literal notranslate"><span class="pre">CeedTensorContractGetCeed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedTensorContractReturnCeed"><code class="docutils literal notranslate"><span class="pre">CeedTensorContractReturnCeed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedTensorContractGetData"><code class="docutils literal notranslate"><span class="pre">CeedTensorContractGetData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedTensorContractSetData"><code class="docutils literal notranslate"><span class="pre">CeedTensorContractSetData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedTensorContractReference"><code class="docutils literal notranslate"><span class="pre">CeedTensorContractReference()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedTensorContractReferenceCopy"><code class="docutils literal notranslate"><span class="pre">CeedTensorContractReferenceCopy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedBasis/#c.CeedTensorContractDestroy"><code class="docutils literal notranslate"><span class="pre">CeedTensorContractDestroy()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/backend/CeedQFunction/">CeedQFunction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionField"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionField</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionGetVectorLength"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionGetVectorLength()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionGetNumArgs"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionGetNumArgs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionGetName"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionGetName()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionGetKernelName"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionGetKernelName()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionGetSourcePath"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionGetSourcePath()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionGetUserFunction"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionGetUserFunction()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionGetContext"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionGetContext()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionGetContextData"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionGetContextData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionRestoreContextData"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionRestoreContextData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionGetInnerContext"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionGetInnerContext()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionGetInnerContextData"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionGetInnerContextData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionRestoreInnerContextData"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionRestoreInnerContextData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionIsIdentity"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionIsIdentity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionIsContextWritable"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionIsContextWritable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionGetData"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionGetData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionSetData"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionSetData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionIsImmutable"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionIsImmutable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionSetImmutable"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionSetImmutable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionReference"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionReference()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionGetFlopsEstimate"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionGetFlopsEstimate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextGetCeed"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextGetCeed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextReturnCeed"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextReturnCeed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextHasValidData"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextHasValidData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextHasBorrowedDataOfType"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextHasBorrowedDataOfType()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextGetState"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextGetState()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextGetBackendData"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextGetBackendData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextSetBackendData"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextSetBackendData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextGetFieldLabel"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextGetFieldLabel()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextSetGeneric"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextSetGeneric()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextGetGenericRead"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextGetGenericRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextRestoreGenericRead"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextRestoreGenericRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextSetBoolean"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextSetBoolean()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextGetBooleanRead"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextGetBooleanRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextRestoreBooleanRead"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextRestoreBooleanRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextSetByte"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextSetByte()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextGetByteRead"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextGetByteRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextRestoreByteRead"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextRestoreByteRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextSetCeedInt8"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextSetCeedInt8()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextGetCeedInt8Read"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextGetCeedInt8Read()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextRestoreCeedInt8Read"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextRestoreCeedInt8Read()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextSetCeedInt"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextSetCeedInt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextGetCeedIntRead"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextGetCeedIntRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextRestoreCeedIntRead"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextRestoreCeedIntRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextSetInt32"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextSetInt32()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextGetInt32Read"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextGetInt32Read()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextRestoreInt32Read"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextRestoreInt32Read()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextSetInt64"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextSetInt64()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextGetInt64Read"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextGetInt64Read()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextRestoreInt64Read"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextRestoreInt64Read()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextSetCeedSize"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextSetCeedSize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextGetCeedSizeRead"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextGetCeedSizeRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextRestoreCeedSizeRead"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextRestoreCeedSizeRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextSetCeedScalar"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextSetCeedScalar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextGetCeedScalarRead"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextGetCeedScalarRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextRestoreCeedScalarRead"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextRestoreCeedScalarRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextSetFloat"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextSetFloat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextGetFloatRead"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextGetFloatRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextRestoreFloatRead"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextRestoreFloatRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextSetDouble"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextSetDouble()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextGetDoubleRead"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextGetDoubleRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextRestoreDoubleRead"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextRestoreDoubleRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextGetDataDestroy"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextGetDataDestroy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#c.CeedQFunctionContextReference"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextReference()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedQFunction/#macros">Macros</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/backend/CeedOperator/">CeedOperator</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorField"><code class="docutils literal notranslate"><span class="pre">CeedOperatorField</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorGetNumArgs"><code class="docutils literal notranslate"><span class="pre">CeedOperatorGetNumArgs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorHasTensorBases"><code class="docutils literal notranslate"><span class="pre">CeedOperatorHasTensorBases()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorIsImmutable"><code class="docutils literal notranslate"><span class="pre">CeedOperatorIsImmutable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorIsSetupDone"><code class="docutils literal notranslate"><span class="pre">CeedOperatorIsSetupDone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorGetQFunction"><code class="docutils literal notranslate"><span class="pre">CeedOperatorGetQFunction()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorIsComposite"><code class="docutils literal notranslate"><span class="pre">CeedOperatorIsComposite()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorGetData"><code class="docutils literal notranslate"><span class="pre">CeedOperatorGetData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorSetData"><code class="docutils literal notranslate"><span class="pre">CeedOperatorSetData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorReference"><code class="docutils literal notranslate"><span class="pre">CeedOperatorReference()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorSetSetupDone"><code class="docutils literal notranslate"><span class="pre">CeedOperatorSetSetupDone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorGetBasisPointer"><code class="docutils literal notranslate"><span class="pre">CeedOperatorGetBasisPointer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorCreateActivePointBlockRestriction"><code class="docutils literal notranslate"><span class="pre">CeedOperatorCreateActivePointBlockRestriction()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorGetQFunctionAssemblyData"><code class="docutils literal notranslate"><span class="pre">CeedOperatorGetQFunctionAssemblyData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedQFunctionAssemblyDataCreate"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionAssemblyDataCreate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedQFunctionAssemblyDataReference"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionAssemblyDataReference()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedQFunctionAssemblyDataSetReuse"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionAssemblyDataSetReuse()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedQFunctionAssemblyDataSetUpdateNeeded"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionAssemblyDataSetUpdateNeeded()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedQFunctionAssemblyDataIsUpdateNeeded"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionAssemblyDataIsUpdateNeeded()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedQFunctionAssemblyDataReferenceCopy"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionAssemblyDataReferenceCopy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedQFunctionAssemblyDataIsSetup"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionAssemblyDataIsSetup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedQFunctionAssemblyDataSetBlockAssembling"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionAssemblyDataSetBlockAssembling()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedQFunctionAssemblyDataSetObjects"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionAssemblyDataSetObjects()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedQFunctionAssemblyDataGetObjects"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionAssemblyDataGetObjects()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedQFunctionAssemblyDataDestroy"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionAssemblyDataDestroy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorGetOperatorAssemblyData"><code class="docutils literal notranslate"><span class="pre">CeedOperatorGetOperatorAssemblyData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorAssemblyDataCreate"><code class="docutils literal notranslate"><span class="pre">CeedOperatorAssemblyDataCreate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorAssemblyDataGetEvalModes"><code class="docutils literal notranslate"><span class="pre">CeedOperatorAssemblyDataGetEvalModes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorAssemblyDataGetBases"><code class="docutils literal notranslate"><span class="pre">CeedOperatorAssemblyDataGetBases()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorAssemblyDataGetElemRestrictions"><code class="docutils literal notranslate"><span class="pre">CeedOperatorAssemblyDataGetElemRestrictions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorAssemblyDataDestroy"><code class="docutils literal notranslate"><span class="pre">CeedOperatorAssemblyDataDestroy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorGetFallback"><code class="docutils literal notranslate"><span class="pre">CeedOperatorGetFallback()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorGetFallbackParent"><code class="docutils literal notranslate"><span class="pre">CeedOperatorGetFallbackParent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/backend/CeedOperator/#c.CeedOperatorGetFallbackParentCeed"><code class="docutils literal notranslate"><span class="pre">CeedOperatorGetFallbackParentCeed()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/#internal-functions">Internal Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/internal/Ceed/">Ceed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/Ceed/#c.CeedRegisterImpl"><code class="docutils literal notranslate"><span class="pre">CeedRegisterImpl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/Ceed/#c.CeedWorkVectorsCreate"><code class="docutils literal notranslate"><span class="pre">CeedWorkVectorsCreate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/Ceed/#c.CeedWorkVectorsDestroy"><code class="docutils literal notranslate"><span class="pre">CeedWorkVectorsDestroy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/Ceed/#c.CeedView_Object"><code class="docutils literal notranslate"><span class="pre">CeedView_Object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/Ceed/#c.CeedDestroy_Object"><code class="docutils literal notranslate"><span class="pre">CeedDestroy_Object()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/internal/CeedVector/">CeedVector</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedVector/#c.CeedVectorView_Object"><code class="docutils literal notranslate"><span class="pre">CeedVectorView_Object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedVector/#c.CeedVectorDestroy_Object"><code class="docutils literal notranslate"><span class="pre">CeedVectorDestroy_Object()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/internal/CeedElemRestriction/">CeedElemRestriction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedElemRestriction/#c.CeedPermutePadOffsets"><code class="docutils literal notranslate"><span class="pre">CeedPermutePadOffsets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedElemRestriction/#c.CeedPermutePadOrients"><code class="docutils literal notranslate"><span class="pre">CeedPermutePadOrients()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedElemRestriction/#c.CeedPermutePadCurlOrients"><code class="docutils literal notranslate"><span class="pre">CeedPermutePadCurlOrients()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedElemRestriction/#c.CeedElemRestrictionView_Object"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionView_Object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedElemRestriction/#c.CeedElemRestrictionDestroy_Object"><code class="docutils literal notranslate"><span class="pre">CeedElemRestrictionDestroy_Object()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/internal/CeedBasis/">CeedBasis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedBasis/#c.CeedChebyshevPolynomialsAtPoint"><code class="docutils literal notranslate"><span class="pre">CeedChebyshevPolynomialsAtPoint()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedBasis/#c.CeedChebyshevDerivativeAtPoint"><code class="docutils literal notranslate"><span class="pre">CeedChebyshevDerivativeAtPoint()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedBasis/#c.CeedHouseholderReflect"><code class="docutils literal notranslate"><span class="pre">CeedHouseholderReflect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedBasis/#c.CeedGivensRotation"><code class="docutils literal notranslate"><span class="pre">CeedGivensRotation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedBasis/#c.CeedScalarView"><code class="docutils literal notranslate"><span class="pre">CeedScalarView()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedBasis/#c.CeedBasisView_Object"><code class="docutils literal notranslate"><span class="pre">CeedBasisView_Object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedBasis/#c.CeedBasisDestroy_Object"><code class="docutils literal notranslate"><span class="pre">CeedBasisDestroy_Object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedBasis/#c.CeedBasisCreateProjectionMatrices"><code class="docutils literal notranslate"><span class="pre">CeedBasisCreateProjectionMatrices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedBasis/#c.CeedBasisDetectSymmetry"><code class="docutils literal notranslate"><span class="pre">CeedBasisDetectSymmetry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedBasis/#c.CeedBasisComputeHalfMatrices"><code class="docutils literal notranslate"><span class="pre">CeedBasisComputeHalfMatrices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedBasis/#c.CeedComputeEvenOddDecomposition"><code class="docutils literal notranslate"><span class="pre">CeedComputeEvenOddDecomposition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedBasis/#c.CeedBasisApplyCheckDims"><code class="docutils literal notranslate"><span class="pre">CeedBasisApplyCheckDims()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedBasis/#c.CeedBasisApplyAtPointsCheckDims"><code class="docutils literal notranslate"><span class="pre">CeedBasisApplyAtPointsCheckDims()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedBasis/#c.CeedBasisApplyAtPoints_Core"><code class="docutils literal notranslate"><span class="pre">CeedBasisApplyAtPoints_Core()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/internal/CeedQFunction/">CeedQFunction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedQFunction/#c.CeedQFunctionRegister"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionRegister()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedQFunction/#c.CeedQFunctionFieldSet"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionFieldSet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedQFunction/#c.CeedQFunctionFieldView"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionFieldView()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedQFunction/#c.CeedQFunctionView_Object"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionView_Object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedQFunction/#c.CeedQFunctionDestroy_Object"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionDestroy_Object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedQFunction/#c.CeedQFunctionSetFortranStatus"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionSetFortranStatus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedQFunction/#c.CeedQFunctionContextGetFieldIndex"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextGetFieldIndex()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedQFunction/#c.CeedQFunctionContextRegisterGeneric"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextRegisterGeneric()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedQFunction/#c.CeedQFunctionContextDestroyData"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextDestroyData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedQFunction/#c.CeedQFunctionContextView_Object"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextView_Object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedQFunction/#c.CeedQFunctionContextDestroy_Object"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionContextDestroy_Object()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/internal/CeedOperator/">CeedOperator</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorCheckField"><code class="docutils literal notranslate"><span class="pre">CeedOperatorCheckField()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorFieldView"><code class="docutils literal notranslate"><span class="pre">CeedOperatorFieldView()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorSingleView"><code class="docutils literal notranslate"><span class="pre">CeedOperatorSingleView()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorView_Object"><code class="docutils literal notranslate"><span class="pre">CeedOperatorView_Object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorDestroy_Object"><code class="docutils literal notranslate"><span class="pre">CeedOperatorDestroy_Object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorGetActiveBasis"><code class="docutils literal notranslate"><span class="pre">CeedOperatorGetActiveBasis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorGetActiveBases"><code class="docutils literal notranslate"><span class="pre">CeedOperatorGetActiveBases()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorGetActiveElemRestriction"><code class="docutils literal notranslate"><span class="pre">CeedOperatorGetActiveElemRestriction()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorGetActiveElemRestrictions"><code class="docutils literal notranslate"><span class="pre">CeedOperatorGetActiveElemRestrictions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorContextSetGeneric"><code class="docutils literal notranslate"><span class="pre">CeedOperatorContextSetGeneric()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorContextGetGenericRead"><code class="docutils literal notranslate"><span class="pre">CeedOperatorContextGetGenericRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorContextRestoreGenericRead"><code class="docutils literal notranslate"><span class="pre">CeedOperatorContextRestoreGenericRead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedQFunctionCreateFallback"><code class="docutils literal notranslate"><span class="pre">CeedQFunctionCreateFallback()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorCreateFallback"><code class="docutils literal notranslate"><span class="pre">CeedOperatorCreateFallback()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorLinearAssembleAddDiagonalSingle_Mesh"><code class="docutils literal notranslate"><span class="pre">CeedOperatorLinearAssembleAddDiagonalSingle_Mesh()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorLinearAssembleAddDiagonalSingle"><code class="docutils literal notranslate"><span class="pre">CeedOperatorLinearAssembleAddDiagonalSingle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorLinearAssembleAddDiagonalComposite"><code class="docutils literal notranslate"><span class="pre">CeedOperatorLinearAssembleAddDiagonalComposite()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorAssemblyCountEntriesSingleBlock"><code class="docutils literal notranslate"><span class="pre">CeedOperatorAssemblyCountEntriesSingleBlock()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorAssemblyCountEntriesSingle"><code class="docutils literal notranslate"><span class="pre">CeedOperatorAssemblyCountEntriesSingle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorLinearAssembleGetNumEntries"><code class="docutils literal notranslate"><span class="pre">CeedOperatorLinearAssembleGetNumEntries()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorAssembleSymbolicSingleBlock"><code class="docutils literal notranslate"><span class="pre">CeedOperatorAssembleSymbolicSingleBlock()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorAssembleSymbolicSingle"><code class="docutils literal notranslate"><span class="pre">CeedOperatorAssembleSymbolicSingle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorLinearAssembleQFunctionBuildOrUpdate_Core"><code class="docutils literal notranslate"><span class="pre">CeedOperatorLinearAssembleQFunctionBuildOrUpdate_Core()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorLinearAssembleQFunctionBuildOrUpdateFallback"><code class="docutils literal notranslate"><span class="pre">CeedOperatorLinearAssembleQFunctionBuildOrUpdateFallback()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorAssembleSingleBlock"><code class="docutils literal notranslate"><span class="pre">CeedOperatorAssembleSingleBlock()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorAssembleSingle"><code class="docutils literal notranslate"><span class="pre">CeedOperatorAssembleSingle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedOperatorMultigridLevelCreateSingle_Core"><code class="docutils literal notranslate"><span class="pre">CeedOperatorMultigridLevelCreateSingle_Core()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/internal/CeedOperator/#c.CeedBuildMassLaplace"><code class="docutils literal notranslate"><span class="pre">CeedBuildMassLaplace()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ffi/">Julia, Python, and Rust Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu/">GPU Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gpu/#jit-compilation">JiT Compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu/#memory-access">Memory Access</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="precision/">Floating Point Precision</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="precision/#language-specific-notes">Language-specific notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="libCEEDdev/">Developer Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="libCEEDdev/#library-design">Library Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libCEEDdev/#backend-inheritance">Backend Inheritance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libCEEDdev/#backend-families">Backend Families</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="libCEEDdev/#cpu-backends">CPU Backends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libCEEDdev/#gpu-backends">GPU Backends</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="libCEEDdev/#internal-layouts">Internal Layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libCEEDdev/#ceedvector-array-access">CeedVector Array Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libCEEDdev/#shape">Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libCEEDdev/#restrict-semantics"><code class="docutils literal notranslate"><span class="pre">restrict</span></code> Semantics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libCEEDdev/#style-guide">Style Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libCEEDdev/#function-conventions">Function Conventions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="libCEEDdev/#naming">Naming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libCEEDdev/#style">Style</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="libCEEDdev/#clang-tidy">Clang-tidy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libCEEDdev/#include-what-you-use">Include-What-You-Use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libCEEDdev/#updating-ci">Updating CI</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING/">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING/#developer-s-certificate-of-origin-1-1">Developer’s Certificate of Origin 1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING/#llm-generated-content">LLM Generated Content</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING/#authorship">Authorship</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CODE_OF_CONDUCT/">Code of Conduct</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CODE_OF_CONDUCT/#our-pledge">Our Pledge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CODE_OF_CONDUCT/#our-standards">Our Standards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CODE_OF_CONDUCT/#enforcement-responsibilities">Enforcement Responsibilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CODE_OF_CONDUCT/#scope">Scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CODE_OF_CONDUCT/#enforcement">Enforcement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CODE_OF_CONDUCT/#enforcement-guidelines">Enforcement Guidelines</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CODE_OF_CONDUCT/#correction">1. Correction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CODE_OF_CONDUCT/#warning">2. Warning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CODE_OF_CONDUCT/#temporary-ban">3. Temporary Ban</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CODE_OF_CONDUCT/#permanent-ban">4. Permanent Ban</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="CODE_OF_CONDUCT/#attribution">Attribution</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CHANGELOG/">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG/#current-main-branch">Current <code class="docutils literal notranslate"><span class="pre">main</span></code> branch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#interface-changes">Interface changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#new-features">New features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG/#v1-0-1-october-11-2026">v1.0.1 (October 11, 2026)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG/#v1-0-october-7-2026">v1.0 (October 7, 2026)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id1">Interface changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id2">New features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id3">Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#maintainability">Maintainability</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG/#v0-12-oct-31-2023">v0.12 (Oct 31, 2023)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id4">Interface changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id5">New features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id6">Examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="CHANGELOG/#example-petsc-bps"><span class="xref std std-ref">example-petsc-bps</span></a></li>
+<li class="toctree-l4"><a class="reference internal" href="CHANGELOG/#example-petsc-navier-stokes"><span class="xref std std-ref">example-petsc-navier-stokes</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG/#v0-11-dec-24-2022">v0.11 (Dec 24, 2022)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id7">Interface changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id8">New features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#bugfix">Bugfix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id9">Examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="CHANGELOG/#id10"><span class="xref std std-ref">example-petsc-navier-stokes</span></a></li>
+<li class="toctree-l4"><a class="reference internal" href="CHANGELOG/#id11"><span class="xref std std-ref">example-petsc-bps</span></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id12">Maintainability</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG/#v0-10-1-apr-11-2022">v0.10.1 (Apr 11, 2022)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id13">Interface changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id14">New features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id15">Bugfix</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG/#v0-10-mar-21-2022">v0.10 (Mar 21, 2022)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id16">Interface changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id17">New features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id18">Maintainability</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG/#v0-9-jul-6-2021">v0.9 (Jul 6, 2021)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id19">Interface changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id20">New features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#performance-improvements">Performance improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id21">Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#deprecated-backends">Deprecated backends</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG/#v0-8-mar-31-2021">v0.8 (Mar 31, 2021)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id22">Interface changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id23">New features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id24">Performance improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id25">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG/#v0-7-sep-29-2020">v0.7 (Sep 29, 2020)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id26">Interface changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id27">New features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id28">Performance improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id29">Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id30">Deprecated backends</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG/#v0-6-mar-29-2020">v0.6 (Mar 29, 2020)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id31">New features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id32">Performance Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id33">Interface changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG/#id34">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG/#v0-5-sep-18-2019">v0.5 (Sep 18, 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG/#v0-4-apr-1-2019">v0.4 (Apr 1, 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG/#v0-3-sep-30-2018">v0.3 (Sep 30, 2018)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG/#v0-21-sep-30-2018">v0.21 (Sep 30, 2018)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG/#v0-2-mar-30-2018">v0.2 (Mar 30, 2018)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG/#v0-1-jan-3-2018">v0.1 (Jan 3, 2018)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex/"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="search/"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+<div class="docutils container" id="id1">
+<div role="list" class="citation-list">
+<div class="citation" id="id18" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>sod<span class="fn-bracket">]</span></span>
+<p>Sod shock tube. <a class="reference external" href="https://en.wikipedia.org/wiki/Sod_shock_tube">https://en.wikipedia.org/wiki/Sod_shock_tube</a>. Accessed: 01-30-2022.</p>
+</div>
+<div class="citation" id="id2" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>AB93<span class="fn-bracket">]</span></span>
+<p>Ellen M Arruda and Mary C Boyce. A three-dimensional constitutive model for the large stretch behavior of rubber elastic materials. <em>Journal of the Mechanics and Physics of Solids</em>, 41(2):389–412, 1993. <a class="reference external" href="https://doi.org/10.1016/0022-5096(93)90013-6">doi:10.1016/0022-5096(93)90013-6</a>.</p>
+</div>
+<div class="citation" id="id9" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>BAB+21<span class="fn-bracket">]</span></span>
+<p>Jed Brown, Ahmad Abdelfattah, Valeria Barra, Natalie Beams, Jean Sylvain Camier, Veselin Dobrev, Yohann Dudouit, Leila Ghaffari, Tzanio Kolev, David Medina, Will Pazner, Thilina Ratnayaka, Jeremy Thompson, and Stan Tomov. libCEED: fast algebra for high-order element-based discretizations. <em>Journal of Open Source Software</em>, 6(63):2945, 2021. <a class="reference external" href="https://doi.org/10.21105/joss.02945">doi:10.21105/joss.02945</a>.</p>
+</div>
+<div class="citation" id="id29" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>BJ16<span class="fn-bracket">]</span></span>
+<p>Jonathan R. Bull and Antony Jameson. Explicit filtering and exact reconstruction of the sub-filter stresses in large eddy simulation. <em>Journal of Computational Physics</em>, 306:117–136, 2016. <a class="reference external" href="https://doi.org/10.1016/j.jcp.2015.11.037">doi:10.1016/j.jcp.2015.11.037</a>.</p>
+</div>
+<div class="citation" id="id24" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Col23<span class="fn-bracket">]</span></span>
+<p>Tim Colonius. Chapter 8 - boundary conditions for turbulence simulation. In Robert D. Moser, editor, <em>Numerical Methods in Turbulence Simulation</em>, Numerical Methods in Turbulence, pages 319–357. Academic Press, 2023. <a class="reference external" href="https://doi.org/10.1016/B978-0-32-391144-3.00014-0">doi:10.1016/B978-0-32-391144-3.00014-0</a>.</p>
+</div>
+<div class="citation" id="id28" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Ger86<span class="fn-bracket">]</span></span>
+<p>M. Germano. Differential filters for the large eddy numerical simulation of turbulent flows. <em>The Physics of Fluids</em>, 29(6):1755–1757, 1986. <a class="reference external" href="https://doi.org/10.1063/1.865649">doi:10.1063/1.865649</a>.</p>
+</div>
+<div class="citation" id="id6" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Hol00<span class="fn-bracket">]</span></span>
+<p>Gerhard Holzapfel. <em>Nonlinear solid mechanics: a continuum approach for engineering</em>. Wiley, Chichester New York, 2000. ISBN 978-0-471-82319-3.</p>
+</div>
+<div class="citation" id="id7" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>HST10<span class="fn-bracket">]</span></span>
+<p>Thomas J R Hughes, Guglielmo Scovazzi, and Tayfun E Tezduyar. Stabilized methods for compressible flows. <em>Journal of Scientific Computing</em>, 43:343–368, 2010. <a class="reference external" href="https://doi.org/10.1007/s10915-008-9233-5">doi:10.1007/s10915-008-9233-5</a>.</p>
+</div>
+<div class="citation" id="id8" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Hug12<span class="fn-bracket">]</span></span>
+<p>Thomas JR Hughes. <em>The finite element method: linear static and dynamic finite element analysis</em>. Courier Corporation, 2012.</p>
+</div>
+<div class="citation" id="id22" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>MDGP+14<span class="fn-bracket">]</span></span>
+<p>Gianmarco Mengaldo, Daniele De Grazia, Joaquim Peiro, Antony Farrington, Freddie Witherden, Peter Vincent, and Spencer Sherwin. A guide to the implementation of boundary conditions in compact high-order methods for compressible aerodynamics. In <em>AIAA Aviation 2014</em>. Atlanta, June 2014. AIAA. <a class="reference external" href="https://doi.org/10.2514/6.2014-2923">doi:10.2514/6.2014-2923</a>.</p>
+</div>
+<div class="citation" id="id10" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>PMK92<span class="fn-bracket">]</span></span>
+<p>TC Papanastasiou, N Malamataris, and Ellwood K. A new outflow boundary condition. <em>International Journal for Numerical Methods in Fluids</em>, 14:587–608, March 1992. <a class="reference external" href="https://doi.org/10.1002/fld.1650140506">doi:10.1002/fld.1650140506</a>.</p>
+</div>
+<div class="citation" id="id26" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>PJE22<span class="fn-bracket">]</span></span>
+<p>Aviral Prakash, Kenneth E. Jansen, and John A. Evans. Invariant data-driven subgrid stress modeling on anisotropic grids for large eddy simulation. 2022. <a class="reference external" href="https://arxiv.org/abs/arXiv:2212.00332">arXiv:arXiv:2212.00332</a>.</p>
+</div>
+<div class="citation" id="id23" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>SHJ91<span class="fn-bracket">]</span></span>
+<p>Farzin Shakib, Thomas JR Hughes, and Zdeněk Johan. A new finite element formulation for computational fluid dynamics: X. the compressible Euler and Navier-Stokes equations. <em>Computer Methods in Applied Mechanics and Engineering</em>, 89(1-3):141–219, 1991. <a class="reference external" href="https://doi.org/10.1016/0045-7825(91)90041-4">doi:10.1016/0045-7825(91)90041-4</a>.</p>
+</div>
+<div class="citation" id="id21" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>SSST14<span class="fn-bracket">]</span></span>
+<p>Michael L. Shur, Philippe R. Spalart, Michael K. Strelets, and Andrey K. Travin. Synthetic turbulence generators for RANS-LES interfaces in zonal simulations of aerodynamic and aeroacoustic problems. <em>Flow, Turbulence and Combustion</em>, 93(1):63–92, 2014. <a class="reference external" href="https://doi.org/10.1007/s10494-014-9534-8">doi:10.1007/s10494-014-9534-8</a>.</p>
+</div>
+<div class="citation" id="id11" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>SWW+93<span class="fn-bracket">]</span></span>
+<p>Jerry M Straka, Robert B Wilhelmson, Louis J Wicker, John R Anderson, and Kelvin K Droegemeier. Numerical solutions of a non-linear density current: a benchmark solution and comparisons. <em>International Journal for Numerical Methods in Fluids</em>, 17(1):1–22, 1993. <a class="reference external" href="https://doi.org/10.1002/fld.1650170103">doi:10.1002/fld.1650170103</a>.</p>
+</div>
+<div class="citation" id="id19" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>TS07<span class="fn-bracket">]</span></span>
+<p>Tayfun E Tezduyar and Masayoshi Senga. SUPG finite element computation of inviscid supersonic flows with $yz\beta $ shock capturing. <em>Computers and Fluids</em>, 36(1):147–159, 2007. <a class="reference external" href="https://doi.org/10.1016/j.compfluid.2005.07.009">doi:10.1016/j.compfluid.2005.07.009</a>.</p>
+</div>
+<div class="citation" id="id17" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Tor09<span class="fn-bracket">]</span></span>
+<p>Eleuterio F. Toro. <em>Riemann Solvers and Numerical Methods for Fluid Dynamics</em>. Springer, Berlin, Heidelberg, 2009. ISBN 978-3-540-49834-6.</p>
+</div>
+<div class="citation" id="id30" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>VD56<span class="fn-bracket">]</span></span>
+<p>E. R. Van Driest. On turbulent flow near a wall. <em>Journal of the Aeronautical Sciences</em>, 23(11):1007–1011, November 1956. <a class="reference external" href="https://doi.org/10/ghbxk3">doi:10/ghbxk3</a>.</p>
+</div>
+<div class="citation" id="id20" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Whi99<span class="fn-bracket">]</span></span>
+<p>Christian H Whiting. <em>Stabilized Finite Element Methods for Fluid Dynamics Using a Hierarchical Basis</em>. PhD thesis, Rennselear Polytechnic Institute, Troy, NY, 1999.</p>
+</div>
+<div class="citation" id="id16" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>WJD03<span class="fn-bracket">]</span></span>
+<p>Christian H Whiting, Kenneth E Jansen, and Saikat Dey. Hierarchical basis for stabilized finite element methods for compressible flows. <em>Computer Methods in Applied Mechanics and Engineering</em>, 192(47-48):5167–5185, 2003. <a class="reference external" href="https://doi.org/10.1016/j.cma.2003.07.011">doi:10.1016/j.cma.2003.07.011</a>.</p>
+</div>
+<div class="citation" id="id12" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>WWP09<span class="fn-bracket">]</span></span>
+<p>Samuel Williams, Andrew Waterman, and David Patterson. Roofline: an insightful visual performance model for multicore architectures. <em>Communications of the ACM</em>, 52(4):65–76, 2009. <a class="reference external" href="https://doi.org/10.1145/1498765.1498785">doi:10.1145/1498765.1498785</a>.</p>
+</div>
+<div class="citation" id="id14" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>ZZS11<span class="fn-bracket">]</span></span>
+<p>Rui Zhang, Mengping Zhang, and Chi-Wang Shu. On the order of accuracy and numerical performance of two classes of finite volume weno schemes. <em>Communications in Computational Physics</em>, 9(3):807–827, 2011. <a class="reference external" href="https://doi.org/10.4208/cicp.291109.080410s">doi:10.4208/cicp.291109.080410s</a>.</p>
+</div>
+<div class="citation" id="id4" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Brown10<span class="fn-bracket">]</span></span>
+<p>J. Brown. Efficient Nonlinear Solvers for Nodal High-Order Finite Elements in 3D. <em>Journal of Scientific Computing</em>, October 2010. <a class="reference external" href="https://doi.org/10.1007/s10915-010-9396-8">doi:10.1007/s10915-010-9396-8</a>.</p>
+</div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="intro/" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, LLNL, University of Colorado, University of Illinois, University of Tennesee, and the authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

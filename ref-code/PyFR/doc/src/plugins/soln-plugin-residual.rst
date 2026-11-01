@@ -1,0 +1,47 @@
+**********************
+[soln-plugin-residual]
+**********************
+
+Periodically calculates the residual and writes it out to a CSV file.
+Parameterised with
+
+#. ``nsteps`` --- calculate every ``nsteps``:
+
+    *int*
+
+#. ``file`` --- output file path; should the file already exist it
+   will be appended to:
+
+    *string*
+
+#. ``header`` --- if to output a header row or not:
+
+    *boolean*
+
+#. ``file-reset`` --- if to clear any existing output when starting a
+   new simulation; restarts always append:
+
+    *boolean*
+
+#. ``norm`` --- sets the degree and calculates an :math:`L_p` norm,
+    default is ``2``:
+
+    *float* | ``inf``
+
+#. ``publish-as`` --- expose computed residual norms under a name
+   for use by triggers (optional):
+
+    *string*
+
+    Published fields correspond to the conserved variable names
+    (e.g. ``rho``, ``rhou``, ``rhov``, ``E``).
+
+Example:
+
+.. code-block:: ini
+
+    [soln-plugin-residual]
+    nsteps = 10
+    file = residual.csv
+    header = true
+    norm = inf

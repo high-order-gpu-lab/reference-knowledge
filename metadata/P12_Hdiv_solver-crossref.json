@@ -1,0 +1,508 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "message": {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          9,
+          9
+        ]
+      ],
+      "date-time": "2026-09-09T03:49:21Z",
+      "timestamp": 1788925761469,
+      "version": "build-2803163510"
+    },
+    "reference-count": 51,
+    "publisher": "Society for Industrial & Applied Mathematics (SIAM)",
+    "issue": "3",
+    "funder": [
+      {
+        "DOI": "10.13039/100006227",
+        "name": "Lawrence Livermore National Laboratory",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "DE-AC52-07NA27344 (LLNL-JRNL-848035)"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "DE-AC52-07NA27344 (LLNL-JRNL-848035)"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100006227",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100006227",
+        "name": "Lawrence Livermore National Laboratory",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "20-ERD-002"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "20-ERD-002"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100006227",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      }
+    ],
+    "content-domain": {
+      "domain": [],
+      "crossmark-restriction": false
+    },
+    "short-container-title": [
+      "SIAM J. Sci. Comput."
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2024,
+          6,
+          30
+        ]
+      ]
+    },
+    "abstract": "<jats:p>Abstract.</jats:p>\n                  <jats:p>This work describes the development of matrix-free GPU-accelerated solvers for high-order finite element problems in [Formula: see text]. The solvers are applicable to grad-div and Darcy problems in saddle-point formulation, and have applications in radiation diffusion and porous media flow problems, among others. Using the interpolation–histopolation basis (cf. [W. Pazner, T. Kolev, and C. R. Dohrmann, SIAM J. Sci. Comput., 45 (2023), pp. A675–A702]), efficient matrix-free preconditioners can be constructed for the [Formula: see text]-block and Schur complement of the block system. With these approximations, block-preconditioned MINRES converges in a number of iterations that is independent of the mesh size and polynomial degree. The approximate Schur complement takes the form of an M -matrix graph Laplacian and therefore can be well-preconditioned by highly scalable algebraic multigrid methods. High-performance GPU-accelerated algorithms for all components of the solution algorithm are developed, discussed, and benchmarked. Numerical results are presented on a number of challenging test cases, including the “crooked pipe” grad-div problem, the SPE10 reservoir modeling benchmark problem, and a nonlinear radiation diffusion test case.</jats:p>",
+    "DOI": "10.1137/23m1568806",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2024,
+          5,
+          2
+        ]
+      ],
+      "date-time": "2024-05-02T04:02:27Z",
+      "timestamp": 1714622547000
+    },
+    "page": "B179-B204",
+    "source": "Crossref",
+    "is-referenced-by-count": 8,
+    "title": [
+      "Matrix-Free High-Performance Saddle-Point Solvers for High-Order Problems in \\(\\boldsymbol{H}(\\operatorname{\\textbf{div}})\\)"
+    ],
+    "prefix": "10.1137",
+    "volume": "46",
+    "author": [
+      {
+        "ORCID": "https://orcid.org/0000-0003-4885-2934",
+        "authenticated-orcid": true,
+        "given": "Will",
+        "family": "Pazner",
+        "sequence": "first",
+        "affiliation": [
+          {
+            "name": "Fariborz Maseeh Department of Mathematics and Statistics, Portland State University, Portland, OR 97201 USA."
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-2810-3090",
+        "authenticated-orcid": true,
+        "given": "Tzanio",
+        "family": "Kolev",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA 94550 USA."
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Panayot S.",
+        "family": "Vassilevski",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Fariborz Maseeh Department of Mathematics and Statistics, Portland State University, Portland, OR 97201 USA."
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "351",
+    "published-online": {
+      "date-parts": [
+        [
+          2024,
+          5,
+          2
+        ]
+      ]
+    },
+    "reference": [
+      {
+        "key": "ref1",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.parco.2021.102841"
+      },
+      {
+        "key": "ref2",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-3-319-41321-1_2"
+      },
+      {
+        "key": "ref3",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/0714068"
+      },
+      {
+        "key": "ref4",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.camwa.2020.06.009"
+      },
+      {
+        "key": "ref5",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1090/S0025-5718-97-00826-0"
+      },
+      {
+        "key": "ref6",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/PL00005386"
+      },
+      {
+        "key": "ref7",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.aml.2017.06.018"
+      },
+      {
+        "key": "ref8",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1017/S0962492904000212"
+      },
+      {
+        "key": "ref9",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-3-642-36519-5"
+      },
+      {
+        "key": "ref10",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1090/S0025-5718-1988-0917816-8"
+      },
+      {
+        "key": "ref11",
+        "author": "Brubeck P. D.",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "ref12",
+        "unstructured": "T. A. Brunner, Development of a Grey Nonlinear Thermal Radiation Diffusion Verification Problem, Technical report SAND2006-4030C, Sandia National Laboratories, 2006."
+      },
+      {
+        "key": "ref13",
+        "unstructured": "T. A. Brunner, T. V. Kolev, T. S. Bailey, and A. T. Till, Preserving spherical symmetry in axisymmetric coordinates for diffusion problems, in Proceedings of the International Conference on Mathematics and Computational Methods Applied to Nuclear Science and Engineering (M&C), 2013."
+      },
+      {
+        "key": "ref14",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.2118/72469-PA"
+      },
+      {
+        "key": "ref15",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1093/imanum/12.1.1"
+      },
+      {
+        "key": "ref16",
+        "doi-asserted-by": "crossref",
+        "unstructured": "V. Dobrev, J. Dongarra, J. Brown, P. Fischer, A. Haidar, I. Karlin, T. Kolev, M. Min, T. Moon, T. Ratnayaka, S. Tomov, and V. Tomov, ECP Milestone Report: Identify Initial Kernels, Bake-off Problems (Benchmarks) and Miniapps (CEED-MS6), Technical report LLNL-TR-734169, U.S. Department of Energy, 2017, https://doi.org/10.5281/zenodo.2542333.",
+        "DOI": "10.2172/1845630"
+      },
+      {
+        "key": "ref17",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/17M1132562"
+      },
+      {
+        "key": "ref18",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/21M1392115"
+      },
+      {
+        "key": "ref19",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.procs.2017.05.138"
+      },
+      {
+        "key": "ref20",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.parco.2021.102840"
+      },
+      {
+        "key": "ref21",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1002/fld.4511"
+      },
+      {
+        "key": "ref22",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1177/1094342020915762"
+      },
+      {
+        "key": "ref23",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/s00162-011-0253-7"
+      },
+      {
+        "key": "ref24",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1051/0004-6361/201525971"
+      },
+      {
+        "key": "ref25",
+        "unstructured": "F. Graziani and J. LeBlanc, The Crooked Pipe Test Problem, Technical report UCRL-MI-143393, Lawrence Livermore National Laboratory, 2000."
+      },
+      {
+        "key": "ref26",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/S0168-9274(01)00115-5"
+      },
+      {
+        "key": "ref27",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.cam.2016.05.016"
+      },
+      {
+        "key": "ref28",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/0021-9991(81)90158-3"
+      },
+      {
+        "key": "ref29",
+        "doi-asserted-by": "crossref",
+        "unstructured": "T. Kolev, P. Fischer, A. P. Austin, A. T. Barker, N. Beams, J. Brown, J.S. Camier, N. Chalmers, V. Dobrev, Y. Dudouit, L. Ghaffari, S. Kerkemeier, Y.H. Lan, E. Merzari, M. Min, W. Pazner, T. Ratnayaka, M. S. Shephard, M. H. Siboni, C. W. Smith, J. L. Thompson, S. Tomov, and T. Warburton, CEED ECP Milestone Report: High-order Algorithmic Developments and Optimizations for Large-Scale GPU-accelerated Simulations, Technical report CEED-MS36, U.S. Department of Energy, 2021, https://doi.org/10.5281/zenodo.4672664.",
+        "DOI": "10.2172/1845639"
+      },
+      {
+        "key": "ref30",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1177/10943420211020803"
+      },
+      {
+        "key": "ref31",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/21M1403916"
+      },
+      {
+        "key": "ref32",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/110859361"
+      },
+      {
+        "key": "ref33",
+        "unstructured": "J. Kreeft, A. Palha, and M. Gerritsma, Mimetic Framework on Curvilinear Quadrilaterals of Arbitrary Order, preprint, arXiv:1111.4304, 2011."
+      },
+      {
+        "key": "ref34",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3322813"
+      },
+      {
+        "key": "ref35",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1002/nme.5137"
+      },
+      {
+        "key": "ref36",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/16M110455X"
+      },
+      {
+        "key": "ref37",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-3-319-17353-5_15"
+      },
+      {
+        "key": "ref38",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/s10915-004-4787-3"
+      },
+      {
+        "key": "ref39",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1002/nla.716"
+      },
+      {
+        "key": "ref40",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/S0377-0427(01)00391-0"
+      },
+      {
+        "key": "ref41",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/0021-9991(80)90005-4"
+      },
+      {
+        "key": "ref42",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/19M1282052"
+      },
+      {
+        "key": "ref43",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1177/10943420231175462"
+      },
+      {
+        "key": "ref44",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/22M1486534"
+      },
+      {
+        "key": "ref45",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.jcp.2017.10.030"
+      },
+      {
+        "key": "ref46",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/130934921"
+      },
+      {
+        "key": "ref47",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/BF01061297"
+      },
+      {
+        "key": "ref48",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1090/S0025-5718-96-00720-X"
+      },
+      {
+        "key": "ref49",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.jcp.2014.12.012"
+      },
+      {
+        "key": "ref50",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-3-642-40047-6_81"
+      },
+      {
+        "key": "ref51",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/100814767"
+      }
+    ],
+    "container-title": [
+      "SIAM Journal on Scientific Computing"
+    ],
+    "original-title": [],
+    "language": "en",
+    "link": [
+      {
+        "URL": "https://epubs.siam.org/doi/pdf/10.1137/23M1568806",
+        "content-type": "unspecified",
+        "content-version": "vor",
+        "intended-application": "similarity-checking"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2026,
+          8,
+          21
+        ]
+      ],
+      "date-time": "2026-08-21T15:46:08Z",
+      "timestamp": 1787327168000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://epubs.siam.org/doi/10.1137/23M1568806"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2024,
+          5,
+          2
+        ]
+      ]
+    },
+    "references-count": 51,
+    "journal-issue": {
+      "issue": "3",
+      "published-print": {
+        "date-parts": [
+          [
+            2024,
+            6,
+            30
+          ]
+        ]
+      }
+    },
+    "alternative-id": [
+      "10.1137/23M1568806"
+    ],
+    "URL": "https://doi.org/10.1137/23m1568806",
+    "relation": {},
+    "ISSN": [
+      "1064-8275",
+      "1095-7197"
+    ],
+    "issn-type": [
+      {
+        "value": "1064-8275",
+        "type": "print"
+      },
+      {
+        "value": "1095-7197",
+        "type": "electronic"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2024,
+          5,
+          2
+        ]
+      ]
+    }
+  }
+}

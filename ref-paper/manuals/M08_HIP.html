@@ -1,0 +1,1438 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="This chapter describes a set of best practices designed to help developers optimize the performance of HIP-capable GPU architectures." name="description" />
+<meta content="AMD, ROCm, HIP, CUDA, performance, guidelines, optimization, how-to" name="keywords" />
+
+    <title>Performance guidelines &#8212; HIP 7.16.0 Documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=b2ee8c1d" />
+    <link rel="stylesheet" type="text/css" href="../_static/rocm_header.css?v=037afccf" />
+    <link rel="stylesheet" type="text/css" href="../_static/rocm_footer.css?v=7095035a" />
+    <link rel="stylesheet" type="text/css" href="../_static/fonts.css?v=fcff5274" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/rocm_custom.css?v=35d74aab" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=4977d05f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=91c4cb68"></script>
+    <script async="async" src="../_static/code_word_breaks.js?v=327952c4"></script>
+    <script async="async" src="../_static/renameVersionLinks.js?v=929fe5e4"></script>
+    <script async="async" src="../_static/rdcMisc.js?v=01f88d96"></script>
+    <script async="async" src="../_static/theme_mode_captions.js?v=15f4ec5d"></script>
+    <script async="async" src="../_static/bannerLatestLink.js?v=8a66ec6d"></script>
+    <script defer="defer" src="../_static/search.js?v=604f4efb"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'how-to/performance_guidelines';</script>
+    <script async="async" src="https://download.amd.com/js/analytics/analyticsinit.js"></script>
+    <link rel="icon" href="https://www.amd.com/content/dam/code/images/favicon/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Debugging with HIP" href="debugging.html" />
+    <link rel="prev" title="HIP compilers" href="../understand/compilers.html" />
+    <meta name="google-site-verification" content="vo35SZt_GASsTHAEmdww7AYKPCvZyzLvOXBl8guBME4" />
+
+  <script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="advanced-micro-devices-hip" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/how-to/performance_guidelines.html" /><meta name="readthedocs-http-status" content="200" /></head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="common-header" >
+        <nav class="navbar navbar-expand-xl">
+            <div class="container-fluid main-nav rocm-header">
+                <div class="header-logo">
+                    <div class="header-logo-title">
+                        
+                            <button class="navbar-toggler collapsed" id="nav-icon" data-tracking-information="mainMenuToggle" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </button>
+                        
+                        <a class="navbar-brand" href="https://www.amd.com/">
+                            <img src="../_static/images/amd-header-logo.svg" alt="AMD Logo" title="AMD Logo" width="90" class="d-inline-block align-text-top hover-opacity"/>
+                        </a>
+                        <div class="vr mx-40 my-25"></div>
+                        
+        
+    
+    <a class="klavika-font hover-opacity" href="https://rocm.docs.amd.com/en/latest">ROCm&#8482; Core SDK 10.1.0</a>
+                    </div>
+                    <a class="header-all-versions hover-opacity" href="https://rocm.docs.amd.com/en/latest/release/versions.html">Version List</a>
+                </div>
+                <div class="icon-nav text-center d-flex ms-auto"></div>
+            </div>
+        </nav>
+        
+        <nav class="navbar navbar-expand-xl second-level-nav">
+            <div class="container-fluid main-nav">
+                <div class="navbar-nav-container collapse navbar-collapse" id="navbarSupportedContent">
+                    
+                    <div class="d-flex w-100 align-items-stretch">
+                        <ul class="navbar-nav nav-mega mb-2 mb-lg-0">
+                            
+                            <li class="nav-item">
+                                
+                                    <a class="nav-link top-level header-menu-links fw-bold" href="https://rocm.docs.amd.com" id="navcore-sdk" role="button" aria-expanded="false" target="_blank">Core SDK</a>
+                                
+                            </li>
+                            
+                            <li class="nav-item">
+                                
+                                    <a class="nav-link top-level header-menu-links" href="https://rocm.docs.amd.com/projects/ai-ecosystem" id="navai-ecosystem" role="button" aria-expanded="false" target="_blank">AI Ecosystem</a>
+                                
+                            </li>
+                            
+                            <li class="nav-item">
+                                
+                                    <a class="nav-link top-level header-menu-links" href="https://instinct.docs.amd.com" id="navgpu-systems-and-infrastructure" role="button" aria-expanded="false" target="_blank">GPU Systems and Infrastructure</a>
+                                
+                            </li>
+                            
+                            <li class="nav-item dropdown">
+                                
+                                    <a class="nav-link top-level header-menu-links dropdown-toggle header-nav-dropdown-toggle" href="#" id="navtoolkits" role="button" data-bs-toggle="dropdown" aria-expanded="false">Toolkits</a>
+                                    <ul class="dropdown-menu header-nav-dropdown-menu" aria-labelledby="navtoolkits">
+                                        
+                                            <li><a class="dropdown-item" href="https://rocm.docs.amd.com/projects/rocm-ds/en/latest/index.html" target="_blank">AMD Data Science</a></li>
+                                        
+                                            <li><a class="dropdown-item" href="https://rocm.docs.amd.com/projects/rocm-finance/en/latest/index.html" target="_blank">AMD Finance</a></li>
+                                        
+                                            <li><a class="dropdown-item" href="https://rocm.docs.amd.com/projects/lifescience/en/latest/index.html" target="_blank">AMD Life Science</a></li>
+                                        
+                                            <li><a class="dropdown-item" href="https://rocm.docs.amd.com/projects/rocm-llmext/en/latest/index.html" target="_blank">AMD LLM Extension</a></li>
+                                        
+                                            <li><a class="dropdown-item" href="https://rocm.docs.amd.com/projects/rocm-simulation/en/latest/index.html" target="_blank">AMD Simulation</a></li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                            
+                            <li class="nav-item dropdown">
+                                
+                                    <a class="nav-link top-level header-menu-links dropdown-toggle header-nav-dropdown-toggle" href="#" id="navrocm.ai" role="button" data-bs-toggle="dropdown" aria-expanded="false">ROCm.AI</a>
+                                    <ul class="dropdown-menu header-nav-dropdown-menu" aria-labelledby="navrocm.ai">
+                                        
+                                            <li><a class="dropdown-item" href="https://rocm.docs.amd.com/projects/amd-skills/en/latest/" target="_blank">AMD Skills</a></li>
+                                        
+                                            <li><a class="dropdown-item" href="https://rocm.docs.amd.com/projects/hyperloom/en/latest/" target="_blank">Hyperloom</a></li>
+                                        
+                                            <li><a class="dropdown-item" href="https://rocm.docs.amd.com/projects/rocm-cli/en/latest/" target="_blank">ROCm CLI</a></li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                            
+                        </ul>
+                        <div class="nav-group-separator"></div>
+                        <ul class="navbar-nav nav-mega mb-2 mb-lg-0">
+                            
+                            <li class="nav-item">
+                                
+                                    <a class="nav-link top-level header-menu-links" href="https://rocm.blogs.amd.com/" id="navblogs" role="button" aria-expanded="false" target="_blank">Blogs</a>
+                                
+                            </li>
+                            
+                            <li class="nav-item">
+                                
+                                    <a class="nav-link top-level header-menu-links" href="https://www.amd.com/en/developer/resources/rocm-hub.html" id="navdeveloper-hub" role="button" aria-expanded="false" target="_blank">Developer Hub</a>
+                                
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    
+                </div>
+            </div>
+        </nav>
+        
+    </header>
+    
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+
+<a class="navbar-brand logo" href="https://rocm.docs.amd.com/en/latest">
+    <p>ROCm Core SDK</p>
+</a></div>
+          
+        
+      </div>
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">HIP 7.16.0 Documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../what_is_hip.html">What is HIP?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hip-7-changes.html">HIP API 7.0 changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently asked questions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Install</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../install/install.html">Installing HIP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install/build.html">Building HIP from source</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Programming guide</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../understand/programming_model.html">Introduction to the HIP programming model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../understand/performance_optimization.html">Understanding GPU performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../understand/hardware_implementation.html">Hardware implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../understand/compilers.html">HIP compilers</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Performance guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging.html">Debugging with HIP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging HIP activity</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="hip_runtime_api.html">Using HIP runtime API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="hip_runtime_api/initialization.html">Initialization</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="hip_runtime_api/memory_management.html">Memory management</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="hip_runtime_api/memory_management/host_memory.html">Host memory</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="hip_runtime_api/memory_management/device_memory.html">Device memory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="hip_runtime_api/memory_management/device_memory/texture_fetching.html">Texture fetching</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="hip_runtime_api/memory_management/coherence_control.html">Coherence control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hip_runtime_api/memory_management/unified_memory.html">Unified memory management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hip_runtime_api/memory_management/virtual_memory.html">Virtual memory management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hip_runtime_api/memory_management/stream_ordered_allocator.html">Stream Ordered Memory Allocator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="hip_runtime_api/error_handling.html">Error handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hip_runtime_api/call_stack.html">Call stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hip_runtime_api/asynchronous.html">Asynchronous concurrent execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hip_runtime_api/hipgraph.html">HIP graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hip_runtime_api/cooperative_groups.html">Cooperative groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hip_runtime_api/multi_device.html">Multi-device management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hip_runtime_api/execution_context.html">Execution contexts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hip_runtime_api/opengl_interop.html">OpenGL interoperability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hip_runtime_api/external_interop.html">External resource interoperability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="hip_cpp_language_extensions.html">HIP C++ language extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernel_language_cpp_support.html">Kernel language C++ support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hip_porting_guide.html">Porting CUDA code to HIP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hip_rtc.html">Programming for HIP runtime compiler (RTC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../understand/amd_clr.html">AMD compute language runtimes (CLR)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hipDeviceProperties.html">HIP Device Properties and Topology on CDNA Architectures</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/hip_runtime_api_reference.html">HIP runtime API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/hip_runtime_api/modules.html">Modules</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/initialization_and_version.html">Initialization and version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/device_management.html">Device management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/execution_control.html">Execution control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/error_handling.html">Error handling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/stream_management.html">Stream management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/stream_memory_operations.html">Stream memory operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/event_management.html">Event management</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/hip_runtime_api/modules/memory_management.html">Memory management</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/hip_runtime_api/modules/memory_management/memory_management_deprecated.html">Memory management (deprecated)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/hip_runtime_api/modules/memory_management/external_resource_interoperability.html">External resource interoperability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/hip_runtime_api/modules/memory_management/stream_ordered_memory_allocator.html">Stream ordered memory allocator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/hip_runtime_api/modules/memory_management/unified_memory_reference.html">Managed memory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/hip_runtime_api/modules/memory_management/virtual_memory_reference.html">Virtual memory management</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/hip_runtime_api/modules/memory_management/texture_management.html">Texture management</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/hip_runtime_api/modules/memory_management/texture_management_deprecated.html">Texture management (deprecated)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/hip_runtime_api/modules/memory_management/surface_object.html">Surface object</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/peer_to_peer_device_memory_access.html">Peer to peer device memory access</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/execution_context_management.html">Execution Context Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/context_management.html">Context management [deprecated]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/module_management.html">Module management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/occupancy.html">Occupancy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/profiler_control.html">Profiler control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/launch_api.html">Launch API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/runtime_compilation.html">Runtime compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/callback_activity_apis.html">Callback activity APIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/graph_management.html">Graph management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/graphics_interoperability.html">Graphics interoperability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/opengl_interoperability.html">OpenGL interoperability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/hip_runtime_api/modules/cooperative_groups_reference.html">Cooperative groups</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/hip_runtime_api/global_defines_enums_structs_files.html">Global defines, enums, structs and files</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../doxygen/html/group___global_defs.html">Global enum and defines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doxygen/html/group___driver_types.html">Driver Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doxygen/html/annotated.html">Data Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doxygen/html/files.html">File List</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/math_api.html">HIP math API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/complex_math_api.html">HIP complex math API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/env_variables.html">HIP environment variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/error_codes.html">HIP error codes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/api_syntax.html">CUDA to HIP API Function Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/deprecated_api_list.html">List of deprecated APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/low_fp_types.html">Low Precision Floating Point Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/hardware_features.html">Hardware features</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/ROCm/rocm-examples/tree/develop/HIP-Basic">HIP basic examples</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/ROCm/rocm-examples">HIP examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/saxpy.html">SAXPY - Hello, HIP</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorial/programming-patterns.html">GPU programming patterns</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/programming-patterns/matrix_multiplication.html">Two-dimensional kernels: Matrix multiplication tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/programming-patterns/atomic_operations_histogram.html">Atomic operations: Histogram tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/programming-patterns/cpu_gpu_kmeans.html">CPU-GPU cooperative computing: K-means clustering tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/programming-patterns/stencil_operations.html">Stencil operations: Image convolution tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/programming-patterns/multikernel_bfs.html">Multi-kernel programming: breadth-first search tutorial</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/reduction.html">Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/cooperative_groups_tutorial.html">Cooperative groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/graph_api.html">HIP Graph API Tutorial</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-angle-right"></span>
+  </label></div>
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Performance...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ROCm/rocm-systems" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ROCm/rocm-systems/issues/new?title=Issue%20on%20page%20%2Fhow-to/performance_guidelines.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/how-to/performance_guidelines.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Performance guidelines</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-workflow">Optimization workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profiling-and-analysis-tools">Profiling and analysis tools</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rocprofv3">rocprofv3</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#trace-visualization-with-perfetto">Trace visualization with Perfetto</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rocprof-compute-viewer">ROCprof Compute Viewer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#amd-system-management-interface">AMD System Management Interface</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-workflow">Typical workflow</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-execution">Parallel execution</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#application-level">Application level</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#device-level">Device level</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiprocessor-level">Multiprocessor level</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-throughput-optimization">Memory throughput optimization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-transfer-optimization">Data transfer optimization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#device-memory-access">Device memory access</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instruction-throughput-optimization">Instruction throughput optimization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#arithmetic-instructions">Arithmetic instructions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#control-flow-optimization">Control flow optimization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#synchronization">Synchronization</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#managing-register-pressure">Managing register pressure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improving-occupancy">Improving occupancy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimizing-memory-thrashing">Minimizing memory thrashing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="performance-guidelines">
+<span id="how-to-performance-guidelines"></span><h1>Performance guidelines<a class="headerlink" href="#performance-guidelines" title="Link to this heading">#</a></h1>
+<p>The AMD HIP performance guidelines provide practical, actionable techniques for
+optimizing application performance on AMD GPUs. This guide focuses on
+step-by-step instructions and best practices for improving performance.</p>
+<p>For theoretical foundations and performance concepts, see
+<a class="reference internal" href="../understand/performance_optimization.html"><span class="doc">Understanding GPU performance</span></a>.</p>
+<section id="optimization-workflow">
+<h2>Optimization workflow<a class="headerlink" href="#optimization-workflow" title="Link to this heading">#</a></h2>
+<p>Follow this systematic approach to optimize GPU performance:</p>
+<ol class="arabic">
+<li><p><strong>Profile and measure baseline</strong></p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">rocprofv3</span></code> to identify bottlenecks:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rocprofv3<span class="w"> </span>--stats<span class="w"> </span>--&lt;tracing_option&gt;<span class="w"> </span>--<span class="w"> </span>&lt;application_path&gt;
+</pre></div>
+</div>
+<p>Collect metrics on kernel execution time, memory bandwidth, occupancy, and
+CU utilization. For more details on using <code class="docutils literal notranslate"><span class="pre">rocprofv3</span></code> for application
+tracing and profiling, see <a class="reference external" href="https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/how-to/using-rocprofv3.html" title="(in Rocprofiler SDK v1.4.1)"><span class="xref std std-doc">rocprofv3 documentation</span></a>.</p>
+</li>
+<li><p><strong>Analyze metrics to identify bottlenecks</strong></p>
+<p>Determine if kernels are compute-bound or memory-bound. Check arithmetic
+intensity, memory bandwidth achieved vs peak, and compute throughput.</p>
+<p>For understanding the roofline model, see <a class="reference internal" href="../understand/performance_optimization.html#roofline-model"><span class="std std-ref">Roofline model</span></a>.</p>
+</li>
+<li><p><strong>Apply targeted optimizations</strong></p>
+<p>Based on identified bottlenecks, apply techniques from this guide.</p>
+</li>
+<li><p><strong>Verify improvements</strong></p>
+<p>Re-profile to confirm performance gains.</p>
+</li>
+<li><p><strong>Iterate</strong></p>
+<p>Repeat until performance goals are met.</p>
+</li>
+</ol>
+</section>
+<section id="profiling-and-analysis-tools">
+<h2>Profiling and analysis tools<a class="headerlink" href="#profiling-and-analysis-tools" title="Link to this heading">#</a></h2>
+<p>ROCm provides a comprehensive suite of profiling and analysis tools that help developers understand and optimize GPU performance. These tools are essential for identifying bottlenecks and evaluating the effectiveness of performance optimizations.</p>
+<section id="rocprofv3">
+<h3>rocprofv3<a class="headerlink" href="#rocprofv3" title="Link to this heading">#</a></h3>
+<p>The tool <a class="reference external" href="https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/how-to/using-rocprofv3.html" title="(in Rocprofiler SDK v1.4.1)"><span class="xref std std-doc">rocprofv3</span></a> provides
+command-line-driven profiling for detailed performance analysis. It collects
+metrics on kernel execution time, memory bandwidth, warp occupancy, VALU
+utilization, and instruction-level counters.</p>
+<p><code class="docutils literal notranslate"><span class="pre">rocprofv3</span></code> integrates with the
+<a class="reference external" href="https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/index.html" title="(in Rocprofiler SDK v1.4.1)"><span class="xref std std-doc">rocProfiler-SDK framework</span></a> to collect hardware
+traces and API-level timing data. The collected data can be exported in JSON and
+CSV formats for further analysis or visualization.</p>
+<p>Key capabilities:</p>
+<ul class="simple">
+<li><p>Kernel execution profiling</p></li>
+<li><p>Memory bandwidth analysis</p></li>
+<li><p>Warp occupancy metrics</p></li>
+<li><p>Compute unit utilization</p></li>
+<li><p>Instruction-level performance counters</p></li>
+<li><p>API call tracing</p></li>
+<li><p>Hardware event collection</p></li>
+</ul>
+<section id="trace-visualization-with-perfetto">
+<h4>Trace visualization with Perfetto<a class="headerlink" href="#trace-visualization-with-perfetto" title="Link to this heading">#</a></h4>
+<p>For application-level tracing, <code class="docutils literal notranslate"><span class="pre">rocprofv3</span></code> can generate traces compatible with
+<a class="reference external" href="https://ui.perfetto.dev">Perfetto</a>, a third-party, open-source trace viewer.
+This enables visualization of the complete timeline of application execution,
+including the temporal relationships among host operations, kernel launches,
+memory transfers, and synchronization events.</p>
+<p>Using Perfetto with traces generated by <code class="docutils literal notranslate"><span class="pre">rocprofv3</span></code> can help identify
+performance issues caused by API overhead, inefficient synchronization, or
+insufficient overlap between computation and data movement.</p>
+<p>The following trace data is available for visualization:</p>
+<ul class="simple">
+<li><p>Application execution timelines</p></li>
+<li><p>HIP API call tracking and timing</p></li>
+<li><p>ROCm library call analysis</p></li>
+<li><p>Host-device synchronization events</p></li>
+<li><p>Memory transfer operations</p></li>
+</ul>
+</section>
+</section>
+<section id="rocprof-compute-viewer">
+<h3>ROCprof Compute Viewer<a class="headerlink" href="#rocprof-compute-viewer" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://rocm.docs.amd.com/projects/rocprof-compute-viewer/en/latest/">ROCprof Compute Viewer</a>
+provides a GUI-based environment for analyzing GPU kernel performance data. It
+delivers detailed kernel-level insights, including counter correlation and
+hierarchical performance breakdowns, helping developers interpret execution
+patterns and identify optimization opportunities.</p>
+<p>Key features:</p>
+<ul class="simple">
+<li><p>Kernel performance counter analysis</p></li>
+<li><p>Counter correlation and visualization</p></li>
+<li><p>Hierarchical kernel performance breakdown</p></li>
+<li><p>Interactive performance data exploration</p></li>
+<li><p>Kernel-level optimization insights</p></li>
+</ul>
+</section>
+<section id="amd-system-management-interface">
+<h3>AMD System Management Interface<a class="headerlink" href="#amd-system-management-interface" title="Link to this heading">#</a></h3>
+<p>The <a class="reference external" href="https://rocm.docs.amd.com/projects/amdsmi/en/latest/index.html" title="(in AMD SMI v27.1.0)"><span class="xref std std-doc">AMD System Management Interface</span></a> (AMD SMI) is a
+command-line utility for querying, monitoring, and managing AMD GPUs. It
+provides system administrators and developers with detailed, real-time
+information about GPU hardware, utilization, and power metrics.</p>
+<p><code class="docutils literal notranslate"><span class="pre">amd-smi</span></code> reports the following categories of information:</p>
+<ul class="simple">
+<li><p>GPU identity information, such as the card name, device ID, and PCI bus
+location</p></li>
+<li><p>Live utilization metrics, including GPU activity, memory usage, clock speeds,
+and active processes</p></li>
+<li><p>Power and thermal readings, such as temperature, fan speed, voltage, and
+power draw</p></li>
+<li><p>Performance states and limits, such as available frequency levels, clock
+throttling, and voltage controls</p></li>
+</ul>
+<p>These metrics are retrieved through the AMD SMI C API, which exposes a stable,
+scriptable interface for system and performance monitoring tools.</p>
+<p><code class="docutils literal notranslate"><span class="pre">amd-smi</span></code> also supports management operations, including:</p>
+<ul class="simple">
+<li><p>Setting power caps and performance profiles</p></li>
+<li><p>Adjusting clock frequencies</p></li>
+<li><p>Performing GPU resets and controlling persistence mode</p></li>
+<li><p>Reporting or controlling ECC status on supported data center GPUs</p></li>
+</ul>
+<p>Output can be formatted as human-readable text or JSON (<code class="docutils literal notranslate"><span class="pre">--json</span></code>), commonly
+used for integration into automated monitoring pipelines.</p>
+<p>Basic usage examples:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># Display GPU information</span>
+amd-smi<span class="w"> </span>static
+
+<span class="c1"># Monitor GPU utilization and metrics</span>
+amd-smi<span class="w"> </span>metric<span class="w"> </span>--usage
+
+<span class="c1"># Show detailed information in JSON format</span>
+amd-smi<span class="w"> </span>static<span class="w"> </span>--json
+</pre></div>
+</div>
+</section>
+<section id="typical-workflow">
+<h3>Typical workflow<a class="headerlink" href="#typical-workflow" title="Link to this heading">#</a></h3>
+<p>For comprehensive ROCm performance analysis:</p>
+<ol class="arabic simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">rocprofv3</span></code> to collect profiling data and generate traces</p></li>
+<li><p>Use ROCprof Compute Viewer for detailed kernel performance analysis and
+counter correlation</p></li>
+<li><p>Use third-party tools like Perfetto to visualize application traces, API
+calls, and timeline behavior</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">amd-smi</span></code> to monitor GPU utilization and system health</p></li>
+<li><p>Iterate between profiling and optimization, verifying improvements with
+each change</p></li>
+</ol>
+<p>This multi-tool approach provides kernel-level metrics, application-level
+tracing, system monitoring, and visual context to understand overall
+performance behavior.</p>
+</section>
+</section>
+<section id="parallel-execution">
+<span id="id1"></span><h2>Parallel execution<a class="headerlink" href="#parallel-execution" title="Link to this heading">#</a></h2>
+<p>For optimal use and to keep all system components busy, the application must
+reveal and efficiently provide as much parallelism as possible.</p>
+<section id="application-level">
+<h3>Application level<a class="headerlink" href="#application-level" title="Link to this heading">#</a></h3>
+<p>To enable parallel execution across the host and devices:</p>
+<ul class="simple">
+<li><p>Use <a class="reference internal" href="hip_runtime_api/asynchronous.html#asynchronous-how-to"><span class="std std-ref">asynchronous calls and streams</span></a></p></li>
+<li><p>Assign serial workloads to the host</p></li>
+<li><p>Assign parallel workloads to the devices</p></li>
+</ul>
+<p>For parallel workloads:</p>
+<ul class="simple">
+<li><p>Use <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">__syncthreads()</span></code> (see <a class="reference internal" href="hip_cpp_language_extensions.html#synchronization-functions"><span class="std std-ref">Synchronization functions</span></a>) for
+intra-block synchronization</p></li>
+<li><p>Use global memory with separate kernel invocations for inter-block
+synchronization (has overhead, minimize when possible)</p></li>
+</ul>
+</section>
+<section id="device-level">
+<h3>Device level<a class="headerlink" href="#device-level" title="Link to this heading">#</a></h3>
+<p>Maximize parallel execution across multiprocessors:</p>
+<ul class="simple">
+<li><p>Execute multiple kernels concurrently on a device</p></li>
+<li><p>Use streams to overlap computation and data transfers</p></li>
+<li><p>Keep all multiprocessors busy with enough concurrent kernels</p></li>
+<li><p>Avoid launching too many kernels (causes resource contention)</p></li>
+</ul>
+</section>
+<section id="multiprocessor-level">
+<h3>Multiprocessor level<a class="headerlink" href="#multiprocessor-level" title="Link to this heading">#</a></h3>
+<p>Maximize parallel execution within each <a class="reference internal" href="../understand/hardware_implementation.html#compute-unit"><span class="std std-ref">compute unit</span></a>:</p>
+<ul class="simple">
+<li><p>Ensure sufficient resident <a class="reference internal" href="../understand/programming_model.html#wavefront"><span class="std std-ref">warps</span></a> for every clock cycle</p></li>
+<li><p>Exploit instruction-level parallelism within warps</p></li>
+<li><p>Exploit thread-level parallelism across warps</p></li>
+<li><p>Balance resource usage for optimal <a class="reference internal" href="../understand/performance_optimization.html#occupancy"><span class="std std-ref">occupancy</span></a></p></li>
+</ul>
+</section>
+</section>
+<section id="memory-throughput-optimization">
+<span id="memory-optimization"></span><h2>Memory throughput optimization<a class="headerlink" href="#memory-throughput-optimization" title="Link to this heading">#</a></h2>
+<p>The first step in maximizing memory throughput is to minimize low-bandwidth
+data transfers between the host and the device.</p>
+<p>Additionally, maximize the use of on-chip memory (shared memory and caches) and
+minimize transfers with global memory.</p>
+<section id="data-transfer-optimization">
+<span id="data-transfer"></span><h3>Data transfer optimization<a class="headerlink" href="#data-transfer-optimization" title="Link to this heading">#</a></h3>
+<p><strong>Minimize host-device transfers</strong></p>
+<ul class="simple">
+<li><p>Move computations from host to device when possible</p></li>
+<li><p>Create, use, and discard intermediate data structures on device</p></li>
+<li><p>Avoid unnecessary copies to host memory</p></li>
+</ul>
+<p><strong>Batch small transfers</strong></p>
+<p>Each memory transfer incurs a fixed overhead from driver calls and PCIe
+transaction setup. Consolidating many small transfers into a single large
+transfer amortizes this overhead across more data, resulting in much higher
+effective bandwidth.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Instead of many small transfers</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">hipMemcpy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">d_data</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="n">h_data</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">),</span><span class="w"> </span><span class="p">...);</span>
+<span class="p">}</span>
+
+<span class="c1">// Use a single large transfer</span>
+<span class="n">hipMemcpy</span><span class="p">(</span><span class="n">d_data</span><span class="p">,</span><span class="w"> </span><span class="n">h_data</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">),</span><span class="w"> </span><span class="p">...);</span>
+</pre></div>
+</div>
+<p><strong>Use page-locked memory for transfers</strong></p>
+<p>Page-locked (pinned) memory cannot be swapped to disk by the operating system,
+allowing the GPU to access it directly via DMA without CPU involvement. This
+eliminates an extra copy through a staging buffer and achieves higher bandwidth.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">h_pinned</span><span class="p">;</span>
+<span class="n">hipHostMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">h_pinned</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+<span class="c1">// Faster transfers than pageable memory</span>
+<span class="n">hipMemcpy</span><span class="p">(</span><span class="n">d_data</span><span class="p">,</span><span class="w"> </span><span class="n">h_pinned</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">hipMemcpyHostToDevice</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>Use mapped memory on integrated systems</strong></p>
+<p>On integrated GPUs (APUs), the CPU and GPU share the same physical memory.
+Mapped page-locked memory allows zero-copy access, where the GPU reads directly
+from host memory without requiring an explicit transfer, eliminating redundant
+copies.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">integrated</span><span class="p">;</span>
+<span class="n">hipDeviceGetAttribute</span><span class="p">(</span><span class="o">&amp;</span><span class="n">integrated</span><span class="p">,</span><span class="w"> </span><span class="n">hipDeviceAttributeIntegrated</span><span class="p">,</span><span class="w"> </span><span class="n">device</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">integrated</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Use mapped page-locked memory - no explicit copy needed</span>
+<span class="w">    </span><span class="n">hipHostMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ptr</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">hipHostMallocMapped</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="device-memory-access">
+<span id="id2"></span><h3>Device memory access<a class="headerlink" href="#device-memory-access" title="Link to this heading">#</a></h3>
+<p><strong>Ensure proper alignment</strong></p>
+<p>Memory hardware loads data in aligned chunks (typically 128 bytes). Using
+naturally aligned data types ensures each access maps to a single memory
+transaction, maximizing bandwidth and avoiding split transactions.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Use naturally aligned types</span>
+<span class="kt">float4</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w">  </span><span class="c1">// 16-byte aligned</span>
+<span class="kt">float2</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w">  </span><span class="c1">// 8-byte aligned</span>
+
+<span class="c1">// Ensure structure alignment</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">__align__</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span><span class="w"> </span><span class="n">MyStruct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">float4</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p><strong>Optimize 2D array access</strong></p>
+<p>Padding 2D arrays to multiples of the warp size ensures each row starts at an
+aligned memory boundary. This allows consecutive threads accessing the same row
+to generate coalesced memory transactions, thereby maximizing bandwidth.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Ensure array width is multiple of warp size</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">actual_width</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">warpSize</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">warpSize</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">warpSize</span><span class="p">;</span>
+<span class="n">hipMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">array</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+
+<span class="c1">// Access pattern</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w">  </span><span class="c1">// width should be warp-aligned</span>
+</pre></div>
+</div>
+<p><strong>Coalesce memory accesses</strong></p>
+<p>When consecutive threads in a warp access consecutive memory addresses, the
+hardware combines these into a single wide transaction. Non-coalesced patterns
+require multiple transactions, reducing effective bandwidth.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Good: consecutive threads access consecutive addresses</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">blockIdx</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">blockDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+<span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+
+<span class="c1">// Bad: strided access</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">stride</span><span class="p">;</span><span class="w">  </span><span class="c1">// Non-coalesced if stride &gt; 1</span>
+<span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>For understanding memory coalescing theory, see <a class="reference internal" href="../understand/performance_optimization.html#memory-hierarchy-theory"><span class="std std-ref">Memory hierarchy impact on performance</span></a>.</p>
+<p><strong>Use shared memory for data reuse</strong></p>
+<p>Shared memory (<a class="reference internal" href="../understand/hardware_implementation.html#lds"><span class="std std-ref">LDS</span></a>) provides fast on-CU scratchpad memory for
+communication between threads in a block. Loading data into shared memory once
+and reusing it many times reduces global memory traffic, particularly effective
+for tiled algorithms such as matrix multiplication.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="kr">__global__</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">optimized_kernel</span><span class="p">(</span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">output</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">__shared__</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">tile</span><span class="p">[</span><span class="n">TILE_SIZE</span><span class="p">][</span><span class="n">TILE_SIZE</span><span class="p">];</span>
+
+<span class="w">    </span><span class="c1">// Load data into shared memory</span>
+<span class="w">    </span><span class="n">tile</span><span class="p">[</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">input</span><span class="p">[...];</span>
+<span class="w">    </span><span class="nf">__syncthreads</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Reuse data from fast shared memory</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">TILE_SIZE</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">result</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">tile</span><span class="p">[</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tile</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">];</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nf">__syncthreads</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">output</span><span class="p">[...]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Avoid bank conflicts in shared memory</strong></p>
+<p>Shared memory is organized into banks, each capable of servicing one request
+per cycle. When multiple threads in a <a class="reference internal" href="../understand/programming_model.html#wavefront"><span class="std std-ref">warp</span></a> access the
+same bank simultaneously, the requests are serialized, reducing throughput.
+Padding arrays by one element shifts addresses to avoid systematic conflicts.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Bad: power-of-2 stride causes conflicts</span>
+<span class="kt">__shared__</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="mi">32</span><span class="p">][</span><span class="mi">32</span><span class="p">];</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="p">];</span>
+
+<span class="c1">// Good: padding avoids conflicts</span>
+<span class="kt">__shared__</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="mi">32</span><span class="p">][</span><span class="mi">33</span><span class="p">];</span><span class="w">  </span><span class="c1">// Extra column</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="p">];</span>
+</pre></div>
+</div>
+<p>For bank conflict theory, see <a class="reference internal" href="../understand/performance_optimization.html#bank-conflicts-theory"><span class="std std-ref">Bank conflict theory</span></a>.</p>
+<p><strong>Use texture memory for 2D spatial access</strong></p>
+<p>Texture memory provides hardware-accelerated 2D filtering and caching optimized
+for spatial locality. It automatically handles boundary conditions and can
+interpolate values, making it ideal for image processing and nearby-neighbor
+access patterns.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create texture object</span>
+<span class="n">hipTextureObject_t</span><span class="w"> </span><span class="n">texObj</span><span class="p">;</span>
+<span class="n">hipCreateTextureObject</span><span class="p">(</span><span class="o">&amp;</span><span class="n">texObj</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">resDesc</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">texDesc</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+
+<span class="c1">// Access in kernel</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tex2D</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">texObj</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="instruction-throughput-optimization">
+<span id="instruction-optimization"></span><h2>Instruction throughput optimization<a class="headerlink" href="#instruction-throughput-optimization" title="Link to this heading">#</a></h2>
+<section id="arithmetic-instructions">
+<h3>Arithmetic instructions<a class="headerlink" href="#arithmetic-instructions" title="Link to this heading">#</a></h3>
+<p><strong>Use efficient operations</strong></p>
+<p>Division requires many more hardware cycles than multiplication. Similarly,
+bitwise operations (shifts, AND, OR) are single-cycle instructions on integer
+units, making them far more efficient than equivalent arithmetic for
+power-of-two calculations.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Prefer multiplication over division</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.5f</span><span class="p">;</span><span class="w">     </span><span class="c1">// Fast</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">;</span><span class="w">     </span><span class="c1">// Slower</span>
+
+<span class="c1">// Use bitwise operations for powers of 2</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">    </span><span class="c1">// Multiply by 4</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">         </span><span class="c1">// Create bit mask</span>
+</pre></div>
+</div>
+<p><strong>Use single-precision when possible</strong></p>
+<p>AMD GPUs have significantly higher throughput for single-precision (FP32)
+operations compared to double-precision (FP64). Using single-precision math
+functions can deliver substantial performance gains when FP64 accuracy is not
+required.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Single-precision (faster)</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sinf</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expf</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+
+<span class="c1">// Double-precision (slower, use only when necessary)</span>
+<span class="kt">double</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="kt">double</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>Leverage fast math intrinsics</strong></p>
+<p>Hardware-specific intrinsics bypass certain accuracy checks and use lookup
+tables or polynomial approximations, trading slight precision loss for
+significantly higher throughput. These should be used when the application can
+tolerate reduced precision.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Fast intrinsic versions</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">ex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">__expf</span><span class="p">(</span><span class="n">x</span><span class="p">);</span><span class="w">            </span><span class="c1">// Fast exponential</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">lg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">__logf</span><span class="p">(</span><span class="n">x</span><span class="p">);</span><span class="w">            </span><span class="c1">// Fast logarithm</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">sq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">__fsqrt_rn</span><span class="p">(</span><span class="n">x</span><span class="p">);</span><span class="w">        </span><span class="c1">// Fast square root</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">rc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">__frcp_rn</span><span class="p">(</span><span class="n">x</span><span class="p">);</span><span class="w">         </span><span class="c1">// Fast reciprocal</span>
+</pre></div>
+</div>
+</section>
+<section id="control-flow-optimization">
+<span id="control-flow-instructions"></span><h3>Control flow optimization<a class="headerlink" href="#control-flow-optimization" title="Link to this heading">#</a></h3>
+<p><strong>Minimize divergence</strong></p>
+<p>When threads in a warp take different execution paths, the hardware serializes
+both branches, executing each path with only the relevant threads active. This
+reduces effective parallelism and wastes cycles on inactive threads.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Good: no divergence (condition depends on threadIdx)</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// All threads in first half-warp execute</span>
+<span class="p">}</span>
+
+<span class="c1">// Bad: divergence within warp</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">threshold</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Some threads execute, others don't</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Use branch hints for predictable conditions</strong></p>
+<p>Providing hints about branch likelihood helps the compiler generate better
+instruction ordering and can improve the branch predictor’s accuracy, reducing
+pipeline stalls when the prediction proves correct.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">__builtin_expect</span><span class="p">(</span><span class="n">rare_condition</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Unlikely branch</span>
+<span class="p">}</span>
+
+<span class="c1">// C++20 attribute</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">common_condition</span><span class="p">)</span><span class="w"> </span><span class="p">[[</span><span class="na">likely</span><span class="p">]]</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Likely branch</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Avoid divergent warps</strong></p>
+<p>When divergence is unavoidable, restructure the code to separate divergent paths
+into different kernel launches or use predication (branchless programming) to
+keep all threads active, though computing unnecessary values may be acceptable
+if it avoids the serialization penalty.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Instead of:</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute_even</span><span class="p">();</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute_odd</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// Consider separating into different kernels or using predication</span>
+</pre></div>
+</div>
+</section>
+<section id="synchronization">
+<h3>Synchronization<a class="headerlink" href="#synchronization" title="Link to this heading">#</a></h3>
+<p><strong>Use minimal synchronization</strong></p>
+<p>Each synchronization point stalls all threads in a block until the slowest one
+reaches the barrier. Minimize synchronizations by carefully analyzing data
+dependencies—only synchronize when threads genuinely need to exchange data
+through shared memory.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="kr">__global__</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">kernel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">__shared__</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>
+
+<span class="w">    </span><span class="c1">// Load phase</span>
+<span class="w">    </span><span class="n">data</span><span class="p">[</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">input</span><span class="p">[...];</span>
+<span class="w">    </span><span class="nf">__syncthreads</span><span class="p">();</span><span class="w">  </span><span class="c1">// Necessary sync</span>
+
+<span class="w">    </span><span class="c1">// Compute phase - no sync needed if threads are independent</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute</span><span class="p">(</span><span class="n">data</span><span class="p">[...]);</span>
+
+<span class="w">    </span><span class="c1">// Store phase - sync only if needed</span>
+<span class="w">    </span><span class="n">output</span><span class="p">[...]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Use streams for async execution</strong></p>
+<p>Streams enable concurrent execution of independent operations. Commands in
+different streams can overlap in time, allowing kernel execution and memory
+transfers to run simultaneously. This maximizes GPU utilization by keeping
+multiple execution engines busy concurrently.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="n">hipStream_t</span><span class="w"> </span><span class="n">stream1</span><span class="p">,</span><span class="w"> </span><span class="n">stream2</span><span class="p">;</span>
+<span class="n">hipStreamCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream1</span><span class="p">);</span>
+<span class="n">hipStreamCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream2</span><span class="p">);</span>
+
+<span class="c1">// Overlap independent operations</span>
+<span class="n">kernel1</span><span class="o">&lt;&lt;&lt;</span><span class="n">grid</span><span class="p">,</span><span class="w"> </span><span class="n">block</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">stream1</span><span class="o">&gt;&gt;&gt;</span><span class="p">(...);</span>
+<span class="n">kernel2</span><span class="o">&lt;&lt;&lt;</span><span class="n">grid</span><span class="p">,</span><span class="w"> </span><span class="n">block</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">stream2</span><span class="o">&gt;&gt;&gt;</span><span class="p">(...);</span>
+
+<span class="n">hipStreamSynchronize</span><span class="p">(</span><span class="n">stream1</span><span class="p">);</span>
+<span class="n">hipStreamSynchronize</span><span class="p">(</span><span class="n">stream2</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="managing-register-pressure">
+<h2>Managing register pressure<a class="headerlink" href="#managing-register-pressure" title="Link to this heading">#</a></h2>
+<p>High register usage can limit <a class="reference internal" href="../understand/performance_optimization.html#occupancy"><span class="std std-ref">occupancy</span></a>. Follow these steps:</p>
+<p><strong>Minimize live variables</strong></p>
+<p>The compiler allocates registers for every variable that must remain accessible.
+Reducing the number of simultaneously live variables frees registers, allowing
+more warps to fit on each CU. Chaining function calls trades some redundant
+computation for lower register usage.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Instead of storing all intermediate results</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute_a</span><span class="p">();</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute_b</span><span class="p">();</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute_c</span><span class="p">();</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">combine</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">);</span>
+
+<span class="c1">// Recompute or chain operations</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">combine</span><span class="p">(</span><span class="n">compute_a</span><span class="p">(),</span><span class="w"> </span><span class="n">compute_b</span><span class="p">(),</span><span class="w"> </span><span class="n">compute_c</span><span class="p">());</span>
+</pre></div>
+</div>
+<p><strong>Use shared memory for temporary storage</strong></p>
+<p>Per-thread arrays stored in registers consume valuable register space, limiting
+<a class="reference internal" href="../understand/performance_optimization.html#occupancy"><span class="std std-ref">occupancy</span></a>. Moving temporary storage to
+<a class="reference internal" href="../understand/hardware_implementation.html#lds"><span class="std std-ref">shared memory</span></a> trades register usage for shared memory usage, often
+allowing higher occupancy since shared memory limits are typically less
+restrictive.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Instead of per-thread arrays (uses registers)</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">temp</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+
+<span class="c1">// Use shared memory</span>
+<span class="kt">__shared__</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">temp</span><span class="p">[</span><span class="nb">blockDim</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="mi">100</span><span class="p">];</span>
+<span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">my_temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">[</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">];</span>
+</pre></div>
+</div>
+<p><strong>Adjust launch bounds</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">__launch_bounds__</span></code> attribute provides hints to the compiler about
+expected thread block size and minimum blocks per CU. This guides register
+allocation decisions, potentially trading per-thread register count for higher
+occupancy.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="kr">__global__</span><span class="w"> </span><span class="kt">void</span>
+<span class="n">__launch_bounds__</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w">  </span><span class="c1">// 256 threads, 4 blocks per CU</span>
+<span class="n">my_kernel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Kernel code</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Check register usage during compilation</strong></p>
+<p>The compiler can report per-kernel register usage statistics. Monitoring this
+output helps identify kernels consuming excessive registers, guiding
+optimization efforts toward reducing register pressure in the most impactful
+areas.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>hipcc<span class="w"> </span>--resource-usage<span class="w"> </span>kernel.hip
+</pre></div>
+</div>
+<p>For register pressure theory, see <a class="reference internal" href="../understand/performance_optimization.html#register-pressure-theory"><span class="std std-ref">Register pressure theory</span></a>.</p>
+</section>
+<section id="improving-occupancy">
+<h2>Improving occupancy<a class="headerlink" href="#improving-occupancy" title="Link to this heading">#</a></h2>
+<p>Higher <a class="reference internal" href="../understand/performance_optimization.html#occupancy"><span class="std std-ref">occupancy</span></a> helps hide latency. Follow these steps:</p>
+<p><strong>Reduce register usage per thread</strong></p>
+<p>Use techniques from “Managing register pressure” above.</p>
+<p><strong>Reduce shared memory usage per block</strong></p>
+<p>Each <a class="reference internal" href="../understand/hardware_implementation.html#compute-unit"><span class="std std-ref">CU</span></a> has limited <a class="reference internal" href="../understand/hardware_implementation.html#lds"><span class="std std-ref">shared memory</span></a> that must
+be divided among resident blocks. Reducing per-block shared memory usage allows
+more blocks to reside simultaneously, increasing <a class="reference internal" href="../understand/performance_optimization.html#occupancy"><span class="std std-ref">occupancy</span></a>
+and improving latency hiding through greater thread-level parallelism.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Allocate only what's needed</span>
+<span class="kt">__shared__</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">tile</span><span class="p">[</span><span class="n">TILE_SIZE</span><span class="p">][</span><span class="n">TILE_SIZE</span><span class="p">];</span>
+
+<span class="c1">// Or use dynamic allocation</span>
+<span class="k">extern</span><span class="w"> </span><span class="kt">__shared__</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">dynamic_shared</span><span class="p">[];</span>
+</pre></div>
+</div>
+<p><strong>Optimize block size</strong></p>
+<p>AMD Instinct GPUs execute threads in <a class="reference internal" href="../understand/programming_model.html#wavefront"><span class="std std-ref">warps</span></a> of 64, while
+AMD Radeon GPUs execute threads in warps of 32. Choosing
+block sizes as multiples of 64 or 32 prevents partial warps that waste
+execution slots. Larger blocks (128-256 threads) typically achieve better
+<a class="reference internal" href="../understand/performance_optimization.html#occupancy"><span class="std std-ref">occupancy</span></a> and resource utilization.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Use multiples of warp size</span>
+<span class="kt">dim3</span><span class="w"> </span><span class="nf">block</span><span class="p">(</span><span class="mi">64</span><span class="p">);</span><span class="w">    </span><span class="c1">// Good for AMD Instinct GPUs (warp=64)</span>
+<span class="kt">dim3</span><span class="w"> </span><span class="nf">block</span><span class="p">(</span><span class="mi">128</span><span class="p">);</span><span class="w">   </span><span class="c1">// Common choice</span>
+<span class="kt">dim3</span><span class="w"> </span><span class="nf">block</span><span class="p">(</span><span class="mi">256</span><span class="p">);</span><span class="w">   </span><span class="c1">// Good for high-occupancy kernels</span>
+
+<span class="c1">// Avoid very small blocks</span>
+<span class="kt">dim3</span><span class="w"> </span><span class="nf">block</span><span class="p">(</span><span class="mi">32</span><span class="p">);</span><span class="w">    </span><span class="c1">// May waste resources on Instinct GPUs</span>
+</pre></div>
+</div>
+<p><strong>Profile occupancy</strong></p>
+<p>Profiling tools report the ratio of active <a class="reference internal" href="../understand/programming_model.html#wavefront"><span class="std std-ref">warps</span></a> to
+maximum possible warps per <a class="reference internal" href="../understand/hardware_implementation.html#compute-unit"><span class="std std-ref">CU</span></a>. Low
+<a class="reference internal" href="../understand/performance_optimization.html#occupancy"><span class="std std-ref">occupancy</span></a> suggests resource constraints (registers or shared
+memory) are limiting parallelism and may indicate opportunities for
+optimization.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>rocprofv3<span class="w"> </span>--occupancy<span class="w"> </span>./your_application
+</pre></div>
+</div>
+<p>For occupancy theory, see <a class="reference internal" href="../understand/performance_optimization.html#occupancy"><span class="std std-ref">Occupancy theory</span></a>.</p>
+</section>
+<section id="minimizing-memory-thrashing">
+<h2>Minimizing memory thrashing<a class="headerlink" href="#minimizing-memory-thrashing" title="Link to this heading">#</a></h2>
+<p>Applications frequently allocating and freeing memory might experience slower
+allocation calls over time. To optimize:</p>
+<p><strong>Allocate early, deallocate late</strong></p>
+<p>Frequent allocation and deallocation causes memory fragmentation and increases
+allocator overhead. Reusing allocations across iterations amortizes the cost
+of memory management and maintains better memory locality.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Bad: frequent allocation in loop</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">iterations</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span>
+<span class="w">    </span><span class="n">hipMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">temp</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// Use temp</span>
+<span class="w">    </span><span class="n">hipFree</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Good: allocate once</span>
+<span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span>
+<span class="n">hipMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">temp</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">iterations</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Reuse temp</span>
+<span class="p">}</span>
+<span class="n">hipFree</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>Avoid allocating all available memory</strong></p>
+<p>Reserving some memory headroom prevents allocation failures and system
+instability. The driver and runtime need workspace for internal operations, and
+leaving a safety margin ensures stable operation without unexpected
+out-of-memory errors.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">free</span><span class="p">,</span><span class="w"> </span><span class="n">total</span><span class="p">;</span>
+<span class="n">hipMemGetInfo</span><span class="p">(</span><span class="o">&amp;</span><span class="n">free</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">total</span><span class="p">);</span>
+
+<span class="c1">// Don't allocate all free memory</span>
+<span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">safe_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">free</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.9</span><span class="p">;</span><span class="w">  </span><span class="c1">// Leave some margin</span>
+</pre></div>
+</div>
+<p><strong>Use managed memory for oversubscription</strong></p>
+<p>Managed memory automatically migrates data between host and device on demand,
+allowing allocations larger than physical GPU memory. Prefetching hints help
+the runtime optimize page placement, reducing migration overhead during kernel
+execution.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="c1">// Allows exceeding physical memory</span>
+<span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
+<span class="n">hipMallocManaged</span><span class="p">(</span><span class="o">&amp;</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">large_size</span><span class="p">);</span>
+
+<span class="c1">// Optionally prefetch to device</span>
+<span class="n">hipMemPrefetchAsync</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">device</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>Key optimization techniques:</p>
+<ul class="simple">
+<li><p><strong>Profile first</strong>: Use <code class="docutils literal notranslate"><span class="pre">rocprofv3</span></code> to identify actual bottlenecks</p></li>
+<li><p><strong>Parallelize effectively</strong>: Maximize work at all levels (application, device,
+CU)</p></li>
+<li><p><strong>Optimize memory</strong>: Minimize transfers, maximize coalescing, use LDS</p></li>
+<li><p><strong>Manage resources</strong>: Balance registers, shared memory, and occupancy</p></li>
+<li><p><strong>Minimize divergence</strong>: Structure control flow to keep
+<a class="reference internal" href="../understand/programming_model.html#wavefront"><span class="std std-ref">warps</span></a> coherent</p></li>
+</ul>
+<p>For understanding the theory behind these techniques, refer to
+<a class="reference internal" href="../understand/performance_optimization.html"><span class="doc">Understanding GPU performance</span></a> and
+<a class="reference internal" href="../understand/hardware_implementation.html"><span class="doc">Hardware implementation</span></a>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../understand/compilers.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">HIP compilers</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="debugging.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Debugging with HIP</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+    
+        
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-workflow">Optimization workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profiling-and-analysis-tools">Profiling and analysis tools</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rocprofv3">rocprofv3</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#trace-visualization-with-perfetto">Trace visualization with Perfetto</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rocprof-compute-viewer">ROCprof Compute Viewer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#amd-system-management-interface">AMD System Management Interface</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-workflow">Typical workflow</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-execution">Parallel execution</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#application-level">Application level</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#device-level">Device level</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiprocessor-level">Multiprocessor level</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-throughput-optimization">Memory throughput optimization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-transfer-optimization">Data transfer optimization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#device-memory-access">Device memory access</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instruction-throughput-optimization">Instruction throughput optimization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#arithmetic-instructions">Arithmetic instructions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#control-flow-optimization">Control flow optimization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#synchronization">Synchronization</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#managing-register-pressure">Managing register pressure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improving-occupancy">Improving occupancy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimizing-memory-thrashing">Minimizing memory thrashing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+    
+
+          </div>
+          <footer class="bd-footer-content">
+            <p>
+  </p>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    
+<footer class="rocm-footer">
+    <div class="container-lg">
+        <section class="bottom-menu menu py-45">
+            <div class="row d-flex align-items-center">
+                <div class="col-12 text-center">
+                    <ul>
+                        <li><a href="https://www.amd.com/en/corporate/copyright" target="_blank">Terms and Conditions</a></li>
+                        <li><a href="https://rocm.docs.amd.com/en/latest/about/license.html">ROCm Licenses and Disclaimers</a></li>
+                        <li><a href="https://www.amd.com/en/corporate/privacy" target="_blank">Privacy</a></li>
+                        <li><a href="https://www.amd.com/en/corporate/trademarks" target="_blank">Trademarks</a></li>
+                        <li><a href="https://www.amd.com/content/dam/amd/en/documents/corporate/cr/supply-chain-transparency.pdf" target="_blank">Supply Chain Transparency</a></li>
+                        <li><a href="https://www.amd.com/en/corporate/competition" target="_blank">Fair and Open Competition</a></li>
+                        <li><a href="https://www.amd.com/system/files/documents/amd-uk-tax-strategy.pdf" target="_blank">UK Tax Strategy</a></li>
+                        <li><a href="https://www.amd.com/en/corporate/cookies" target="_blank">Cookie Policy</a></li>
+                        <!-- OneTrust Cookies Settings button start -->
+                        <li><a href="#cookie-settings" id="ot-sdk-btn" class="ot-sdk-show-settings">Cookie Settings</a></li>
+                        <!-- OneTrust Cookies Settings button end -->
+                    </ul>
+                </div>
+            </div>
+            <div class="row d-flex align-items-center">
+                <div class="col-12 text-center">
+                    <div>
+                        <span class="copyright">© 2026 Advanced Micro Devices, Inc</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</footer>
+
+<!-- <div id="rdc-watermark-container">
+    <img id="rdc-watermark" src="../_static/images/alpha-watermark.svg" alt="DRAFT watermark"/>
+</div> -->
+    
+  </body>
+</html>

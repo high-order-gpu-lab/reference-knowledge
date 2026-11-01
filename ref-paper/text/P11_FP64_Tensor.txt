@@ -1,0 +1,871 @@
+                                        Accelerating High-Order Finite Element Simulations
+                                            at Extreme Scale with FP64 Tensor Cores
+                                            Jiqun Tu1 , Ian Karlin2 , John Camier3 , Veselin Dobrev3 , Tzanio Kolev3 , Stefan Henneking4 , Omar Ghattas4
+                                                                                             1 NVIDIA Corporation jtu@nvidia.com
+                                                                                          2 Queen’s University ian.karlin@queensu.ca
+                                                                   3 Lawrence Livermore National Laboratory {camier1, dobrev1, kolev1}@llnl.gov
+                                                                           4 The University of Texas at Austin {stefan, omar}@oden.utexas.edu
+
+
+
+                                           Abstract—Finite element simulations play a critical role in a              combination of reduced-precision (FP16) multiplication and
+                                        wide range of applications, from automotive design to tsunami                 single-precision (FP32) accumulation [1, Fig. 9]. As spe-
+arXiv:2603.09038v2 [cs.DC] 9 Apr 2026
+
+
+
+
+                                        modeling and computational electromagnetics. Performing these                 cialized hardware for MMA instructions, tensor cores deliv-
+                                        simulations efficiently at the high resolutions needed for practical
+                                        applications and scientific insights necessitates the use of high-            ered dramatically higher throughput for these workloads than
+                                        order methods and large-scale supercomputing. While much                      standard FP16 and FP32 CUDA cores. For single-precision
+                                        progress has been made in porting finite element codes to GPU                 performance, tensor cores provided up to 8× higher FLOP/s
+                                        systems in recent years, additional improvements in the efficiency            performance than CUDA cores on V100 [2], and the gains
+                                        and computational speed of GPU-accelerated high-order finite                  have since increased to over 15× on current Blackwell-class
+                                        element simulations are in constant demand. In this paper, we
+                                        demonstrate that the FP64 tensor cores on NVIDIA GPUs can be                  GPUs [3] with even larger speedups for lower-precision (FP4,
+                                        used to further accelerate such simulations, achieving significant            FP8) computations.
+                                        speedups in key kernels of MFEM, a scalable open-source finite                   While many codes can benefit directly from the perfor-
+                                        element library widely used in HPC applications. By integrating               mance gains of lower-precision or mixed-precision tensor core
+                                        FP64 tensor cores with kernel fusion optimizations, we were able              computations, there are also many scientific applications that
+                                        to achieve up to 2× performance gains and up to 83% energy
+                                        efficiency gains on NVIDIA’s Grace Hopper GH200 and Grace                     require the full accuracy of double precision computations.
+                                        Blackwell GB200 architectures. To the best of our knowledge,                  Some examples include singular perturbation problems, so-
+                                        this is the first time that FP64 tensor cores have been directly              lutions with geometric singularities or boundary layers, and
+                                        programmed to accelerate large-scale finite element scientific                multiscale physics problems. In this paper, we apply tensor
+                                        computing applications. We demonstrate the performance of                     cores to one such application: an inverse problem for finite
+                                        the optimized kernels at exascale by showing near-perfect weak
+                                        scaling efficiency and 90% strong scaling efficiency across nearly            element-discretized wave propagation that aims to infer a
+                                        10,000 GPUs on the Alps system. The new algorithms and                        high-dimensional parameter field from sparse, noisy data. This
+                                        MFEM enhancements directly benefit complex production codes,                  type of inverse problem is ill-posed [4], making the solution
+                                        including the 2025 Gordon Bell Prize-winning application for                  sensitive to small errors; stable inversion necessitates double
+                                        real-time tsunami forecasting.                                                precision calculations.
+                                           Index Terms—GPU supercomputing, tensor cores, DMMA
+                                        PTX, HPC, performance optimizations, high-order finite elements                  Starting in 2020 with the Ampere A100 GPU, NVIDIA
+                                                                                                                      introduced FP64 tensor cores supporting native IEEE double
+                                                                                                                      precision MMA (DMMA) instructions. For double precision
+                                                                 I. I NTRODUCTION                                     calculations, these tensor cores deliver a 2× increase in
+                                                                                                                      peak floating-point rates [5]. In recent years, other vendors
+                                           Tensor cores were introduced in 2017 in the NVIDIA                         have introduced tensor cores, or analogous concepts, in their
+                                        Volta V100 GPU architecture in order to drive higher per-                     compute architectures. In this paper, we focus specifically on
+                                        formance in applications that use dense matrix multiplication.                the programming of tensor cores on two of NVIDIA’s state-
+                                        Initially, the tensor cores supported only mixed-precision                    of-the-art chips: the Grace Hopper GH200 Superchip [6] and
+                                        (FP16, FP32) matrix-multiply-accumulate (MMA) computa-                        the Grace Blackwell GB200 Superchip [3].
+                                        tions where single-precision results are achieved through a                      For applications that use FP64 dense linear algebra—
+                                                                                                                      specifically, General Matrix-Matrix Multiplication (GEMM)—
+                                          This research was supported by DARPA COMPASS HR0011-25-3-0242,
+                                        DOD MURI grant FA9550-24-1-0327, and DOE ASCR grant DE-SC0023171.             for large matrices, including density functional theory, tensor-
+                                        This work was performed under the auspices of the U.S. Department of Energy   core usage has led to large performance gains [7]. This has
+                                        by Lawrence Livermore National Laboratory under Contract DE-AC52-             been exploited both in scientific applications (e.g., Berke-
+                                        07NA27344 (LLNL-PROC-2014338), Office of Science, Office of Advanced
+                                        Scientific Computing Research, Scientific Discovery through Advanced Com-     leyGW [8]) and in benchmarking codes (e.g., HPL [9]) which
+                                        puting (SciDAC) Program through the FASTMath Institute. This research         typically utilize NVIDIA’s FP64 tensor cores by calling the
+                                        used resources from the Swiss National Supercomputing Centre (CSCS) and       GEMM APIs in CUBLAS and other vendor libraries to
+                                        the National Energy Research Scientific Computing Center (NERSC) under
+                                        ALCC allocation ERCAP0030671, ScienceAtScale DDR-ERCAP0034808,                achieve significant speedups for large GEMMs. However,
+                                        and NESAP DDR-ERCAP0038013.                                                   many applications, in diverse fields such as molecular dynam-
+ics, computational engineering, and weather modeling, have         the performance and energy efficiency improvements from our
+not been able to leverage tensor cores as successfully [10]        optimizations. In Section V and Section VI, respectively, we
+because they either do not perform matrix-matrix multiplies        describe related work and summarize our conclusions.
+or their operations do not map well to tensor units. More
+recently, tensor core computations have been extended to more                            II. BACKGROUND
+applications through direct programming, including stencil         A. MFEM library
+codes [11] and finite element methods [12].                           In order to make our techniques more accessible, we focus
+   We build on this prior work and apply tensor cores to a         our work on finite element kernels in the MFEM library [14],
+full finite element production application—a digital twin for      an open-source high-performance finite element library that is
+tsunami early warning—that is already well-optimized and           widely used in the scientific computing community. MFEM
+won the Gordon Bell Prize in 2025 [13]. The application code       is designed for solving PDEs via a variety of discretizations
+solves a coupled acoustic–gravity wave propagation problem         on general unstructured grids, with a strong emphasis on high-
+as a first-order system of partial differential equations (PDEs)   order methods that enhance accuracy and efficiency by exploit-
+discretized with high-order finite elements. Specifically, we      ing tensor-product structures [15]. By supporting arbitrary-
+decompose the tensor contractions into small GEMMs of order        order spaces and higher-order geometries, MFEM enables
+O(10) and program the FP64 tensor cores directly in CUDA           simulations across millions of tasks, incorporating GPU accel-
+kernels. We use Parallel Thread Execution (PTX) instructions       eration to tackle the complexities of high-order elements and
+to directly program tensor cores on state-of-the-art chips like    challenging geometries while rethinking numerical algorithms
+NVIDIA’s Grace Hopper GH200 and Grace Blackwell GB200.             to maximize fine-grain parallelism and minimize energy-
+We also create custom mappings to handle irregular matrix          intensive data movement on exascale architectures. The library
+shapes and fuse kernels for additional performance. This leads     provides a robust foundation for developing custom high-
+to significant performance (up to 2×) and energy efficiency (up    performance solvers, integrating seamlessly with established
+to 83%) gains in a complex, already well-tuned application         libraries like HYPRE [16], SUNDIALS [17], and PETSc [18],
+code. The resulting application demonstrates near-ideal weak       as well as specialized multigrid techniques including algebraic
+scaling and 90% strong scaling efficiency on 9,216 GPUs.           multigrid optimized for GPUs. MFEM’s modular architecture
+   Using the tensor-core-optimized kernels, we then demon-         empowers diverse applications in computational physics and
+strate excellent full-system scalability of the application code   engineering, including compressible and incompressible flows,
+on one of the world’s largest supercomputers—the Alps system       electromagnetics, inertial confinement fusion, additive man-
+at the Swiss National Supercomputing Centre (CSCS).                ufacturing, topology optimization, structural mechanics and
+   The main contributions of this paper are:                       medical modeling [19].
+   • Detailed design and analysis of the programming and
+      optimization of FP64 tensor cores for irregularly shaped     B. Finite element assembly algorithms on GPUs
+      matrix multiplies.                                              To leverage GPUs in high-performance computing on exas-
+   • To the best of our knowledge, the first example of using      cale platforms, MFEM’s finite element algorithms employ ten-
+      directly programmed FP64 tensor cores in a complex,          sor factorization strategies, partial assembly (PA, by precom-
+      PDE-based HPC application, in order to improve through-      puting quadrature data), and matrix-free (MF, with zero storage
+      put of high-order finite element kernels (by up to 59%).     but dynamic computations) techniques, in order to expose fine-
+      We show that shared memory data motion, not FLOPs,           grain parallelism and reduce data motion. These on-the-fly
+      is the performance bottleneck, and demonstrate strong        operator evaluations are tailored to high-order discretizations,
+      correlation between tensor core data motion reduction and    but are generally applicable across all finite element spaces in
+      improved application performance.                            the de Rham [20] complex. In addition to PA and MF, MFEM
+   • Performance comparison of GH200 and GB200 FP64                also includes global sparse matrix and element-local dense
+      tensor cores including energy efficiency analysis (27%       matrix assembly levels, to facilitate integration with external
+      improvement), which has not been reported for small          solvers and support state-of-the-art simulations for large-scale,
+      matrix tensor core operations before.                        complex problems in scientific computing.
+   • Significant finite element kernel performance gains (up          GPU-accelerated PA kernels cover a broad range of opera-
+      to 2×) and energy efficiency gains (up to 83%) by com-       tors, enabling end-to-end acceleration of matrix-free solvers
+      bining loop fusion techniques with tensor core kernels.      through low-order-refined preconditioning [21]. Kernel fu-
+   • Demonstration of exascale full-system scalability of the      sion methods enhance strong scalability and allow attaining
+      application code for each of the implemented kernel          peak performance on problem sizes 5–10 times smaller than
+      versions on a leading-edge supercomputer.                    conventional methods. These matrix-free approaches, distinct
+   The rest of the paper is organized as follows. Section II       from traditional sparse matrix assembly, significantly reduce
+provides a brief overview of the MFEM library, the finite          memory footprint by avoiding global matrix storage, enhance
+element algorithms and application used, and the NVIDIA            arithmetic intensity to achieve near-optimal floating-point op-
+FP64 DMMA tensor cores. We then discuss how we optimized           erations per degree of freedom (DOF), and minimize memory
+the key finite element kernels in Section III. Section IV shows    accesses and global data movement.
+             Global domain                      Sub-domains                             Elements                          Quadrature
+            all (shared) dofs                  GPU (local) dofs                       element dofs                        point values
+
+
+                                       P                                    G                                  B
+ A=                                                                                                                                                D
+                                      PT                                    GT                                BT
+
+
+                 T-vector                            L-vector                            E-vector                            Q-vector
+Fig. 1. Finite element operators, A, where P handles parallel scattering and MPI communication across global true degrees of freedom (T-vectors), G
+manages mesh topology to local subdomains (L-vectors) and elements (E-vectors), B encodes geometry mappings and tensor-product basis functions, and D
+encapsulates physics at quadrature points (Q-vectors)—with numerical kernels reducing to batched small dense tensor contractions implemented as matrix-
+matrix multiplications (DGEMMs) for performance portability via vendor-optimized BLAS.
+
+   One way to describe the PA and MF algorithms is through                   sensors, the digital twin can infer the earthquake-induced
+the decomposition of a finite element operator A into suc-                   seafloor motion and forecast tsunami wave heights in less
+cessive applications of simpler operators—P , G, B and D—                    than a second. This work won the 2025 ACM Gordon Bell
+that represent parallel communication, mesh topology, basis                  Prize [13].
+functions, and physics at quadrature points, respectively. This                 As part of the digital twin creation, a large number—equal
+is illustrated in Figure 1.                                                  to the number of sensor locations informing the tsunami warn-
+                     A = P T GT B T D B G P                           (1)    ing (which were assumed to be on the order of hundreds)—
+                                                                             of computationally demanding PDE solutions describing the
+In the PA approach, we precompute and store the (block-                      governing tsunami dynamics had to be computed in an offline
+diagonal) matrix D at quadrature points, but all other operators             precomputation step. This precomputation constituted by far
+(P , G and B) are applied on-the-fly. In contrast, the MF                    the most expensive computational phase of the digital twin,
+approach applies all parts of the decomposition on-the-fly,                  requiring many hundreds of hours of compute time on 512
+including D, which reduces storage, but increases FLOPs. In                  NVIDIA A100 GPUs [13]. In this work, the authors presented
+both cases, we can exploit the tensor-product structure and                  several optimization steps that led to strong performance gains
+implement the application of B and B T in (1), which maps                    in the finite element kernels (compared to the baseline perfor-
+DOFs to values at quadrature points and vice versa, through                  mance) on state-of-the-art chips, including AMD’s MI300A
+small dense tensor contractions within the 1D version of this                and NVIDIA’s GH200; these optimizations included utilizing
+mapping, B 1d . Since Babc,ijk = Bai
+                                  1d 1d 1d
+                                     Bbj Bck , a typical pattern             GPU shared memory and specifying explicit launch bounds.
+for these tensor contractions is:                                            Even with these optimizations, the total compute time was still
+                             1d 1d 1d                                        largely dominated by the finite element kernels.
+                     Yabc = Bck Bbj Bai Xijk .                        (2)
+This approach is known as sum factorization. Combining the                      The action of a finite element discretized PDE operator on
+PA and MF approaches with sum factorization on tensor-                       a vector is typically a sparse operation with a FLOP count
+product elements has proven essential for tackling exascale-                 and memory access rate proportional to the number of DOF;
+level problems in MFEM.                                                      for PDE-based applications, the finite element kernels per-
+   A prime example of that is the recent development of                      forming this computation are therefore often the performance
+a digital twin for tsunami early warning, where MFEM                         bottleneck of the entire application code. In other words,
+facilitated large-scale simulations of acoustic–gravity wave                 the highest potential for improving application performance
+propagation [13]. This work showcased how high-order finite                  is to increase the kernel throughput (which is the metric-
+element discretizations can be applied to ill-posed inverse                  of-interest that determines time-to-solution). In this paper,
+problems in geophysics, setting the stage for the specific PDE               we demonstrate that kernel performance of high-order finite
+model discussed next.                                                        element discretizations can be significantly accelerated with
+                                                                             the FP64 tensor cores. We focus on the performance im-
+C. Digital twin for tsunami early warning                                    provement of a particular application example—the tsunami
+  Henneking et al. [22, 23] recently developed a novel,                      early warning digital twin. By using the application code
+scalable framework for real-time Bayesian inference for in-                  and discretized operator presented in [13], we ensure that
+verse problems governed by linear time-invariant dynamical                   the application example, i.e., the particular PDE operator
+systems. They applied this framework to create a physics-                    and discretization method, is application-driven rather than
+based digital twin for tsunami early warning in the Cascadia                 specifically chosen to enable the highest performance gains.
+subduction zone [24]—a 1000 km long megathrust fault lo-                     Indeed, larger performance gains than the ones presented here
+cated off the coast of the U.S. Pacific Northwest and Canada                 could likely be achieved if the operators were discretized in
+with the potential for a magnitude 8–9 earthquake and large-                 such a way to best fit the tensor-core architecture, as will be
+scale tsunami. Given real-time pressure data from seafloor                   discussed in Section III-E.
+   The tsunami dynamics are modeled by the acoustic–gravity               The finite element kernels implementing the action of the
+wave equations that couple the propagation of ocean acoustic            operator (4) are the main computational expense of solving
+waves with surface gravity waves. This PDE model is derived             the PDE model (3). While the runtime spent in these kernels
+by linearization of the conservation of mass and momentum               varies by scale and workload, they typically take more than
+around hydrostatic pressure in the compressible ocean, and the          half of the total runtime and in some cases can consume over
+coupling to the surface gravity wave comes from a modified              90%, motivating the extensive performance analysis and GPU
+free surface boundary condition at the sea surface [25]. The            kernel optimizations presented in Section III.
+model takes the form of a coupled first-order system in the
+velocity vector field ⃗u(⃗x, t), the pressure field p(⃗x, t), and the   D. CUDA and tensor cores
+surface gravity wave height η(⃗x, t),
+                                                                           On NVIDIA GPUs, CUDA C++ employs a unique architec-
+                ρ ∂t ⃗u + ∇p = 0,             Ω × (0, T ),
+         
+         
+                                                                       ture called Single Instruction, Multiple Threads (SIMT) [26].
+             −1                                                         The same instruction is executed in groups of 32 threads
+         K ∂t p + ∇ · ⃗u = 0,                Ω × (0, T ),
+         
+         
+         
+                                                                        (called a warp), and multiple warps of work are scheduled
+         
+                                            ∂Ωs × (0, T ),
+         
+                              p = ρgη,
+                                                                  (3)   and pipelined on GPUs to achieve high compute throughput
+         
+                          ∂t η = ⃗u · ⃗n,  ∂Ωs × (0, T ),              and memory bandwidth. The GPU hardware that executes
+         
+                         ⃗u · ⃗n = −∂t b, ∂Ωb × (0, T ),
+         
+                                                                        the SIMT instructions is typically called CUDA cores. In a
+         
+         
+         
+         
+                         ⃗u · ⃗n = Z −1 p, ∂Ωa × (0, T ),               CUDA C++ kernel, multiple warps of threads are grouped
+         
+                                                                        into a thread block, also known as a cooperative thread
+with homogeneous initial conditions. Here, K and ρ are the              array. Threads in the same thread block communicate via an
+bulk modulus and densityp    of seawater, Z = ρc is the acoustic        on-chip, high-bandwidth, low-latency memory called shared
+wave impedance, c =            K/ρ is the speed of sound in             memory [27].
+seawater, g is gravitational acceleration, and ∂t b is the seafloor
+                                                                           Shared memory is divided into 32 banks. On current
+inward normal velocity with b the displacement. The spatial
+                                                                        NVIDIA GPUs, the shared memory address space is divided
+domain is denoted by Ω with boundaries ∂Ωs (sea surface),
+                                                                        into banks of 4 bytes, i.e.,
+∂Ωb (sea bottom), and ∂Ωa (lateral, absorbing boundaries); ⃗n
+is the outward unit normal; and the temporal domain is (0, T ).                      [bank] = [address]/4 bytes mod 32.
+   The acoustic–gravity model is cast into a mixed varia-
+tional formulation and then discretized with MFEM using                 For threads from the same warp, accesses to shared memory
+the Galerkin finite element method and explicit fourth-order            addresses in the same bank are serialized. This is called a
+Runge–Kutta (RK4) time-stepping.                                        shared memory bank conflict, and leads to higher latency
+   The finite element discretization uses fourth-order con-             and lower throughput for the shared memory load and store
+tinuous (H 1 -conforming) scalar-valued pressure and third-             instructions.
+order discontinuous (L2 -conforming) velocity components.
+                                                                           In addition to the CUDA cores, the latest NVIDIA GPUs
+The computational expense of the tsunami digital twin applica-
+                                                                        also have tensor cores to speed up MMA instructions. Later
+tion is overwhelmingly dominated by the cost of the acoustic–
+                                                                        in this work, we use the syntax m/n/k for matrix-matrix
+gravity wave propagation solver. In particular, the dominant
+                                                                        multiplications of shape m-by-k times k-by-n equals m-by-n.
+cost is the repetitive application (four applications per RK4
+                                                                        In this work, we use the FP64 DMMA instruction that is first
+timestep) of the time-stepping operator
+                                                                      available in NVIDIA’s Ampere architecture.
+                  T                      T          T
+          [uδ pδ ] = M−1 −A [u p]i + [f g]i ,
+                                                                                    III. P ERFORMANCE OPTIMIZATIONS
+             T            T
+where [u p]i and [f g]i are respectively the state and right-
+hand-side vectors at time instance i, and [uδ pδ ] is the state            In this section, we provide a detailed description of the per-
+increment used by RK4. The (lumped) mass matrix M and                   formance analysis and optimization we performed for the finite
+stiffness matrix A are discretizations of the block operators           element kernels from Section II. In Section III-A, we start
+M and A defined by:                                                     with the original CUDA core kernels and their performance-
+                                                                limiting factors determined by Nsight Compute profiles. In
+       ⃗u ⃗τ         (ρ⃗u, ⃗τ )                0                        Section III-B, we show how to use the FP64 tensor cores
+    M     ,      :=
+        p v             0       (K −1 p, v) + ⟨(ρg)−1 p, v⟩∂Ωs          by invoking the DMMA instructions. Next, we describe the
+and                                                                     techniques we used to avoid shared memory bank conflicts
+                                                                in the FP64 tensor core computations in Section III-C and
+           ⃗u ⃗τ           0                 (∇p, ⃗τ )
+         A   ,     :=                                      ,     (4)    Section III-D. In Section III-E, we examine the performance-
+            p v        −(⃗u, ∇v)          ⟨Z −1 p, v⟩∂Ωa
+                                                                        limiting factors of the DMMA kernels. In Section III-F, we
+where ⃗u, ⃗τ ∈ (L2 (Ω))3 and p, v ∈ H 1 (Ω); (·, ·) denotes             explain why the CUDA PTX DMMA instruction is used over
+the (componentwise) L2 (Ω) inner product, and ⟨·, ·⟩∂Ω is the           other frameworks, and finally discuss the fused PA and fused
+L2 (∂Ω) inner product over (part of) the boundary ∂Ω.                   MF kernel optimizations in Section III-G.
+A. The CUDA core kernels                                         from input matrices A and B: each matrix element in A and B
+   A sequence of matrix-matrix multiplications is performed as   is loaded only once among the threads in a warp. The m8n8k4
+part of the CUDA kernels that implement the actions of finite    DMMA instruction works in the following way [28]:
+element discretized PDE operators on a vector (2). The kernels     1) Each thread in the warp loads one FP64 element of
+used in the Gordon Bell Prize-winning work [13] use the               matrix A (a0) from shared memory: the map between
+CUDA cores to perform these matrix-matrix multiplications.            the logical row and column indices and the lane index
+In these CUDA core kernels, for each matrix-matrix multipli-          of the warp are shown in Table III.
+cation, each thread in the thread block calculates one element     2) Each thread in the warp loads one FP64 element of
+of output matrix C. For each thread, the needed elements from         matrix B (b0) from shared memory: the map between
+input matrices A and B are loaded from shared memory, and             the logical row and column indices and the lane index
+the C matrix elements are written back to shared memory.              of the warp are shown in Table IV.
+This results in the following skeleton CUDA code for such          3) Invoke the CUDA PTX instruction for DMMA with a0
+matrix-matrix multiplication:                                         and b0 from each thread as input [29]. The CUDA PTX
+int m = threadIdx.x, n = threadIdx.y;                                 instruction can be seamlessly inserted into the CUDA
+double accC = 0.0;                                                    C++ code with the inline PTX syntax.
+for (int kk = 0; kk < k; kk++){                                    4) The DMMA instruction returns the result matrix C: each
+  accC += smemA[m, kk] * smemB[kk, n];                                thread in a warp gets two FP64 elements (c0 and c1) for
+}
+smemC[m, n] = accC;                                                   a total of 64 (= 32 × 2) elements. The maps between
+                                                                      the logical row and column indices and the lane index
+The above CUDA core code leads to a low FLOP-over-byte                of the warp are shown in Table V.
+ratio. For example, a typical matrix-matrix multiplication in
+                                                                 This results in the following skeleton CUDA code for perform-
+the MFEM workflow has m = 25, n = 5 and k = 4. The
+                                                                 ing matrix-matrix multiplications with DMMA tensor cores
+total number of bytes loaded and stored to shared memory for
+                                                                 with the CUDA PTX DMMA instruction:
+the operations in the above code is
+    sizeof(double) × (m × n × (k × 2) + m × n)                   int lane_idx = threadIdx.x %
+                                                                 double a[1], b[1], c[2];
+     = 8 bytes × (25 × 5 × (4 × 2) + 25 × 5)                     a[0] = smemA[... lane_idx...]; // load a0
+     = 9000 bytes.                                               b[0] = smemB[... lane_idx...]; // load b0
+                                                                 asm volatile(
+Note that the same input matrix elements in A and B are              "mma.sync.aligned.m8n8k4.row.col.f64.f64."
+loaded by multiple threads, and there is no data sharing among       "f64.f64 {%
+                                                                     : "+d"(c[0]), "+d"(c[1])
+the different threads after the shared memory loads. The total
+                                                                     : "d"(a[0]), "d"(b[0]));    // invoke DMMA
+number of FP64 operations performed is                           smemC[... lane_idx...] = c[0]; // store c0
+                                                                 smemC[... lane_idx...] = c[1]; // store c1
+         m × n × k × 2 = 25 × 5 × 4 × 2 = 1000,
+and the FLOP-over-byte ratio is                                  The total number of bytes loaded from and stored to shared
+              1000/9000 ∼ 0.11 [FLOP/byte].                      memory using tensor cores now becomes
+
+Therefore, it is the shared memory bandwidth, not the FP64            sizeof(double) × (m × k + n × k + m × n)
+compute FLOP/s, that limits the performance of the kernel.
+                                                                       = 8 bytes × (25 × 4 + 5 × 4 + 25 × 5)
+This is confirmed by the outputs from the Nsight Compute
+profile shown in Table I: the metric “L1: Data Pipe Lsu                = 1960 bytes.
+Wavefronts” in the memory throughput breakdown hitting a
+97% percentage indicates that the kernel utilizes 97% of the     Fewer bytes are loaded from shared memory versus the CUDA
+shared memory bandwidth. In contrast, in the same table, the     core implementation, because the input A/B matrix values are
+metric “SM: Pipe Fp64 Cycles Active” hits only 14%.              shared among the threads invoking the DMMA instruction in
+                                                                 the same warp and only need to be loaded once per warp.
+B. Using tensor cores                                            To perform the target matrix-matrix multiplication with the
+   By using tensor cores instead of CUDA cores for FP64          DMMA instruction, the logical m/n/k indices of the DMMA
+matrix-matrix multiplications, with the same shapes, fewer       instruction (mi /ni /ki ) are mapped to the target problem’s
+bytes are loaded from the shared memory. As a result, using      m/n/k indices (mp /np /kp ):
+the DMMA instruction directly alleviates the bottleneck on
+shared memory bandwidth.                                                               fm : mi 7→ mp ,
+   With the DMMA instruction, each warp in the thread
+                                                                                        fn : ni 7→ np ,
+block performs matrix-matrix multiplications collectively.
+Each thread of the warp loads a unique set of matrix elements                           fk : ki 7→ kp .
+                                                                          TABLE I
+ Compute and memory throughput breakdown from the Nsight Compute profile of the original PA kernel on GH200. Based on the profiler’s analysis, this
+kernel takes a total of 21,200,278 cycles. The kernel’s performance bottleneck is the shared memory bandwidth (“L1: Data Pipe Lsu Wavefronts”) at 97%,
+                                          achieving an FP64 utilization (“SM: Pipe Fp64 Cycles Active”) of 14%.
+
+                     Compute Throughput Breakdown                                                  Memory Throughput Breakdown
+ SM: Inst Executed Pipe Lsu [%]                                      48.49     L1: Data Pipe Lsu Wavefronts [%]                                    97.03
+ SM: Issue Active [%]                                                45.98     L2: Lsu Writeback Active [%]                                        73.98
+ SM: Inst Executed [%]                                               45.98     L1: Lsuin Requests [%]                                              48.49
+ SM: Mio Inst Issued [%]                                             27.09     DRAM: Cycles Active [%]                                             43.40
+ SM: Mio2rf Writeback Active [%]                                     18.88     DRAM: Dram Sectors [%]                                              33.30
+ SM: Pipe Fmaheavy Cycles Active [%]                                 15.25     L2: D Sectors Fill Device [%]                                       28.87
+ SM: Pipe Alu Cycles Active [%]                                      14.20     L2: D Sectors [%]                                                   24.59
+ SM: Pipe Fp64 Cycles Active [%]                                     13.98     L2: T Tag Requests [%]                                              20.46
+ SM: Pipe Shared Cycles Active [%]                                   13.98     GPU: Compute Memory Access Throughput Internal Activity [%]         20.46
+ SM: Mio Pq Read Cycles Active [%]                                   13.19     L1: Data Bank Reads [%]                                             18.24
+ SM: Mio Pq Write Cycles Active [%]                                  13.19     L2: T Sectors [%]                                                   16.86
+ SM: Inst Executed Pipe Uniform [%]                                  11.77     L2: Lts2xbar Cycles Active [%]                                      14.53
+ SM: Inst Executed Pipe Adu [%]                                      11.39     L2: Xbar2lts Cycles Active [%]                                      14.53
+ SM: Inst Executed Pipe Cbu Pred On Any [%]                           8.49     L1: M L1tex2xbar Req Cycles Active [%]                               8.75
+ SM: Pipe Fma Cycles Active [%]                                       7.63     L1: Data Bank Writes [%]                                             8.63
+ IDC: Request Cycles Active [%]                                       3.00     L1: M Xbar2l1tex Read Sectors [%]                                    5.89
+ SM: Memory Throughput Internal Activity [%]                             0     L1: Texin Sm2tex Req Cycles Active [%]                               0.00
+ SM: Instruction Throughput Internal Activity [%]                        0     L2: D Sectors Fill Sysmem [%]                                        0.00
+ SM: Inst Executed Pipe Xu [%]                                           0     L2: D Atomic Input Cycles Active [%]                                    0
+ SM: Inst Executed Pipe Tex [%]                                          0     L1: M Xbar2l1tex Read Sectors Mem Dshared [%]                           0
+ SM: Inst Executed Pipe Ipa [%]                                          0     L1: Tmain Requests [%]                                                  0
+ SM: Pipe Tensor Cycles Active [%]                                       0     L1: Data Pipe Tex Wavefronts [%]                                        0
+ SM: Pipe Tensor Op Dmma Cycles Active [%]                               0     L1: Tex Writeback Active [%]                                            0
+ SM: Pipe Tensor Type Hmma Hgmma Qgmma Imma Igmma                        0     GPU: Compute Memory Request Throughput Internal Activity                0
+ Brmma Bgmma Cycles Active [%]                                                 [%]
+ SM: Pipe Tma Cycles Active [%]                                          0     L1: F Wavefronts [%]                                                    0
+
+
+
+                                                                         TABLE II
+Compute and memory throughput breakdown from the Nsight Compute profile of the DMMA PA kernel on GH200. Based on the profiler’s analysis, this
+kernel takes a total of 13,871,896 cycles. As for the original kernel (Table I), this kernel’s performance bottleneck is still the shared memory bandwidth
+    (“L1: Data Pipe Lsu Wavefronts”)—now at 84%—but the DMMA utilization (“Pipe Tensor Op Dmma Cycles Active”) has increased to 54%.
+
+                     Compute Throughput Breakdown                                                  Memory Throughput Breakdown
+ SM: Issue Active [%]                                                72.73     L1: Data Pipe Lsu Wavefronts [%]                                    84.43
+ SM: Inst Executed [%]                                               72.73     DRAM: Cycles Active [%]                                             66.24
+ SM: Pipe Shared Cycles Active [%]                                   57.06     DRAM: Dram Sectors [%]                                              50.84
+ SM: Pipe Tensor Op Dmma Cycles Active [%]                           54.08     L2: D Sectors Fill Device [%]                                       44.07
+ SM: Pipe Tensor Cycles Active [%]                                   54.08     L2: Lsu Writeback Active [%]                                        43.55
+ SM: Pipe Alu Cycles Active [%]                                      47.73     L1: Lsuin Requests [%]                                              41.14
+ SM: Inst Executed Pipe Lsu [%]                                      41.14     L2: D Sectors [%]                                                   37.42
+ SM: Pipe Fmaheavy Cycles Active [%]                                 38.04     L2: T Tag Requests [%]                                              32.84
+ SM: Mio Pq Write Cycles Active [%]                                  25.21     GPU: Compute Memory Access Throughput Internal Activity [%]         32.82
+ SM: Mio Pq Read Cycles Active [%]                                   24.87     L2: T Sectors [%]                                                   25.58
+ SM: Mio Inst Issued [%]                                             24.29     L2: Lts2xbar Cycles Active [%]                                      22.20
+ SM: Pipe Fma Cycles Active [%]                                      19.02     L2: Xbar2lts Cycles Active [%]                                      21.42
+ SM: Inst Executed Pipe Adu [%]                                      14.90     L1: Data Bank Reads [%]                                             15.52
+ SM: Inst Executed Pipe Uniform [%]                                  14.84     L1: Data Bank Writes [%]                                            12.75
+ SM: Mio2rf Writeback Active [%]                                     11.29     L1: M L1tex2xbar Req Cycles Active [%]                              12.72
+ SM: Inst Executed Pipe Cbu Pred On Any [%]                           8.07     L1: M Xbar2l1tex Read Sectors [%]                                    9.02
+ IDC: Request Cycles Active [%]                                       3.21     L1: Texin Sm2tex Req Cycles Active [%]                               0.00
+ SM: Pipe Fp64 Cycles Active [%]                                      2.98     L2: D Sectors Fill Sysmem [%]                                        0.00
+ SM: Instruction Throughput Internal Activity [%]                        0     L2: D Atomic Input Cycles Active [%]                                    0
+ SM: Memory Throughput Internal Activity [%]                             0     L1: Data Pipe Tex Wavefronts [%]                                        0
+ SM: Inst Executed Pipe Xu [%]                                           0     L1: Tmain Requests [%]                                                  0
+ SM: Inst Executed Pipe Tex [%]                                          0     L1: Tex Writeback Active [%]                                            0
+ SM: Inst Executed Pipe Ipa [%]                                          0     L1: M Xbar2l1tex Read Sectors Mem Dshared [%]                           0
+ SM: Pipe Tensor Type Hmma Hgmma Qgmma Imma Igmma                        0     GPU: Compute Memory Request Throughput Internal Activity                0
+ Brmma Bgmma Cycles Active [%]                                                 [%]
+ SM: Pipe Tma Cycles Active [%]                                          0     L1: F Wavefronts [%]                                                    0
+                                  TABLE III                                                            TABLE IV
+       The map between the logical row and column indices and the lane      The map between the logical row and column indices and the lane
+       index of a warp for matrix A of the m8n8k4 DMMA instruction,         index of a warp for matrix B of the m8n8k4 DMMA instruction,
+             shown as T[lane number]:a0. Quoted from [28].                        shown as T[lane number]:b0. Quoted from [28].
+            Row/Col         0          1           2          3                     Row/Col       0         1       ...      7
+               0          T0:a0     T1:a0      T2:a0      T3:a0                         0       T0:b0    T4:b0      ...   T28:b0
+               1          T4:a0     T5:a0      T6:a0      T7:a0                         1       T1:b0    T5:b0      ...   T29:b0
+              ...          ...       ...        ...        ...                          2       T2:b0    T6:b0      ...   T30:b0
+               7          T28:a0    T29:a0     T30:a0     T31:a0                        3       T3:b0    T7:b0      ...   T31:b0
+
+
+                                                                   TABLE V
+                           The map between the logical row and column indices and the lane index of a warp for matrix C
+                           of the m8n8k4 DMMA instruction, shown as T[lane number]:c[0,1]. Quoted from [28].
+                                Row/Col        0          1          2          3       ...       6             7
+                                   0          T0:c0      T0:c1      T1:c0     T1:c1     ...     T3:c0      T3:c1
+                                   1          T4:c0      T4:c1      T5:c0     T5:c1     ...     T7:c0      T7:c1
+                                   2          T8:c0      T8:c1      T9:c0     T9:c1     ...    T11:c0     T11:c1
+                                   3         T12:c0     T12:c1     T13:c0    T13:c1     ...    T15:c0     T15:c1
+                                   4         T16:c0     T16:c1     T17:c0    T17:c1     ...    T19:c0     T19:c1
+                                   5         T20:c0     T20:c1     T21:c0    T21:c1     ...    T23:c0     T23:c1
+                                   6         T24:c0     T24:c1     T25:c0    T25:c1     ...    T27:c0     T27:c1
+                                   7         T28:c0     T28:c1     T29:c0    T29:c1     ...    T31:c0     T31:c1
+
+
+  For example, in order to perform an m = 25, n = 5, k = 4                     Figure 2 depicts the shared memory banks being accessed
+matrix-matrix multiplication, we can use four warps for the                 during the two access phases for matrices A, B and C.
+DMMA instruction with the following maps:                                   There are no shared memory bank conflicts for any of these
+                                                                            accesses. Apart from the m25n5k4 (m = 25, n = 5, k = 4)
+             fm : mi 7→ mp , mp = mi + w × 8,                               matrix shape shown above, we have also tuned the fm /fn /fk
+             fn : ni 7→ np , np = ni ,                                      for the following matrix shapes such that they are free
+             fk : ki 7→ kp , kp = ki ,                                      from shared memory bank conflicts: m25n5k5, m25n4k5,
+                                                                            m20n4k5, m16n4k5, m16n5k4 and m20n5k4.
+where w is the warp index, and fn and fk are identity maps.
+fm can also be the following one:
+                                                                            D. Tensor index reordering for bank conflict avoidance
+             fm : mi 7→ mp , mp = mi × 4 + w.
+                                                                               The tensor contractions in equation (2) can be decomposed
+C. Optimal mapping for bank conflict avoidance                              into three matrix-matrix multiplications, for instance:
+   For different shapes of matrix-matrix multiplications, dif-                                         1      1d
+                                                                                                      Xajk = Bai Xijk ,
+ferent fm /fn /fk can be chosen to avoid shared memory bank
+                                                                                                       2      1d 1
+conflicts. For example, in order to perform an m = 25, n = 5,                                         Xabk = Bbj Xajk ,
+k = 4 matrix-matrix multiplication, we use four warps for the                                                 1d 2
+                                                                                                      Yabc = Bck Xabk .
+DMMA instruction with the following maps:
+       fm : mi 7→ mp , mp = mi + w × 8,                                     Here the indices of the tensors also indicate the order in which
+                                                                            the numbers are stored in shared memory: for example, for
+        fn : ni 7→ np ,                                                       1
+                                                                            Xajk  , the numbers are stored in lexicographical order with a
+                                                                     (5)
+            [0, 1, 2, 3, 4, 5, 6, 7] → [0, 2, 1, 3, 4, 5, 6, 7],            being the fastest-changing index, j being the second-fastest-
+        fk : ki 7→ kp , kp = ki .                                           changing index, and k being the slowest-changing index.
+                                                                            When the index that is being summed over is the second-
+When each thread (also referred to as a lane in a warp) in                  fastest-changing index (i.e., the index is in the middle), shared
+a warp loads (stores) an 8-byte word from (to) the shared                   memory bank conflicts become inevitable. This issue can be
+memory, the load (store) is done in two accessing phases.                   avoided by using a cyclic order, e.g.,
+In the first phase, lanes 0–15 load (store) from (to) shared
+memory with each lane occupying two shared memory banks;                                               1
+                                                                                                      Xjka    1d
+                                                                                                           = Bai Xijk ,
+in the second phase, lanes 16–31 do the same. As a result, if                                          2      1d 1
+the first or the second half of the warp accesses 16 distinct                                         Xkab = Bbj Xjka ,
+                                                                                                              1d 2
+shared memory banks during one 8-byte shared memory                                                   Yabc = Bck Xkab .
+access, there is no shared memory bank conflict. With the
+maps shown in (5), each lane of a warp accesses one 8-byte                  This way the index that is being summed over is always the
+FP64 number for a0, b0, c0 and c1.                                          fastest-changing index.
+                                                                   Matrix B
+                                                    Row/Col   0    1        2   3      4
+                                                       0      0    8       16   24     0
+                                                       1      2    10      18   26     2    Warp 0,1,2,3
+                        accessing phase 0 for a0       2      4    12      20   28     4                   accessing phase 0 for b0
+                        accessing phase 1 for a0       3      6    14      22   30     6                   accessing phase 1 for b0
+                          Matrix A                                 Matrix C
+             Row/Col   0       1      2         3   Row/Col   0    1        2   3      4
+                0      0       2      4         6      0      0    18       4   22     8
+                1      8      10      12       14      1      2    20       6   24     10
+                2      16     18      20       22      2      4    22       8   26     12
+                3      24     26      28       30      3      6    24      10   28     14     Warp 0
+                4      0       2      4         6      4      8    26      12   30     16
+                5      8      10      12       14      5      10   28      14   0      18
+                6      16     18      20       22      6      12   30      16   2      20
+                7      24     26      28       30      7      14   0       18   4      22
+                8      0       2      4         6      8      16   2       20   6      24
+                9      8      10      12       14      9      18   4       22   8      26
+               10      16     18      20       22     10      20   6       24   10     28
+               11      24     26      28       30     11      22   8       26   12     30     Warp 1
+               12      0       2      4         6     12      24   10      28   14     0
+               13      8      10      12       14     13      26   12      30   16     2
+               14      16     18      20       22     14      28   14       0   18     4
+               15      24     26      28       30     15      30   16       2   20     6
+               16      0       2      4         6     16      0    18       4   22     8
+               17      8      10      12       14     17      2    20       6   24     10
+               18      16     18      20       22     18      4    22       8   26     12
+               19      24     26      28       30     19      6    24      10   28     14     Warp 2
+               20      0       2      4         6     20      8    26      12   30     16
+               21      8      10      12       14     21      10   28      14   0      18                  accessing phase 0 for c0
+               22      16     18      20       22     22      12   30      16   2      20                  accessing phase 1 for c0
+               23      24     26      28       30     23      14   0       18   4      22                  accessing phase 0 for c1
+               24      16      2      20        6     24      16   2       20   6      24     Warp 3       accessing phase 1 for c1
+
+
+Fig. 2. Shared memory banks for matrix A/B/C of an m = 25, n = 5, k = 4 matrix-matrix multiplication with the maps shown in (5). In each of the
+phases, the 16 lanes access 16 distinct banks; thus, there are no shared memory bank conflicts.
+
+
+
+E. Tensor core kernel performance limiters                                25 × 5 × 4—require precise control for custom thread-to-
+   The profile of the DMMA PA kernel in Table II shows that               fragment mappings (5) and bank conflict elimination (Fig-
+shared memory bandwidth (“L1: Data Pipe Lsu Wavefronts”)                  ure 2). CUTLASS is optimized for larger GEMMs and
+is still the highest-used resource in the memory throughput               lacks the needed granularity; its primary method to avoid
+analysis, but the percentage is lower compared to the original            shared memory bank conflicts is swizzling, which requires
+PA kernel using CUDA cores; items in the compute through-                 much larger alignments (e.g., 128 bytes) and shapes (e.g.,
+put breakdown now have a higher percentage, implying the                  m64n64k32). While padding could enable the use of CUT-
+DMMA better utilizes the GPU compute resources. Specifi-                  LASS kernel-level interfaces, with the small matrix sizes we
+cally, “SM: Pipe Tensor Op Dmma Cycles Active” indicates                  are targeting, the majority of the shared memory bandwidth
+that the DMMA pipe of the GH200 GPU has 54% usage.                        and FLOP/s would be wasted on the padding, rendering
+Overall, the DMMA PA kernel achieves a 1.5× speedup (ratio                CUTLASS much less efficient than our approach in this case.
+                                                                             CUBLAS, on the other hand, does not support such uncon-
+of the total cycle count for each kernel: 1.5 = 21,200,278
+                                                                          ventional scenarios with small, irregular GEMMs and kernel
+cycles / 13,871,896 cycles) over the original PA kernel.
+                                                                          fusions. CUBLASDx [32], which is still under development,
+   The DMMA PA kernel has a 54% utilization of the DMMA
+                                                                          addresses our needs and may in the future provide an efficient
+pipe on the GH200, while the original PA kernel has a 14%
+                                                                          alternative to our approach.
+utilization of the FP64 pipe (“SM: Pipe Fp64 Cycles Active”).
+                                                                             Finally, we note that invoking the CUDA PTX DMMA
+One might ask why the 54 / 14 = 3.8× increase in compute
+                                                                          instruction with the inline PTX syntax, as previously shown
+utilization only leads to 1.5× speedup for the entire kernel:
+                                                                          in the skeleton CUDA code for DMMA tensor cores, requires
+this is primarily because when using the m8n8k4 DMMA
+                                                                          just about the same amount of developer effort as invoking
+instruction to perform the various matrix-matrix multiplica-
+                                                                          other CUDA device intrinsic functions when writing a CUDA
+tions, the shapes of these (m = 25, n = 5, k = 4) matrix-
+                                                                          C++ kernel.
+matrix multiplications do not exactly fit the (m = 8, n = 8,
+k = 4) instruction shape, thus wasting a large percentage of              G. PA and MF kernel optimizations
+the computation due to the mismatch.                                        Our GPU kernel optimizations focused on the GT B T DBG
+                                                                          operations in (1), excluding the application of P and P T ,
+F. Choosing CUDA DMMA instruction over other frameworks                   which are sparse matrix-vector products handling MPI com-
+  In this work, the CUDA PTX DMMA instruction is                          munication. The finite element operator is mixed, i.e., the trial
+chosen over other CUDA libraries like CUTLASS [30] or                     and test spaces are different, and so we need distinct Btrial and
+CUBLAS [31], because our small O(10) matrices—such as                     Btest operators (and their respective transposes).
+                      50
+                                 PA                                                                     PA
+                                 Fused MF                                                               Fused MF
+                      40         Fused PA                                                               Fused PA
+Throughput (GDOF/s)
+
+
+                                 DMMA PA                                                                DMMA PA
+                                 DMMA Fused MF                                                          DMMA Fused MF
+                                 DMMA Fused PA                                                          DMMA Fused PA
+                      30
+
+
+                      20
+
+
+                      10
+                                                                          NVIDIA GH200                                                    NVIDIA GB200
+
+                       0
+                       104           105           106             107          108      109    104        105          106       107         108         109
+                                                Degrees of freedom                                                  Degrees of freedom
+Fig. 3. Throughput, in billion degrees of freedom (GDOF) per second, for the finite element kernels corresponding to the off-diagonal blocks in (4) on a
+single NVIDIA GH200 Grace Hopper Superchip (left) and a single NVIDIA GB200 Grace Blackwell Superchip (right). Fusing loops into a single kernel and
+using tensor-core-enabled DMMA instructions (“DMMA Fused PA”) together yields a 2× performance gain compared to the original (“PA”) kernel.
+
+
+
+  By eliminating the initial Gtest from the preceding vector                                                            IV. R ESULTS
+operation, the primary kernel Ku,p comprises a sequence of
+two subkernels, Ku and Kp , such that Ku,p = Kp Ku , where                                        In this section, we evaluate the effect of kernel fusion and
+                                                                                               tensor core (DMMA) optimizations on the performance of the
+                       Ku = GTtrial Btrial
+                                     T
+                                           DT Btest and Kp = Btest
+                                                              T
+                                                                   DBtrial Gtrial .            PA and MF algorithms. We report single-GPU throughput and
+This can be reordered into three kernels K1 , K2 , and K3 :                                    performance per Watt for GH200 and GB200, with significant
+                                                 T
+                                                                                               benefits in both metrics. We also demonstrate excellent weak
+                                           K1 = Btrial DT Btest ,                              and strong scalability on up to 9,216 GH200 GPUs.
+                                           K2 = Gtrial GTtrial ,
+                                                 T
+                                           K3 = Btest DBtrial .                                A. Single-GPU performance
+Here, K2 is an MFEM operation that can be optimized by                                            Figure 3 shows the throughput performance of the finite
+introducing indirect reads from a DOF-mapping array and                                        element kernels on NVIDIA’s GH200 Grace Hopper Superchip
+writing back to global memory via atomic operations. The                                       (left) and GB200 Grace Blackwell Superchip (right). For
+fused operator Kfused is then expressed as:                                                    the various kernel types, the DMMA optimizations achieve
+                                       T                                                       35% to 59% speedup over the original non-DMMA kernels
+                             Kfused = Btest DBtrial Gtrial GTtrial Btrial
+                                                                    T
+                                                                          DT Btest ,           in the saturated regime (i.e., for sufficiently many DOFs).
+and further optimized to:                                                                      Fusing loops into a single kernel and using tensor-core-enabled
+                                             T     T                                           DMMA instructions (“DMMA Fused PA”) together yields a
+                                   Kfused = Btest Btrial DDT Btrial Btest .                    2× performance gain compared to the original PA kernel.
+   The primary benefit of this loop fusion is a twofold reduc-                                    Table VI details the throughput performance (GDOF/s) and
+tion in PA data movement, as the applications of D and DT                                      the performance per Watt (MDOF/W) on both GH200 and
+occur within the same kernel. However, even after applying                                     GB200 for the original and the DMMA kernels, for a problem
+all available memory optimizations—such as avoiding caching                                    of 540 million DOF. In addition to higher performance, the
+of large vectors, recomputing values on-the-fly, and reusing                                   DMMA kernels also achieve higher performance per Watt
+temporary vectors from the RK4 time-stepping algorithm—                                        than the original kernels. Usage of FP64 tensor cores improves
+PA data still accounts for a substantial portion of the total                                  performance per Watt by 18% on GB200 and 27% on GH200.
+memory usage.                                                                                  When fusion is added, performance per Watt improves overall
+   The fused MF kernel optimizations address this issue by                                     by 72% on GB200 and 83% on GH200. We note that GB200
+eliminating storage of the PA data at quadrature points, instead                               achieves a lower performance per Watt than GH200 for each
+requiring additional input vectors and on-the-fly computations,                                of the kernel types. The reasons for this include: (1) GB200
+including DOF mappings, basis function arrays, and mesh                                        has higher idle GPU power, (2) GB200 runs at a 4% higher
+coordinates for Jacobian computations. As the fused kernel                                     clock frequency which, while adding additional performance,
+expands and demands more input data, minimizing shared                                         can lead to less efficient computations, and (3) GB200 has
+memory usage per thread block becomes critical to increase                                     much higher memory bandwidth and tensor core performance
+GPU occupancy; this is achieved by relocating Btrial and                                       for lower precisions (FP16, BF16, FP8, FP6 and FP4), while
+Btest data to constant memory and shuffling intermediate                                       the kernels of interest here do not make high utilizations of
+computations to reuse temporary shared memory space.                                           any of these compute resources.
+                                                        TABLE VI
+  T HROUGHPUT PERFORMANCE AND PERFORMANCE PER WATT FOR EACH KERNEL ON GH200 AND GB200 FOR A PROBLEM OF 540 MILLION DOF.
+
+           Metric                    Chip           PA     Fused PA    Fused MF       DMMA PA     DMMA Fused PA     DMMA Fused MF
+           GDOF/s                    GB200        23.78       29.28           24.01       33.72             46.60              37.26
+           GDOF/s                    GH200        18.73       24.04           20.45       25.27             36.15              32.24
+           MDOF/Watt                 GB200        26.60       36.41           37.01       31.37             45.70              49.03
+           MDOF/Watt                 GH200        28.65       40.14           41.02       36.51             52.42              50.88
+           AVG Power [Watt]          GB200       893.84      804.07          648.79     1074.76           1019.63             759.97
+           AVG Power [Watt]          GH200       653.72      598.88          498.58      692.19            689.64             633.69
+
+   The fused PA implementation achieves a lower percentage                          Scalability results are reported in terms of runtime per
+of the GPU’s theoretical peak FLOP/s compared to the fused                       timestep, which is the time-to-solution metric-of-interest for
+MF version but ultimately delivers faster overall runtime.                       the application, for finite element implementations of each of
+This counterintuitive outcome arises because, although fused                     the three kernel versions (PA, Fused MF, Fused PA) and their
+MF exhibits higher arithmetic intensity (performing more                         respective FP64 tensor-core-accelerated versions (DMMA PA,
+computations per byte of data transferred) and transfers less                    DMMA Fused MF, DMMA Fused PA). Runtimes were aver-
+data per DOF, its higher FLOP/DOF ratio increases the overall                    aged over ten consecutive timesteps (40 operator applications),
+computational workload. As a result, the gains in FLOP/s                         discarding the initial ten timesteps as warm-up.
+efficiency are outweighed by the additional FLOPs required,                         The strong scalability results, shown in Figure 4, demon-
+leading to longer execution times despite the apparent perfor-                   strate ideal (linear) strong scaling for all kernels over the
+mance advantage in peak utilization.                                             first 8× increase of nodes (from 144 to 1,152 GH200);
+                                                                                 at full system size (i.e., over a 64× increase of nodes),
+B. Multi-GPU performance                                                         the finite element implementations achieve excellent 86–91%
+   Scalability of the MFEM implementation was tested on                          strong parallel efficiencies. Weak scalability results, depicted
+CSCS’s Alps system. Alps is an HPE Cray EX supercomputer                         in Figure 5, show that ideal (linear) weak scaling (i.e., ∼100%
+with 2,688 nodes, each containing 4 NVIDIA GH200 Super-                          weak parallel efficiency) is achieved for all of the six kernel
+chips. Each GH200 integrates a Grace CPU (72 Arm cores)                          implementations over a 64× increase of nodes.
+and an H100 GPU (96 GB HBM3, 34 TFLOP/s FP64 and                                                      V. R ELATED WORK
+67 TFLOP/s FP64 tensor core peak throughput). The system
+is connected by an HPE Slingshot-11 dragonfly interconnect                          Since the release of tensor cores in NVIDIA’s Volta
+with at most three network hops between any two nodes. The                       GPUs [2], many HPC applications have successfully leveraged
+theoretical system peak is 574.8 PFLOP/s; and the system                         them to improve performance [34]. With the addition of
+achieved a peak of 434.9 PFLOP/s securing the #8 spot in                         FP64 tensor cores in NVIDIA’s Ampere architectures, adop-
+the November 2025 TOP500 list [33].                                              tion expanded further, enabling applications requiring double-
+                                                                                 precision computations to benefit as well [7]. Early efforts
+                                                                                 focused on large matrix operations, primarily using vendor-
+                            TABLE VII
+                    S CALABILITY SETUP ON A LPS                                  optimized libraries. Subsequent FP64 tensor core research
+                                                                                 has diverged into two paths. For large matrices, the Ozaki
+                                            Weak scaling    Strong scaling       scheme [35, 36] emulates FP64 calculations with integer tensor
+  Nodes   GPUs      Processor grid     Mesh elements       Elements/GPU          cores, yielding higher performance than FP64 tensor core us-
+     36     144      2 × 18 × 4           566,231,040           3,932,160        age. For smaller matrices, recent studies [11, 34] demonstrate
+     72     288      4 × 18 × 4         1,132,462,080           1,966,080        gains from directly employing FP64 tensor cores.
+    144     576      4 × 36 × 4         2,264,924,160             983,040           Building on this latter approach, our work extends tensor
+    288   1,152      8 × 36 × 4         4,529,848,320             491,520
+    576   2,304      8 × 72 × 4         9,059,696,640             245,760        core acceleration to more complex applications on newer
+  1,152   4,608     16 × 72 × 4        18,119,393,280             122,880        hardware (GH200 and GB200), while also quantifying energy
+  2,304   9,216     16 × 144 × 4       36,238,786,560              61,440        efficiency improvements and integrating the optimizations into
+                                                                                 the production MFEM library for a full PDE-based application.
+   The setup for the scalability study is shown in Table VII.                    Related finite element studies align with these trends.
+The base case for both strong and weak scalability is defined                       For instance, Cui et al. [12] explored NVIDIA A100 tensor
+on 36 nodes (144 GH200), and results are reported up to the                      cores to speed up tensor-product operations in a finite element
+full system size of 2,304 nodes (9,216 GH200) available at the                   Poisson solver, reporting significant gains, but did not include
+time of benchmarking—a 64× increase of nodes from the base                       kernel fusion or an energy efficiency analysis. Relevant work
+case. The largest (weak scaling) run solved a problem instance                   was also presented in the CEED-MS40 report [37] of the
+with a total of ∼9.28 trillion DOF, averaging ∼1.01 billion                      Center for Efficient Exascale Discretizations [38], which ex-
+DOF per GH200. The strong scaling problem was defined                            amined high-order finite element acceleration using NVIDIA
+as the largest problem instance fitting on the 36 node (144                      tensor cores and AMD matrix cores for FP64 matrix-matrix
+GH200) base configuration, with a total of ∼145 billion DOF.                     multiplications in benchmark kernels on A100 and MI250X
+                             100
+                                                                                                                           PA                                                                                                 DMMA PA
+                                                                                                                           Fused MF                                                                                           DMMA Fused MF
+                                   100100
+                                            100                                                                            Fused PA         100                                                                               DMMA Fused PA
+ Runtime per timestep (s)
+
+                                                                                                                                                  100100
+                                                  100101
+                                                           100                                                                                             100
+                                                                                                                                                                 100100
+                            10-1                                 100100
+                                                                          99                                                                                              100
+                                                                                                                                                                                100101
+                                                                               100100
+                                                                                        99                                                                                               100
+                                                                                                                                                                                               100101
+                                                                                              99 98
+                                                                                                      97                                                                                                98
+                                                                                                                                                                                                             97 100
+                                                                                                            97 96
+                            10-2                                                                                    94                                                                                                98 94
+                                                                                                                                                                                                                              97
+                                                                                                                         91 90
+                                                                                                                                 88                                                                                                93 86
+                                                                                                                                                                                                                                           90
+
+
+
+
+                            10-3
+                                     144            288            576           1152          2304          4608          9216               144            288            576            1152          2304          4608         9216
+                                                        Number of NVIDIA GH200 Superchips                                                                        Number of NVIDIA GH200 Superchips
+Fig. 4. Strong scalability of the MFEM finite element solver on Alps, from 36 nodes (144 NVIDIA GH200 Superchips) to 2,304 nodes (9,216 GH200).
+Black numbers above each bar indicate the corresponding parallel efficiencies. The three kernel implementations—PA, Fused MF and Fused PA—(left plot)
+and their respective FP64 tensor-core-accelerated versions (DMMA; right plot) achieve excellent strong scaling (86–91%) over a 64× increase of nodes.
+                            0.36                                                                                                      methods; Yamaguchi et al. [40] applied Volta tensor cores to
+Runtime per timestep (s)
+
+
+
+
+                                                                                                       PA           DMMA PA
+                                                                                                                                      a fast low-order finite element solver for crustal deformation;
+                            0.32                                                99            99            99            99
+                                   100            100            100                                                                  and Ichimura et al. [41, 42] developed explicit structured-mesh
+                                                                                                                                      wavefield simulations with INT8 tensor cores to enhance GPU
+                            0.28
+                                   100            101            100           100            99            99            99          performance and reduce numerical dispersion.
+                            0.24                                                                                                                           VI. C ONCLUSIONS
+                                                                                                                                         The performance of finite element simulations, including
+                            0.20
+                            0.34
+                                                                                                                                      the 2025 Gordon Bell Prize-winning application for real-time
+Runtime per timestep (s)
+
+
+
+
+                                                                                      Fused MF             DMMA Fused MF              tsunami forecasting, relies heavily on small matrix operations.
+                            0.30   100            100
+                                                                                                                                      In this paper, we showed in detail how to further improve the
+                                                                 101           101           101           100           100
+                                                                                                                                      performance of this highly-tuned application using FP64 ten-
+                            0.26                                                                                                      sor cores and kernel fusion. By using tensor cores, we reduced
+                                                                                                                                      shared memory reads by 4.6× and increased the performance
+                            0.22   100            100            101           100           101           101           101
+                                                                                                                                      of key kernels by up to 59% and energy efficiency by up to
+                                                                                                                                      27% on NVIDIA’s GB200 and GH200 chips. Combined with
+                            0.18
+                                                                                                                                      loop fusion, we obtained speedups of up to 2× and energy
+                            0.32
+                                                                                                                                      savings of up to 83%.
+Runtime per timestep (s)
+
+
+
+
+                                                                                      Fused PA              DMMA Fused PA
+
+                            0.28
+                                                                                                                                         The enhancements described in this work were developed
+                                   100            100            100           100           100           100           100          within the MFEM library. The specific FP64 tensor core opti-
+                            0.24                                                                                                      mizations and related kernel fusions are currently under review
+                                   100            100            100           101           100           100           100
+                                                                                                                                      for integration into the public open-source repository [14],
+                            0.20                                                                                                      which will enable users to leverage these advancements in
+                                                                                                                                      their own production codes and scientific simulations.
+                            0.16
+                                   144            288            576           1152          2304          4608          9216                                                    R EFERENCES
+                                                   Number of NVIDIA GH200 Superchips
+                                                                                                                                      [1]   NVIDIA Corporation. NVIDIA Tesla V100 GPU Architecture.
+Fig. 5. Weak scalability of the MFEM finite element solver on Alps, from 36                                                                 Whitepaper. https : / / images . nvidia . com / content / volta - architecture /
+nodes (144 GH200) to 2,304 nodes (9,216 GH200). Numbers along the graph                                                                     pdf/volta-architecture-whitepaper.pdf. NVIDIA, 2017.
+lines indicate parallel efficiency. Each of the three kernel implementations—                                                         [2]   NVIDIA V100. https://www.nvidia.com/en-in/data-center/v100.
+PA (top), Fused MF (middle) and Fused PA (bottom)—and their respective                                                                [3]   NVIDIA GB200. https://www.nvidia.com/en- us/data- center/gb200-
+FP64 tensor-core-accelerated versions (DMMA) achieve ideal (linear) weak                                                                    nvl72.
+scaling over a 64× increase of nodes.                                                                                                 [4]   O. Ghattas and K. Willcox. “Learning physics-based models from data:
+                                                                                                                                            Perspectives from inverse problems and model reduction”. In: Acta
+GPUs, reporting speedups over vector instructions mainly for                                                                                Numerica 30 (2021), pp. 445–554. DOI: 10.1017/S0962492921000064.
+orders above 10. Our approach builds on these efforts by                                                                              [5]   NVIDIA A100. https://www.nvidia.com/en-us/data-center/a100.
+                                                                                                                                      [6]   NVIDIA GH200. https://www.nvidia.com/en- us/data- center/grace-
+targeting production-scale, unstructured-mesh operators in a                                                                                hopper-superchip.
+complex tsunami digital twin application, while leveraging                                                                            [7]   V. W.-z. Yu and M. Govoni. “GPU acceleration of large-scale full-
+MFEM’s modular backends for improved portability across                                                                                     frequency GW calculations”. In: Journal of Chemical Theory and
+                                                                                                                                            Computation 18.8 (2022), pp. 4690–4707. DOI: 10 . 1021 / acs . jctc .
+tensor core shapes and precisions.                                                                                                          2c00241.
+   Complementary efforts have leveraged lower-precision ten-                                                                          [8]   J. Deslippe, G. Samsonidze, D. A. Strubbe, M. Jain, M. L. Cohen, and
+sor cores to balance performance and accuracy in finite ele-                                                                                S. G. Louie. “BerkeleyGW: A massively parallel computer package for
+                                                                                                                                            the calculation of the quasiparticle and optical properties of materials
+ment contexts: Ruda et al. [39] used reduced-precision tensor                                                                               and nanostructures”. In: Computer Physics Communications 183.6
+cores on NVIDIA A100 and H100 GPUs for matrix-based                                                                                         (2012), pp. 1269–1289. DOI: 10.1016/j.cpc.2011.12.006.
+ [9]   J. J. Dongarra, C. B. Moler, J. R. Bunch, and G. W. Stewart. LINPACK       [24]   S. Henneking, F. Kutschera, S. Venkat, A.-A. Gabriel, and O. Ghattas.
+       users’ guide. SIAM, 1979. DOI: 10.1137/1.9781611971811.                           “Real-time probabilistic tsunami forecasting in Cascadia from sparse
+[10]   J. Domke, E. Vatai, A. Drozd, P. Chen, Y. Oyama, L. Zhang, S. Salaria,            offshore pressure observations”. In: arXiv:2603.14966 (2026). DOI: 10.
+       D. Mukunoki, A. Podobas, M. Wahib, and S. Matsuoka. “Matrix                       48550/arXiv.2603.14966.
+       engines for high performance computing: A paragon of performance           [25]   G. C. Lotto and E. M. Dunham. “High-order finite difference modeling
+       or grasping at straws?” In: 2021 IEEE International Parallel and                  of tsunami generation in a compressible ocean from offshore earth-
+       Distributed Processing Symposium (IPDPS). 2021, pp. 1056–1065.                    quakes”. In: Computational Geosciences 19.2 (2015), pp. 327–340.
+       DOI : 10.1109/IPDPS49936.2021.00114.                                              DOI : 10.1007/s10596-015-9472-0.
+[11]   Q. Gu, C. Wu, H. Shi, and J. Yao. “SPIDER: Unleashing sparse tensor        [26]   SIMT architecture. https://docs.nvidia.com/cuda/cuda-c-programming-
+       cores for stencil computation via strided swapping”. In: Proceedings of           guide/#simt-architecture.
+       the 31st ACM SIGPLAN Annual Symposium on Principles and Prac-              [27]   Shared memory. https://docs.nvidia.com/cuda/cuda- c- programming-
+       tice of Parallel Programming. PPoPP ’26. Sydney, NSW, Australia:                  guide/#shared-memory-5-x.
+       Association for Computing Machinery, 2026, pp. 218–231. DOI: 10.           [28]   Matrix fragments for mma.m8n8k4 with .f64 floating point type.
+       1145/3774934.3786414.                                                             https : / / docs . nvidia . com / cuda / parallel - thread - execution / index .
+[12]   C. Cui. “Acceleration of tensor-product operations with tensor cores”.            html ? highlight = warp % 2520level % 2520matrix % 2520instructions %
+       In: ACM Transactions on Parallel Computing 11.4 (Nov. 2024). DOI:                 2520mma#warp-level-matrix-fragment-mma-884-f64.
+       10.1145/3695466.                                                           [29]   Multiply-and-accumulate instruction: mma. https://docs.nvidia.com/
+[13]   S. Henneking, S. Venkat, V. Dobrev, J. Camier, T. Kolev, M. Fernando,             cuda / parallel - thread - execution / index . html ? highlight = warp %
+       A.-A. Gabriel, and O. Ghattas. “Real-time Bayesian inference at                   2520level % 2520matrix % 2520instructions % 2520mma # warp - level -
+       extreme scale: A digital twin for tsunami early warning applied to                matrix-instructions-mma.
+       the Cascadia subduction zone”. In: Proceedings of the International        [30]   CUTLASS. https://github.com/NVIDIA/cutlass.
+       Conference for High Performance Computing, Networking, Storage             [31]   CUBLAS. https://docs.nvidia.com/cuda/cublas.
+       and Analysis. SC ’25. New York, NY, USA: Association for Computing         [32]   CUBLASDx. https://docs.nvidia.com/cuda/cublasdx.
+       Machinery, 2025, pp. 60–71. DOI: 10.1145/3712285.3771787.                  [33]   TOP500. https://top500.org/lists/top500/2025/11.
+[14]   MFEM: Modular Finite Element Methods [Software]. mfem.org. DOI:            [34]   S. Markidis, S. W. D. Chien, E. Laure, I. B. Peng, and J. S. Vetter.
+       10.11578/dc.20171025.1248.                                                        “NVIDIA tensor core programmability, performance and precision”.
+[15]   R. Anderson, J. Andrej, A. Barker, J. Bramwell, J.-S. Camier, J.                  In: 2018 IEEE International Parallel and Distributed Processing
+       Cerveny, V. Dobrev, Y. Dudouit, A. Fisher, T. Kolev, W. Pazner, M.                Symposium Workshops (IPDPSW). Los Alamitos, CA, USA: IEEE
+       Stowell, V. Tomov, I. Akkerman, J. Dahm, D. Medina, and S. Zampini.               Computer Society, May 2018, pp. 522–531. DOI: 10.1109/IPDPSW.
+       “MFEM: A modular finite element methods library”. In: Computers &                 2018.00091.
+       Mathematics with Applications 81 (2021), pp. 42–74. DOI: 10.1016/j.        [35]   H. Ootomo, K. Ozaki, and R. Yokota. “DGEMM on integer matrix
+       camwa.2020.06.009.                                                                multiplication unit”. In: The International Journal of High Perfor-
+[16]   R. D. Falgout and U. M. Yang. “hypre: A library of high performance               mance Computing Applications 38.4 (2024), pp. 297–313. DOI: 10 .
+       preconditioners”. In: Proceedings of the International Conference                 1177/10943420241239588.
+       on Computational Science-Part III. ICCS ’02. Berlin, Heidelberg:           [36]   K. Ozaki, Y. Uchino, and T. Imamura. “Ozaki Scheme II: A GEMM-
+       Springer-Verlag, 2002, pp. 632–641. DOI: 10.1007/3-540-47789-6 66.                oriented emulation of floating-point matrix multiplication using an
+[17]   A. C. Hindmarsh, P. N. Brown, K. E. Grant, S. L. Lee, R. Serban,                  integer modular technique”. In: arXiv:2504.08009 (2025). DOI: 10 .
+       D. E. Shumaker, and C. S. Woodward. “SUNDIALS: Suite of nonlinear                 48550/arXiv.2504.08009.
+       and differential/algebraic equation solvers”. In: ACM Transactions on      [37]   T. Kolev, P. Fischer, A. Abdelfattah, Z. Atkins, A. Bankole, N. Beams,
+       Mathematical Software (TOMS) 31.3 (2005), pp. 363–396. DOI: 10.                   J. Brown, J.-S. Camier, R. Carson, N. Chalmers, V. Dobrev, J. Holmen,
+       1145/1089014.1089020.                                                             K. E. Jansen, S. Kerkemeier, Y.-H. Lan, D. McDougall, E. Merzari,
+[18]   S. Balay, S. Abhyankar, M. F. Adams, S. Benson, J. Brown, P. Brune,               M. Min, M. Phillips, T. Ratnayaka, K. Rowe, M. S. Shephard,
+       K. Buschelman, E. Constantinescu, L. Dalcin, A. Dener, V. Eijkhout, J.            C. W. Smith, J. L. Thompson, A. Tomboulides, S. Tomov, V. Tomov,
+       Faibussowitsch, W. D. Gropp, V. Hapla, T. Isaac, P. Jolivet, D. Karpeev,          U. Unnikrishnan, A. Vargas, T. Warburton, and J. Wright III. ECP
+       D. Kaushik, M. G. Knepley, F. Kong, S. Kruger, D. A. May, L. C.                   Milestone Report CEED-MS40: Support ECP applications in their
+       McInnes, R. T. Mills, L. Mitchell, T. Munson, J. E. Roman, K. Rupp,               exascale challenge problem runs. Apr. 2023. DOI: 10.5281/zenodo.
+       P. Sanan, J. Sarich, B. F. Smith, S. Zampini, H. Zhang, H. Zhang, and             7820316.
+       J. Zhang. PETSc/TAO Users Manual. Tech. rep. ANL-21/39 - Revision          [38]   CEED: Center for Efficient Exascale Discretizations, Exascale Com-
+       3.20. Argonne National Laboratory, 2023. DOI: 10.2172/2205494.                    puting Project (ECP). https://ceed.exascaleproject.org.
+[19]   J. Andrej, N. Atallah, J.-P. Bäcker, J.-S. Camier, D. Copeland, V.        [39]   D. Ruda, S. Turek, and D. Ribbrock. “Fast semi-iterative finite ele-
+       Dobrev, Y. Dudouit, T. Duswald, B. Keith, D. Kim, T. Kolev, B.                    ment Poisson solvers for tensor core GPUs based on prehandling”.
+       Lazarov, K. Mittal, W. Pazner, S. Petrides, S. Shiraiwa, M. Stowell,              In: European Conference on Numerical Mathematics and Advanced
+       and V. Tomov. “High-performance finite elements with MFEM”. In:                   Applications. Springer. 2023, pp. 320–330. DOI: 10.1007/978-3-031-
+       International Journal of High Performance Computing Applications                  86169-7 33.
+       38.5 (2024), pp. 447–467. DOI: 10.1177/10943420241261981.                  [40]   T. Yamaguchi, K. Fujita, T. Ichimura, A. Naruse, J. C. Wells, C. J.
+[20]   R. Bott and L. W. Tu. Differential Forms in Algebraic Topology.                   Zimmer, T. P. Straatsma, M. Hori, L. Maddegedara, and N. Ueda.
+       Vol. 82. Graduate Texts in Mathematics. New York: Springer-Verlag,                “Low-order finite element solver with small matrix-matrix multipli-
+       1982, pp. xiv+331. DOI: 10.1007/978-1-4757-3951-0.                                cation accelerated by AI-specific hardware for crustal deformation
+[21]   W. Pazner, T. Kolev, and J.-S. Camier. “End-to-end GPU acceleration               computation”. In: Proceedings of the Platform for Advanced Scientific
+       of low-order-refined preconditioning for high-order finite element                Computing Conference. 2020, pp. 1–11. DOI: 10 . 1145 / 3394277 .
+       discretizations”. In: The International Journal of High Performance               3401860.
+       Computing Applications 37.5 (2023), pp. 578–599. DOI: 10 . 1177 /          [41]   T. Ichimura, K. Fujita, M. Hori, and M. Lalith. “Fast and power
+       10943420231175462.                                                                efficient GPU-based explicit elastic wave propagation analysis by low-
+[22]   S. Henneking, S. Venkat, and O. Ghattas. “Goal-oriented real-time                 ordered orthogonal voxel finite element with INT8 tensor cores”. In:
+       Bayesian inference for linear autonomous dynamical systems with                   Journal of Computational Science (2025), p. 102659. DOI: 10.1016/j.
+       application to digital twins for tsunami early warning”. In: Journal              jocs.2025.102659.
+       of Computational Physics 552 (2026), p. 114682. DOI: 10.1016/j.jcp.        [42]   T. Ichimura, K. Fujita, M. Hori, and M. Lalith. “Low-ordered orthogo-
+       2026.114682.                                                                      nal voxel finite element with INT8 tensor cores for GPU-based explicit
+[23]   S. Venkat, M. Fernando, S. Henneking, and O. Ghattas. “Fast and                   elastic wave propagation analysis”. In: International Conference on
+       scalable FFT-based GPU-accelerated algorithms for block-triangular                Computational Science. Springer. 2024, pp. 257–271. DOI: 10.1007/
+       Toeplitz matrices with application to linear inverse problems governed            978-3-031-63759-9 31.
+       by autonomous dynamical systems”. In: SIAM Journal on Scientific
+       Computing 47.5 (2025), B1201–B1226. DOI: 10.1137/24M1683172.
+

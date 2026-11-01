@@ -1,0 +1,152 @@
+{
+  "repositories": 7,
+  "paper_records": 25,
+  "paper_pdfs": 20,
+  "all_checked_pdfs": 35,
+  "checked_local_markdown_links": 258,
+  "code_evidence_entries": 33,
+  "sha256_files": 5781,
+  "errors": [],
+  "pdfs": [
+    {
+      "file": "ref-paper/fulltext/P01_PyFR_v2.pdf",
+      "pages": 20
+    },
+    {
+      "file": "ref-paper/fulltext/P02_GALAEXI.pdf",
+      "pages": 22
+    },
+    {
+      "file": "ref-paper/fulltext/P03_HORSES3D_GPU.pdf",
+      "pages": 32
+    },
+    {
+      "file": "ref-paper/fulltext/P04_HORSES3D.pdf",
+      "pages": 54
+    },
+    {
+      "file": "ref-paper/fulltext/P05_MFEM.pdf",
+      "pages": 36
+    },
+    {
+      "file": "ref-paper/fulltext/P06_LOR_GPU.pdf",
+      "pages": 23
+    },
+    {
+      "file": "ref-paper/fulltext/P07_MFEM_RAJA.pdf",
+      "pages": 20
+    },
+    {
+      "file": "ref-paper/fulltext/P08_Mesh_GPU.pdf",
+      "pages": 28
+    },
+    {
+      "file": "ref-paper/fulltext/P09_GALAEXI_v2.pdf",
+      "pages": 20
+    },
+    {
+      "file": "ref-paper/fulltext/P10_GALAEXI_APU.pdf",
+      "pages": 15
+    },
+    {
+      "file": "ref-paper/fulltext/P11_FP64_Tensor.pdf",
+      "pages": 12
+    },
+    {
+      "file": "ref-paper/fulltext/P12_Hdiv_solver.pdf",
+      "pages": 21
+    },
+    {
+      "file": "ref-paper/fulltext/P13_PyFR_original.pdf",
+      "pages": 33
+    },
+    {
+      "file": "ref-paper/fulltext/P14_PyFR_mixed.pdf",
+      "pages": 21
+    },
+    {
+      "file": "ref-paper/fulltext/P15_FLEXI.pdf",
+      "pages": 57
+    },
+    {
+      "file": "ref-paper/fulltext/P16_GPU_CEED.pdf",
+      "pages": 15
+    },
+    {
+      "file": "ref-paper/fulltext/P17_CEED_review.pdf",
+      "pages": 22
+    },
+    {
+      "file": "ref-paper/fulltext/P18_GPU_DG_INS.pdf",
+      "pages": 33
+    },
+    {
+      "file": "ref-paper/fulltext/P19_PETSc_GPU.pdf",
+      "pages": 16
+    },
+    {
+      "file": "ref-paper/fulltext/P20_libCEED.pdf",
+      "pages": 9
+    },
+    {
+      "file": "ref-paper/manuals/M10_HORSES3D_User_Manual.pdf",
+      "pages": 45
+    },
+    {
+      "file": "ref-paper/manuals/P20_libCEED.pdf",
+      "pages": 9
+    },
+    {
+      "file": "ref-paper/manuals/DCU/DTK 26.10 CUDA 程序适配使用手册.pdf",
+      "pages": 119
+    },
+    {
+      "file": "ref-paper/manuals/DCU/DTK 26.10 兼容性手册.pdf",
+      "pages": 149
+    },
+    {
+      "file": "ref-paper/manuals/DCU/DTK 26.10 hipprof使用手册.pdf",
+      "pages": 88
+    },
+    {
+      "file": "ref-paper/manuals/DCU/DTK 26.10 rocBLAS库使用手册.pdf",
+      "pages": 128
+    },
+    {
+      "file": "ref-paper/manuals/DCU/DTK 26.10 hipSOLVER库使用手册.pdf",
+      "pages": 197
+    },
+    {
+      "file": "ref-paper/manuals/DCU/DTK 26.10 RCCL库使用手册.pdf",
+      "pages": 73
+    },
+    {
+      "file": "ref-paper/manuals/DCU/DCU编程实战2026版-26版v1.pdf",
+      "pages": 425
+    },
+    {
+      "file": "ref-paper/manuals/DCU/DTK 26.10 HIP Runtime API开发手册.pdf",
+      "pages": 317
+    },
+    {
+      "file": "ref-paper/manuals/DCU/DTK 26.10 HIP最佳实践手册.pdf",
+      "pages": 44
+    },
+    {
+      "file": "ref-paper/manuals/DCU/DTK 26.10 DCC使用手册.pdf",
+      "pages": 12
+    },
+    {
+      "file": "ref-paper/manuals/DCU/DTK 26.10 开发环境安装部署手册.pdf",
+      "pages": 276
+    },
+    {
+      "file": "ref-paper/manuals/DCU/DTK 26.10 hipSPARSE使用手册.pdf",
+      "pages": 46
+    },
+    {
+      "file": "ref-paper/manuals/DCU/DTK 26.10 HIP C++编程指南.pdf",
+      "pages": 120
+    }
+  ]
+}

@@ -1,0 +1,562 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "message": {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          10,
+          25
+        ]
+      ],
+      "date-time": "2026-10-25T01:52:26Z",
+      "timestamp": 1792893146612,
+      "version": "4.5.0"
+    },
+    "reference-count": 36,
+    "publisher": "The Open Journal",
+    "issue": "63",
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2021,
+              7,
+              9
+            ]
+          ],
+          "date-time": "2021-07-09T00:00:00Z",
+          "timestamp": 1625788800000
+        },
+        "content-version": "vor",
+        "delay-in-days": 0,
+        "URL": "http://creativecommons.org/licenses/by/4.0/"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2021,
+              7,
+              9
+            ]
+          ],
+          "date-time": "2021-07-09T00:00:00Z",
+          "timestamp": 1625788800000
+        },
+        "content-version": "am",
+        "delay-in-days": 0,
+        "URL": "http://creativecommons.org/licenses/by/4.0/"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2021,
+              7,
+              9
+            ]
+          ],
+          "date-time": "2021-07-09T00:00:00Z",
+          "timestamp": 1625788800000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "http://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "content-domain": {
+      "domain": [],
+      "crossmark-restriction": false
+    },
+    "short-container-title": [
+      "JOSS"
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2021,
+          7,
+          9
+        ]
+      ]
+    },
+    "DOI": "10.21105/joss.02945",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2021,
+          7,
+          9
+        ]
+      ],
+      "date-time": "2021-07-09T17:45:32Z",
+      "timestamp": 1625852732000
+    },
+    "page": "2945",
+    "source": "Crossref",
+    "is-referenced-by-count": 22,
+    "title": [
+      "libCEED: Fast algebra for high-order element-based discretizations"
+    ],
+    "prefix": "10.21105",
+    "volume": "6",
+    "author": [
+      {
+        "ORCID": "https://orcid.org/0000-0002-9945-0639",
+        "authenticated-orcid": false,
+        "given": "Jed",
+        "family": "Brown",
+        "sequence": "first",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0001-5054-4784",
+        "authenticated-orcid": false,
+        "given": "Ahmad",
+        "family": "Abdelfattah",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0003-1129-2056",
+        "authenticated-orcid": false,
+        "given": "Valeria",
+        "family": "Barra",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0001-6060-4082",
+        "authenticated-orcid": false,
+        "given": "Natalie",
+        "family": "Beams",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0003-2421-1999",
+        "authenticated-orcid": false,
+        "given": "Jean-Sylvain",
+        "family": "Camier",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0003-1793-5622",
+        "authenticated-orcid": false,
+        "given": "Veselin",
+        "family": "Dobrev",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0001-5831-561X",
+        "authenticated-orcid": false,
+        "given": "Yohann",
+        "family": "Dudouit",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-0965-214X",
+        "authenticated-orcid": false,
+        "given": "Leila",
+        "family": "Ghaffari",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-2810-3090",
+        "authenticated-orcid": false,
+        "given": "Tzanio",
+        "family": "Kolev",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "David",
+        "family": "Medina",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0003-4885-2934",
+        "authenticated-orcid": false,
+        "given": "Will",
+        "family": "Pazner",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0001-6102-6560",
+        "authenticated-orcid": false,
+        "given": "Thilina",
+        "family": "Ratnayaka",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0003-2980-0899",
+        "authenticated-orcid": false,
+        "given": "Jeremy",
+        "family": "Thompson",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-5937-7959",
+        "authenticated-orcid": false,
+        "given": "Stan",
+        "family": "Tomov",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "8722",
+    "reference": [
+      {
+        "key": "ref1",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/s10915-010-9396-8"
+      },
+      {
+        "key": "ref2",
+        "unstructured": "ISO/IEC 9899: 1999 Programming Languages-C, International Standards Organisation, 1999, American National Standards Institute, New York"
+      },
+      {
+        "key": "ref3",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1177/10943420211020803"
+      },
+      {
+        "key": "ref4",
+        "unstructured": "CEED, https://ceed.exascaleproject.org/, 2021"
+      },
+      {
+        "key": "ref5",
+        "unstructured": "CUDA, https://developer.nvidia.com/about-cuda, 2021"
+      },
+      {
+        "key": "ref6",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1177/1094342020915762"
+      },
+      {
+        "key": "ref7",
+        "unstructured": "Standard X3. 9-1978, Programming Language Fortran (revision of ANSI X2. 9-1966), ANSI, New York: ANSI, 1978"
+      },
+      {
+        "key": "ref8",
+        "unstructured": "HIP, https://rocmdocs.amd.com/en/latest/Programming_Guides/HIP-GUIDE.html, 2021"
+      },
+      {
+        "key": "ref9",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/141000671"
+      },
+      {
+        "key": "ref10",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.5281/zenodo.4895340"
+      },
+      {
+        "key": "ref11",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.25080/Majora-342d178e-00c"
+      },
+      {
+        "key": "ref12",
+        "unstructured": "LIBXSMM development site, http://github.com/hfp/libxsmm, 2021"
+      },
+      {
+        "key": "ref13",
+        "unstructured": "MAGMA development site, https://bitbucket.org/icl/magma, 2021"
+      },
+      {
+        "key": "ref14",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.11578/dc.20171025.1248"
+      },
+      {
+        "key": "ref15",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.camwa.2020.06.009"
+      },
+      {
+        "key": "ref16",
+        "unstructured": "Nek5000, https://nek5000.mcs.anl.gov/, 2021"
+      },
+      {
+        "key": "ref17",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/2833157.2833162"
+      },
+      {
+        "key": "ref18",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1038/s41586-020-2649-2"
+      },
+      {
+        "key": "ref19",
+        "unstructured": "NVRTC, https://docs.nvidia.com/cuda/nvrtc/index.html, 2021"
+      },
+      {
+        "key": "ref20",
+        "unstructured": "OCCA development site, http://github.com/libocca/occa, 2021"
+      },
+      {
+        "key": "ref21",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/0021-9991(80)90005-4"
+      },
+      {
+        "key": "ref22",
+        "unstructured": "Balay, Satish and Abhyankar, Shrirang and Adams, Mark F. and Brown, Jed and Brune, Peter and Buschelman, Kris and Dalcin, Lisandro and Dener, Alp and Eijkhout, Victor and Gropp, William D. and Karpeyev, Dmitry and Kaushik, Dinesh and Knepley, Matthew G. and May, Dave A. and McInnes, Lois Curfman and Mills, Richard Tran and Munson, Todd and Rupp, Karl and Sanan, Patrick and Smith, Barry F. and Zampini, Stefano and Zhang, Hong and Zhang, Hong, PETSc Users Manual, Argonne National Laboratory, 2021, ANL-95/11 - Revision 3.15"
+      },
+      {
+        "key": "ref23",
+        "unstructured": "Python, https://www.python.org/, 2021"
+      },
+      {
+        "key": "ref24",
+        "unstructured": "Rust, https://www.rust-lang.org/, 2021"
+      },
+      {
+        "key": "ref25",
+        "unstructured": "C Foreign Function Interface for Python, https://cffi.readthedocs.io, 2021"
+      },
+      {
+        "key": "ref26",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1002/fld.1650170103"
+      },
+      {
+        "key": "ref27",
+        "unstructured": "High-order methods for incompressible fluid flow, Deville, Michel O and Fischer, Paul F and Mund, Ernest H, 2002, Cambridge University Press, 0-521-45309-7"
+      },
+      {
+        "key": "ref28",
+        "unstructured": "Using MPI: Portable Parallel Programming with the Message-Passing Interface, Gropp, William and Lusk, Ewing and Skjellum, Anthony, 2014, The MIT Press, 9780262527392"
+      },
+      {
+        "key": "ref29",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/s00366-006-0049-3"
+      },
+      {
+        "key": "ref30",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-3-642-23099-8"
+      },
+      {
+        "key": "ref31",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1515/jnma-2020-0043"
+      },
+      {
+        "key": "ref32",
+        "unstructured": "CPU-GPU-MIC Comparision Charts, Rupp, Karl, https://github.com/karlrupp/cpu-gpu-mic-comparison, 2020"
+      },
+      {
+        "key": "ref33",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/1498765.1498785"
+      },
+      {
+        "key": "ref34",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/1036141"
+      },
+      {
+        "key": "ref35",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/s10915-004-4787-3"
+      },
+      {
+        "key": "ref36",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/TPDS.2021.3084070"
+      }
+    ],
+    "container-title": [
+      "Journal of Open Source Software"
+    ],
+    "original-title": [],
+    "link": [
+      {
+        "URL": "https://joss.theoj.org/papers/10.21105/joss.02945.pdf",
+        "content-type": "application/pdf",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2021,
+          7,
+          9
+        ]
+      ],
+      "date-time": "2021-07-09T17:45:41Z",
+      "timestamp": 1625852741000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://joss.theoj.org/papers/10.21105/joss.02945"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2021,
+          7,
+          9
+        ]
+      ]
+    },
+    "references-count": 36,
+    "journal-issue": {
+      "issue": "63",
+      "published-online": {
+        "date-parts": [
+          [
+            2021,
+            7
+          ]
+        ]
+      }
+    },
+    "alternative-id": [
+      "10.21105/joss.02945"
+    ],
+    "URL": "https://doi.org/10.21105/joss.02945",
+    "relation": {
+      "has-review": [
+        {
+          "id-type": "uri",
+          "id": "https://github.com/openjournals/joss-reviews/issues/2945",
+          "asserted-by": "subject"
+        }
+      ],
+      "references": [
+        {
+          "id-type": "doi",
+          "id": "10.5281/zenodo.5080235”",
+          "asserted-by": "subject"
+        }
+      ]
+    },
+    "ISSN": [
+      "2475-9066"
+    ],
+    "issn-type": [
+      {
+        "value": "2475-9066",
+        "type": "electronic"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2021,
+          7,
+          9
+        ]
+      ]
+    }
+  }
+}

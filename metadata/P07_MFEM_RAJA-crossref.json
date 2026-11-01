@@ -1,0 +1,459 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "message": {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          7,
+          1
+        ]
+      ],
+      "date-time": "2026-07-01T23:04:15Z",
+      "timestamp": 1782947055144,
+      "version": "3.54.5"
+    },
+    "reference-count": 29,
+    "publisher": "SAGE Publications",
+    "issue": "4",
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2022,
+              5,
+              25
+            ]
+          ],
+          "date-time": "2022-05-25T00:00:00Z",
+          "timestamp": 1653436800000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://journals.sagepub.com/page/policies/text-and-data-mining-license"
+      }
+    ],
+    "content-domain": {
+      "domain": [
+        "journals.sagepub.com"
+      ],
+      "crossmark-restriction": true
+    },
+    "short-container-title": [
+      "The International Journal of High Performance Computing Applications"
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2022,
+          7
+        ]
+      ]
+    },
+    "abstract": "<jats:p>With the introduction of advanced heterogeneous computing architectures based on GPU accelerators, large-scale production codes have had to rethink their numerical algorithms and incorporate new programming models and memory management strategies in order to run efficiently on the latest supercomputers. In this work we discuss our co-design strategy to address these challenges and achieve performance and portability with MARBL, a next-generation multi-physics code in development at Lawrence Livermore National Laboratory. We present a two-fold approach, wherein new hardware is used to motivate both new algorithms and new abstraction layers, resulting in a single source application code suitable for a variety of platforms. Focusing on MARBL’s ALE hydrodynamics package, we demonstrate scalability on different platforms and highlight that many of our innovations have been contributed back to open-source software libraries, such as MFEM (finite element algorithms) and RAJA (kernel abstractions).</jats:p>",
+    "DOI": "10.1177/10943420221100262",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2022,
+          5,
+          25
+        ]
+      ],
+      "date-time": "2022-05-25T22:16:57Z",
+      "timestamp": 1653517017000
+    },
+    "page": "492-509",
+    "update-policy": "https://doi.org/10.1177/sage-journals-update-policy",
+    "source": "Crossref",
+    "is-referenced-by-count": 12,
+    "title": [
+      "Matrix-free approaches for GPU acceleration of a high-order finite element hydrodynamics application using MFEM, Umpire, and RAJA"
+    ],
+    "prefix": "10.1177",
+    "volume": "36",
+    "author": [
+      {
+        "ORCID": "https://orcid.org/0000-0001-8001-5517",
+        "authenticated-orcid": false,
+        "given": "Arturo",
+        "family": "Vargas",
+        "sequence": "first",
+        "affiliation": [
+          {
+            "name": "Weapons and Complex Integration, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Thomas M",
+        "family": "Stitt",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Weapons and Complex Integration, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0001-6649-8022",
+        "authenticated-orcid": false,
+        "given": "Kenneth",
+        "family": "Weiss",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Weapons and Complex Integration, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Vladimir Z",
+        "family": "Tomov",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Jean-Sylvain",
+        "family": "Camier",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-2810-3090",
+        "authenticated-orcid": false,
+        "given": "Tzanio",
+        "family": "Kolev",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Robert N",
+        "family": "Rieben",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Weapons and Complex Integration, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "179",
+    "published-online": {
+      "date-parts": [
+        [
+          2022,
+          5,
+          25
+        ]
+      ]
+    },
+    "reference": [
+      {
+        "key": "bibr1-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.camwa.2020.06.009"
+      },
+      {
+        "key": "bibr2-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.2172/1724326"
+      },
+      {
+        "key": "bibr3-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1002/fld.3965"
+      },
+      {
+        "key": "bibr4-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/17M1116453"
+      },
+      {
+        "key": "bibr5-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.jcp.2016.07.001"
+      },
+      {
+        "key": "bibr6-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/P3HPC49587.2019.00012"
+      },
+      {
+        "issue": "3",
+        "key": "bibr7-10943420221100262",
+        "first-page": "00",
+        "volume": "64",
+        "author": "Beckingsale D",
+        "year": "2019",
+        "journal-title": "IBM Journal of Research and Development"
+      },
+      {
+        "key": "bibr8-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.compfluid.2020.104577"
+      },
+      {
+        "key": "bibr9-10943420221100262",
+        "volume-title": "Center for Efficient Exascale Discretizations, Exascale Computing Project",
+        "author": "CEED",
+        "year": "2021"
+      },
+      {
+        "key": "bibr10-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.2172/1724326"
+      },
+      {
+        "key": "bibr11-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/18M1167206"
+      },
+      {
+        "key": "bibr12-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/120864672"
+      },
+      {
+        "key": "bibr13-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.compfluid.2012.06.004"
+      },
+      {
+        "key": "bibr14-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.compfluid.2020.104602"
+      },
+      {
+        "key": "bibr15-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1002/fld.4236"
+      },
+      {
+        "key": "bibr16-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.compfluid.2020.104541"
+      },
+      {
+        "key": "bibr17-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.jcp.2010.04.019"
+      },
+      {
+        "key": "bibr18-10943420221100262",
+        "volume-title": "Copy-Hiding Array Abstraction To Automatically Migrate Data Between Memory Spaces",
+        "author": "Jones H",
+        "year": "2021"
+      },
+      {
+        "key": "bibr19-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/s00366-011-0230-1"
+      },
+      {
+        "key": "bibr20-10943420221100262",
+        "volume-title": "Concepts and Meta-Programming Library",
+        "author": "Kunen A",
+        "year": "2018"
+      },
+      {
+        "key": "bibr21-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-94-007-4038-9"
+      },
+      {
+        "key": "bibr22-10943420221100262",
+        "volume-title": "Laghos: High-order Lagrangian Hydrodynamics Miniapp",
+        "author": "Laghos",
+        "year": "2021"
+      },
+      {
+        "key": "bibr23-10943420221100262",
+        "volume-title": "OCCA: A Unified Approach to Multi-Threading Languages",
+        "author": "Medina DS",
+        "year": "2014"
+      },
+      {
+        "key": "bibr24-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.11578/dc.20171025.1248"
+      },
+      {
+        "key": "bibr25-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/2907944"
+      },
+      {
+        "key": "bibr26-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/TPDS.2021.3097283"
+      },
+      {
+        "key": "bibr27-10943420221100262",
+        "unstructured": "Walters W (2008) A brief history of shaped charges. In: 24th International Symposium on Ballistics, New Orleans, LA, 2008, pp. 3–15."
+      },
+      {
+        "key": "bibr28-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/IPDPSW.2016.50"
+      },
+      {
+        "key": "bibr29-10943420221100262",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1177/10943420211022811"
+      }
+    ],
+    "container-title": [
+      "The International Journal of High Performance Computing Applications"
+    ],
+    "original-title": [],
+    "language": "en",
+    "link": [
+      {
+        "URL": "https://journals.sagepub.com/doi/pdf/10.1177/10943420221100262",
+        "content-type": "application/pdf",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://journals.sagepub.com/doi/full-xml/10.1177/10943420221100262",
+        "content-type": "application/xml",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://journals.sagepub.com/doi/pdf/10.1177/10943420221100262",
+        "content-type": "unspecified",
+        "content-version": "vor",
+        "intended-application": "similarity-checking"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2026,
+          4,
+          29
+        ]
+      ],
+      "date-time": "2026-04-29T08:17:21Z",
+      "timestamp": 1777450641000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://journals.sagepub.com/doi/10.1177/10943420221100262"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2022,
+          5,
+          25
+        ]
+      ]
+    },
+    "references-count": 29,
+    "journal-issue": {
+      "issue": "4",
+      "published-print": {
+        "date-parts": [
+          [
+            2022,
+            7
+          ]
+        ]
+      }
+    },
+    "alternative-id": [
+      "10.1177/10943420221100262"
+    ],
+    "URL": "https://doi.org/10.1177/10943420221100262",
+    "relation": {},
+    "ISSN": [
+      "1094-3420",
+      "1741-2846"
+    ],
+    "issn-type": [
+      {
+        "value": "1094-3420",
+        "type": "print"
+      },
+      {
+        "value": "1741-2846",
+        "type": "electronic"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2022,
+          5,
+          25
+        ]
+      ]
+    }
+  }
+}

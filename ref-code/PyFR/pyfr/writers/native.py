@@ -1,0 +1,445 @@
+import ctypes
+import errno
+import fcntl
+import os
+import struct
+import sys
+import threading
+import time
+import uuid
+
+import h5py
+import numpy as np
+
+from pyfr._version import __version__
+from pyfr.ctypesutil import get_libc_function
+from pyfr.mpiutil import (Gatherer, autofree, first_coll, get_comm_rank_root,
+                          mpi, scal_coll)
+from pyfr.quadrules import get_quadrule
+from pyfr.shapes import BaseShape
+from pyfr.util import file_path_gen, first, mv, pwrite_all, subclass_where
+
+
+class NativeWriter:
+    # Lustre constants
+    LL_IOC_LOV_SETSTRIPE = 0x4008669a
+    LOV_USER_MAGIC_V1 = 0x0bd10bd0
+    LOV_USER_MAGIC_V3 = 0x0bd30bd0
+    O_LOV_DELAY_CREATE = 0x1002100
+
+    # Lock to serialise writes across all instances
+    _lock = threading.Lock()
+
+    def __init__(self, mesh, cfg, fpdtype, basedir, basename, prefix, *,
+                 extn='.pyfrs', isrestart=False):
+        comm, rank, root = get_comm_rank_root()
+
+        self.cfg = cfg
+        self.ndims = mesh.ndims
+        self.prefix = prefix
+        self.fpdtype = fpdtype
+
+        # Compute global element counts
+        counts = np.array([len(mesh.eidxs.get(et, [])) for et in mesh.etypes])
+        comm.Allreduce(mpi.IN_PLACE, counts, op=mpi.SUM)
+        self._global_ecounts = dict(zip(mesh.etypes, counts.tolist()))
+
+        # Append the relevant extension
+        if not basename.endswith(extn):
+            basename += extn
+
+        # Output counter (incremented each time write() is called)
+        self.fgen = file_path_gen(basedir, basename, isrestart)
+
+        # Temporary file name
+        if rank == root:
+            tname = basedir / f'pyfr-{uuid.uuid4()}{extn}'
+        else:
+            tname = None
+
+        self.tname = comm.bcast(tname, root=root)
+
+        # Query the file system type
+        self.fstype = self._get_fstype(basedir)
+
+        # Determine if to perform serial or parallel writes
+        if (self.fstype == 'lustre' and
+            'PYFR_FORCE_SERIAL_IO' not in os.environ):
+            self._get_writefn = self._get_writefn_parallel
+
+            # Stripe auto-configuration
+            self._auto_stripe = 'PYFR_DISABLE_LUSTRE_STRIPE' not in os.environ
+        else:
+            self._get_writefn = self._get_writefn_serial
+            self._auto_stripe = False
+
+            # Private communicator for serial writes
+            self._scomm = autofree(comm.Dup())
+
+        # Current asynchronous writing operation (if any)
+        self._awriter = None
+
+    @staticmethod
+    def from_integrator(intg, basedir, basename, prefix, *, extn='.pyfrs',
+                        fpdtype=None):
+        _ftype = fpdtype or intg.backend.fpdtype
+        return NativeWriter(intg.system.mesh, intg.cfg, _ftype, basedir,
+                            basename, prefix, extn=extn,
+                            isrestart=intg.isrestart)
+
+    @staticmethod
+    def _get_fstype(basedir):
+        if sys.platform == 'linux':
+            fstypes = {
+                0x00006969: 'nfs',
+                0x0bd00bd0: 'lustre'
+            }
+
+            buf = (ctypes.c_int * 128)()
+            get_libc_function('statfs')(str(basedir).encode(), buf)
+
+            return fstypes.get(buf[0], None)
+
+        return None
+
+    def _create_file(self, path):
+        _, rank, root = get_comm_rank_root()
+
+        if self.fstype == 'lustre' and self._auto_stripe and rank == root:
+            # Lustre pool name
+            pool = None
+
+            # Stripe size, count, and offset
+            ssize = 128*1024**2
+            scount = 2**16 - 1
+            soff = 2**16 - 1
+
+            magic = self.LOV_USER_MAGIC_V3 if pool else self.LOV_USER_MAGIC_V1
+            flags = (os.O_CREAT | os.O_EXCL | os.O_WRONLY
+                     | self.O_LOV_DELAY_CREATE)
+
+            try:
+                # Create the file with the special delay-create flag
+                try:
+                    fd = os.open(path, flags)
+                except OSError as e:
+                    if e.errno == errno.EEXIST:
+                        os.remove(path)
+                        fd = os.open(path, flags)
+                    else:
+                        raise
+
+                # Issue an ioctl to set the stripe parameters
+                try:
+                    arg = struct.pack('=IIQQIHH', magic, 1, 0, 0, ssize,
+                                      scount, soff)
+                    if pool:
+                        arg += pool.ljust(16, '\0').encode()
+
+                    fcntl.ioctl(fd, self.LL_IOC_LOV_SETSTRIPE, arg)
+                finally:
+                    os.close(fd)
+            except OSError:
+                pass
+
+    def set_shapes_eidxs(self, shapes, eidxs, field_groups, aux_fields={}):
+        comm, _, _ = get_comm_rank_root()
+
+        # Merge aux_fields across ranks
+        aux_fields = {k: v
+                      for a in comm.allgather(aux_fields)
+                      for k, v in a.items()}
+
+        # Prepare the element information
+        self._einfo = {}
+        self._futures = {}
+        for etype, gcount in self._global_ecounts.items():
+            # See if any ranks want to write elements of this type
+            if (eshape := first_coll(comm, shapes.get(etype), None)):
+                # Create a gatherer for this element type
+                idxs = eidxs.get(etype, [])
+                gatherer = Gatherer(comm, idxs)
+
+                # Determine the final shape of the element array
+                shape = (gatherer.tot, *eshape)
+
+                # Determine the polynomial order
+                ecls = subclass_where(BaseShape, name=etype)
+                order = ecls.order_from_npts(shape[2])
+
+                # See if the element is being subset
+                subset = gatherer.tot != gcount
+
+                # Also get the associated nodal points
+                rname = self.cfg.get(f'solver-elements-{etype}', 'soln-pts')
+                upts = get_quadrule(etype, rname, shape[2]).pts
+
+                # Build nested compound dtype for this element type
+                dtype = self._build_dtype(field_groups, shape[2],
+                                          aux_fields.get(etype, []))
+
+                ek = f'p{order}-{etype}'
+                self._einfo[ek] = (gatherer, subset, etype, dtype, shape[0],
+                                   upts)
+
+                # Create a persistent future for this element type
+                self._futures[ek] = gatherer.future((), dtype)
+
+    def _build_dtype(self, field_groups, nupts, aux):
+        groups = []
+
+        # Data field groups
+        for gname, fnames in field_groups.items():
+            fshape = (self.ndims, nupts) if gname == 'grad' else (nupts,)
+            groups.append((gname, [(f, self.fpdtype, fshape) for f in fnames]))
+
+        # Auxiliary group
+        afields = [('part-id', np.int64)]
+        for name, shape, dtype in aux:
+            dtype = dtype or self.fpdtype
+            afields.append((name, dtype, shape) if shape else (name, dtype))
+        groups.append(('aux', afields))
+
+        return np.dtype(groups)
+
+    def probe(self):
+        if self._awriter is not None and self._awriter.test():
+            self._awriter = None
+
+    def flush(self):
+        if self._awriter is not None:
+            self._awriter.wait()
+            self._awriter = None
+
+    def _pack_element_data(self, data, aux, dtype, rank):
+        neles = len(first(data.values()))
+        arr = np.empty(neles, dtype=dtype)
+
+        # Data field groups
+        for gname, gdata in data.items():
+            for fname, fdata in zip(dtype[gname].names, gdata.swapaxes(0, 1)):
+                arr[gname][fname] = fdata
+
+        # Auxiliary group
+        arr['aux']['part-id'] = rank
+        for name, adata in aux.items():
+            arr['aux'][name] = adata
+
+        return arr
+
+    def write(self, data, tcurr, metadata=None, timeout=0, callback=None,
+              aux=None):
+        async_ = bool(timeout)
+        _, rank, root = get_comm_rank_root()
+
+        # Wait for any existing write operations to finish
+        if self._awriter is not None:
+            self._awriter.wait()
+            self._awriter = None
+
+        if metadata:
+            if rank != root:
+                raise ValueError('Metadata must be written by the root rank')
+
+            metadata = dict(metadata, creator=f'pyfr {__version__}', version=2)
+
+            # Convert all strings to arrays
+            for k, v in metadata.items():
+                if isinstance(v, str):
+                    metadata[k] = np.array(v, dtype='S')
+
+        # Pack and gather the solution data into contiguous arrays
+        futures = {}
+        for ek, (_, _, etype, dtype, *_) in self._einfo.items():
+            soln = data.get(etype)
+
+            if soln is not None:
+                eaux = aux.get(etype, {}) if aux else {}
+                arr = self._pack_element_data(soln, eaux, dtype, rank)
+            else:
+                arr = np.empty(0, dtype=dtype)
+
+            futures[ek] = self._futures[ek].start(arr)
+
+        # Prepare the output file
+        doffs = self._prepare_file(self.tname, metadata)
+
+        # Wait for gathers to complete
+        gdata = {ek: f.wait() for ek, f in futures.items()}
+
+        # Obtain the relevant low-level writer function
+        wfn = self._get_writefn(self.tname, gdata, doffs)
+
+        # Perform the file writing
+        if async_:
+            th = threading.Thread(target=wfn)
+            th.start()
+        else:
+            wfn()
+
+        # Determine the final output path
+        path = self.fgen.send(tcurr)
+
+        def oncomplete():
+            # Have the root rank move it into place
+            if rank == root:
+                mv(self.tname, path)
+
+            # Fire off any user-provided callback
+            if callback is not None:
+                callback(path)
+
+        if async_:
+            self._awriter = _AsyncCompleter(th, timeout, oncomplete)
+        else:
+            oncomplete()
+
+    def _iter_bufs(self, data, callback):
+        for ek, (gatherer, subset, *_) in self._einfo.items():
+            callback(ek, data[ek], gatherer.off)
+
+            # If the element has been subset then write the index data
+            if subset:
+                callback(f'{ek}-idxs', gatherer.ridx, gatherer.off)
+
+    def _get_writefn_parallel(self, path, data, doffs):
+        # Open the file for writing
+        fd = os.open(path, os.O_WRONLY)
+
+        # Callback to write out individual arrays at offsets
+        def write_off(k, v, n):
+            if len(v):
+                off = doffs[k] + n*(v.nbytes // len(v))
+
+                pwrite_all(fd, off, np.ascontiguousarray(v))
+
+        # Main writing function
+        def write():
+            with self._lock:
+                try:
+                    self._iter_bufs(data, write_off)
+                finally:
+                    os.close(fd)
+
+        return write
+
+    def _get_writefn_serial(self, path, data, doffs):
+        comm, rank, root = get_comm_rank_root()
+        wbufs = []
+
+        # Helper function for extracting data about buffers
+        def add_buf(k, v, n):
+            if len(v):
+                wbufs.append((doffs[k] + n*(v.nbytes // len(v)), v.nbytes, v))
+
+        # Determine what buffers we need to write
+        self._iter_bufs(data, add_buf)
+
+        # Sort our buffers by their offset
+        wbufs.sort()
+
+        # Collate this data to the root rank
+        bufs = comm.gather([(off, nb) for off, nb, _ in wbufs], root=root)
+
+        if rank == root:
+            # Open the file for writing
+            f = open(path, 'r+b')
+
+            # Prepare the final buffer list
+            iwbufs = (b for _, _, b in wbufs)
+            bufs = [(*rbinfo, r)
+                    for r, rbufs in enumerate(bufs)
+                    for rbinfo in rbufs]
+
+            def write():
+                with self._lock:
+                    try:
+                        # Write the buffers to the file in order
+                        for off, nb, r in sorted(bufs):
+                            if r == root:
+                                b = next(iwbufs)
+                            else:
+                                b = np.empty(nb, dtype=np.uint8)
+                                self._scomm.Recv(b, r)
+
+                            f.seek(off)
+                            f.write(memoryview(np.ascontiguousarray(b)))
+                    finally:
+                        f.close()
+        else:
+            def write():
+                with self._lock:
+                    # Send each of our buffers to the root rank for writing
+                    for _, _, b in wbufs:
+                        self._scomm.Send(
+                            np.ascontiguousarray(b.view(np.uint8)), root
+                        )
+
+        return write
+
+    def _prepare_file(self, path, metadata):
+        comm, rank, root = get_comm_rank_root()
+
+        # Perform any pre-creation activities
+        self._create_file(path)
+
+        # Have the root rank lay down the structure of the file
+        if rank == root:
+            doffs = {}
+
+            with h5py.File(path, 'w', libver='latest') as f:
+                # Write the metadata
+                for k, v in metadata.items():
+                    f[k] = v
+
+                # Create the datasets
+                g = f.create_group(self.prefix)
+                for ek, einfo in self._einfo.items():
+                    _, subset, _, dtype, neles, upts = einfo
+                    g.create_dataset(ek, (neles,), dtype)
+                    g[ek].attrs['pts'] = upts
+
+                    if subset:
+                        g.create_dataset(f'{ek}-idxs', (neles,), np.int64)
+
+                # Obtain the offsets of these datasets
+                for k, v in g.items():
+                    v[(-1,)*v.ndim] = 0
+                    doffs[k] = v.id.get_offset()
+
+            return comm.bcast(doffs, root=root)
+        else:
+            return comm.bcast(None, root=root)
+
+
+class _AsyncCompleter:
+    def __init__(self, th, timeout, callback):
+        self.th = th
+        self.timeout = timeout
+        self.callback = callback
+
+        self.done = False
+        self.start = time.monotonic()
+
+    def _test_with_timeout(self, timeout):
+        comm, _, _ = get_comm_rank_root()
+
+        if not self.done:
+            if time.monotonic() - self.start >= timeout:
+                self.th.join()
+
+            self.done = not self.th.is_alive()
+
+        # See if everyone is done
+        if scal_coll(comm.Allreduce, int(self.done), op=mpi.LAND):
+            self.callback()
+
+            return True
+        else:
+            return False
+
+    def test(self):
+        return self._test_with_timeout(self.timeout)
+
+    def wait(self):
+        return self._test_with_timeout(0.0)

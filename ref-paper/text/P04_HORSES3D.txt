@@ -1,0 +1,2209 @@
+                                           HORSES3D: a high-order discontinuous Galerkin solver
+                                             for flow simulations and multi-physics applications
+                                               E. Ferrera,b , G. Rubioa,b,, G. Ntoukasa , W. Laskowskia , O.A. Mariñoa , S.
+                                                  Colomboa , A. Mateo-Gabı́na , F. Manrique de Laraa , D. Huergoa , J.
+arXiv:2206.09733v1 [math.NA] 20 Jun 2022
+
+
+
+
+                                                   Manzaneroe , A.M. Rueda-Ramı́rezc , D.A. Koprivad , E. Valeroa,b
+                                           a
+                                               ETSIAE-UPM-School of Aeronautics, Universidad Politécnica de Madrid, Madrid-Spain
+                                           b
+                                               Center for Computational Simulation, Universidad Politécnica de Madrid, Madrid-Spain
+                                                          c
+                                                            University of Cologne, Division of Mathematics, Köln-Germany
+                                                 d
+                                                   Department of Mathematics, Florida State University and Computational Science
+                                                                 Research Center, San Diego State University, USA
+                                                                      e
+                                                                        Airbus Defence and Space, Madrid-Spain
+
+
+
+
+                                           Abstract
+                                           We present the latest developments of our High-Order Spectral Element
+                                           Solver (HORSES3D), an open source high-order discontinuous Galerkin frame-
+                                           work, capable of solving a variety of flow applications, including compressible
+                                           flows (with or without shocks), incompressible flows, various RANS and LES
+                                           turbulence models, particle dynamics, multiphase flows, and aeroacoustics.
+                                           We provide an overview of the high-order spatial discretisation (including
+                                           energy/entropy stable schemes) and anisotropic p-adaptation capabilities.
+                                           The solver is parallelised using MPI and OpenMP showing good scalability
+                                           for up to 1000 processors. Temporal discretisations include explicit, implicit,
+                                           multigrid, and dual time-stepping schemes with efficient preconditioners. Ad-
+                                           ditionally, we facilitate meshing and simulating complex geometries through
+                                           a mesh-free immersed boundary technique. We detail the available documen-
+                                           tation and the test cases included in the GitHub repository.
+                                           Keywords: Navier-Stokes, discontinuous Galerkin, high-order method,
+                                           multiphase, aeroacoustics, immersed boundary method
+
+
+                                                 ∗
+                                              Corresponding author.
+                                           E-mail address: g.rubio@upm.es
+
+
+                                           Preprint submitted to Computer Physics Communications                      June 22, 2022
+PROGRAM SUMMARY
+Program Title: HORSES3D
+CPC Library link to program files: (to be added by Technical Editor)
+Developer’s repository link: private GitHub repository.
+Code Ocean capsule: (to be added by Technical Editor)
+Licensing provisions: MIT
+Programming language: Fortran 2008
+External routines/libraries: METIS, MPI, HDF5, MKL, PETSc (all are optional).
+Nature of problem: HORSES3D is a high-order discontinuous Galerkin framework,
+capable of solving a variety of flow applications, including compressible flows (with
+or without shocks), incompressible flows, various RANS and LES turbulence mod-
+els, particle dynamics, multiphase flows, and aeroacoustics.
+Solution method: high-order discontinuous Galerkin Spectral Element (DGSEM)
+and explicit/implicit time-steppers.
+Additional comments including restrictions and unusual features: HORSES3D is a
+multiphysics environment where the compressible Navier-Stokes equations, the in-
+compressible Navier–Stokes equations, the Cahn–Hilliard equation and entropy–stable
+variants are solved. Arbitrary high–order, p–anisotropic discretisations are used,
+including static and dynamic p–adaptation methods (feature-based and truncation
+error-based). Explicit and implicit time-steppers for steady and time-marching
+solutions are available, including efficient multigrid and preconditioners. Nu-
+merical and analytical Jacobian computations with a coloring algorithm have
+been implemented. Multiphase flows are solved using a diffuse interface model:
+Navier–Stokes/Cahn–Hilliard. Turbulent models implemented include RANS: Spalart-
+Allmaras and LES: Smagorinsky, Wale, Vreman; including wall models. Immersed
+boundary methods can be used, to avoid creating body fitted meshes. Acous-
+tic propagation can be computed using Ffowcs-Williams and Hawkings models.
+HORSES3D supports curvilinear, hexahedral, conforming meshes in GMSH, HDF5
+and SpecMesh/HOHQMesh format. A hybrid CPU-based parallelisation strategy
+(shared and distributed memory) with OpenMP and MPI is followed.
+
+
+Contents
+
+1 Introduction                                                                 3
+
+2 Review of high-order solvers                                                 7
+
+
+                                        2
+3 Numerical methods                                                            8
+  3.1 Meshing and Post-processing . . . . . . . . . . . . . . . . . . .        8
+  3.2 Compressible Navier-Stokes . . . . . . . . . . . . . . . . . . .         8
+  3.3 Spatial discretisation: discontinuous Galerkin . . . . . . . . .         9
+  3.4 Implementation of alternate physics . . . . . . . . . . . . . . .       11
+      3.4.1 The problem file . . . . . . . . . . . . . . . . . . . . .        11
+  3.5 Energy/Entropy stable versions . . . . . . . . . . . . . . . . .        12
+  3.6 Spatial p-adaptation . . . . . . . . . . . . . . . . . . . . . . .      13
+      3.6.1 Sensor for adaptation . . . . . . . . . . . . . . . . . . .       14
+      3.6.2 Adaptation process . . . . . . . . . . . . . . . . . . . .        14
+  3.7 Time advancement . . . . . . . . . . . . . . . . . . . . . . . .        16
+  3.8 Parallelisation and efficiency . . . . . . . . . . . . . . . . . . .    18
+
+4 Multiphysics                                                                18
+  4.1 Turbulence closure models . . . . . . . . . . . . . . . . . . . .       19
+  4.2 Incompressible Flows . . . . . . . . . . . . . . . . . . . . . . .      21
+  4.3 Multiphase . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    22
+  4.4 Shock capturing . . . . . . . . . . . . . . . . . . . . . . . . . .     23
+  4.5 Particles . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   25
+  4.6 Computational Aeroacoustics . . . . . . . . . . . . . . . . . .         27
+  4.7 Mesh free - Immersed Boundary method . . . . . . . . . . . .            31
+
+5 Licensing, code structure, manuals and test cases                     34
+  5.1 GitHub and continuous integration . . . . . . . . . . . . . . . 34
+  5.2 Documentation . . . . . . . . . . . . . . . . . . . . . . . . . . 35
+
+6 Future directions                                                           36
+
+7 Conclusions                                                                 37
+
+1. Introduction
+
+To simulate and predict complex flows, the non-linear Navier-Stokes (NS)
+equations that govern fluid flow need to be solved numerically. Traditional
+simulation solvers that use low-order methods (order ≤ 2, for example, fi-
+nite differences or finite volumes) have been widely adopted by industry and
+
+                                       3
+academia to simulate fluid flows, but have limitations when high accuracy is
+required [1]. Low-order numerical techniques (most commercial codes) suffer
+from non-negligible numerical errors (e.g., dissipative and dispersive errors)
+that can increase unphysical dissipation and dispersion of flow structures and
+provide unrealistic results.
+An alternative, to low order solvers, is to employ high-order discretisations
+based on polynomial approximations of the solution. These methods are
+characterised by low numerical errors, and their ability to use mesh refine-
+ment through an increased number of mesh nodes (h-refinement) and/or
+polynomial enrichment (p-refinement) to achieve highly accurate solutions.
+Such high-order polynomial methods produce an exponential decay of the
+error for smooth solutions instead of the algebraic decay characteristic of
+low-order techniques.
+Typical aircraft aerodynamic simulations require an order of 50 to 100M
+degrees of freedom (dof ), if low-order methods are used. Using high-order
+methods, the overall number of dof can be reduced for a desired level of ac-
+curacy. Given a numerical scheme, the numerical error e is proportional
+to (dof )P , where P is the order, see [2]. To achieve similar errors (i.e.
+eHO ≈ eLO ) between high- (HO) and low-order (LO) methods, the high-order
+mesh may be coarsened following: (dof )HO = exp(PLO /PHO . log[(dof )LO ]).
+Selecting PLO = 2 and PHO = 5, one finds for (dof )LO = 100M a correspond-
+ing mesh size (dof )HO = 1.6k; that is, a factor of 60000 decrease in dof for
+the same accuracy. Of course, this estimate is optimistic, since in reality
+small cells are required near walls to resolve boundary layers. Nevertheless,
+this estimate illustrates how high-order methods can enable simulations with
+fewer degrees of freedom (while maintaining accuracy). Additional accuracy
+can be achieved with a limited increase in cost, when using local anisotropic
+p-refinement (i.e. only particular mesh elements and directions use high-
+order polynomials), [3, 4, 5, 6].
+High-order numerical methods of spectral type (order > 2) were first devel-
+oped in the 1970s (e.g., [7]) and have typically been perceived as accurate
+but expensive methods, with a lack of flexibility (for complex geometries) and
+robustness (tendency to crash) when applied to complex turbulent flows. Al-
+though widely adopted in academia and particularly for low Reynolds num-
+
+
+                                      4
+bers during the 1980s and 90s, it was not until the 2000s that these became a
+realistic alternative to well-established low-order techniques (finite differences
+or finite volumes). One of the main reasons for the increasing acceptance has
+been the development of high-order discontinuous Galerkin (DG) variants
+that include interelement fluxes that enhance robustness (when compared to
+classic high-order continuous methods). DG has seen a remarkable recent
+increase in popularity in the last 10 years. DG methods were first developed
+by Reed & Hill in the framework of neutron transport equations [8], but re-
+mained unexploited until the late 1990s, when the method was generalised
+to convection-diffusion problems that are used to simulate fluid flows: see,
+e.g., [9, 10]. Today, DG methods have been used to solve a wide variety of
+flows, including incompressible, compressible, or multiphase flows, but still
+need developments to become accepted within the industry (e.g., increased
+speed and robustness for turbulent flows).
+DG is paving its way towards industry through research centres. For ex-
+ample, Airbus, Dyson, McLaren F1 or Siemens-Gamesa have collaborated
+with our group in various European projects to evaluate high-order methods.
+In these projects, aeronautical European research centres (e.g., ONERA or
+DLR) were also involved. DG methods are relatively mature for aeronauti-
+cal applications, but require further developments to be widely adopted by
+industry (not necessarily aeronautical).
+In this work, we summarise the main features included in our high-order DG
+solver HORSES3D:
+
+
+
+
+                                        5
+      • A multiphysics environment where the compressible Navier-
+        Stokes equations, the incompressible Navier–Stokes equations,
+        the Cahn–Hilliard equation and entropy–stable variants are
+        solved.
+
+      • Arbitrary high–order, p–anisotropic discretisations, including
+        static and dynamic p–adaptation methods using feature-based
+        and truncation error estimates.
+
+      • Explicit and implicit time-steppers for steady and time-marching
+        solutions, including efficient multigrid and preconditioners.
+
+      • Multiphase flows using a              diffuse    interface   model:
+        Navier–Stokes/Cahn– Hilliard.
+
+      • Turbulent models including RANS: Spalart-Allmaras and LES:
+        Smagorinsky, Wale, Vreman; including wall models.
+
+      • Immersed boundary methods to avoid creating body fitted
+        meshes.
+
+      • Acoustic propagation using Ffowcs-Williams and Hawkings.
+
+      • Support for curvilinear, hexahedral, conforming meshes in
+        GMSH, HDF5 and SpecMesh/HOHQMesh format.
+
+      • Hybrid CPU-based parallelisation (shared and distributed mem-
+        ory) with OpenMP and MPI.
+
+The work is structured as follows. In Sec. 2, we contextualise HORSES3D with
+a review of the main capabilities of available high-order academic solvers.
+The rest of the paper can be split in two parts. In the first part: Numeri-
+cal Method (Sec. 3), we describe the original features of the solver that was
+first conceived to solve the compressible Navier-Stokes equations. This part
+includes meshing (Sec. 3.1), the compressible Navier-Stokes solver (Sec. 3.2),
+the discontinuous Galerkin spatial discretisation (Sec. 3.3), the possibility to
+
+
+                                       6
+                          HORSES3D Nek5000 Nektar++       Semtex   deal.II   Flexi/Fluxo   Trixi      PyFR
+      References                       [11]    [12, 13]     [14]     [15]      [16, 17]    [18, 19]    [20]
+       Language            Fortran   Fortran    C++        C++      C++        Fortran      Julia     Python
+ Spatial discretisation      DG        CG      CG/DG        CG     CG/DG         DG          DG        FR
+   Incompressible             3         3         7          3        3           7           7         3
+    Compressible              3         7         3          7        3           3           3         3
+Energy/Entropy stable         3         7         7          7        7           3           3         7
+     p-adaptation             3         3         3          7        3           3           3         3
+  Steady/Unsteady           S/U         U         U          U      S/U           U           U        S/U
+          LES                 3         3         3          3        3           3           3         3
+        RANS                  3         7         7          7        7           7           7         7
+      Multiphase              3         3         7          7        3           7           7         3
+        Shocks                3         7         3          7        3           3           3         3
+       Particles              3         3         3          3        3           7           7         7
+    Aeroacoustics             3         7         3          7        3           7           3         7
+Immersed Boundaries           3         7         3          7        7           7           7         7
+
+
+
+                   Table 1: Summary of high-order solvers and capabilities.
+
+
+include alternate physics (Sec. 3.4), the available energy/entropy stable for-
+mulations to enhance stability (Sec. 3.5), local spatial p-adaption (Sec. 3.6),
+the time advancement methods available (Sec. 3.7) and parallelisation bench-
+marks (Sec. 3.8).
+In the second part: Multiphysics (Sec. 4), we detail the extended capabili-
+ties of HORSES3D , including turbulent modelling (Sec. 4.1), incompressible
+flows (Sec. 4.2), multiphase flows (Sec. 4.3), shock capturing (Sec. 4.4), par-
+ticle dynamics (Sec. 4.5), aeroacoustics (Sec. 4.6) and immersed boundaries
+(Sec. 4.7).
+
+2. Review of high-order solvers
+
+A range of high-order academic solvers exist and are briefly summarised in
+Table 1, where we include their main capabilities. We provide references
+for each solver and outline here the capabilities of interest when compared
+to HORSES3D. This list is a non-exhaustive summary where we have not
+included commercial software. The table reflects that HORSES3D provides a
+unique set of capabilities to simulate complex flows.
+
+
+
+
+                                                   7
+3. Numerical methods
+
+HORSES3D is a Fortran 2003 object-oriented solver, originally developed to
+solve the compressible Navier-Stokes equations using DG discretisations and
+explicit time marching. In this section, we detail the compressible solver
+together with the spatial- and temporal-time advancement schemes.
+
+3.1. Meshing and Post-processing
+The solver supports curvilinear, hexahedral and conforming meshes in GMSH
+[21], HDF5[22] and SpecMesh/HOHQMesh [23] format. Linear meshes gen-
+erated in Gambit, ICEM, or CGNS can be curved and converted to HDF5
+using HOPR [24]. If the user prefers to avoid generating body fitted meshes,
+we provide a mesh-free immersed boundary capability, which is detailed in
+(Sec. 4.7).
+Tecplot and Paraview [25, 26] can be used to post-process the results. We
+have developed a post-processing utility horses2plt that allows interpolat-
+ing to homogeneous nodal points (from Gauss-Legendre or Gauss-Lobatto)
+and modifying the polynomial order for visualisation purposes. The tool also
+allows to extract derived variables, such as vorticity and Q-criterion (if gradi-
+ents are enabled during the simulation) or Reynolds Stresses (if the statistics
+are enabled during the simulation).
+
+3.2. Compressible Navier-Stokes
+The 3D Navier-Stokes equations can be compactly written as
+                                         ↔         ↔
+                                u t + ∇ · Fe = ∇ · Fv ,                           (1)
+
+where u is the state vector of conservative variables u = [ρ, ρv1 , ρv2 , ρv3 , ρe]T ,
+↔
+Fe are the inviscid, or Euler fluxes,
+                                                            
+                               ρv1      ρv2     ρu3
+                            ρv 2 + p
+                                                      
+                               1       ρv1 v2  ρv1 v3 
+                      ↔                               
+                      Fe =   ρv 1 v2 ρv 2
+                                           + p ρv 2 v3  ,                        (2)
+                                                      
+                                         2
+                                       ρv2 v3 ρv32 + p 
+                                                      
+                            ρv v
+                                1 3                   
+                              ρv1 H    ρv2 H   ρv3 H
+
+
+                                          8
+where ρ, e, H = E + p/ρ, and p are the density, total energy, total enthalpy
+and pressure, respectively, and ~v = [v1 , v2 , v3 ]T is the velocity. Additionally,
+↔
+Fv defines the viscous fluxes,
+
+                  0                0                0
+                                                                              
+                                                             
+                τxx              τxy              τxz        
+    ↔                                                        
+    Fv = 
+         
+                 τ yx             τ yy             τ yz       ,
+                                                              
+                                                                                   (3)
+                                                             
+         
+                τzx              τzy              τzz        
+                                                              
+                      +                +                +
+           P3               P3               P3
+               v  τ
+            j=1 j 1j    κTx     v  τ
+                             j=1 j 2j    κTy     v  τ
+                                              j=1 j 3j    κTz
+
+
+where κ is the thermal conductivity, Tx , Ty and Tz denote the temperature
+gradients and the stress tensor τ is defined as τ = µ(∇~v +(∇~v )T )−2/3µI∇·~v ,
+with µ the dynamic viscosity and I the three-dimensional identity matrix.
+
+3.3. Spatial discretisation: discontinuous Galerkin
+HORSES3D discretises the Navier-Stokes equations using the Discontinuous
+Galerkin Spectral Element Method (DGSEM), which is a particularly effi-
+cient nodal version of DG schemes [27]. For simplicity, here we only introduce
+the fundamental concepts of DG discretisations. More details can be found
+in [28, 29].
+The physical domain is tessellated with non-overlapping curvilinear hexahe-
+dral elements, e, which are geometrically transformed to a reference element,
+el. This transformation is performed using a polynomial transfinite mapping
+                                                                             ~
+that relates the physical coordinates ~x and the local reference coordinates ξ.
+The transformation is applied to (1) resulting in the following:
+                                              ↔               ↔
+                              Jut + ∇ξ · F̃e = ∇ξ · F̃v ,                          (4)
+where J is the Jacobian of the transfinite mapping, ∇ξ is the differential
+                                             ↔
+operator in the reference space and F̃ are the contravariant fluxes [27].
+To derive DG schemes, we multiply (4) by a locally smooth test function
+φj , for 0 ≤ j ≤ P , where P is the polynomial degree, and integrate over an
+element el to obtain the weak form
+                    Z                Z         ↔          Z          ↔
+                          Jut φj +        ∇ξ · F̃e φj =        ∇ξ · F̃v φj .       (5)
+                     el              el                   el
+
+
+
+                                               9
+                                                                                                        ↔
+We can now integrate by parts the term with the inviscid fluxes, F̃e , to obtain
+a local weak form of the equations (one per mesh element) with the boundary
+fluxes separated from the interior
+             Z                   Z      ↔               Z        ↔               Z              ↔
+                     Jut φj +           F̃e · n̂φj −             F̃e · ∇ξ φj =            ∇ξ · F̃v φj ,      (6)
+                el                ∂el                      el                    el
+
+where n̂ is the unit outward vector of each face of the reference element ∂el.
+We replace
+      ↔
+              discontinuous fluxes at inter–element faces by a numerical inviscid
+flux, F̃e , to couple the elements,
+        ?
+            Z                     Z        ↔               Z      ↔              Z               ↔
+                  Jut · φj +               F̃?e · n̂φj −         F̃e · ∇ξ φj =             ∇ξ · F̃v φj .     (7)
+             el                      ∂el                    el                       el
+
+This
+↔
+       set of equations for each element is coupled through the inviscid fluxes
+F̃?e and governs the numerical characteristics, see for example the classic book
+by Toro [30]. Note that one can proceed similarly and integrate by parts the
+viscous terms (see, for example, [31, 32, 33, 34]). The viscous terms require
+further manipulations to obtain usable discretisations (Bassi Rebay 1 and 2
+or Interior Penalty) and, for the sake of simplicity, here we retain the simple
+volume form:
+  Z                   Z          ↔                      Z        ↔               Z                  ↔
+        Jut · φj +               F̃?e · n̂       φj −            F̃e · ∇ξ φj =            ( ∇ξ · F̃v ) · φj . (8)
+   el                  ∂el       | {z }                     el                       el     | {z }
+                             Convective fluxes                                             Viscous term
+
+The final step, to obtain a usable numerical scheme, is to approximate the nu-
+merical solution and fluxes by polynomials (of order P ) and to use Gaussian
+quadrature rules to numerically approximate volume and surface integrals.
+In HORSES3D we allow for Gauss-Legendre and Gauss–Lobatto quadrature
+points. The former are more accurate but the latter allow for the derivation
+of energy/entropy stable formulations, see details in (Sec. 3.5)
+
+   In HORSES3D we have implemented the following convective fluxes:
+   Central, Lax-Friedrichs, Rusanov, Roe, Low dissipation Roe, Roe-Pike,
+   matrix dissipation; and the viscous fluxes: Bassi-Rebay 1 and 2 and
+   Interior Penalty (symmetric version).
+
+Riemann solvers are the classic option to include numerical dissipation in DG
+schemes [35, 1], however, for large enough Reynolds numbers, we typically
+include turbulence closure models for additional dissipation (Sec. 4.1).
+
+                                                       10
+3.4. Implementation of alternate physics
+The code was initially developed to solve the Navier-Stokes equations (1) in
+the form of a conservation law. Most of the physical systems introduced in
+Sec. 4 can be described within this framework with alternate definitions of
+                                               ↔                       ↔
+the conserved variables u, convective fluxes Fe and viscous fluxes Fv . Of
+course, changing the definitions of these quantities affects the numerical part
+of the solver, e.g., the convective Riemann fluxes used. Among the excep-
+tions, we have the multiphase system described in Sec. 4.3, which contains
+non-conservative terms that cannot be described within this framework, see
+details in Sec. 4.3.
+All the code that includes the definition of conserved variables, fluxes, and
+the numerics associated (e.g., numerical fluxes) is organised into a library
+called Physics, so the set of equations that the code solves can be changed
+by modifying the Physics library. The alternate systems described in Sec. 4
+have been constructed in this way. At compilation time, different executables
+are generated (one for each different physics implemented in HORSES3D).
+This framework allows for some flexibility, while keeping the efficiency of a
+one-physics-tailored code.
+
+3.4.1. The problem file
+HORSES3D incorporates a dynamic library that is compiled separately (af-
+ter) from the main code compilation. This library includes several useful
+subroutines that enhance the interaction level of the user with the code and
+provides interfaces so that the core solver does not have to be altered for
+special cases. The main subroutines included are:
+
+
+
+
+                                      11
+      • UserDefinedStartup: a subroutine that is called before any other
+        routines in the code.
+
+      • UserDefinedFinalSetup: a subroutine that is called after the
+        mesh is read to allow mesh-related initialisations or memory al-
+        locations.
+
+      • UserDefinedInitialCondition: a subroutine that is called to set
+        the initial condition for the flow.
+
+      • UserDefinedState/Grad/Neumann: a set of subroutines that al-
+        lows the definition of user-defined boundary conditions.
+
+      • UserDefinedPeriodicOperation: Called before/during/after/peri-
+        odically at every time-step to allow periodic operations to be
+        performed.
+
+      • UserDefinedSourceTermNS: Called to apply source terms to the
+        system of equations.
+
+      • UserDefinedFinalize: Called after the solution is computed to
+        allow, for example, error tests to be performed.
+
+      • UserDefinedTermination: Called at the the end of the main driver
+        after everything else is done.
+
+The problem file library allows the user to customise the behaviour of the
+solver for specific purposes. For instance, a pressure probe could be defined
+using specific interpolation operators to extract the state at a specific location
+in the flow using UserDefinedFinalSetup. The necessary memory for this
+variable can be allocated in UserDefinedStartup, and post-processes (e.g.,
+filtered) through UserDefinedPeriodicOperation. The final result could then
+be output in the desired format using UserDefinedFinalize. .
+
+3.5. Energy/Entropy stable versions
+HORSES3D can use Gauss-Lobatto (GL) quadrature points (in addition to
+Gauss) for the integral approximation, which, through the Summation-By-
+
+                                       12
+Parts Simultaneous-Approximation Term (SBP-SAT) property [36, 37], al-
+lows one to recover the continuous property of energy/entropy conservation
+at a discrete level. This enhances the robustness of the simulations, espe-
+cially in the presence of high numerical aliasing (e.g., under-resolved tur-
+bulence) [38]. There is a plethora of work focused on the construction of
+entropy- and energy-stable schemes for the discontinuous Galerkin method
+[36, 39, 40, 41, 28, 42, 43, 44] and the references therein. Useful reviews
+on energy/entropy stable schemes for discontinuous Galerkin schemes are
+[40, 45].
+
+   The following energy/entropy stable discretisations are available for
+   the compressible Navier-Stokes solver in HORSES3D: Morinishi [46],
+   Ducros [47], Kennedy-Gruber [48], Pirozzoli [49], Entropy conserving
+   [40], Chandrasekar [50, 51].
+
+Recently, we have extended entropy-stable schemes to the Spalart-Allmaras
+RANS equations [52] and multiphase flows (i.e. Navier-Stokes coupled to
+Cahn-Hilliard with local p − adaptation [53]), and these have been imple-
+mented in HORSES3D.
+
+3.6. Spatial p-adaptation
+The code allows the selection of a different polynomial order (P ) for each
+element. Additionally, the polynomial order can be different in each spa-
+tial dimension (Px , Py , Pz ), allowing anisotropic p-adaptation. Treatment
+of the geometrical representation of the p-non-conforming faces for general
+curvilinear hexahedral elements is performed following the rules presented
+in [54]. The coupling between the faces of elements with different polyno-
+mial orders is performed using the mortar method [55], which does not retain
+entropy stability. Selection of the polynomial order inside each element can
+be performed before the simulation starts (along with the mesh generation
+process) or as an automated process for steady or unsteady simulations. The
+automatic adaptation process requires a sensor that specifies which elements
+should be refined/coarsened. Details of sensor computation and adaptation
+process are explained in the following sections.
+
+
+                                    13
+3.6.1. Sensor for adaptation
+Our preferred adaptation algorithm included in HORSES3D uses the trunca-
+tion error, which is an efficient sensor for mesh adaptation [56, 57]. Similarly
+to adjoint mesh adaptation, truncation error adaptation targets the source
+of the discretisation error, rather than adapting polluted regions [56]. Ad-
+ditionally, we have shown that the truncation error controls all functional
+errors (e.g., error in lift or drag prediction) [3].
+The truncation error can be estimated using the τ −estimation technique.
+The estimation of the truncation error is cheap compared to adjoint tech-
+niques. The foundation of the τ − estimation for high-order was established
+in [58, 59]. This technique permits the estimation of the truncation error
+on a hierarchy of meshes and therefore allows the selection (in one step)
+of the correct polynomial order for each element in each spatial direction.
+τ −estimation was recently improved [5] to be a byproduct of a multigrid
+cycle.
+Automatic mesh adaptation can also be performed using a feature-based ap-
+proach. This is applied to perform p-adaptation for the Cahn-Hilliard equa-
+tion and for the incompressible Navier-Stokes/Cahn-Hilliard system (multi-
+phase flows), see sections (Sec. 4.2) and (Sec. 4.3). The application of interest
+is to locally refine the region of the interface between the different phases, as
+it contains large gradients that need to be resolved to ensure the correctness
+of the solution.
+
+3.6.2. Adaptation process
+The truncation error adaptation algorithm performs mesh p-adaptation for
+steady and unsteady simulations. For steady flows, a simulation is con-
+ducted with a moderate polynomial order, P , and converged until the resid-
+ual is smaller than the truncation error threshold set as the objective for the
+adapted mesh. Then, the truncation error is estimated with the τ -estimation
+technique for all the polynomial orders coarser than the initial one. For every
+element, the lowest polynomial order (or polynomial order combination for
+anisotropic mesh adaptation) that meets the truncation error threshold is
+selected. If the polynomial orders from 1 to P do not meet the truncation
+error threshold, an extrapolation process is performed to select the correct
+
+
+                                       14
+polynomial order. In Fig. 1 an example of a p-adapted mesh based on trunca-
+tion errors is shown. See [3, 4, 6] for more examples of truncation error-based
+adaptation for the compressible Navier-Stokes equations. For unsteady flows,
+the process is similar; however, no initial converged simulation is required,
+the truncation error is estimated and the mesh is adapted every prescribed
+number of iterations [53].
+
+
+
+
+Figure 1: Example of a p-adapted mesh for the flow around a sphere at Reynolds 200.
+The contours indicate the average polynomial order (Pav=(P1 +P2 +P3)/3). Taken from
+[6].
+
+
+The adaptation process requires the user to select a target truncation error
+threshold for the adapted mesh. This threshold does not have any direct
+physical or engineering meaning and has been seen as a drawback of the
+methodology in the past. However, we have recently shown [60] how to
+link the truncation error threshold with any flow functional (e.g., lift, drag),
+bypassing this limitation .
+
+                                        15
+                 (a) t = 2                                   (b) t = 2
+
+Figure 2: Instances of the dam break test case showing the initial condition and the flow
+configuration at t = 2 s. Taken from [53].
+
+
+The multiphase flow applications (Sec. 4.3) are of unsteady nature, and thus
+require the use of dynamic adaptation. In this case, it is crucial to have an
+adequate resolution in the region of the interface between different fluids.
+The tracking algorithm uses the value of the phase field parameter φ of
+the Cahn-Hilliard equation. The interface is defined as the region where
+0.1 ≤ φ ≤ 0.9. Thus, knowing the location of the interface throughout the
+simulation, we adapt the elements that contain part of the interface between
+different phases. This process, shown in Fig. 2, is detailed in [61, 53], as well
+as the method through which it can be automated.
+
+3.7. Time advancement
+There are several temporal integration strategies in HORSES3D, which are
+tailored for specific solvers. By default, the low-storage explicit Runge-Kutta
+of order 3 [62] is used as a time-stepping strategy for any given problem. This
+can be changed by the user to an explicit Runge-Kutta 4th order [63] or to
+more sophisticated methods described below.
+For steady-state simulations, the non-linear p-multigrid method (also known
+as Full Approximate Scheme – FAS) [6] is employed. FAS employs several
+explicit (local time-stepping, optimised Runge-Kutta coefficients for steady-
+state) [64, 65] and semi-implicit (BIRK, LU-SGS, ILU(0)) [66, 67, 68] conver-
+gence acceleration strategies, presented in Fig. 4. An example of convergence
+for a laminar test case is presented in Fig. 3.
+For time-accurate simulations (e.g., Large Eddy Simulations), implicit time
+integration can be used with Backward Difference Formulas (BDF) of or-
+der 1, ..., 5, or 6th order Rosenbrock-type Runge-Kutta schemes [69]. The
+Jacobian can be computed analytically for the Navier-Stokes equations and
+
+                                           16
+   10 4                                                                      10 4
+
+        2
+   10                                                                        10 2
+
+        0
+   10                                                                        10 0
+
+
+   10 -2                                                                     10 -2
+
+
+   10 -4                                                                     10 -4
+
+
+   10 -6                                                                     10 -6
+
+
+   10 -8                                                                     10 -8
+
+            0      100      200      300     400     500       600                   0   2000     4000   6000    8000   10000    12000   14000
+
+
+
+(a) Result for NACA0012 test case with 2nd order                          (b) Result for NACA0012 test case with 5th order
+discretisation.                                                           discretisation.
+
+Figure 3: Figures present convergence for a laminar test case (NACA0012 airfoil with
+Re = 5000, Ma = 0.5 and AoA = 0) using FAS with explicit and semi-implicit convergence
+acceleration. The explicit FAS uses a five stage 2nd order Runge-Kutta smoother [65] with
+local time-stepping. The semi-implicit FAS uses the BIRK smoother [68]. A low (left
+figure) and high (right figure) uniform polynomial discretisations are considered.
+
+
+also numerically when other equations need to be included (e.g., Spalart-
+Allmaras) using a coloring algorithm [70, 71] to improve performance.
+
+                                                           Time marching scheme
+                                                               classification
+
+                                    Steady-state                                                Time-accurate
+                                       solvers                                                     solvers
+
+                 Full Approximate               Anisotropic FAS                 Explicit                          Implicit
+                  Scheme (FAS)
+
+ Semi-implicit                      Explicit                Explicit, low-storage
+ Runge-Kutta                      Runge-Kutta                  Runge-Kutta                                      Rosenbrock &
+                                                                                                                BDF Schemes
+
+        Diagonal element-block             Optmized coefficients               Statically condensed & full                      Dual Time
+                                                                               linear system of equations                       Stepping
+        Symmetric Gauss-Seidel             Low-strage coefficients
+                                                                      (Jacobian-Free)                       PETSc
+                                                                          GMRES
+        ILU factorization                  Local Time Stepping
+
+        LU factorization                                                         Single/multi level
+                                                                                 preconditioners
+
+
+
+
+                Figure 4: Classification of time-marching schemes employed in HORSES3D.
+
+
+
+
+                                                                     17
+3.8. Parallelisation and efficiency
+To reduce the computational cost, all techniques are parallelised for hybrid
+systems to run on multiprocessor CPUs combining MPI and OpenMP. Let
+us note that DG methods have compact stencils for unstructured meshes,
+and hence are highly parallelisable since each element has many structured
+internal degrees of freedom (related to the polynomial degree).
+Numerical experiments for explicit time-stepping have been performed on
+the Taylor-Green Vortex (TGV) problem [72]. The TGV problem has been
+widely used to report the subgrid-scale modelling capabilities of ILES ap-
+proaches and discretisations [43, 73, 74]. The results are shown in Fig. 5.
+We observe very good scalability when using high polynomial orders and
+MPI + OpenMP architectures up to a thousand cores; see Fig. 5.b, where
+we get 86% of the ideal performance for 600 cores and P = 6.
+
+
+
+
+Figure 5: HORSES3D scalability solving the TGV problem with a 643 mesh using a) MPI
+and b) MPI/OpenMP.
+
+
+
+4. Multiphysics
+
+In this section, we detail the various multiphysics applications included in
+HORSES3D. Namely, we detail the turbulence closure models (RANS and
+
+                                        18
+LES), the incompressible flow formulation, multiphase modelling, shock cap-
+turing, flow-particle dynamics, aeroacoustics and immersed boundaries.
+
+4.1. Turbulence closure models
+A particular challenge related to the numerical simulation of fluid flows re-
+lates to turbulence modelling. The main characteristic of turbulent flows is
+the presence of a broad spectrum, where a wide range of length and time
+scales coexist [75]. It is the multiscale character (in time and space) of tur-
+bulent flows, which scales with the Reynolds number (i.e. ratio of inertia to
+viscous forces) that renders the numerical treatment of turbulence a difficult
+task.
+The Direct Numerical Simulation (DNS) approach solves the Navier-Stokes
+equations without additional modelling. Consequently, it requires a very
+high spatial and temporal resolution and is thus restricted to moderately low
+Reynolds. To compute large Reynolds number flows in complex configura-
+tions, it is necessary to introduce a certain degree of modelling to limit the
+cost. There are two main approaches: the Reynolds Averaged NS (RANS)
+approach and the Large Eddy Simulation (LES) technique. Both types are
+included in HORSES3D.
+The RANS solver uses the negative Spalart-Allmaras model from [76, 64],
+while the LES models consider both explicit or implicit subgrid modelling.
+An example of the results derived using the HORSES3D framework is pre-
+sented in Figure 6, where we consider the Common Research Model [77].
+
+
+
+
+              (a) Isometric view.                            (b) Top view.
+
+Figure 6: Pressure contour over the surface of the Common Research Model (CRM) for
+M=0.85, Re=5 · 106 and AoA = 2.3◦ using the HORSES3D RANS module with split-form
+inviscid fluxes. The computations have been done on a 3rd order (P = 2) hexahedral mesh
+from [78].
+
+
+                                          19
+The explicit LES approach uses spatial filtering where the large structures
+are resolved, reducing the modelling to the small unresolved turbulent struc-
+tures (i.e. small eddies), which behave in an isotropic fashion. We have im-
+plementations for classic LES models, including Smagorinsky [79, 80], Wale
+[81], and Vreman [82]. In addition, we developed in [74] a SVV-Smagorinsky
+model where the Spectral Vanishing Viscosity technique was combined with
+a Smagorinsky LES model to enhance the closure model. The model was ca-
+pable of maintaining low dissipation levels for laminar flows, while providing
+the correct dissipation for all wave–number ranges in turbulent regimes.
+In recent years, Implicit Large Eddy Simulation (ILES) methods [83] have
+gained popularity. This approach, increasingly popular when combined with
+high-order numerical methods (e.g., DG), uses the dissipation inherited from
+the numerical scheme to mimic turbulent effects of unresolved scales. DG
+methods have dissipation and dispersive errors, which are confined to high
+wavenumbers, and therefore introduce numerical dissipation primarily to
+under-resolved wave-lengths [84]. This property makes them very suitable
+for ILES, since dissipation only acts at under-resolved scales, as explained
+in [29, 85, 86, 87]. Riemman solvers are the classic option to include nu-
+merical dissipation in DG schemes [1, 35], since they naturally arise when
+discretising the non-linear terms. A comparison of different fluxes for homo-
+geneous turbulence can be found in [88, 74]. A different option is to modify
+the viscous terms to enhance the approximation’s dissipative properties. The
+modification has been proposed in [29] using an increased penalty parame-
+ter (compared to the minimum required to ensure coercivity of the scheme)
+when discretising the viscous terms using an interior penalty formulation.
+When combined with high-order DG methods, ILES provide valuable results
+even for challenging problems such as the prediction of turbulent quantities,
+detached flows and laminar-turbulent transition on airfoils, see, for example,
+[89, 29, 90, 83, 74, 91, 92]. Finally, a promising approach is to combine robust
+energy-stable methods (e.g., skew symmetric variants) with ILES techniques
+(e.g., Spectral Vanishing Viscosity) to provide accurate simulation at high
+Reynolds numbers, see [85, 74]. As an example of ILES performance, we
+calculated the averaged values for the lift and drag on a NACA0012, using
+a hexahedral mesh with 18000 elements, with P = 4 (2.2 million degrees of
+
+
+                                      20
+freedom). Fig. 7 compares the aerodynamic coefficients with the experimen-
+tal data for various angles of attack and the two solvers. Fig. 7 [Left] shows
+the lift coefficient against AoA and Fig. 7 [Right] depicts the lift-drag polar
+for Re = 1 × 106 . We observe very good agreement with the experimental
+data.
+ a)                                                      b)
+
+                   1.5                                                     1.5
+Lift Coefficient
+
+
+
+
+                                                        Lift Coefficient
+                    1                                                       1
+
+
+
+
+                   0.5                                                     0.5
+
+
+
+
+                    0                                                       0
+
+                         0   5      10       15   20                             0   0.02           0.04   0.06
+                                 AoA [deg]                                           Drag Coefficient
+
+
+Figure 7: Lift and drag for a NACA 0012 at Re=1e6; comparisons between HORSES3D
+(ILES version) with experimental data. Adapted from [90]
+
+
+                    The following turbulence models are available in HORSES3D: RANS:
+                    Spalart-Allmaras; explicit LES: Smagorinsky, Wale, Vreman, SVV-
+                    Smagorinsky; implicit LES: energy/entropy stable formulations and
+                    dissipative fluxes.
+
+
+4.2. Incompressible Flows
+Among the various incompressible Navier-Stokes models, HORSES3D uses an
+artificial compressibility formulation [93], which converts the elliptic prob-
+lem into a hyperbolic system of equations, at the expense of a non diver-
+gence–free velocity field. However, it allows one to avoid constructing an
+approximation that satisfies the inf–sup condition, see [94, 95] and the ref-
+erences therein. The artificial compressibility model is commonly combined
+with dual time–stepping, which solves an inner pseudo-time-step loop until
+velocity divergence errors are lower than a selected threshold and then per-
+forms the physical time marching. This methodology is well suited for use as
+
+                                                       21
+a fluid flow engine for interface–tracking multiphase flow models, as it allows
+the density to vary spatially ρ (~x, t). The artificial compressibility system of
+equations is
+                                ρt + ∇~ · (ρ~u) = 0,                          (9)
+                                            1 ~     ~ uT + 1 ρ~eg ,
+                                                         
+       (ρ~u)t + ∇
+                ~ · (ρ~u~u) = −∇p
+                               ~ +∇
+                                  ~ ·          ∇~u + ∇~                      (10)
+                                            Re             Fr2
+                                pt + c20 ∇
+                                         ~ · ~u = 0,                         (11)
+where Re is the Reynolds number, Fr is the Froude number, c20 is the artificial
+speed of sound, and ~eg is the gravitational acceleration.
+
+4.3. Multiphase
+Phase field models describe the phase separation dynamics of two immiscible
+liquids by minimising a chosen free–energy. For an arbitrary free–energy
+function, it is possible to construct different phase field models. Among the
+most popular, one can find the Cahn–Hilliard [96] and the Allen–Cahn [97]
+models. The popularity of the first, despite being a fourth-order operator
+in space, comes from its ability to conserve the phases. HORSES3D permits
+the solution of the Cahn-Hilliard equation. For a detailed explanation of the
+model, see [98].
+The multiphase flow solver implemented in HORSES3D is constructed by a
+combination of the diffuse interface model of Cahn–Hilliard [96] with the
+incompressible Navier–Stokes equations with variable density and artificial
+compressibility [93]. This model is entropy stable and guarantees phase con-
+servation with an accurate representation of surface tension effects. For a
+detailed explanation of the model, see [28]. The modified entropy-stable
+version approximates
+                             ct + ∇
+                                  ~ · (c~u) = M0 ∇
+                                                 ~ 2 µ,                  (12)
+√      √        ~ 1 ρ~u~u + 1 ρ~u · ∇~
+                                                                   
+    ρ ( ρ~u)t + ∇·                  ~ u +c∇µ
+                                          ~ = −∇p+ ~  ~ η ∇~
+                                                      ∇·     ~ u + ∇~
+                                                                   ~ uT +ρ~g ,
+                   2        2
+                                                                          (13)
+                               pt + ρ0 c0 ∇ · ~u = 0,
+                                         2~
+                                                                          (14)
+where c is the phase field parameter, M0 is the mobility, µ is the chemical
+potential, η is the viscosity and c0 is the artificial speed of sound. In [28], we
+
+
+                                        22
+Figure 8: Annular flow test case of water and oil. On the left, the polynomial order distri-
+bution is presented for the p-adaptive scheme based on the interface tracking refinement.
+On the right, the flow structure is presented for the developed flow. Taken from [53].
+
+
+provide a comparison between standard and entropy-stable discretisations.
+Through several numerical experiments, the superior robustness characteris-
+tics of the entropy-stable scheme are highlighted in comparison to the stan-
+dard scheme. Among the test cases considered, there is a two–phase flow of
+oil and water within a pipe [28] and a 3D dam break test case [53].
+For phase field modelling, it is important to adequately resolve the region
+of the interface between different phases, as it contains large gradients. In
+HORSES3D, the local refinement around the interface is carried out through
+p-adaptation. The original scheme presented in [28] has been extended to
+support p-non-conforming elements and has been modified accordingly so
+that it is entropy-stable even for p-non-conforming elements, see Fig. 8. The
+detailed analysis and modifications to the original scheme are presented in
+[53].
+
+4.4. Shock capturing
+Supersonic flows present additional difficulties to high-order spectral ele-
+ments, where the favourable accuracy and convergence properties of these
+schemes can be damaged by the Gibbs phenomenon near shocks. HORSES3D
+implements a special type of artificial viscosity to handle shocks. In the case
+of the Navier-Stokes equations, discontinuities due to compressibility effects
+
+                                            23
+have an actual width proportional to the viscosity, µ [99]. This motivates the
+                                             ↔
+introduction of an artificial viscous term Fa into the equations to control
+the effective µ at each element to smooth the solution.
+                                      ↔
+HORSES3D includes two options for Fa : the viscous flux of the Navier-Stokes
+equations and the Guermond-Popov entropy-stable flux [100], which also
+includes a regularisation term in the density equation. Regardless of the
+selected viscous flux, and to minimise artificial viscosity in smooth regions,
+we introduce an Spectral Vanishing Viscosity (SVV) formulation and apply
+a frequency-dependent filter kernel F to these fluxes, so that the additional
+                     ↔          ↔
+term has the form FF  a = F ? Fa . We implement the filter kernels of [101,
+102, 103]. Since the code is a nodal DGSEM framework, we transform the
+fluxes to the Legendre modal space, {Li }, where the application of this filter
+is simply an element-wise product of the fluxes and the kernel, and then we
+return to the nodal space to recover the filtered flux.
+The stability of this new term is analysed in terms of the evolution of the
+entropy. Physically plausible solutions of the Navier-Stokes equations must
+agree with elemental laws such as the conservation of the energy or a non-
+decreasing entropy. We impose this by defining a mathematical entropy
+function that represents the underlying law and requiring it to be bounded.
+In this case, the mathematical entropy, S, is defined in terms of the non-
+decreasing physical entropy as
+
+                        S = −ρs,     s = ln p − γ ln ρ.                   (15)
+
+We also introduce the concept of entropy variables w, which are computed
+from (15) as
+                               ∂S
+                         w=       , u = (ρ, ρ~v , ρe)T .                  (16)
+                               ∂u
+To ensure the stability of the new term, a detailed semi-discrete entropy
+analysis (see [104, 105, 52]) shows that filtering has to be applied in a very
+specific form. Expressing the baseline flux as
+                    ↔       ↔                    ↔
+                    Fa = B G,    B = LT DL,     G = ∇w,                   (17)
+
+where B is a symmetric matrix, and L and D are the matrices of its LT DL
+                                  ↔
+decomposition, the filtered flux, FF
+                                   a , is obtained by filtering only one half
+
+
+                                      24
+Figure 9: Facing forward step case at τ = 10 with an incoming flow at Ma=3 and 3653
+elements with polynomial degree P = 7. Adapted from [106].
+
+
+of (17),
+                       ↔       1 T√           √      ↔
+                       FF
+                        a  = √    L     DF  ?    JDL  G  ,                  (18)
+                                J
+where J is the Jacobian of the transformation from the reference element to
+the physical elements of the mesh, see Sec. 3.3. A detailed explanation of
+this derivation can be found in [106].
+The SVV approach has proven to be useful for the simulation of turbulent
+and supersonic flows (see Figure 9); however, the treatment of discontinuities
+requires a higher amount of dissipation that can be achieved only by adding
+non-filtered dissipation in troubled regions. Since this is only required near
+discontinuities, we use a sensor, sρ , based on the average value of the density
+gradient to detect troubled elements and modify the filter there,
+                                       Z
+                                sρ =         J|∇ξ ρ|2 .                       (19)
+                                        el
+
+
+
+4.5. Particles
+HORSES3D includes a two-way coupled Lagrangian solver. The model pre-
+sented here is based on [107].
+Particles are tracked along their trajectories, according to the simplified par-
+ticle equation of motion, where only contributions from Stokes drag and
+gravity are retained,
+                        dyi            dui   vi − ui
+                            = ui ,         =         + gi ,                   (20)
+                        dt             dt       τp
+
+                                           25
+where ui and yi are the ith components of velocity and position of the particle,
+respectively. Furthermore, vi accounts for the continuous velocity of the fluid
+at the position of the particle. We consider spherical Stokesian particles, so
+their mass and aerodynamic response time are mp = ρp πDp3 /6 and τp =
+ρp Dp2 /18µ, respectively, ρp being the particle density and Dp the particle
+diameter.
+Each particle is considered to be subject to a radiative heat flux Io . The
+carrier phase is transparent to radiation, whereas the incident radiative flux
+on each particle is completely absorbed. Because we focus on relatively small
+volume fractions, the fluid-particle medium is considered to be optically thin.
+Under these hypotheses, the direction of the radiation is inconsequential, and
+each particle receives the same radiative heat flux, and its temperature Tp is
+governed by
+                    d                  πDp2
+                       (mp cV,p Tp ) =      Io − πDp2 h(Tp − T ),           (21)
+                    dt                  4
+where cV,p is the specific heat of the particle, which is assumed to be constant
+with respect to temperature. Tp is the particle temperature and h is the
+convective heat transfer coefficient, which for a Stokesian particle can be
+calculated from the Nusselt number N u = hDp /k = 2.
+In practical simulations, integrating the trajectory of every particle is too
+expensive. Therefore, particles are agglomerated into parcels, each of them
+accounting for many particles with the same physical properties, position,
+velocity, and temperature. The evolution of the parcels is tracked with the
+same set of equations presented for the particles.
+The two-way coupling means that fluid flow is modified because of the pres-
+ence of particles. Therefore, the Navier-Stokes equations (1) are enriched
+with the following source terms:
+
+                                        0
+                                                           
+                         PNp mp
+                           n=1 τp (u1,n − v1 )δ(x − yn ) 
+                                                         
+                                                        
+                        
+                            PNp mp
+                 S =β      n=1 τ (u2,n − v2 )δ(x − yn )  ,               (22)
+                                                           
+                                                            
+                         PNp mpp
+                     
+                            n=1 τp (u3,n − v3 )δ(x − yn ) 
+                                                          
+                                                         
+                        
+                          PNp
+                           n=1 πDp h(Tp,n − T )δ(x − yn )
+                                  2
+
+
+where δ is the Dirac delta function, Np is the number of parcels, β is the
+
+                                      26
+number of particles per parcel and ui,n , yi,n , Tp,n are the velocity, spatial
+coordinates, and temperature of the parcel nth.
+The ordinary differential equation (ODE) system (20), (21) that controls
+the evolution of parcels is integrated in time using a low storage Runge-
+Kutta 3 method [62]. Integration is separated from the integration of the
+Navier-Stokes equations. The properties of the fluid (velocity, viscosity, and
+temperature) at the position of the parcel are evaluated using the interpo-
+lation routines included in HORSES3D. These routines work at the element
+level, so a routine to find the element to which the parcel belongs in general
+unstructured meshes is also included. The Dirac delta, δ(x − yn ), which
+appears in the source term, see (22), can be dealt with in a simple way in
+the DG setting, since it can be integrated exactly in the weak form.
+The coupled-particle model has been used to analyse a particle-laden flow
+in a channel subject to radiation, which is representative of particle solar
+radiation systems. Details of the test case can be found in [108]. The re-
+sults obtained with HORSES3D were obtained with a Cartesian mesh of 4000
+elements and a number of particles per parcel β = 160, see Fig. 10. The
+results of HORSES3D are compared in Fig. 11 with the one-dimensional and
+three-dimensional simulations performed in [108]. The results of HORSES3D
+do not exactly match the three-dimensional simulations of [108] as the ef-
+fect of preferential concentration at the inlet was not considered. Besides
+HORSES3D uses parcels (agglomerations of particles). This artificial concen-
+tration of particles creates local peaks in temperature, which results in an
+increase of the average temperature.
+
+4.6. Computational Aeroacoustics
+Computational aeroacoustics (CAA) can be divided into two categories. The
+first one, noise generation, is characterised by turbulence and non-linear in-
+teractions near solid surfaces. The second category is noise propagation and
+can be simplified to a linear propagation of the sound waves.
+An approach in CAA is to solve the near and far fields together, using the
+compressible Navier–Stokes equations on the whole domain, obtaining all
+the physical effects on the solution without needing external models. This
+approach is called Direct Noise Computation (DNC), and can deal with com-
+plex acoustics, such as acoustic feedback. The compressible Navier–Stokes
+
+                                      27
+Figure 10: Visualisation of a particle-laden flow in a channel subject to radiation. Particles
+and gas are injected into the channel at the same temperature. The temperatures of the
+particles increase in the direction of the flow as a result of the effect of radiation. Details
+of the test case are given in [108].
+
+
+
+                            0.9
+
+
+
+                            0.8
+
+
+
+                            0.7
+
+
+                                         Gas 1D - Pouransari & Mani
+              (|T|-T0)/T0
+
+
+
+
+                            0.6          Gas 3D - Pouransari & Mani
+                                         Gas 3D - HORSES3D
+                                         Particles 1D - Pouransari & Mani
+                                         Particles 3D - Pouransari & Mani
+                            0.5          Particles 3D - HORSES3D
+
+
+
+                            0.4
+
+
+
+                            0.3
+
+
+                                  10−3                     10−2             10−1
+                                                                  St
+
+
+Figure 11: Mean temperatures of gas and particles at the outlet of a channel subject to
+radiation. T0 = 300 K is the reference temperature, while St is the Stokes number. Details
+of the test case are given in [108].
+
+
+
+                                                             28
+of HORSES3D is spectrally accurate and therefore well suited to provide ac-
+curate acoustics (e.g., pressure fluctuations).
+The other possibility for CAA is to use acoustic analogies, which decouple
+the near and far fields into two computational regions, the so-called hybrid
+approach. Here, the CAA solution becomes a two-step process, where the
+near field is computed first and independently of the propagation [109] using
+the HORSES3D compressible Navier–Stokes solver. Subsequently, equivalent
+acoustic sources can be extracted from the well-resolved near-field region, to
+feed the propagation problem, which is solved in the far field. This decoupling
+enables faster computations since the near-field that requires highly accurate
+flow computations can be performed separately from the acoustic propagation
+step.
+HORSES3D can compute aeroacustics using the direct approach and also
+acoustic analogies. In particular, the Ffowcs-Williams and Hawkings (FWH)
+aeroacoustic analogy [110] is implemented. FWH rearranges the compress-
+ible NS equations into an inhomogeneous wave equation. The solution of
+this wave equation can be obtained in an integral representation (computed
+numerically). The FWH uses a fictitious surface located in the near-field,
+where the Navier–Stokes solution is gathered and used to calculate the inte-
+gral solution. This surface can coincide with the solid boundary of the body
+(having a solid surface) or be located at an arbitrary position in the flow field
+(being a permeable surface). HORSES3D allows both possibilities.
+Our implementation follows the formulation by Najafi [111], and Ghorba-
+nias [112], where the equations are recast as a convective wave equation.
+This formulation clearly separates the flow velocity fluctuations (vi ), surface
+velocities (vi ), and the free-stream velocity (U0i ) as follows:
+
+                                                          !
+     ∂2               ∂2                ∂2             ∂2
+         + U0i U 0j          +  2U 0i        −   c 2
+                                                   0         (H(f )ρ0 ) =
+     ∂t2            ∂xi ∂xj           ∂xi ∂t         ∂xi ∂xi
+                   !                                                                 (23)
+     ∂         ∂                      ∂                    ∂2              
+        + U0i         Qi ni δ(f ) −          Lij nj δ(f ) +            Tij H(f ) ,
+     ∂t       ∂xi                      ∂xi                   ∂xi ∂xj
+where the zero subscript refers to the undisturbed or free-stream flow, ρ0 is
+the density fluctuation, Qi , Lij , Tij are the loading, thickness, and quadrupole
+terms, respectively, ni is the ith component of the normal at the surface, H(f )
+
+                                           29
+is the Heaviside function and δ(f ) is the Dirac delta function. The right-hand
+side of (23) represents the source terms for the FWH noise model and are
+calculated from the velocities and pressure (and its time derivative) that are
+computed by the compressible Navier-Stokes solver. In this implementation,
+quadrupoles are neglected and so are their contributions to the viscous stress
+tensor, but they can be easily added if necessary.
+The acoustic pressure p0 = p−p0 can be obtained from the density fluctuation,
+as p0 = c20 ρ0 in the far field (where ρ0 /ρ0 << 1). For wind tunnel scenarios,
+most of the terms needed to solve (23) cancel out, and as a result, only two
+components of the acoustic pressure fluctuation are solved, namely
+
+                               p0 (x, t) = p0T (x, t) + p0L (x, t),                          (24)
+                                       
+                           1 − M0i Ri Q̇i ni
+                                                                                  
+                  Z
+                                                             U R̂∗ Q n
+                                                               Z
+                                                             0i i i i  dS,
+        4πp0T =                                    dS −                                    (25)
+                  S                 R∗                    S     R∗2
+                                                      τe                                τe
+                                                                          
+                                                                         ∗
+                           Z
+                                 L̇ n R̂
+                                 ij j i 
+                                                           Z
+                                                                L n R̂
+                                                                ij j i 
+               4πp0L =                             dS +                           dS,        (26)
+                            S       c0 R ∗                 S       R∗2
+                                              τe                             τe
+where pT is the thickness pressure fluctuation, pL is the loading pressure
+fluctuation, c0 is the speed of sound, M0 is the free-stream Mach number, U0
+is the free-stream velocity, R is the phase radius, R∗ the amplitude radius
+(see [113] for a more detailed explanation), and the hat ( ˆ ) of both R and
+R∗ represents the partial derivatives of the radius quantities. The subscript
+τe indicates that the integrals are calculated at the emission retarded time
+defined as τe = t − R/c0 , see [114] for more details.
+For static observers, the retarded time can be calculated analytically, as
+opposed to when considering bodies with motion. A source time-dominant
+algorithm is used [115], where at each numerical time-step (also known as
+emission time) the observer time is calculated, allowing for a time-advancing
+approach. All integrals from (25) and (26) are numerically evaluated on each
+h-mesh face of the FWH surface, using the high-order (p-mesh) discretisation
+at the face, which is inherently related to the Gauss-Legendre (or Gauss-
+Lobatto) nodes.
+A classic validation case for evaluating an FWH implementation is the sta-
+tionary monopole in a moving medium [116]. The tested monopole has a
+
+                                                 30
+reference length l = 1, an amplitude A/(lc0 ) = 9.98 × 10−5 , an angular fre-
+quency ωl/c0 = 4π, a free-stream Mach number M0 = 0.5, and a centre at
+the origin x0 = [0, 0, 0]. Fig. 12 shows the prediction of the acoustic pressure
+for an observer located at 500l in the streamwise direction, where a good
+prediction of the frequency against the analytical solution is obtained, while
+there is a relative error of around 7% for the amplitude.
+Another case of classical study is the sound generated by an airfoil in an
+external flow [117, 118], where the noise is scattered by the trailing edge.
+The setup is a NACA 0012 at Re = 1 × 105 based on the airfoil chord, and
+Ma = 0.4. DNC computations can be performed in the near field, as shown
+in Fig. 13a for the dilation field, where acoustic waves can be seen to be
+generated at the trailing edge and propagated to the far field. Furthermore,
+the directivity of the acoustic pressure in the far field (at a r = 2C) can be
+seen in Fig. 13b, computed by the FWH analogy. The expected dipole shape
+is obtained for this case.
+
+            0.020
+
+            0.015
+
+            0.010
+
+            0.005
+
+            0.000
+       p'
+
+
+
+
+         −0.005
+
+         −0.010
+
+         −0.015
+                          Analytic
+         −0.020           FWH
+                    0.0              0.5   1.0   1.5         2.0   2.5   3.0   3.5
+                                                       t/T
+
+
+Figure 12: Stationary monopole in a moving medium [116]. Comparison between analyt-
+ical and FWH acoustic pressure.
+
+
+
+4.7. Mesh free - Immersed Boundary method
+In addition to classic body fitted simulations, HORSES3D includes an Im-
+mersed Boundary (IB) technique. IB is a mesh-free method that allows the
+simulation of complex and moving geometries on simple Cartesian meshes.
+
+
+                                                  31
+                                                                        90°
+
+
+                                                         135°                                     45°
+
+
+                                                                                                            140
+                                                                                                      130
+                                                                                                120
+                                                                                          110
+                                                                                    100
+                                                                               90
+                                                  180°                                                        0°
+
+
+
+
+                                                         225°                                    315°
+
+
+                                                                        270°
+             (a) Dilation field.                  (b) Far field SPL directivity obtained using FWH.
+
+               Figure 13: NACA 0012 aeroacoustics at Re = 1 × 105 .
+
+
+By avoiding the necessity of body fitting mesh, the grid generation process
+can be skipped, thus shortening a very time-consuming step.
+IB was first introduced by Peskin [119] and comes in many flavours; see the
+review by Kim and Choi [120]. A possible implementation of IB is volume
+penalisation, where to simulate the presence of a geometry, a source term
+is applied to the Navier-Stokes equations. This approach has recently been
+extended to high-order methods by our group [121, 122]. The method is
+simple, robust, and can be easily extended to moving geometries.
+The IB mask χ(~x, t) distinguishes the penalised region (inside the geometry)
+Ωs and the outer region (fluid region), Ωf , as
+                                            
+                                            1,   if ~x ∈ Ωs
+                               χ(~x, t) =                                                             (27)
+                                            0,   if ~x ∈ Ωf ,
+
+where ~x is the coordinate vector. The geometry is considered to be a porous
+media whose permeability approaches zero to mimic solid geometries. Given
+
+
+
+
+                                             32
+the velocity of the geometry ~us = (us , vs , ws ), a source term
+
+                                        0
+                                                               
+
+                                   ρus − ρu
+                                                        
+                                                        
+                  χ
+                                                        
+                S=                ρv s − ρv                                 (28)
+                                                         
+                                                         
+                  η
+                                                        
+                                 ρws − ρw               
+                                                         
+                     ρ
+                     2
+                       (us + vs + ws ) − 2 (u + v + w ) .
+                         2    2    2      ρ  2   2   2
+
+
+is added to the Navier-Stokes equations, where η is the permeability, ρ and
+u, v, w the density and velocity components, respectively. Once the mask is
+generated, the source term (28) is applied to the degrees of freedom and the
+equations are solved.
+In HORSES3D, the mask is constructed using a ray-tracing approach. The
+input is a CAD (STL) file representing the geometry to be simulated and
+a generic mesh. A surface-area heuristic KD-tree is built that contains the
+whole body. This type of KD-tree is known to improve the efficiency of
+the ray-tracing algorithm. The construction of the KD-tree is parallelised
+using MPI and OpenMP. The OpenMP construction implements breadth-
+first and depth-first parallelisation. The first is used at the starting levels of
+the KD-tree where the number of triangles, defining the surface geometry in
+the STL file, is usually big enough to justify the parallelisation of the loops
+performed on the objects; the latter is used so that each of the remaining
+KD-tree’s branches is performed by a single thread (interested readers are
+referred to [123]). When MPI is used, the CAD file is split into a number of
+partitions equal to the number of slaves. A KD-tree is built for each partition,
+reducing the computational time since the total number of triangles in the
+partitions is smaller than the initial one.
+A key aspect of IB is the computation of the aerodynamic forces acting on
+the body, which requires a reconstruction of the surface data. The idea
+is to find the value of the state variables on the interpolation points over
+the body surface (IP) and perform surface integration. In general, for what
+concerns the IB approach, none of the degrees of freedom where the solution
+is computed lies on the body surface; hence, interpolation is needed. We use
+
+
+
+
+                                        33
+the inverse distance weight to compute the state at each interpolation point:
+                                         P Qi
+                                            i
+                                 QIP = P d1i ,                              (29)
+                                            i di
+
+where QIP is the state at the interpolation point, di is the distance between
+the ith -degree of freedom and the surface normal passing through the in-
+terpolation point, and Qi is the state at the ith -degree of freedom. Data
+reconstruction is performed starting from the so-called band region, i.e. the
+set of all degrees of freedom lying in the fluid region (Ωf ) close enough to the
+body surface. These degrees of freedom are candidates for being inside the
+set of points used for the interpolation. HORSES3D uses a nearest neighbour
+algorithm to find the n points (where n is a user-defined parameter) closer
+to the IP point and, once all the values of the IPs are known, integration is
+performed.
+Fig. 14 shows how the IB method can be used to simulate a horizontal wind
+turbine. In this case the tower and nacelle are static, but the blades rotate
+with a constant rotational speed. It can be seen that the IB method captures
+the leading edge accelerations and blade tip vortices without the necessity
+of generating a complex body-fitted mesh. As an alternative for compute
+horizontal axis turbines, we have recently implemented various actuator line
+formulations.
+
+5. Licensing, code structure, manuals and test cases
+
+The code is maintained and available on GitHub. HORSES3D is a copyright of
+NUMATH https://numath.dmae.upm.es under the MIT License. NUMATH
+(Numerical Methods in Aerospace Technology) is a research group belonging
+to the School of Aeronautics in Madrid (Universidad Politécnica de Madrid).
+The objective of the group is to develop high-order numerical methods.
+
+5.1. GitHub and continuous integration
+The source code of HORSES3D is stored on GitHub. It has a number of test
+cases to check the various physics and numerical methods. The objective of
+test cases is to quickly check if a new commit “breaks” the code. To that end,
+once a new functionality is implemented, a test case is generated that checks
+
+                                       34
+(a) The STL geometry is included for         (b) The high-order mesh is shown. Near the rotor
+post-processing clarity.                     and wake a P = 3 polynomial is used whilst P = 2 is
+                                             selected far from the rotor and wake.
+
+Figure 14: Wind turbine simulation with immersed boundary method. Isosurface of ve-
+locity magnitude showing tip vortex and the acceleration region at the blade leading edge.
+
+
+it. The solution of this test case is stored and compared to that obtained
+with new versions of the code. The process of running the test cases and
+checking the solutions is integrated within the GitHub workflow framework.
+It is set to run automatically with a pull request trigger. Furthermore, a more
+complete test case suit is run on a monthly basis to check the code in more
+detail (e.g., compilation and run with different compilers in serial/parallel,
+etc.).
+
+5.2. Documentation
+HORSES3D includes a doc folder with documentation and user manuals where
+all parameters are identified. The solver uses control files, ∗.control, where
+the parameters and boundary conditions for the simulations are set.
+
+
+
+
+                                           35
+   A variety of test cases are included for the different sets of equa-
+   tions: Cahn-Hilliard, Euler, Incompressible Navier-Stokes, Multiphase,
+   Navier-Stokes, Particles or Navier-Stokes coupled to Cahn-Hilliard.
+   For example, for the compressible Navier-Stokes we include: Actuator-
+   Line, Cylinder, EnergyConservingTest, FlatPlate, ForwardFacingStep,
+   ManufacturedSolutions, NACA0012, TaylorGreen.
+
+These cases are integrated into the Github workflow framework and run
+automatically (see previous section).
+
+6. Future directions
+
+We are constantly updating HORSES3D with new features, multiphysics and
+coupling it with new techniques. For example, we have recently linked
+HORSES3D to neural networks to accelerate simulations and have allowed
+the solver to call other external libraries through Python interfaces. Future
+directions include:
+
+  • Neural networks to accelerate high-order methods:
+     High-order discontinuous Galerkin methods allow accurate solutions
+     through the use of high-order polynomials inside each mesh element.
+     Increasing the polynomial order leads to high accuracy, but increases
+     the cost. On the one hand, high-order polynomials require more re-
+     strictive time-steps when using explicit temporal schemes, and on the
+     other hand, the quadrature rules lead to more costly evaluations per
+     iteration. In a recent work, we propose to accelerate high-order DG
+     methods using Neural Networks. To this aim, we train a Neural Net-
+     work using a high-order discretisation, to extract a corrective forcing
+     that can be applied to a low order solution with the aim of recovering
+     high-order accuracy. With this corrective forcing term, we can run a
+     low-order solution (low cost) and correct the solution to obtain high-
+     order accuracy; see details in [124, 125].
+
+  • Coupling with other solvers (e.g., MFEM [126, 127]) using Python:
+
+
+                                     36
+     It is often advantageous to link flow solvers with external libraries (e.g.,
+     when performing fluid-structure interaction coupling or conjugate heat
+     transfer). In these cases, external libraries can be called to perform part
+     of the simulation (structural calculation or solving heat/radiation). To
+     allow for this flexibility, we have developed an interface from Fortran
+     to Python. Using this interface, it is possible to call Python routines
+     at any point of the CFD calculation. Additionally, it is possible to call
+     other libraries written in C/C++ from Python.
+
+7. Conclusions
+
+HORSES3D is an open-source parallel framework for the solution of non-linear
+partial differential equations. The solver allows the simulation of compress-
+ible flows (with and without shocks), incompressible flows, RANS and LES
+turbulence models, particle dynamics, multiphase flows, and aeroacoustics.
+The numerical schemes provide fast computations, especially when selecting
+high-order polynomials and MPI/OpenMP combinations for a large number
+of processors. Entropy-stable schemes, local anisotropic p-adaptation, and
+efficient dual time-stepping and multigrid allow the solver to tackle problems
+of industrial relevance, such as aircrafts and wind turbines.
+The modularity and object-oriented programming architecture allow for easy
+integration of new physics and numerical methodologies, ensuring the neces-
+sary flexibility in a research focused solver.
+
+Acknowledgements
+
+EF, GN and WL acknowledge the financial support of the European Union’s
+Horizon 2020 research and innovation programme under the Marie Sklodowska-
+Curie grant agreement (MSCA ITN-EID-GA ASIMIA No 813605). GR and
+EV acknowledge the funding received by the Grant SIMOPAIR (Project No.
+RTI2018-097075-B-I00) funded by MCIN/AEI/ 10.13039/501100011033 and
+by ERDF A way of making Europe. OM and EV thank the European Union
+Horizon 2020 Research and Innovation Program under the Marie Sklodowska-
+Curie grant agreement No 860101 for the zEPHYR project. SC and EV
+thank the European Union Horizon 2020 Research and Innovation Program
+
+                                      37
+under the Marie Sklodowska-Curie grant agreement No 955923 for the Ssec-
+oid project. DAK is supported by a grant from the Simons Foundation
+(#426393, David Kopriva). Finally, all authors gratefully acknowledge the
+Universidad Politécnica de Madrid (www.upm.es) for providing computing
+resources on Magerit Supercomputer.
+
+References
+  [1] Z. Wang, R. Fidkowski, K.and Abgrall, F. Bassi, D. Caraeni, A. Cary,
+      H. Deconinck, R. Hartmann, K. Hillewaert, H. Huynh, N. Kroll,
+      G. May, P. Persson, B. van Leer, M. Visbal, High-order CFD methods:
+      current status and perspective, International Journal for Numerical
+      Methods in Fluids 72 (8) (2013) 811–845.
+
+  [2] Z. Wang, A perspective on high-order methods in computational fluid
+      dynamics, Science China Physics, Mechanics & Astronomy 59 (1)
+      (2016) 1–6.
+
+  [3] M. Kompenhans, G. Rubio, E. Ferrer, E. Valero, Adaptation strate-
+      gies for high order discontinuous Galerkin methods based on Tau-
+      estimation, Journal of Computational Physics 306 (2016) 216–236.
+
+  [4] M. Kompenhans, G. Rubio, E. Ferrer, E. Valero, Comparisons of p-
+      adaptation strategies based on truncation-and discretisation-errors for
+      high order discontinuous Galerkin methods, Computers & Fluids 139
+      (2016) 36–46.
+
+  [5] A. M. Rueda-Ramı́rez, G. Rubio, E. Ferrer, E. Valero, Truncation error
+      estimation in the p-anisotropic discontinuous Galerkin spectral element
+      method, Journal of Scientific Computing 78 (1) (2019) 433–466.
+
+  [6] A. M. Rueda-Ramı́rez, J. Manzanero, E. Ferrer, G. Rubio, E. Valero,
+      A p-multigrid strategy with anisotropic p-adaptation based on trunca-
+      tion errors for high-order discontinuous Galerkin methods, Journal of
+      Computational Physics 378 (2019) 209–233.
+
+  [7] D. Gottlieb, S. A. Orszag, Numerical analysis of spectral methods:
+      theory and applications, SIAM, 1977.
+
+                                     38
+ [8] W. H. Reed, T. R. Hill, Triangular mesh methods for the neutron trans-
+     port equation, Tech. rep., Los Alamos Scientific Lab., N. Mex.(USA)
+     (1973).
+
+ [9] F. Bassi, S. Rebay, A high-order accurate discontinuous finite element
+     method for the numerical solution of the compressible Navier–Stokes
+     equations, Journal of Computational Physics 131 (2) (1997) 267–279.
+
+[10] F. Bassi, S. Rebay, G. Mariotti, S. Pedinotti, M. Savini, A high-order
+     accurate discontinuous finite element method for inviscid and viscous
+     turbomachinery flows, in: Proceedings of the 2nd European Conference
+     on Turbomachinery Fluid Dynamics and Thermodynamics, Antwer-
+     pen, Belgium, 1997, pp. 99–109.
+
+[11] P. Fischer, J. Kruse, J. Mullen, H. Tufo, J. Lottes, S. Kerkemeier,
+     NEK5000–open source spectral element CFD solver, Argonne National
+     Laboratory, Argonne National Laboratory, Mathematics and Com-
+     puter Science Division, Argonne, IL (2008).
+
+[12] C. Cantwell, D. Moxey, A. Comerford, A. Bolis, G. Rocco,
+     G. Mengaldo, D. De Grazia, S. Yakovlev, J.-E. Lombard,
+     D. Ekelschot, B. Jordi, H. Xu, Y. Mohamied, C. Eskils-
+     son, B. Nelson, P. Vos, C. Biotto, R. Kirby, S. Sher-
+     win, Nektar++:    An open-source spectral/hp element frame-
+     work, Computer Physics Communications 192 (2015) 205–219.
+     doi:https://doi.org/10.1016/j.cpc.2015.02.008.
+     URL     https://www.sciencedirect.com/science/article/pii/
+     S0010465515000533
+
+[13] D. Moxey, C. D. Cantwell, Y. Bao, A. Cassinelli, G. Castiglioni,
+     S. Chun, E. Juda, E. Kazemi, K. Lackhove, J. Marcon, G. Mengaldo,
+     D. Serson, M. Turner, H. Xu, J. Peiró, R. M. Kirby, S. J. Sherwin,
+     Nektar++: Enhancing the capability and application of high-fidelity
+     spectral/hp element methods, Computer Physics Communications 249
+     (2020) 107110. doi:https://doi.org/10.1016/j.cpc.2019.107110.
+     URL       https://www.sciencedirect.com/science/article/pii/
+     S0010465519304175
+
+                                   39
+[14] H. Blackburn, D. Lee, T. Albrecht, J. Singh, Semtex: A spec-
+     tral element–fourier solver for the incompressible Navier–Stokes
+     equations in cylindrical or Cartesian coordinates, Computer
+     Physics Communications 245 (2019) 106804.           doi:https:
+     //doi.org/10.1016/j.cpc.2019.05.015.
+     URL      https://www.sciencedirect.com/science/article/pii/
+     S0010465519301730
+
+[15] W. Bangerth, R. Hartmann, G. Kanschat, Deal.II—a general-purpose
+     object-oriented finite element library, ACM Trans. Math. Softw. 33 (4)
+     (2007) 24–es. doi:10.1145/1268776.1268779.
+     URL https://doi.org/10.1145/1268776.1268779
+
+[16] G. J. Gassner, A. R. Winters, D. A. Kopriva, Split form nodal discon-
+     tinuous Galerkin schemes with summation-by-parts property for the
+     compressible Euler equations, Journal of Computational Physics 327
+     (2016) 39–66. doi:https://doi.org/10.1016/j.jcp.2016.09.013.
+     URL      https://www.sciencedirect.com/science/article/pii/
+     S0021999116304259
+
+[17] F. Hindenlang, G. J. Gassner, C. Altmann, A. Beck, M. Stau-
+     denmaier, C.-D. Munz, Explicit discontinuous Galerkin meth-
+     ods for unsteady problems, Computers & Fluids 61 (2012)
+     86–93, ”High Fidelity Flow Simulations” Onera Scientific Day.
+     doi:https://doi.org/10.1016/j.compfluid.2012.03.006.
+     URL      https://www.sciencedirect.com/science/article/pii/
+     S004579301200093X
+
+[18] H. Ranocha, M. Schlottke-Lakemper, A. R. Winters, E. Faulhaber,
+     J. Chan, G. Gassner, Adaptive numerical simulations with Trixi.jl: A
+     case study of Julia for scientific computing, Proceedings of the JuliaCon
+     Conferences 1 (1) (2022) 77. arXiv:2108.06476, doi:10.21105/jcon.
+     00077.
+
+[19] M. Schlottke-Lakemper, A. R. Winters, H. Ranocha, G. J. Gassner, A
+     purely hyperbolic discontinuous Galerkin approach for self-gravitating
+
+
+                                     40
+    gas dynamics, Journal of Computational Physics 442 (2021) 110467.
+    arXiv:2008.10593, doi:10.1016/j.jcp.2021.110467.
+
+[20] F. Witherden, A. Farrington, P. Vincent, PyFR: An open source
+     framework for solving advection–diffusion type problems on
+     streaming architectures using the flux reconstruction approach,
+     Computer Physics Communications 185 (11) (2014) 3028–3040.
+     doi:https://doi.org/10.1016/j.cpc.2014.07.011.
+     URL      https://www.sciencedirect.com/science/article/pii/
+     S0010465514002549
+
+[21] C. Geuzaine, J.-F. Remacle, Gmsh: A 3-D finite element mesh gen-
+     erator with built-in pre- and post-processing facilities, International
+     Journal for Numerical Methods in Engineering 79 (2009) 1309 – 1331.
+
+[22] M. Folk, A. Cheng, K. Yates, HDF5: A file format and I/O library for
+     high performance computing applications, in: Proceedings of Super-
+     computing, Vol. 99, 1999, pp. 5–33.
+
+[23] D. A. Kopriva, et al., HOHQMesh, the high order hex-quad mesher,
+     https://github.com/trixi-framework/HOHQMesh.
+
+[24] F. Hindenlang, T. Bolemann, C.-D. Munz, Mesh curving techniques
+     for high order discontinuous Galerkin simulations, in: IDIHOM: Indus-
+     trialization of High-Order Methods-A Top-Down Approach, Springer,
+     2015, pp. 133–152.
+
+[25] J. Ahrens, B. Geveci, C. Law, Paraview: An end-user tool for large
+     data visualization, The visualization handbook 717 (8) (2005).
+
+[26] U. Ayachit, The paraview guide: a parallel visualization application,
+     Kitware, Inc., 2015.
+
+[27] D.A. Kopriva, Implementing spectral methods for partial dif-
+     ferential equations, Springer Netherlands, 2009. doi:10.1007/
+     978-90-481-2261-5.
+     URL http://dx.doi.org/10.1007/978-90-481-2261-5
+
+
+                                    41
+[28] J. Manzanero, G. Rubio, D. A. Kopriva, E. Ferrer, E. Valero, Entropy–
+     stable discontinuous Galerkin approximation with summation–by–
+     parts property for the incompressible Navier–Stokes/Cahn–Hilliard
+     system, Journal of Computational Physics (2020) 109363.
+
+[29] E. Ferrer, An interior penalty stabilised incompressible discon-
+     tinuous Galerkin Fourier solver for implicit large eddy simula-
+     tions, Journal of Computational Physics 348 (2017) 754 – 775.
+     doi:https://doi.org/10.1016/j.jcp.2017.07.049.
+     URL       http://www.sciencedirect.com/science/article/pii/
+     S0021999117305570
+
+[30] E. Toro, Riemann Solvers and Numerical Methods for Fluid Dynamics:
+     A Practical Introduction, Springer Berlin Heidelberg, 2009.
+     URL https://books.google.se/books?id=SqEjX0um8o0C
+
+[31] D. Arnold, F. Brezzi, B. Cockburn, L. Marini, Unified analysis of dis-
+     continuous Galerkin methods for elliptic problems, SIAM Journal of
+     Numerical Analysis 39 (5) (2001) 1749–1779.
+
+[32] E. Ferrer, A high order discontinuous Galerkin - Fourier incompressible
+     3D Navier-Stokes solver with rotating sliding meshes for simulating
+     cross-flow turbines, Ph.D. thesis, Oxford University, UK (2012).
+
+[33] E. Ferrer, R. Willden, A high order discontinuous Galerkin finite
+     element solver for the incompressible Navier–Stokes equations,
+     Computers & Fluids 46 (1) (2011) 224–230, 10th ICFD Conference
+     Series on Numerical Methods for Fluid Dynamics (ICFD 2010).
+     doi:https://doi.org/10.1016/j.compfluid.2010.10.018.
+     URL       https://www.sciencedirect.com/science/article/pii/
+     S0045793010002860
+
+[34] E. Ferrer, R. H. Willden, A high order discontinuous Galerkin –
+     Fourier incompressible 3D Navier–Stokes solver with rotating sliding
+     meshes, Journal of Computational Physics 231 (21) (2012) 7037–7056.
+     doi:https://doi.org/10.1016/j.jcp.2012.04.039.
+
+
+                                    42
+    URL     https://www.sciencedirect.com/science/article/pii/
+    S0021999112002215
+
+[35] A. Beck, T. Bolemann, D. Flad, H. Frank, G. Gassner, F. Hindenlang,
+     C. Munz, High-order discontinuous Galerkin spectral element methods
+     for transitional and turbulent flow simulations, International Journal
+     for Numerical Methods in Fluids 76 (8) (2014) 522–548.
+
+[36] T. C. Fisher, M. H. Carpenter, High-order entropy stable finite differ-
+     ence schemes for nonlinear conservation laws: Finite domains, Journal
+     of Computational Physics 252 (2013) 518–557.
+
+[37] M. H. Carpenter, T. C. Fisher, E. J. Nielsen, S. H. Frankel, Entropy
+     stable spectral collocation schemes for the Navier–Stokes equations:
+     Discontinuous interfaces, SIAM Journal on Scientific Computing 36 (5)
+     (2014) B835–B867.
+
+[38] J. Manzanero, G. Rubio, E. Ferrer, E. Valero, D. A. Kopriva, Insights
+     on aliasing driven instabilities for advection equations with application
+     to Gauss-Lobatto discontinuous Galerkin methods, J. Sci. Comput.
+     75 (3) (2018) 1262–1281. doi:10.1007/s10915-017-0585-6.
+     URL https://doi.org/10.1007/s10915-017-0585-6
+
+[39] D. A. Kopriva, G. J. Gassner, An energy stable discontinuous Galerkin
+     spectral element discretization for variable coefficient advection prob-
+     lems, SIAM Journal on Scientific Computing 36 (4) (2014) A2076–
+     A2099.
+
+[40] G. J. Gassner, A. R. Winters, D. A. Kopriva, Split form nodal discon-
+     tinuous Galerkin schemes with summation-by-parts property for the
+     compressible Euler equations, Journal of Computational Physics 327
+     (2016) 39–66.
+
+[41] G. J. Gassner, A. R. Winters, F. J. Hindenlang, D. A. Kopriva, The
+     BR1 scheme is stable for the compressible Navier–Stokes equations,
+     Journal of Scientific Computing 77 (1) (2018) 154–200.
+
+
+
+                                     43
+[42] T. Chen, C.-W. Shu, Entropy stable high order discontinuous Galerkin
+     methods with suitable quadrature rules for hyperbolic conservation
+     laws, Journal of Computational Physics 345 (2017) 427–461.
+
+[43] A. R. Winters, R. C. Moura, G. Mengaldo, G. J. Gassner, S. Walch,
+     J. Peiro, S. J. Sherwin, A comparative study on polynomial dealiasing
+     and split form discontinuous Galerkin schemes for under-resolved tur-
+     bulence computations, Journal of Computational Physics 372 (2018)
+     1–21.
+
+[44] G. J. Gassner, A skew-symmetric discontinuous Galerkin spectral ele-
+     ment discretization and its relation to SBP-SAT finite difference meth-
+     ods, SIAM Journal on Scientific Computing 35 (3) (2013) A1233–
+     A1253.
+
+[45] T. Chen, C.-W. Shu, Review of entropy stable discontinuous Galerkin
+     methods for systems of conservation laws on unstructured simplex
+     meshes (2020).
+
+[46] Y. Morinishi, Skew-symmetric form of convective terms and fully con-
+     servative finite difference schemes for variable density low-mach number
+     flows, Journal of Computational Physics 229 (2) (2010) 276–300.
+
+[47] F. Ducros, F. Laporte, T. Soulères, V. Guinot, P. Moinat,
+     B. Caruelle, High-order fluxes for conservative skew-symmetric-
+     like schemes in structured meshes: Application to compressible
+     flows, Journal of Computational Physics 161 (1) (2000) 114–139.
+     doi:https://doi.org/10.1006/jcph.2000.6492.
+     URL      https://www.sciencedirect.com/science/article/pii/
+     S0021999100964921
+
+[48] C. A. Kennedy, A. Gruber, Reduced aliasing formulations of the con-
+     vective terms within the Navier–Stokes equations for a compressible
+     fluid, Journal of Computational Physics 227 (3) (2008) 1676–1700.
+
+[49] S. Pirozzoli, Generalized conservative approximations of split convec-
+     tive derivative operators, Journal of Computational Physics 229 (19)
+     (2010) 7180–7190.
+
+                                    44
+[50] P. Chandrashekar, Kinetic energy preserving and entropy stable finite
+     volume schemes for compressible Euler and Navier-Stokes equations,
+     Communications in Computational Physics 14 (5) (2013) 1252–1286.
+     doi:10.4208/cicp.170712.010313a.
+
+[51] P. Chandrashekar, Discontinuous Galerkin method for Navier–Stokes
+     equations using kinetic flux vector splitting, Journal of Computational
+     Physics 233 (2013) 527–551. doi:https://doi.org/10.1016/j.jcp.
+     2012.09.017.
+     URL       https://www.sciencedirect.com/science/article/pii/
+     S0021999112005487
+
+[52] D. Lodares, J. Manzanero, E. Ferrer, E. Valero, An entropy–stable
+     discontinuous Galerkin approximation of the Spalart–Allmaras turbu-
+     lence model for the compressible Reynolds Averaged Navier–Stokes
+     equations, Journal of Computational Physics 455 (2022) 110998.
+     doi:https://doi.org/10.1016/j.jcp.2022.110998.
+     URL       https://www.sciencedirect.com/science/article/pii/
+     S0021999122000602
+
+[53] G. Ntoukas, J. Manzanero, G. Rubio, E. Valero, E. Ferrer, An entropy–
+     stable p–adaptive nodal discontinuous Galerkin for the coupled Navier–
+     Stokes/Cahn–Hilliard system, Journal of Computational Physics 458
+     (2022) 111093.
+
+[54] D. A. Kopriva, F. J. Hindenlang, T. Bolemann, G. J. Gassner, Free-
+     stream preservation for curved geometrically non-conforming discon-
+     tinuous Galerkin spectral elements, Journal of Scientific Computing
+     79 (3) (2019) 1389–1408.
+
+[55] D. A. Kopriva, S. L. Woodruff, M. Y. Hussaini, Computation of elec-
+     tromagnetic scattering with a non-conforming discontinuous spectral
+     element method, International journal for numerical methods in engi-
+     neering 53 (1) (2002) 105–122.
+
+[56] C. Roy, Strategies for driving mesh adaptation in CFD, in: 47th
+
+
+                                    45
+    AIAA aerospace sciences meeting including the new horizons forum
+    and aerospace exposition, 2009, p. 1302.
+
+[57] F. Fraysse, G. Rubio, J. De Vicente, E. Valero, Quasi-a priori mesh
+     adaptation and extrapolation to higher order using τ -estimation,
+     Aerospace Science and Technology 38 (2014) 76–87.
+
+[58] G. Rubio, F. Fraysse, J. de Vicente, E. Valero, The estimation of
+     truncation error by tau-estimation for Chebyshev spectral collocation
+     method, Journal of Scientific Computing 57 (1) (2013) 146–173.
+
+[59] G. Rubio, F. Fraysse, D. A. Kopriva, E. Valero, Quasi-a priori trunca-
+     tion error estimation in the DGSEM, Journal of Scientific Computing
+     64 (2) (2015) 425–455.
+
+[60] W. Laskowski, G. Rubio, E. Valero, E. Ferrer, A functional oriented
+     truncation error adaptation method, Journal of Computational Physics
+     451 (2022) 110883.
+
+[61] G. Ntoukas, J. Manzanero, G. Rubio, E. Valero, E. Ferrer, A free–
+     energy stable p–adaptive nodal discontinuous Galerkin for the Cahn–
+     Hilliard equation, Journal of Computational Physics 442 (2021) 110409.
+
+[62] J. Williamson, Low-storage Runge-Kutta schemes, Journal of Compu-
+     tational Physics 35 (1) (1980) 48–56.
+
+[63] M. H. Carpenter, C. A. Kennedy, Fourth-order 2N-storage Runge-
+     Kutta schemes, in: NASA Report TM 109112, NASA Langley Research
+     Center, 1994.
+
+[64] S. Joshi, A. Hurtado-de Mendoza, J. Kou, K. Puri, C. Hirsch, E. Ferrer,
+     hp-multigrid for RANS-modeled turbulent flows in a high-order flux
+     reconstruction framework, in: WCCM-ECCOMAS2020, 2021.
+
+[65] B. Vermeire, N. Loppi, P. Vincent, Optimal Runge-Kutta schemes for
+     pseudo time-stepping with high-order unstructured methods, Journal
+     of Computational Physics 383 (2019) 55–71. doi:https://doi.org/
+     10.1016/j.jcp.2019.01.003.
+
+                                    46
+[66] K. J. Fidkowski, T. A. Oliver, J. Lu, D. L. Darmofal, p-multigrid so-
+     lution of high-order discontinuous Galerkin discretizations of the com-
+     pressible Navier–Stokes equations, Journal of Computational Physics
+     207 (1) (2005) 92–113. doi:https://doi.org/10.1016/j.jcp.2005.
+     01.005.
+
+[67] Implicit LU-SGS algorithm for high-order methods on unstructured
+     grid with p-multigrid strategy for solving the steady Navier-Stokes
+     equations, Journal of Computational Physics 229 (3) (2010) 828–850.
+     doi:10.1016/j.jcp.2009.10.014.
+
+[68] A. Ghidoni, A. Colombo, F. Bassi, S. Rebay, Efficient p-multigrid dis-
+     continuous Galerkin solver for complex viscous flows on stretched grids,
+     International Journal for Numerical Methods in Fluids 75 (2) (2014)
+     134–154. doi:https://doi.org/10.1002/fld.3888.
+
+[69] F. Bassi, L. Botti, A. Colombo, A. Ghidoni, F. Massa, Linearly im-
+     plicit Rosenbrock-type Runge-Kutta schemes applied to the discontin-
+     uous Galerkin solution of compressible and incompressible unsteady
+     flows, Computers and Fluids 118 (2015) 305–320. doi:10.1016/j.
+     compfluid.2015.06.007.
+
+[70] T. F. Coleman, J. J. Moré, Estimation of sparse Jacobian matrices
+     and graph coloring blems, SIAM journal on Numerical Analysis 20 (1)
+     (1983) 187–209.
+
+[71] A. H. Gebremedhin, F. Manne, A. Pothen, What color is your Jaco-
+     bian? Graph coloring for computing derivatives, SIAM review 47 (4)
+     (2005) 629–705.
+
+[72] G.I. Taylor and A.E. Green, Mechanism of the production of small
+     eddies from large ones, in: Proceedings of The Royal Society A: Math-
+     ematical, Physical and Engineering Sciences, Vol. 158, 1937, pp. 499–
+     521.
+
+[73] R.C. Moura, G. Mengaldo, J. Peiró and S.J. Sherwin, An LES Setting
+     for DG-Based Implicit LES with Insights on Dissipation and Robust-
+     ness, Springer International Publishing, Cham, 2017, pp. 161–173.
+
+                                    47
+[74] J. Manzanero, E. Ferrer, G. Rubio, E. Valero, Design of a Smagorin-
+     sky spectral vanishing viscosity turbulence model for discontinu-
+     ous Galerkin methods, Computers & Fluids 200 (2020) 104440.
+     doi:https://doi.org/10.1016/j.compfluid.2020.104440.
+     URL      https://www.sciencedirect.com/science/article/pii/
+     S0045793020300165
+
+[75] P. Sagaut, Large eddy simulation for incompressible flows: an intro-
+     duction, Springer Science & Business Media, 2006.
+
+[76] T. A. Oliver, A high-order, adaptive, discontinuous Galerkin fi-
+     nite element method for the Reynolds-Averaged Navier-Stokes equa-
+     tions, Tech. rep., MASSACHUSETTS INST OF TECH CAMBRIDGE
+     DEPT OF AERONAUTICS AND ASTRONAUTICS (2008).
+
+[77] J. Vassberg, M. Dehaan, M. Rivers, R. Wahls, Development of a com-
+     mon research model for applied CFD validation studies, in: 26th AIAA
+     applied aerodynamics conference, 2008, p. 6919.
+
+[78] M. A. de Barros Ceze, A robust hp-adaptation method for discontinu-
+     ous Galerkin discretizations applied to aerodynamic flows, Ph.D. thesis,
+     University of Michigan (2013).
+
+[79] J. Smagorinsky, General circulation experiments with the primitive
+     equations: I. the basic experiment, Monthly weather review 91 (3)
+     (1963) 99–164.
+
+[80] D. K. Lilly, On the computational stability of numerical solutions
+     of time-dependent non-linear geophysical fluid dynamics problems,
+     Monthly Weather Review 93 (1) (1965) 11–25.
+
+[81] F. Nicoud, F. Ducros, Subgrid-scale stress modelling based on the
+     square of the velocity gradient tensor, Flow, turbulence and Combus-
+     tion 62 (3) (1999) 183–200.
+
+[82] A. Vreman, An eddy-viscosity subgrid-scale model for turbulent shear
+     flow: Algebraic theory and applications, Physics of fluids 16 (10) (2004)
+     3670–3681.
+
+                                     48
+[83] F. F. Grinstein, L. G. Margolin, W. J. Rider, Implicit large eddy sim-
+     ulation, Vol. 10, Cambridge university press Cambridge, 2007.
+
+[84] G. Gassner, D. A. Kopriva, A comparison of the dispersion and dissipa-
+     tion errors of Gauss and Gauss–Lobatto discontinuous Galerkin spec-
+     tral element methods, SIAM Journal on Scientific Computing 33 (5)
+     (2011) 2560–2579.     arXiv:https://doi.org/10.1137/100807211,
+     doi:10.1137/100807211.
+     URL https://doi.org/10.1137/100807211
+
+[85] J. Manzanero, E. Ferrer, G. Rubio, E. Valero, On the role of numeri-
+     cal dissipation in stabilising under-resolved turbulent simulations using
+     discontinuous Galerkin methods, arXiv:1805.10519 (2018).
+
+[86] J. Manzanero, G. Rubio, E. Ferrer, E. Valero, Dispersion-dissipation
+     analysis for advection problems with nonconstant coefficients: Applica-
+     tions to discontinuous Galerkin formulations, SIAM Journal on Scien-
+     tific Computing 40 (2) (2018) A747–A768. doi:10.1137/16M1101143.
+
+[87] P. Solán-Fustero, A. Navas-Montilla, E. Ferrer, J. Manzanero,
+     P. Garcı́a-Navarro, Application of approximate dispersion-diffusion
+     analyses to under-resolved Burgers turbulence using high resolution
+     WENO and UWC schemes, Journal of Computational Physics 435
+     (2021) 110246. doi:https://doi.org/10.1016/j.jcp.2021.110246.
+     URL       https://www.sciencedirect.com/science/article/pii/
+     S0021999121001418
+
+[88] D. Flad, G. Gassner, On the use of kinetic energy pre-
+     serving DG-schemes for large eddy simulation, Journal of
+     Computational Physics 350 (2017) 782 – 795.     doi:https:
+     //doi.org/10.1016/j.jcp.2017.09.004.
+     URL      http://www.sciencedirect.com/science/article/pii/
+     S002199911730654X
+
+[89] A. Uranga, P. Persson, M. Drela, J. Peraire, Implicit large eddy simula-
+     tion of transition to turbulence at low Reynolds numbers using a discon-
+     tinuous Galerkin method, International Journal for Numerical Methods
+
+                                     49
+    in Engineering 87 (1-5) (2011) 232–261. doi:10.1002/nme.3036.
+    URL http://dx.doi.org/10.1002/nme.3036
+
+[90] E. Ferrer, J. Manzanero, A. M. Rueda-Ramirez, G. Rubio, E. Valero,
+     Implicit large eddy simulations for NACA0012 airfoils using compress-
+     ible and incompressible discontinuous Galerkin solvers, in: S. J. Sher-
+     win, D. Moxey, J. Peiró, P. E. Vincent, C. Schwab (Eds.), Spectral and
+     High Order Methods for Partial Differential Equations ICOSAHOM
+     2018, Springer International Publishing, Cham, 2020, pp. 477–487.
+
+[91] P. Fernandez, N. Nguyen, J. Peraire, The hybridized discontinuous
+     Galerkin method for implicit large-eddy simulation of transitional
+     turbulent flows, Journal of Computational Physics 336 (2017) 308–329.
+     doi:https://doi.org/10.1016/j.jcp.2017.02.015.
+     URL       https://www.sciencedirect.com/science/article/pii/
+     S0021999117301080
+
+[92] E. Ferrer, N. Saito, H. Blackburn, D. Pullin, High-reynolds-
+     number wall-modelled large eddy simulations of turbulent pipe
+     flows using explicit and implicit subgrid stress treatments within
+     a spectral element solver, Computers & Fluids 191 (2019) 104239.
+     doi:https://doi.org/10.1016/j.compfluid.2019.104239.
+     URL       https://www.sciencedirect.com/science/article/pii/
+     S0045793018305875
+
+[93] J. Shen, Pseudo-compressibility methods for the unsteady incompress-
+     ible navier-stokes equations, in: Proceedings of the 1994 Beijing sympo-
+     sium on nonlinear evolution equations and infinite dynamical systems,
+     ZhongShan University Press Zhongshan, 1997, pp. 68–78.
+
+[94] G. Karniadakis, S. Sherwin, Spectral/hp Element Methods for Com-
+     putational Fluid Dynamics, Oxford Science Publications, 2005.
+
+[95] E. Ferrer, D. Moxey, R. H. J. Willden, S. J. Sherwin, Stability of pro-
+     jection methods for incompressible flows using high order pressure-
+     velocity pairs of same degree: Continuous and discontinuous Galerkin
+
+
+                                    50
+     formulations, Communications in Computational Physics 16 (3) (2014)
+     817–840. doi:10.4208/cicp.290114.170414a.
+
+ [96] J. W. Cahn, J. E. Hilliard, Free energy of a nonuniform system. I.
+      interfacial free energy, The Journal of chemical physics 28 (2) (1958)
+      258–267.
+
+ [97] S. M. Allen, J. W. Cahn, Ground state structures in ordered binary al-
+      loys with second neighbor interactions, Acta Metallurgica 20 (3) (1972)
+      423–433.
+
+ [98] J. Manzanero, G. Rubio, D. A. Kopriva, E. Ferrer, E. Valero, A
+      free–energy stable nodal discontinuous Galerkin approximation with
+      summation–by–parts property for the Cahn–Hilliard equation, Journal
+      of Computational Physics 403 (2020) 109072.
+
+ [99] R. von Mises, On the thickness of a steady shock wave, Journal of the
+      Aeronautical Sciences 17 (1950) 551–554.
+
+[100] J. L. Guermond, B. Popov, Viscous regularization of the Euler equa-
+      tions and entropy principles, SIAM Journal on Applied Mathematics
+      74 (2014) 284–305.
+
+[101] E. Tadmor, Convergence of spectral methods for nonlinear conservation
+      laws, SIAM Journal of Numerical Analysis 26 (1989) 30–44.
+
+[102] Y. Maday, S. Ould Kaber, E. Tadmor, Legendre pseudospectral viscos-
+      ity method for nonlinear conservation laws, SIAM Journal on Numeri-
+      cal Analysis 30 (2) (1993) 321–342.
+
+[103] R. Moura, S. Sherwin, J. Peiro, Eigensolution analysis of spectral/hp
+      continuous Galerkin approximations to advection-diffusion problems:
+      Insights into spectral vanishing viscosity, Journal of Computational
+      Physics 307 (2016) 401–422.
+
+[104] K. O. Friedrichs, P. D. Lax, Systems of conservation equations with a
+      convex extension, Proceedings of the National Academy of Sciences 68
+      (1971) 1686–1688.
+
+                                     51
+[105] E. Tadmor, A minimum entropy principle in the gas dynamics equa-
+      tions, Applied Numerical Mathematics 2 (1986) 211–219.
+
+[106] A. Mateo-Gabı́n, J. Manzanero, E. Valero, An entropy stable spectral
+      vanishing viscosity for discontinuous Galerkin schemes: application to
+      shock capturing and les models (2021).
+
+[107] A. Frankel, H. Pouransari, F. Coletti, A. Mani, Settling of heated parti-
+      cles in homogeneous turbulence, Journal of Fluid Mechanics 792 (2016)
+      869–893.
+
+[108] H. Pouransari, A. Mani, Effects of preferential concentration on heat
+      transfer in particle-based solar receivers, Journal of Solar Energy En-
+      gineering 139 (2) (2017).
+
+[109] S. K. Lele, J. W. Nichols, A second golden age of aeroacoustics?, Trans.
+      R. Soc. A 372 (2014).
+
+[110] J. E. F. Williams, D. L. Hawkings, Sound generation by turbulence
+      and surfaces in arbitrary motion, Philosophical Transactions of the
+      Royal Society of London. Series A, Mathematical and Physical Sciences
+      264 (1151) (1969) 321–342.
+
+[111] A. Najafi-Yazdi, G. A. Brès, L. Mongeau, An acoustic analogy formu-
+      lation for moving sources in uniformly moving media, Proceedings of
+      the Royal Society A: Mathematical, Physical and Engineering Sciences
+      467 (2125) (2010) 144–165. doi:10.1098/rspa.2010.0172.
+
+[112] G. Ghorbaniasl, C. Lacor, A moving medium formulation for prediction
+      of propeller noise at incidence, Journal of Sound and Vibration 331 (1)
+      (2012) 117–137. doi:10.1016/j.jsv.2011.08.018.
+
+[113] I. E. Garrick, C. E. Watkins, I. E. Garrick, C. E. Watkins, A theoretical
+      study of the effect of forward speed on the free-space sound-pressure
+      field around propellors, Tech. rep. (1954).
+
+[114] F. Farassat, Derivation of formulations 1 and 1a of Farassat, 2007.
+
+
+                                      52
+[115] K. S. Brentner, F. Farassat, Modeling aerodynamically generated
+      sound of helicopter rotors, Progress in Aerospace Sciences 39 (2-3)
+      (2003) 83–120. doi:10.1016/s0376-0421(02)00068-4.
+
+[116] D. Lockard, A comparison of Ffowcs Williams-Hawkings solvers for
+      airframe noise applications, in: 8th AIAA/CEAS Aeroacoustics Con-
+      ference & Exhibit, American Institute of Aeronautics and Astronautics,
+      2002. doi:10.2514/6.2002-2580.
+
+[117] R. W. Paterson, P. G. Vogt, M. R. Fink, C. L. Munch, Vortex noise
+      of isolated airfoils, Journal of Aircraft 10 (5) (1973) 296–302. doi:
+      10.2514/3.60229.
+      URL https://doi.org/10.2514%2F3.60229
+
+[118] G. Desquesnes, M. Terracol, P. Sagaut, Numerical investigation of the
+      tone noise mechanism over laminar airfoils, Journal of Fluid Mechanics
+      591 (2007) 155–182. doi:10.1017/s0022112007007896.
+      URL https://doi.org/10.1017%2Fs0022112007007896
+
+[119] C. S. Peskin, Flow patterns around heart valves: A numerical
+      method, Journal of Computational Physics 10 (2) (1972) 252–271.
+      doi:https://doi.org/10.1016/0021-9991(72)90065-4.
+      URL     https://www.sciencedirect.com/science/article/pii/
+      0021999172900654
+
+[120] W. Kim, H. Choi, Immersed boundary methods for fluid-structure
+      interaction: A review, International Journal of Heat and Fluid
+      Flow 75 (2019) 301–309.        doi:https://doi.org/10.1016/j.
+      ijheatfluidflow.2019.01.010.
+      URL       https://www.sciencedirect.com/science/article/pii/
+      S0142727X1830691X
+
+[121] J. Kou, A. H. de Mendoza, S. Joshi, S. Le Clainche, E. Fer-
+      rer, Eigensolution analysis of immersed boundary method
+      based on volume penalization:     Applications to high-order
+      schemes, Journal of Computational Physics 449 (2022) 110817.
+      doi:https://doi.org/10.1016/j.jcp.2021.110817.
+
+                                    53
+     URL     https://www.sciencedirect.com/science/article/pii/
+     S0021999121007129
+
+[122] J. Kou, S. Joshi, A. H. de Mendoza, K. Puri, C. Hirsch, E. Ferrer,
+      Immersed boundary method for high-order flux reconstruction based
+      on volume penalization, Journal of Computational Physics 448 (2022)
+      110721. doi:https://doi.org/10.1016/j.jcp.2021.110721.
+      URL      https://www.sciencedirect.com/science/article/pii/
+      S0021999121006161
+
+[123] Z. Wu, F. Zhao, X. Liu, SAH KD-tree construction on GPU, in: Pro-
+      ceedings of the ACM SIGGRAPH Symposium on High Performance
+      Graphics, 2011, pp. 71–78.
+
+[124] F. Manrique de Lara, E. Ferrer, Accelerating high order
+      discontinuous Galerkin solvers using neural networks:     1D
+      Burgers’ equation, Computers & Fluids 235 (2022) 105274.
+      doi:https://doi.org/10.1016/j.compfluid.2021.105274.
+      URL       https://www.sciencedirect.com/science/article/pii/
+      S0045793021003698
+
+[125] F. Manrique de Lara, E. Ferrer, Accelerating high order discontinuous
+      Galerkin solvers using neural networks: 3D Navier-Stokes equations,
+      Under review (2022).
+
+[126] MFEM: Modular finite element methods [Software], mfem.org. doi:
+      10.11578/dc.20171025.1248.
+
+[127] R. Anderson, J. Andrej, A. Barker, J. Bramwell, J.-S. Camier, J. C. V.
+      Dobrev, Y. Dudouit, A. Fisher, T. Kolev, W. Pazner, M. Stowell, V. To-
+      mov, I. Akkerman, J. Dahm, D. Medina, S. Zampini, MFEM: A mod-
+      ular finite element methods library, Computers & Mathematics with
+      Applications 81 (2021) 42–74. doi:10.1016/j.camwa.2020.06.009.
+
+
+
+
+                                    54
+

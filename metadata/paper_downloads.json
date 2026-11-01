@@ -1,0 +1,142 @@
+[
+  {
+    "id": "P01_PyFR_v2",
+    "arxiv": "2408.16509",
+    "url": "https://arxiv.org/pdf/2408.16509",
+    "retrieved": "2026-10-28",
+    "sha256": "690aa97219bd444d24435a8f0244647f91c94993443a034aa3dff628e6e9bdd3",
+    "bytes": 14298702,
+    "local_pdf": "ref-paper/fulltext/P01_PyFR_v2.pdf",
+    "status": "fulltext"
+  },
+  {
+    "id": "P02_GALAEXI",
+    "arxiv": "2404.12703",
+    "url": "https://arxiv.org/pdf/2404.12703",
+    "retrieved": "2026-10-28",
+    "sha256": "2a46ee3d3e73abb21d9583e0c57a69b7d90ebb4c47431ab5d9f2964c060b12ef",
+    "bytes": 11748632,
+    "local_pdf": "ref-paper/fulltext/P02_GALAEXI.pdf",
+    "status": "fulltext"
+  },
+  {
+    "id": "P03_HORSES3D_GPU",
+    "arxiv": "2607.26674",
+    "url": "https://arxiv.org/pdf/2607.26674",
+    "retrieved": "2026-10-28",
+    "sha256": "d0075473756b7aefdd821bbe68db80faf21bcef172d1d438dd7e903a128d8c27",
+    "bytes": 1240176,
+    "local_pdf": "ref-paper/fulltext/P03_HORSES3D_GPU.pdf",
+    "status": "fulltext"
+  },
+  {
+    "id": "P04_HORSES3D",
+    "arxiv": "2206.09733",
+    "url": "https://arxiv.org/pdf/2206.09733",
+    "retrieved": "2026-10-28",
+    "sha256": "ce27a492b8fee4a17e15e3019b35fbafdd38b857b2d0bc62cdf3068339d255f2",
+    "bytes": 11964917,
+    "local_pdf": "ref-paper/fulltext/P04_HORSES3D.pdf",
+    "status": "fulltext"
+  },
+  {
+    "id": "P05_MFEM",
+    "arxiv": "1911.09220",
+    "url": "https://arxiv.org/pdf/1911.09220",
+    "retrieved": "2026-10-28",
+    "sha256": "d90cd2d7644102f01ad370e191541ee6859aa88b1ca7ce65d213cb4cb6e77f6f",
+    "bytes": 7530765,
+    "local_pdf": "ref-paper/fulltext/P05_MFEM.pdf",
+    "status": "fulltext"
+  },
+  {
+    "id": "P06_LOR_GPU",
+    "arxiv": "2210.12253",
+    "url": "https://arxiv.org/pdf/2210.12253",
+    "retrieved": "2026-10-28",
+    "sha256": "a3fdf14bcf25a3ae19989f8b0c1560d8d7c8d74a1f8246766c97bccb08ea7029",
+    "bytes": 4072704,
+    "local_pdf": "ref-paper/fulltext/P06_LOR_GPU.pdf",
+    "status": "fulltext"
+  },
+  {
+    "id": "P07_MFEM_RAJA",
+    "arxiv": "2112.07075",
+    "url": "https://arxiv.org/pdf/2112.07075",
+    "retrieved": "2026-10-28",
+    "sha256": "d0b014781b960b3535781d3faeebfbfad6cbf121e528bb7813c3502128cb0c87",
+    "bytes": 4104679,
+    "local_pdf": "ref-paper/fulltext/P07_MFEM_RAJA.pdf",
+    "status": "fulltext"
+  },
+  {
+    "id": "P08_Mesh_GPU",
+    "arxiv": "2205.12721",
+    "url": "https://arxiv.org/pdf/2205.12721",
+    "retrieved": "2026-10-28",
+    "sha256": "959b35d26c6446ef47f3db4d87df78cfb6404a13b2b37e6c593b4a41f32af126",
+    "bytes": 2768864,
+    "local_pdf": "ref-paper/fulltext/P08_Mesh_GPU.pdf",
+    "status": "fulltext"
+  },
+  {
+    "id": "P09_GALAEXI_v2",
+    "arxiv": "2605.28627",
+    "url": "https://arxiv.org/pdf/2605.28627",
+    "retrieved": "2026-10-28",
+    "sha256": "e73e582c92e6d86cee113e2e4e5fb3ded3b104ac35497b7b85a758cfe0794c3c",
+    "bytes": 41488317,
+    "local_pdf": "ref-paper/fulltext/P09_GALAEXI_v2.pdf",
+    "status": "fulltext"
+  },
+  {
+    "id": "P10_GALAEXI_APU",
+    "arxiv": "2606.18927",
+    "url": "https://arxiv.org/pdf/2606.18927",
+    "retrieved": "2026-10-28",
+    "sha256": "d9fa005950b1a808615c2585b68e1e2ecc186f4bf400b7cdaf138f5fc34338f0",
+    "bytes": 9325499,
+    "local_pdf": "ref-paper/fulltext/P10_GALAEXI_APU.pdf",
+    "status": "fulltext"
+  },
+  {
+    "id": "P11_FP64_Tensor",
+    "arxiv": "2603.09038",
+    "url": "https://arxiv.org/pdf/2603.09038",
+    "retrieved": "2026-10-28",
+    "sha256": "f2c767b3168b4d04bcc7d1b936639a543f63596799842ac098d3d7ad6a94c170",
+    "bytes": 655156,
+    "local_pdf": "ref-paper/fulltext/P11_FP64_Tensor.pdf",
+    "status": "fulltext"
+  },
+  {
+    "id": "P12_Hdiv_solver",
+    "arxiv": "2304.12387",
+    "url": "https://arxiv.org/pdf/2304.12387",
+    "retrieved": "2026-10-28",
+    "sha256": "23e6427f848c0e311828aead32720c99cf90fd243834c2176bdd790deaf14bfb",
+    "bytes": 2634297,
+    "local_pdf": "ref-paper/fulltext/P12_Hdiv_solver.pdf",
+    "status": "fulltext"
+  },
+  {
+    "id": "P13_PyFR_original",
+    "arxiv": "1312.1638",
+    "url": "https://arxiv.org/pdf/1312.1638",
+    "retrieved": "2026-10-28",
+    "sha256": "443d65f32c2d360d1a5cafe8960af24e31b8ed78ffbcfaaf6535be8c37318ea6",
+    "bytes": 1073078,
+    "local_pdf": "ref-paper/fulltext/P13_PyFR_original.pdf",
+    "status": "fulltext"
+  },
+  {
+    "id": "P14_PyFR_mixed",
+    "arxiv": "1409.0405",
+    "url": "https://arxiv.org/pdf/1409.0405",
+    "retrieved": "2026-10-28",
+    "sha256": "418910028a3fa3465e37c1c34bcbb664c3fdc21986ace80847c0528043d49ee0",
+    "bytes": 1929798,
+    "local_pdf": "ref-paper/fulltext/P14_PyFR_mixed.pdf",
+    "status": "fulltext"
+  }
+]

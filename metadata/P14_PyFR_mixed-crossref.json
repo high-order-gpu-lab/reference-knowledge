@@ -1,0 +1,548 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "message": {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          10,
+          6
+        ]
+      ],
+      "date-time": "2026-10-06T19:19:26Z",
+      "timestamp": 1791314366581,
+      "version": "4.3.1"
+    },
+    "reference-count": 31,
+    "publisher": "Elsevier BV",
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2015,
+              10,
+              1
+            ]
+          ],
+          "date-time": "2015-10-01T00:00:00Z",
+          "timestamp": 1443657600000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://www.elsevier.com/tdm/userlicense/1.0/"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2015,
+              7,
+              29
+            ]
+          ],
+          "date-time": "2015-07-29T00:00:00Z",
+          "timestamp": 1438128000000
+        },
+        "content-version": "vor",
+        "delay-in-days": 0,
+        "URL": "http://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "content-domain": {
+      "domain": [
+        "elsevier.com",
+        "sciencedirect.com"
+      ],
+      "crossmark-restriction": true
+    },
+    "short-container-title": [
+      "Computers &amp; Fluids"
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2015,
+          10
+        ]
+      ]
+    },
+    "DOI": "10.1016/j.compfluid.2015.07.016",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2015,
+          8,
+          1
+        ]
+      ],
+      "date-time": "2015-08-01T02:57:35Z",
+      "timestamp": 1438397855000
+    },
+    "page": "173-186",
+    "update-policy": "https://doi.org/10.1016/elsevier_cm_policy",
+    "source": "Crossref",
+    "is-referenced-by-count": 70,
+    "special_numbering": "C",
+    "title": [
+      "Heterogeneous computing on mixed unstructured grids with PyFR"
+    ],
+    "prefix": "10.1016",
+    "volume": "120",
+    "author": [
+      {
+        "given": "F.D.",
+        "family": "Witherden",
+        "sequence": "first",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "B.C.",
+        "family": "Vermeire",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "P.E.",
+        "family": "Vincent",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "78",
+    "reference": [
+      {
+        "key": "10.1016/j.compfluid.2015.07.016_bib0001",
+        "unstructured": "ReedWH, HillTR. Triangular mesh methods for the neutron transport equation. 1973. Technical report LA-UR-73-479, Los Alamos Scientific Laboratory."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.compfluid.2015.07.016_bib0002",
+        "doi-asserted-by": "crossref",
+        "first-page": "244",
+        "DOI": "10.1006/jcph.1996.0091",
+        "article-title": "A conservative staggered-grid Chebyshev multidomain method for compressible flows",
+        "volume": "125",
+        "author": "Kopriva",
+        "year": "1996",
+        "journal-title": "J Comput Phys"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.compfluid.2015.07.016_bib0003",
+        "first-page": "310",
+        "article-title": "High-order multidomain spectral difference method for the Navier-Stokes equations on unstructured hexahedral grids",
+        "volume": "2",
+        "author": "Sun",
+        "year": "2007",
+        "journal-title": "Commun Comput Phys"
+      },
+      {
+        "key": "10.1016/j.compfluid.2015.07.016_bib0004",
+        "article-title": "A flux reconstruction approach to high-order schemes including discontinuous Galerkin methods",
+        "volume": "4079:2007",
+        "author": "Huynh",
+        "year": "2007",
+        "journal-title": "AIAA Pap"
+      },
+      {
+        "key": "10.1016/j.compfluid.2015.07.016_bib0005",
+        "series-title": "Nodal discontinuous Galerkin methods: algorithms, analysis, and applications",
+        "volume": "54.",
+        "author": "Hesthaven",
+        "year": "2008"
+      },
+      {
+        "issue": "21",
+        "key": "10.1016/j.compfluid.2015.07.016_bib0006",
+        "doi-asserted-by": "crossref",
+        "first-page": "7863",
+        "DOI": "10.1016/j.jcp.2009.06.041",
+        "article-title": "Nodal discontinuous Galerkin methods on graphics processors",
+        "volume": "228",
+        "author": "Klöckner",
+        "year": "2009",
+        "journal-title": "J Comput Phys"
+      },
+      {
+        "key": "10.1016/j.compfluid.2015.07.016_bib0007",
+        "article-title": "On the development of a high-order, multi-gpu enabled, compressible viscous flow solver for mixed unstructured grids",
+        "volume": "3229:2011",
+        "author": "Castonguay",
+        "year": "2011",
+        "journal-title": "AIAA Pap"
+      },
+      {
+        "issue": "11",
+        "key": "10.1016/j.compfluid.2015.07.016_bib0008",
+        "doi-asserted-by": "crossref",
+        "first-page": "3028",
+        "DOI": "10.1016/j.cpc.2014.07.011",
+        "article-title": "PyFR: an open source framework for solving advection-diffusion type problems on streaming architectures using the flux reconstruction approach",
+        "volume": "185",
+        "author": "Witherden",
+        "year": "2014",
+        "journal-title": "Comput Phys Commun"
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.compfluid.2015.07.016_bib0009",
+        "doi-asserted-by": "crossref",
+        "first-page": "50",
+        "DOI": "10.1007/s10915-010-9420-z",
+        "article-title": "A new class of high-order energy stable flux reconstruction schemes",
+        "volume": "47",
+        "author": "Vincent",
+        "year": "2011",
+        "journal-title": "J Sci Comput"
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.compfluid.2015.07.016_bib0010",
+        "doi-asserted-by": "crossref",
+        "first-page": "224",
+        "DOI": "10.1007/s10915-011-9505-3",
+        "article-title": "A new class of high-order energy stable flux reconstruction schemes for triangular elements",
+        "volume": "51",
+        "author": "Castonguay",
+        "year": "2011",
+        "journal-title": "J Sci Comput"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.compfluid.2015.07.016_bib0011",
+        "doi-asserted-by": "crossref",
+        "first-page": "721",
+        "DOI": "10.1007/s10915-013-9780-2",
+        "article-title": "Energy stable flux reconstruction schemes for advection-diffusion problems on tetrahedra",
+        "volume": "59",
+        "author": "Williams",
+        "year": "2013",
+        "journal-title": "J Sci Comput"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.compfluid.2015.07.016_bib0012",
+        "doi-asserted-by": "crossref",
+        "first-page": "12",
+        "DOI": "10.1145/1356052.1356053",
+        "article-title": "Anatomy of high-performance matrix multiplication",
+        "volume": "34",
+        "author": "Goto",
+        "year": "2008",
+        "journal-title": "ACM Trans Math Softw"
+      },
+      {
+        "key": "10.1016/j.compfluid.2015.07.016_bib0013",
+        "unstructured": "BayerMichael. Mako: templates for python. 2013."
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.compfluid.2015.07.016_bib0014",
+        "doi-asserted-by": "crossref",
+        "first-page": "157",
+        "DOI": "10.1016/j.parco.2011.09.001",
+        "article-title": "Pycuda and pyopencl: a scripting-based approach to gpu run-time code generation",
+        "volume": "38",
+        "author": "Klöckner",
+        "year": "2012",
+        "journal-title": "Parallel Comput"
+      },
+      {
+        "key": "10.1016/j.compfluid.2015.07.016_bib0015",
+        "article-title": "Adaptive IMEX time-stepping for ILES using the correction procedure via reconstruction scheme",
+        "volume": "2687:2013",
+        "author": "Vermeire",
+        "year": "2013",
+        "journal-title": "AIAA Pap"
+      },
+      {
+        "key": "10.1016/j.compfluid.2015.07.016_bib0016",
+        "doi-asserted-by": "crossref",
+        "first-page": "261",
+        "DOI": "10.1016/j.jcp.2014.09.016",
+        "article-title": "Adaptive IMEX schemes for high-order unstructured methods",
+        "volume": "280",
+        "author": "Vermeire",
+        "year": "2015",
+        "journal-title": "J Comput Phys"
+      },
+      {
+        "key": "10.1016/j.compfluid.2015.07.016_bib0017",
+        "unstructured": "RoshkoAnatol. On the development of turbulent wakes from vortex streets. 1953. Technical report no. NACA TR 1191, California Institute of Technology."
+      },
+      {
+        "key": "10.1016/j.compfluid.2015.07.016_bib0018",
+        "doi-asserted-by": "crossref",
+        "first-page": "290",
+        "DOI": "10.1017/S0022112064000726",
+        "article-title": "The transition to turbulence in the wake of a circular cylinder",
+        "volume": "19",
+        "author": "Bloor",
+        "year": "1964",
+        "journal-title": "J Fluid Mech"
+      },
+      {
+        "key": "10.1016/j.compfluid.2015.07.016_bib0019",
+        "doi-asserted-by": "crossref",
+        "first-page": "3165",
+        "DOI": "10.1063/1.866925",
+        "article-title": "The existence of two stages in the transition to three dimensionality of a cylinder wake",
+        "volume": "31",
+        "author": "Williamson",
+        "year": "1988",
+        "journal-title": "Phys Fluids"
+      },
+      {
+        "key": "10.1016/j.compfluid.2015.07.016_bib0020",
+        "doi-asserted-by": "crossref",
+        "first-page": "477",
+        "DOI": "10.1146/annurev.fl.28.010196.002401",
+        "article-title": "Vortex dynamics in the cylinder wake",
+        "volume": "28",
+        "author": "Williamson",
+        "year": "1996",
+        "journal-title": "Ann Rev Fluid Mech"
+      },
+      {
+        "issue": "9",
+        "key": "10.1016/j.compfluid.2015.07.016_bib0021",
+        "first-page": "1281",
+        "article-title": "Ldv measurements in the near wake of a circular cylinder",
+        "volume": "28",
+        "author": "Norberg",
+        "year": "1998",
+        "journal-title": "Int J Numer Methods Fluids"
+      },
+      {
+        "key": "10.1016/j.compfluid.2015.07.016_bib0022",
+        "doi-asserted-by": "crossref",
+        "first-page": "29",
+        "DOI": "10.1017/S0022112099007934",
+        "article-title": "Dynamics and low-dimensionality of a turbulent near wake",
+        "volume": "310",
+        "author": "Ma",
+        "year": "2000",
+        "journal-title": "J Fluid Mech"
+      },
+      {
+        "issue": "9",
+        "key": "10.1016/j.compfluid.2015.07.016_bib0023",
+        "doi-asserted-by": "crossref",
+        "first-page": "1281",
+        "DOI": "10.1002/(SICI)1097-0363(19981215)28:9<1281::AID-FLD759>3.0.CO;2-#",
+        "article-title": "Large eddy simulation of the subcritical flow past a circular cylinder",
+        "volume": "28",
+        "author": "Breuer",
+        "year": "1998",
+        "journal-title": "Int J Numer Methods Fluids"
+      },
+      {
+        "key": "10.1016/j.compfluid.2015.07.016_bib0024",
+        "doi-asserted-by": "crossref",
+        "first-page": "403",
+        "DOI": "10.1063/1.870318",
+        "article-title": "Numerical studies of flow over a circular cylinder at red=3900",
+        "volume": "12",
+        "author": "Kravchenko",
+        "year": "2000",
+        "journal-title": "Phys Fluids"
+      },
+      {
+        "issue": "8",
+        "key": "10.1016/j.compfluid.2015.07.016_bib0025",
+        "doi-asserted-by": "crossref",
+        "first-page": "085101",
+        "DOI": "10.1063/1.2957018",
+        "article-title": "Experimental and numerical studies of the flow over a circular cylinder at reynolds number 3900",
+        "volume": "20",
+        "author": "Parnaudeau",
+        "year": "2008",
+        "journal-title": "Phys Fluids"
+      },
+      {
+        "issue": "8",
+        "key": "10.1016/j.compfluid.2015.07.016_bib0026",
+        "doi-asserted-by": "crossref",
+        "first-page": "3165",
+        "DOI": "10.1063/1.4818641",
+        "article-title": "Low-frequency unsteadiness in the vortex formation region of a circular cylinder",
+        "volume": "25",
+        "author": "Lehmkuhl",
+        "year": "2013",
+        "journal-title": "Phys Fluids"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.compfluid.2015.07.016_bib0027",
+        "doi-asserted-by": "crossref",
+        "first-page": "177",
+        "DOI": "10.1016/S0168-9274(99)00141-5",
+        "article-title": "Low-storage, explicit runge–kutta schemes for the compressible navier–stokes equations",
+        "volume": "35",
+        "author": "Kennedy",
+        "year": "2000",
+        "journal-title": "Appl Numer Math"
+      },
+      {
+        "key": "10.1016/j.compfluid.2015.07.016_bib0028",
+        "article-title": "ILES using the correction procedure via reconstruction scheme",
+        "volume": "1001:2013",
+        "author": "Vermeire",
+        "year": "2013",
+        "journal-title": "AIAA Pap"
+      },
+      {
+        "key": "10.1016/j.compfluid.2015.07.016_bib0029",
+        "article-title": "Canonical test cases for high-order unstructured implicit large eddy simulation",
+        "volume": "0935:2014",
+        "author": "Vermeire",
+        "year": "2014",
+        "journal-title": "AIAA Pap"
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.compfluid.2015.07.016_bib0030",
+        "doi-asserted-by": "crossref",
+        "first-page": "359",
+        "DOI": "10.1137/S1064827595287997",
+        "article-title": "A fast and high quality multilevel scheme for partitioning irregular graphs",
+        "volume": "20",
+        "author": "Karypis",
+        "year": "1998",
+        "journal-title": "SIAM J Sci Comput"
+      },
+      {
+        "key": "10.1016/j.compfluid.2015.07.016_bib0031",
+        "series-title": "High-Performance Computing and Networking",
+        "first-page": "493",
+        "article-title": "Scotch: a software package for static mapping by dual recursive bipartitioning of process and architecture graphs",
+        "author": "Pellegrini",
+        "year": "1996"
+      }
+    ],
+    "container-title": [
+      "Computers &amp; Fluids"
+    ],
+    "original-title": [],
+    "language": "en",
+    "link": [
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0045793015002509?httpAccept=text/xml",
+        "content-type": "text/xml",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0045793015002509?httpAccept=text/plain",
+        "content-type": "text/plain",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2018,
+          7,
+          23
+        ]
+      ],
+      "date-time": "2018-07-23T02:18:48Z",
+      "timestamp": 1532312328000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://linkinghub.elsevier.com/retrieve/pii/S0045793015002509"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2015,
+          10
+        ]
+      ]
+    },
+    "references-count": 31,
+    "alternative-id": [
+      "S0045793015002509"
+    ],
+    "URL": "https://doi.org/10.1016/j.compfluid.2015.07.016",
+    "relation": {},
+    "ISSN": [
+      "0045-7930"
+    ],
+    "issn-type": [
+      {
+        "value": "0045-7930",
+        "type": "print"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2015,
+          10
+        ]
+      ]
+    },
+    "assertion": [
+      {
+        "value": "Elsevier",
+        "name": "publisher",
+        "label": "This article is maintained by"
+      },
+      {
+        "value": "Heterogeneous computing on mixed unstructured grids with PyFR",
+        "name": "articletitle",
+        "label": "Article Title"
+      },
+      {
+        "value": "Computers & Fluids",
+        "name": "journaltitle",
+        "label": "Journal Title"
+      },
+      {
+        "value": "https://doi.org/10.1016/j.compfluid.2015.07.016",
+        "name": "articlelink",
+        "label": "CrossRef DOI link to publisher maintained version"
+      },
+      {
+        "value": "article",
+        "name": "content_type",
+        "label": "Content Type"
+      },
+      {
+        "value": "Copyright © 2015 The Authors. Published by Elsevier Ltd.",
+        "name": "copyright",
+        "label": "Copyright"
+      }
+    ]
+  }
+}

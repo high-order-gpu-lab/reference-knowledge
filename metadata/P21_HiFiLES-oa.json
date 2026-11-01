@@ -1,0 +1,1097 @@
+{
+  "id": "https://openalex.org/W2198999374",
+  "doi": "https://doi.org/10.2514/6.2014-3168",
+  "title": "Verification and Validation of HiFiLES: a High-Order LES unstructured solver on multi-GPU platforms",
+  "display_name": "Verification and Validation of HiFiLES: a High-Order LES unstructured solver on multi-GPU platforms",
+  "publication_year": 2014,
+  "publication_date": "2014-06-13",
+  "ids": {
+    "openalex": "https://openalex.org/W2198999374",
+    "doi": "https://doi.org/10.2514/6.2014-3168",
+    "mag": "2198999374"
+  },
+  "language": "en",
+  "primary_location": {
+    "id": "doi:10.2514/6.2014-3168",
+    "doi": "https://doi.org/10.2514/6.2014-3168",
+    "is_oa": false,
+    "landing_page_url": "https://doi.org/10.2514/6.2014-3168",
+    "pdf_url": null,
+    "source": {
+      "id": "https://openalex.org/S4306497505",
+      "display_name": "AIAA Applied Aerodynamics Conference",
+      "issn_l": null,
+      "issn": null,
+      "is_oa": false,
+      "is_in_doaj": false,
+      "is_core": false,
+      "listed_in": [],
+      "host_organization": null,
+      "host_organization_name": null,
+      "host_organization_lineage": [],
+      "host_organization_lineage_names": [],
+      "type": "conference"
+    },
+    "license": null,
+    "license_id": null,
+    "version": "publishedVersion",
+    "is_accepted": true,
+    "is_published": true,
+    "raw_source_name": "32nd AIAA Applied Aerodynamics Conference",
+    "raw_type": "proceedings-article"
+  },
+  "volume": null,
+  "type": "conference-paper",
+  "indexed_in": [
+    "crossref"
+  ],
+  "open_access": {
+    "is_oa": false,
+    "oa_status": "closed",
+    "oa_url": null,
+    "any_repository_has_fulltext": false
+  },
+  "authorships": [
+    {
+      "author_position": "first",
+      "author": {
+        "id": "https://openalex.org/A5069720602",
+        "display_name": "Manuel R. López-Morales",
+        "orcid": "https://orcid.org/0000-0001-5456-0570",
+        "observed_orcids": [
+          "https://orcid.org/0000-0001-5456-0570"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I97018004",
+          "display_name": "Stanford University",
+          "ror": "https://ror.org/00f54p054",
+          "country_code": "US",
+          "type": "education",
+          "lineage": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Manuel R. López",
+      "raw_affiliation_strings": [
+        "Stanford University"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Stanford University",
+          "institution_ids": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5082574010",
+        "display_name": "Abhishek Sheshadri",
+        "orcid": "https://orcid.org/0000-0001-6848-5508",
+        "observed_orcids": [
+          "https://orcid.org/0000-0001-6848-5508"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I97018004",
+          "display_name": "Stanford University",
+          "ror": "https://ror.org/00f54p054",
+          "country_code": "US",
+          "type": "education",
+          "lineage": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Abhishek Sheshadri",
+      "raw_affiliation_strings": [
+        "Stanford University"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Stanford University",
+          "institution_ids": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5027889321",
+        "display_name": "Jonathan Bull",
+        "orcid": "https://orcid.org/0000-0001-9992-3769",
+        "observed_orcids": [
+          "https://orcid.org/0000-0001-9992-3769"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I97018004",
+          "display_name": "Stanford University",
+          "ror": "https://ror.org/00f54p054",
+          "country_code": "US",
+          "type": "education",
+          "lineage": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Jonathan R. Bull",
+      "raw_affiliation_strings": [
+        "Stanford University"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Stanford University",
+          "institution_ids": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5042841891",
+        "display_name": "Thomas D. Economon",
+        "orcid": "https://orcid.org/0000-0002-5527-5525",
+        "observed_orcids": [
+          "https://orcid.org/0000-0002-5527-5525"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I97018004",
+          "display_name": "Stanford University",
+          "ror": "https://ror.org/00f54p054",
+          "country_code": "US",
+          "type": "education",
+          "lineage": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Thomas D. Economon",
+      "raw_affiliation_strings": [
+        "Stanford University"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Stanford University",
+          "institution_ids": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5030832425",
+        "display_name": "Joshua Romero",
+        "orcid": "https://orcid.org/0000-0003-1358-5565",
+        "observed_orcids": [
+          "https://orcid.org/0000-0003-1358-5565"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I97018004",
+          "display_name": "Stanford University",
+          "ror": "https://ror.org/00f54p054",
+          "country_code": "US",
+          "type": "education",
+          "lineage": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Joshua Romero",
+      "raw_affiliation_strings": [
+        "Stanford University"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Stanford University",
+          "institution_ids": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5078819946",
+        "display_name": "Jerry E. Watkins",
+        "orcid": "https://orcid.org/0000-0001-9853-1747",
+        "observed_orcids": [
+          "https://orcid.org/0000-0001-9853-1747"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I97018004",
+          "display_name": "Stanford University",
+          "ror": "https://ror.org/00f54p054",
+          "country_code": "US",
+          "type": "education",
+          "lineage": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Jerry E. Watkins",
+      "raw_affiliation_strings": [
+        "Stanford University"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Stanford University",
+          "institution_ids": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": null,
+        "display_name": "David M. Williams",
+        "orcid": null,
+        "observed_orcids": []
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I97018004",
+          "display_name": "Stanford University",
+          "ror": "https://ror.org/00f54p054",
+          "country_code": "US",
+          "type": "education",
+          "lineage": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "David M. Williams",
+      "raw_affiliation_strings": [
+        "Stanford University"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Stanford University",
+          "institution_ids": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5133503998",
+        "display_name": "Francisco Palacios",
+        "orcid": null,
+        "observed_orcids": []
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I97018004",
+          "display_name": "Stanford University",
+          "ror": "https://ror.org/00f54p054",
+          "country_code": "US",
+          "type": "education",
+          "lineage": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Francisco Palacios",
+      "raw_affiliation_strings": [
+        "Stanford University"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Stanford University",
+          "institution_ids": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5109919627",
+        "display_name": "Antony Jameson B",
+        "orcid": null,
+        "observed_orcids": []
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I97018004",
+          "display_name": "Stanford University",
+          "ror": "https://ror.org/00f54p054",
+          "country_code": "US",
+          "type": "education",
+          "lineage": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Antony Jameson",
+      "raw_affiliation_strings": [
+        "Stanford University"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Stanford University",
+          "institution_ids": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "last",
+      "author": {
+        "id": "https://openalex.org/A5031621482",
+        "display_name": "David E. Manosalvas",
+        "orcid": null,
+        "observed_orcids": []
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I97018004",
+          "display_name": "Stanford University",
+          "ror": "https://ror.org/00f54p054",
+          "country_code": "US",
+          "type": "education",
+          "lineage": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "David E. Manosalvas",
+      "raw_affiliation_strings": [
+        "Stanford University"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Stanford University",
+          "institution_ids": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ]
+    }
+  ],
+  "institutions": [],
+  "countries_distinct_count": 1,
+  "institutions_distinct_count": 1,
+  "corresponding_author_ids": [],
+  "corresponding_institution_ids": [
+    "https://openalex.org/I97018004"
+  ],
+  "apc_list": null,
+  "apc_paid": null,
+  "fwci": 5.661,
+  "has_fulltext": false,
+  "cited_by_count": 39,
+  "citation_normalized_percentile": {
+    "value": 0.96461292,
+    "is_in_top_1_percent": false,
+    "is_in_top_10_percent": true
+  },
+  "cited_by_percentile_year": {
+    "min": 88,
+    "max": 98
+  },
+  "biblio": {
+    "volume": null,
+    "issue": null,
+    "first_page": null,
+    "last_page": null
+  },
+  "is_retracted": false,
+  "is_paratext": false,
+  "is_xpac": false,
+  "primary_topic": {
+    "id": "https://openalex.org/T10173",
+    "display_name": "Computational Fluid Dynamics and Aerodynamics",
+    "score": 0.9990000128746033,
+    "subfield": {
+      "id": "https://openalex.org/subfields/2206",
+      "display_name": "Computational Mechanics"
+    },
+    "field": {
+      "id": "https://openalex.org/fields/22",
+      "display_name": "Engineering"
+    },
+    "domain": {
+      "id": "https://openalex.org/domains/3",
+      "display_name": "Physical Sciences"
+    }
+  },
+  "topics": [
+    {
+      "id": "https://openalex.org/T10173",
+      "display_name": "Computational Fluid Dynamics and Aerodynamics",
+      "score": 0.9990000128746033,
+      "subfield": {
+        "id": "https://openalex.org/subfields/2206",
+        "display_name": "Computational Mechanics"
+      },
+      "field": {
+        "id": "https://openalex.org/fields/22",
+        "display_name": "Engineering"
+      },
+      "domain": {
+        "id": "https://openalex.org/domains/3",
+        "display_name": "Physical Sciences"
+      }
+    },
+    {
+      "id": "https://openalex.org/T10339",
+      "display_name": "Advanced Numerical Methods in Computational Mathematics",
+      "score": 0.0003000000142492354,
+      "subfield": {
+        "id": "https://openalex.org/subfields/2206",
+        "display_name": "Computational Mechanics"
+      },
+      "field": {
+        "id": "https://openalex.org/fields/22",
+        "display_name": "Engineering"
+      },
+      "domain": {
+        "id": "https://openalex.org/domains/3",
+        "display_name": "Physical Sciences"
+      }
+    },
+    {
+      "id": "https://openalex.org/T10054",
+      "display_name": "Parallel Computing and Optimization Techniques",
+      "score": 0.0003000000142492354,
+      "subfield": {
+        "id": "https://openalex.org/subfields/1708",
+        "display_name": "Hardware and Architecture"
+      },
+      "field": {
+        "id": "https://openalex.org/fields/17",
+        "display_name": "Computer Science"
+      },
+      "domain": {
+        "id": "https://openalex.org/domains/3",
+        "display_name": "Physical Sciences"
+      }
+    }
+  ],
+  "keywords": [
+    {
+      "id": "https://openalex.org/keywords/large-eddy-simulation",
+      "display_name": "large eddy simulation",
+      "score": 0.9359999895095825
+    },
+    {
+      "id": "https://openalex.org/keywords/high-order-spatial-discretization",
+      "display_name": "high-order spatial discretization",
+      "score": 0.6610000133514404
+    },
+    {
+      "id": "https://openalex.org/keywords/unstructured-meshes",
+      "display_name": "unstructured grid",
+      "score": 0.8140000104904175
+    },
+    {
+      "id": "https://openalex.org/keywords/multi-gpu-computing",
+      "display_name": "multi-GPU computing",
+      "score": 0.7599999904632568
+    },
+    {
+      "id": "https://openalex.org/keywords/sd",
+      "display_name": "SD",
+      "score": 0.625
+    },
+    {
+      "id": "https://openalex.org/keywords/verification-and-validation",
+      "display_name": "verification and validation",
+      "score": 0.7990000247955322
+    },
+    {
+      "id": "https://openalex.org/keywords/turbulence-simulation",
+      "display_name": "turbulent flow simulation",
+      "score": 0.3409999907016754
+    }
+  ],
+  "concepts": [
+    {
+      "id": "https://openalex.org/C41008148",
+      "wikidata": "https://www.wikidata.org/wiki/Q21198",
+      "display_name": "Computer science",
+      "level": 0,
+      "score": 0.8140872716903687
+    },
+    {
+      "id": "https://openalex.org/C2778770139",
+      "wikidata": "https://www.wikidata.org/wiki/Q1966904",
+      "display_name": "Solver",
+      "level": 2,
+      "score": 0.5398707985877991
+    },
+    {
+      "id": "https://openalex.org/C173608175",
+      "wikidata": "https://www.wikidata.org/wiki/Q232661",
+      "display_name": "Parallel computing",
+      "level": 1,
+      "score": 0.5020215511322021
+    },
+    {
+      "id": "https://openalex.org/C459310",
+      "wikidata": "https://www.wikidata.org/wiki/Q117801",
+      "display_name": "Computational science",
+      "level": 1,
+      "score": 0.3696514666080475
+    },
+    {
+      "id": "https://openalex.org/C199360897",
+      "wikidata": "https://www.wikidata.org/wiki/Q9143",
+      "display_name": "Programming language",
+      "level": 1,
+      "score": 0.23101970553398132
+    }
+  ],
+  "mesh": [],
+  "locations_count": 1,
+  "locations": [
+    {
+      "id": "doi:10.2514/6.2014-3168",
+      "doi": "https://doi.org/10.2514/6.2014-3168",
+      "is_oa": false,
+      "landing_page_url": "https://doi.org/10.2514/6.2014-3168",
+      "pdf_url": null,
+      "source": {
+        "id": "https://openalex.org/S4306497505",
+        "display_name": "AIAA Applied Aerodynamics Conference",
+        "issn_l": null,
+        "issn": null,
+        "is_oa": false,
+        "is_in_doaj": false,
+        "is_core": false,
+        "listed_in": [],
+        "host_organization": null,
+        "host_organization_name": null,
+        "host_organization_lineage": [],
+        "host_organization_lineage_names": [],
+        "type": "conference"
+      },
+      "license": null,
+      "license_id": null,
+      "version": "publishedVersion",
+      "is_accepted": true,
+      "is_published": true,
+      "raw_source_name": "32nd AIAA Applied Aerodynamics Conference",
+      "raw_type": "proceedings-article"
+    }
+  ],
+  "best_oa_location": null,
+  "sustainable_development_goals": [],
+  "sustainable_development_goals_aurora": [
+    {
+      "id": "https://metadata.un.org/sdg/7",
+      "score": 0.8399999737739563,
+      "display_name": "Affordable and clean energy"
+    }
+  ],
+  "study_designs": [],
+  "awards": [],
+  "funders": [
+    {
+      "id": "https://openalex.org/F4320306076",
+      "display_name": "National Science Foundation",
+      "ror": "https://ror.org/021nxhr62"
+    },
+    {
+      "id": "https://openalex.org/F4320338279",
+      "display_name": "Air Force Office of Scientific Research",
+      "ror": "https://ror.org/011e9bt93"
+    }
+  ],
+  "has_content": {
+    "pdf": false,
+    "grobid_xml": false
+  },
+  "content_urls": null,
+  "referenced_works_count": 49,
+  "referenced_works": [
+    "https://openalex.org/W17056376",
+    "https://openalex.org/W161867661",
+    "https://openalex.org/W1519745724",
+    "https://openalex.org/W1553608069",
+    "https://openalex.org/W1583515859",
+    "https://openalex.org/W1583872979",
+    "https://openalex.org/W1605780548",
+    "https://openalex.org/W1908859542",
+    "https://openalex.org/W1984894613",
+    "https://openalex.org/W2005576690",
+    "https://openalex.org/W2008001739",
+    "https://openalex.org/W2016638303",
+    "https://openalex.org/W2017303413",
+    "https://openalex.org/W2023198396",
+    "https://openalex.org/W2030897579",
+    "https://openalex.org/W2051494214",
+    "https://openalex.org/W2059953548",
+    "https://openalex.org/W2061952429",
+    "https://openalex.org/W2068196099",
+    "https://openalex.org/W2076727381",
+    "https://openalex.org/W2088266489",
+    "https://openalex.org/W2095039621",
+    "https://openalex.org/W2120171224",
+    "https://openalex.org/W2123094051",
+    "https://openalex.org/W2124313124",
+    "https://openalex.org/W2126975124",
+    "https://openalex.org/W2129927857",
+    "https://openalex.org/W2139057863",
+    "https://openalex.org/W2142058931",
+    "https://openalex.org/W2146603200",
+    "https://openalex.org/W2168795429",
+    "https://openalex.org/W2175831267",
+    "https://openalex.org/W2205521757",
+    "https://openalex.org/W2313828635",
+    "https://openalex.org/W2315366011",
+    "https://openalex.org/W2315982789",
+    "https://openalex.org/W2319984418",
+    "https://openalex.org/W2320290567",
+    "https://openalex.org/W2321299401",
+    "https://openalex.org/W2327880726",
+    "https://openalex.org/W2329498394",
+    "https://openalex.org/W2332227794",
+    "https://openalex.org/W2333883960",
+    "https://openalex.org/W2334591096",
+    "https://openalex.org/W2557598377",
+    "https://openalex.org/W3213658025",
+    "https://openalex.org/W4231414267",
+    "https://openalex.org/W4244989987",
+    "https://openalex.org/W4285719527"
+  ],
+  "related_works": [
+    "https://openalex.org/W2080076943",
+    "https://openalex.org/W1561683466",
+    "https://openalex.org/W2804126825",
+    "https://openalex.org/W2011940952",
+    "https://openalex.org/W2149770606",
+    "https://openalex.org/W4250377101",
+    "https://openalex.org/W2377080332",
+    "https://openalex.org/W2993335966",
+    "https://openalex.org/W2465498186",
+    "https://openalex.org/W2186341709"
+  ],
+  "abstract_inverted_index": {
+    "The": [
+      0,
+      60
+    ],
+    "goal": [
+      1
+    ],
+    "of": [
+      2,
+      13,
+      35,
+      63,
+      69
+    ],
+    "this": [
+      3,
+      64,
+      85
+    ],
+    "paper": [
+      4,
+      86
+    ],
+    "is": [
+      5
+    ],
+    "to": [
+      6,
+      73,
+      87,
+      109
+    ],
+    "present": [
+      7
+    ],
+    "a": [
+      8,
+      15,
+      76,
+      102
+    ],
+    "verification": [
+      9
+    ],
+    "and": [
+      10,
+      40,
+      57,
+      94
+    ],
+    "validation": [
+      11
+    ],
+    "study": [
+      12
+    ],
+    "HiFiLES:": [
+      14
+    ],
+    "high-order": [
+      16,
+      42,
+      113
+    ],
+    "LES": [
+      17
+    ],
+    "solver": [
+      18
+    ],
+    "developed": [
+      19
+    ],
+    "in": [
+      20,
+      55,
+      75
+    ],
+    "the": [
+      21,
+      46,
+      67,
+      70,
+      89,
+      97
+    ],
+    "Aerospace": [
+      22
+    ],
+    "Computing": [
+      23
+    ],
+    "Laboratory": [
+      24
+    ],
+    "(ACL)": [
+      25
+    ],
+    "at": [
+      26
+    ],
+    "Stanford": [
+      27
+    ],
+    "University.": [
+      28
+    ],
+    "HiFiLES": [
+      29,
+      93
+    ],
+    "has": [
+      30
+    ],
+    "been": [
+      31
+    ],
+    "built": [
+      32
+    ],
+    "on": [
+      33,
+      52,
+      117
+    ],
+    "top": [
+      34
+    ],
+    "SD++": [
+      36,
+      99
+    ],
+    "(Castonguay": [
+      37
+    ],
+    "et": [
+      38
+    ],
+    "al.)": [
+      39
+    ],
+    "achieves": [
+      41
+    ],
+    "spatial": [
+      43
+    ],
+    "discretizations": [
+      44
+    ],
+    "with": [
+      45
+    ],
+    "Energy-Stable": [
+      47,
+      119
+    ],
+    "Flux": [
+      48,
+      120
+    ],
+    "Reconstruction": [
+      49,
+      121
+    ],
+    "(ESFR)": [
+      50,
+      122
+    ],
+    "scheme": [
+      51,
+      65
+    ],
+    "unstructured": [
+      53
+    ],
+    "grids": [
+      54
+    ],
+    "two": [
+      56
+    ],
+    "three": [
+      58
+    ],
+    "dimensions.": [
+      59
+    ],
+    "high": [
+      61
+    ],
+    "parallelizability": [
+      62
+    ],
+    "motivates": [
+      66
+    ],
+    "optimization": [
+      68
+    ],
+    "solver’s": [
+      71
+    ],
+    "ability": [
+      72
+    ],
+    "run": [
+      74
+    ],
+    "multi-GPU": [
+      77
+    ],
+    "(Graphical": [
+      78
+    ],
+    "Processing": [
+      79
+    ],
+    "Unit)": [
+      80
+    ],
+    "environment.": [
+      81
+    ],
+    "We": [
+      82
+    ],
+    "intend": [
+      83
+    ],
+    "for": [
+      84,
+      92,
+      104
+    ],
+    "be": [
+      88
+    ],
+    "main": [
+      90
+    ],
+    "reference": [
+      91,
+      103
+    ],
+    "serve": [
+      95
+    ],
+    "(with": [
+      96
+    ],
+    "previous": [
+      98
+    ],
+    "papers)": [
+      100
+    ],
+    "as": [
+      101
+    ],
+    "researchers": [
+      105
+    ],
+    "that": [
+      106
+    ],
+    "would": [
+      107
+    ],
+    "like": [
+      108
+    ],
+    "develop": [
+      110
+    ],
+    "or": [
+      111
+    ],
+    "implement": [
+      112
+    ],
+    "numerical": [
+      114
+    ],
+    "schemes": [
+      115
+    ],
+    "based": [
+      116
+    ],
+    "an": [
+      118
+    ],
+    "approach.": [
+      123
+    ]
+  },
+  "counts_by_year": [
+    {
+      "year": 2026,
+      "cited_by_count": 1
+    },
+    {
+      "year": 2025,
+      "cited_by_count": 6
+    },
+    {
+      "year": 2024,
+      "cited_by_count": 3
+    },
+    {
+      "year": 2023,
+      "cited_by_count": 1
+    },
+    {
+      "year": 2022,
+      "cited_by_count": 5
+    },
+    {
+      "year": 2021,
+      "cited_by_count": 5
+    },
+    {
+      "year": 2020,
+      "cited_by_count": 5
+    },
+    {
+      "year": 2019,
+      "cited_by_count": 3
+    },
+    {
+      "year": 2018,
+      "cited_by_count": 1
+    },
+    {
+      "year": 2017,
+      "cited_by_count": 4
+    },
+    {
+      "year": 2015,
+      "cited_by_count": 4
+    },
+    {
+      "year": 2014,
+      "cited_by_count": 1
+    }
+  ],
+  "updated_date": "2026-10-14T16:39:01.820549",
+  "created_date": "2025-10-10T00:00:00"
+}

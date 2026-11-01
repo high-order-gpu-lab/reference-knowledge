@@ -1,0 +1,1050 @@
+[
+  [
+    "MFEM",
+    "https://mfem.org"
+  ],
+  [
+    "Features",
+    "../features/"
+  ],
+  [
+    "Examples",
+    "#"
+  ],
+  [
+    "Example Codes",
+    "../examples/"
+  ],
+  [
+    "Electromagnetics",
+    "../electromagnetics/"
+  ],
+  [
+    "Fluid Dynamics",
+    "../fluids/"
+  ],
+  [
+    "Meshing",
+    "../meshing-miniapps/"
+  ],
+  [
+    "NURBS Discretization",
+    "../nurbs/"
+  ],
+  [
+    "Automatic Differentiation",
+    "../autodiff/"
+  ],
+  [
+    "Particles",
+    "../particles/"
+  ],
+  [
+    "Tools",
+    "../tools/"
+  ],
+  [
+    "Toys",
+    "../toys/"
+  ],
+  [
+    "Documentation",
+    "#"
+  ],
+  [
+    "Getting Started",
+    "../getting-started/"
+  ],
+  [
+    "HowTo Articles",
+    "../howto/howto-index/"
+  ],
+  [
+    "Finite Elements",
+    "../fem/"
+  ],
+  [
+    "Performance",
+    "../performance/"
+  ],
+  [
+    "GPU Support",
+    "../gpu-support/"
+  ],
+  [
+    "Mesh Formats",
+    "../mesh-formats/"
+  ],
+  [
+    "Doxygen",
+    "../dox/"
+  ],
+  [
+    "Publications",
+    "./"
+  ],
+  [
+    "About",
+    "../about/"
+  ],
+  [
+    "🔎 Search...",
+    "../search/"
+  ],
+  [
+    "Community",
+    "#"
+  ],
+  [
+    "News",
+    "../news/"
+  ],
+  [
+    "Videos",
+    "../videos/"
+  ],
+  [
+    "Seminar",
+    "../seminar/"
+  ],
+  [
+    "Workshop",
+    "../workshop/"
+  ],
+  [
+    "Tutorial",
+    "../tutorial/"
+  ],
+  [
+    "Gallery",
+    "../gallery/"
+  ],
+  [
+    "Download",
+    "../download/"
+  ],
+  [
+    "GitHub",
+    "https://github.com/mfem/mfem/"
+  ],
+  [
+    "Publications",
+    "#publications"
+  ],
+  [
+    "Google Scholar Citations",
+    "#google-scholar-citations"
+  ],
+  [
+    "Selected Publications",
+    "#selected-publications"
+  ],
+  [
+    "Recent",
+    "https://scholar.google.com/scholar?scisbd=2&q=%22mfem.org%22+OR+%22modular+finite+element+methods%22+OR+%22MFEM+library%22+OR+%22j.camwa.2020.06.009%22+OR+%2210943420241261981%22+OR+%22dc.20171025.1248%22+OR+%22github.com%2Fmfem%2Fmfem%22&hl=en&as_sdt=1,5"
+  ],
+  [
+    "All time",
+    "https://scholar.google.com/scholar?q=%22mfem.org%22+OR+%22modular+finite+element+methods%22+OR+%22MFEM+library%22+OR+%22j.camwa.2020.06.009%22+OR+%2210943420241261981%22+OR+%22dc.20171025.1248%22+OR+%22github.com%2Fmfem%2Fmfem%22&hl=en&as_sdt=1,5"
+  ],
+  [
+    "Structure-preserving transfer of Grad–Shafranov equilibria to magnetohydrodynamic solvers",
+    "https://doi.org/10.1016/j.jcp.2026.115369"
+  ],
+  [
+    "arXiv:2511.07763",
+    "https://arxiv.org/abs/2511.07763"
+  ],
+  [
+    "Accelerating High-Order Finite Element Simulations at Extreme Scale with FP64 Tensor Cores",
+    "https://doi.org/10.23919/ISC.2026.11520474"
+  ],
+  [
+    "arXiv:2603.09038",
+    "https://arxiv.org/abs/2603.09038"
+  ],
+  [
+    "Hyper-reduction methods for accelerating nonlinear finite element simulations: open source implementation and reproducible benchmarks",
+    "https://arxiv.org/abs/2602.23551"
+  ],
+  [
+    "arXiv:2602.23551",
+    "https://arxiv.org/abs/2602.23551"
+  ],
+  [
+    "An open-source computational framework for immersed fluid-structure interaction modeling using FEBio and MFEM",
+    "https://doi.org/10.1007/s00366-026-02371-9"
+  ],
+  [
+    "arXiv:2601.08266",
+    "https://arxiv.org/abs/2601.08266"
+  ],
+  [
+    "A method for bounding high-order finite element functions: Applications to mesh validity and bounds-preserving limiters",
+    "https://doi.org/10.1016/j.jcp.2025.114444"
+  ],
+  [
+    "arXiv:2504.11688",
+    "https://arxiv.org/abs/2504.11688"
+  ],
+  [
+    "High-Order Mesh r-Adaptivity with Tangential Relaxation and Guaranteed Mesh Validity",
+    "https://epubs.siam.org/doi/epdf/10.1137/1.9781611979138.5"
+  ],
+  [
+    "arXiv:2601.17708",
+    "https://arxiv.org/abs/2601.17708"
+  ],
+  [
+    "The high-order finite element Duffy de Rham complex and low-order-refined preconditioning",
+    "https://arxiv.org/abs/2604.00148"
+  ],
+  [
+    "arXiv:2604.00148",
+    "https://arxiv.org/abs/2604.00148"
+  ],
+  [
+    "The proximal Galerkin method for non-symmetric variational inequalities",
+    "https://arxiv.org/abs/2602.14967"
+  ],
+  [
+    "arXiv:2602.14967",
+    "https://arxiv.org/abs/2602.14967"
+  ],
+  [
+    "PDE-Constrained High-Order Mesh Optimization",
+    "https://doi.org/10.1007/s00366-025-02250-9"
+  ],
+  [
+    "arXiv:2507.01917",
+    "https://arxiv.org/abs/2507.01917"
+  ],
+  [
+    "Remapping Through Direct Interpolation and Optimization for Finite Element ALE Hydrodynamics",
+    "https://doi.org/10.1007/978-3-032-22221-3_2"
+  ],
+  [
+    "Differentiable Lagrangian Shock Hydrodynamics with Application to Stable Shock Acceleration of Density Interfaces",
+    "https://doi.org/10.1016/j.cma.2025.118663"
+  ],
+  [
+    "arXiv:2503.17527",
+    "https://arxiv.org/abs/2503.17527"
+  ],
+  [
+    "Algebraic Multigrid with Filtering: An Efficient Preconditioner for Interior Point Methods in Large-Scale Contact Mechanics Optimization",
+    "https://doi.org/10.1137/25M1763159"
+  ],
+  [
+    "arXiv:2505.18576",
+    "https://arxiv.org/abs/2505.18576"
+  ],
+  [
+    "Scalable Analysis and Design Using Automatic Differentiation",
+    "https://doi.org/10.1063/5.0328399"
+  ],
+  [
+    "arXiv:2506.00746",
+    "https://arxiv.org/abs/2506.00746"
+  ],
+  [
+    "Proximal Galerkin: A structure-preserving finite element method for pointwise bound constraints",
+    "https://doi.org/10.1007/s10208-024-09681-8"
+  ],
+  [
+    "arXiv:2307.12444",
+    "https://arxiv.org/abs/2307.12444"
+  ],
+  [
+    "Finite element analysis of very large bone models based on micro-CT scans",
+    "https://arxiv.org/abs/2512.24401"
+  ],
+  [
+    "arXiv:2512.24401",
+    "https://arxiv.org/abs/2512.24401"
+  ],
+  [
+    "Real-time Bayesian inference at extreme scale: A digital twin for tsunami early warning applied to the Cascadia subduction zone",
+    "https://doi.org/10.1145/3712285.3771787"
+  ],
+  [
+    "arXiv:2504.16344",
+    "https://arxiv.org/abs/2504.16344"
+  ],
+  [
+    "A Scalable Interior-Point Gauss–Newton Method for PDE-Constrained Optimization With Bound Constraints",
+    "https://doi.org/10.1002/nla.70040"
+  ],
+  [
+    "High-Order Mesh hr-Adaptivity for Surface Fitting to Implicit Geometries",
+    "https://doi.org/10.1007/978-3-031-76988-7_18"
+  ],
+  [
+    "Analysis of the SiMPL method for density-based topology optimization",
+    "https://doi.org/10.1137/24M1708863"
+  ],
+  [
+    "arXiv:2409.19341",
+    "https://arxiv.org/abs/2409.19341"
+  ],
+  [
+    "A Simple Introduction to the SiMPL Method for Density-Based Topology Optimization",
+    "https://doi.org/10.1007/s00158-025-04008-9"
+  ],
+  [
+    "arXiv:2411.19421",
+    "https://arxiv.org/abs/2411.19421"
+  ],
+  [
+    "An adaptive Newton-based free-boundary Grad-Shafranov solver",
+    "https://doi.org/10.1137/24M1674108"
+  ],
+  [
+    "arXiv:2407.03499",
+    "https://arxiv.org/abs/2407.03499"
+  ],
+  [
+    "Multi-Material ALE Remap with Interface Sharpening Using High-Order Matrix-Free Finite Element Methods",
+    "https://doi.org/10.1016/j.jcp.2025.114367"
+  ],
+  [
+    "General Field Evaluation in High-Order Meshes on GPUs",
+    "https://doi.org/10.1016/j.compfluid.2025.106606"
+  ],
+  [
+    "arXiv:2501.12349",
+    "https://arxiv.org/abs/2501.12349"
+  ],
+  [
+    "A high-order Shifted Interface Method for Lagrangian shock hydrodynamics",
+    "https://doi.org/10.1016/j.jcp.2024.113637"
+  ],
+  [
+    "Weak boundary conditions for Lagrangian shock hydrodynamics: A high-order finite element implementation on curved boundaries",
+    "https://doi.org/10.1016/j.jcp.2024.112959"
+  ],
+  [
+    "DynAMO: Multi-agent reinforcement learning for dynamic anticipatory mesh optimization with applications to hyperbolic conservation laws",
+    "https://doi.org/10.1016/j.jcp.2024.112924"
+  ],
+  [
+    "Projection-based reduced-order modelling of time-periodic problems, with application to flow past flapping hydrofoils",
+    "https://doi.org/10.1016/j.cma.2024.117161"
+  ],
+  [
+    "Mixed-Order Meshes through rp-adaptivity for Surface Fitting to Implicit Geometries",
+    "https://doi.org/10.1137/1.9781611978001.10"
+  ],
+  [
+    "Performance Portable Graphics Processing Unit Acceleration of a High-Order Finite Element Multiphysics Application",
+    "https://doi.org/10.1115/1.4064493"
+  ],
+  [
+    "Space–time computations of exactly time-periodic flows past hydrofoils",
+    "https://doi.org/10.1016/j.compfluid.2024.106286"
+  ],
+  [
+    "Asymptotic Analysis of Compound Volume+Shape Metrics for Mesh Optimization",
+    "https://doi.org/10.1137/1.9781611978001.9"
+  ],
+  [
+    "Matrix-free high-performance saddle-point solvers for high-order problems in H(div)",
+    "https://doi.org/10.1137/23m1568806"
+  ],
+  [
+    "arXiv:2304.12387",
+    "https://arxiv.org/abs/2304.12387"
+  ],
+  [
+    "Generalized optimal transport and mean field control problems for reaction-diffusion systems with high-order finite element computation",
+    "https://doi.org/10.1016/j.jcp.2024.112994"
+  ],
+  [
+    "arXiv:2306.06287",
+    "https://arxiv.org/abs/2306.06287"
+  ],
+  [
+    "High-performance finite elements with MFEM",
+    "https://doi.org/10.1177/10943420241261981"
+  ],
+  [
+    "arXiv:2402.15940",
+    "https://arxiv.org/abs/2402.15940"
+  ],
+  [
+    "Learning robust marking policies for adaptive mesh refinement",
+    "https://doi.org/10.1137/22M1510613"
+  ],
+  [
+    "arXiv:2207.06339",
+    "https://arxiv.org/abs/2207.06339"
+  ],
+  [
+    "Finite elements for Matérn-type random fields: Uncertainty in computational mechanics and design optimization",
+    "https://doi.org/10.1016/j.cma.2024.117146"
+  ],
+  [
+    "arXiv:2403.03658",
+    "https://arxiv.org/abs/2403.03658"
+  ],
+  [
+    "Dissipative WENO stabilization of high-order discontinuous Galerkin methods for hyperbolic problems",
+    "https://arxiv.org/abs/2309.12019"
+  ],
+  [
+    "Property-Preserving Numerical Schemes for Conservation Laws",
+    "https://doi.org/10.1142/13466"
+  ],
+  [
+    "Dissipation-based WENO stabilization of high-order finite element methods for scalar conservation laws",
+    "https://doi.org/10.1016/j.jcp.2023.112153"
+  ],
+  [
+    "An Adaptive Sampling Augmented Lagrangian Method for Stochastic Optimization with Deterministic Constraints",
+    "https://doi.org/10.1016/j.camwa.2023.09.014"
+  ],
+  [
+    "arXiv:2305.01018",
+    "https://arxiv.org/abs/2305.01018"
+  ],
+  [
+    "Multi-Agent Reinforcement Learning for Adaptive Mesh Refinement",
+    "https://dl.acm.org/doi/abs/10.5555/3545946.3598614"
+  ],
+  [
+    "Reinforcement learning for adaptive mesh refinement",
+    "https://proceedings.mlr.press/v206/yang23e.html"
+  ],
+  [
+    "arXiv:2103.01342",
+    "https://arxiv.org/abs/2103.01342"
+  ],
+  [
+    "End-to-end GPU acceleration of low-order-refined preconditioning for high-order finite element discretizations",
+    "https://doi.org/10.1177/10943420231175462"
+  ],
+  [
+    "arXiv:2210.12253",
+    "https://arxiv.org/abs/2210.12253"
+  ],
+  [
+    "Low-order preconditioning for the high-order finite element de Rham complex",
+    "https://doi.org/10.1137/22M1486534"
+  ],
+  [
+    "arXiv:2203.02465",
+    "https://arxiv.org/abs/2203.02465"
+  ],
+  [
+    "High-Order Mesh Morphing for Boundary and Interface Fitting to Implicit Geometries",
+    "https://doi.org/10.1016/j.cad.2023.103499"
+  ],
+  [
+    "arXiv:2208.05062",
+    "https://arxiv.org/abs/2208.05062"
+  ],
+  [
+    "Accelerating high-order mesh optimization using finite element partial assembly on GPUs",
+    "https://doi.org/10.1016/j.jcp.2022.111808"
+  ],
+  [
+    "arXiv:2205.12721",
+    "https://arxiv.org/abs/2205.12721"
+  ],
+  [
+    "Modelling and simulation of brinicle formation",
+    "https://doi.org/10.1098/rsos.230268"
+  ],
+  [
+    "Mesh refinement for anisotropic diffusion in magnetized plasmas",
+    "https://doi.org/10.1016/j.camwa.2023.06.019"
+  ],
+  [
+    "arXiv:2210.16442",
+    "https://arxiv.org/abs/2210.16442"
+  ],
+  [
+    "Parallel Element-based Algebraic Multigrid for H(curl) and H(div) Problems Using the ParELAG Library",
+    "https://doi.org/10.1137/21M1433253"
+  ],
+  [
+    "arXiv:2107.05613",
+    "https://arxiv.org/abs/2107.05613"
+  ],
+  [
+    "An unfitted finite element method using level set functions for extrapolation into deformable diffuse interfaces",
+    "https://doi.org/10.1016/j.jcp.2022.111218"
+  ],
+  [
+    "Matrix-free approaches for GPU acceleration of a high-order finite element hydrodynamics application using MFEM, Umpire, and RAJA",
+    "https://doi.org/10.1177/10943420221100262"
+  ],
+  [
+    "arXiv:2112.07075",
+    "https://arxiv.org/abs/2112.07075"
+  ],
+  [
+    "High-Order Curvilinear Finite Element Magneto-Hydrodynamics I: A Conservative Lagrangian Scheme",
+    "https://doi.org/10.1016/j.jcp.2022.111158"
+  ],
+  [
+    "arXiv:2110.11669",
+    "https://arxiv.org/abs/2110.11669"
+  ],
+  [
+    "A conforming sliding mesh technique for an embedded-hybridized discontinuous Galerkin discretization for fluid-rigid body interaction",
+    "https://doi.org/10.1002/fld.5127"
+  ],
+  [
+    "arXiv:2105.12542",
+    "https://arxiv.org/abs/2105.12542"
+  ],
+  [
+    "Conservative Finite Element Modeling of EEG and MEG on Unstructured Grids",
+    "https://doi.org/10.1109/TMI.2021.3119851"
+  ],
+  [
+    "An adaptive scalable fully implicit algorithm based on stabilized finite element for reduced visco-resistive MHD",
+    "https://doi.org/10.1016/j.jcp.2022.110967"
+  ],
+  [
+    "arXiv:2106.00260",
+    "https://arxiv.org/abs/2106.00260"
+  ],
+  [
+    "ExaAM: Metal additive manufacturing simulation at the fidelity of the microstructure",
+    "https://doi.org/10.1177/10943420211042558"
+  ],
+  [
+    "Conservative and accurate solution transfer between high-order and low-order refined finite element spaces",
+    "https://doi.org/10.1137/21M1403916"
+  ],
+  [
+    "arXiv:2103.05283",
+    "https://arxiv.org/abs/2103.05283"
+  ],
+  [
+    "Uniform subspace correction preconditioners for discontinuous Galerkin methods with hp-refinement",
+    "https://doi.org/10.1007/s42967-021-00136-3"
+  ],
+  [
+    "arXiv:2009.01287",
+    "https://arxiv.org/abs/2009.01287"
+  ],
+  [
+    "hr-adaptivity for nonconforming high-order meshes with the target matrix optimization paradigm",
+    "https://doi.org/10.1007/s00366-021-01407-6"
+  ],
+  [
+    "arXiv:2010.02166",
+    "https://arxiv.org/abs/2010.02166"
+  ],
+  [
+    "GPU Algorithms for Efficient Exascale Discretizations",
+    "https://doi.org/10.1016/j.parco.2021.102841"
+  ],
+  [
+    "Efficient Exascale Discretizations: High Order Finite Element Methods",
+    "https://doi.org/10.1177/10943420211020803"
+  ],
+  [
+    "Sparse invariant domain preserving discontinuous Galerkin methods with subcell convex limiting",
+    "https://doi.org/10.1016/j.cma.2021.113876"
+  ],
+  [
+    "arXiv:2004.08503",
+    "https://arxiv.org/abs/2004.08503"
+  ],
+  [
+    "Gray Phonon Transport Prediction of Thermal Conductivity in Lithium Aluminate with Higher-Order Finite Elements on Meshes with Curved Surfaces",
+    "https://doi.org/10.1080/23324309.2021.1900258"
+  ],
+  [
+    "Monolithic convex limiting in discontinuous Galerkin discretizations of hyperbolic conservation laws",
+    "https://doi.org/10.1016/j.camwa.2021.02.012"
+  ],
+  [
+    "arXiv:2007.01212",
+    "https://arxiv.org/abs/2007.01212"
+  ],
+  [
+    "Implicit reduced Vlasov-Fokker-Planck-Maxwell model based on high-order mixed elements",
+    "https://doi.org/10.1016/j.jcp.2021.110214"
+  ],
+  [
+    "On ParELAG's Parallel Element-based Algebraic Multigrid and its MFEM Miniapps for H(curl) and H(div) Problems: a report including lowest and next to the lowest order numerical results",
+    "https://doi.org/10.2172/1807757"
+  ],
+  [
+    "libCEED: Fast algebra for high-order element-based discretizations",
+    "https://doi.org/10.21105/joss.02945"
+  ],
+  [
+    "Adaptive Surface Fitting and Tangential Relaxation for High-Order Mesh Optimization",
+    "https://www.internationalmeshingroundtable.com/assets/papers/2021/11-Knupp.pdf"
+  ],
+  [
+    "Matrix-free preconditioning for high-order H(curl) discretizations",
+    "https://doi.org/10.1002/nla.2348"
+  ],
+  [
+    "Conservative High-Order Time Integration for Lagrangian Hydrodynamics",
+    "https://doi.org/10.1137/20M1314495"
+  ],
+  [
+    "On \"Optimal\" h-independent convergence of Parareal and multigrid-reduction-in-time using Runge-Kutta time integration",
+    "https://doi.org/10.1002/nla.2301"
+  ],
+  [
+    "High-Order Finite Element Method using Standard and Device-Level Batch GEMM on GPUs",
+    "https://doi.org/10.1109/ScalA51936.2020.00012"
+  ],
+  [
+    "Entropy conservation property and entropy stabilization of high-order continuous Galerkin approximations to scalar conservation laws",
+    "https://doi.org/10.1016/j.compfluid.2020.104742"
+  ],
+  [
+    "Diffusion synthetic acceleration for heterogeneous domains, compatible with voids",
+    "https://doi.org/10.1080/00295639.2020.1799603"
+  ],
+  [
+    "Diffusion Synthetic Acceleration Preconditioning for Discontinuous Galerkin Discretizations of SN Transport on High-Order Curved Meshes",
+    "https://doi.org/10.1137/19M124993X"
+  ],
+  [
+    "MFEM: A Modular Finite Element Methods Library",
+    "https://doi.org/10.1016/j.camwa.2020.06.009"
+  ],
+  [
+    "arXiv:1911.09220",
+    "https://arxiv.org/abs/1911.09220"
+  ],
+  [
+    "Efficient Parallel Implementations of Sparse Triangular Solves for GPU Architectures",
+    "https://doi.org/10.1137/1.9781611976137.10"
+  ],
+  [
+    "Efficient low-order refined preconditioners for high-order matrix-free continuous and discontinuous Galerkin methods",
+    "https://doi.org/10.1137/19M1282052"
+  ],
+  [
+    "A Quadratic Programming Flux Correction Method for High-Order DG Discretizations of SN Transport",
+    "https://arxiv.org/abs/1910.02918"
+  ],
+  [
+    "An exactly mass conserving space-time embedded-hybridized discontinuous Galerkin method for the Navier-Stokes equations on moving domains",
+    "https://doi.org/10.1016/j.jcp.2020.109577"
+  ],
+  [
+    "An embedded-hybridized discontinuous Galerkin finite element method for the Stokes equations",
+    "https://doi.org/10.1016/j.cma.2019.112619"
+  ],
+  [
+    "A Matrix-Free Hyperviscosity Formulation for High-Order ALE Hydrodynamics",
+    "https://doi.org/10.1016/j.compfluid.2020.104577"
+  ],
+  [
+    "Simulation-Driven Optimization of High-Order Meshes in ALE Hydrodynamics",
+    "https://doi.org/10.1016/j.compfluid.2020.104602"
+  ],
+  [
+    "Matrix-free subcell residual distribution for Bernstein finite elements: Monolithic limiting",
+    "https://doi.org/10.1016/j.compfluid.2020.104451"
+  ],
+  [
+    "High-order matrix-free incompressible flow solvers with GPU acceleration and low-order refined preconditioners",
+    "https://doi.org/10.1016/j.compfluid.2020.104541"
+  ],
+  [
+    "On fixed-point, Krylov, and 2x2 block preconditioners for nonsymmetric problems",
+    "https://doi.org/10.1137/19M1298317"
+  ],
+  [
+    "Scalability of High-Performance PDE Solvers",
+    "https://doi.org/10.1177/1094342020915762"
+  ],
+  [
+    "A space-time hybridizable discontinuous Galerkin method for linear free-surface waves",
+    "https://doi.org/10.1007/s10915-020-01340-8"
+  ],
+  [
+    "arXiv:1910.07315",
+    "https://arxiv.org/abs/1910.07315"
+  ],
+  [
+    "An adaptive discontinuous Petrov-Galerkin method for the Grad-Shafranov equation",
+    "https://doi.org/10.1137/19M1309894"
+  ],
+  [
+    "Matrix-free subcell residual distribution for Bernstein finite element discretizations of linear advection equations",
+    "https://doi.org/10.1016/j.cma.2019.112658"
+  ],
+  [
+    "Simulation Controlling Method for Generating Desired Water Caustics",
+    "https://ieeexplore.ieee.org/abstract/document/8919192"
+  ],
+  [
+    "A dual mesh method with adaptivity for stress-constrained topology optimization",
+    "https://doi.org/10.1007/s00158-019-02393-6"
+  ],
+  [
+    "Simple, accurate surrogate models of the elastic response of three-dimensional open truss micro-architectures with applications to multiscale topology design",
+    "https://doi.org/10.1007/s00158-019-02297-5"
+  ],
+  [
+    "Towards Simulation-Driven Optimization of High-Order Meshes by the Target-Matrix Optimization Paradigm",
+    "https://doi.org/10.1007/978-3-030-13992-6_16"
+  ],
+  [
+    "Nonconforming Mesh Refinement for High-Order Finite Elements",
+    "https://doi.org/10.1137/18M1193992"
+  ],
+  [
+    "Multiscale topology optimization using neural network surrogate models",
+    "https://doi.org/10.1016/j.cma.2018.09.007"
+  ],
+  [
+    "Algebraic Hybridization and Static Condensation with Application to Scalable H(div) Preconditioning",
+    "https://doi.org/10.1137/17M1132562"
+  ],
+  [
+    "A computational study of symmetry and well-posedness of structural topology optimization",
+    "https://doi.org/10.1007/s00158-018-2098-9"
+  ],
+  [
+    "An Efficient Sweep-Based Solver for the SN Equations on High-Order Meshes",
+    "https://doi.org/10.1080/00295639.2018.1562778"
+  ],
+  [
+    "The Target-Matrix Optimization Paradigm For High-Order Meshes",
+    "https://doi.org/10.1137/18M1167206"
+  ],
+  [
+    "Analysis of a space-time hybridizable discontinuous Galerkin method for the advection-diffusion problem on time-dependent domains",
+    "https://doi.org/10.1137/18M1202049"
+  ],
+  [
+    "A locally conservative and energy-stable finite element method for the Navier-Stokes problem on time-dependent domains",
+    "https://doi.org/10.1002/fld.4707"
+  ],
+  [
+    "The Eigenvalues Slicing Library (EVSL): Algorithms, Implementation, and Software",
+    "https://doi.org/10.1137/18M1170935"
+  ],
+  [
+    "Ambassadors of Code",
+    "https://str.llnl.gov/content/pages/2018-01/pdf/01.18.pdf"
+  ],
+  [
+    "High-Order Multi-Material ALE Hydrodynamics",
+    "https://doi.org/10.1137/17M1116453"
+  ],
+  [
+    "A scalable preconditioner for a primal discontinuous Petrov-Galerkin method",
+    "https://doi.org/10.1137/16M1104780"
+  ],
+  [
+    "Sequential limiting in continuous and discontinuous Galerkin methods for the Euler equations",
+    "https://doi.org/10.1016/j.jcp.2017.12.012"
+  ],
+  [
+    "Computing the Distance between Two Finite Element Solutions Defined on Different 3D Meshes on a GPU",
+    "https://doi.org/10.1137/17M1115976"
+  ],
+  [
+    "Stress estimation in reservoirs using an integrated inverse method",
+    "https://doi.org/10.1016/j.cageo.2018.01.004"
+  ],
+  [
+    "The auxiliary space preconditioner for the de Rham complex",
+    "https://doi.org/10.1137/17M1153376"
+  ],
+  [
+    "Topological optimization of structures using Fourier representations",
+    "https://doi.org/10.1007/s00158-018-1962-y"
+  ],
+  [
+    "Preconditioning of a hybridized discontinuous Galerkin finite element method for the Stokes equations",
+    "https://doi.org/10.1007/s10915-018-0760-4"
+  ],
+  [
+    "An Efficient Sweep-based Solver for the $S_N$ Equations on High-Order Meshes",
+    "https://www.osti.gov/biblio/1458627"
+  ],
+  [
+    "Advances in Wave-Plasma Modelling in ECR Thrusters",
+    "https://mariomerino.uc3m.es/assets/docs/pubs/sanc18a.pdf"
+  ],
+  [
+    "Scalable hierarchical PDE sampler for generating spatially correlated random fields using nonmatching meshes",
+    "https://doi.org/10.1002/nla.2146"
+  ],
+  [
+    "Balancing Domain Decomposition by Constraints Algorithms for Curl-conforming Spaces of Arbitrary Order",
+    "https://doi.org/10.1007/978-3-319-93873-8_8"
+  ],
+  [
+    "Time-Multipatch Discontinuous Galerkin Space-Time Isogeometric Analysis of Parabolic Evolution Problems",
+    "https://doi.org/10.1553/etna_vol49s126"
+  ],
+  [
+    "A Multilevel, Hierarchical Sampling Technique for Spatially Correlated Random Fields",
+    "https://doi.org/10.1137/16M1082688"
+  ],
+  [
+    "Multigrid Reduction In Time For Nonlinear Parabolic Problems: A Case Study",
+    "https://doi.org/10.1137/16M1082330"
+  ],
+  [
+    "A Root-Node Based Algebraic Multigrid Method",
+    "https://doi.org/10.1137/16M1082706"
+  ],
+  [
+    "Spectral Upscaling for Graph Laplacian Problems with Application to Reservoir Simulation",
+    "https://doi.org/10.1137/16M1077581"
+  ],
+  [
+    "Two-level Convergence Theory For Multigrid Reduction In Time (MGRIT)",
+    "https://doi.org/10.1137/16M1074096"
+  ],
+  [
+    "Arbitrary Dimension Convection-Diffusion Schemes For Space-Time Discretizations",
+    "https://doi.org/10.1016/j.cam.2016.04.029"
+  ],
+  [
+    "Composite-grid multigrid for diffusion on the sphere",
+    "https://doi.org/10.1002/nla.2115"
+  ],
+  [
+    "The ALPINE In Situ Infrastructure: Ascending from the Ashes of Strawman",
+    "https://doi.org/10.1145/3144769.3144778"
+  ],
+  [
+    "Antenna to Core: A New Approach to RF Modelling",
+    "https://doi.org/10.1051/epjconf/201715702011"
+  ],
+  [
+    "RF wave simulation for cold edge plasmas using the MFEM library",
+    "https://doi.org/10.1051/epjconf/201715703048"
+  ],
+  [
+    "Will humans even write code in 2040 and what would that mean for extreme heterogeneity in computing?",
+    "https://arxiv.org/abs/1712.00676"
+  ],
+  [
+    "Numerical Multilevel Upscaling For Incompressible Flow in Reservoir Simulation: An Element-Based Algebraic Multigrid (AMGe) Approach",
+    "https://doi.org/10.1137/140988991"
+  ],
+  [
+    "High-order local maximum principle preserving (MPP) discontinuous Galerkin finite element method for the transport equation",
+    "https://doi.org/10.1016/j.jcp.2016.12.031"
+  ],
+  [
+    "Low-Rank Correction Methods for Algebraic Domain Decomposition Preconditioners",
+    "https://doi.org/10.1137/16M110486X"
+  ],
+  [
+    "Upscaling of Mixed Finite Element Discretization Problems by the Spectral AMGe Method",
+    "https://doi.org/10.1137/15M1036683"
+  ],
+  [
+    "Multi-material closure model for high-order finite element Lagrangian hydrodynamics",
+    "https://doi.org/10.1002/fld.4236"
+  ],
+  [
+    "Entropy-viscosity method for the single material Euler equations in Lagrangian frame",
+    "https://doi.org/10.1016/j.cma.2015.11.009"
+  ],
+  [
+    "High-order discontinuous Galerkin nonlocal transport and energy equations scheme for radiation hydrodynamics",
+    "https://doi.org/10.1002/fld.4288"
+  ],
+  [
+    "Multilevel Preconditioners for Reaction-Diffusion Problems with Discontinuous Coefficients",
+    "https://doi.org/10.1007/s10915-015-0083-7"
+  ],
+  [
+    "Low-order continuous finite element spaces on hybrid non-conforming hexahedral-tetrahedral meshes",
+    "https://arxiv.org/abs/1605.02626"
+  ],
+  [
+    "Tuning the Coarse Space Construction in a Spectral AMG Solver",
+    "https://doi.org/10.1016/j.procs.2016.05.311"
+  ],
+  [
+    "Data-Driven Performance Modeling of Linear Solvers for Sparse Matrices",
+    "https://ieeexplore.ieee.org/document/7836412"
+  ],
+  [
+    "Matrix Reordering Using Multilevel Graph Coarsening for ILU Preconditioning",
+    "https://doi.org/10.1137/130936610"
+  ],
+  [
+    "Monotonicity in high-order curvilinear finite element arbitrary Lagrangian-Eulerian remap",
+    "https://doi.org/10.1002/fld.3965"
+  ],
+  [
+    "High order curvilinear finite elements for elastic-plastic Lagrangian dynamics",
+    "https://doi.org/10.1016/j.jcp.2013.01.015"
+  ],
+  [
+    "A mixed formulation for the Brinkman problem",
+    "https://doi.org/10.1137/120884109"
+  ],
+  [
+    "Error Analysis for Constrained First-Order System Least-Squares Finite-Element Methods",
+    "https://doi.org/10.1137/130943091"
+  ],
+  [
+    "Multigrid preconditioning of the non-regularized augmented Bingham fluid problem",
+    "https://etna.ricam.oeaw.ac.at/vol.41.2014/pp42-61.dir/pp42-61.pdf"
+  ],
+  [
+    "Reducing communication in algebraic multigrid using additive variants",
+    "https://doi.org/10.1002/nla.1928"
+  ],
+  [
+    "A Step towards Energy Efficient Computing: Redesigning a Hydrodynamic Application on CPU-GPU",
+    "https://ieeexplore.ieee.org/document/6877327/"
+  ],
+  [
+    "A block-diagonal algebraic multigrid preconditioner for the Brinkman problem",
+    "https://doi.org/10.1137/120882846"
+  ],
+  [
+    "High-order curvilinear finite elements for axisymmetric Lagrangian hydrodynamics",
+    "https://doi.org/10.1016/j.compfluid.2012.06.004"
+  ],
+  [
+    "Two-level adaptive algebraic multigrid for a sequence of problems with slowly varying random coefficients",
+    "https://doi.org/10.1137/120895366"
+  ],
+  [
+    "Adaptive AMG with coarsening based on compatible weighted matching",
+    "https://doi.org/10.1007/s00791-014-0224-9"
+  ],
+  [
+    "Preserving Spherical Symmetry in Axisymmetric Coordinates for Diffusion Problems",
+    "https://e-reports-ext.llnl.gov/pdf/710920.pdf"
+  ],
+  [
+    "Parallel auxiliary space AMG solver for H(div) problems",
+    "https://doi.org/10.1137/110859361"
+  ],
+  [
+    "High-order curvilinear finite element methods for Lagrangian hydrodynamics",
+    "https://doi.org/10.1137/120864672"
+  ],
+  [
+    "Element agglomeration coarse Raviart-Thomas spaces with improved approximation properties",
+    "https://doi.org/10.1002/nla.1819"
+  ],
+  [
+    "Adaptive algebraic multigrid for finite element elliptic equations with random coefficients",
+    "https://doi.org/10.2172/1047794"
+  ],
+  [
+    "A geometric nonlinear AMLI preconditioner for the Bingham fluid flow in mixed variables",
+    "https://www.mathcs.emory.edu/technical-reports/techrep-00244.pdf"
+  ],
+  [
+    "Introducing the target-matrix paradigm for mesh optimization via node-movement",
+    "https://doi.org/10.1007/s00366-011-0230-1"
+  ],
+  [
+    "Mulard: A Multigroup Thermal Radiation Diffusion Mini-Application",
+    "https://e-reports-ext.llnl.gov/pdf/578212.pdf"
+  ],
+  [
+    "Multigrid smoothers for ultraparallel computing",
+    "https://doi.org/10.1137/100798806"
+  ],
+  [
+    "Curvilinear finite elements for Lagrangian hydrodynamics",
+    "https://doi.org/10.1002/fld.2366"
+  ],
+  [
+    "Surface reconstruction and image enhancement via L1-minimization",
+    "https://doi.org/10.1137/09075408X"
+  ],
+  [
+    "Compatible relaxation and coarsening in algebraic multigrid",
+    "https://doi.org/10.1137/090772216"
+  ],
+  [
+    "Improving algebraic multigrid interpolation operators for linear elasticity problems",
+    "https://doi.org/10.1002/nla.688"
+  ],
+  [
+    "On long-range interpolation operators for aggressive coarsening",
+    "https://doi.org/10.1002/nla.689"
+  ],
+  [
+    "Parallel auxiliary space AMG for H(curl) problems",
+    "https://www.osti.gov/pages/servlets/purl/1670552"
+  ],
+  [
+    "A tensor artificial viscosity using a finite element approach",
+    "https://doi.org/10.1016/j.jcp.2009.08.010"
+  ],
+  [
+    "A simple strategy for varying the restart parameter in GMRES(m)",
+    "https://doi.org/10.1016/j.cam.2009.01.009"
+  ],
+  [
+    "H(curl) auxiliary mesh preconditioning",
+    "https://doi.org/10.1002/nla.534"
+  ],
+  [
+    "Distance-two interpolation for parallel algebraic multigrid",
+    "https://doi.org/10.1002/nla.559"
+  ],
+  [
+    "Preconditioning of symmetric interior penalty discontinuous Galerkin FEM for elliptic problems",
+    "https://doi.org/10.1007/978-3-540-75199-1_3"
+  ],
+  [
+    "Parallel coarse-grid selection",
+    "https://doi.org/10.1002/nla.541"
+  ],
+  [
+    "Two-level preconditioning of discontinuous Galerkin approximations of second-order elliptic equations",
+    "https://doi.org/10.1002/nla.504"
+  ],
+  [
+    "AMG by element agglomeration and constrained energy minimization interpolation",
+    "https://doi.org/10.1002/nla.494"
+  ],
+  [
+    "A least-squares approximation method for the time-harmonic Maxwell equations",
+    "https://doi.org/10.1515/156939505775248347"
+  ],
+  [
+    "Sparse matrix element topology with application to AMG(e) and preconditioning",
+    "https://doi.org/10.1002/nla.300"
+  ],
+  [
+    "Publications",
+    "#publications"
+  ],
+  [
+    "Google Scholar Citations",
+    "#google-scholar-citations"
+  ],
+  [
+    "Selected Publications",
+    "#selected-publications"
+  ],
+  [
+    "MFEM team",
+    "/about/"
+  ],
+  [
+    "CASC",
+    "https://computing.llnl.gov/casc/"
+  ],
+  [
+    "LLNL",
+    "https://www.llnl.gov/"
+  ]
+]

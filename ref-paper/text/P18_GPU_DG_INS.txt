@@ -1,0 +1,1776 @@
+                                                   GPU Acceleration of a High-Order Discontinuous Galerkin
+                                                                 Incompressible Flow Solver
+
+                                                           Ali Karakus∗, Noel Chalmers, Kasia Świrydowicz, & T. Warburton
+arXiv:1801.00246v3 [math.NA] 7 May 2018
+
+
+
+
+                                                                                           May 8, 2018
+
+
+
+                                                                                             Abstract
+                                                      We present a GPU-accelerated version of a high-order discontinuous Galerkin discretization
+                                                  of the unsteady incompressible Navier–Stokes equations. The equations are discretized in time
+                                                  using a semi-implicit scheme with explicit treatment of the nonlinear term and implicit treat-
+                                                  ment of the split Stokes operators. The pressure system is solved with a conjugate gradient
+                                                  method together with a fully GPU-accelerated multigrid preconditioner which is designed to
+                                                  minimize memory requirements and to increase overall performance. A semi-Lagrangian sub-
+                                                  cycling advection algorithm is used to shift the computational load per timestep away from the
+                                                  pressure Poisson solve by allowing larger timestep sizes in exchange for an increased number of
+                                                  advection steps. Numerical results confirm we achieve the design order accuracy in time and
+                                                  space. We optimize the performance of the most time-consuming kernels by tuning the fine-grain
+                                                  parallelism, memory utilization, and maximizing bandwidth. To assess overall performance we
+                                                  present an empirically calibrated roofline performance model for a target GPU to explain the
+                                                  achieved efficiency. We demonstrate that, in the most cases, the kernels used in the solver are
+                                                  close to their empirically predicted roofline performance.
+
+
+                                          Contents
+                                          1 Introduction                                                                                               2
+
+                                          2 Formulation                                                                                                3
+                                            2.1 Spatial Discretization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .           4
+                                            2.2 Temporal Discretization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .            6
+                                            2.3 A Lagrangian Subcycling Method . . . . . . . . . . . . . . . . . . . . . . . . . . . . .               8
+
+                                          3 Linear Solvers                                                                                             9
+
+                                          4 Numerical Tests                                                                                   10
+                                            4.1 Taylor Vortex . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+                                            4.2 Flow Past a Square Cylinder . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+                                            ∗
+                                                Department of Mathematics, Virginia Tech, 225 Stanger Street, Blacksburg, VA 24061, USA, akarakus@vt.edu
+
+
+
+
+                                                                                                 1
+5 GPU Implementation                                                                                15
+  5.1 Empirical Roofline Model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    17
+  5.2 Elliptic Operator Kernels . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   18
+      5.2.1 Local Gradient Kernel . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .     20
+      5.2.2 SIPDG Operator Kernel . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .       21
+  5.3 Subcycling Advection Kernels . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    24
+      5.3.1 Subcycling Advection Volume Kernel . . . . . . . . . . . . . . . . . . . . . . .        25
+      5.3.2 Subcycling Advection Surface Kernel . . . . . . . . . . . . . . . . . . . . . . .       28
+
+6 Conclusion                                                                                        30
+
+7 Acknowledgements                                                                                  31
+
+
+1    Introduction
+Finite-element based approximation of the unsteady incompressible Navier-Stokes (INS) equations
+typically requires high resolution in time and space mandating the use of high performance com-
+puting (HPC) techniques. Current trends in HPC show a transition to higher on-node parallelism
+using accelerators such as Graphical Processing Units (GPUs). However, developing high-order
+finite element based flow solvers that take full advantage of modern parallel accelerators is com-
+plicated by the need to achieve fine-grain parallelism while effectively exploiting deep non-uniform
+memory hierarchies. In this work, we focus on the GPU acceleration of a high-order discontinuous
+Galerkin (DG) spatial disctretization together with semi-implicit temporal discretization combining
+algebraic splitting and semi-Lagrangian subcycling.
+    We choose the discontinuous Galerkin (DG) finite element method for the spatial discretization
+due to its weak element connectivity and block structured elemental operators. The local stencil
+of the DG method together with high-order approximations yields highly parallel operators with
+high arithmetic intensity which are particularly well-suited for GPU accelerators. Klöckner et. al.
+(Klöckner et al., 2009) introduced a GPU accelerated nodal DG scheme for the first order hyperbolic
+systems. This approach has since been adapted to, and optimized for, various physical problems
+(Gandham et al., 2015; Modave et al., 2016; Chan et al., 2016; Karakus et al., 2016a; Karakus
+et al., 2016b). The implementation and performance optimization of DG methods on GPUs is
+well documented for first order hyperbolic systems with explicit time integrators. However, only a
+few papers report similar research regarding optimizing DG discretizations for incompressible flow
+(Roca et al., 2011).
+    Due to their efficiency for large scale numerical simulations, splitting methods are widely used
+in time discretizations of the incompressible Navier-Stokes equations. The combination of DG
+methods with temporal splitting methods has been studied in recent works (Ferrer et al., 2014;
+Piatkowski et al., 2016). In this work we apply an algebraic splitting technique (Chorin, 1969)
+as employed in the DG scheme for incompressible flows presented in (Shahbazi et al., 2007). The
+reader is referred to (Guermond et al., 2006) for an overview of a variety of splitting methods. To
+further improve the performance of the semi-implicit splitting, we also adopt a semi-Lagrangian
+subcycling approach, which is closely related to the operator integration factor splitting (OFIS)
+method (Maday et al., 1990). Stability, dispersion, and dissipation properties of the subcycling
+approaches are discussed in (Giraldo, 2003; Xiu et al., 2005).
+
+
+                                                  2
+    Within the algebraic splitting scheme, the velocity and pressure fields are decoupled by enforcing
+the incompressibility constraint via a Poisson equation for pressure. As we are required to solve
+this linear system at each time step, preconditioning is applied to overcome the poor conditioning
+of the Laplacian operator. Multigrid methods (Trottenberg et al., 2001) are among the most
+popular and efficient techniques for these equations. Furthermore, a GPU-accelerated version of a
+unsmoothed aggregation algebraic multigrid (AMG) method (Notay, 2010) has been investigated
+recently (Gandham et al., 2014). However, algebraic multigrid methods require the construction
+of the full sparse elliptic operator which can lead to high memory requirements. To overcome this
+limitation, we use a hybrid multigrid solver as a combination of manually constructed matrix-free
+p-multigrid (pMG) and algebraic multigrid.
+    In this work, we present the GPU performance of each of the computationally-intensive kernels
+present in each step of the temporal splitting scheme. In particular, we show that as more subcycling
+steps are employed the relative computational cost shifts towards the arithmetically intense non-
+linear convection kernels. We also show that the majority of the computational costs during the
+elliptic solvers is contained in the action of the elliptic operators, and we detail the GPU performance
+of these operators. In order to asses the performance of our computational kernels, we use an
+empirical roofline model (Volkov and Demmel, 2008; Swirydowicz et al., 2017). The model relies
+on the observation that the GPU is typically a memory-bound device; the runtime of a kernel
+cannot be faster than the time needed to transfer the data used in the kernel. In addition, the
+empirical model used in this manuscript takes into account shared memory throughput. Based on
+the model, we propose a theoretical upper bound for the performance of our code, and this upper
+bound guides the optimization process. The details of the model are explained in Section 5.
+    This remainder of this paper is organized as follows. In section 2, we present the mathematical
+formulation for the DG scheme to approximate the INS equations, including the spatial discretiza-
+tions and the temporal splitting scheme with semi-Lagrangian approach. Details of the hybrid
+p-multigrid/ algebraic multigrid solver are given in Section 3, which is followed by numerical vali-
+dation test cases in Section 4. We then detail key aspects of the GPU implementation, performance
+analysis and optimization of core kernels in Section 5. Finally, Section 6 is dedicated to concluding
+remarks and comments on future works.
+
+
+2    Formulation
+We consider a closed two-dimensional domain Ω ⊂ R2 and denote the boundary of Ω by ∂Ω.
+We assume that ∂Ω can be partitioned into two non-overlapping regions, denoted by ∂ΩD and
+∂ΩN , along which are prescribed Dirichlet or Neumann boundary conditions, respectively. We are
+interested in the approximation of the constant density incompressible Navier-Stokes equations
+                 ∂u
+                    + (u · ∇) u = −∇p + ν∆u + f                          in Ω × (0, T ]             (1)
+                 ∂t
+                          ∇·u=0                                         in Ω × (0, T ],             (2)
+
+subject to the initial condition
+                                      u = u0    for t = 0, x ∈ Ω,                                   (3)
+
+
+
+
+                                                   3
+and the boundary conditions
+
+                               u = gD                              on x ∈ ∂ΩD , t ∈ (0, T ],        (4)
+                         ∂u
+                  νn ·      − pn = 0                               on x ∈ ∂ΩN , t ∈ (0, T ].        (5)
+                         ∂x
+Here u is the velocity field, p is the static pressure, ν is the kinematic viscosity, f is a known body
+force, and gD is prescribed Dirichlet boundary data. In this study, we consider uniform density
+flows and do not include a density term in the equations above. We discretize this PDE system
+by first constructing the spatial discretization using the DG method, followed by the temporal
+discretization using a temporal splitting scheme.
+
+2.1   Spatial Discretization
+We begin by partitioning the computational domain Ω into K triangular elements E e , e = 1, . . . , K,
+such that
+                                              K
+                                              [
+                                          Ω=     E e.
+                                                    e=1
+
+We denote the boundary of the element E e by ∂E e .    We say that two elements, E e+ and E e− , are
+neighbours if they have a common face, that is ∂E e− ∩ ∂E e+ 6= ∅. We use n to denote the unit
+outward normal vector of ∂E.
+    We consider a finite element spaces on each element E e , denoted VNe = PN (E e ) where PN (E e ) is
+the space of polynomial functions of degree N on element E e . As a basis of the finite element spaces
+                                                          n=N
+we take a set of Np = |Vne | Lagrange polynomials {lne }n=0 p , interpolating at the Warp & Blend
+                                                    e
+nodes (Warburton, 2006) mapped to the element E . Next, we define the polynomial approximation
+of the velocity field u and the pressure field p on each element as
+                                                  Np
+                                                  X
+                                            e
+                                          u =           uen lne (x),
+                                                  n=0
+                                                  Np
+                                                  X
+                                           pe =         pen lne (x),
+                                                  n=0
+
+for all x = (x, y) ∈ E e . Using the polynomials ue and pe , we introduce the semi-discrete form of
+the INS system (1)-(2) on an element E e as
+
+                                    due
+                                        + Ne (ue ) = Ge pe + Le ue ,                                (6)
+                                     dt
+                                           De ue = 0..                                              (7)
+
+Here we have introduced the operators, Ne : (VNe )2 → (VNe )2 , Ge : VNe → (VNe )2 , Le : VNe → VNe and
+De : (VNe )2 → VNe , which are discrete versions of the nonlinear term u · ∇u, gradient operator ∇,
+Laplacian ∆, and the divergence operator ∇·, respectively. It remains to define these operators in
+the DG framework.
+    We begin with the discretization of nonlinear term, u·∇u. We use the incompressiblity condition
+(2) to write u · ∇u in divergence form i.e., u · ∇u = ∇ · F(u), where F(u) = u ⊗ u. Multiplying
+
+
+                                                    4
+u · ∇u by a test function v ∈ VNe , integrating over the element E e , and performing integration by
+parts, we define the discrete nonlinear term Ne (u) via the following variational form
+
+                          (v, Ne (ue ))E e = −(∇v, F(ue ))E e + (v, n · F∗ )∂E e                   (8)
+
+Here we have introduced the inner product (u, v)E e to denote the integration of the product of u
+and v computed over the element E e and, analogously, the inner product (u, v)∂E e to denote the
+integration along the element boundary ∂E e .
+    Due to the discontinuous approximation space, the flux function F is not uniquely defined in the
+boundary inner product and hence, it is replaced by a numerical flux function F∗ which depends
+on the local and neighboring traces values of u along ∂E e . One each element we denote the local
+trace values of ue as u− and the corresponding neighboring trace values as u+ . Note that we will
+suppress the use of the e superscript when it is clear which element is the local trace. Using this
+notation we choose as a numerical flux F∗ the local Lax-Friedrichs numerical flux, i.e.,
+                                                  1
+                                   F∗ = {{F(u)}} + nΛe [[u]].                                      (9)
+                                                  2
+Here we use the notation {{u}} and [[u]] to denote the average and jump of u along the the trace
+∂E e , that is
+                                        u+ + u−
+                                {{u}} =          , [[ue ]] = u+ − u− .                         (10)
+                                            2
+The parameter Λ in (9) is a stabilization parameter, which introduces artificial diffusion required
+to stabilize the numerical discretization of the nonlinear term. The parameter is chosen to be the
+maximum eigenvalue of the flux Jacobian in absolute value, i.e.
+
+                                                                ∂F
+                                        Λ=     max         n·      .
+                                             u∈[u− ,u+ ]        ∂u
+
+The choice of local Lax-Friedrichs flux leads to a stable and easily evaluated numerical flux function.
+In the case of Dirichlet boundaries ∂E e ∩ΩD 6= ∅, we weakly enforce the Dirichlet boundary condition
+(4) by choosing u+ = gD along this trace, while for Neumann boundaries ∂E e ∩ ΩN 6= ∅, we simply
+choose u+ = u− .
+    Moving on to the gradient and divergence operators, Ge and De , respectively, we use the
+DG approximation to discretize these operators in a way analogous to that described above for
+the nonlinear operator Ne (u). Namely, we multiply the pressure gradient ∇pe and the velocity
+divergence ∇ · ue by a test function v ∈ VNe , integrate over the element E e , and integrate by parts
+twice. We choose the numerical fluxes p∗ and u∗ to be simply the central fluxes p∗ = {{p}} and
+u∗ = {{u}} to obtain the following variational definitions of Ge and De
+                                                          1
+                           (v, Ge pe )E e = (v, ∇pe )E e + (v, n[[p]])∂E e ,                      (11)
+                                                          2
+                                e e e                e e    1
+                           (v, D u )E = (v, ∇ · u )E + (v, n · [[u]])∂E e .                       (12)
+                                                            2
+We impose boundary conditions for these operators slightly differently than for Ne (u). Specifically,
+along Dirichlet boundaries we take u∗ = gD and p∗ = p− and for Neumann boundaries, we choose
+u∗ = u− and p∗ = 0.
+
+
+                                                    5
+    Finally, to discretize the Laplacian operator Le , we note that ∆u = ∇ · ∇u holds in the
+continuous setting. The Laplacian operators can then be discretized for a DG method by simply
+using the composition of the discrete gradient and divergence operators so that Le = De · Ge . This
+leads to the well-known local DG discretization. Forming the above-mentioned composition and
+applying integration by parts to the volume term leads to the following variational definition of the
+Laplacian operator Le
+
+               (v, Le ue )E e = −(∇v, ∇ue )E e + (v, n · ∇u∗ )∂E e − (n · ∇v, u∗ − u− )∂E e .
+
+In contrast to the gradient and divergence operators, simply choosing central fluxes for n · ∇u∗ and
+u∗ results in an inconsistent and weakly unstable scheme (Zhang and Shu, 2003). We therefore
+follow the Symmetric Interior Penalty DG (SIPDG) approach (Wheeler, 1978; Arnold, 1982) and
+choose the numerical flux terms to be the central fluxes augmented by the penalty term, i.e.,
+u∗ = {{u}} and n · ∇u∗ = n · {{∇u}} + τ [[u]]. The variational form can then be written
+
+                         (v, Le ue )E e = −(∇v, ∇ue )E e + (v, n · {{∇u}})∂E e                   (13)
+                                             1
+                                            − (n · ∇v, [[u]])∂E e + (v, τ [[u]])∂E e .
+                                             2
+The penalty parameter τ must be chosen to be sufficiently large in order to enforce coercivity. Care
+must be taken, however, as selecting large τ results in poor conditioning of the Laplacian operator
+and degrades the performance of linear solvers. Along each face ∂E ef = E e+ ∩ E e− , we select a
+penalty parameter τ ef using the lower bound estimate derived in (Shahbazi, 2005):
+                                                                    !
+                              ef   (N + 1)(N + 2)           1    1
+                             τ =                     max       , ef ,                           (14)
+                                           2               hef
+                                                             + h−
+
+where hef     ef
+       + and h− are characteristic length scales of the elements E
+                                                                   e+ and E e− on either side
+                                             |E |   e+         |E |      e−
+of the face ∂E ef and are defined as hef                  ef
+                                        + = |∂E ef | and h− = |∂E ef | . Once the penalty parameter
+is chosen large enough to enforce coercivity the SIPDG discretization gives a high-order accurate
+discretization of the Laplacian operator. Boundary conditions for the discretized Laplacian operator
+are imposed in a way analogous to that described for the gradient and divergence operators above.
+    System (1) together with the definitions of discrete operators Ne , Le , Ge and De in (8), (11),
+(12) and (13) completes the semi-discrete form of the scheme in (6). In the next section, we
+proceed to the fully discrete scheme by introducing the semi-explicit time integration method and
+semi-Lagrangian subcycling approach.
+
+2.2   Temporal Discretization
+Assembling the semi-discrete system in (6) on each element E into global system, we arrive to
+following global problem
+                                  ∂U
+                                     + N(U) = −GP + LU,                                 (15a)
+                                  ∂t
+
+                                                  DU = 0.                                       (15b)
+To simplify the notation, we use capital letters and drop the superscript e to denote the global
+assembled vectors of the degrees of freedom.
+
+                                                         6
+   We implement a high-order temporal discretization of the flow equations by adopting an S
+order backward differentiation method for the stiff diffusive term LU and an S order extrapolation
+method for non-linear advective term N(U). With this formulation, (15) can be advanced from
+time level tn to tn+1 = tn + ∆t by solving the equation,
+                          S
+                          X                         S
+                                                    X
+                γUn+1 =          βi Un−i − ∆t             αi N(Un−i ) + ν∆tLUn+1 − ∆tGP n+1 ,         (16a)
+                           i=0                      i=0
+
+
+                                                    D · Un+1 = 0.                                     (16b)
+where the coefficients β, and γ correspond to the stiffly stable backwards differentiation scheme
+and the coefficients α correspond to the extrapolation scheme. For the second order scheme the
+coefficients are γ = 3/2, β0 = 2, β1 = 1/2 and α0 = 2, α1 = −1. Because this high-order explicit
+evaluation is not self starting, it is initialized with lower order counterparts; their values can be
+found in (Karniadakis and Sherwin, 2005).
+    We replace the fully discrete scheme (16) with an algebraically split version following (Shahbazi
+et al., 2007) in order to solve for velocity and pressure separately instead of solving a fully coupled
+system. To do this, we first introduce δ k P n+1 to denote the high-order backward finite differences
+of pressure, defined recursively as δ k P n+1 = δ k−1 P n+1 −δ k−1 P n and δ 0 P n = P n . We also introduce
+the difference σ k P n = P n+1 − δ k P n+1 where σ k P n does not depend on P n+1 . Using this notation,
+algebraic splitting scheme can be written in four steps as follows,
+                                            S
+                                            X                    S
+                                                                 X
+                                     Û =         βi Un−i − ∆t         αi N(Un−i ).                   (17a)
+                                            i=0                  i=0
+
+                                            γ ˆ       1      1
+                                     −L +       I Û =     Û − Gσ S+1 P n .                          (17b)
+                                            ν∆t        ν∆t     ν
+                                                                  γ      ˆ
+                                            −Lδ S+1 P n+1 = −        D · Û.                          (17c)
+                                                                  ∆t
+
+                                                ˆ    ∆t S+1 n+1
+                                        Un+1 = Û −      Gδ     P     ,
+                                                      γ                                               (17d)
+                                        P n+1 ← δ S+1 P n+1 + σ S+1 P n .
+The steps of this splitting scheme can be interpreted as 1) a pure advection evaluation in (17a), 2)
+a screened Poisson equation in (17b) to implicitly step the diffusive term, 3) a pressure correction
+in (17c) to enforce divergence free velocity, and finally 4) a corrective update step in (17d). This
+splitting scheme reduces the cost of the temporal discretization to a combination of explicit steps
+and two linear elliptic solves. The maximum stable time step size will still be determined by the
+spectrum of the convective term N(U) and the elliptic solves will still dominate the cost of each
+time step. To reduce the computational cost of each time step we consider a subcycling method to
+increase the size of the maximum stable time step.
+
+
+
+
+                                                             7
+2.3     A Lagrangian Subcycling Method
+The stable timestep size of the splitting scheme is restricted by a Courant-Friedrichs-Lewy (CFL)
+condition as a result of the explicit treatment of the convective term N(U). To overcome this
+restriction, we implement a semi-Lagrangian subcycling method for the INS equations which can
+be viewed as a high-order operator integration factor splitting approach of Maday et.al. (Maday
+et al., 1990), and is similar to the semi-Lagrangian subcycling approach presented in (Xiu et al.,
+2005).
+    The splitting scheme (17a)-(17d) provides a natural setting for the subcycling method by sep-
+arating the advection step from the elliptic parts. We consider the explicit advective stage (17a)
+which approximates an explicit time step of the total derivative DU         ∂U
+                                                                     Dt ≡ ∂t + U · ∇U. In the
+Lagrangian frame, we can replace this stage with
+                                                         S
+                                                         X
+                                                 Û =          βi Ũn−i .                                (18)
+                                                         i=0
+
+where Ũn is the Lagrangian velocity field at time tn . Since, in our time stepping scheme we hold
+only the history of the velocity fields in the Eulerian frame, i.e. Un−i for i = 0, . . . , S, it remains
+to show how to compute the Lagrangian velocities from the Eulerian history.
+    As described in (Maday et al., 1990) and (Xiu et al., 2005) the Lagrangian velocity field Ũn−i
+can be approximated by time-stepping the following subproblem
+
+                                                    ∂ Ũi
+                                                          = −Ū · ∇Ũi ,
+                                                     ∂t                                                 (19)
+                                            Ũi x, tn−i = Un−i (x) ,
+
+from tn−i to tn+1 and setting Ũn−i = Ũi (x, tn+1 ). Here the advective velocity field Ū(x, t) is a
+degree S polynomial in t interpolating the Eulerian velocities Un−i at t = tn−i for i = 0, . . . , S,
+respectively.
+    Discretizing the linear system (19) using the DG formulation on each element E e by an analogous
+procedure to that used above we obtain the semi-discrete system
+
+                                              ∂ Ũei
+                                                     = −Ñe (Ūe , Ũei ),                               (20)
+                                               ∂t
+where the operator Ñe (Ūe , Ũei ) is defined as satisfying the following variational statement
+
+                       (v, Ñe (Ūe , Ũei ))E e = −(∇v, F̃(Ūe , Ũei ))E e + (v, n · F̃∗ )∂E e ,       (21)
+
+for all v ∈ VNe . Here F̃(Ūe , Ũei ) = Ūe ⊗ Ũei and we have used the fact the Eulerian velocity fields are
+divergence-free in order to write Ū·∇Ũi = ∇· F̃(Ūe , Ũei ). We again choose the local Lax-Friedrichs
+flux in the definition of Ñe (Ūe , Ũei ), i.e. we take
+                                                                  1
+                                       F̃∗ = {{F̃(Ūe , Ũei )}} + nΛ̃[[Ũei ]],
+                                                                  2
+where
+                                                                         ∂ F̃
+                                            Λ̃ =       max          n·        .
+                                                   Ũ∈[Ũ−    +
+                                                         i ,Ũi ]        ∂ Ũ
+
+                                                            8
+We can compute this operator by splitting its evaluation into volume and surface integral contri-
+butions.
+    We time step each of the subproblems (20) for i = 0, . . . , S with a fourth-order low-storage
+explicit Runge-Kutta (LSERK) method (Williamson, 1980; Carpenter and Kennedy, 1994). We
+denote by ∆ts the timestep size used in this LSERK scheme and take the the macro timestep size
+∆t to be a multiple of ∆ts , i.e. ∆t = Ns ∆ts . In this way, we say that we use Ns advection subcycles
+per time step of the full INS system.
+    Since the CFL condition now only limits the size of the LSERK timestep ∆ts this subcycling
+approach enables using Ns times larger macro timesteps, hence Ns times fewer linear solves, per
+macro time step. We instead require S × Ns additional explicit advection steps using the linearity
+of (19) in Ū and applying superposition. The efficiency of the subscycling method therefore comes
+from the fast evaluation of these advection steps using the DG discretization which does not require
+global mass matrix inversion. Note, however, that increasing the macro timestep size effects the
+performance of screened Poisson solve in (17b). In Section 4, we briefly discuss the benefit of
+the subcycling method on the total solver time, and the impact on the performance of the screen
+Poisson equation solver.
+
+
+3    Linear Solvers
+Each time step of the temporal splitting discretization (17) requires solving discrete screened Poisson
+equation (17b) and discrete Poisson problem (17c). We must therefore ensure that these linear
+systems are solved as fast and as efficiently as possible. For large meshes and/or high degree N ,
+assembling a full matrix and using a direct solver is not feasible. Thus, we resort to iterative solvers
+and, noting that the IP discretization (13) is symmetric positive-definite with our chosen penalty
+parameter, we choose a preconditioned conjugate gradient (PCG) iterative method to solve (17b)
+and (17c).
+     For the screened Poisson problem in (17b), we note that since the time step ∆t is usually small,
+                                                                                          1
+the screened Poisson operator is dominated by the mass matrix with coefficient ν∆t          . Since the
+mass matrix is block diagonal and the elemental geometric factors are constant on each triangu-
+lar/tetrahedral element, this mass matrix operator is simple and inexpensive to invert. We therefore
+choose the scaled inverse mass matrix on each element as a preconditioner for the screened Poisson
+problem (17b). As we detail below, this preconditioner is usually an effective choice, however, the
+number of PCG iterations required to solve (17b) increases when the number of subcycling steps
+is increased due to a larger time step size ∆t.
+     For the Poisson problem in (17c), we consider two types of multigrid preconditioners. The
+first is a purely algebraic multigrid (AMG) preconditioner (Stüben, 2001). The coarse levels of
+this AMG method are constructed as unsmoothed aggregations of maximal independent node sets,
+see (Notay, 2006; Notay, 2010), while smoothing is chosen to be a degree 2 Chebyshev iteration
+(Adams et al., 2003). The multigrid preconditioning cycle itself consists of a K-cycle on the finest
+two levels, followed by a V-cycle for the remaining coarse levels. We choose these components of
+the AMG preconditioner to obtain, as presented in (Gandham et al., 2014), a fine-grain parallel
+multigrid operation, i.e., the sparse stiffness matrix, the sparse prolongation and restriction actions,
+and the smoothing operations are all simple to parallelize on the GPU.
+     The PCG method using this full AMG preconditioner performs reasonably well but the itera-
+tion counts do scale roughly linearly with degree N . Furthermore, a significant amount of storage
+
+
+                                                   9
+is required to construct a full stiffness matrix for higher degrees. Hence, we consider a multigrid
+preconditioner where we manually coarsen from degree N to degree 1 before setting up the same
+AMG levels for the degree 1 coarse stiffness matrix. This approach is similar to that considered in
+(Lottes and Fischer, 2005), which combined Schwartz patch smoothers on manually constructed de-
+gree p multigrid levels before proceeding to a degree 1 coarse problem. With this manual coarsening
+approach, we are able to implement the finest levels of the multigrid cycle in a matrix-free way and
+avoid the storage of the full degree N stiffness matrix. We refer to this hybrid manual/algebraic
+multigrid preconditioner as pMG-AMG.
+
+
+4     Numerical Tests
+In this section we present two dimensional benchmark tests to verify the spatial and temporal
+accuracy of the proposed scheme and show the performance of the pMG-AMG and AMG precondi-
+tioners for the Poisson solver. We then continue with the flow past a square cylinder test problem to
+describe relative importance of each solver step in the splitting scheme. We also show the effects of
+using semi-Lagrangian subcycling on relative runtimes and on performance of implicit solves. This
+test case will inform our later discussion regarding GPU implementations and kernel optimization
+discussed in the next section.
+    In all the test cases, unless explicitly stated otherwise, we use the second-order time splitting
+scheme i.e. we use second-order backward differentiation and extrapolation and use the first-order
+pressure increment.
+
+4.1   Taylor Vortex
+Taylor vortex problem is used to test the temporal and spatial accuracy of the method. The solution
+is known everywhere for all times and given by
+                                               2
+                                                                    2
+                                                                        
+                         u = − sin(2πy)e−ν4π t i + sin(2πx)e−ν4π t j
+                                                        2
+                                                                                               (22)
+                          p = − cos(2πx) cos(2πy)e−ν8π t .
+This flow test is performed with ν = 0.01 and is run until the final time T = 3 is reached at
+which point the velocity field decays to approximately one-third of its initial amplitude. The
+computational domain of [−0.5, 0.5]2 is discretized with a mesh of unstructured triangular elements.
+The domain boundaries are specified to be inflow boundaries at the upper, lower and left walls while
+the right wall is specified to be an outflow boundary. We specify the exact Dirichlet boundary
+condition for velocity/pressure at the inflow/outflow boundaries, respectively.
+    Figure 1 shows the computed L2 norm of the numerical error in the pressure and the x compo-
+nent of velocity at the final time T = 3. We begin with an unstructured mesh of K = 35 elements
+and carry out convergence study with successive h refinement and several degrees N . The figure
+demonstrates the expected hN +1 and hN convergence rate in the numerical error. The y-velocity
+has similar convergence properties as the x-velocity and is not shown in the figure.
+    In Figure 2a we show the L2 error of the x-velocity in a timestep refinement study. For low-
+order approximations spatial error dominates the temporal error and decreasing the time step size
+further does not improve the accuracy. The expected second order accuracy is obtained for all the
+cases in the region where the temporal errors dominate. The pressure and the y-velocity exhibit
+similar temporal convergence properties and are not included.
+
+                                                 10
+              0                                            0
+        10                                            10
+
+
+             -2
+        10                                                 -2
+                                                      10
+
+             -4
+        10
+                                                           -4
+                                                      10
+             -6
+        10
+
+                                                           -6
+             -8
+                                                      10
+        10
+
+
+            -10                                            -8
+       10                                             10
+                  1   0.5      0.25      0.125                  1   0.5      0.25      0.125
+
+
+
+
+Figure 1: Spatial accuracy test for the Taylor vortex test problem (22) using L2 relative errors on
+successively refined triangular elements. The error in the x-velocity is shown on the left and the
+error in the pressure is shown right.
+
+
+
+    We show in Figure 2b the L2 norm of the relative error for the x-velocity for subcycling with
+different number of substeps and without subcycling with the first and the second order time
+integration and N = 6. Although, there is no computational advantage of using subscycling if the
+time step size is stable for standard integration, we include the figure to show the formal accuracy
+of the method. Subcycling shows the expected first and second order accuracy that is independent
+from the number of substeps. The numerical error depends on the macro timestep size, dt for
+the problems with the same spatial resolutions. Comparing with temporal integration without
+subcycling, we observe slightly larger errors in the subcycling approach. This shift in the error
+can be explained by the dissipation added to the scheme to stabilize the system with high CFL
+numbers. Finally, the L2 norm of the numerical error for the subcycling method with varying
+number of substeps is shown in Figure 2c for N = 6 as the timestep size increases. We see in
+this figure that the numerical error remains controlled for larger time steps sizes as we take more
+subcycling steps.
+    In Figure 3, we compare the AMG and pMG-AMG preconditioners for the solution of pressure
+Poisson equation on two mesh resolutions obtained with one level uniform refinement and different
+approximation orders for N = 2 . . . 6. For higher approximations, Figure 3a shows the number of
+iterations for the pMG-AMG is slightly larger than for the full AMG. Figure 3b shows that this
+behavior does not lead to an increase in the time spent for each solve step. In fact, both precondi-
+tioners have comparable time-to-solution per timestep. On the other hand, the memory required
+for the AMG preconditioner increases dramatically with N . Consequently, memory requirements
+for the AMG preconditioner can easily exceed the limited GPU memory capacity. As shown in Fig-
+ure 3c, the AMG preconditioner uses around 30kB of memory per element while the pMG-AMG
+preconditioners uses only 4kB of storage, and grows slowly with the order of approximation.
+
+
+
+                                                 11
+            -4                                                          -3
+       10                                                          10
+
+
+                                                                        -4
+            -5                                                     10
+       10
+
+                                                                        -5
+                                                                   10
+            -6
+       10
+                                                                        -6
+                                                                   10
+            -7
+       10
+                                                                        -7
+                                                                   10
+
+            -8
+       10                                                               -8
+                                                                   10
+
+
+            -9                                                          -9
+       10                                                          10
+                 -4           -3                        -2                   -4                -3        -2
+            10           10                        10                   10                10        10
+
+
+                         (a)                                                              (b)
+
+                                   10 -2
+
+
+
+
+                                   10 -3
+
+
+
+
+                                   10 -4
+
+
+
+                                           10 -2                                  10 -1
+
+
+                                                             (c)
+
+Figure 2: Temporal accuracy test for Taylor vortex test problem using L2 relative errors of x-
+velocity (a) timestep refinement study for different orders of approximation. (b) Comparison of
+first and second order subcycling approaches in stable timestep region for N = 6. (c) Maximum
+stable timestep size for different number of substeps for N = 6.
+
+
+
+4.2   Flow Past a Square Cylinder
+The relative importance of each solve step in the splitting scheme and the effect of subcycling
+are examined by solving the vortex shedding behind a square cylinder at Re = 100. We solve the
+problem on a rectangular domain of size [−16, 25]×[−22, 22] discretized with K = 2300 unstructured
+
+
+                                                             12
+                                                                    10 -2
+        20                                                 10
+
+        18                                                  9
+
+        16                                                  8
+
+        14                                                  7
+
+        12                                                  6
+
+        10                                                  5
+
+         8                                                  4
+
+         6                                                  3
+
+         4                                                  2
+
+         2                                                  1
+
+         0                                                  0
+             2    3        4             5       6              2           3        4    5   6
+
+
+                          (a)                                                       (b)
+
+                                35
+
+
+                                30
+
+
+                                25
+
+
+                                20
+
+
+                                15
+
+
+                                10
+
+
+                                 5
+
+
+                                 0
+                                     2       3        4               5         6
+
+
+                                                     (c)
+
+Figure 3: Comparison of hybrid pMG-AMG and full AMG preconditioners for Taylor vortex test
+problem using successively refined triangular grids at different approximation orders in terms of
+(a) iteration numbers (b) time spent per timestep and (c) additional storage required for the
+preconditioner per element.
+
+
+
+triangular elements. The mesh resolution is increased near the cylinder to resolve large gradients.
+    The domain boundaries are inflow at the left, upper, and lower walls, outflow at the right wall,
+and zero Dirichlet on the square cylinder. We use zero initial conditions and unit normal velocity at
+inflow boundaries. Figure 4 shows the vorticity contours of the flow at non-dimensional time t = 130
+and illustrates the instantaneous von-Karman vortex shedding profile behind the cylinder. In order
+
+
+                                                     13
+Figure 4: Vortex structure in flow around square cylinder problem for Re = 100 and approximation
+order, N = 5 at time, t = 130. Contours are from −1 to 1 with increment of 0.05.
+
+
+
+to compare our results to the available results in the literature, we compute the Strouhal number
+given by St = f D/U , where f is the frequency of the vortex shedding, D is the characteristic length
+taken as the cylinder edge and U is the unit characteristic velocity in this problem. We find that
+St = .145 which agrees well with the tabulated results in (Shahbazi et al., 2007) and (Darekar and
+Sherwin, 2001).
+    Figure 5 demonstrates how semi-Lagrangian subcycling affects the linear system solvers in steps
+(17b) and (17c). The iteration counts required in each velocity solve are shown in Figure 5a. We
+see in this figure that the iterations required increases with the number of substeps due to the larger
+timestep sizes making the screened Poisson operator less dominated by the mass matrix and the
+block-Jacobi preconditioner becoming less effective. It is important to note, however, that although
+iteration counts in the velocity solves are considerably higher when using subcycling, as we show
+below the relative time of velocity solve remains small compared with the pressure solve. Therefore
+the increased iteration counts do not result in an overall increase in the run times.
+    On the other hand, we see in Figure 5b that subcycling does not have an impact on the pressure
+solver performance. Finally, 5c shows the achieved speedups for Ns = 4, 8, 16 and N = 1 . . . 6. The
+speedups are less than the timestep size gain because of the extra computational effort required
+for subcycling advection step. Subcycling gives roughly 3, 5 and 8 fold speedups for Ns = 4, 8 and
+Ns = 16, respectively.
+    Figure 6 illustrates the percentage of time spent in each solve step, and the breakdown of
+normalized run times, for various numbers of subcycling steps, Ns = 4, 8, 16, for orders N = 1 . . . 6.
+Without subcycling, the pressure solve step takes almost all of the solution time and the overall
+time spent per timestep increases with the approximation order. The use of subcycling shifts the
+computational load away from the pressure solve to the advection steps as much more work is done
+in time stepping the advective terms. The resulting percentage of the time taken by the advection
+steps in each time step therefore becomes more significant.
+    In terms of overall run times, the time taken to perform each time step of the solver decreases
+significantly with the use of subcycling. This is an attractive property but it requires us to give
+particular attention to the parallel performance of the advection kernels in optimizing the overall
+performance of the solver. We discuss implementation details and optimization of each of the most
+time consuming kernels in the next section.
+
+
+
+
+                                                  14
+       35                                                          35
+
+
+       30                                                          30
+
+
+       25                                                          25
+
+
+       20                                                          20
+
+
+       15                                                          15
+
+
+       10                                                          10
+
+
+        5                                                              5
+
+
+        0                                                              0
+            1   2      3         4           5       6                     1       2       3         4   5   6
+
+
+                           (a)                                                                 (b)
+
+                                 12
+
+                                 11
+
+                                 10
+
+                                     9
+
+                                     8
+
+                                     7
+
+                                     6
+
+                                     5
+
+                                     4
+
+                                     3
+
+                                     2
+
+                                     1
+                                         1       2       3         4           5       6
+
+
+                                                             (c)
+
+Figure 5: Computational impact of subcycling on the individual linear solve steps and overall
+speedup for varying number of substeps in flow past square cylinder test case. (a) Iteration numbers
+in screened Poisson velocity solves, (b) Iteration numbers for pressure Poisson solve (c) Speedups
+using subcycling for Ns = 4, Ns = 8 and Ns = 16.
+
+
+
+5    GPU Implementation
+The results in the last section indicate that the semi-Lagrangian subcycling method shifts compu-
+tational load in each time step away from solving the Poisson problem for pressure and towards
+the advection stage. When considering the GPU optimization of the resulting algorithm, we have
+
+
+                                                             15
+                      100
+
+
+
+                        80
+
+
+
+                        60
+
+
+
+                        40
+
+
+
+                        20
+
+
+
+                         0
+                                1      2     3         4   5    6
+
+
+                                                 (a)
+
+
+
+                      100
+
+
+
+                        80
+
+
+
+                        60
+
+
+
+                        40
+
+
+
+                        20
+
+
+
+                         0
+                                1      2     3         4   5    6
+
+
+                                                 (b)
+
+Figure 6: Timing for different treatment of advection step (a) relative solver times (b) relative
+kernel times. Each column from left to right show no-subcycling and subcycling with Ns = 4,
+Ns = 8, Ns = 16, respectively.
+
+
+
+several stages and kernels which must be given specific attention.
+    To test and optimize the GPU implementations of the INS solver described above we have im-
+plemented the solver using C++ together with the OCCA API and OKL kernel language (Medina
+et al., 2014) together with MPI for distributed multi-GPU/CPU platforms. OCCA is an abstracted
+
+                                                 16
+programming model designed to encapsulate native languages for parallel devices such as CUDA,
+OpenCL, Pthreads, and OpenMP. Therefore, OCCA allows customized implementations of algo-
+rithms for several computing devices with a single code and offers flexibility in choosing hardware
+architectures and programming model at run-time.
+    For all the results presented in this section, we have compiled the source code using the GNU
+GCC 5.2.0 compiler and the Nvidia CUDA V8.0.61 NVCC compiler. The performance tests were
+run using Nvidia Tesla P100 GPUs whose technical specifications are stated to be 549 GB/s of the-
+oretical bandwidth, 12 GB of memory, and 4670 GFLOPS/s of peak double-precision performance.
+Each GPU is running on a machine equipped with an Intel Xeon E5-2680v4 processor with 2.40
+GHz base frequency and 14 cores. All the computations are performed in double precision on a
+fixed unstructured triangular grid with approximately K = 10, 000 elements.
+    In each stage of time stepping in the INS solver we focus on the performance of the most
+computationally demanding kernels. In the subcycling advective stage we focus on the nonlinear
+volume and surface contributions of the convective term u · ∇u. Within the elliptic solve stages of
+each time step, in which we solve a linear system of the form Au = b, we focus on optimizing the
+application of the elliptic operator A. For the SIPDG method consists of a local gradient kernel
+and a kernel which computes Au using u and ∇u.
+    In each section below, we give the mathematical formulation of the operators under consider-
+ation, a base pseudo-code which we implement directly in the OKL kernel language to serve as
+a reference implementation, and the details of successive optimizations performed to obtain bet-
+ter performance. We compare the GLFOPS/s achieved by each kernel version to an empirically
+determined roofline performance model which we detail below.
+
+5.1   Empirical Roofline Model
+We evaluate the performance of our kernels by recording the run time and the number of floating
+point operations performed per second. Since the reported theoretical peak performance on the
+GPU can not be realized for most applications, we use an empirical performance model to asses
+the performance of our kernels. The model gives us a more realistic upper bound in terms of a
+maximum number of floating point operations per second that a given kernel can achieve.
+    To utilize the fine-grain parallelism of the GPU we associate each thread with a single node
+in an element as done in (Klöckner et al., 2009). This strategy has shown strong performance in
+previous works (Modave et al., 2016). We note, however, there exists some alternative approaches
+such as one thread to one element approach (Fuhry et al., 2014).
+    We consider a model to estimate the parallel performance of this strategy. Since the compu-
+tational work is distributed to the individual threads on the GPU, the model is strongly based on
+an assumption that global data transfers and shared memory transactions limit the performance.
+Even if a kernel requires no floating point operations or performs only operations that are perfectly
+overlapped with the data movement, the runtime of this kernel cannot be shorter than the time
+needed to transfer the required data.
+    Therefore, we consider the cost of data movement to be the most important performance limiting
+factor. Let us consider a kernel that loads Din bytes of data and stores Dout bytes of data. We
+measure the time needed to transfer (Din + Dout ) /2 bytes from one location in device memory to
+a different location. Note that we divide by 2 due to two-way memory bus. Next, we compute a
+bandwidth estimate of the global memory throughput, Bg based on the time estimate. Device to
+
+
+
+                                                 17
+device copy bound for a kernel is determined using the formula
+                                                 Bg · W
+                                                           ,
+                                                Din + Dout
+where W is the work performed by the kernel, measured in GFLOPS.
+   We also consider the shared memory bandwidth as a supporting measure. Indeed, Volkov
+(Volkov and Demmel, 2008) showed that excessive shared memory read and write transactions
+can limit overall performance. The memory bandwidth of shared memory is estimated using the
+formula
+                   Bsh = #SMs × #ALUs × word length × clock speed in GHz.
+For the Nvidia Tesla P100 we obtain the bandwidth Bsh = 7.882 TB/s. Similar to the device to
+device copy bound, a shared memory performance bound can be estimated using
+                                                 Bsh · W
+                                                           ,
+                                                Sin + Sout
+where Sin and Sout are the number of bytes read and written to and from shared memory per
+threadblock, respectively. All the kernels considered in this section perform 4 flops for each shared
+memory byte written or read. This leads to an upper bound of roughly 2 TFLOPS/s of achievable
+double precision peak performance. Finally, we construct a full roofline performance model by
+considering the minimum of shared memory bound and device to device copy bound.
+
+5.2   Elliptic Operator Kernels
+In stages (17b) and (17c) of each time step in temporal splitting scheme described above we must
+solve a linear elliptic system. Specifically, a screened Poisson equation for each component of
+the velocity field and a Poisson equation for the pressure. Optimizing solution methods of each of
+these systems is a difficult task, especially when considering the variety of preconditioning strategies
+available. In this section, we assume that the dominant cost of these linear systems is the evaluation
+of the elliptic operator itself. This assumption is usually well founded as iterative solution methods
+require several outer iterations and preconditioning methods such as multigrid require many elliptic
+operations at each grid level for smoothing actions.
+    We detailed above the SIPDG discrete operator Le for the high-order approximation of the
+Laplacian operator. Here, we consider a more general operator Ae which approximates the screen
+Poisson operator on the element E e , i.e. Ae approximates the action of −∆+λ. From the definition
+of Le in (13) we can write the definition of the action of Ae on the polynomial u ∈ VNe as satisfying
+                 (v, Ae u)E e = (v, −Le u)E e + λ(v, u)E e ,                                       (23)
+                             = (∇v, ∇u)E e − (v, n · {{∇u}})∂E e
+                                       1
+                                     + (n · ∇v, [[u]])∂E e − (v, τ [[u]])∂E e + λ(v, u)E e ,
+                                       2
+for all v ∈ VNe .
+    Next, in order to write the action of Ae as a linear matrix operator on the degrees of freedom
+of u we introduce the elemental mass Me , surface mass Mef , and stiffness operators Sxe and Sxe
+which are defined as follows
+                              Meij = lie , lje E e , Mef    e e
+                                                                 
+                                                      ij = li , lj ∂E ef ,                     (24)
+
+
+                                                     18
+                                                ∂lje                               ∂lje
+                                                                                     
+                             (Sxe )ij =     e
+                                           li ,        ,        (Sye )ij =     e
+                                                                              li ,        .                   (25)
+                                                ∂x E e                             ∂y E e
+
+Next, we define the elemental gradient operator D e = [Dxe , Dye ]T , as well as the lifting operators
+Lef , via
+
+                      Dxe = (Me )−1 Sx ,      Dye = (Me )−1 Sy ,             Lef = (Me )−1 Mef .              (26)
+
+Finally, for ease of notation we introduce the concatenation of the lift operators along each face,
+i.e. Le = [Le0 , Le1 , Le2 ].
+     Returning to the elliptic operator Ae in (23), to improve the performance we aim to avoid
+using transpose versions of the operators defined above. We also aim to avoid performing excessive
+matrix-vector products. To this end, we rewrite this operator to group common operations as much
+as possible. To begin, we integrate the first volume integral in the expression above to obtain
+
+                              1
+  (v, Ae u)E e = −(v, ∆u)E e − (v, n · [[∇u]])∂E e
+                              2
+                                                        1
+                                                       + (n · ∇v, [[u]])∂E e − (v, τ [[u]])∂E e + λ(v, u)E e . (27)
+                                                        2
+Next, we note that from the from the definition of the lift operators Lef in (26) we can write
+
+                       (n · ∇v, [[u]])∂E e = (n · ∇v, Le [[u]])E e ,
+                                           = −(v, n · ∇Le [[u]])E e + (v, (Le [[u]])− )∂E e .
+
+Here we applied integration by parts to obtain the last line, recalling that the − superscript denotes
+the interior trace. Using this expansion in (23) we obtain
+
+                              1                     1
+  (v, Ae u)E e = −(v, ∆u)E e − (v, n · [[∇u]])∂E e − (v, n · ∇Le [[u]])E e
+                              2                     2
+                                                       1
+                                                     + (v, (Le [[u]])− )∂E e − (v, τ [[u]])∂E e + λ(v, u)E e .
+                                                       2
+Finally, taking v to be each of the basis polynomials lne , n = 1, . . . , Np , we can use the elemental
+operators defined in (24)-(26) in order to write the action of operator Ae on the polynomial u as
+                                   1                    1
+          Ae u = −Me D e · D e u − Me Le n · [[D e u]] − Me n · D e Le [[u]]
+                                   2                    2
+                                                1 e e e
+                                           + M L (L [[u]])− − τ Me Le [[u]] + λMe u,
+                                             2                                    
+                  e       e      e   1   e          1 e       e             e  −
+                                                                                   
+               = M −D · D u + nL [[u]] − L n · [[D u]] + 2τ [[u]] − (L [[u]])          .                      (28)
+                                     2              2
+
+We use expression (28) as a basis for implementing the action of the elliptic operator A.
+    In order to obtain a more unified expression for the action of Ae between separate elements
+we introduce a mapping from each element E e to a reference element Ê, on which we make use of
+reference operators. We take the reference element Ê to be the bi-unit triangle
+
+                                          Ê = {−1 ≤ r, s, r + s ≤ 1} ,
+
+                                                           19
+and introduce the affine mapping Φe which maps E e to a reference triangle Ê, i.e.
+
+                             (x, y) = Φe (r, s) ,   (x, y) ∈ E e , (r, s) ∈ Ê                    (29)
+
+We denote the Jacobian of this mapping as
+                                                      
+                                             e  rx sx
+                                           G =           ,                                        (30)
+                                                 ry sy
+
+and denote determinant of the Jacobian as J e = det Ge . We also define the surface scaling factor
+J ef which is defined as the determinant of the Jacobian Ge restricted to the face ∂EN ef .
+    Finally, mapping each of the elemental operators defined in (24)-(26) to the reference element Ê
+we can write each of the elemental operators in terms of their reference versions and the geometric
+factors Ge , J e , and J ef as follows
+
+                                                                      J ef f
+                            Me = J e M,      D e = Ge D,      Lef =       L .                     (31)
+                                                                      Je
+Here M, D = [Dr , Ds ]T , and Lf are the mass, derivative, and lifting operators defined on the
+reference element Ê. Therefore, we can write the elliptic operator (28) on each element using only
+these reference operators and the geometric data Ge , J e , and J ef .
+
+5.2.1   Local Gradient Kernel
+To implement the elliptic operator on the GPU we first note that since the we require the positive
+and negative traces of the local derivative term D e u we must first compute and store it in global
+device memory so each element’s neighbour data is visible. To perform this operation we first
+implement a local gradient kernel which inputs a field u and outputs the local gradient D e u. We
+give the pseudo-code of this kernel in Algorithm 1. Since the size of the matrix-vector products in
+this kernel are Np × Np we launch this kernel using Np threads per block.
+    We show in Figure 7 the GPU performance results of five kernels implementing the local gradient
+operation. The kernels are constructed in a sequential fashion starting with a direct implementa-
+tion of Algorithm 3 and applying successive optimizations. Each kernel uses the previous kernel
+implementation as a starting point and applies the optimizations detailed below.
+Local Gradient Kernel 0 : This kernel is a direct implementation of Algorithm 1. The kernel
+reads the u field directly from global GPU memory during the matrix-vector product with the
+differentiation matrices. Due to these excessive global memory transactions, this kernel only reaches
+200 GFLOPS/s.
+Local Gradient Kernel 1 : In this kernel we add two shared memory arrays of size Np to store the
+u field before differentiation. Using shared memory rather than repeated accesses to global memory
+improves the performance substantially for N < 7. However, at higher orders the performance stalls.
+Local Gradient Kernel 2 : In this kernel all the global and local variables that are not modified
+are labeled with const qualifier. Also, the restrict qualifier is added to all input arrays to indicate
+to the compiler that memory locations pointed to do not overlap. Furthermore, all serial loops in
+the differentiation actions are unrolled, increasing instruction-level parallelism. These optmizations
+improve the performance of the kernel for high-order approximations and the performance reaches
+approximately 500 GFLOPS/s.
+
+                                                    20
+Algorithm 1. Local Gradient Kernel
+ 1: Input:
+    (1) u, size K × Np .
+    (2) Derivative matrices D = [Dr , Ds ], size 2 × (Np × Np ).
+    (3) Geometric factors G, size 4 × K.
+ 2: Output:
+    ∇u = [ux , uy ], size 2 × (K × Np ).
+ 3: for e ∈ {1, 2, . . . K} do
+ 4:   for i ∈ {1, 2, . . . Np } do
+                PNp
+ 5:      ur;i = j=1      Dr;ij uej                . Apply reference derivatives
+                PNp             e
+ 6:      us;i = j=1 Ds;ij uj
+                (e)        (e)        (e)        (e)
+ 7:     rx = G0 , sx = G1 ry = G2 , sy = G3
+ 8:     uex;i = rx φr;i + sx φs;i         . Apply geometric factors
+ 9:     uey;i = ry φr;i + sy φs;i
+10:   end for
+11: end for
+
+
+
+Local Gradient Kernel 3 : In this kernel multiple elements are processed by each threadblock
+to better align the computational load with the hardware architecture. Running several trials, we
+choose the number of elements per threadblock which optimizes performance. This optimization
+strategy increases the performance marginally. Achieved performance reaches 1.1 TFLOPS/s at
+N = 10 but remains below the empirical bound.
+Local Gradient Kernel 4 : In this kernel, each thread processes multiple nodes of an element,
+in addition to each threadblock processing multiple elements. That is, each time an entry of the
+differentiation matrices is loaded from memory it can be reused multiple times in the matrix-vector
+multiplication. The results of the matrix-vector products are stored in a register array. With this
+optimization strategy, overall performance curve of the kernel approaches the roofline curve for
+N < 8. For higher order, the difference between the achieved and empirical roofline performance
+is approximately 10%.
+
+5.2.2   SIPDG Operator Kernel
+Once the local gradient of the field u is computed and stored in global memory we use the SIPDG
+operator kernel to compute the action of the A operator on the field u. We give the pseudo-code of
+this kernel in 2. As an input to this kernel we assume that an index array of negative and positive
+trace indices has been constructed.
+    To fully paralleize the kernel we require Nf × Nf p threads for the surface flux construction,
+where Nf is the number of faces per element and Nf p is the number of degrees of freedom per face,
+and we require Np threads to paralleize the derivative and lifting operations. Therefore, we use a
+total of max (Nf × Nf p, N p) threads per block with this kernel.
+    We show in Figure 8 the GPU performance results of five kernels implementing the SIPDG
+elliptic operator. As before, the kernels are constructed in a sequential fashion starting with a
+direct implementation of Algorithm 2 and applying successive optimizations. Each kernel uses the
+previous kernel implementation as a starting point and applies the optimizations detailed below.
+
+
+                                                21
+Algorithm 2. SIPDG Kernel
+ 1: Input:
+    (1) u, size K × Np .
+    (2) ∇u = [ux , uy ], size 2 × (K × Np );
+    (3) Negative trace indices idM , size K × Nf × Nf p .
+    (4) positive trace indices idP , size K × Nf × Nf p .
+    (2) Derivative matrices D = [Dr , Ds ], size 2 × (Np × Np ).
+    (5) Lift matrix L, size Np × Nf × Nf p .
+    (6) Mass Matrix M, size Np × Np .
+    (7) Surface geometric factors sG, size 4 × K × Nf .
+    (8) Volume geometric factors G, size 5 × K.
+ 2: Output: Au, size K × Np .
+ 3: for e ∈ {1, 2, . . . K} do
+ 4:   for i ∈ {1, 2, . . . max (Np , (Nf × Nf p ))} do
+ 5:      if i ≤ Np then                                   . Load data and lift jumps
+ 6:         nx = sG0 , ny = sG1 J = sG2 ,(J e )−1 = sGe,f
+                       e,f            e,f e,f        e,f
+                                                                          3     
+                                         PNf ×Nf p
+ 7:         Lx;i = 0.5nx J e,f (J e )−1 j=1         Lij u(idPje ) − u(idMje )
+                                         PNf ×Nf p                             
+ 8:         Ly;i = 0.5nx J e,f (J e )−1 j=1         Lij u(idPje ) − u(idMje )
+ 9:      end if
+10:   end for
+11:   for i ∈ {1, 2, . . . max (Np , (Nf × Nf p ))} do
+12:      if i ≤ Np then                                   . Compute volume contribution
+                    (e)
+13:         rx = G0 , sx = G1 ry = G2 , sy = G3 , J e = Ge4
+                                  e           e           e
+                          PNp
+14:         Aui = − j=1         Dr;ij (rx (uex;i + Lx;i ) + ry (uey;i + Ly;i ))
+                           PNp
+15:         Aui += − j=1 Ds;ij (sx (uex;i + Lx;i ) + sy (uey;i + Ly;i ))
+16:      end if
+17:      if i ≤ Nf × Nf p then                            . Compute surface contributions
+18:         si = 0.5J e,f (J e )−1 nx (ux (idPie ) − ux (idMie ))
+19:         si += 0.5J e,f (J e )−1 ny (uy (idPie ) − uy (idMie ))
+20:         si += J e,f (J e )−1 τ (u(idPie ) − u(idMie ))
+21:         si −= J e,f (J e )−1 (nx Lx (idMie ) + ny Ly (idMie ))
+22:      end if
+23:   end for
+24:   for i ∈ {1, 2, . . . max (Np , (Nf × Nf p ))} do
+25:      if i ≤ Np then                                   . lift surface contribution
+                       PNf ×Nf p
+26:         Aui −= j=1             Lij sj
+27:      end if
+28:   end for
+29:   for i ∈ {1, 2, . . . max (Np , (Nf × Nf p ))} do
+30:      if i ≤ Np then                                   . Multiply with mass matrix
+                e      e
+                         PN p
+31:         Aui = J         j=1 Mij Auj
+32:      end if
+33:   end for
+34: end for
+
+                                                    22
+           1600
+
+           1400
+
+           1200
+
+           1000
+
+             800
+
+             600
+
+             400
+
+             200
+
+               0
+                   0   1      2       3      4      5      6      7       8      9     10
+
+
+
+Figure 7: Achieved floating point performance for the local gradient kernels compared against the
+empirical roofline model shown as a black line.
+
+
+
+SIPDG Kernel 0 : This kernel is a direct implementation of Algorithm 2. In this kernel the
+field variable u and the derivative ux and uy are loaded from global memory in lifting, volume,
+and surface evaluation steps. Results from matrix-vector products are stored in separate shared
+memory arrays. Due to the excessive global memory reads, this kernel achieves only 200 GFLOPS/s
+at N > 4 which is 10% of achievable performance for N = 10.
+SIPDG Kernel 1 : In this kernel we use five shared memory arrays of size Np and Nf × Nf p to
+store ux , uy and the local and external trace values of ux , uy , and u. All trace data is loaded from
+global memory before first lifting step, which requires a thread synchronization to ensure cache
+coherence. Reducing the global memory transactions increases the performance of this kernel by
+roughly a factor of two.
+SIPDG Kernel 2 : In this kernel we add a const qualifier to all input and local variable which
+remain unmodified and add the restrict qualifier to all input arrays. We also unroll serial for
+loops to increase instruction-level parallelism. This kernel reaches 550 TFLOPS/s for N > 6 but
+we do not see a significant improvement for lower orders.
+SIPDG Kernel 3 : In this kernel multiple elements are processed by each threadblock to increase
+occupancy. The number of elements mapped to a threadblock is optimized for each order of
+approximation by running several trials. Performance of the kernel increases substantially for low
+orders, and the measured performance approaches the empirical roofline curve. For N > 4 achieved
+performance stalls around 600 GFLOPS/s. This behavior can be explained by excessive operator
+loads. The SIPDG kernel requires a mass matrix, lift operator, and local differentiation matrices
+with sizes Np × Np , Np × (Nf × Nf p) and 2 × (Np × Np ), respectively. For N > 4, the data fetched
+by the kernel exceeds 24KB, which is the capacity of L1 cache in an Nvidia Tesla P100 GPU. Since
+
+                                                  23
+            2000
+
+            1800
+
+            1600
+
+            1400
+
+            1200
+
+            1000
+
+             800
+
+             600
+
+             400
+
+             200
+
+               0
+                   0    1      2       3      4       5      6      7       8      9      10
+
+
+
+Figure 8: Achieved floating point performance for the Ax kernels compared against the empirical
+roofline model shown as a black line.
+
+
+
+these operators cannot be stored in cache for N > 4, we observe a drop in performance due to
+global memory cache-misses.
+SIPDG Kernel 4 : In this kernel, in addition to processing multiple elements in a threadblock,
+multiple nodes are processed by a single thread. This strategy allows for reusing operators multiple
+times per load and, hence, brings considerable performance improvement. The observed perfor-
+mance curve approaches the roofline curve for low orders and reaches 1.1 TFLOPS/s at N = 10
+with less observed stalling for N > 4. The kernel still achieves only 30% of the predicted achievable
+performance due to L1 cache misses, and nonsequential data access pattern of external trace values
+leading to reduced data coalescing in global reads.
+
+5.3   Subcycling Advection Kernels
+The subcycling method requires several evaluations of the operator Ñe (Ūe , Ũe ) defined in (21).
+To describe the evaluation of this operator, we first note that we must use a sufficiently high-
+order cubature rule to prevent aliasing errors when evaluating the integrals in (21). We consider
+a sufficient nodal set of Nc cubature nodes with coordinates in the reference element (ric , sci ), and
+associated weight, wic for i = 1, . . . , Nc . We define analogous cubature node set on each face of Ê in
+order to integrate the surface terms with sufficiently high-order and for each face we denote these
+nodes as (rjcf , scf                               cf                f
+                  j ), and associated weight, wj for j = 1, . . . , Nc . We use these cubature nodes to
+
+
+
+
+                                                   24
+define the following interpolation operators
+
+                                                 (Iφ(r, s))i = φ(ric , sci ),                                                                   (32)
+                                               (I   f
+                                                        φ(r, s))j = φ(rjcf , scf
+                                                                              j ),                                                              (33)
+
+for i = 1, . . . , Nc and j = 1, . . . , Ncf .
+    Mapping (21) to the reference element Ê and taking the test functions v to be each of the nodal
+basis functions v = ln we find that we can write the operator Ñe (Ūe , Ũe ) as
+
+                                     Nc
+                                     X
+    e     e    e    e
+  (J MÑ (Ū , Ũ ))n = −J       e                   ˜ n )i · F̃((I Ūe )i , (I Ũe )i )
+                                           wic Ge (I ∇l
+                                     i=1
+                                                                                           f
+                                                                       2
+                                                                       X               Nc
+                                                                                       X
+                                                                  +           J   ef
+                                                                                               wjc (I f ln )j n · F̃∗ ((I f Ūe )j , (I f Ũe )j ),
+                                                                       f =0            j=1
+
+Defining the combined differentiation and projection operator P = [Pr , Ps ] via
+                                                        Np                                        
+                                                        X
+                                                                  −1                         ∂lm
+                                      (Pr )ni =               (M       )nm wic             I               ,
+                                                                                             ∂r        i
+                                                        m=1
+                                                        Np                                   
+                                                        X
+                                                                  −1                      ∂lm
+                                      (Ps )ni =               (M       )nm wic          I       ,
+                                                                                          ∂s i
+                                                        m=1
+
+and the cubature lifting operators Lfc as
+                                                                                  f
+                                                        Np                    Nc
+                                                        X                     X
+                                                                  −1
+                                     (Lfc )nj =              (M        )nm             wjc (I f lm )j ,
+                                                        m=1                   j=1
+
+we can write the operator Ñe (Ūe , Ũe ) compactly as
+                                                                              2
+                                                                              X J ef
+         Ñe (Ūe , Ũe ) = −Ge P · F̃((I Ūe )i , (I Ũe )i ) +                               Lfc n · F̃∗ ((I f Ūe )j , (I f Ũe )j ).        (34)
+                                                                                       Je
+                                                                              f =0
+
+Hence, the action of the nonlinear advection can be written as the sum of the volume and surface
+integral contributions. The evaluation of the volume term consists of interpolating the velocity
+fields Ūe and Ũe to the Nc cubature nodes, followed by the actions of the combined differentiation
+and projection operators Pr and Ps and incorporation of the geometric factors. Similarly, the
+evaluation of the surface term consists of interpolating the traces of the velocity fields Ūe and Ũe
+to the Ncf face cubature nodes, followed by the action of the cubature lift operator. We proceed to
+describe the GPU implementation and optimization of these two operations.
+
+5.3.1   Subcycling Advection Volume Kernel
+We show in Algorithm 3 the pseudo-code of subcycling advection volume (SAV) kernel. Nc and Np
+threads are used for interpolation and projection steps, respectively. To perform all computations,
+Nc threads are assigned for this kernel, unless explicitly stated otherwise.
+
+                                                                   25
+Algorithm 3. Subcycling Advection Volume Kernel
+  1: Input:
+     (1) Ū = [ū, v̄], size 2 × (K × Np );
+     (2) Ũ = [ũ, ṽ], size 2 × (K × Np );
+     (3) Interpolation matrix I, size Nc × Np ;
+     (4) Projection matrices P = [Pr , Ps ], size 2 × (Np × Nc );
+     (5) Geometric factors G, size 4 × K
+  2: Output: N = [Nu , Nv ], size 2 × (K × Np );
+  3: for e ∈ {1, 2, . . . K} do
+  4:   for i ∈ {1, 2, . . . Nc } do
+                 PNp c e
+  5:      ūi = j=1       Iij ūj                             . Interpolate to cubature nodes
+                 PNp c e
+  6:      v̄i = j=1 Iij v̄j
+                 PNp c e
+  7:      ũi = j=1       Iij ũj
+                 PNp c e
+  8:      ṽi = j=1 Iij ṽj
+  9:      F0;i = ūi ũi , F1;i = v̄i ũi                     . Compute volume flux function
+ 10:      F2;i = ūi ṽi , F3;i = v̄i ṽi
+ 11:   end for
+ 12:   for i ∈ {1, 2, . . . Nc } do
+ 13:      if i ≤ Np then                                      . Differentiate and project back
+ 14:                  e
+              rx = G0 , sx = G1      e                        . Load geometric factors
+ 15:          ry = Ge3 , sy = Ge3
+                        PNc                            PNc . Differentiate and project
+ 16:          F r0;i = j=1 Pr;ij F0;j , F s0;i = j=1 Ps;ij F0;j
+              F r1;i = N
+                        P c                            PNc
+ 17:                        j=1 Pr;ij F1;j , F s1;i =      j=1 Ps;ij F1;j
+                        PNc                            PN
+ 18:          F r2;i = j=1 Pr;ij F2;j , F s2;i = j=1        c
+                                                               Ps;ij F2;j
+                        PNc                            PNc
+ 19:          F r3;i = j=1 Pr;ij F3;j , F s3;i = j=1 Ps;ij F3;j
+                                                              . Multiply with geometric factors and update
+ 20:            e
+              Nu;i = rx F r0;i + sx F s0;i + ry F r1;i + sy F s1;i
+                e = r Fr
+              Nv;i
+ 21:                    x      2;i + sx F s2;i + ry F r3;i + sy F s3;i
+ 22:      end if
+ 23:   end for
+ 24: end for
+
+
+
+    We show in Figure 9 the GPU performance results of six different SAV kernels. As done above
+for the elliptic operator kernels, these kernels are constructed in a sequential fashion starting with a
+direct implementation of Algorithm 3 and applying successively optimizations. Each kernel uses the
+previous kernel implementation as a starting point and applies the optimizations detailed below.
+SAV Kernel 0 : This kernel is a direct implementation of the pseudo-code in Algorithm 3 and
+serves as a reference point for measuring kernel optimizations. This kernel reads the velocity fields
+directly from global GPU memory during the interpolation loop stores the result in shared memory.
+The performance of this kernel stalls for N ≥ 4 due to excessive global memory accesses and reaches
+only 700 GFLOPS/s.
+
+
+
+                                                     26
+           3000
+
+
+           2500
+
+
+           2000
+
+
+           1500
+
+
+           1000
+
+
+            500
+
+
+               0
+                   0   1      2      3      4      5       6      7      8      9     10
+
+
+
+Figure 9: Achieved floating point performance for the subcycling advection volume kernels com-
+pared against an empirical roofline model shown as a black line.
+
+
+
+SAV Kernel 1 : In this kernel we introduce 4 shared memory arrays, each with Np entries. The
+arrays are used to store the velocity fields before applying the interpolation operator. A memory
+fence is placed to ensure that all the shared memory data is loaded before the matrix-vector
+multiplication in the interpolation step. The reduction in global memory accesses improves the
+performance for N ≥ 4.
+SAV Kernel 2 : In this kernel the const qualifier is added to all unmodified input arrays, and to
+local variables where possible. We also label pointers with the restrict qualifier to explicitly state
+that they point to non-overlapping arrays. Additionally, all inner for loops are unrolled, which
+provides the scheduler with more opportunity for instruction-level parallelism. These modifications,
+however, only marginally boost the performance of the kernel.
+SAV Kernel 3 : In this kernel multiple elements are processed by each threadblock to better
+align the computational load with the hardware architecture. Running several trials, we choose the
+number of elements per threadblock which optimizes performance. This optimization improves the
+performance for low order approximations. The kernel achieves roughly 1 TFLOPS/s at high-order,
+which is approximately a half of the empirical shared memory bound.
+SAV Kernel 4 : In this kernel, each thread processes multiple nodes of an element, in addition
+to each threadblock processing multiple elements. That is, each time an entry of the interpolation
+or projection operators is loaded from memory it can be reused multiple times in the matrix-
+vector multiplication. Each thread stores the interpolated variables in a register array. While this
+optimization yields approximately a 1.5 fold speedup, overall performance of the kernel remains
+lower than the shared memory bound.
+
+
+
+                                                 27
+SAV Kernel 5 : At high orders, the number of cubature nodes increases and becomes much
+larger than the number of interpolation nodes. Since each previous kernel used Nc threads, as
+the difference between Nc and Np increases most of these threads stay idle in the projection step,
+which reduces thread utilization and hence, negatively impacts the kernel performance. Note as
+well that shared memory usage for interpolated velocity fields becomes excessive with increase
+of interpolation orders. To avoid the thread under-utilization and the impact of shared memory
+latency, we use instead only Np threads with shared memory arrays of size Np for each velocity
+component per each element processed in the kernel. Doing so, the matrix-vector multiplication in
+the interpolation step is blocked and computed in multiple passes. This optimization improves the
+performance of the kernel substantially. The kernel achieves approximately 2 TFLOPS/s and the
+performance plot approaches the empirical roofline.
+
+5.3.2   Subcycling Advection Surface Kernel
+We show in Algorithm 4 the pseudo-code implementing the subcycling advection surface (SAS)
+kernel which computes the surface contribution to the subcycling advection term (34). In this
+kernel we require Nf × Ncf threads to perform the interpolation step and compute the numerical
+flux at the surface integration points.We then require
+                                                     Np thread to apply the lift operator. We
+therefore launch the kernel using max Nf × Ncf , N p threads per threadblock to ensure that both
+operations can be performed.
+   We show in Figure 10 the GPU performance of seven separate kernels implemented to com-
+pute the surface contribution to the subcycling advection term. As described above for previous
+kernels, these kernels are constructed using sequential optimization steps, starting from the direct
+implementation of Algorithm 4. We detail the optmizations performed in each kernel below.
+SAS Kernel 0 : This kernel is a direct implementation of the pseudo-code in Algorithm 4 and
+serves as a reference point for measuring kernel optimizations. This kernel uses two shared memory
+arrays of size Nf ×Ncf to store the numerical flux for surface integration points. Each of the velocity
+fields are loaded directly from the global memory in the interpolation step. The excessive global
+memory accesses limit the performance of this kernel and performance reaches only 400 GFLOPS/s,
+which is one fifth of the predicted empirical roofline for N = 10.
+SAS Kernel 1 : In this kernel we introduce eight additional shared memory arrays of size Nf ×Nf p
+to store the internal and neighbour trace data of the velocity fields. All the required data is
+loaded from global memory at the beginning of the kernel, before the interpolation step. The
+resulting reduction in global memory reads significantly improves the performance of the kernel
+and performance 800 GFLOPS/s, which is a two-fold speedup compared with SAS Kernel 0.
+SAS Kernel 2 : In this kernel we add the const qualifier to all unmodified input variables. We
+also label input pointers with the restrict qualifier to explicitly state that they point to non-
+overlapping arrays. Additionally, all serial for loops in interpolation and lifting steps are unrolled
+to increase instruction-level parallelism. Although these modifications provide further optimization
+opportunities for the compiler, our results indicate that they have only a minor effect on the
+achieved performance.
+SAS Kernel 3 : In this kernel multiple elements are processed by each threadblock to better
+balance the occupancy and the data movement. As for the volume kernel, the optimal number of
+elements per threadblock is optimized by testing over several options. The performance improve-
+
+
+                                                  28
+Algorithm 4. Subcycling Advection Surface Kernel
+ 1: Input:
+      (1) Ū = [ū, v̄], size 2 × (K × Np );
+      (2) Ũ = [ũ, ṽ], size 2 × (K × Np );
+      (3) Negative trace indices idM , size K × (Nf × Nf p );
+      (4) Positive trace indices idP , size K × (Nf × Nf p);
+    (5) Cubature Lift matrix Lc , size Np × Nf × Ncf ;
+                                                               
+    (6) Interpolation matrix I f , size Nf × Ncf × Np ;
+    (5) Geometric factors sG, size K × (Nf × 4)
+ 2: Output:
+    N = [Nu , Nv ], size K × Np × 2;
+ 3: for e ∈ {1,n2, . . . K} do             o
+ 4:   for i ∈ 1, 2, . . . Nf × Ncf               do
+                                                                 . Interpolate to surface cubature nodes
+                PNf p c                            PNf p c
+ 5:      ū−i =   j=1 ij I   ū(idM   j
+                                       e ), ū+ =
+                                              i              I
+                                                       j=1 ij ū(idPj )
+                                                                            e
+                PNf p c                            PNf p c
+ 6:      v̄i− = j=1      Iij v̄(idMje ), v̄i+ = j=1         Iij v̄(idPje )
+                  Nf p c                               Nf p c
+         ũ−                           e      +                             e
+                P                                  P
+ 7:         i =   j=1 Iij ũ(idMj ), ũi =             j=1 Iij ũ(idPj )
+                  Nf p c                              Nf p c
+         ṽi− = j=1      Iij ṽ(idMje ), ṽi+ = j=1         Iij ṽ(idPje )
+                P                                  P
+ 8:
+                                                                 . Compute flux function
+ 9:      nx = sGef0   ,  n y  =   sG ef ef
+                                     1    J     = sG  ef
+                                                      2   , (J e )−1 = sGe
+                                                                                 3
+                                                        −             −           +         +
+10:      α = 0.5(J e )−1 J ef , λi = max(|n         x ūi   +  n y v̄ i |, |n x ūi + ny v̄i |)
+                                          − −                              − −               −
+         F∗u;i = α nx ū+          +                         + +                                 +
+                                                                                                  
+11:                           i ũi + ūi ũi  + ny v̄i ũi + v̄i ũi  + λi ũi − ũi 
+                                          − −
+12:      F∗v;i = α nx ū+         +
+                              i ṽi + ūi ṽi     + ny v̄i+ ṽi+ + v̄i− ṽi− + λi ṽi− − ṽi+
+13:   end for
+14:   for i ∈ {1, 2, . . . Np } do
+                 PNf ×Ncf
+15:      Nu;i = j=1             Lc;ij F∗u;i                      . Lift numerical flux
+                 PNf ×Ncf
+16:      Nv;i = j=1             Lc;ij F∗v;i
+            (e)
+17:       Nu;i + = Nu;i                                 . Add to volume contribution
+           (e)
+18:       Nv;i + = Nv;i
+19:   end for
+20: end for
+
+
+
+ment resulting from this optimization is modest, and much better at low-order approximations.
+This kernel performs around 1 TFLOPS/s for N > 5 which is 50% of the empirical bound for
+N = 10.
+SAS Kernel 4 : In this kernel multiple nodes of different elements are processed by a thread
+to further increase the occupancy and to reuse fetched interpolation and lift operators. This
+optimization slightly improves performance at low order approximations. However, due to excessive
+shared memory requirements we cannot load a sufficient number of elements in a single thread block
+to make this optmization yield a performance improvement at high orders.
+
+
+                                                        29
+SAS Kernel 5 : In this kernel shared memory usage is reduced by a factor of two. We first load
+the velocity fields from global memory to shared memory arrays and then interpolate the surface
+integration points. The interpolated velocity fields are stored in register arrays and loaded back
+to the same shared memory arrays after local memory barrier. This reduction in shared memory
+usage allows us to load more elements per thread block and take advantage of the optmizations
+performed in the previous kernel giving an approximate 20% performance improvement for N > 5.
+The kernel reaches 1.35 TFLOPS/s.
+SAS Kernel 6 : In this kernel shared memory usage is further reduced by a factor of two using
+two additional thread synchronizations. This kernel utilizes only two shared memory arrays where
+velocity components are loaded and interpolated to the integration nodes in sets of two before each
+thread synchronization. We process one velocity field by fetching interior and exterior trace values
+from the global memory to increase the likelihood of data caching. Performance is slightly improved
+achieving 1.4 TFLOPS/s.
+
+
+          2000
+
+          1800
+
+          1600
+
+          1400
+
+          1200
+
+          1000
+
+            800
+
+            600
+
+            400
+
+            200
+
+              0
+                  0   1      2      3      4       5      6      7      8      9     10
+
+
+
+Figure 10: Achieved floating point performance for the subcycling surface kernels compared against
+an empirical roofline model shown as a black line.
+
+
+
+
+6    Conclusion
+In this study, we presented a GPU-optimized high-order discontinuous Galerkin method for approx-
+imating the incompressible Navier-Stokes equations. To reduce the cost of each semi-implicit time
+step we use a semi-Lagrangian subcycling approach. Performance studies show that this approach
+shifts the computational load away from the linear solvers towards the explicit advection stage.
+    We presented an empirical performance roofline model to assist in quantifying GPU performance
+as well as indicate when kernels are performing near empirical limits. We conducted a detailed study
+
+                                                30
+of the most computationally intensive kernels in the linear solver stage as well as the subcycling
+advection stage. We detailed the optimization of each of these kernels targeting the Nvidia Tesla
+P100 GPU. The resulting performance measures of the optimized kernels indicate that the solver
+is performing well on the GPU.
+    The GPU performance of the three dimensional versions of each of the high-order operators
+in the INS scheme for tetrahedral elements remains to be investigated. Furthermore, significant
+performance gains can potentially be obtained by considering modifications to aspects of the scheme
+such as more sophisticated preconditioning techniques and polynomial bases which sparsity finite-
+element operators. These topics will studied in future works.
+
+
+7    Acknowledgements
+This research was supported in part by the Exascale Computing Project (17-SC-20-SC), a collab-
+orative effort of two U.S. Department of Energy organizations (Office of Science and the National
+Nuclear Security Administration) responsible for the planning and preparation of a capable exas-
+cale ecosystem, including software, applications, hardware, advanced system engineering, and early
+testbed platforms, in support of the nations exascale computing imperative.
+    In addition, the authors would like to kindly acknowledge Advance Research Computing at
+Virginia Tech for providing readily accessible computational resources. Finally, this research was
+supported in part by the John K. Costain Faculty Chair in Science at Virginia Tech.
+
+
+References
+Adams, M., M. Brezina, J. Hu, and R. Tuminaro (2003). “Parallel multigrid smoothing: polynomial
+   versus Gauss–Seidel”. Journal of Computational Physics, 188 (2), pp. 593–610.
+Arnold, D. (1982). “An interior penalty finite element method with discontinuous elements”. SIAM
+   Journal on Numerical Analysis, 19 (4), pp. 742–760.
+Carpenter, M. H. and C. A. Kennedy (1994). “Fourth-order 2N-storage Runge-Kutta schemes”.
+   NASA Report TM 109112, NASA Langley Research Center.
+Chan, J., Z. Wang, A. Modave, J. F. Remacle, and T. Warburton (2016). “GPU-accelerated discon-
+   tinuous Galerkin methods on hybrid meshes”. Journal of Computational Physics, 318, pp. 142–
+   168.
+Chorin, A. J. (1969). “On the convergence of discrete approximations to the Navier-Stokes equa-
+   tions”. Mathematics of Computation, 23 (106), pp. 341–353.
+Darekar, R. M. and S. J. Sherwin (2001). “Flow past a square-section cylinder with a wavy stag-
+   nation face”. Journal of Fluid Mechanics, 426, pp. 263–295.
+Ferrer, E., D. Moxey, R. H. J. Willden, and S. J. Sherwin (2014). “Stability of projection methods
+   for incompressible flows using high order pressure-velocity pairs of same degree: continuous
+   and discontinuous Galerkin formulations”. Communications in Computational Physics, 16 (3),
+   pp. 817–840.
+Fuhry, M., A. Giuliani, and L. Krivodonova (2014). “Discontinuous Galerkin methods on graphics
+   processing units for nonlinear hyperbolic conservation laws”. International Journal for Numer-
+   ical Methods in Fluids, 76 (12), pp. 982–1003.
+Gandham, R., K. Esler, and Y. Zhang (2014). “A GPU accelerated aggregation algebraic multigrid
+   method”. Computers & Mathematics with Applications, 68 (10), pp. 1151–1160.
+
+                                                31
+Gandham, R., D. Medina, and T. Warburton (2015). “GPU accelerated discontinuous Galerkin
+    methods for shallow water equations”. Communications in Computational Physics, 18 (1), pp. 37–
+    64.
+Giraldo, F. X. (2003). “Strong and weak Lagrange-Galerkin spectral element methods for the
+    shallow water equations”. Computers & Mathematics with Applications, 45 (1), pp. 97–121.
+Guermond, J. L., P. Minev, and J. Shen (2006). “An overview of projection methods for incom-
+    pressible flows”. Computer Methods in Applied Mechanics and Engineering, 195 (44), pp. 6011–
+    6045.
+Karakus, A., T. Warburton, M. H. Aksel, and C. Sert (2016a). “A GPU-accelerated adaptive
+    discontinuous Galerkin method for level set equation”. International Journal of Computational
+    Fluid Dynamics, 30 (1), pp. 56–68.
+— (2016b). “A GPU accelerated level set reinitialization for an adaptive discontinuous Galerkin
+    method”. Computers & Mathematics with Applications, 72 (3), pp. 755–767.
+Karniadakis, G. and S. J. Sherwin (2005). Spectral/hp element methods for CFD. Oxford University
+    Press.
+Klöckner, A., T. Warburton, J. Bridge, and J. S. Hesthaven (2009). “Nodal discontinuous Galerkin
+    methods on graphics processors”. Journal of Computational Physics, 228 (21), pp. 7863–7882.
+Lottes, J. W. and P. F. Fischer (2005). “Hybrid multigrid/Schwarz algorithms for the spectral
+    element method”. Journal of Scientific Computing, 24 (1), pp. 45–78.
+Maday, Y., A. T. Patera, and E. M. Ronquist (1990). “An operator-integration-factor splitting
+    method for time-dependent problems: application to incompressible fluid flow”. SIAM Journal
+    of Scientific Computing, 5 (4), pp. 263–292.
+Medina, D. S., A. St-Cyr, and T. Warburton (2014). “OCCA: A unified approach to multi-threading
+    languages”. arXiv:1403.0968.
+Modave, A., A. St-Cyr, and T. Warburton (2016). “GPU performance analysis of a nodal dis-
+    continuous Galerkin method for acoustic and elastic models”. Computers & Geosciences, 91,
+    pp. 64–76.
+Notay, Y. (2006). “Aggregation-based algebraic multilevel preconditioning”. SIAM journal on ma-
+    trix analysis and applications, 27 (4), pp. 998–1018.
+— (2010). “An aggregation-based algebraic multigrid method”. Electronic transactions on numer-
+    ical analysis, 37 (6), pp. 123–146.
+Piatkowski, M., S. Müthing, and P. Bastian (2016). “A stable and high-order accurate discontinuous
+    Galerkin based splitting method for the incompressible Navier-Stokes equations”. arXiv:1612.00657.
+Roca, X., N. C. Nguyen, and J. Peraire (2011). “GPU-accelerated sparse matrix-vector product
+    for a hybridizable discontinuous Galerkin method”. In: Aerospace Sciences Meetings. American
+    Institute of Aeronautics and Astronautics, pp. 2011–687.
+Shahbazi, K. (2005). “An explicit expression for the penalty parameter of the interior penalty
+    method”. Journal of Computational Physics, 205 (2), pp. 401–407.
+Shahbazi, K., P. F. Fischer, and C. R. Ethier (2007). “A high-order discontinuous Galerkin method
+    for the unsteady incompressible Navier-Stokes equations”. Journal of Computational Physics,
+    222 (1), pp. 391–407.
+Stüben, K. (2001). “A review of algebraic multigrid”. Journal of Computational and Applied Math-
+    ematics, 128 (1), pp. 281–309.
+Swirydowicz, K., N. Chalmers, A. Karakus, and T. Warburton (2017). “Acceleration of tensor-
+    product operations for high-order finite element methods”. arXiv: 1711.00903.
+
+
+                                                32
+Trottenberg, U., C. W. Oosterlee, and A. Schuller (2001). Multigrid. Academic Press.
+Volkov, V. and J. W. Demmel (2008). “Benchmarking GPUs to tune dense linear algebra”. In:
+   International Conference for High Performance Computing, Networking, Storage and Analysis.
+   IEEE, pp. 1–11.
+Warburton, T. (2006). “An explicit construction of interpolation nodes on the simplex”. Journal
+   of Engineering Mathematics, 56 (3), pp. 247–262.
+Wheeler, M. F. (1978). “An elliptic collocation-finite element method with interior penalties”. SIAM
+   Journal on Numerical Analysis, 15 (1), pp. 152–161.
+Williamson, J. H. (1980). “Low-storage Runge-Kutta schemes”. Journal of Computational Physics,
+   35 (1), pp. 48–56.
+Xiu, D., S. J. Sherwin, S. Dong, and G. E. Karniadakis (2005). “Strong and auxiliary forms of
+   the semi-Lagrangian method for incompressible flows”. SIAM Journal of Scientific Computing,
+   25 (1-2), pp. 323–346.
+Zhang, M. P. and C. W. Shu (2003). “An analysis of three different formulations of the discontin-
+   uous Galerkin method for diffusion equations”. Mathematical Models and Methods in Applied
+   Sciences, 13 (3), pp. 395–413.
+
+
+
+
+                                                33
+

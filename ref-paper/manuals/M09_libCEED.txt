@@ -1,0 +1,830 @@
+
+
+  
+  
+
+  
+  Welcome to libCEED’s User Manual! — libCEED 1.0.1
+ documentation
+      
+      
+      
+      
+      
+      
+
+  
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+    
+    
+    
+     
+
+
+ 
+  
+    
+      
+        
+
+          
+          
+          
+            libCEED
+          
+              
+                
+                
+              
+
+  
+    
+    
+    
+  
+
+        
+              Contents
+
+Introduction
+Getting Started
+Interface Concepts
+Examples
+API Documentation
+Julia, Python, and Rust Interfaces
+GPU Development
+Floating Point Precision
+Developer Notes
+Contributing
+Code of Conduct
+Release Notes
+
+
+        
+      
+    
+
+    
+          
+          libCEED
+      
+
+      
+        
+          
+  
+      
+      Welcome to libCEED’s User Manual!
+      
+             View page source
+      
+  
+  
+
+          
+           
+             
+  
+Welcome to libCEED’s User Manual!
+
+Contents
+
+Introduction
+Getting Started
+Building
+WebAssembly
+
+
+Additional Language Interfaces
+Testing
+Backends
+
+
+Interface Concepts
+Theoretical Framework
+Finite Element Operator Decomposition
+Terminology and Notation
+Partial Assembly
+Parallel Decomposition
+
+
+API Description
+Gallery of QFunctions
+Interface Principles and Evolution
+
+
+Examples
+Common notation
+Standalone libCEED
+Ex1-Volume
+Ex2-Surface
+Ex3-Volume
+
+
+CEED Bakeoff Problems
+Mass Operator
+Laplace Operator
+
+
+PETSc demos and BPs
+Area
+Cube
+Sphere
+
+
+Bakeoff problems and generalizations
+Bakeoff problems on the cubed-sphere
+
+
+Multigrid
+
+
+Compressible Navier-Stokes mini-app
+Running the mini-app
+Boundary conditions
+Advection
+Inviscid Ideal Gas
+Newtonian viscosity, Ideal Gas
+
+
+The Navier-Stokes equations
+Finite Element Formulation (Spatial Discretization)
+Time Discretization
+Stabilization
+Statistics Collection
+Differential Filtering
+
+
+Advection-Diffusion
+Isentropic Vortex
+Shock Tube
+Gaussian Wave
+Vortex Shedding - Flow past Cylinder
+Density Current
+Channel
+Flat Plate Boundary Layer
+Laminar Boundary Layer - Blasius
+Turbulent Boundary Layer
+Meshing
+
+
+Taylor-Green Vortex
+
+
+Solid mechanics mini-app
+Running the mini-app
+On algebraic solvers
+Nondimensionalization
+Diagnostic Quantities
+
+
+Linear Elasticity
+Constitutive modeling
+
+
+Hyperelasticity at Small Strain
+Newton linearization
+
+
+Hyperelasticity at Finite Strain
+Constitutive modeling
+Weak form
+Newton linearization
+
+
+
+
+
+
+API Documentation
+Public API
+Ceed
+Base library resources
+
+
+CeedVector
+Basic vector operations
+
+
+CeedElemRestriction
+Expressing element decomposition and degrees of freedom over a mesh
+
+
+CeedBasis
+Discrete element bases and quadrature
+
+
+CeedQFunction
+Resolution/space-independent weak forms and quadrature-based operations
+
+
+CeedOperator
+Discrete operators on user vectors
+
+
+
+
+Backend API
+Ceed
+CeedObjectCreate()
+CeedObjectReference()
+CeedObjectDereference()
+CeedObjectDestroy_Private()
+CeedDebugFlag()
+CeedGetEnableDebug()
+CeedSetEnableDebug()
+CeedDebugImpl256()
+CeedMallocArray()
+CeedCallocArray()
+CeedReallocArray()
+CeedStringAllocCopy()
+CeedFree()
+CeedSetHostGenericArray()
+CeedSetHostBoolArray()
+CeedSetHostCeedInt8Array()
+CeedSetHostCeedIntArray()
+CeedSetHostCeedScalarArray()
+CeedRegister()
+CeedGetResourceRoot()
+CeedGetParent()
+CeedGetDelegate()
+CeedSetDelegate()
+CeedGetObjectDelegate()
+CeedSetObjectDelegate()
+CeedGetOperatorFallbackCeed()
+CeedSetOperatorFallbackCeed()
+CeedSetDeterministic()
+CeedSetBackendFunctionImpl()
+CeedGetData()
+CeedSetData()
+CeedReference()
+CeedGetWorkVectorMemoryUsage()
+CeedClearWorkVectors()
+CeedGetWorkVector()
+CeedRestoreWorkVector()
+CeedGetJitSourceRoots()
+CeedGetRustSourceRoots()
+CeedRestoreJitSourceRoots()
+CeedRestoreRustSourceRoots()
+CeedGetJitDefines()
+CeedRestoreJitDefines()
+CeedMkdirParents()
+CeedGetCacheDir()
+CeedRestoreCacheDir()
+Macros
+Typedefs and Enumerations
+
+
+CeedVector
+CeedVectorHasValidArray()
+CeedVectorHasBorrowedArrayOfType()
+CeedVectorGetState()
+CeedVectorGetData()
+CeedVectorSetData()
+CeedVectorReference()
+
+
+CeedElemRestriction
+CeedElemRestrictionGetType()
+CeedElemRestrictionIsStrided()
+CeedElemRestrictionIsAtPoints()
+CeedElemRestrictionAtPointsAreCompatible()
+CeedElemRestrictionGetStrides()
+CeedElemRestrictionHasBackendStrides()
+CeedElemRestrictionGetOffsets()
+CeedElemRestrictionRestoreOffsets()
+CeedElemRestrictionGetOrientations()
+CeedElemRestrictionRestoreOrientations()
+CeedElemRestrictionGetCurlOrientations()
+CeedElemRestrictionRestoreCurlOrientations()
+CeedElemRestrictionGetLLayout()
+CeedElemRestrictionSetLLayout()
+CeedElemRestrictionGetELayout()
+CeedElemRestrictionSetELayout()
+CeedElemRestrictionGetAtPointsElementOffset()
+CeedElemRestrictionSetAtPointsEVectorSize()
+CeedElemRestrictionGetData()
+CeedElemRestrictionSetData()
+CeedElemRestrictionGetBlockedElemRestriction()
+CeedElemRestrictionReference()
+CeedElemRestrictionGetFlopsEstimate()
+
+
+CeedBasis
+CeedBasisCreateH1Fallback()
+CeedBasisGetChebyshevInterp1D()
+CeedBasisIsTensor()
+CeedBasisComputeIsCollocated()
+CeedBasisIsCollocated()
+CeedBasisHasCollocatedGrad()
+CeedBasisGetData()
+CeedBasisSetData()
+CeedBasisReference()
+CeedBasisGetNumQuadratureComponents()
+CeedBasisGetFlopsEstimate()
+CeedBasisGetFESpace()
+CeedBasisGetTopologyDimension()
+CeedBasisGetTensorContract()
+CeedBasisSetTensorContract()
+CeedBasisGetChebyshevData()
+CeedMatrixMatrixMultiply()
+CeedQRFactorization()
+CeedHouseholderApplyQ()
+CeedMatrixPseudoinverse()
+CeedSymmetricSchurDecomposition()
+CeedSimultaneousDiagonalization()
+CeedTensorContractCreate()
+CeedTensorContractApply()
+CeedTensorContractApplyEvenOdd()
+CeedTensorContractStridedApply()
+CeedTensorContractGetCeed()
+CeedTensorContractReturnCeed()
+CeedTensorContractGetData()
+CeedTensorContractSetData()
+CeedTensorContractReference()
+CeedTensorContractReferenceCopy()
+CeedTensorContractDestroy()
+
+
+CeedQFunction
+CeedQFunctionField
+CeedQFunctionGetVectorLength()
+CeedQFunctionGetNumArgs()
+CeedQFunctionGetName()
+CeedQFunctionGetKernelName()
+CeedQFunctionGetSourcePath()
+CeedQFunctionGetUserFunction()
+CeedQFunctionGetContext()
+CeedQFunctionGetContextData()
+CeedQFunctionRestoreContextData()
+CeedQFunctionGetInnerContext()
+CeedQFunctionGetInnerContextData()
+CeedQFunctionRestoreInnerContextData()
+CeedQFunctionIsIdentity()
+CeedQFunctionIsContextWritable()
+CeedQFunctionGetData()
+CeedQFunctionSetData()
+CeedQFunctionIsImmutable()
+CeedQFunctionSetImmutable()
+CeedQFunctionReference()
+CeedQFunctionGetFlopsEstimate()
+CeedQFunctionContextGetCeed()
+CeedQFunctionContextReturnCeed()
+CeedQFunctionContextHasValidData()
+CeedQFunctionContextHasBorrowedDataOfType()
+CeedQFunctionContextGetState()
+CeedQFunctionContextGetBackendData()
+CeedQFunctionContextSetBackendData()
+CeedQFunctionContextGetFieldLabel()
+CeedQFunctionContextSetGeneric()
+CeedQFunctionContextGetGenericRead()
+CeedQFunctionContextRestoreGenericRead()
+CeedQFunctionContextSetBoolean()
+CeedQFunctionContextGetBooleanRead()
+CeedQFunctionContextRestoreBooleanRead()
+CeedQFunctionContextSetByte()
+CeedQFunctionContextGetByteRead()
+CeedQFunctionContextRestoreByteRead()
+CeedQFunctionContextSetCeedInt8()
+CeedQFunctionContextGetCeedInt8Read()
+CeedQFunctionContextRestoreCeedInt8Read()
+CeedQFunctionContextSetCeedInt()
+CeedQFunctionContextGetCeedIntRead()
+CeedQFunctionContextRestoreCeedIntRead()
+CeedQFunctionContextSetInt32()
+CeedQFunctionContextGetInt32Read()
+CeedQFunctionContextRestoreInt32Read()
+CeedQFunctionContextSetInt64()
+CeedQFunctionContextGetInt64Read()
+CeedQFunctionContextRestoreInt64Read()
+CeedQFunctionContextSetCeedSize()
+CeedQFunctionContextGetCeedSizeRead()
+CeedQFunctionContextRestoreCeedSizeRead()
+CeedQFunctionContextSetCeedScalar()
+CeedQFunctionContextGetCeedScalarRead()
+CeedQFunctionContextRestoreCeedScalarRead()
+CeedQFunctionContextSetFloat()
+CeedQFunctionContextGetFloatRead()
+CeedQFunctionContextRestoreFloatRead()
+CeedQFunctionContextSetDouble()
+CeedQFunctionContextGetDoubleRead()
+CeedQFunctionContextRestoreDoubleRead()
+CeedQFunctionContextGetDataDestroy()
+CeedQFunctionContextReference()
+Macros
+
+
+CeedOperator
+CeedOperatorField
+CeedOperatorGetNumArgs()
+CeedOperatorHasTensorBases()
+CeedOperatorIsImmutable()
+CeedOperatorIsSetupDone()
+CeedOperatorGetQFunction()
+CeedOperatorIsComposite()
+CeedOperatorGetData()
+CeedOperatorSetData()
+CeedOperatorReference()
+CeedOperatorSetSetupDone()
+CeedOperatorGetBasisPointer()
+CeedOperatorCreateActivePointBlockRestriction()
+CeedOperatorGetQFunctionAssemblyData()
+CeedQFunctionAssemblyDataCreate()
+CeedQFunctionAssemblyDataReference()
+CeedQFunctionAssemblyDataSetReuse()
+CeedQFunctionAssemblyDataSetUpdateNeeded()
+CeedQFunctionAssemblyDataIsUpdateNeeded()
+CeedQFunctionAssemblyDataReferenceCopy()
+CeedQFunctionAssemblyDataIsSetup()
+CeedQFunctionAssemblyDataSetBlockAssembling()
+CeedQFunctionAssemblyDataSetObjects()
+CeedQFunctionAssemblyDataGetObjects()
+CeedQFunctionAssemblyDataDestroy()
+CeedOperatorGetOperatorAssemblyData()
+CeedOperatorAssemblyDataCreate()
+CeedOperatorAssemblyDataGetEvalModes()
+CeedOperatorAssemblyDataGetBases()
+CeedOperatorAssemblyDataGetElemRestrictions()
+CeedOperatorAssemblyDataDestroy()
+CeedOperatorGetFallback()
+CeedOperatorGetFallbackParent()
+CeedOperatorGetFallbackParentCeed()
+
+
+
+
+Internal Functions
+Ceed
+CeedRegisterImpl()
+CeedWorkVectorsCreate()
+CeedWorkVectorsDestroy()
+CeedView_Object()
+CeedDestroy_Object()
+
+
+CeedVector
+CeedVectorView_Object()
+CeedVectorDestroy_Object()
+
+
+CeedElemRestriction
+CeedPermutePadOffsets()
+CeedPermutePadOrients()
+CeedPermutePadCurlOrients()
+CeedElemRestrictionView_Object()
+CeedElemRestrictionDestroy_Object()
+
+
+CeedBasis
+CeedChebyshevPolynomialsAtPoint()
+CeedChebyshevDerivativeAtPoint()
+CeedHouseholderReflect()
+CeedGivensRotation()
+CeedScalarView()
+CeedBasisView_Object()
+CeedBasisDestroy_Object()
+CeedBasisCreateProjectionMatrices()
+CeedBasisDetectSymmetry()
+CeedBasisComputeHalfMatrices()
+CeedComputeEvenOddDecomposition()
+CeedBasisApplyCheckDims()
+CeedBasisApplyAtPointsCheckDims()
+CeedBasisApplyAtPoints_Core()
+
+
+CeedQFunction
+CeedQFunctionRegister()
+CeedQFunctionFieldSet()
+CeedQFunctionFieldView()
+CeedQFunctionView_Object()
+CeedQFunctionDestroy_Object()
+CeedQFunctionSetFortranStatus()
+CeedQFunctionContextGetFieldIndex()
+CeedQFunctionContextRegisterGeneric()
+CeedQFunctionContextDestroyData()
+CeedQFunctionContextView_Object()
+CeedQFunctionContextDestroy_Object()
+
+
+CeedOperator
+CeedOperatorCheckField()
+CeedOperatorFieldView()
+CeedOperatorSingleView()
+CeedOperatorView_Object()
+CeedOperatorDestroy_Object()
+CeedOperatorGetActiveBasis()
+CeedOperatorGetActiveBases()
+CeedOperatorGetActiveElemRestriction()
+CeedOperatorGetActiveElemRestrictions()
+CeedOperatorContextSetGeneric()
+CeedOperatorContextGetGenericRead()
+CeedOperatorContextRestoreGenericRead()
+CeedQFunctionCreateFallback()
+CeedOperatorCreateFallback()
+CeedOperatorLinearAssembleAddDiagonalSingle_Mesh()
+CeedOperatorLinearAssembleAddDiagonalSingle()
+CeedOperatorLinearAssembleAddDiagonalComposite()
+CeedOperatorAssemblyCountEntriesSingleBlock()
+CeedOperatorAssemblyCountEntriesSingle()
+CeedOperatorLinearAssembleGetNumEntries()
+CeedOperatorAssembleSymbolicSingleBlock()
+CeedOperatorAssembleSymbolicSingle()
+CeedOperatorLinearAssembleQFunctionBuildOrUpdate_Core()
+CeedOperatorLinearAssembleQFunctionBuildOrUpdateFallback()
+CeedOperatorAssembleSingleBlock()
+CeedOperatorAssembleSingle()
+CeedOperatorMultigridLevelCreateSingle_Core()
+CeedBuildMassLaplace()
+
+
+
+
+
+
+Julia, Python, and Rust Interfaces
+GPU Development
+JiT Compilation
+Memory Access
+
+
+Floating Point Precision
+Language-specific notes
+
+
+Developer Notes
+Library Design
+Backend Inheritance
+Backend Families
+CPU Backends
+GPU Backends
+
+
+Internal Layouts
+CeedVector Array Access
+Shape
+restrict Semantics
+Style Guide
+Function Conventions
+Naming
+Style
+
+
+Clang-tidy
+Include-What-You-Use
+Updating CI
+
+
+Contributing
+Developer’s Certificate of Origin 1.1
+LLM Generated Content
+Authorship
+
+
+Code of Conduct
+Our Pledge
+Our Standards
+Enforcement Responsibilities
+Scope
+Enforcement
+Enforcement Guidelines
+1. Correction
+2. Warning
+3. Temporary Ban
+4. Permanent Ban
+
+
+Attribution
+
+
+Release Notes
+Current main branch
+Interface changes
+New features
+Examples
+
+
+v1.0.1 (October 11, 2026)
+v1.0 (October 7, 2026)
+Interface changes
+New features
+Examples
+Maintainability
+
+
+v0.12 (Oct 31, 2023)
+Interface changes
+New features
+Examples
+example-petsc-bps
+example-petsc-navier-stokes
+
+
+
+
+v0.11 (Dec 24, 2022)
+Interface changes
+New features
+Bugfix
+Examples
+example-petsc-navier-stokes
+example-petsc-bps
+
+
+Maintainability
+
+
+v0.10.1 (Apr 11, 2022)
+Interface changes
+New features
+Bugfix
+
+
+v0.10 (Mar 21, 2022)
+Interface changes
+New features
+Maintainability
+
+
+v0.9 (Jul 6, 2021)
+Interface changes
+New features
+Performance improvements
+Examples
+Deprecated backends
+
+
+v0.8 (Mar 31, 2021)
+Interface changes
+New features
+Performance improvements
+Examples
+
+
+v0.7 (Sep 29, 2020)
+Interface changes
+New features
+Performance improvements
+Examples
+Deprecated backends
+
+
+v0.6 (Mar 29, 2020)
+New features
+Performance Improvements
+Interface changes
+Examples
+
+
+v0.5 (Sep 18, 2019)
+v0.4 (Apr 1, 2019)
+v0.3 (Sep 30, 2018)
+v0.21 (Sep 30, 2018)
+v0.2 (Mar 30, 2018)
+v0.1 (Jan 3, 2018)
+
+
+
+
+
+
+Indices and tables
+
+Index
+Search Page
+
+
+
+
+[sod]
+Sod shock tube. https://en.wikipedia.org/wiki/Sod_shock_tube. Accessed: 01-30-2022.
+
+
+[AB93]
+Ellen M Arruda and Mary C Boyce. A three-dimensional constitutive model for the large stretch behavior of rubber elastic materials. Journal of the Mechanics and Physics of Solids, 41(2):389–412, 1993. doi:10.1016/0022-5096(93)90013-6.
+
+
+[BAB+21]
+Jed Brown, Ahmad Abdelfattah, Valeria Barra, Natalie Beams, Jean Sylvain Camier, Veselin Dobrev, Yohann Dudouit, Leila Ghaffari, Tzanio Kolev, David Medina, Will Pazner, Thilina Ratnayaka, Jeremy Thompson, and Stan Tomov. libCEED: fast algebra for high-order element-based discretizations. Journal of Open Source Software, 6(63):2945, 2021. doi:10.21105/joss.02945.
+
+
+[BJ16]
+Jonathan R. Bull and Antony Jameson. Explicit filtering and exact reconstruction of the sub-filter stresses in large eddy simulation. Journal of Computational Physics, 306:117–136, 2016. doi:10.1016/j.jcp.2015.11.037.
+
+
+[Col23]
+Tim Colonius. Chapter 8 - boundary conditions for turbulence simulation. In Robert D. Moser, editor, Numerical Methods in Turbulence Simulation, Numerical Methods in Turbulence, pages 319–357. Academic Press, 2023. doi:10.1016/B978-0-32-391144-3.00014-0.
+
+
+[Ger86]
+M. Germano. Differential filters for the large eddy numerical simulation of turbulent flows. The Physics of Fluids, 29(6):1755–1757, 1986. doi:10.1063/1.865649.
+
+
+[Hol00]
+Gerhard Holzapfel. Nonlinear solid mechanics: a continuum approach for engineering. Wiley, Chichester New York, 2000. ISBN 978-0-471-82319-3.
+
+
+[HST10]
+Thomas J R Hughes, Guglielmo Scovazzi, and Tayfun E Tezduyar. Stabilized methods for compressible flows. Journal of Scientific Computing, 43:343–368, 2010. doi:10.1007/s10915-008-9233-5.
+
+
+[Hug12]
+Thomas JR Hughes. The finite element method: linear static and dynamic finite element analysis. Courier Corporation, 2012.
+
+
+[MDGP+14]
+Gianmarco Mengaldo, Daniele De Grazia, Joaquim Peiro, Antony Farrington, Freddie Witherden, Peter Vincent, and Spencer Sherwin. A guide to the implementation of boundary conditions in compact high-order methods for compressible aerodynamics. In AIAA Aviation 2014. Atlanta, June 2014. AIAA. doi:10.2514/6.2014-2923.
+
+
+[PMK92]
+TC Papanastasiou, N Malamataris, and Ellwood K. A new outflow boundary condition. International Journal for Numerical Methods in Fluids, 14:587–608, March 1992. doi:10.1002/fld.1650140506.
+
+
+[PJE22]
+Aviral Prakash, Kenneth E. Jansen, and John A. Evans. Invariant data-driven subgrid stress modeling on anisotropic grids for large eddy simulation. 2022. arXiv:arXiv:2212.00332.
+
+
+[SHJ91]
+Farzin Shakib, Thomas JR Hughes, and Zdeněk Johan. A new finite element formulation for computational fluid dynamics: X. the compressible Euler and Navier-Stokes equations. Computer Methods in Applied Mechanics and Engineering, 89(1-3):141–219, 1991. doi:10.1016/0045-7825(91)90041-4.
+
+
+[SSST14]
+Michael L. Shur, Philippe R. Spalart, Michael K. Strelets, and Andrey K. Travin. Synthetic turbulence generators for RANS-LES interfaces in zonal simulations of aerodynamic and aeroacoustic problems. Flow, Turbulence and Combustion, 93(1):63–92, 2014. doi:10.1007/s10494-014-9534-8.
+
+
+[SWW+93]
+Jerry M Straka, Robert B Wilhelmson, Louis J Wicker, John R Anderson, and Kelvin K Droegemeier. Numerical solutions of a non-linear density current: a benchmark solution and comparisons. International Journal for Numerical Methods in Fluids, 17(1):1–22, 1993. doi:10.1002/fld.1650170103.
+
+
+[TS07]
+Tayfun E Tezduyar and Masayoshi Senga. SUPG finite element computation of inviscid supersonic flows with $yz\beta $ shock capturing. Computers and Fluids, 36(1):147–159, 2007. doi:10.1016/j.compfluid.2005.07.009.
+
+
+[Tor09]
+Eleuterio F. Toro. Riemann Solvers and Numerical Methods for Fluid Dynamics. Springer, Berlin, Heidelberg, 2009. ISBN 978-3-540-49834-6.
+
+
+[VD56]
+E. R. Van Driest. On turbulent flow near a wall. Journal of the Aeronautical Sciences, 23(11):1007–1011, November 1956. doi:10/ghbxk3.
+
+
+[Whi99]
+Christian H Whiting. Stabilized Finite Element Methods for Fluid Dynamics Using a Hierarchical Basis. PhD thesis, Rennselear Polytechnic Institute, Troy, NY, 1999.
+
+
+[WJD03]
+Christian H Whiting, Kenneth E Jansen, and Saikat Dey. Hierarchical basis for stabilized finite element methods for compressible flows. Computer Methods in Applied Mechanics and Engineering, 192(47-48):5167–5185, 2003. doi:10.1016/j.cma.2003.07.011.
+
+
+[WWP09]
+Samuel Williams, Andrew Waterman, and David Patterson. Roofline: an insightful visual performance model for multicore architectures. Communications of the ACM, 52(4):65–76, 2009. doi:10.1145/1498765.1498785.
+
+
+[ZZS11]
+Rui Zhang, Mengping Zhang, and Chi-Wang Shu. On the order of accuracy and numerical performance of two classes of finite volume weno schemes. Communications in Computational Physics, 9(3):807–827, 2011. doi:10.4208/cicp.291109.080410s.
+
+
+[Brown10]
+J. Brown. Efficient Nonlinear Solvers for Nodal High-Order Finite Elements in 3D. Journal of Scientific Computing, October 2010. doi:10.1007/s10915-010-9396-8.
+
+
+
+
+
+
+           
+          
+          
+        Next 
+    
+
+  
+
+  
+    © Copyright 2026, LLNL, University of Colorado, University of Illinois, University of Tennesee, and the authors.
+  
+
+  Built with Sphinx using a
+    theme
+    provided by Read the Docs.
+   
+
+
+        
+      
+    
+  
+   
+
+

@@ -1,0 +1,630 @@
+!=================================================================================================================================
+! Copyright (c) 2010-2016  Prof. Claus-Dieter Munz
+! This file is part of FLEXI, a high-order accurate framework for numerically solving PDEs with discontinuous Galerkin methods.
+! For more information see https://www.flexi-project.org and https://nrg.iag.uni-stuttgart.de/
+!
+! FLEXI is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
+! as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! FLEXI is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+! of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License v3.0 for more details.
+!
+! You should have received a copy of the GNU General Public License along with FLEXI. If not, see <http://www.gnu.org/licenses/>.
+!=================================================================================================================================
+#include "flexi.h"
+#include "eos.h"
+
+!==================================================================================================================================
+!> Subroutines  that provide gas properties and conversion between primitive and conservative variables for a ideal gas.
+!==================================================================================================================================
+MODULE MOD_EOS
+! MODULES
+IMPLICIT NONE
+PRIVATE
+!----------------------------------------------------------------------------------------------------------------------------------
+! GLOBAL VARIABLES
+!----------------------------------------------------------------------------------------------------------------------------------
+
+INTERFACE InitEOS
+  MODULE PROCEDURE InitEOS
+END INTERFACE
+
+INTERFACE ConsToPrim
+  MODULE PROCEDURE ConsToPrim
+  MODULE PROCEDURE ConsToPrim_Point
+  MODULE PROCEDURE ConsToPrim_Side
+  MODULE PROCEDURE ConsToPrim_Elem
+  MODULE PROCEDURE ConsToPrim_Volume
+  MODULE PROCEDURE ConsToPrim_Point_CUDA
+  MODULE PROCEDURE ConsToPrim_Side_CUDA
+  MODULE PROCEDURE ConsToPrim_Sides_CUDA
+  MODULE PROCEDURE ConsToPrim_Elem_CUDA
+  MODULE PROCEDURE ConsToPrim_Volume_CUDA
+END INTERFACE
+
+INTERFACE PrimToCons
+  MODULE PROCEDURE PrimToCons
+  MODULE PROCEDURE PrimToCons_Point
+  MODULE PROCEDURE PrimToCons_Side
+  MODULE PROCEDURE PrimToCons_Elem
+  MODULE PROCEDURE PrimToCons_Volume
+END INTERFACE
+
+INTERFACE PRESSURE_RIEMANN
+  MODULE PROCEDURE PRESSURE_RIEMANN
+  MODULE PROCEDURE PRESSURE_RIEMANN_PURE
+END INTERFACE
+
+PUBLIC::InitEos
+PUBLIC::ConsToPrim
+PUBLIC::PrimToCons
+PUBLIC::PRESSURE_RIEMANN
+PUBLIC::DefineParametersEos
+!==================================================================================================================================
+
+CONTAINS
+
+!==================================================================================================================================
+!> Define parameters for the used eos
+!==================================================================================================================================
+SUBROUTINE DefineParametersEos()
+! MODULES
+USE MOD_Globals
+USE MOD_ReadInTools ,ONLY: prms
+! IMPLICIT VARIABLE HANDLING
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT / OUTPUT VARIABLES
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+!==================================================================================================================================
+CALL prms%SetSection("Equation of State")
+CALL prms%CreateLogicalOption('UseNonDimensionalEqn',"Set true to compute R and mu from bulk Mach Reynolds (nondimensional form.",&
+                                                '.FALSE.')
+CALL prms%CreateRealOption(     'BulkMach',     "Bulk Mach     (UseNonDimensionEqn=T)")
+CALL prms%CreateRealOption(     'BulkReynolds', "Bulk Reynolds (UseNonDimensionEqn=T)")
+CALL prms%CreateRealOption(     'kappa',        "Heat capacity ratio / isentropic exponent"        , '1.4')
+CALL prms%CreateRealOption(     'R',            "Specific gas constant"                            , '287.058')
+CALL prms%CreateRealOption(     'Pr',           "Prandtl number"                                   , '0.72')
+CALL prms%CreateRealOption(     'mu0',          "Dynamic Viscosity"                                , '0.')
+CALL prms%CreateRealOption(     'Ts',           "Sutherland's law for variable viscosity: Ts"      , '110.4')
+CALL prms%CreateRealOption(     'Tref',         "Sutherland's law for variable viscosity: Tref "   , '273.15')
+CALL prms%CreateRealOption(     'ExpoSuth',     "Sutherland's law for variable viscosity: Exponent", '1.5')
+
+END SUBROUTINE DefineParametersEos
+
+!==================================================================================================================================
+!> Initialize variables needed by the ideal gas equation of state.
+!==================================================================================================================================
+SUBROUTINE InitEos()
+! MODULES
+USE MOD_PreProc
+USE MOD_Globals
+USE MOD_ReadInTools
+USE MOD_EOS_Vars      ,ONLY: Kappa,KappaM1,KappaP1,cp,cv
+USE MOD_EOS_Vars      ,ONLY: R,sKappaM1,sKappaP1
+USE MOD_EOS_Vars      ,ONLY: EOS_Vars,d_EOS_Vars
+#if PARABOLIC
+USE MOD_EOS_Vars      ,ONLY: mu0,Pr,KappaSpr
+#if PP_VISC == 1
+USE MOD_EOS_Vars      ,ONLY: Ts,cSuth
+#endif
+#if (PP_VISC == 1) || (PP_VISC == 2)
+USE MOD_EOS_Vars      ,ONLY: Tref,ExpoSuth
+#endif
+#endif /*PARABOLIC*/
+
+! IMPLICIT VARIABLE HANDLING
+ IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT / OUTPUT VARIABLES
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+REAL    :: BulkMach,BulkReynolds
+LOGICAL :: UseNonDimensionalEqn=.FALSE.
+!==================================================================================================================================
+SWRITE(UNIT_stdOut,'(132("-"))')
+SWRITE(UNIT_stdOut,'(A)') ' INIT IDEAL GAS...'
+
+
+UseNonDimensionalEqn=GETLOGICAL('UseNonDimensionalEqn')
+IF(UseNonDimensionalEqn)THEN
+  BulkMach     = GETREAL('BulkMach')
+  BulkReynolds = GETREAL('BulkReynolds')
+END IF
+
+! Gas constants
+Kappa    = GETREAL('kappa')
+KappaM1  = Kappa-1.
+sKappaM1 = 1./KappaM1
+KappaP1  = Kappa+1.
+sKappaP1 = 1./(KappaP1)
+IF(.NOT. UseNonDimensionalEqn)THEN
+  R=GETREAL('R')
+ELSE
+  R=1./(Kappa*BulkMach*BulkMach)
+  SWRITE(UNIT_stdOut,'(A,ES16.7)')' |                              R | Set to 1/(Kappa*BulkMach**2)=',R
+END IF
+
+cp=R*kappa/(kappa-1.)
+cv=R/(kappa-1.)
+
+#if PARABOLIC
+Pr       =GETREAL('Pr')
+KappasPr =Kappa/Pr
+
+! Viscosity
+#if   PP_VISC == 0
+! Constant viscosity
+IF(.NOT. UseNonDimensionalEqn)THEN
+  mu0=GETREAL('mu0')
+ELSE
+  mu0=1./BulkReynolds
+  SWRITE(UNIT_stdOut,'(A,ES16.7)')' |                            mu0 | Set to 1/BulkReynolds=',mu0
+END IF
+#elif PP_VISC == 1
+! mu-Sutherland
+! Coefficients from White, F. M., Viscous fluid flow, McGraw-Hill, 2006
+mu0     =GETREAL('mu0')
+Ts      =GETREAL('Ts')
+Tref    =1./GETREAL('Tref')
+ExpoSuth=GETREAL('ExpoSuth')
+Ts      =Ts*Tref
+cSuth   =Ts**ExpoSuth*(1+Ts)/(2*Ts*Ts)
+#elif PP_VISC == 2
+! mu power-law
+IF(.NOT. UseNonDimensionalEqn)THEN
+  mu0=GETREAL('mu0')
+  Tref    =GETREAL('Tref')
+ELSE
+  mu0=1./BulkReynolds
+  SWRITE(UNIT_stdOut,'(A,ES16.7)')' |                            mu0 | Set to 1/BulkReynolds=',mu0
+  Tref=1.
+  SWRITE(UNIT_stdOut,'(A)')       ' |                           Tref | Set to 1.'
+END IF
+ExpoSuth=GETREAL('ExpoSuth')
+mu0     =mu0/Tref**ExpoSuth
+#endif
+#endif /*PARABOLIC*/
+
+! Fill global EOS array
+EOS_Vars(EOS_KAPPA    ) = Kappa
+EOS_Vars(EOS_R        ) = R
+#if PARABOLIC
+EOS_Vars(EOS_PR       ) = Pr
+EOS_Vars(EOS_MU0      ) = mu0
+#if   PP_VISC == 1
+EOS_Vars(EOS_TS       ) = Ts
+EOS_Vars(EOS_TREF     ) = Tref
+EOS_Vars(EOS_EXPOSUTH ) = ExpoSuth
+EOS_Vars(EOS_CSUTH    ) = cSuth
+#endif
+#endif
+d_EOS_Vars = EOS_Vars
+
+SWRITE(UNIT_stdOut,'(A)')' INIT IDEAL-GAS DONE!'
+SWRITE(UNIT_stdOut,'(132("-"))')
+END SUBROUTINE InitEos
+
+!==================================================================================================================================
+!> Transformation from conservative variables to primitive variables for a single state
+!==================================================================================================================================
+PPURE ATTRIBUTES(DEVICE,HOST) SUBROUTINE ConsToPrim(prim,cons,Kappa,R)
+! MODULES
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+REAL,INTENT(IN)  :: cons(PP_nVar)     !< vector of conservative variables
+REAL,INTENT(OUT) :: prim(PP_nVarPrim) !< vector of primitive variables (density,velocities,temperature,pressure)
+REAL,INTENT(IN)  :: Kappa             !< ratio of specific heats
+REAL,INTENT(IN)  :: R                 !< specific gas constant
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+REAL             :: sRho    ! 1/Rho
+!==================================================================================================================================
+sRho=1./cons(DENS)
+! density
+prim(DENS)=cons(DENS)
+! velocity
+prim(VEL1:VEL2)=cons(MOM1:MOM2)*sRho
+#if (PP_dim==3)
+prim(VEL3)=cons(MOM3)*sRho
+#else
+prim(VEL3)=0.
+#endif
+! pressure
+prim(PRES)=(Kappa-1.)*(cons(ENER)-0.5*SUM(cons(MOMV)*prim(VELV)))
+! temperature
+prim(TEMP) = prim(PRES)*sRho / R
+END SUBROUTINE ConsToPrim
+
+!==================================================================================================================================
+!> Transformation from conservative variables to primitive variables in a single point
+!==================================================================================================================================
+PPURE SUBROUTINE ConsToPrim_Point(prim,cons)
+! MODULES
+USE MOD_EOS_Vars,ONLY:Kappa,R
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+REAL,INTENT(IN)    :: cons(PP_nVar)     !< vector of conservative variables
+REAL,INTENT(OUT)   :: prim(PP_nVarPrim) !< vector of primitive variables
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+!==================================================================================================================================
+CALL ConsToPrim(prim(:),cons(:),Kappa,R)
+END SUBROUTINE ConsToPrim_Point
+
+!==================================================================================================================================
+!> Transformation from conservative variables to primitive variables on a single side
+!==================================================================================================================================
+PPURE SUBROUTINE ConsToPrim_Side(Nloc,prim,cons)
+! MODULES
+USE MOD_EOS_Vars,ONLY:Kappa,R
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+INTEGER,INTENT(IN) :: Nloc                                  !< local polynomial degree of solution representation
+REAL,INTENT(IN)    :: cons(PP_nVar    ,0:Nloc,0:ZDIM(Nloc)) !< vector of conservative variables
+REAL,INTENT(OUT)   :: prim(PP_nVarPrim,0:Nloc,0:ZDIM(Nloc)) !< vector of primitive variables
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER            :: p,q
+!==================================================================================================================================
+DO q=0,ZDIM(Nloc); DO p=0,Nloc
+  CALL ConsToPrim(prim(:,p,q),cons(:,p,q),Kappa,R)
+END DO; END DO
+END SUBROUTINE ConsToPrim_Side
+
+!==================================================================================================================================
+!> Transformation from conservative variables to primitive variables in the whole volume
+!==================================================================================================================================
+PPURE SUBROUTINE ConsToPrim_Elem(Nloc,prim,cons)
+! MODULES
+USE MOD_EOS_Vars,ONLY:Kappa,R
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+INTEGER,INTENT(IN) :: Nloc                                         !< local polynomial degree of solution representation
+REAL,INTENT(IN)    :: cons(PP_nVar    ,0:Nloc,0:Nloc,0:ZDIM(Nloc)) !< vector of conservative variables
+REAL,INTENT(OUT)   :: prim(PP_nVarPrim,0:Nloc,0:Nloc,0:ZDIM(Nloc)) !< vector of primitive variables
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER            :: i,j,k
+!==================================================================================================================================
+DO k=0,ZDIM(Nloc); DO j=0,Nloc; DO i=0,Nloc
+  CALL ConsToPrim(prim(:,i,j,k),cons(:,i,j,k),Kappa,R)
+END DO; END DO; END DO! i,j,k=0,Nloc
+END SUBROUTINE ConsToPrim_Elem
+
+!==================================================================================================================================
+!> Transformation from conservative variables to primitive variables in the whole volume
+!==================================================================================================================================
+PPURE SUBROUTINE ConsToPrim_Volume(Nloc,prim,cons)
+! MODULES
+USE MOD_EOS_Vars,ONLY:Kappa,R
+USE MOD_Mesh_Vars,ONLY:nElems
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+INTEGER,INTENT(IN) :: Nloc                                                  !< local polynomial degree of solution representation
+REAL,INTENT(IN)    :: cons(PP_nVar    ,0:Nloc,0:Nloc,0:ZDIM(Nloc),1:nElems) !< vector of conservative variables
+REAL,INTENT(OUT)   :: prim(PP_nVarPrim,0:Nloc,0:Nloc,0:ZDIM(Nloc),1:nElems) !< vector of primitive variables
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER            :: i,j,k,iElem
+!==================================================================================================================================
+DO iElem=1,nElems
+  DO k=0,ZDIM(Nloc); DO j=0,Nloc; DO i=0,Nloc
+    CALL ConsToPrim(prim(:,i,j,k,iElem),cons(:,i,j,k,iElem),Kappa,R)
+  END DO; END DO; END DO! i,j,k=0,Nloc
+END DO ! iElem
+END SUBROUTINE ConsToPrim_Volume
+
+
+!==================================================================================================================================
+!> Transformation from conservative variables to primitive variables in the whole volume
+!==================================================================================================================================
+PPURE ATTRIBUTES(GLOBAL) SUBROUTINE ConsToPrim_CUDA_Kernel(nDof,prim,cons,Kappa,R)
+! MODULES
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+INTEGER,VALUE,INTENT(IN)  :: nDOF                     !< local polynomial degree of solution representation
+REAL,DEVICE,INTENT(IN)    :: cons(PP_nVar    ,1:nDOF) !< vector of conservative variables
+REAL,DEVICE,INTENT(OUT)   :: prim(PP_nVarPrim,1:nDOF) !< vector of primitive variables
+REAL,VALUE,INTENT(IN)     :: Kappa                    !< ratio of specific heats
+REAL,VALUE,INTENT(IN)     :: R                        !< specific gas constant
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER            :: i
+!==================================================================================================================================
+i = (blockidx%x-1) * blockdim%x + threadidx%x
+IF(i.LE.nDOF) CALL ConsToPrim(prim(:,i),cons(:,i),Kappa,R)
+END SUBROUTINE ConsToPrim_CUDA_Kernel
+
+!==================================================================================================================================
+!> Transformation from conservative variables to primitive variables in a single point
+!==================================================================================================================================
+PPURE SUBROUTINE ConsToPrim_Point_CUDA(prim,cons)
+! MODULES
+USE MOD_EOS_Vars,ONLY:Kappa,R
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+REAL,DEVICE,INTENT(IN)    :: cons(PP_nVar)     !< vector of conservative variables
+REAL,DEVICE,INTENT(OUT)   :: prim(PP_nVarPrim) !< vector of primitive variables
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+!==================================================================================================================================
+CALL ConsToPrim_CUDA_Kernel<<<1,1>>>(1,prim,cons,Kappa,R)
+END SUBROUTINE ConsToPrim_Point_CUDA
+
+!==================================================================================================================================
+!> Transformation from conservative variables to primitive variables on a single side
+!==================================================================================================================================
+PPURE SUBROUTINE ConsToPrim_Side_CUDA(Nloc,prim,cons)
+! MODULES
+USE MOD_EOS_Vars,ONLY:Kappa,R
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+INTEGER,INTENT(IN)        :: Nloc                                  !< local polynomial degree of solution representation
+REAL,DEVICE,INTENT(IN)    :: cons(PP_nVar    ,0:Nloc,0:ZDIM(Nloc)) !< vector of conservative variables
+REAL,DEVICE,INTENT(OUT)   :: prim(PP_nVarPrim,0:Nloc,0:ZDIM(Nloc)) !< vector of primitive variables
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER           :: nDOF
+INTEGER,PARAMETER :: nThreads=256
+!==================================================================================================================================
+nDOF=(Nloc+1)*(ZDIM(Nloc)+1)
+CALL ConsToPrim_CUDA_Kernel<<<nDOF/nThreads+1,nThreads>>>(nDOF,prim,cons,Kappa,R)
+END SUBROUTINE ConsToPrim_Side_CUDA
+
+!==================================================================================================================================
+!> Transformation from conservative variables to primitive variables on a single side
+!==================================================================================================================================
+PPURE SUBROUTINE ConsToPrim_Sides_CUDA(Nloc,nSides,prim,cons,streamID)
+! MODULES
+USE CUDAFOR
+USE MOD_GPU     ,ONLY:DefaultStream
+USE MOD_EOS_Vars,ONLY:Kappa,R
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+INTEGER,INTENT(IN)      :: Nloc       !< local polynomial degree of solution representation
+INTEGER,INTENT(IN)      :: nSides     !< number of sides in input array
+REAL,DEVICE,INTENT(IN)  :: cons(PP_nVar    ,0:Nloc,0:ZDIM(Nloc),nSides) !< vector of conservative variables
+REAL,DEVICE,INTENT(OUT) :: prim(PP_nVarPrim,0:Nloc,0:ZDIM(Nloc),nSides) !< vector of primitive variables
+INTEGER(KIND=CUDA_STREAM_KIND),OPTIONAL,INTENT(IN) :: streamID
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER           :: nDOF
+INTEGER,PARAMETER :: nThreads=256
+INTEGER(KIND=CUDA_STREAM_KIND) :: mystream
+!==================================================================================================================================
+mystream=DefaultStream
+IF (PRESENT(streamID)) mystream=streamID
+
+nDOF=(Nloc+1)*(ZDIM(Nloc)+1)*nSides
+CALL ConsToPrim_CUDA_Kernel<<<nDOF/nThreads+1,nThreads,0,mystream>>>(nDOF,prim,cons,Kappa,R)
+END SUBROUTINE ConsToPrim_Sides_CUDA
+
+!==================================================================================================================================
+!> Transformation from conservative variables to primitive variables in the whole volume
+!==================================================================================================================================
+PPURE SUBROUTINE ConsToPrim_Elem_CUDA(Nloc,prim,cons)
+! MODULES
+USE MOD_EOS_Vars,ONLY:Kappa,R
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+INTEGER,INTENT(IN) :: Nloc                                         !< local polynomial degree of solution representation
+REAL,DEVICE,INTENT(IN)    :: cons(PP_nVar    ,0:Nloc,0:Nloc,0:ZDIM(Nloc)) !< vector of conservative variables
+REAL,DEVICE,INTENT(OUT)   :: prim(PP_nVarPrim,0:Nloc,0:Nloc,0:ZDIM(Nloc)) !< vector of primitive variables
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER           :: nDOF
+INTEGER,PARAMETER :: nThreads=256
+!==================================================================================================================================
+nDOF=(Nloc+1)*(Nloc+1)*(ZDIM(Nloc)+1)
+CALL ConsToPrim_CUDA_Kernel<<<nDOF/nThreads+1,nThreads>>>(nDOF,prim,cons,Kappa,R)
+END SUBROUTINE ConsToPrim_Elem_CUDA
+
+!==================================================================================================================================
+!> Transformation from conservative variables to primitive variables in the whole volume
+!==================================================================================================================================
+PPURE SUBROUTINE ConsToPrim_Volume_CUDA(Nloc,prim,cons,streamID)
+! MODULES
+USE CUDAFOR
+USE MOD_GPU     ,ONLY:DefaultStream
+USE MOD_EOS_Vars,ONLY:Kappa,R
+USE MOD_Mesh_Vars,ONLY:nElems
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+INTEGER,INTENT(IN) :: Nloc                                                  !< local polynomial degree of solution representation
+REAL,DEVICE,INTENT(IN)    :: cons(PP_nVar    ,0:Nloc,0:Nloc,0:ZDIM(Nloc),1:nElems) !< vector of conservative variables
+REAL,DEVICE,INTENT(OUT)   :: prim(PP_nVarPrim,0:Nloc,0:Nloc,0:ZDIM(Nloc),1:nElems) !< vector of primitive variables
+INTEGER(KIND=CUDA_STREAM_KIND),OPTIONAL,INTENT(IN) :: streamID
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER           :: nDOF
+INTEGER,PARAMETER :: nThreads=256
+INTEGER(KIND=CUDA_STREAM_KIND) :: mystream
+!==================================================================================================================================
+mystream=DefaultStream
+IF (PRESENT(streamID)) mystream=streamID
+
+nDOF=(Nloc+1)*(Nloc+1)*(ZDIM(Nloc)+1)*nElems
+CALL ConsToPrim_CUDA_Kernel<<<nDOF/nThreads+1,nThreads,0,mystream>>>(nDOF,prim,cons,Kappa,R)
+END SUBROUTINE ConsToPrim_Volume_CUDA
+
+
+!==================================================================================================================================
+!> Transformation from primitive to conservative variables for a single state
+!==================================================================================================================================
+PPURE ATTRIBUTES(HOST,DEVICE) SUBROUTINE PrimToCons(prim,cons,Kappa)
+! MODULES
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+REAL,INTENT(IN)  :: prim(PP_nVarPrim) !< vector of primitive variables
+REAL,INTENT(OUT) :: cons(PP_nVar)     !< vector of conservative variables
+REAL,INTENT(IN)  :: Kappa             !< isentropic coefficient
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+!==================================================================================================================================
+! density
+cons(DENS)=prim(DENS)
+! momentum
+cons(MOM1:MOM2)=prim(VEL1:VEL2)*prim(DENS)
+#if (PP_dim==3)
+cons(MOM3)=prim(VEL3)*prim(DENS)
+#else
+cons(MOM3)=0.
+#endif
+! energy
+cons(ENER)=prim(PRES)/(Kappa-1.)+0.5*SUM(cons(MOMV)*prim(VELV))
+END SUBROUTINE PrimToCons
+
+!==================================================================================================================================
+!> Transformation from primitive to conservative variables for a single state
+!==================================================================================================================================
+PPURE SUBROUTINE PrimToCons_Point(prim,cons)
+! MODULES
+USE MOD_EOS_Vars,ONLY:Kappa
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+REAL,INTENT(IN)  :: prim(PP_nVarPrim) !< vector of primitive variables
+REAL,INTENT(OUT) :: cons(PP_nVar)     !< vector of conservative variables
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+!==================================================================================================================================
+CALL PrimToCons(prim,cons,Kappa)
+END SUBROUTINE PrimToCons_Point
+
+!==================================================================================================================================
+!> Transformation from primitive to conservative variables on a single side
+!==================================================================================================================================
+PPURE SUBROUTINE PrimToCons_Side(Nloc,prim,cons)
+! MODULES
+USE MOD_EOS_Vars,ONLY:Kappa
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+INTEGER,INTENT(IN) :: Nloc                                  !< local polynomial degree of solution representation
+REAL,INTENT(IN)    :: prim(PP_nVarPrim,0:Nloc,0:ZDIM(Nloc)) !< vector of primitive variables
+REAL,INTENT(OUT)   :: cons(PP_nVar    ,0:Nloc,0:ZDIM(Nloc)) !< vector of conservative variables
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER            :: p,q
+!==================================================================================================================================
+DO q=0,ZDIM(Nloc); DO p=0,Nloc
+  CALL PrimToCons(prim(:,p,q),cons(:,p,q),Kappa)
+END DO; END DO ! p,q=0,Nloc
+END SUBROUTINE PrimToCons_Side
+
+!==================================================================================================================================
+!> Transformation from primitive to conservative variables in the whole volume
+!==================================================================================================================================
+PPURE SUBROUTINE PrimToCons_Elem(Nloc,prim,cons)
+! MODULES
+USE MOD_EOS_Vars,ONLY:Kappa
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+INTEGER,INTENT(IN) :: Nloc                                             !< local polynomial degree of solution representation
+REAL,INTENT(IN)    :: prim(PP_nVarPrim,0:Nloc,0:Nloc,0:ZDIM(Nloc))     !< vector of primitive variables
+REAL,INTENT(OUT)   :: cons(PP_nVar    ,0:Nloc,0:Nloc,0:ZDIM(Nloc))     !< vector of conservative variables
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER            :: i,j,k
+!==================================================================================================================================
+DO k=0,ZDIM(Nloc); DO j=0,Nloc; DO i=0,Nloc
+  CALL PrimToCons(prim(:,i,j,k),cons(:,i,j,k),Kappa)
+END DO; END DO; END DO
+END SUBROUTINE PrimToCons_Elem
+
+!==================================================================================================================================
+!> Transformation from primitive to conservative variables in the whole volume
+!==================================================================================================================================
+PPURE SUBROUTINE PrimToCons_Volume(Nloc,prim,cons)
+! MODULES
+USE MOD_EOS_Vars,ONLY:Kappa
+USE MOD_Mesh_Vars,ONLY:nElems
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+INTEGER,INTENT(IN) :: Nloc                                                  !< local polynomial degree of solution representation
+REAL,INTENT(IN)    :: prim(PP_nVarPrim,0:Nloc,0:Nloc,0:ZDIM(Nloc),1:nElems)     !< vector of primitive variables
+REAL,INTENT(OUT)   :: cons(PP_nVar    ,0:Nloc,0:Nloc,0:ZDIM(Nloc),1:nElems)     !< vector of conservative variables
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER            :: i,j,k,iElem
+!==================================================================================================================================
+DO iElem=1,nElems
+  DO k=0,ZDIM(Nloc); DO j=0,Nloc; DO i=0,Nloc
+    CALL PrimToCons(prim(:,i,j,k,iElem),cons(:,i,j,k,iElem),Kappa)
+  END DO; END DO; END DO
+END DO
+END SUBROUTINE PrimToCons_Volume
+
+!==================================================================================================================================
+!> Riemann solver function to get pressure at BCs
+!==================================================================================================================================
+PPURE FUNCTION PRESSURE_RIEMANN(U_Prim)
+!==================================================================================================================================
+! MODULES
+USE MOD_EOS_Vars      ,ONLY: Kappa,KappaM1,sKappaM1,sKappaP1
+! IMPLICIT VARIABLE HANDLING
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT / OUTPUT VARIABLES
+REAL,INTENT(IN) :: U_Prim(PP_nVarPrim) !< vector of primitive variables
+REAL            :: PRESSURE_RIEMANN    !< pressure as the return value of the Riemann problem
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+REAL            :: kappaFac,ar,br,P_RP
+!==================================================================================================================================
+kappaFac=2.*Kappa*sKappaM1
+IF(U_Prim(VEL1) .LE. 0.)THEN ! rarefaction
+  P_RP=U_Prim(PRES) * MAX(0.0001,(1.+0.5*KappaM1*U_Prim(VEL1)/SQRT(Kappa*U_Prim(PRES)/U_Prim(DENS))))**kappaFac
+ELSE ! shock
+  ar=2.*sKappaP1/U_Prim(DENS)
+  br=KappaM1*sKappaP1*U_Prim(PRES)
+  P_RP=U_Prim(PRES)+U_Prim(VEL1)/ar*0.5*(U_Prim(VEL1)+SQRT(U_Prim(VEL1)*U_Prim(VEL1)+4.*ar*(U_Prim(PRES)+br)))
+END IF
+PRESSURE_RIEMANN=P_RP
+END FUNCTION PRESSURE_RIEMANN
+
+!==================================================================================================================================
+!> Riemann solver function to get pressure at BCs
+!==================================================================================================================================
+PPURE ATTRIBUTES(DEVICE) FUNCTION PRESSURE_RIEMANN_PURE(U_Prim,Kappa)
+!==================================================================================================================================
+! MODULES
+! IMPLICIT VARIABLE HANDLING
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT / OUTPUT VARIABLES
+REAL,INTENT(IN) :: U_Prim(PP_nVarPrim)   !< vector of primitive variables
+REAL,INTENT(IN) :: Kappa                 !< isentropic coefficient
+REAL            :: PRESSURE_RIEMANN_PURE !< pressure as the return value of the Riemann problem
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+REAL            :: kappaFac,ar,br,P_RP
+!==================================================================================================================================
+IF(U_Prim(VEL1) .LE. 0.) THEN ! rarefaction
+  kappaFac=2.*Kappa/(Kappa-1.)
+  P_RP=U_Prim(PRES) * MAX(0.0001,(1.+0.5*(Kappa-1.)*U_Prim(VEL1)/SQRT(Kappa*U_Prim(PRES)/U_Prim(DENS))))**kappaFac
+ELSE ! shock
+  ar=2./((Kappa+1.)*U_Prim(DENS))
+  br=(Kappa-1.)/(Kappa+1.)*U_Prim(PRES)
+  P_RP=U_Prim(PRES)+U_Prim(VEL1)/ar*0.5*(U_Prim(VEL1)+SQRT(U_Prim(VEL1)*U_Prim(VEL1)+4.*ar*(U_Prim(PRES)+br)))
+END IF
+PRESSURE_RIEMANN_PURE=P_RP
+END FUNCTION PRESSURE_RIEMANN_PURE
+
+END MODULE MOD_EOS

@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/NNMNPhJ3sNIluMWW99cLN9hij1Y</id>
+  <title>arXiv Query: search_query=all:horses3d&amp;id_list=&amp;start=0&amp;max_results=10</title>
+  <updated>2026-10-28T09:58:33Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=all:horses3d&amp;start=0&amp;max_results=10&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>3</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2607.26674v1</id>
+    <title>HORSES3D-GPU: A high-order discontinuous Galerkin solver for multi-GPU systems</title>
+    <updated>2026-07-29T09:29:34Z</updated>
+    <link href="https://arxiv.org/abs/2607.26674v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2607.26674v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We present the GPU acceleration and large-scale performance assessment of HORSES3D, an open-source high-order discontinuous Galerkin solver for computational fluid dynamics. The solver is ported to NVIDIA GPU architectures using OpenACC directives, preserving the original Fortran code structure while enabling GPU-resident execution of the main computational kernels. The implementation exploits the element-local structure of discontinuous Galerkin spectral element methods by mapping element-level loops to GPU gangs and nodal operations to vector-level parallelism.
+  The GPU version is verified using the method of manufactured solutions and validated on canonical turbulent-flow benchmarks. Its performance is assessed on the MareNostrum 5 accelerated partition using NVIDIA H100 GPUs. Taylor-Green vortex benchmarks show that solver efficiency improves with polynomial order and that near-ideal strong and weak scaling is obtained when the workload exceeds approximately 16,000 to 20,000 elements per GPU.
+  The solver is further evaluated on the High-Lift Common Research Model wing-body configuration, which involves a complex geometry, realistic boundary conditions, and unstructured meshes with up to 20.8 million hexahedral elements. Simulations with polynomial orders up to $P=7$ reach approximately $10.7 \times 10^9$ degrees of freedom and scale efficiently to 2,048 GPUs. The results demonstrate that HORSES3D preserves its performance characteristics for industrially relevant configurations and can exploit modern GPU-based supercomputers for billion-degree-of-freedom high-order CFD simulations.</summary>
+    <category term="math.NA" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-07-29T09:29:34Z</published>
+    <arxiv:primary_category term="math.NA"/>
+    <author>
+      <name>Gerasimos Ntoukas</name>
+    </author>
+    <author>
+      <name>Gonzalo Rubio</name>
+    </author>
+    <author>
+      <name>Abbas Ballout</name>
+    </author>
+    <author>
+      <name>Stefano Colombo</name>
+    </author>
+    <author>
+      <name>David Huergo</name>
+    </author>
+    <author>
+      <name>Eduardo Jané</name>
+    </author>
+    <author>
+      <name>Albert Jiménez-Ramos</name>
+    </author>
+    <author>
+      <name>Hatem Kessasra</name>
+    </author>
+    <author>
+      <name>Himpu Marbona</name>
+    </author>
+    <author>
+      <name>Oscar Mariño</name>
+    </author>
+    <author>
+      <name>Rodrigo Salado</name>
+    </author>
+    <author>
+      <name>Pol Solé-Miró</name>
+    </author>
+    <author>
+      <name>Andrés M. Rueda-Ramírez</name>
+    </author>
+    <author>
+      <name>Miguel Chávez-Módena</name>
+    </author>
+    <author>
+      <name>Eusebio Valero</name>
+    </author>
+    <author>
+      <name>Esteban Ferrer</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2206.09733v1</id>
+    <title>HORSES3D: a high-order discontinuous Galerkin solver for flow simulations and multi-physics applications</title>
+    <updated>2022-06-20T12:12:50Z</updated>
+    <link href="https://arxiv.org/abs/2206.09733v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2206.09733v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We present the latest developments of our High-Order Spectral Element Solver (HORSES3D), an open source high-order discontinuous Galerkin framework, capable of solving a variety of flow applications, including compressible flows (with or without shocks), incompressible flows, various RANS and LES turbulence models, particle dynamics, multiphase flows, and aeroacoustics. We provide an overview of the high-order spatial discretisation (including energy/entropy stable schemes) and anisotropic p-adaptation capabilities. The solver is parallelised using MPI and OpenMP showing good scalability for up to 1000 processors. Temporal discretisations include explicit, implicit, multigrid, and dual time-stepping schemes with efficient preconditioners. Additionally, we facilitate meshing and simulating complex geometries through a mesh-free immersed boundary technique. We detail the available documentation and the test cases included in the GitHub repository.</summary>
+    <category term="math.NA" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2022-06-20T12:12:50Z</published>
+    <arxiv:primary_category term="math.NA"/>
+    <author>
+      <name>E. Ferrer</name>
+    </author>
+    <author>
+      <name>G. Rubio</name>
+    </author>
+    <author>
+      <name>G. Ntoukas</name>
+    </author>
+    <author>
+      <name>W. Laskowski</name>
+    </author>
+    <author>
+      <name>O. A. Mariño</name>
+    </author>
+    <author>
+      <name>S. Colombo</name>
+    </author>
+    <author>
+      <name>A. Mateo-Gabín</name>
+    </author>
+    <author>
+      <name>F. Manrique de Lara</name>
+    </author>
+    <author>
+      <name>D. Huergo</name>
+    </author>
+    <author>
+      <name>J. Manzanero</name>
+    </author>
+    <author>
+      <name>A. M. Rueda-Ramírez</name>
+    </author>
+    <author>
+      <name>D. A. Kopriva</name>
+    </author>
+    <author>
+      <name>E. Valero</name>
+    </author>
+    <arxiv:doi>10.1016/j.cpc.2023.108700</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1016/j.cpc.2023.108700" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2402.10913v1</id>
+    <title>A comparative study of explicit and implicit Large Eddy Simulations using a high-order discontinuous Galerkin solver: application to a Formula 1 front wing</title>
+    <updated>2024-01-15T14:59:13Z</updated>
+    <link href="https://arxiv.org/abs/2402.10913v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2402.10913v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>This paper explores two Large Eddy Simulation (LES) approaches within the framework of the high-order discontinuous Galerkin solver, Horses3D. The investigation focuses on an Inverted Multi-element Wing in Ground Effect (i.e. 2.5D Imperial Front Wing section) representing a Formula 1 front wing, and compares the strengths and limitations of the two LES methods. The explicit LES formulation relies on the Vreman model, that adapts to laminar, transitional and turbulent regimes. The numerical formulation uses nodal basis functions and Gauss points. The implicit LES formulation, does not require explicit turbulence modeling but relies in the discretization scheme. We use the Kennedy-Gruber entropy stable formulation to enhance stability in under resolved simulations, since we recover the continuous properties such as entropy conservation at a discrete level. This formulation employs Gauss-Lobatto points, which downgrades the accuracy of integration but allows for larger time steps in explicit time integration. We compare our results to Nektar++ [1] showing that both LES techniques provide results that agree well with the reference values. The implicit LES shows to better capture transition and allows for larger time steps at a similar cost per iteration. We conclude that this implicit LES formulation is very attractive for complex simulations.</summary>
+    <category term="math.NA" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CE" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-01-15T14:59:13Z</published>
+    <arxiv:primary_category term="math.NA"/>
+    <author>
+      <name>Gerasimos Ntoukas</name>
+    </author>
+    <author>
+      <name>Gonzalo Rubio</name>
+    </author>
+    <author>
+      <name>Oscar Marino</name>
+    </author>
+    <author>
+      <name>Alexandra Liosi</name>
+    </author>
+    <author>
+      <name>Francesco Bottone</name>
+    </author>
+    <author>
+      <name>Julien Hoessler</name>
+    </author>
+    <author>
+      <name>Esteban Ferrer</name>
+    </author>
+  </entry>
+</feed>

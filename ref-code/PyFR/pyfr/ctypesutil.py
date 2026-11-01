@@ -1,0 +1,113 @@
+import ctypes
+import ctypes.util
+import os
+from pathlib import Path
+import sys
+
+
+class LibWrapper:
+    _libname = None
+    _statuses = None
+    _status_noerr = 0
+    _functions = []
+    _weak_functions = []
+    _errtype = ctypes.c_int
+    _libtype = ctypes.CDLL
+    _libmode = ctypes.DEFAULT_MODE
+
+    def __init__(self):
+        self._lib = self._load_library()
+
+        for fret, fname, *fargs in self._functions:
+            self._wrap_function(fname, fret, fargs)
+
+        for fret, fname, *fargs in self._weak_functions:
+            try:
+                self._wrap_function(fname, fret, fargs)
+            except AttributeError:
+                pass
+
+    def _load_library(self):
+        return load_library(self._libname, self._libtype, self._libmode)
+
+    def _transname(self, fname):
+        return fname
+
+    def _wrap_function(self, fname, fret, fargs):
+        fn = getattr(self._lib, fname)
+        fn.restype = fret
+        fn.argtypes = fargs
+
+        if self._statuses is not None and fret == self._errtype:
+            fn.errcheck = self._errcheck
+
+        setattr(self, self._transname(fname), fn)
+
+    def _errcheck(self, status, fn, args):
+        if status != self._status_noerr:
+            try:
+                raise self._statuses[status]
+            except KeyError:
+                raise self._statuses['*'](status) from None
+
+
+def get_libc_function(fn):
+    if sys.platform == 'win32':
+        libc = ctypes.windll.msvcrt
+    else:
+        libc = ctypes.CDLL(ctypes.util.find_library('c'))
+
+    return getattr(libc, fn)
+
+
+def load_library(name, libtype=ctypes.CDLL, libmode=ctypes.DEFAULT_MODE):
+    # If an explicit override has been given then use it
+    lpath = os.environ.get(f'PYFR_{name.upper()}_LIBRARY_PATH')
+    if lpath:
+        return libtype(lpath, mode=libmode)
+
+    # Otherwise synthesise the library name and start searching
+    lname = platform_libname(name)
+
+    # Check our search paths
+    for sd in platform_libdirs():
+        try:
+            return libtype(Path(sd, lname).absolute(), mode=libmode)
+        except OSError:
+            pass
+
+    # …and if this fails then defer to the system search path
+    return libtype(lname, mode=libmode)
+
+
+def make_array(vals, type=None):
+    vals = list(vals)
+    if not vals:
+        return None
+
+    type = type or vals[0].__class__
+    arr = (type*len(vals))()
+    arr[:] = vals
+
+    return arr
+
+
+def platform_libname(name):
+    if sys.platform == 'darwin':
+        return f'lib{name}.dylib'
+    elif sys.platform == 'win32':
+        return f'{name}.dll'
+    else:
+        return f'lib{name}.so'
+
+
+def platform_libdirs():
+    path = os.environ.get('PYFR_LIBRARY_PATH', '')
+    dirs = [d for d in path.split(':') if d]
+
+    # On macOS append the default path used by MacPorts and Homebrew
+    if sys.platform == 'darwin':
+        return dirs + ['/opt/local/lib', '/opt/homebrew/lib']
+    # Otherwise just return
+    else:
+        return dirs

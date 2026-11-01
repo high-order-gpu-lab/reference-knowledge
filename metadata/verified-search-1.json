@@ -1,0 +1,270 @@
+{
+  "status": "ok",
+  "message-type": "work-list",
+  "message-version": "1.0.0",
+  "message": {
+    "facets": {},
+    "total-results": 17880805,
+    "items": [
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              8,
+              21
+            ]
+          ],
+          "date-time": "2026-08-21T20:32:44Z",
+          "timestamp": 1787344364944,
+          "version": "build-2736575974"
+        },
+        "publisher-location": "Philadelphia, PA",
+        "reference-count": 0,
+        "publisher": "Society for Industrial and Applied Mathematics",
+        "isbn-type": [
+          {
+            "value": "9781611975093",
+            "type": "print"
+          },
+          {
+            "value": "9781611975109",
+            "type": "electronic"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2018,
+              12,
+              21
+            ]
+          ]
+        },
+        "DOI": "10.1137/1.9781611975109.ch2",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2018,
+              2,
+              1
+            ]
+          ],
+          "date-time": "2018-02-01T16:19:24Z",
+          "timestamp": 1517501964000
+        },
+        "page": "29-48",
+        "source": "Crossref",
+        "is-referenced-by-count": 1,
+        "title": [
+          "Chapter 2: Scalar conservation laws"
+        ],
+        "prefix": "10.1137",
+        "member": "351",
+        "published-online": {
+          "date-parts": [
+            [
+              2018,
+              2,
+              1
+            ]
+          ]
+        },
+        "container-title": [
+          "Numerical Methods for Conservation Laws"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "https://epubs.siam.org/doi/pdf/10.1137/1.9781611975109.ch2",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2026,
+              8,
+              21
+            ]
+          ],
+          "date-time": "2026-08-21T20:22:00Z",
+          "timestamp": 1787343720000
+        },
+        "score": 48.152794,
+        "resource": {
+          "primary": {
+            "URL": "https://epubs.siam.org/doi/10.1137/1.9781611975109.ch2"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2018,
+              2,
+              1
+            ]
+          ]
+        },
+        "ISBN": [
+          "9781611975093",
+          "9781611975109"
+        ],
+        "references-count": 0,
+        "alternative-id": [
+          "10.1137/1.9781611975109.ch2",
+          "10.1137/1.9781611975109"
+        ],
+        "URL": "https://doi.org/10.1137/1.9781611975109.ch2",
+        "published": {
+          "date-parts": [
+            [
+              2018,
+              2,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              8,
+              21
+            ]
+          ],
+          "date-time": "2026-08-21T20:32:44Z",
+          "timestamp": 1787344364936,
+          "version": "build-2736575974"
+        },
+        "publisher-location": "Philadelphia, PA",
+        "reference-count": 0,
+        "publisher": "Society for Industrial and Applied Mathematics",
+        "isbn-type": [
+          {
+            "value": "9781611975093",
+            "type": "print"
+          },
+          {
+            "value": "9781611975109",
+            "type": "electronic"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2018,
+              12,
+              21
+            ]
+          ]
+        },
+        "DOI": "10.1137/1.9781611975109.ch3",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2018,
+              2,
+              1
+            ]
+          ],
+          "date-time": "2018-02-01T16:19:24Z",
+          "timestamp": 1517501964000
+        },
+        "page": "49-65",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Chapter 3: Systems of conservation laws"
+        ],
+        "prefix": "10.1137",
+        "member": "351",
+        "published-online": {
+          "date-parts": [
+            [
+              2018,
+              2,
+              1
+            ]
+          ]
+        },
+        "container-title": [
+          "Numerical Methods for Conservation Laws"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "https://epubs.siam.org/doi/pdf/10.1137/1.9781611975109.ch3",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2026,
+              8,
+              21
+            ]
+          ],
+          "date-time": "2026-08-21T20:22:00Z",
+          "timestamp": 1787343720000
+        },
+        "score": 47.631226,
+        "resource": {
+          "primary": {
+            "URL": "https://epubs.siam.org/doi/10.1137/1.9781611975109.ch3"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2018,
+              2,
+              1
+            ]
+          ]
+        },
+        "ISBN": [
+          "9781611975093",
+          "9781611975109"
+        ],
+        "references-count": 0,
+        "alternative-id": [
+          "10.1137/1.9781611975109.ch3",
+          "10.1137/1.9781611975109"
+        ],
+        "URL": "https://doi.org/10.1137/1.9781611975109.ch3",
+        "published": {
+          "date-parts": [
+            [
+              2018,
+              2,
+              1
+            ]
+          ]
+        }
+      }
+    ],
+    "items-per-page": 2,
+    "query": {
+      "start-index": 0,
+      "search-terms": null
+    }
+  }
+}

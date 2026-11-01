@@ -1,0 +1,446 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "message": {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          10,
+          24
+        ]
+      ],
+      "date-time": "2026-10-24T03:36:09Z",
+      "timestamp": 1792812969725,
+      "version": "4.5.0"
+    },
+    "reference-count": 20,
+    "publisher": "Elsevier BV",
+    "issue": "11",
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2014,
+              11,
+              1
+            ]
+          ],
+          "date-time": "2014-11-01T00:00:00Z",
+          "timestamp": 1414800000000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://www.elsevier.com/tdm/userlicense/1.0/"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2014,
+              7,
+              22
+            ]
+          ],
+          "date-time": "2014-07-22T00:00:00Z",
+          "timestamp": 1405987200000
+        },
+        "content-version": "vor",
+        "delay-in-days": 0,
+        "URL": "http://creativecommons.org/licenses/by/3.0/"
+      }
+    ],
+    "funder": [
+      {
+        "DOI": "10.13039/501100000266",
+        "name": "Engineering and Physical Sciences Research Council",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "EP/K027379/1"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "EP/K027379/1"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/501100000266",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      }
+    ],
+    "content-domain": {
+      "domain": [
+        "elsevier.com",
+        "sciencedirect.com"
+      ],
+      "crossmark-restriction": true
+    },
+    "short-container-title": [
+      "Computer Physics Communications"
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2014,
+          11
+        ]
+      ]
+    },
+    "DOI": "10.1016/j.cpc.2014.07.011",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2014,
+          7,
+          23
+        ]
+      ],
+      "date-time": "2014-07-23T13:02:40Z",
+      "timestamp": 1406120560000
+    },
+    "page": "3028-3040",
+    "update-policy": "https://doi.org/10.1016/elsevier_cm_policy",
+    "source": "Crossref",
+    "is-referenced-by-count": 300,
+    "title": [
+      "PyFR: An open source framework for solving advection–diffusion type problems on streaming architectures using the flux reconstruction approach"
+    ],
+    "prefix": "10.1016",
+    "volume": "185",
+    "author": [
+      {
+        "given": "F.D.",
+        "family": "Witherden",
+        "sequence": "first",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "A.M.",
+        "family": "Farrington",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "P.E.",
+        "family": "Vincent",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "78",
+    "reference": [
+      {
+        "key": "10.1016/j.cpc.2014.07.011_br000005",
+        "series-title": "Triangular mesh methods for the neutron transport equation. Technical Report LA-UR-73-479",
+        "author": "Reed",
+        "year": "1973"
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.cpc.2014.07.011_br000010",
+        "doi-asserted-by": "crossref",
+        "first-page": "244",
+        "DOI": "10.1006/jcph.1996.0091",
+        "article-title": "A conservative staggered-grid Chebyshev multidomain method for compressible flows",
+        "volume": "125",
+        "author": "Kopriva",
+        "year": "1996",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.cpc.2014.07.011_br000015",
+        "first-page": "310",
+        "article-title": "High-order multidomain spectral difference method for the Navier–Stokes equations on unstructured hexahedral grids",
+        "volume": "2",
+        "author": "Sun",
+        "year": "2007",
+        "journal-title": "Commun. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2014.07.011_br000020",
+        "first-page": "2007",
+        "article-title": "A flux reconstruction approach to high-order schemes including discontinuous Galerkin methods",
+        "volume": "4079",
+        "author": "Huynh",
+        "year": "2007",
+        "journal-title": "AIAA paper"
+      },
+      {
+        "key": "10.1016/j.cpc.2014.07.011_br000025",
+        "series-title": "Nodal Discontinuous Galerkin Methods: Algorithms, Analysis, and Applications, vol.~54",
+        "author": "Hesthaven",
+        "year": "2008"
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.cpc.2014.07.011_br000030",
+        "doi-asserted-by": "crossref",
+        "first-page": "50",
+        "DOI": "10.1007/s10915-010-9420-z",
+        "article-title": "A new class of high-order energy stable flux reconstruction schemes",
+        "volume": "47",
+        "author": "Vincent",
+        "year": "2011",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2014.07.011_br000035",
+        "article-title": "A new class of high-order energy stable flux reconstruction schemes for triangular elements",
+        "author": "Castonguay",
+        "year": "2011",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2014.07.011_br000040",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Patrice Castonguay, P.E. Vincent, Antony Jameson, Application of high-order energy stable flux reconstruction schemes to the Euler equations, in: 49th AIAA Aerospace Sciences Meeting, volume 686, 2011.",
+        "DOI": "10.2514/6.2011-686"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.cpc.2014.07.011_br000045",
+        "doi-asserted-by": "crossref",
+        "first-page": "434",
+        "DOI": "10.1007/s10915-011-9490-6",
+        "article-title": "On the non-linear stability of flux reconstruction schemes",
+        "volume": "50",
+        "author": "Jameson",
+        "year": "2011",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "issue": "22",
+        "key": "10.1016/j.cpc.2014.07.011_br000050",
+        "doi-asserted-by": "crossref",
+        "first-page": "8134",
+        "DOI": "10.1016/j.jcp.2011.07.013",
+        "article-title": "Insights from von Neumann analysis of high-order flux reconstruction schemes",
+        "volume": "230",
+        "author": "Vincent",
+        "year": "2011",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.cpc.2014.07.011_br000055",
+        "doi-asserted-by": "crossref",
+        "first-page": "224",
+        "DOI": "10.1007/s10915-011-9505-3",
+        "article-title": "A new class of high-order energy stable flux reconstruction schemes for triangular elements",
+        "volume": "51",
+        "author": "Castonguay",
+        "year": "2012",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2014.07.011_br000060",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.jcp.2013.05.007",
+        "article-title": "Energy stable flux reconstruction schemes for advection–diffusion problems on triangles",
+        "author": "Williams",
+        "year": "2013",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2014.07.011_br000065",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.cma.2013.08.012",
+        "article-title": "Energy stable flux reconstruction schemes for advection–diffusion problems",
+        "author": "Castonguay",
+        "year": "2013",
+        "journal-title": "Comput. Methods Appl. Mech. Engrg."
+      },
+      {
+        "key": "10.1016/j.cpc.2014.07.011_br000070",
+        "first-page": "1",
+        "article-title": "Energy stable flux reconstruction schemes for advection–diffusion problems on tetrahedra",
+        "author": "Williams",
+        "year": "2013",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.cpc.2014.07.011_br000075",
+        "doi-asserted-by": "crossref",
+        "first-page": "125",
+        "DOI": "10.1006/jcph.1998.5956",
+        "article-title": "A staggered-grid multidomain spectral method for the compressible Navier–Stokes equations",
+        "volume": "143",
+        "author": "Kopriva",
+        "year": "1998",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2014.07.011_br000080",
+        "unstructured": "SymPy Development Team. Sympy: Python library for symbolic mathematics, 2013."
+      },
+      {
+        "key": "10.1016/j.cpc.2014.07.011_br000085",
+        "unstructured": "Michael Bayer, Mako: Templates for python, 2013."
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.cpc.2014.07.011_br000090",
+        "doi-asserted-by": "crossref",
+        "first-page": "157",
+        "DOI": "10.1016/j.parco.2011.09.001",
+        "article-title": "Pycuda and pyopencl: A scripting-based approach to gpu run-time code generation",
+        "volume": "38",
+        "author": "Klöckner",
+        "year": "2012",
+        "journal-title": "Parallel Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2014.07.011_br000095",
+        "unstructured": "Lisandro Dalcin, mpi4py: Mpi for python, 2013."
+      },
+      {
+        "key": "10.1016/j.cpc.2014.07.011_br000100",
+        "series-title": "Riemann Solvers and Numerical Methods for Fluid Dynamics: a Practical Introduction",
+        "author": "Toro",
+        "year": "2009"
+      }
+    ],
+    "container-title": [
+      "Computer Physics Communications"
+    ],
+    "original-title": [],
+    "language": "en",
+    "link": [
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0010465514002549?httpAccept=text/xml",
+        "content-type": "text/xml",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0010465514002549?httpAccept=text/plain",
+        "content-type": "text/plain",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2019,
+          12,
+          3
+        ]
+      ],
+      "date-time": "2019-12-03T05:20:03Z",
+      "timestamp": 1575350403000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://linkinghub.elsevier.com/retrieve/pii/S0010465514002549"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2014,
+          11
+        ]
+      ]
+    },
+    "references-count": 20,
+    "journal-issue": {
+      "issue": "11",
+      "published-print": {
+        "date-parts": [
+          [
+            2014,
+            11
+          ]
+        ]
+      }
+    },
+    "alternative-id": [
+      "S0010465514002549"
+    ],
+    "URL": "https://doi.org/10.1016/j.cpc.2014.07.011",
+    "relation": {},
+    "ISSN": [
+      "0010-4655"
+    ],
+    "issn-type": [
+      {
+        "value": "0010-4655",
+        "type": "print"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2014,
+          11
+        ]
+      ]
+    },
+    "assertion": [
+      {
+        "value": "Elsevier",
+        "name": "publisher",
+        "label": "This article is maintained by"
+      },
+      {
+        "value": "PyFR: An open source framework for solving advection–diffusion type problems on streaming architectures using the flux reconstruction approach",
+        "name": "articletitle",
+        "label": "Article Title"
+      },
+      {
+        "value": "Computer Physics Communications",
+        "name": "journaltitle",
+        "label": "Journal Title"
+      },
+      {
+        "value": "https://doi.org/10.1016/j.cpc.2014.07.011",
+        "name": "articlelink",
+        "label": "CrossRef DOI link to publisher maintained version"
+      },
+      {
+        "value": "article",
+        "name": "content_type",
+        "label": "Content Type"
+      },
+      {
+        "value": "Copyright © 2014 The Authors. Published by Elsevier B.V.",
+        "name": "copyright",
+        "label": "Copyright"
+      }
+    ]
+  }
+}

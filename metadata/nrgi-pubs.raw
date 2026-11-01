@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numerics Research Group</title>
+    <!-- Include style files -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="button.css">
+    <link rel="stylesheet" href="publications.css">
+
+    <!-- Include Icons and Fontawesome Links-->
+    <link rel="shortcut icon" type="image/x-icon" href="https://test.numericsresearchgroup.org/test/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Include templates -->
+    <script src="components/header_nrg.js"     type="text/javascript" defer></script>
+    <script src="components/footer.js"         type="text/javascript" defer></script>
+    <script src="components/slideshow_nrg.js"  type="text/javascript" defer></script>
+    <script src="components/PUMA_literature.js"type="text/javascript" defer></script>
+    <script src="scripts/slideshow_nrg.js"     type="text/javascript" ></script>
+    <script src="scripts/navbar_scroll_nrg.js" type="text/javascript" ></script>
+    <script src="scripts/mobile_navbar.js    " type="text/javascript" ></script>
+    <script src="scripts/nrg_logos.js         "type="text/javascript" ></script>
+    <script src="https://cdn.usefathom.com/script.js" data-site="QEFCZDDJ" defer></script>
+  </head>
+  <body>
+    <img class="hidden" alt="preloading" />
+
+    <!-- Include Header template -->
+    <header-nrg-component></header-nrg-component>
+    <!-- Include Slideshow template -->
+    <slideshow-nrg-component></slideshow-nrg-component>
+
+    <section class="services" id="services">
+        <h1 class="h1">Publications</h1>
+
+        <div id="refs" class="references">
+        <!-- PUMA with Layout: HTML similar to DIN1505, YEAR (English version) * -->
+        <!-- Include PUMA html here -->
+        <puma-nrg-component></puma-nrg-component>
+
+
+        <!-- 
+            This software is distributed under a Creative Commons Attribution 3.0 License
+            http://creativecommons.org/licenses/by/3.0/
+
+            *Attribution*
+            JavaScript by Mark Schenk, Dominik Benz and Michael Domhardt
+            JabRef export filter and css by Michael Domhardt http://mensch-maschine-systemtechnik.de/
+            BibSonomy and Typo3 integration by Dominik Benz
+            Content by BibSonomy - Lesezeichen und Referenzen teilen - in blau! http://bibsonomy.org/
+        -->
+        <script type="text/javascript">
+            function toggleAbstract(user,hash) {
+                var abs = document.getElementById('abs_'+hash+user);	
+                if (abs) {
+                    if(abs.id.indexOf('abs_') != -1) {
+                        abs.style.display = ( abs.style.display == 'none' ? '' : 'none' );
+                    }
+                } 
+                return;
+            }
+
+            function toggleBibtex(user,hash,biburl) {
+                var f = document.getElementById('bib_' + hash + user + '_src');
+                if (undefined != f) {
+                    f.parentNode.removeChild(f);
+                    return;
+                }
+                var el = document.getElementById('bib_' + hash + user);
+                iframe = document.createElement("iframe");
+                iframe.setAttribute("src", biburl);
+                iframe.setAttribute("id", 'bib_' + hash + user + '_src');
+                iframe.style.width = 500+"px";
+                iframe.style.height = 200+"px";
+                iframe.style.background = "#eee";
+                el.appendChild(iframe);
+                return;
+            }
+        </script>
+        
+        
+        </div>
+    </section>
+
+    <!-- Include Footer template -->
+    <footer-component></footer-component>
+
+  </body>
+</html>

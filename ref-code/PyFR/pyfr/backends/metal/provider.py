@@ -1,0 +1,162 @@
+from ctypes import sizeof
+from struct import Struct
+
+import numpy as np
+
+from pyfr.backends.base import (BaseKernelProvider, BaseOrderedMetaKernel,
+                                BasePointwiseKernelProvider,
+                                BaseUnorderedMetaKernel, Kernel)
+from pyfr.backends.metal.generator import MetalKernelGenerator
+from pyfr.cache import memoize
+from pyfr.nputil import npdtype_to_ctypestype
+
+
+class MetalKernel(Kernel):
+    def add_to_graph(self, graph, dnodes):
+        graph.klist.append(self)
+
+        return len(graph.klist)
+
+
+class _MetalMetaKernel:
+    def add_to_graph(self, graph, dnodes):
+        for k in self.kernels:
+            k.add_to_graph(graph, dnodes)
+
+        return len(graph.klist)
+
+
+class MetalOrderedMetaKernel(_MetalMetaKernel, BaseOrderedMetaKernel): pass
+class MetalUnorderedMetaKernel(_MetalMetaKernel, BaseUnorderedMetaKernel): pass
+
+
+class MetalKernelProvider(BaseKernelProvider):
+    def _benchmark(self, kfunc, nbench=40, nwarmup=25):
+        cbuf_warmup = self.backend.new_command_buffer()
+        cbuf_bench = self.backend.new_command_buffer()
+
+        for i in range(nwarmup):
+            kfunc(cbuf_warmup)
+
+        for i in range(nbench):
+            kfunc(cbuf_bench)
+
+        cbuf_warmup.commit()
+        cbuf_bench.commit()
+        cbuf_bench.waitUntilCompleted()
+
+        return (cbuf_bench.GPUEndTime() - cbuf_bench.GPUStartTime()) / nbench
+
+    def _bench_view(self, m):
+        buf = m.basedata.contents().as_buffer(m.offset + m.nbytes)
+        return np.frombuffer(buf, dtype=np.uint8, offset=m.offset)
+
+    def _bench_read(self, m):
+        return self._bench_view(m).copy()
+
+    def _bench_write(self, m, buf):
+        self._bench_view(m)[:buf.nbytes] = buf
+
+    def _bench_dup(self, m, off, nbytes):
+        v = self._bench_view(m)
+        v[off:off + nbytes] = v[:nbytes]
+
+    @memoize
+    def _build_kernel(self, name, src, argtypes, regions=frozenset(),
+                      pack_scalars=False):
+        from Metal import MTLSizeMake
+
+        # Build the pipeline using the compiler (with disk caching)
+        cpsf, func = self.backend.compiler.build_pipeline(src, name)
+
+        # Classify the arguments as either pointers or scalars
+        pargs, sargs = [], []
+        for i, argt in enumerate(argtypes):
+            if argt == np.uintp:
+                pargs.append((i, len(pargs) + 1 if pack_scalars else i))
+            else:
+                ctype = npdtype_to_ctypestype(argt)
+                sargs.append((i, ctype(), sizeof(ctype)))
+
+        # Memory layout of scalar argument structure
+        sfmt = ''.join(np.dtype(argtypes[i]).char for i, _, _ in sargs)
+        sastruct = Struct('@' + sfmt)
+
+        def encode(cbuf, grid, tgrp, *args):
+            cce = cbuf.computeCommandEncoder()
+            cce.setComputePipelineState_(cpsf)
+
+            # Bind the scalar arguments; either packed or individually
+            if pack_scalars:
+                sa = sastruct.pack(*(args[i] for i, _, _ in sargs))
+                cce.setBytes_length_atIndex_(sa, sastruct.size, 0)
+            else:
+                for i, val, sz in sargs:
+                    val.value = args[i]
+                    cce.setBytes_length_atIndex_(val, sz, i)
+
+            # Bind the pointer arguments
+            for i, j in pargs:
+                cce.setBuffer_offset_atIndex_(*args[i], j)
+
+            cce.dispatchThreads_threadsPerThreadgroup_(MTLSizeMake(*grid),
+                                                       MTLSizeMake(*tgrp))
+            cce.endEncoding()
+
+        return encode
+
+
+class MetalPointwiseKernelProvider(MetalKernelProvider,
+                                   BasePointwiseKernelProvider):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self._tgrp1d = (128, 1, 1)
+        self._tgrp2d = (32, 8, 1)
+
+        # Pass these block sizes to the generator
+        class KernelGenerator(MetalKernelGenerator):
+            block1d = self._tgrp1d
+            block2d = self._tgrp2d
+
+        self.kernel_generator_cls = KernelGenerator
+
+    def _build_kernel(self, name, src, argtypes, regions=frozenset()):
+        # Pack the scalar arguments of generated kernels into one struct
+        return super()._build_kernel(name, src, argtypes, regions,
+                                     pack_scalars=True)
+
+    def _instantiate_kernel(self, dims, fun, args):
+        # Determine the thread group and grid sizes
+        if len(dims) == 1:
+            tgrp = self._tgrp1d
+            grid = (dims[0] - dims[0] % -tgrp[0], 1, 1)
+        else:
+            tgrp = self._tgrp2d
+            grid = (dims[1] - dims[1] % -tgrp[0], tgrp[1], 1)
+
+        # Argument setting with buffers as (buffer, offset) pairs
+        def set_arg(i, k):
+            match k:
+                case int() | float():
+                    kargs[i] = k
+                case object(data=tuple() as v):
+                    kargs[i] = v
+                case object(data=v) | v:
+                    kargs[i] = (v, 0)
+
+        # Total argument count for the dimensions and named arguments
+        nargs = len(dims) + sum(len(s[1]) for _, s, _ in args.values())
+
+        # Set the iteration dimensions
+        kargs = [None]*nargs
+        for i, d in enumerate(dims):
+            set_arg(i, int(d))
+
+        class PointwiseKernel(MetalKernel):
+            _set_arg = staticmethod(set_arg)
+
+            def run(self, cbuf):
+                fun(cbuf, grid, tgrp, *kargs)
+
+        return PointwiseKernel(args=args)

@@ -1,0 +1,54 @@
+# Local caches, editor files and temporary output.
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.tmp
+.venv/
+
+# Generated build products; retain source, build recipes and test scripts.
+CMakeFiles/
+CMakeCache.txt
+*.o
+*.obj
+*.a
+*.so
+*.so.*
+*.dll
+*.exe
+*.mod
+*.smod
+
+# Redundant high-resolution exports; PNG/SVG/PDF remain available.
+/analysis/figures/*.tif
+/analysis/figures/*.tiff
+/analysis/figures/raw/
+/analysis/figures/raw300/
+
+# Upstream example/test datasets, meshes and simulation outputs.
+# These patterns are scoped to reference code; report data stay tracked.
+/ref-code/**/*.bin
+/ref-code/**/*.mesh
+/ref-code/**/*.msh
+/ref-code/**/*.h5
+/ref-code/**/*.hdf5
+/ref-code/**/*.hsol
+/ref-code/**/*.vtk
+/ref-code/**/*.vtu
+/ref-code/**/*.pvtu
+/ref-code/**/*.plt
+/ref-code/**/*.tec
+/ref-code/**/*.neu
+/ref-code/**/*.hex3d
+/ref-code/**/*.graph
+/ref-code/**/*.xyz
+/ref-code/**/*.cgns
+/ref-code/**/*.su2
+/ref-code/**/MMS_Q_degree*
+/ref-code/**/test_Q_degree*
+
+# Required report assets and reference tables.
+!/analysis/raw_data/
+!/analysis/raw_data/**

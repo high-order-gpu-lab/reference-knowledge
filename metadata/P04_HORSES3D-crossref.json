@@ -1,0 +1,1872 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "message": {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          10,
+          16
+        ]
+      ],
+      "date-time": "2026-10-16T12:34:35Z",
+      "timestamp": 1792154075060,
+      "version": "4.4.0"
+    },
+    "reference-count": 137,
+    "publisher": "Elsevier BV",
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2023,
+              6,
+              1
+            ]
+          ],
+          "date-time": "2023-06-01T00:00:00Z",
+          "timestamp": 1685577600000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://www.elsevier.com/tdm/userlicense/1.0/"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2023,
+              6,
+              1
+            ]
+          ],
+          "date-time": "2023-06-01T00:00:00Z",
+          "timestamp": 1685577600000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://www.elsevier.com/legal/tdmrep-license"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2023,
+              2,
+              23
+            ]
+          ],
+          "date-time": "2023-02-23T00:00:00Z",
+          "timestamp": 1677110400000
+        },
+        "content-version": "vor",
+        "delay-in-days": 0,
+        "URL": "http://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "funder": [
+      {
+        "DOI": "10.13039/100012818",
+        "name": "Community of Madrid",
+        "doi-asserted-by": "publisher",
+        "id": [
+          {
+            "id": "10.13039/100012818",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100007316",
+        "name": "Klaus Tschira Foundation",
+        "doi-asserted-by": "publisher",
+        "id": [
+          {
+            "id": "10.13039/501100007316",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100000893",
+        "name": "Simons Foundation",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "426393"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "426393"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100000893",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100010665",
+        "name": "H2020 Marie Skłodowska-Curie Actions",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "860101"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "860101"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100010665",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100010665",
+        "name": "H2020 Marie Skłodowska-Curie Actions",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "955923"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "955923"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100010665",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100010665",
+        "name": "H2020 Marie Skłodowska-Curie Actions",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "813605"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "813605"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100010665",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100010665",
+        "name": "H2020 Marie Skłodowska-Curie Actions",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "RTI2018-097075-B-I00"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "RTI2018-097075-B-I00"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100010665",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100010665",
+        "name": "H2020 Marie Skłodowska-Curie Actions",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "MCIN/AEI/10.13039/501100011033"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "MCIN/AEI/10.13039/501100011033"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100010665",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100008530",
+        "name": "European Regional Development Fund",
+        "doi-asserted-by": "publisher",
+        "id": [
+          {
+            "id": "10.13039/501100008530",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100003759",
+        "name": "Universidad Politécnica de Madrid",
+        "doi-asserted-by": "publisher",
+        "id": [
+          {
+            "id": "10.13039/501100003759",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100007601",
+        "name": "Horizon 2020",
+        "doi-asserted-by": "publisher",
+        "id": [
+          {
+            "id": "10.13039/501100007601",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100014440",
+        "name": "Spain Ministry of Science and Innovation",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "EIN2020-112255"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "EIN2020-112255"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100014440",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/501100008001",
+        "name": "Universität zu Köln",
+        "doi-asserted-by": "publisher",
+        "id": [
+          {
+            "id": "10.13039/501100008001",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100010661",
+        "name": "Horizon 2020 Framework Programme",
+        "doi-asserted-by": "publisher",
+        "id": [
+          {
+            "id": "10.13039/100010661",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      }
+    ],
+    "content-domain": {
+      "domain": [
+        "elsevier.com",
+        "sciencedirect.com"
+      ],
+      "crossmark-restriction": true
+    },
+    "short-container-title": [
+      "Computer Physics Communications"
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2023,
+          6
+        ]
+      ]
+    },
+    "DOI": "10.1016/j.cpc.2023.108700",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2023,
+          2,
+          24
+        ]
+      ],
+      "date-time": "2023-02-24T18:57:55Z",
+      "timestamp": 1677265075000
+    },
+    "page": "108700",
+    "update-policy": "https://doi.org/10.1016/elsevier_cm_policy",
+    "source": "Crossref",
+    "is-referenced-by-count": 67,
+    "special_numbering": "C",
+    "title": [
+      ": A high-order discontinuous Galerkin solver for flow simulations and multi-physics applications"
+    ],
+    "prefix": "10.1016",
+    "volume": "287",
+    "author": [
+      {
+        "given": "E.",
+        "family": "Ferrer",
+        "sequence": "first",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-6231-4801",
+        "authenticated-orcid": false,
+        "given": "G.",
+        "family": "Rubio",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "G.",
+        "family": "Ntoukas",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "W.",
+        "family": "Laskowski",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "O.A.",
+        "family": "Mariño",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "S.",
+        "family": "Colombo",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "A.",
+        "family": "Mateo-Gabín",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "H.",
+        "family": "Marbona",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "F.",
+        "family": "Manrique de Lara",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "D.",
+        "family": "Huergo",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "J.",
+        "family": "Manzanero",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "A.M.",
+        "family": "Rueda-Ramírez",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "D.A.",
+        "family": "Kopriva",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "E.",
+        "family": "Valero",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "78",
+    "reference": [
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0010",
+        "doi-asserted-by": "crossref",
+        "first-page": "811",
+        "DOI": "10.1002/fld.3767",
+        "volume": "72",
+        "author": "Wang",
+        "year": "2013",
+        "journal-title": "Int. J. Numer. Methods Fluids"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0020",
+        "first-page": "1",
+        "volume": "59",
+        "author": "Wang",
+        "year": "2016",
+        "journal-title": "Sci. China, Phys. Mech. Astron."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0030",
+        "doi-asserted-by": "crossref",
+        "first-page": "216",
+        "DOI": "10.1016/j.jcp.2015.11.032",
+        "volume": "306",
+        "author": "Kompenhans",
+        "year": "2016",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0040",
+        "doi-asserted-by": "crossref",
+        "first-page": "36",
+        "DOI": "10.1016/j.compfluid.2016.03.026",
+        "volume": "139",
+        "author": "Kompenhans",
+        "year": "2016",
+        "journal-title": "Comput. Fluids"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0050",
+        "doi-asserted-by": "crossref",
+        "first-page": "433",
+        "DOI": "10.1007/s10915-018-0772-0",
+        "volume": "78",
+        "author": "Rueda-Ramírez",
+        "year": "2019",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0060",
+        "doi-asserted-by": "crossref",
+        "first-page": "209",
+        "DOI": "10.1016/j.jcp.2018.11.009",
+        "volume": "378",
+        "author": "Rueda-Ramírez",
+        "year": "2019",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0070",
+        "series-title": "Numerical Analysis of Spectral Methods: Theory and Applications",
+        "author": "Gottlieb",
+        "year": "1977"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0080",
+        "author": "Reed",
+        "year": "1973"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0090",
+        "doi-asserted-by": "crossref",
+        "first-page": "267",
+        "DOI": "10.1006/jcph.1996.5572",
+        "volume": "131",
+        "author": "Bassi",
+        "year": "1997",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0100",
+        "series-title": "Proceedings of the 2nd European Conference on Turbomachinery Fluid Dynamics and Thermodynamics",
+        "first-page": "99",
+        "author": "Bassi",
+        "year": "1997"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0110",
+        "author": "Fischer",
+        "year": "2008"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0120",
+        "doi-asserted-by": "crossref",
+        "first-page": "205",
+        "DOI": "10.1016/j.cpc.2015.02.008",
+        "volume": "192",
+        "author": "Cantwell",
+        "year": "2015",
+        "journal-title": "Comput. Phys. Commun.",
+        "ISSN": "https://id.crossref.org/issn/0010-4655",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0130",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.cpc.2019.107110",
+        "volume": "249",
+        "author": "Moxey",
+        "year": "2020",
+        "journal-title": "Comput. Phys. Commun.",
+        "ISSN": "https://id.crossref.org/issn/0010-4655",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0140",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.cpc.2019.05.015",
+        "volume": "245",
+        "author": "Blackburn",
+        "year": "2019",
+        "journal-title": "Comput. Phys. Commun.",
+        "ISSN": "https://id.crossref.org/issn/0010-4655",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0150",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1145/1268776.1268779",
+        "volume": "33",
+        "author": "Bangerth",
+        "year": "2007",
+        "journal-title": "ACM Trans. Math. Softw.",
+        "ISSN": "https://id.crossref.org/issn/0098-3500",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0160",
+        "doi-asserted-by": "crossref",
+        "first-page": "39",
+        "DOI": "10.1016/j.jcp.2016.09.013",
+        "volume": "327",
+        "author": "Gassner",
+        "year": "2016",
+        "journal-title": "J. Comput. Phys.",
+        "ISSN": "https://id.crossref.org/issn/0021-9991",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0170",
+        "doi-asserted-by": "crossref",
+        "first-page": "86",
+        "DOI": "10.1016/j.compfluid.2012.03.006",
+        "volume": "61",
+        "author": "Hindenlang",
+        "year": "2012",
+        "journal-title": "Comput. Fluids",
+        "ISSN": "https://id.crossref.org/issn/0045-7930",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0180",
+        "doi-asserted-by": "crossref",
+        "first-page": "77",
+        "DOI": "10.21105/jcon.00077",
+        "volume": "1",
+        "author": "Ranocha",
+        "year": "2022",
+        "journal-title": "Proc. JuliaCon Conf."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0190",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.jcp.2021.110467",
+        "volume": "442",
+        "author": "Schlottke-Lakemper",
+        "year": "2021",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0200",
+        "doi-asserted-by": "crossref",
+        "first-page": "3028",
+        "DOI": "10.1016/j.cpc.2014.07.011",
+        "volume": "185",
+        "author": "Witherden",
+        "year": "2014",
+        "journal-title": "Comput. Phys. Commun.",
+        "ISSN": "https://id.crossref.org/issn/0010-4655",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0210",
+        "doi-asserted-by": "crossref",
+        "first-page": "1309",
+        "DOI": "10.1002/nme.2579",
+        "volume": "79",
+        "author": "Geuzaine",
+        "year": "2009",
+        "journal-title": "Int. J. Numer. Methods Eng."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0220",
+        "series-title": "Proceedings of Supercomputing",
+        "first-page": "5",
+        "volume": "vol. 99",
+        "author": "Folk",
+        "year": "1999"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0230",
+        "author": "Kopriva"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0240",
+        "series-title": "IDIHOM: Industrialization of High-Order Methods-A Top-Down Approach",
+        "first-page": "133",
+        "author": "Hindenlang",
+        "year": "2015"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0250",
+        "series-title": "The Visualization Handbook",
+        "volume": "vol. 717",
+        "author": "Ahrens",
+        "year": "2005"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0260",
+        "series-title": "The Paraview Guide: a Parallel Visualization Application",
+        "author": "Ayachit",
+        "year": "2015"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0270",
+        "series-title": "Implementing Spectral Methods for Partial Differential Equations",
+        "author": "Kopriva",
+        "year": "2009"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0280",
+        "author": "Manzanero",
+        "year": "2020",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0290",
+        "doi-asserted-by": "crossref",
+        "first-page": "754",
+        "DOI": "10.1016/j.jcp.2017.07.049",
+        "volume": "348",
+        "author": "Ferrer",
+        "year": "2017",
+        "journal-title": "J. Comput. Phys.",
+        "ISSN": "https://id.crossref.org/issn/0021-9991",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0300",
+        "series-title": "Riemann Solvers and Numerical Methods for Fluid Dynamics: A Practical Introduction",
+        "isbn-type": "print",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1007/b79761",
+        "author": "Toro",
+        "year": "2009",
+        "ISBN": "https://id.crossref.org/isbn/9783540498346"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0310",
+        "doi-asserted-by": "crossref",
+        "first-page": "1749",
+        "DOI": "10.1137/S0036142901384162",
+        "volume": "39",
+        "author": "Arnold",
+        "year": "2001",
+        "journal-title": "SIAM J. Numer. Anal."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0320",
+        "author": "Ferrer",
+        "year": "2012"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0330",
+        "doi-asserted-by": "crossref",
+        "first-page": "224",
+        "DOI": "10.1016/j.compfluid.2010.10.018",
+        "volume": "46",
+        "author": "Ferrer",
+        "year": "2011",
+        "journal-title": "Comput. Fluids",
+        "ISSN": "https://id.crossref.org/issn/0045-7930",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0340",
+        "doi-asserted-by": "crossref",
+        "first-page": "7037",
+        "DOI": "10.1016/j.jcp.2012.04.039",
+        "volume": "231",
+        "author": "Ferrer",
+        "year": "2012",
+        "journal-title": "J. Comput. Phys.",
+        "ISSN": "https://id.crossref.org/issn/0021-9991",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0350",
+        "doi-asserted-by": "crossref",
+        "first-page": "522",
+        "DOI": "10.1002/fld.3943",
+        "volume": "76",
+        "author": "Beck",
+        "year": "2014",
+        "journal-title": "Int. J. Numer. Methods Fluids"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0360",
+        "doi-asserted-by": "crossref",
+        "first-page": "518",
+        "DOI": "10.1016/j.jcp.2013.06.014",
+        "volume": "252",
+        "author": "Fisher",
+        "year": "2013",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0370",
+        "doi-asserted-by": "crossref",
+        "first-page": "B835",
+        "DOI": "10.1137/130932193",
+        "volume": "36",
+        "author": "Carpenter",
+        "year": "2014",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0380",
+        "doi-asserted-by": "crossref",
+        "first-page": "1262",
+        "DOI": "10.1007/s10915-017-0585-6",
+        "volume": "75",
+        "author": "Manzanero",
+        "year": "2018",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0390",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1137/130928650",
+        "volume": "36",
+        "author": "Kopriva",
+        "year": "2014",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0400",
+        "doi-asserted-by": "crossref",
+        "first-page": "39",
+        "DOI": "10.1016/j.jcp.2016.09.013",
+        "volume": "327",
+        "author": "Gassner",
+        "year": "2016",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0410",
+        "doi-asserted-by": "crossref",
+        "first-page": "154",
+        "DOI": "10.1007/s10915-018-0702-1",
+        "volume": "77",
+        "author": "Gassner",
+        "year": "2018",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0420",
+        "doi-asserted-by": "crossref",
+        "first-page": "427",
+        "DOI": "10.1016/j.jcp.2017.05.025",
+        "volume": "345",
+        "author": "Chen",
+        "year": "2017",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0430",
+        "doi-asserted-by": "crossref",
+        "first-page": "1",
+        "DOI": "10.1016/j.jcp.2018.06.016",
+        "volume": "372",
+        "author": "Winters",
+        "year": "2018",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0440",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1137/120890144",
+        "volume": "35",
+        "author": "Gassner",
+        "year": "2013",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0450",
+        "series-title": "Efficient High-Order Discretizations for Computational Fluid Dynamics",
+        "first-page": "117",
+        "author": "Winters",
+        "year": "2021"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0460",
+        "doi-asserted-by": "crossref",
+        "first-page": "1",
+        "DOI": "10.4208/csiam-am.2020-0003",
+        "volume": "1",
+        "author": "Chen",
+        "year": "2020",
+        "journal-title": "CSIAM Trans. Appl. Math."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0470",
+        "doi-asserted-by": "crossref",
+        "first-page": "276",
+        "DOI": "10.1016/j.jcp.2009.09.021",
+        "volume": "229",
+        "author": "Morinishi",
+        "year": "2010",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0480",
+        "doi-asserted-by": "crossref",
+        "first-page": "114",
+        "DOI": "10.1006/jcph.2000.6492",
+        "volume": "161",
+        "author": "Ducros",
+        "year": "2000",
+        "journal-title": "J. Comput. Phys.",
+        "ISSN": "https://id.crossref.org/issn/0021-9991",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0490",
+        "doi-asserted-by": "crossref",
+        "first-page": "1676",
+        "DOI": "10.1016/j.jcp.2007.09.020",
+        "volume": "227",
+        "author": "Kennedy",
+        "year": "2008",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0500",
+        "doi-asserted-by": "crossref",
+        "first-page": "7180",
+        "DOI": "10.1016/j.jcp.2010.06.006",
+        "volume": "229",
+        "author": "Pirozzoli",
+        "year": "2010",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0510",
+        "doi-asserted-by": "crossref",
+        "first-page": "1252",
+        "DOI": "10.4208/cicp.170712.010313a",
+        "volume": "14",
+        "author": "Chandrashekar",
+        "year": "2013",
+        "journal-title": "Commun. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0520",
+        "doi-asserted-by": "crossref",
+        "first-page": "527",
+        "DOI": "10.1016/j.jcp.2012.09.017",
+        "volume": "233",
+        "author": "Chandrashekar",
+        "year": "2013",
+        "journal-title": "J. Comput. Phys.",
+        "ISSN": "https://id.crossref.org/issn/0021-9991",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0530",
+        "volume": "408",
+        "author": "Manzanero",
+        "year": "2020",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0540",
+        "doi-asserted-by": "crossref",
+        "first-page": "167",
+        "DOI": "10.1006/jcph.2000.6609",
+        "volume": "165",
+        "author": "Guermond",
+        "year": "2000",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0550",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.jcp.2022.110998",
+        "volume": "455",
+        "author": "Lodares",
+        "year": "2022",
+        "journal-title": "J. Comput. Phys.",
+        "ISSN": "https://id.crossref.org/issn/0021-9991",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0560",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.jcp.2022.111093",
+        "volume": "458",
+        "author": "Ntoukas",
+        "year": "2022",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0570",
+        "doi-asserted-by": "crossref",
+        "first-page": "1389",
+        "DOI": "10.1007/s10915-018-00897-9",
+        "volume": "79",
+        "author": "Kopriva",
+        "year": "2019",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0580",
+        "doi-asserted-by": "crossref",
+        "first-page": "105",
+        "DOI": "10.1002/nme.394",
+        "volume": "53",
+        "author": "Kopriva",
+        "year": "2002",
+        "journal-title": "Int. J. Numer. Methods Eng."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0590",
+        "series-title": "47th AIAA Aerospace Sciences Meeting Including the New Horizons Forum and Aerospace Exposition",
+        "first-page": "1302",
+        "author": "Roy",
+        "year": "2009"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0600",
+        "doi-asserted-by": "crossref",
+        "first-page": "76",
+        "DOI": "10.1016/j.ast.2014.07.017",
+        "volume": "38",
+        "author": "Fraysse",
+        "year": "2014",
+        "journal-title": "Aerosp. Sci. Technol."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0610",
+        "doi-asserted-by": "crossref",
+        "first-page": "146",
+        "DOI": "10.1007/s10915-013-9698-8",
+        "volume": "57",
+        "author": "Rubio",
+        "year": "2013",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0620",
+        "doi-asserted-by": "crossref",
+        "first-page": "425",
+        "DOI": "10.1007/s10915-014-9938-6",
+        "volume": "64",
+        "author": "Rubio",
+        "year": "2015",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0630",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.jcp.2021.110883",
+        "volume": "451",
+        "author": "Laskowski",
+        "year": "2022",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0640",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.jcp.2021.110409",
+        "volume": "442",
+        "author": "Ntoukas",
+        "year": "2021",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0650",
+        "doi-asserted-by": "crossref",
+        "first-page": "48",
+        "DOI": "10.1016/0021-9991(80)90033-9",
+        "volume": "35",
+        "author": "Williamson",
+        "year": "1980",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0660",
+        "author": "Carpenter",
+        "year": "1994"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0670",
+        "series-title": "WCCM-ECCOMAS2020",
+        "author": "Joshi",
+        "year": "2021"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0680",
+        "doi-asserted-by": "crossref",
+        "first-page": "55",
+        "DOI": "10.1016/j.jcp.2019.01.003",
+        "volume": "383",
+        "author": "Vermeire",
+        "year": "2019",
+        "journal-title": "J. Comput. Phys.",
+        "ISSN": "https://id.crossref.org/issn/0021-9991",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0690",
+        "doi-asserted-by": "crossref",
+        "first-page": "92",
+        "DOI": "10.1016/j.jcp.2005.01.005",
+        "volume": "207",
+        "author": "Fidkowski",
+        "year": "2005",
+        "journal-title": "J. Comput. Phys.",
+        "ISSN": "https://id.crossref.org/issn/0021-9991",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0700",
+        "doi-asserted-by": "crossref",
+        "first-page": "828",
+        "DOI": "10.1016/j.jcp.2009.10.014",
+        "volume": "229",
+        "author": "Parsani",
+        "year": "2010",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0710",
+        "doi-asserted-by": "crossref",
+        "first-page": "134",
+        "DOI": "10.1002/fld.3888",
+        "volume": "75",
+        "author": "Ghidoni",
+        "year": "2014",
+        "journal-title": "Int. J. Numer. Methods Fluids"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0720",
+        "doi-asserted-by": "crossref",
+        "first-page": "305",
+        "DOI": "10.1016/j.compfluid.2015.06.007",
+        "volume": "118",
+        "author": "Bassi",
+        "year": "2015",
+        "journal-title": "Comput. Fluids"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0730",
+        "doi-asserted-by": "crossref",
+        "first-page": "187",
+        "DOI": "10.1137/0720013",
+        "volume": "20",
+        "author": "Coleman",
+        "year": "1983",
+        "journal-title": "SIAM J. Numer. Anal."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0740",
+        "doi-asserted-by": "crossref",
+        "first-page": "629",
+        "DOI": "10.1137/S0036144504444711",
+        "volume": "47",
+        "author": "Gebremedhin",
+        "year": "2005",
+        "journal-title": "SIAM Rev."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0750",
+        "first-page": "499",
+        "volume": "158",
+        "author": "Taylor",
+        "year": "1937",
+        "journal-title": "Proc. R. Soc. A, Math. Phys. Eng. Sci."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0760",
+        "series-title": "Spectral and High Order Methods for Partial Differential Equations ICOSAHOM 2016",
+        "first-page": "161",
+        "author": "Moura",
+        "year": "2017"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0770",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.compfluid.2020.104440",
+        "volume": "200",
+        "author": "Manzanero",
+        "year": "2020",
+        "journal-title": "Comput. Fluids",
+        "ISSN": "https://id.crossref.org/issn/0045-7930",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0780",
+        "author": "BSC-CNS"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0790",
+        "author": "Laskowski",
+        "year": "2022"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0800",
+        "series-title": "Large Eddy Simulation for Incompressible Flows: an Introduction",
+        "author": "Sagaut",
+        "year": "2006"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0810",
+        "author": "Oliver",
+        "year": "2008"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0820",
+        "series-title": "26th AIAA Applied Aerodynamics Conference",
+        "first-page": "6919",
+        "author": "Vassberg",
+        "year": "2008"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0830",
+        "author": "de Barros Ceze",
+        "year": "2013"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0840",
+        "doi-asserted-by": "crossref",
+        "first-page": "99",
+        "DOI": "10.1175/1520-0493(1963)091<0099:GCEWTP>2.3.CO;2",
+        "volume": "91",
+        "author": "Smagorinsky",
+        "year": "1963",
+        "journal-title": "Mon. Weather Rev."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0850",
+        "doi-asserted-by": "crossref",
+        "first-page": "11",
+        "DOI": "10.1175/1520-0493(1965)093<0011:OTCSON>2.3.CO;2",
+        "volume": "93",
+        "author": "Lilly",
+        "year": "1965",
+        "journal-title": "Mon. Weather Rev."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0860",
+        "doi-asserted-by": "crossref",
+        "first-page": "183",
+        "DOI": "10.1023/A:1009995426001",
+        "volume": "62",
+        "author": "Nicoud",
+        "year": "1999",
+        "journal-title": "Flow Turbul. Combust."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0870",
+        "doi-asserted-by": "crossref",
+        "first-page": "3670",
+        "DOI": "10.1063/1.1785131",
+        "volume": "16",
+        "author": "Vreman",
+        "year": "2004",
+        "journal-title": "Phys. Fluids"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0880",
+        "series-title": "Implicit Large Eddy Simulation",
+        "volume": "vol. 10",
+        "author": "Grinstein",
+        "year": "2007"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0890",
+        "doi-asserted-by": "crossref",
+        "first-page": "2560",
+        "DOI": "10.1137/100807211",
+        "volume": "33",
+        "author": "Gassner",
+        "year": "2011",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0900",
+        "volume": "449",
+        "author": "Kou",
+        "year": "2022",
+        "journal-title": "J. Comput. Phys.",
+        "ISSN": "https://id.crossref.org/issn/0021-9991",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0910",
+        "author": "Manzanero"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0920",
+        "doi-asserted-by": "crossref",
+        "first-page": "A747",
+        "DOI": "10.1137/16M1101143",
+        "volume": "40",
+        "author": "Manzanero",
+        "year": "2018",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0930",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.jcp.2021.110246",
+        "volume": "435",
+        "author": "Solán-Fustero",
+        "year": "2021",
+        "journal-title": "J. Comput. Phys.",
+        "ISSN": "https://id.crossref.org/issn/0021-9991",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0940",
+        "doi-asserted-by": "crossref",
+        "first-page": "782",
+        "DOI": "10.1016/j.jcp.2017.09.004",
+        "volume": "350",
+        "author": "Flad",
+        "year": "2017",
+        "journal-title": "J. Comput. Phys.",
+        "ISSN": "https://id.crossref.org/issn/0021-9991",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0950",
+        "doi-asserted-by": "crossref",
+        "first-page": "232",
+        "DOI": "10.1002/nme.3036",
+        "volume": "87",
+        "author": "Uranga",
+        "year": "2011",
+        "journal-title": "Int. J. Numer. Methods Eng.",
+        "ISSN": "https://id.crossref.org/issn/1097-0207",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0960",
+        "series-title": "Spectral and High Order Methods for Partial Differential Equations ICOSAHOM 2018",
+        "isbn-type": "print",
+        "doi-asserted-by": "crossref",
+        "first-page": "477",
+        "DOI": "10.1007/978-3-030-39647-3_38",
+        "author": "Ferrer",
+        "year": "2020",
+        "ISBN": "https://id.crossref.org/isbn/9783030396473"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0970",
+        "doi-asserted-by": "crossref",
+        "first-page": "308",
+        "DOI": "10.1016/j.jcp.2017.02.015",
+        "volume": "336",
+        "author": "Fernandez",
+        "year": "2017",
+        "journal-title": "J. Comput. Phys.",
+        "ISSN": "https://id.crossref.org/issn/0021-9991",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0980",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.compfluid.2019.104239",
+        "volume": "191",
+        "author": "Ferrer",
+        "year": "2019",
+        "journal-title": "Comput. Fluids",
+        "ISSN": "https://id.crossref.org/issn/0045-7930",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br0990",
+        "series-title": "Proceedings of the 1994 Beijing Symposium on Nonlinear Evolution Equations and Infinite Dynamical Systems",
+        "first-page": "68",
+        "author": "Shen",
+        "year": "1997"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1000",
+        "series-title": "Spectral/hp Element Methods for Computational Fluid Dynamics",
+        "author": "Karniadakis",
+        "year": "2005"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1010",
+        "doi-asserted-by": "crossref",
+        "first-page": "817",
+        "DOI": "10.4208/cicp.290114.170414a",
+        "volume": "16",
+        "author": "Ferrer",
+        "year": "2014",
+        "journal-title": "Commun. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1020",
+        "doi-asserted-by": "crossref",
+        "first-page": "258",
+        "DOI": "10.1063/1.1744102",
+        "volume": "28",
+        "author": "Cahn",
+        "year": "1958",
+        "journal-title": "J. Chem. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1030",
+        "doi-asserted-by": "crossref",
+        "first-page": "423",
+        "DOI": "10.1016/0001-6160(72)90037-5",
+        "volume": "20",
+        "author": "Allen",
+        "year": "1972",
+        "journal-title": "Acta Metall."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1040",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.jcp.2019.109072",
+        "volume": "403",
+        "author": "Manzanero",
+        "year": "2020",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1050",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.compfluid.2021.104971",
+        "volume": "225",
+        "author": "Manzanero",
+        "year": "2021",
+        "journal-title": "Comput. Fluids",
+        "ISSN": "https://id.crossref.org/issn/0045-7930",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1060",
+        "doi-asserted-by": "crossref",
+        "first-page": "551",
+        "DOI": "10.2514/8.1723",
+        "volume": "17",
+        "author": "von Mises",
+        "year": "1950",
+        "journal-title": "J. Aeronaut. Sci."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1070",
+        "doi-asserted-by": "crossref",
+        "first-page": "284",
+        "DOI": "10.1137/120903312",
+        "volume": "74",
+        "author": "Guermond",
+        "year": "2014",
+        "journal-title": "SIAM J. Appl. Math."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1080",
+        "doi-asserted-by": "crossref",
+        "first-page": "30",
+        "DOI": "10.1137/0726003",
+        "volume": "26",
+        "author": "Tadmor",
+        "year": "1989",
+        "journal-title": "SIAM J. Numer. Anal."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1090",
+        "doi-asserted-by": "crossref",
+        "first-page": "321",
+        "DOI": "10.1137/0730016",
+        "volume": "30",
+        "author": "Maday",
+        "year": "1993",
+        "journal-title": "SIAM J. Numer. Anal."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1100",
+        "doi-asserted-by": "crossref",
+        "first-page": "401",
+        "DOI": "10.1016/j.jcp.2015.12.009",
+        "volume": "307",
+        "author": "Moura",
+        "year": "2016",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1110",
+        "doi-asserted-by": "crossref",
+        "first-page": "1686",
+        "DOI": "10.1073/pnas.68.8.1686",
+        "volume": "68",
+        "author": "Friedrichs",
+        "year": "1971",
+        "journal-title": "Proc. Natl. Acad. Sci. USA"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1120",
+        "doi-asserted-by": "crossref",
+        "first-page": "211",
+        "DOI": "10.1016/0168-9274(86)90029-2",
+        "volume": "2",
+        "author": "Tadmor",
+        "year": "1986",
+        "journal-title": "Appl. Numer. Math."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1130",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.jcp.2022.111618",
+        "volume": "471",
+        "author": "Mateo-Gabín",
+        "year": "2022",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1140",
+        "doi-asserted-by": "crossref",
+        "first-page": "869",
+        "DOI": "10.1017/jfm.2016.102",
+        "volume": "792",
+        "author": "Frankel",
+        "year": "2016",
+        "journal-title": "J. Fluid Mech."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1150",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1115/1.4035163",
+        "volume": "139",
+        "author": "Pouransari",
+        "year": "2017",
+        "journal-title": "J. Sol. Energy Eng."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1160",
+        "volume": "372",
+        "author": "Lele",
+        "year": "2014",
+        "journal-title": "Trans. R. Soc. A"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1170",
+        "first-page": "321",
+        "volume": "264",
+        "author": "Williams",
+        "year": "1969",
+        "journal-title": "Philos. Trans. R. Soc. Lond. Ser. A, Math. Phys. Sci."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1180",
+        "first-page": "144",
+        "volume": "467",
+        "author": "Najafi-Yazdi",
+        "year": "2010",
+        "journal-title": "Proc. R. Soc. A, Math. Phys. Eng. Sci."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1190",
+        "doi-asserted-by": "crossref",
+        "first-page": "117",
+        "DOI": "10.1016/j.jsv.2011.08.018",
+        "volume": "331",
+        "author": "Ghorbaniasl",
+        "year": "2012",
+        "journal-title": "J. Sound Vib."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1200",
+        "author": "Garrick",
+        "year": "1954"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1210",
+        "author": "Farassat",
+        "year": "2007"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1220",
+        "doi-asserted-by": "crossref",
+        "first-page": "83",
+        "DOI": "10.1016/S0376-0421(02)00068-4",
+        "volume": "39",
+        "author": "Brentner",
+        "year": "2003",
+        "journal-title": "Prog. Aerosp. Sci."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1230",
+        "series-title": "8th AIAA/CEAS Aeroacoustics Conference Exhibit",
+        "author": "Lockard",
+        "year": "2002"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1240",
+        "doi-asserted-by": "crossref",
+        "first-page": "296",
+        "DOI": "10.2514/3.60229",
+        "volume": "10",
+        "author": "Paterson",
+        "year": "1973",
+        "journal-title": "J. Aircr."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1250",
+        "doi-asserted-by": "crossref",
+        "first-page": "155",
+        "DOI": "10.1017/S0022112007007896",
+        "volume": "591",
+        "author": "Desquesnes",
+        "year": "2007",
+        "journal-title": "J. Fluid Mech."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1260",
+        "doi-asserted-by": "crossref",
+        "first-page": "252",
+        "DOI": "10.1016/0021-9991(72)90065-4",
+        "volume": "10",
+        "author": "Peskin",
+        "year": "1972",
+        "journal-title": "J. Comput. Phys.",
+        "ISSN": "https://id.crossref.org/issn/0021-9991",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1270",
+        "doi-asserted-by": "crossref",
+        "first-page": "301",
+        "DOI": "10.1016/j.ijheatfluidflow.2019.01.010",
+        "volume": "75",
+        "author": "Kim",
+        "year": "2019",
+        "journal-title": "Int. J. Heat Fluid Flow",
+        "ISSN": "https://id.crossref.org/issn/0142-727X",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1280",
+        "volume": "449",
+        "author": "Kou",
+        "year": "2022",
+        "journal-title": "J. Comput. Phys.",
+        "ISSN": "https://id.crossref.org/issn/0021-9991",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1290",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.jcp.2021.110721",
+        "volume": "448",
+        "author": "Kou",
+        "year": "2022",
+        "journal-title": "J. Comput. Phys.",
+        "ISSN": "https://id.crossref.org/issn/0021-9991",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1300",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.jcp.2022.111678",
+        "volume": "472",
+        "author": "Kou",
+        "year": "2023",
+        "journal-title": "J. Comput. Phys.",
+        "ISSN": "https://id.crossref.org/issn/0021-9991",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1310",
+        "series-title": "Proceedings of the ACM SIGGRAPH Symposium on High Performance Graphics",
+        "first-page": "71",
+        "author": "Wu",
+        "year": "2011"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1320",
+        "doi-asserted-by": "crossref",
+        "first-page": "931",
+        "DOI": "10.1007/s10494-022-00364-4",
+        "volume": "109",
+        "author": "Giannenas",
+        "year": "2022",
+        "journal-title": "Flow Turbul. Combust."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1330",
+        "volume": "235",
+        "author": "Manrique de Lara",
+        "year": "2022",
+        "journal-title": "Comput. Fluids",
+        "ISSN": "https://id.crossref.org/issn/0045-7930",
+        "issn-type": "print"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1340",
+        "author": "Manrique de Lara"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1350",
+        "author": "mfem"
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1360",
+        "doi-asserted-by": "crossref",
+        "first-page": "42",
+        "DOI": "10.1016/j.camwa.2020.06.009",
+        "volume": "81",
+        "author": "Anderson",
+        "year": "2021",
+        "journal-title": "Comput. Math. Appl."
+      },
+      {
+        "key": "10.1016/j.cpc.2023.108700_br1370",
+        "author": "Perea"
+      }
+    ],
+    "container-title": [
+      "Computer Physics Communications"
+    ],
+    "original-title": [],
+    "language": "en",
+    "link": [
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0010465523000450?httpAccept=text/xml",
+        "content-type": "text/xml",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0010465523000450?httpAccept=text/plain",
+        "content-type": "text/plain",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2026,
+          4,
+          28
+        ]
+      ],
+      "date-time": "2026-04-28T15:53:04Z",
+      "timestamp": 1777391584000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://linkinghub.elsevier.com/retrieve/pii/S0010465523000450"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2023,
+          6
+        ]
+      ]
+    },
+    "references-count": 137,
+    "alternative-id": [
+      "S0010465523000450"
+    ],
+    "URL": "https://doi.org/10.1016/j.cpc.2023.108700",
+    "relation": {},
+    "ISSN": [
+      "0010-4655"
+    ],
+    "issn-type": [
+      {
+        "value": "0010-4655",
+        "type": "print"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2023,
+          6
+        ]
+      ]
+    },
+    "assertion": [
+      {
+        "value": "Elsevier",
+        "name": "publisher",
+        "label": "This article is maintained by"
+      },
+      {
+        "value": ": A high-order discontinuous Galerkin solver for flow simulations and multi-physics applications",
+        "name": "articletitle",
+        "label": "Article Title"
+      },
+      {
+        "value": "Computer Physics Communications",
+        "name": "journaltitle",
+        "label": "Journal Title"
+      },
+      {
+        "value": "https://doi.org/10.1016/j.cpc.2023.108700",
+        "name": "articlelink",
+        "label": "CrossRef DOI link to publisher maintained version"
+      },
+      {
+        "value": "article",
+        "name": "content_type",
+        "label": "Content Type"
+      },
+      {
+        "value": "© 2023 The Author(s). Published by Elsevier B.V.",
+        "name": "copyright",
+        "label": "Copyright"
+      }
+    ],
+    "article-number": "108700"
+  }
+}

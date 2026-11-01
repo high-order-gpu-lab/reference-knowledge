@@ -1,0 +1,71 @@
+[
+  {
+    "id": "M01_PyFR",
+    "url": "https://pyfr.readthedocs.io/en/latest/",
+    "retrieved": "2026-10-28",
+    "local": "ref-paper/manuals/M01_PyFR.html",
+    "sha256": "fcc5b41fd48a7dedd5099ee8d26a2626ef086690ef8bac9279d70f7b0bcd25c8",
+    "status": "saved"
+  },
+  {
+    "id": "M02_PyFR_backend",
+    "url": "https://pyfr.readthedocs.io/en/latest/configuration/backend.html",
+    "retrieved": "2026-10-28",
+    "status": "failed",
+    "error": "404 Client Error: Not Found for url: https://pyfr.readthedocs.io/en/latest/configuration/backend.html"
+  },
+  {
+    "id": "M03_FLEXI",
+    "url": "https://numericsresearchgroup.org/userguide/userguide.pdf",
+    "retrieved": "2026-10-28",
+    "status": "failed",
+    "error": "404 Client Error: Not Found for url: https://numericsresearchgroup.org/userguide/userguide.pdf"
+  },
+  {
+    "id": "M04_MFEM_GPU",
+    "url": "https://mfem.org/gpu-support/",
+    "retrieved": "2026-10-28",
+    "local": "ref-paper/manuals/M04_MFEM_GPU.html",
+    "sha256": "56106d11e617fd438b25771a0a75a34000928f7011ac384f3f40d8ad0bc9f4ea",
+    "status": "saved"
+  },
+  {
+    "id": "M05_MFEM_PA",
+    "url": "https://mfem.org/performance/",
+    "retrieved": "2026-10-28",
+    "local": "ref-paper/manuals/M05_MFEM_PA.html",
+    "sha256": "9234367b3e540c7438a0a03b99a75ad141d4974a119b451143a61914bc044216",
+    "status": "saved"
+  },
+  {
+    "id": "M06_Kokkos",
+    "url": "https://kokkos.org/kokkos-core-wiki/ProgrammingGuide/",
+    "retrieved": "2026-10-28",
+    "status": "failed",
+    "error": "404 Client Error: Not Found for url: https://kokkos.org/kokkos-core-wiki/ProgrammingGuide/"
+  },
+  {
+    "id": "M07_CUDA_best",
+    "url": "https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/",
+    "retrieved": "2026-10-28",
+    "local": "ref-paper/manuals/M07_CUDA_best.html",
+    "sha256": "2436305e8417a3350177f03f7591da94bd9c1e479d6fa193fdb552d1d76bd075",
+    "status": "saved"
+  },
+  {
+    "id": "M08_HIP",
+    "url": "https://rocm.docs.amd.com/projects/HIP/en/latest/how-to/performance_guidelines.html",
+    "retrieved": "2026-10-28",
+    "local": "ref-paper/manuals/M08_HIP.html",
+    "sha256": "140434ba51612ff335229108f23c680205aa7465c650eb745a49e9e63052694c",
+    "status": "saved"
+  },
+  {
+    "id": "M09_libCEED",
+    "url": "https://libceed.org/en/latest/",
+    "retrieved": "2026-10-28",
+    "local": "ref-paper/manuals/M09_libCEED.html",
+    "sha256": "33f7f72fc52ff82048610777324e0e0bbb85fec49f5f11f76836cce2d43df181",
+    "status": "saved"
+  }
+]

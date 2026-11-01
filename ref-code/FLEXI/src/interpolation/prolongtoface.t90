@@ -1,0 +1,303 @@
+!=================================================================================================================================
+! Copyright (c) 2010-2022 Prof. Claus-Dieter Munz
+! Copyright (c) 2022-2026 Prof. Andrea Beck
+! This file is part of FLEXI, a high-order accurate framework for numerically solving PDEs with discontinuous Galerkin methods.
+! For more information see https://www.flexi-project.org and https://numericsresearchgroup.org
+!
+! FLEXI is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
+! as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! FLEXI is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+! of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License v3.0 for more details.
+!
+! You should have received a copy of the GNU General Public License along with FLEXI. If not, see <http://www.gnu.org/licenses/>.
+!=================================================================================================================================
+#include "flexi.h"
+
+!==================================================================================================================================
+!> Interpolates the interior volume data (stored at the Gauss or Gauss-Lobatto points) to the surface
+!> integration points, using fast 1D Interpolation and store in global side structure
+!==================================================================================================================================
+PPURE SUBROUTINE ProlongToFace(&
+#ifdef WITHnVar
+    TP_nVar,&
+#endif
+    Nloc,Uvol,Uface_master,Uface_slave,L_Minus,L_Plus,doMPISides &
+#if FV_ENABLED
+    ,pureDG,pureFV &
+#endif
+)
+! MODULES
+USE MOD_Mesh_Vars,          ONLY: nElems
+USE MOD_Mesh_Vars,          ONLY: SideToElem
+USE MOD_Mesh_Vars,          ONLY: firstMPISide_YOUR, lastMPISide_MINE, nSides
+USE MOD_Mesh_Vars,          ONLY: S2V2
+#if FV_ENABLED
+USE MOD_FV_Vars,            ONLY: FV_Elems
+#endif
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+#ifdef WITHnVar
+INTEGER,INTENT(IN)              :: TP_nVar
+#endif
+INTEGER,INTENT(IN)              :: Nloc
+REAL,INTENT(IN)                 :: Uvol(TP_nVar,0:Nloc,0:Nloc,0:ZDIM(Nloc),1:nElems)
+REAL,INTENT(INOUT)              :: Uface_master(TP_nVar,0:Nloc,0:ZDIM(Nloc),1:nSides)
+REAL,INTENT(INOUT)              :: Uface_slave( TP_nVar,0:Nloc,0:ZDIM(Nloc),1:nSides)
+REAL,INTENT(IN)                 :: L_Minus(0:Nloc),L_Plus(0:Nloc)
+LOGICAL,INTENT(IN)              :: doMPISides  != .TRUE. only YOUR MPISides are filled, =.FALSE. BCSides +InnerSides +MPISides MINE
+#if FV_ENABLED
+LOGICAL,INTENT(IN),OPTIONAL     :: pureDG      != .TRUE. prolongates all elements as DG elements
+LOGICAL,INTENT(IN),OPTIONAL     :: pureFV      != .TRUE. prolongates all elements as FV elements
+#endif
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+#if FV_ENABLED
+INTEGER                         :: isFV(nElems)
+#endif
+INTEGER                         :: p,q,firstSideID,lastSideID
+INTEGER                         :: ElemID,nbElemID,locSide,nblocSide,SideID,flip
+REAL                            :: Uface(TP_nVar,0:Nloc,0:ZDIM(Nloc))
+!==================================================================================================================================
+
+#if FV_ENABLED
+isFV(:) = 0
+IF (.NOT.PRESENT(pureDG).AND..NOT.PRESENT(pureFV)) THEN
+  isFV(:) = FV_Elems(:)
+ELSEIF (PRESENT(pureFV)) THEN
+  IF(pureFV) isFV(:) = 1
+ELSE
+  IF(.NOT.pureDG) isFV(:) = FV_Elems(:)
+END IF
+#endif
+
+IF(doMPISides)THEN
+  firstSideID = firstMPISide_YOUR
+   lastSideID = nSides
+ELSE
+  firstSideID = 1
+   lastSideID =  lastMPISide_MINE
+END IF
+
+DO SideID=firstSideID,lastSideID
+  ElemID    = SideToElem(S2E_ELEM_ID,SideID)
+  nbElemID  = SideToElem(S2E_NB_ELEM_ID,SideID)
+
+  !master sides
+  IF(ElemID.GT.0)THEN
+    locSide = SideToElem(S2E_LOC_SIDE_ID,SideID)
+    flip    = 0
+
+#if FV_ENABLED
+    IF(PP_NodeType.EQ.1 .AND. isFV(ElemID).EQ.0)THEN
+#else
+    IF(PP_NodeType.EQ.1)THEN
+#endif
+      CALL EvalElemFaceG(&
+#if WITHnVar
+          TP_nVar,&
+#endif
+          Nloc,UVol(:,:,:,:,ElemID),Uface,L_Minus,L_Plus,locSide)
+    ELSE
+      CALL EvalElemFaceGL(&
+#if WITHnVar
+          TP_nVar,&
+#endif
+          Nloc,UVol(:,:,:,:,ElemID),Uface,locSide)
+    END IF
+
+    DO q=0,ZDIM(Nloc); DO p=0,Nloc
+      Uface_master(:,p,q,SideID)=Uface(:,S2V2(1,p,q,0,locSide),S2V2(2,p,q,0,locSide))
+    END DO; END DO
+  END IF
+
+  !slave side (ElemID,locSide and flip =-1 if not existing)
+  IF(nbElemID.GT.0)THEN
+    nblocSide = SideToElem(S2E_NB_LOC_SIDE_ID,SideID)
+    flip      = SideToElem(S2E_FLIP,SideID)
+
+#if FV_ENABLED
+    IF(PP_NodeType.EQ.1 .AND. isFV(nbElemID).EQ.0)THEN
+#else
+    IF(PP_NodeType.EQ.1)THEN
+#endif
+      CALL EvalElemFaceG(&
+#if WITHnVar
+          TP_nVar,&
+#endif
+          Nloc,UVol(:,:,:,:,nbElemID),Uface,L_Minus,L_Plus,nblocSide)
+    ELSE
+      CALL EvalElemFaceGL(&
+#if WITHnVar
+          TP_nVar,&
+#endif
+          Nloc,UVol(:,:,:,:,nbElemID),Uface,nblocSide)
+    END IF
+
+    DO q=0,ZDIM(Nloc); DO p=0,Nloc
+      Uface_slave( :,p,q,SideID)=Uface(:,S2V2(1,p,q,flip,nblocSide),S2V2(2,p,q,flip,nblocSide))
+    END DO; END DO
+  END IF
+END DO
+
+END SUBROUTINE ProlongToFace
+
+#if PP_EntropyVars == 1
+!==================================================================================================================================
+!> Prolongs the conservatives variables to the sides
+!> In the case of Gauss disc2, we project the entropy variables and then transform back to conservative variables
+!==================================================================================================================================
+PPURE SUBROUTINE ProlongToFaceEntropy(&
+#ifdef WITHnVar
+    TP_nVar,&
+#endif
+    Nloc,Vvol,Vface_master,Vface_slave,Uface_master,Uface_slave,L_Minus,L_Plus,doMPISides)
+! MODULES
+USE MOD_EOS,                ONLY: EntropyToCons
+USE MOD_Mesh_Vars,          ONLY: nElems
+USE MOD_Mesh_Vars,          ONLY: SideToElem
+USE MOD_Mesh_Vars,          ONLY: firstMPISide_YOUR, lastMPISide_MINE, nSides
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+#ifdef WITHnVar
+INTEGER,INTENT(IN)              :: TP_nVar
+#endif
+INTEGER,INTENT(IN)              :: Nloc
+REAL,INTENT(IN)                 :: Vvol(TP_nVar,0:Nloc,0:Nloc,0:ZDIM(Nloc),1:nElems)
+REAL,INTENT(INOUT)              :: Vface_master(TP_nVar,0:Nloc,0:ZDIM(Nloc),1:nSides)
+REAL,INTENT(INOUT)              :: Vface_slave( TP_nVar,0:Nloc,0:ZDIM(Nloc),1:nSides)
+REAL,INTENT(INOUT)              :: Uface_master(TP_nVar,0:Nloc,0:ZDIM(Nloc),1:nSides)
+REAL,INTENT(INOUT)              :: Uface_slave( TP_nVar,0:Nloc,0:ZDIM(Nloc),1:nSides)
+REAL,INTENT(IN)                 :: L_Minus(0:Nloc),L_Plus(0:Nloc)
+LOGICAL,INTENT(IN)              :: doMPISides  != .TRUE. only YOUR MPISides are filled, =.FALSE. BCSides +InnerSides +MPISides MINE
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER                         :: firstSideID,lastSideID
+INTEGER                         :: ElemID,nbElemID,SideID
+!==================================================================================================================================
+! Prolong the entropy variables
+CALL ProlongToFace(&
+#ifdef WITHnVar
+    TP_nVar,&
+#endif
+    Nloc,Vvol,Vface_master,Vface_slave,L_Minus,L_Plus,doMPISides=doMPISides)
+
+! Transform back to conservative variables
+IF(doMPISides)THEN
+  firstSideID = firstMPISide_YOUR
+   lastSideID = nSides
+ELSE
+  firstSideID = 1
+   lastSideID = lastMPISide_MINE
+END IF
+
+DO SideID=firstSideID,lastSideID
+  ElemID    = SideToElem(S2E_ELEM_ID,SideID)
+  IF(ElemID.GT.0)   CALL EntropyToCons(Nloc,Vface_master(:,:,:,SideID),Uface_master(:,:,:,SideID))
+
+  nbElemID  = SideToElem(S2E_NB_ELEM_ID,SideID)
+  IF(nbElemID.GT.0) CALL EntropyToCons(Nloc,Vface_slave(:,:,:,SideID) ,Uface_slave(:,:,:,SideID))
+END DO
+
+END SUBROUTINE ProlongToFaceEntropy
+#endif
+
+
+!==================================================================================================================================
+!> Interpolates the element volume data stored at Gauss points
+!==================================================================================================================================
+PPURE SUBROUTINE EvalElemFaceG(&
+#ifdef WITHnVar
+    TP_nVar,&
+#endif
+    Nloc,Uvol,Uface,L_Minus,L_Plus,locSide)
+! MODULES
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+#ifdef WITHnVar
+INTEGER,INTENT(IN)              :: TP_nVar
+#endif
+INTEGER,INTENT(IN)              :: Nloc
+INTEGER,INTENT(IN)              :: locSide
+REAL,INTENT(IN)                 :: L_Minus(0:Nloc),L_Plus(0:Nloc)
+REAL,INTENT(IN)                 :: Uvol( TP_nVar,0:Nloc,0:Nloc,0:ZDIM(Nloc))
+REAL,INTENT(OUT)                :: Uface(TP_nVar,0:Nloc,0:ZDIM(Nloc))
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+INTEGER                         :: l
+!==================================================================================================================================
+SELECT CASE(locSide)
+CASE(XI_MINUS)
+  Uface=Uvol(:,0,:,:)*L_Minus(0)
+  DO l=1,Nloc
+    Uface=Uface+Uvol(:,l,:,:)*L_Minus(l)
+  END DO ! l
+CASE(ETA_MINUS)
+  Uface=Uvol(:,:,0,:)*L_Minus(0)
+  DO l=1,Nloc
+    Uface=Uface+Uvol(:,:,l,:)*L_Minus(l)
+  END DO ! l
+CASE(ZETA_MINUS)
+  Uface=Uvol(:,:,:,0)*L_Minus(0)
+  DO l=1,Nloc
+    Uface=Uface+Uvol(:,:,:,l)*L_Minus(l)
+  END DO ! l
+CASE(XI_PLUS)
+  Uface=Uvol(:,0,:,:)*L_Plus(0)
+  DO l=1,Nloc
+    Uface=Uface+Uvol(:,l,:,:)*L_Plus(l)
+  END DO ! l
+CASE(ETA_PLUS)
+  Uface=Uvol(:,:,0,:)*L_Plus(0)
+  DO l=1,Nloc
+    Uface=Uface+Uvol(:,:,l,:)*L_Plus(l)
+  END DO ! l
+CASE(ZETA_PLUS)
+  Uface=Uvol(:,:,:,0)*L_Plus(0)
+  DO l=1,Nloc
+    Uface=Uface+Uvol(:,:,:,l)*L_Plus(l)
+  END DO ! l
+END SELECT
+END SUBROUTINE EvalElemFaceG
+
+
+!==================================================================================================================================
+!> Interpolates the element volume data stored at Gauss-Lobatto points
+!==================================================================================================================================
+PPURE SUBROUTINE EvalElemFaceGL(&
+#ifdef WITHnVar
+    TP_nVar,&
+#endif
+    Nloc,Uvol,Uface,locSide)
+! MODULES
+IMPLICIT NONE
+!----------------------------------------------------------------------------------------------------------------------------------
+! INPUT/OUTPUT VARIABLES
+#ifdef WITHnVar
+INTEGER,INTENT(IN)              :: TP_nVar
+#endif
+INTEGER,INTENT(IN)              :: Nloc
+INTEGER,INTENT(IN)              :: locSide
+REAL,INTENT(IN)                 :: Uvol( TP_nVar,0:Nloc,0:Nloc,0:ZDIM(Nloc))
+REAL,INTENT(OUT)                :: Uface(TP_nVar,0:Nloc,0:ZDIM(Nloc))
+!----------------------------------------------------------------------------------------------------------------------------------
+! LOCAL VARIABLES
+!==================================================================================================================================
+SELECT CASE(locSide)
+CASE(XI_MINUS)
+  Uface=Uvol(:,0,:,:)
+CASE(ETA_MINUS)
+  Uface=Uvol(:,:,0,:)
+CASE(ZETA_MINUS)
+  Uface=Uvol(:,:,:,0)
+CASE(XI_PLUS)
+  Uface=Uvol(:,Nloc,:,:)
+CASE(ETA_PLUS)
+  Uface=Uvol(:,:,Nloc,:)
+CASE(ZETA_PLUS)
+  Uface=Uvol(:,:,:,Nloc)
+END SELECT
+END SUBROUTINE EvalElemFaceGL

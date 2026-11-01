@@ -1,0 +1,1109 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "message": {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          9,
+          9
+        ]
+      ],
+      "date-time": "2026-09-09T20:10:27Z",
+      "timestamp": 1788984627382,
+      "version": "build-2803163510"
+    },
+    "reference-count": 61,
+    "publisher": "Elsevier BV",
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2021,
+              12,
+              1
+            ]
+          ],
+          "date-time": "2021-12-01T00:00:00Z",
+          "timestamp": 1638316800000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://www.elsevier.com/tdm/userlicense/1.0/"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2021,
+              12,
+              1
+            ]
+          ],
+          "date-time": "2021-12-01T00:00:00Z",
+          "timestamp": 1638316800000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://www.elsevier.com/legal/tdmrep-license"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2022,
+              9,
+              29
+            ]
+          ],
+          "date-time": "2022-09-29T00:00:00Z",
+          "timestamp": 1664409600000
+        },
+        "content-version": "am",
+        "delay-in-days": 302,
+        "URL": "http://www.elsevier.com/open-access/userlicense/1.0/"
+      }
+    ],
+    "content-domain": {
+      "domain": [
+        "elsevier.com",
+        "sciencedirect.com"
+      ],
+      "crossmark-restriction": true
+    },
+    "short-container-title": [
+      "Parallel Computing"
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2021,
+          12
+        ]
+      ]
+    },
+    "DOI": "10.1016/j.parco.2021.102841",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2021,
+          9,
+          27
+        ]
+      ],
+      "date-time": "2021-09-27T03:27:32Z",
+      "timestamp": 1632713252000
+    },
+    "page": "102841",
+    "update-policy": "https://doi.org/10.1016/elsevier_cm_policy",
+    "source": "Crossref",
+    "is-referenced-by-count": 40,
+    "special_numbering": "C",
+    "title": [
+      "GPU algorithms for Efficient Exascale Discretizations"
+    ],
+    "prefix": "10.1016",
+    "volume": "108",
+    "author": [
+      {
+        "ORCID": "https://orcid.org/0000-0001-5054-4784",
+        "authenticated-orcid": false,
+        "given": "Ahmad",
+        "family": "Abdelfattah",
+        "sequence": "first",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0003-1129-2056",
+        "authenticated-orcid": false,
+        "given": "Valeria",
+        "family": "Barra",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0001-6060-4082",
+        "authenticated-orcid": false,
+        "given": "Natalie",
+        "family": "Beams",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Ryan",
+        "family": "Bleile",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Jed",
+        "family": "Brown",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0003-2421-1999",
+        "authenticated-orcid": false,
+        "given": "Jean-Sylvain",
+        "family": "Camier",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0003-4490-2244",
+        "authenticated-orcid": false,
+        "given": "Robert",
+        "family": "Carson",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-1293-7525",
+        "authenticated-orcid": false,
+        "given": "Noel",
+        "family": "Chalmers",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0003-1793-5622",
+        "authenticated-orcid": false,
+        "given": "Veselin",
+        "family": "Dobrev",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0001-5831-561X",
+        "authenticated-orcid": false,
+        "given": "Yohann",
+        "family": "Dudouit",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Paul",
+        "family": "Fischer",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Ali",
+        "family": "Karakus",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Stefan",
+        "family": "Kerkemeier",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-2810-3090",
+        "authenticated-orcid": false,
+        "given": "Tzanio",
+        "family": "Kolev",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-1680-675X",
+        "authenticated-orcid": false,
+        "given": "Yu-Hsiang",
+        "family": "Lan",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Elia",
+        "family": "Merzari",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-5646-5689",
+        "authenticated-orcid": false,
+        "given": "Misun",
+        "family": "Min",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-0277-1584",
+        "authenticated-orcid": false,
+        "given": "Malachi",
+        "family": "Phillips",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0001-6102-6560",
+        "authenticated-orcid": false,
+        "given": "Thilina",
+        "family": "Rathnayake",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0003-3526-0649",
+        "authenticated-orcid": false,
+        "given": "Robert",
+        "family": "Rieben",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-7068-2073",
+        "authenticated-orcid": false,
+        "given": "Thomas",
+        "family": "Stitt",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Ananias",
+        "family": "Tomboulides",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Stanimire",
+        "family": "Tomov",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Vladimir",
+        "family": "Tomov",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Arturo",
+        "family": "Vargas",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Tim",
+        "family": "Warburton",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0001-6649-8022",
+        "authenticated-orcid": false,
+        "given": "Kenneth",
+        "family": "Weiss",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "78",
+    "reference": [
+      {
+        "key": "10.1016/j.parco.2021.102841_b1",
+        "unstructured": "Center for Efficient Exascale Discretizations, Exascale Computing Project, DOE, ceed.exascaleproject.org."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b2",
+        "first-page": "1",
+        "article-title": "Efficient exascale discretizations: High-order finite element methods",
+        "author": "Kolev",
+        "year": "2021",
+        "journal-title": "Int. J. HPC App."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b3",
+        "doi-asserted-by": "crossref",
+        "first-page": "199",
+        "DOI": "10.3402/tellusa.v24i3.10634",
+        "article-title": "Comparison of accurate methods for the integration of hyperbolic problems",
+        "volume": "24",
+        "author": "Kreiss",
+        "year": "1972",
+        "journal-title": "Tellus"
+      },
+      {
+        "issue": "4",
+        "key": "10.1016/j.parco.2021.102841_b4",
+        "doi-asserted-by": "crossref",
+        "first-page": "578",
+        "DOI": "10.1137/1036141",
+        "article-title": "The p and h−p versions of the finite element method, basic principles and properties",
+        "volume": "36",
+        "author": "Babuška",
+        "year": "1994",
+        "journal-title": "SIAM Rev."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b5",
+        "doi-asserted-by": "crossref",
+        "first-page": "70",
+        "DOI": "10.1016/0021-9991(80)90005-4",
+        "article-title": "Spectral methods for problems in complex geometry",
+        "volume": "37",
+        "author": "Orszag",
+        "year": "1980",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b6",
+        "series-title": "Numerical Analysis of Spectral Methods: Theory and Applications",
+        "author": "Gottlieb",
+        "year": "1977"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b7",
+        "series-title": "Software for Exascale Computing - SPPEXA 2016-2019",
+        "first-page": "189",
+        "article-title": "Exadg: High-order discontinuous Galerkin for the exa-scale",
+        "author": "Arndt",
+        "year": "2020"
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.parco.2021.102841_b8",
+        "doi-asserted-by": "crossref",
+        "first-page": "S2",
+        "DOI": "10.1137/18M1194997",
+        "article-title": "Scalable low-order finite element preconditioners for high-order spectral element Poisson solvers",
+        "volume": "41",
+        "author": "Bello-Maldonado",
+        "year": "2019",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "issue": "6",
+        "key": "10.1016/j.parco.2021.102841_b9",
+        "doi-asserted-by": "crossref",
+        "first-page": "4422",
+        "DOI": "10.1137/090746367",
+        "article-title": "Finite-element preconditioning of g-NI spectral methods",
+        "volume": "31",
+        "author": "Canuto",
+        "year": "2010",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.parco.2021.102841_b10",
+        "doi-asserted-by": "crossref",
+        "first-page": "C97",
+        "DOI": "10.1137/19M1246523",
+        "article-title": "Efficient matrix-free high-order finite element evaluation for simplicial elements",
+        "volume": "42",
+        "author": "Moxey",
+        "year": "2020",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "issue": "6",
+        "key": "10.1016/j.parco.2021.102841_b11",
+        "doi-asserted-by": "crossref",
+        "first-page": "629",
+        "DOI": "10.1177/1094342020945005",
+        "article-title": "A study of vectorization for matrix-free finite element methods",
+        "volume": "34",
+        "author": "Sun",
+        "year": "2020",
+        "journal-title": "Int. J. High Perform. Comput. Appl."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b12",
+        "article-title": "MFEM: A modular finite element library",
+        "author": "Anderson",
+        "year": "2020",
+        "journal-title": "Comput. Math. Appl."
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.parco.2021.102841_b13",
+        "doi-asserted-by": "crossref",
+        "first-page": "A3423",
+        "DOI": "10.1137/16M110455X",
+        "article-title": "A performance comparison of continuous and discontinuous Galerkin methods with fast multigrid solvers",
+        "volume": "40",
+        "author": "Kronbichler",
+        "year": "2018",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.parco.2021.102841_b14",
+        "doi-asserted-by": "crossref",
+        "first-page": "1",
+        "DOI": "10.1145/3322813",
+        "article-title": "Multigrid for matrix-free high-order finite element computations on graphics processors",
+        "volume": "6",
+        "author": "Kronbichler",
+        "year": "2019",
+        "journal-title": "ACM Trans. Parallel Comput."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b15",
+        "doi-asserted-by": "crossref",
+        "first-page": "45",
+        "DOI": "10.1007/s10915-004-4787-3",
+        "article-title": "Hybrid multigrid/Schwarz algorithms for the spectral element method",
+        "volume": "24",
+        "author": "Lottes",
+        "year": "2005",
+        "journal-title": "J. Sci. Comput."
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.parco.2021.102841_b16",
+        "first-page": "562",
+        "article-title": "Scalability of high-performance PDE solvers",
+        "volume": "34",
+        "author": "Fischer",
+        "year": "2020",
+        "journal-title": "Int. J. HPC App."
+      },
+      {
+        "issue": "63",
+        "key": "10.1016/j.parco.2021.102841_b17",
+        "doi-asserted-by": "crossref",
+        "first-page": "2945",
+        "DOI": "10.21105/joss.02945",
+        "article-title": "libCEED: Fast algebra for high-order element-based discretizations",
+        "volume": "6",
+        "author": "Brown",
+        "year": "2021",
+        "journal-title": "J. Open Source Softw."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b18",
+        "series-title": "libCEED User manual, zenodo",
+        "author": "Abdelfattah",
+        "year": "2021"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b19",
+        "series-title": "Spectral/Hp Element Methods for Computational Fluid Dynamics",
+        "author": "Karniadakis",
+        "year": "2005"
+      },
+      {
+        "issue": "13",
+        "key": "10.1016/j.parco.2021.102841_b20",
+        "doi-asserted-by": "crossref",
+        "first-page": "5161",
+        "DOI": "10.1016/j.jcp.2010.03.031",
+        "article-title": "From h to p efficiently: Implementing finite and spectral/hp element methods to achieve optimal performance for low-and high-order discretisations",
+        "volume": "229",
+        "author": "Vos",
+        "year": "2010",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "issue": "6",
+        "key": "10.1016/j.parco.2021.102841_b21",
+        "doi-asserted-by": "crossref",
+        "first-page": "3087",
+        "DOI": "10.1137/11082539X",
+        "article-title": "Bernstein-Bézier Finite elements of arbitrary order and optimal assembly procedures",
+        "volume": "33",
+        "author": "Ainsworth",
+        "year": "2011",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "issue": "4",
+        "key": "10.1016/j.parco.2021.102841_b22",
+        "doi-asserted-by": "crossref",
+        "first-page": "631",
+        "DOI": "10.1007/s00211-010-0327-2",
+        "article-title": "Fast simplicial finite element algorithms using Bernstein polynomials",
+        "volume": "117",
+        "author": "Kirby",
+        "year": "2011",
+        "journal-title": "Numer. Math."
+      },
+      {
+        "issue": "4",
+        "key": "10.1016/j.parco.2021.102841_b23",
+        "doi-asserted-by": "crossref",
+        "first-page": "735",
+        "DOI": "10.1177/1094342018816368",
+        "article-title": "Acceleration of tensor-product operations for high-order finite element methods",
+        "volume": "33",
+        "author": "Swirydowicz",
+        "year": "2019",
+        "journal-title": "Int. J. High Perform. Comput. Appl."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b24",
+        "series-title": "OCCA: A unified approach to multi-threading languages",
+        "author": "Medina",
+        "year": "2014"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b25",
+        "unstructured": "MAGMA: Matrix Algebra on GPU and Multicore Architectures, icl.utk.edu/magma."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b26",
+        "series-title": "International Conference on Computational Science, ICCS, 6-8 June 2016, San Diego, California, USA",
+        "first-page": "108",
+        "article-title": "High-performance tensor contractions for GPUs",
+        "author": "Abdelfattah",
+        "year": "2016"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b27",
+        "doi-asserted-by": "crossref",
+        "unstructured": "N. Beams, A. Abdelfattah, S. Tomov, J. Dongarra, T. Kolev, Y. Dudouit, High-Order Finite Element Method using Standard and Device-Level Batch GEMM on GPUs, in: 11th Workshop on Latest Advances in Scalable Algorithms for Large-Scale Systems,Proceedings. To Appear, 2020.",
+        "DOI": "10.1109/ScalA51936.2020.00012"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b28",
+        "series-title": "The RAJA Portability Layer: Overview and Status, LLNL-TR-661403",
+        "author": "Hornung",
+        "year": "2014"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b29",
+        "series-title": "libParanumal: a performance portable high-order finite element library",
+        "author": "Chalmers",
+        "year": "2020"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b30",
+        "series-title": "OKL: a unified language for parallel architectures",
+        "author": "Medina",
+        "year": "2015"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b31",
+        "series-title": "Portable high-order finite element kernels I: Streaming operations",
+        "author": "Chalmers",
+        "year": "2020"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b32",
+        "unstructured": "N. Chalmers, T. Warburton, streamParanumal: Streaming Microbenchmarks for High-order Finite Element Methods, URL github.com/paranumal/streamparanumal."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b33",
+        "series-title": "Gslib: Gather-scatter library",
+        "year": "2020"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b34",
+        "series-title": "NekRS, a GPU-accelerated spectral element Navier-Stokes Solver, CoRR",
+        "author": "Fischer",
+        "year": "2021"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b35",
+        "series-title": "Massive parallel nodal discontinuous Galerkin finite element method simulator for room acoustics, Tech. rep",
+        "author": "Melander",
+        "year": "2020"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b36",
+        "series-title": "Nek: Open source, highly scalable and portable spectral element code",
+        "year": "2020"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b37",
+        "series-title": "NekCEM: Scalable high-order computational electromagnetic code",
+        "year": "2020"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b38",
+        "doi-asserted-by": "crossref",
+        "unstructured": "P.F. Fischer, K. Heisey, M. Min, Scaling limits for PDE-based simulation, in: 22nd AIAA Computational Fluid Dynamics Conference, 2015, p. 3049.",
+        "DOI": "10.2514/6.2015-3049"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b39",
+        "series-title": "High-Order Methods for Incompressible Fluid Flow",
+        "author": "Deville",
+        "year": "2002"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.parco.2021.102841_b40",
+        "doi-asserted-by": "crossref",
+        "first-page": "320",
+        "DOI": "10.1177/1094342015626584",
+        "article-title": "An MPI/OpenACC implementation of a high order electromagnetics solver with GPUDirect communication",
+        "volume": "30",
+        "author": "Otten",
+        "year": "2016",
+        "journal-title": "Int. J. High Perform. Comput. Appl."
+      },
+      {
+        "issue": "11",
+        "key": "10.1016/j.parco.2021.102841_b41",
+        "doi-asserted-by": "crossref",
+        "first-page": "4160",
+        "DOI": "10.1007/s11227-016-1744-5",
+        "article-title": "Nekbone performance on GPUs with OpenACC and CUDA fortran implementations, special issue on sustainability on ultrascale computing systems and applications",
+        "volume": "72",
+        "author": "Gong",
+        "year": "2016",
+        "journal-title": "J. Supercomput."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b42",
+        "doi-asserted-by": "crossref",
+        "first-page": "69",
+        "DOI": "10.1016/j.jpdc.2019.05.010",
+        "article-title": "OpenACC Acceleration for the PN−PN−2 algorithm in Nek5000",
+        "volume": "132",
+        "author": "Otero",
+        "year": "2019",
+        "journal-title": "J. Parallel Distrib. Comput."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b43",
+        "doi-asserted-by": "crossref",
+        "first-page": "193",
+        "DOI": "10.1016/S0045-7825(98)00012-7",
+        "article-title": "Projection techniques for iterative solution of Ax̲=b̲ with successive right-hand sides",
+        "volume": "163",
+        "author": "Fischer",
+        "year": "1998",
+        "journal-title": "Comput. Methods Appl. Mech. Engrg."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b44",
+        "series-title": "Initial guesses for sequences of linear systems in a GPU-accelerated incompressible flow solver",
+        "author": "Austin",
+        "year": "2020"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b45",
+        "series-title": "OCCA: Lightweight performance portability library",
+        "year": "2020"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b46",
+        "unstructured": "Y.-H. Lan, P. Fischer, E. Merzari, M. Min, All-hex meshing strategies for densely packed spheres, in: The 29th International Meshing Roundtable, 2021."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.parco.2021.102841_b47",
+        "doi-asserted-by": "crossref",
+        "first-page": "B32",
+        "DOI": "10.1137/17M1116453",
+        "article-title": "High-order multi-material ALE hydrodynamics",
+        "volume": "40",
+        "author": "Anderson",
+        "year": "2018",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b48",
+        "first-page": "1",
+        "article-title": "Umpire: Application-focused management and coordination of complex hierarchical memory",
+        "author": "Beckingsale",
+        "year": "2019",
+        "journal-title": "IBM J. Res. Dev."
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.parco.2021.102841_b49",
+        "doi-asserted-by": "crossref",
+        "first-page": "B606",
+        "DOI": "10.1137/120864672",
+        "article-title": "High-order curvilinear finite element methods for Lagrangian hydrodynamics",
+        "volume": "34",
+        "author": "Dobrev",
+        "year": "2012",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "issue": "10",
+        "key": "10.1016/j.parco.2021.102841_b50",
+        "doi-asserted-by": "crossref",
+        "first-page": "689",
+        "DOI": "10.1002/fld.4236",
+        "article-title": "Multi-material closure model for high-order finite element Lagrangian hydrodynamics",
+        "volume": "82",
+        "author": "Dobrev",
+        "year": "2016",
+        "journal-title": "Internat. J. Numer. Methods Engrg."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b51",
+        "series-title": "Laghos: High-order Lagrangian hydrodynamics miniapp",
+        "year": "2020"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b52",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.compfluid.2020.104577",
+        "article-title": "A matrix-free hyperviscosity formulation for high-order ALE hydrodynamics",
+        "author": "Bello-Maldonado",
+        "year": "2020",
+        "journal-title": "Comput. Fluids"
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.parco.2021.102841_b53",
+        "doi-asserted-by": "crossref",
+        "first-page": "B50",
+        "DOI": "10.1137/18M1167206",
+        "article-title": "The target-matrix optimization paradigm for high-order meshes",
+        "volume": "41",
+        "author": "Dobrev",
+        "year": "2019",
+        "journal-title": "SIAM J. Sci. Comput."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b54",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.compfluid.2020.104602",
+        "article-title": "Simulation-driven optimization of high-order meshes in ALE hydrodynamics",
+        "volume": "208",
+        "author": "Dobrev",
+        "year": "2020",
+        "journal-title": "Comput. Fluids"
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.parco.2021.102841_b55",
+        "doi-asserted-by": "crossref",
+        "first-page": "249",
+        "DOI": "10.1002/fld.3965",
+        "article-title": "Monotonicity in high-order curvilinear finite element arbitrary Lagrangian–Eulerian remap",
+        "volume": "77",
+        "author": "Anderson",
+        "year": "2015",
+        "journal-title": "Internat. J. Numer. Methods Engrg."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b56",
+        "doi-asserted-by": "crossref",
+        "first-page": "102",
+        "DOI": "10.1016/j.jcp.2016.12.031",
+        "article-title": "High-order local maximum principle preserving (MPP) discontinuous Galerkin finite element method for the transport equation",
+        "volume": "334",
+        "author": "Anderson",
+        "year": "2017",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b57",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.cma.2019.112658",
+        "article-title": "Matrix-free subcell residual distribution for Bernstein finite element discretizations of linear advection equations",
+        "volume": "359",
+        "author": "Hajduk",
+        "year": "2020",
+        "journal-title": "Comput. Methods Appl. Mech. Engrg."
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b58",
+        "series-title": "ExaConstit",
+        "author": "Carson",
+        "year": "2019"
+      },
+      {
+        "key": "10.1016/j.parco.2021.102841_b59",
+        "series-title": "Ecmech",
+        "author": "Barton",
+        "year": "2018"
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.parco.2021.102841_b60",
+        "doi-asserted-by": "crossref",
+        "first-page": "83",
+        "DOI": "10.1002/nme.1620050108",
+        "article-title": "A method of computing numerically integrated stiffness matrices",
+        "volume": "5",
+        "author": "Gupta",
+        "year": "1972",
+        "journal-title": "Internat. J. Numer. Methods Engrg."
+      },
+      {
+        "issue": "9",
+        "key": "10.1016/j.parco.2021.102841_b61",
+        "doi-asserted-by": "crossref",
+        "first-page": "1410",
+        "DOI": "10.1002/nme.1620190910",
+        "article-title": "Efficient numerical integration of element stiffness matrices",
+        "volume": "19",
+        "author": "Gupta",
+        "year": "1983",
+        "journal-title": "Internat. J. Numer. Methods Engrg."
+      }
+    ],
+    "container-title": [
+      "Parallel Computing"
+    ],
+    "original-title": [],
+    "language": "en",
+    "link": [
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0167819121000879?httpAccept=text/xml",
+        "content-type": "text/xml",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0167819121000879?httpAccept=text/plain",
+        "content-type": "text/plain",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2025,
+          9,
+          29
+        ]
+      ],
+      "date-time": "2025-09-29T05:33:33Z",
+      "timestamp": 1759124013000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://linkinghub.elsevier.com/retrieve/pii/S0167819121000879"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2021,
+          12
+        ]
+      ]
+    },
+    "references-count": 61,
+    "alternative-id": [
+      "S0167819121000879"
+    ],
+    "URL": "https://doi.org/10.1016/j.parco.2021.102841",
+    "relation": {},
+    "ISSN": [
+      "0167-8191"
+    ],
+    "issn-type": [
+      {
+        "value": "0167-8191",
+        "type": "print"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2021,
+          12
+        ]
+      ]
+    },
+    "assertion": [
+      {
+        "value": "Elsevier",
+        "name": "publisher",
+        "label": "This article is maintained by"
+      },
+      {
+        "value": "GPU algorithms for Efficient Exascale Discretizations",
+        "name": "articletitle",
+        "label": "Article Title"
+      },
+      {
+        "value": "Parallel Computing",
+        "name": "journaltitle",
+        "label": "Journal Title"
+      },
+      {
+        "value": "https://doi.org/10.1016/j.parco.2021.102841",
+        "name": "articlelink",
+        "label": "CrossRef DOI link to publisher maintained version"
+      },
+      {
+        "value": "article",
+        "name": "content_type",
+        "label": "Content Type"
+      },
+      {
+        "value": "© 2021 Elsevier B.V. All rights reserved.",
+        "name": "copyright",
+        "label": "Copyright"
+      }
+    ],
+    "article-number": "102841"
+  }
+}

@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Title -->
+  <title>PyFR | An open-source platform for fast, robust and accurate Scale-Resolving Simulations of industrial flow problems.</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="./favicon.ico">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <link rel="stylesheet" href="./assets/css/vendor.min.css">
+
+  <!-- CSS Unify Template -->
+  <link rel="stylesheet" href="./assets/css/theme.min.css?v=1.0">
+
+  <!-- Custom styles -->
+  <style>
+    .text-highlight
+    {
+      background-color: rgba(255, 243, 71, 0.5);
+      padding: 0.1em 0.2em;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ========== HEADER ========== -->
+  <header id="header" class="navbar navbar-expand-lg navbar-light navbar-absolute-top navbar-show-hide" data-hs-header-options='{
+            "fixMoment": 0,
+            "fixEffect": "slide"
+          }'>
+    <div class="container">
+      <nav class="js-mega-menu navbar-nav-wrap">
+        <!-- Default Logo -->
+        <a class="navbar-brand" href="./index.html" aria-label="Unify">
+          <img class="navbar-brand-logo" style="width: 40px; height: 40px; min-width: 0px;" src="./assets/svg/logos/pyfricon.svg" alt="Image Description">
+        </a>
+        <!-- End Default Logo -->
+
+        <!-- Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-default">
+            <i class="bi-list"></i>
+          </span>
+          <span class="navbar-toggler-toggled">
+            <i class="bi-x"></i>
+          </span>
+        </button>
+        <!-- End Toggler -->
+
+        <!-- Collapse -->
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <div class="navbar-absolute-top-scroller">
+            <ul class="navbar-nav nav-pills">
+              <!-- Home -->
+              <li class="nav-item">
+                <a class="nav-link " href="./index.html">Home</a>
+              </li>
+
+              <!-- 
+              <li class="hs-has-mega-menu nav-item"
+                  data-hs-mega-menu-item-options='{
+                    "desktop": {
+                      "position": "left"
+                    }
+                  }'>
+                <a id="pagesMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " href="#" role="button" aria-expanded="false">Case Studies</a>
+
+
+                <div class="hs-mega-menu dropdown-menu" aria-labelledby="pagesMegaMenu" style="min-width: 20rem;">
+   
+                  <div class="navbar-dropdown-menu-inner">
+                    <a class="dropdown-item" href="./mars-helicopter-case-study.html">Martian helicopters</a>
+                    <a class="dropdown-item" href="./low-pressure-turbine-case-study.html">Low-pressure turbines</a>
+                    <a class="dropdown-item" href="./architectural-wind-loading-case-study.html">Architectural wind loading</a>
+                    <a class="dropdown-item" href="./wind-turbine-wake-case-study.html">Wind turbine wakes</a>
+                    <a class="dropdown-item" href="./channel-flow-eigenmodes-case-study.html">Channel flow eigenmodes</a>
+                    <a class="dropdown-item" href="./thermoacoustic-engine-case-study.html">Thermoacoustic engines</a>
+                  </div>
+
+                </div>
+
+              </li>
+              -->
+
+              <!--
+
+              <li class="hs-has-mega-menu nav-item"
+                  data-hs-mega-menu-item-options='{
+                    "desktop": {
+                      "position": "left"
+                    }
+                  }'>
+                <a id="blogMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " href="#" role="button" aria-expanded="false">Publications</a>
+
+
+                <div class="hs-mega-menu dropdown-menu" aria-labelledby="blogMegaMenu" style="min-width: 20rem;">
+
+                  <div class="navbar-dropdown-menu-inner">
+                    <a class="dropdown-item" href="./journal-papers.html">Journal papers</a>
+                    <a class="dropdown-item" href="./conference-papers.html">Conference papers</a>
+                    <a class="dropdown-item" href="./phd-theses.html">PhD theses</a>
+                  </div>
+ 
+                </div>
+ 
+              </li>
+
+              -->
+
+              <!-- Community -->
+              <li class="hs-has-mega-menu nav-item" data-hs-mega-menu-item-options='{
+                    "desktop": {
+                      "position": "left"
+                    }
+                  }'>
+                <a id="docsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " href="#" role="button" aria-expanded="false">Community</a>
+
+                <!-- Mega Menu -->
+                <div class="hs-mega-menu dropdown-menu" aria-labelledby="docsMegaMenu" style="min-width: 20rem;">
+                  <!-- Main Content -->
+                  <div class="navbar-dropdown-menu-inner">
+                    <a class="dropdown-item" href="https://pyfr.discourse.group/" target="_blank">Discussion forum</a>
+                    <a class="dropdown-item" href="https://www.cassyni.com/s/pyfr" target="_blank">Seminar series</a>
+                    <a class="dropdown-item" href="https://pyfr.readthedocs.io/en/latest/" target="_blank">Documentation</a>
+                  </div>
+                  <!-- End Main Content -->
+                </div>
+                <!-- End Mega Menu -->
+              </li>
+              <!-- End Community -->
+
+              <!-- Community -->
+              <li class="hs-has-mega-menu nav-item" data-hs-mega-menu-item-options='{
+                    "desktop": {
+                      "position": "left"
+                    }
+                  }'>
+                <a id="docsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " href="#" role="button" aria-expanded="false">Download</a>
+
+                <!-- Mega Menu -->
+                <div class="hs-mega-menu dropdown-menu" aria-labelledby="docsMegaMenu" style="min-width: 20rem;">
+                  <!-- Main Content -->
+                  <div class="navbar-dropdown-menu-inner">
+                    <a class="dropdown-item" href="https://github.com/PyFR/PyFR" target="_blank">Code</a>
+                    <a class="dropdown-item" href="https://github.com/PyFR/PyFR-Test-Cases" target="_blank">Test cases</a>
+                  </div>
+                  <!-- End Main Content -->
+                </div>
+                <!-- End Mega Menu -->
+              </li>
+              <!-- End Community -->
+
+              <!-- Log in
+              <li class="nav-item ms-lg-auto">
+                <a class="btn btn-ghost-dark me-2 me-lg-0" href="./page-login.html">Log in</a>
+                <a class="btn btn-dark d-lg-none" href="./page-signup.html">Sign up</a>
+              </li>
+              End Log in -->
+
+              <!-- Sign up 
+              <li class="nav-item">
+                <a class="btn btn-dark d-none d-lg-inline-block" href="./page-signup.html">Sign up</a>
+              </li>
+              End Sign up -->
+            </ul>
+          </div>
+        </div>
+        <!-- End Collapse -->
+      </nav>
+    </div>
+  </header>
+
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main id="content" role="main">
+    <!-- Hero -->
+    <div class="container content-space-t-3">
+      <div class="row justify-content-lg-between align-items-lg-center">
+        <div class="col-lg-5 mb-5 mb-lg-0">
+          <div class="mb-5">
+            <h1 class="display-4 text-dark mb-5">PyFR</h1>
+            <p class="fs-3">An open-source platform for fast, robust and accurate Scale-Resolving Simulations of industrial flow problems.</p>
+          </div>
+
+          <div class="d-grid d-sm-flex gap-3 mb-5">
+            <a class="btn btn-primary" href="https://github.com/PyFR/PyFR" target="_blank">Get PyFR v3.1</a>
+            <a class="btn btn-ghost-dark btn-pointer" href="https://pyfr.readthedocs.io/en/latest/" target="_blank">Documentation</a>
+          </div>
+        </div>
+        <!-- End Col -->
+
+        <div class="col-lg-6">
+          <div class="position-relative">
+            <div class="position-relative">
+              <img class="img-fluid" src="./assets/img/mars-helciopter-comp.jpg" alt="Image Description">
+
+              <!--<div class="position-absolute bottom-0 end-0">
+                <img class="w-100" src="./assets/svg/illustrations/cubics.svg" alt="SVG" style="max-width: 30rem;">
+              </div>-->
+            </div>
+          </div>
+        </div>
+        <!-- End Col -->
+      </div>
+      <!-- End Row -->
+    </div>
+    <!-- End Hero -->
+
+    <!-- Icon Blocks -->
+    <div class="container content-space-t-2">
+      <div class="row">
+        <div class="col-sm-6 col-lg mb-5 mb-lg-0">
+          <!-- Icon Block -->
+          <div class="text-center">
+            <div class="mb-3">
+              <i class="bi-git fs-1 text-dark"></i>
+            </div>
+
+            <h5>Open source</h5>
+            <span class="d-block">PyFR is released under a 3-Clause BSD License to enable sharing and collaboration.</span>
+          </div>
+          <!-- End Icon Block -->
+        </div>
+        <!-- End Col -->
+
+        <div class="col-sm-6 col-lg mb-5 mb-lg-0">
+          <!-- Icon Block -->
+          <div class="text-center">
+            <div class="mb-3">
+              <i class="bi-graph-up fs-1 text-dark"></i>
+            </div>
+
+            <h5>High-order accurate</h5>
+            <span class="d-block">PyFR utilises the Flux Reconstruction approach to achieve arbitrary-order spatial accuracy.</span>
+          </div>
+          <!-- End Icon Block -->
+        </div>
+        <!-- End Col -->
+
+        <div class="col-sm-6 col-lg">
+          <!-- Icon Block -->
+          <div class="text-center">
+            <div class="mb-3">
+              <i class="bi-triangle fs-1 text-dark"></i>
+            </div>
+
+            <h5>Unstructured meshes</h5>
+            <span class="d-block">PyFR can operate with mixed elements and unstructured meshes to enable simulations of complex geometries.</span>
+          </div>
+          <!-- End Icon Block -->
+        </div>
+
+        <div class="col-sm-6 col-lg mb-5 mb-sm-0">
+          <!-- Icon Block -->
+          <div class="text-center">
+            <div class="mb-3">
+              <i class="bi-gpu-card fs-1 text-dark"></i>
+            </div>
+
+            <h5>Cross-platform</h5>
+            <span class="d-block">PyFR can target a range of hardware including CPUs, Nvidia GPUs, AMD GPUs, Intel GPUs, and Apple GPUs.</span>
+          </div>
+          <!-- End Icon Block -->
+        </div>
+        <!-- End Col -->
+
+        <!-- End Col -->
+      </div>
+      <!-- End Row -->
+    </div>
+    <!-- End Icon Blocks -->
+
+    <div style="height: 120px"></div>
+
+    <!-- Stats -->
+    <div class="container" style="padding-left: 80px !important; padding-right: 80px !important;">
+      <div class="w-md-75 w-lg-50 text-center mx-md-auto mb-5 mb-md-9">
+        <h2>Challenge and opportunity</h2>
+      </div>
+      <div class="row justify-content-lg-between align-items-lg-center">
+        <div class="col-lg-6">
+          <!-- List -->
+          <p class="fs-3">
+            Reynolds Averaged Navier-Stokes (RANS) simulations are cheap and robust, but accuracy is limited for complex unsteady industrial flows. Scale-Resolving Simulations (SRS) overcome the accuracy limitations of RANS, but can lack robustness, and have historically been too expensive for industrial adoption.
+
+          </p>
+          <!-- End List -->
+        </div>
+        <!-- End Col -->
+
+        <div class="col-lg-5 mb-9 mb-lg-0">
+
+          <!-- Blockquote -->
+          <figure>
+            <blockquote class="blockquote"><em>The use of CFD in the aerospace design process is
+                severely limited by the inability to accurately and reliably predict turbulent flows with significant regions
+                of separation.</em></blockquote>
+
+            <figcaption class="blockquote-footer">
+              <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                  <img class="avatar avatar-circle" src="./assets/img/logos/nasa.png" alt="Image Description" style="width: 3rem; height: 3rem; object-fit: contain;">
+                </div>
+
+                <div class="flex-grow-1 ms-3">
+                  NASA Vision 2030 Study
+                  <span class="blockquote-footer-source">NASA/CR-2014-218178</span>
+                </div>
+              </div>
+            </figcaption>
+          </figure>
+          <!-- End Blockquote -->
+        </div>
+        <!-- End Col -->
+      </div>
+      <!-- End Row -->
+    </div>
+
+    <div style="height: 120px"></div>
+
+    <div class="container" style="padding-left: 80px !important; padding-right: 80px !important;">
+      <div class="w-md-75 w-lg-50 text-center mx-md-auto mb-5 mb-md-9">
+        <h2>Mission and vision</h2>
+      </div>
+
+      <!-- Mission Statement -->
+      <div class="row justify-content-center align-items-center">
+        <div class="col-lg-2">
+          <div class="text-center">
+            <img src="./assets/svg/logos/pyfricon.svg" alt="PyFR Icon" style="width: 100px; height: 100px;">
+          </div>
+        </div>
+        <div class="col-lg-10">
+          <p class="text-left fs-3 mb-0 pt-lg-0 pt-6">
+            Our mission is to develop an SRS capability that is fast and robust,
+            with a vision to enable industrial adoption of SRS, and hence a paradigm-shift in industrial design capability.
+          </p>
+        </div>
+      </div>
+      <!-- End Mission Statement -->
+
+    </div>
+    <!-- End Stats -->
+
+    <div style="height: 120px"></div>
+
+    <!-- Used By Section -->
+    <div class="container">
+      <!-- Heading -->
+      <div class="w-md-75 w-lg-50 text-center mx-md-auto mb-5 mb-md-9">
+        <h2>An international community</h2>
+      </div>
+      <!-- End Heading -->
+
+      <!-- Testimonials -->
+      <div class="container overflow-hidden">
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2">
+          <div class="col mb-5 mb-lg-10">
+            <!-- Card -->
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="mb-4">
+                  <img src="./assets/img/logos/nasa.png" alt="Logo" style="height: 60px;">
+                </div>
+                <p class="card-text fs-3"><em>"PyFR has been a game changing tool for investigating complex turbulent flow phenomenon in the wake of reentry capsules and predicting their dynamic stability characteristics. It’s capability to run on modern GPU supercomputers has been an enabler for running high-fidelity scale resolving simulations in a matter of hours, which would otherwise have taken many weeks to months to perform using legacy CFD tools."</em></p>
+              </div>
+
+              <div class="card-footer pt-0">
+                <h6 class="mb-0">Rathakrishnan Bhaskaran</h6>
+                <span class="card-text fs-5">Branch Technical Lead | NASA Ames Research Center</span>
+              </div>
+            </div>
+            <!-- End Card -->
+          </div>
+          <!-- End Col -->
+
+          <!--
+    <div class="col mb-5 mb-lg-10">
+
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="mb-4">
+            <img class="avatar avatar-lg avatar-4x3" src="./assets/img/logos/technion.png" alt="Logo">
+          </div>
+          <p class="card-text fs-3"><em>" Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."</em></p>
+        </div>
+        
+        <div class="card-footer pt-0">
+          <h6 class="mb-0">xxxx</h6>
+          <span class="card-text fs-5"> Professor | Technion - Israel Institute of Technology</span>
+        </div>
+      </div>
+
+    </div>
+  -->
+
+          <div class="col mb-5 mb-lg-10">
+            <!-- Card -->
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="mb-4">
+                  <img src="./assets/img/logos/ibm.png" alt="Logo" style="height: 60px;">
+                </div>
+                <p class="card-text fs-3"><em>"PyFR is a great example of what's next in classical computing. We've been using it as as a performance benchmark for years, but have now progressed to advancing its use in industrial applications to deliver a step change in modelling fidelity of turbulent flows. It's usable out-of-the-box, extensible and has a vibrant ecosystem and support community."</em></p>
+              </div>
+
+              <div class="card-footer pt-0">
+                <h6 class="mb-0">Robert Manson-Sawko</h6>
+                <span class="card-text fs-5">Senior Research Scientist | IBM Research Europe</span>
+              </div>
+            </div>
+            <!-- End Card -->
+          </div>
+          <!-- End Col -->
+        </div>
+        <!-- End Row -->
+      </div>
+      <!-- End Testimonials -->
+
+      <!-- Logo Grid -->
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 justify-content-center align-items-center">
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/nasa.png" alt="NASA Logo">
+          </div>
+        </div>
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/imperial.png" alt="Imperial College London Logo">
+          </div>
+        </div>
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/tamu.png" alt="Texas A&M University Logo">
+          </div>
+        </div>
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/ihi.png" alt="IHI Logo">
+          </div>
+        </div>
+      </div>
+
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 justify-content-center align-items-center">
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/stanford.png" alt="Stanford University Logo">
+          </div>
+        </div>
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/technion.png" alt="Technion - Israel Institute of Technology Logo">
+          </div>
+        </div>
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/ibm.png" alt="IBM Logo">
+          </div>
+        </div>
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/nvidia.png" alt="NVIDIA Logo">
+          </div>
+        </div>
+      </div>
+
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 justify-content-center align-items-center">
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/concordia.png" alt="Concordia University Logo">
+          </div>
+        </div>
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/add.png" alt="ADD Logo">
+          </div>
+        </div>
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/isae.png" alt="ISAE-SUPAERO Logo">
+          </div>
+        </div>
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/leonardo.png" alt="Leonardo Company Logo">
+          </div>
+        </div>
+      </div>
+
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 justify-content-center align-items-center">
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/kyushu.png" alt="Kyushu University Logo">
+          </div>
+        </div>
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/kth_padded_40px.png" alt="KTH Royal Institute of Technology Logo">
+          </div>
+        </div>
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/leib.png" alt="Leibniz University Hannover Logo">
+          </div>
+        </div>
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/aachen.png" alt="RWTH Aachen University Logo">
+          </div>
+        </div>
+      </div>
+
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 justify-content-center align-items-center">
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/siegen.png" alt="University of Siegen Logo">
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- End Used By Section -->
+
+    <div style="height: 120px"></div>
+
+    <!-- Team Section -->
+    <div class="container">
+      <!-- Heading -->
+      <div class="w-md-75 w-lg-50 text-center mx-md-auto mb-5 mb-md-9">
+        <h2>Meet the team</h2>
+      </div>
+      <!-- End Heading -->
+
+      <!-- Project Leads -->
+      <div class="mb-10">
+        <h3 class="text-center mb-5">Leads</h3>
+        <div class="row justify-content-center">
+
+          <div class="col-sm-6 col-lg-4 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/witherden.jpg" alt="Freddie Witherden" style="object-fit: cover;">
+              </div>
+              <h5 class="mb-1">Freddie Witherden</h5>
+              <span class="d-block">Texas A&M University</span>
+
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+          <div class="col-sm-6 col-lg-4 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/vincent.jpg" alt="Peter Vincent" style="object-fit: cover;">
+              </div>
+              <h5 class="mb-1">Peter Vincent</h5>
+              <span class="d-block">Imperial College London</span>
+
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+        </div>
+      </div>
+      <!-- End Project Leads -->
+
+      <!-- Project Collaborators -->
+      <div class="mb-10">
+        <h3 class="text-center mb-5">Collaborators</h3>
+        <div class="row justify-content-center">
+          <div class="col-sm-6 col-lg-4 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/trojak.jpg" alt="Will Trojak">
+              </div>
+              <h6 class="mb-1">Will Trojak</h6>
+              <span class="d-block small">Nvidia</span>
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+          <div class="col-sm-6 col-lg-4 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/dzanic.jpg" alt="Tarik Dzanic">
+              </div>
+              <h6 class="mb-1">Tarik Dzanic</h6>
+              <span class="d-block small">Lawrence Livermore National Laboratory</span>
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+          <div class="col-sm-6 col-lg-4 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/abe.jpg" alt="Yoshiaki Abe">
+              </div>
+              <h6 class="mb-1">Yoshiaki Abe</h6>
+              <span class="d-block small">Tohoku University</span>
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+          <div class="col-sm-6 col-lg-4 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/vermeire.jpg" alt="Brian Vermeire">
+              </div>
+              <h6 class="mb-1">Brian Vermeire</h6>
+              <span class="d-block small">Concordia University</span>
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+          <div class="col-sm-6 col-lg-4 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/jsp.jpg" alt="Jin Seok Park">
+              </div>
+              <h6 class="mb-1">Jin Seok Park</h6>
+              <span class="d-block small">Inha University</span>
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+        </div>
+      </div>
+      <!-- End Project Collaborators -->
+
+      <!-- Developers -->
+      <div>
+        <h3 class="text-center mb-5">Developers</h3>
+        <div class="row justify-content-center">
+
+          <div class="col-sm-6 col-lg-3 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/flynn.jpg" alt="Toby Fynn">
+              </div>
+              <h6 class="mb-1">Toby Flynn</h6>
+              <span class="d-block small">Imperial College London</span>
+            </div>
+            <!-- End Team -->
+          </div>
+
+          <div class="col-sm-6 col-lg-3 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/kyle.jpg" alt="Kyle Schau">
+              </div>
+              <h6 class="mb-1">Kyle Schau</h6>
+              <span class="d-block small">Texas A&M University</span>
+            </div>
+            <!-- End Team -->
+          </div>
+
+          <div class="col-sm-6 col-lg-3 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/hossein.jpg" alt="Hossein Mirzakhani">
+              </div>
+              <h6 class="mb-1">Hossein Mirzakhani</h6>
+              <span class="d-block small">Texas A&M University</span>
+            </div>
+            <!-- End Team -->
+          </div>
+
+          <div class="col-sm-6 col-lg-3 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/akbarzadeh.jpg" alt="Amir Akbarzadeh">
+              </div>
+              <h6 class="mb-1">Amir Akbarzadeh</h6>
+              <span class="d-block small">Texas A&M University</span>
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+          <div class="col-sm-6 col-lg-3 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/rishit.jpg" alt="Rishit Modi">
+              </div>
+              <h6 class="mb-1">Rishit Modi</h6>
+              <span class="d-block small">Texas A&M University</span>
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+          <div class="col-sm-6 col-lg-3 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/sambit.jpg" alt="Sambit Mishra">
+              </div>
+              <h6 class="mb-1">Sambit Mishra</h6>
+              <span class="d-block small">Texas A&M University</span>
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+          <div class="col-sm-6 col-lg-3 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/mohammad.jpg" alt="Mohammad Alhawwary">
+              </div>
+              <h6 class="mb-1">Mohammad Alhawwary</h6>
+              <span class="d-block small">Texas A&M University</span>
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+          <div class="col-sm-6 col-lg-3 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/lai.jpg" alt="Lai Wang">
+              </div>
+              <h6 class="mb-1">Lai Wang</h6>
+              <span class="d-block small">Texas A&M University</span>
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+          <!-- Imperial College London Developers -->
+          <div class="col-sm-6 col-lg-3 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/giangaspero.jpg" alt="Giorgio Giangaspero">
+              </div>
+              <h6 class="mb-1">Giorgio Giangaspero</h6>
+              <span class="d-block small">Imperial College London</span>
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+          <div class="col-sm-6 col-lg-3 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/semih.jpg" alt="Semih Akkurt">
+              </div>
+              <h6 class="mb-1">Semih Akkurt</h6>
+              <span class="d-block small">Imperial College London</span>
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+          <div class="col-sm-6 col-lg-3 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/niki.jpg" alt="Niki Loppi">
+              </div>
+              <h6 class="mb-1">Niki Loppi</h6>
+              <span class="d-block small">Imperial College London</span>
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+          <div class="col-sm-6 col-lg-3 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/iyer.jpg" alt="Arvind Iyer">
+              </div>
+              <h6 class="mb-1">Arvind Iyer</h6>
+              <span class="d-block small">Imperial College London</span>
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+          <div class="col-sm-6 col-lg-3 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/ntemos.jpg" alt="George Ntemos">
+              </div>
+              <h6 class="mb-1">George Ntemos</h6>
+              <span class="d-block small">Imperial College London</span>
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+          <div class="col-sm-6 col-lg-3 mb-5">
+            <!-- Team -->
+            <div class="text-center">
+              <div class="avatar avatar-circle mb-3 mx-auto" style="width: 12rem; height: 12rem;">
+                <img class="avatar-img" src="./assets/img/team/farrington.jpg" alt="Antony Farrington">
+              </div>
+              <h6 class="mb-1">Antony Farrington</h6>
+              <span class="d-block small">Imperial College London</span>
+            </div>
+            <!-- End Team -->
+          </div>
+          <!-- End Col -->
+
+        </div>
+        <!-- End Row -->
+      </div>
+      <!-- End Developers -->
+    </div>
+    <!-- End Team Section -->
+
+    <div style="height: 120px"></div>
+
+    <!-- Funded By Section -->
+    <div class="container">
+      <!-- Heading -->
+      <div class="w-md-75 w-lg-50 text-center mx-md-auto mb-5 mb-md-9">
+        <h2>Supported by</h2>
+      </div>
+      <!-- End Heading -->
+
+      <!-- Logo Grid -->
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 justify-content-center align-items-center">
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/funders/epsrc.png" alt="EPSRC">
+          </div>
+        </div>
+        <!-- End Col -->
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/funders/ec.png" alt="EC">
+          </div>
+        </div>
+        <!-- End Col -->
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/funders/lt.png" alt="LT">
+          </div>
+        </div>
+        <!-- End Col -->
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/funders/afosr.jpg" alt="AFOSR">
+          </div>
+        </div>
+        <!-- End Col -->
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/funders/iuk.png" alt="IUK">
+          </div>
+        </div>
+        <!-- End Col -->
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/funders/nsf.jpg" alt="NSF">
+          </div>
+        </div>
+        <!-- End Col -->
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/funders/ornl.png" alt="ORNL">
+          </div>
+        </div>
+        <!-- End Col -->
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/funders/cscs.png" alt="CSCS">
+          </div>
+        </div>
+        <!-- End Col -->
+
+        <div class="col mb-4">
+          <div class="px-6">
+            <img class="img-fluid" src="./assets/img/logos/funders/bae.png" alt="BAE">
+          </div>
+        </div>
+        <!-- End Col -->
+
+      </div>
+      <!-- End Logo Grid -->
+    </div>
+    <!-- End Funded By Section -->
+
+    <div style="height: 120px"></div>
+
+    <!-- Card Grid -->
+    <div class="container">
+      <!-- Heading -->
+      <div class="w-lg-65 text-center mx-lg-auto mb-5 mb-sm-7 mb-lg-10">
+        <h2>Case studies</h2>
+      </div>
+      <!-- End Heading -->
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+        <div class="col mb-5 mb-md-0">
+          <!-- Card -->
+          <a class="card card-ghost card-transition-zoom h-100" target="_blank" href="https://arc.aiaa.org/doi/full/10.2514/1.J063164">
+            <div class="card-transition-zoom-item">
+              <img class="card-img" src="./assets/img/mars.jpg" alt="Image Description">
+
+            </div>
+
+            <div class="card-body">
+              <h4>Martian helicopters</h4>
+              <p class="card-text">Analysis and optimisation of airfoils for a next-generation Martian helicopter.</p>
+            </div>
+
+            <div class="card-footer">
+
+            </div>
+          </a>
+          <!-- End Card -->
+        </div>
+        <!-- End Col -->
+
+        <div class="col">
+          <!-- Card -->
+          <a class="card card-ghost card-transition-zoom h-100" target="_blank" href="https://www.sciencedirect.com/science/article/pii/S0045793021001560">
+            <div class="card-transition-zoom-item">
+              <img class="card-img" src="./assets/img/turb.jpg" alt="Image Description">
+            </div>
+
+            <div class="card-body">
+              <h4>Low-pressure turbines</h4>
+              <p class="card-text">Analysis of flow over a low-pressure turbine blade in a wind tunnel with diverging end walls.</p>
+            </div>
+
+            <div class="card-footer">
+
+            </div>
+          </a>
+          <!-- End Card -->
+        </div>
+        <!-- End Col -->
+
+        <div class="col">
+          <!-- Card -->
+          <a class="card card-ghost card-transition-zoom h-100" target="_blank" href="https://www.sciencedirect.com/science/article/pii/S0167610522002653">
+            <div class="card-transition-zoom-item">
+              <img class="card-img" src="./assets/img/build.jpg" alt="Image Description">
+
+            </div>
+
+            <div class="card-body">
+              <h4>Architectural wind loading</h4>
+              <p class="card-text">Analysis of intermitent suction peaks on a model high-rise building facade.</p>
+            </div>
+
+            <div class="card-footer">
+
+            </div>
+          </a>
+          <!-- End Card -->
+        </div>
+        <!-- End Col -->
+
+        <div class="col">
+          <!-- Card -->
+          <a class="card card-ghost card-transition-zoom h-100" target="_blank" href="https://www.sciencedirect.com/science/article/abs/pii/S0960148124011601">
+            <div class="card-transition-zoom-item">
+              <img class="card-img" src="./assets/img/wt.jpg" alt="Image Description">
+            </div>
+
+            <div class="card-body">
+              <h4>Wind turbine wakes</h4>
+              <p class="card-text">Analysis of horizontal axis wind turbine wakes.</p>
+            </div>
+
+            <div class="card-footer">
+
+            </div>
+          </a>
+          <!-- End Card -->
+        </div>
+        <!-- End Col -->
+
+        <div class="col">
+          <!-- Card -->
+          <a class="card card-ghost card-transition-zoom h-100" target="_blank" href="https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/article/identifying-eigenmodes-of-averaged-smallamplitude-perturbations-to-turbulent-channel-flow/EF03E2FFFF1A481FC55448B3F11496F2">
+            <div class="card-transition-zoom-item">
+              <img class="card-img" src="./assets/img/fun.jpg" alt="Image Description">
+            </div>
+
+            <div class="card-body">
+              <h4>Channel flow eigenmodes</h4>
+              <p class="card-text">Identifying eigenmodes of small-amplitude perturbations to turbulent channel flow.</p>
+            </div>
+
+            <div class="card-footer">
+
+            </div>
+          </a>
+          <!-- End Card -->
+        </div>
+        <!-- End Col -->
+
+        <div class="col">
+          <!-- Card -->
+          <a class="card card-ghost card-transition-zoom h-100" target="_blank" href="https://www.sciencedirect.com/science/article/abs/pii/S0306261924002009">
+            <div class="card-transition-zoom-item">
+              <img class="card-img" src="./assets/img/thermo.jpg" alt="Image Description">
+            </div>
+
+            <div class="card-body">
+              <h4>Thermoacoustic engines</h4>
+              <p class="card-text">Analysis of flow in a thermoacoustic engine.</p>
+            </div>
+
+            <div class="card-footer">
+
+            </div>
+          </a>
+          <!-- End Card -->
+        </div>
+        <!-- End Col -->
+      </div>
+      <!-- End Row -->
+
+    </div>
+    <!-- End Card Grid -->
+    <div style="height: 120px"></div>
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bg-dark">
+    <div class="container">
+      <div class="row align-items-center pt-8 pb-4">
+        <div class="col-md mb-5 mb-md-0">
+          <h2 class="fw-medium text-white mb-0" style="color: #d8e6b8 !important">PyFR</h2>
+        </div>
+        <!-- End Col -->
+
+        <div class="col-md-auto">
+          <div class="d-grid d-sm-flex gap-3">
+            <a class="btn btn-primary" href="https://github.com/PyFR/PyFR" target="_blank">Get PyFR v3.1</a>
+            <a class="btn btn-ghost-light btn-pointer" href="https://pyfr.readthedocs.io/en/latest/" target="_blank">Documentation</a>
+          </div>
+        </div>
+        <!-- End Col -->
+      </div>
+      <!-- End Row -->
+
+      <div class="border-bottom border-white-10">
+        <div class="row py-6">
+
+          <div class="col-6 col-sm-4 col-lg mb-7 mb-lg-0">
+            <span class="text-cap text-white">Case studies</span>
+
+            <ul class="list-unstyled list-py-1 mb-0">
+              <li><a class="link link-light link-light-75" target="_blank" href="https://arc.aiaa.org/doi/full/10.2514/1.J063164">Martian helicopters</a></li>
+              <li><a class="link link-light link-light-75" target="_blank" href="https://www.sciencedirect.com/science/article/pii/S0045793021001560">Low-pressure turbines</a></li>
+              <li><a class="link link-light link-light-75" target="_blank" href="https://www.sciencedirect.com/science/article/pii/S0167610522002653">Architectural wind loading</a></li>
+              <li><a class="link link-light link-light-75" target="_blank" href="https://www.sciencedirect.com/science/article/abs/pii/S0960148124011601">Wind turbine wakes</a></li>
+              <li><a class="link link-light link-light-75" target="_blank" href="https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/article/identifying-eigenmodes-of-averaged-smallamplitude-perturbations-to-turbulent-channel-flow/EF03E2FFFF1A481FC55448B3F11496F2">Channel flow eigenmodes</a></li>
+              <li><a class="link link-light link-light-75" target="_blank" href="https://www.sciencedirect.com/science/article/abs/pii/S0306261924002009">Thermoacoustic engines</a></li>
+            </ul>
+
+          </div>
+
+          <!--
+          <div class="col-6 col-sm-4 col-lg mb-7 mb-lg-0">
+            <span class="text-cap text-white">Publications</span>
+
+
+            <ul class="list-unstyled list-py-1 mb-0">
+              <li><a class="link link-light link-light-75" href="#">Journal papers</a></li>
+              <li><a class="link link-light link-light-75" href="#">Conference papers</a></li>
+              <li><a class="link link-light link-light-75" href="#">PhD theses</a></li>
+            </ul>
+
+          </div>
+          -->
+
+          <div class="col-6 col-sm-4 col-lg mb-7 mb-lg-0">
+            <span class="text-cap text-white">Community</span>
+
+            <!-- List -->
+            <ul class="list-unstyled list-py-1 mb-0">
+              <li><a class="link link-light link-light-75" href="https://pyfr.discourse.group/" target="_blank">Discussion forum</a></li>
+              <li><a class="link link-light link-light-75" href="https://www.cassyni.com/s/pyfr" target="_blank">Seminar series</a></li>
+              <li><a class="link link-light link-light-75" href="https://pyfr.readthedocs.io/en/latest/" target="_blank">Documentation</a></li>
+            </ul>
+            <!-- End List -->
+          </div>
+          <!-- End Col -->
+
+          <div class="col-6 col-sm-4 col-lg mb-7 mb-lg-0">
+            <span class="text-cap text-white">Download</span>
+
+            <!-- List -->
+            <ul class="list-unstyled list-py-1 mb-0">
+              <li><a class="link link-light link-light-75" href="https://github.com/PyFR/PyFR" target="_blank">Code</a></li>
+              <li><a class="link link-light link-light-75" href="https://github.com/PyFR/PyFR-Test-Cases" target="_blank">Test cases</a></li>
+            </ul>
+            <!-- End List -->
+          </div>
+          <!-- End Col -->
+
+          <div class="col-6 col-sm-4 col-lg">
+            <span class="text-cap text-white">Follow us</span>
+
+            <!-- List -->
+            <ul class="list-unstyled list-py-2 mb-0">
+
+              <li><a class="link link-light link-light-75" href="#">
+                  <div class="d-flex">
+                    <div class="flex-shrink-0">
+                      <i class="bi-twitter"></i>
+                    </div>
+
+                    <div class="flex-grow-1 ms-2">
+                      <span>Twitter</span>
+                    </div>
+                  </div>
+                </a></li>
+
+            </ul>
+            <!-- End List -->
+          </div>
+          <!-- End Col -->
+        </div>
+        <!-- End Row -->
+      </div>
+
+      <div class="row align-items-md-center py-6">
+        <div class="col-md mb-3 mb-md-0">
+          <!-- List -->
+          <ul class="list-inline list-px-2 mb-0">
+            <li class="list-inline-item"><a class="link link-light link-light-75" href="#">Terms of use</a></li>
+            <li class="list-inline-item"><a class="link link-light link-light-75" href="#">Privacy policy</a></li>
+          </ul>
+          <!-- End List -->
+        </div>
+        <!-- End Col -->
+
+        <div class="col-md-auto">
+          <p class="fs-5 text-white-70 mb-0">© PyFR 2025</p>
+        </div>
+        <!-- End Col -->
+      </div>
+      <!-- End Row -->
+    </div>
+  </footer>
+  <!-- ========== END FOOTER ========== -->
+
+  <!-- ========== SECONDARY CONTENTS ========== -->
+  <!-- Go To -->
+  <a class="js-go-to go-to position-fixed" href="javascript:;" style="visibility: hidden;" data-hs-go-to-options='{
+       "offsetTop": 700,
+       "position": {
+         "init": {
+           "right": "2rem"
+         },
+         "show": {
+           "bottom": "2rem"
+         },
+         "hide": {
+           "bottom": "-2rem"
+         }
+       }
+     }'>
+    <i class="bi-chevron-up"></i>
+  </a>
+  <!-- ========== END SECONDARY CONTENTS ========== -->
+
+  <!-- JS Implementing Plugins -->
+  <script src="./assets/js/vendor.min.js"></script>
+
+  <!-- JS Unify -->
+  <script src="./assets/js/theme.min.js"></script>
+
+  <!-- JS Plugins Init. -->
+  <script>
+    (function() {
+      // INITIALIZATION OF NAVBAR
+      // =======================================================
+      new HSHeader('#header').init()
+
+
+      // INITIALIZATION OF MEGA MENU
+      // =======================================================
+      const megaMenu = new HSMegaMenu('.js-mega-menu', {
+        desktop: {
+          position: 'left'
+        }
+      })
+
+      // Center dropdowns under their buttons
+      document.querySelectorAll('.hs-mega-menu-invoker').forEach(button => {
+  button.addEventListener('mouseenter', () => {
+    const dropdown = button.nextElementSibling;
+
+    if (dropdown && dropdown.classList.contains('hs-mega-menu')) {
+      // Get the offset parent (where positioning is relative to)
+      const offsetParent = dropdown.offsetParent;
+
+      const buttonRect = button.getBoundingClientRect();
+      const dropdownRect = dropdown.getBoundingClientRect();
+      const parentRect = offsetParent.getBoundingClientRect();
+
+      // Calculate left relative to offset parent
+      const leftOffset =
+        (buttonRect.left - parentRect.left) + (buttonRect.width / 2) - (dropdownRect.width / 2);
+
+      dropdown.style.left = `${leftOffset}px`;
+      dropdown.style.transform = 'none';
+    }
+  });
+});
+
+
+      // INITIALIZATION OF GO TO
+      // =======================================================
+      new HSGoTo('.js-go-to')
+
+
+      // INITIALIZATION OF SWIPER
+      // =======================================================
+      var swiper = new Swiper('.js-swiper-clients',{
+        slidesPerView: 2,
+        breakpoints: {
+          380: {
+            slidesPerView: 3,
+            spaceBetween: 15,
+          },
+          768: {
+            slidesPerView: 4,
+            spaceBetween: 15,
+          },
+          1024: {
+            slidesPerView: 5,
+            spaceBetween: 15,
+          },
+        },
+      });
+    })()
+  </script>
+</body>
+</html>

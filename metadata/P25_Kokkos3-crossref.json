@@ -1,0 +1,608 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "message": {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          10,
+          28
+        ]
+      ],
+      "date-time": "2026-10-28T02:45:57Z",
+      "timestamp": 1793155557442,
+      "version": "4.5.0"
+    },
+    "reference-count": 24,
+    "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+    "issue": "4",
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2022,
+              4,
+              1
+            ]
+          ],
+          "date-time": "2022-04-01T00:00:00Z",
+          "timestamp": 1648771200000
+        },
+        "content-version": "vor",
+        "delay-in-days": 0,
+        "URL": "https://creativecommons.org/licenses/by/4.0/legalcode"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2022,
+              4,
+              1
+            ]
+          ],
+          "date-time": "2022-04-01T00:00:00Z",
+          "timestamp": 1648771200000
+        },
+        "content-version": "am",
+        "delay-in-days": 0,
+        "URL": "https://creativecommons.org/licenses/by/4.0/legalcode"
+      }
+    ],
+    "funder": [
+      {
+        "name": "Exascale Computing",
+        "award": [
+          "17-SC-20-SC"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "17-SC-20-SC"
+            ]
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100000015",
+        "name": "U.S. Department of Energy",
+        "doi-asserted-by": "publisher",
+        "id": [
+          {
+            "id": "10.13039/100000015",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100006168",
+        "name": "National Nuclear Security Administration",
+        "doi-asserted-by": "publisher",
+        "id": [
+          {
+            "id": "10.13039/100006168",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      }
+    ],
+    "content-domain": {
+      "domain": [],
+      "crossmark-restriction": false
+    },
+    "short-container-title": [
+      "IEEE Trans. Parallel Distrib. Syst."
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2022,
+          4,
+          1
+        ]
+      ]
+    },
+    "DOI": "10.1109/tpds.2021.3097283",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2021,
+          8,
+          24
+        ]
+      ],
+      "date-time": "2021-08-24T14:41:55Z",
+      "timestamp": 1629816115000
+    },
+    "page": "805-817",
+    "source": "Crossref",
+    "is-referenced-by-count": 487,
+    "title": [
+      "Kokkos 3: Programming Model Extensions for the Exascale Era"
+    ],
+    "prefix": "10.1109",
+    "volume": "33",
+    "author": [
+      {
+        "ORCID": "https://orcid.org/0000-0003-0661-5594",
+        "authenticated-orcid": false,
+        "given": "Christian R.",
+        "family": "Trott",
+        "sequence": "first",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Damien",
+        "family": "Lebrun-Grandie",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0001-8773-4901",
+        "authenticated-orcid": false,
+        "given": "Daniel",
+        "family": "Arndt",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Jan",
+        "family": "Ciesko",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-4958-6159",
+        "authenticated-orcid": false,
+        "given": "Vinh",
+        "family": "Dang",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-7622-9667",
+        "authenticated-orcid": false,
+        "given": "Nathan",
+        "family": "Ellingwood",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Rahulkumar",
+        "family": "Gayatri",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0003-2772-8053",
+        "authenticated-orcid": false,
+        "given": "Evan",
+        "family": "Harvey",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Daisy S.",
+        "family": "Hollman",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Dan",
+        "family": "Ibanez",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-0271-3181",
+        "authenticated-orcid": false,
+        "given": "Nevin",
+        "family": "Liber",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Jonathan",
+        "family": "Madsen",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Jeff",
+        "family": "Miles",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0001-9678-0766",
+        "authenticated-orcid": false,
+        "given": "David",
+        "family": "Poliakoff",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Amy",
+        "family": "Powell",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-5854-409X",
+        "authenticated-orcid": false,
+        "given": "Sivasankaran",
+        "family": "Rajamanickam",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0002-7238-8935",
+        "authenticated-orcid": false,
+        "given": "Mikael",
+        "family": "Simberg",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Dan",
+        "family": "Sunderland",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Bruno",
+        "family": "Turcksin",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Jeremiah",
+        "family": "Wilke",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "263",
+    "reference": [
+      {
+        "key": "ref10",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/TPDS.2020.3010016"
+      },
+      {
+        "key": "ref11",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.jpdc.2019.12.003"
+      },
+      {
+        "key": "ref12",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3318170.3318193"
+      },
+      {
+        "key": "ref13",
+        "article-title": "minife",
+        "year": "2021"
+      },
+      {
+        "key": "ref14",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1002/cpe.4117"
+      },
+      {
+        "key": "ref15",
+        "author": "mccool",
+        "year": "2012",
+        "journal-title": "Structured Parallel Program Patterns for Efficient Computation"
+      },
+      {
+        "key": "ref16",
+        "article-title": "OCCA: A unified approach to multi-threading languages",
+        "author": "medina",
+        "year": "2014"
+      },
+      {
+        "key": "ref17",
+        "first-page": "46",
+        "article-title": "OpenMP: An industry-standard API for shared-memory programming",
+        "volume": "5",
+        "author": "menon",
+        "year": "1998",
+        "journal-title": "Comput Sci Eng"
+      },
+      {
+        "key": "ref18",
+        "article-title": "Cuda runtime API",
+        "year": "2021"
+      },
+      {
+        "key": "ref19",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/11596110_3"
+      },
+      {
+        "key": "ref4",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/P3HPC49587.2019.00012"
+      },
+      {
+        "key": "ref3",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3368474.3368485"
+      },
+      {
+        "key": "ref6",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.cpc.2011.10.012"
+      },
+      {
+        "key": "ref5",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.5194/gmd-12-1423-2019"
+      },
+      {
+        "key": "ref8",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3404397.3404398"
+      },
+      {
+        "key": "ref7",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/P3HPC49587.2019.00006"
+      },
+      {
+        "key": "ref2",
+        "first-page": "117",
+        "article-title": "Performance portable implementation of a kinetic plasma simulation mini-app",
+        "author": "asahi",
+        "year": "2019",
+        "journal-title": "Proc Int Workshop Accel Prog Using Directives"
+      },
+      {
+        "key": "ref1",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/B978-0-12-803761-4.00008-3"
+      },
+      {
+        "key": "ref9",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.jpdc.2014.07.003"
+      },
+      {
+        "key": "ref20",
+        "first-page": "1",
+        "article-title": "A metric for performance portability",
+        "author": "pennycook",
+        "year": "2016",
+        "journal-title": "Proc Program Models Benchmarking Simul Workshop SC"
+      },
+      {
+        "key": "ref22",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.2514/6.2018-2890"
+      },
+      {
+        "key": "ref21",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-3-030-49943-3_7"
+      },
+      {
+        "key": "ref24",
+        "article-title": "Top500",
+        "year": "2021"
+      },
+      {
+        "key": "ref23",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/IPDPS.2004.1303019"
+      }
+    ],
+    "container-title": [
+      "IEEE Transactions on Parallel and Distributed Systems"
+    ],
+    "original-title": [],
+    "link": [
+      {
+        "URL": "https://ieeexplore.ieee.org/ielam/71/9575177/9485033-aam.pdf",
+        "content-type": "application/pdf",
+        "content-version": "am",
+        "intended-application": "syndication"
+      },
+      {
+        "URL": "http://xplorestaging.ieee.org/ielx7/71/9575177/09485033.pdf?arnumber=9485033",
+        "content-type": "unspecified",
+        "content-version": "vor",
+        "intended-application": "similarity-checking"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2022,
+          4,
+          8
+        ]
+      ],
+      "date-time": "2022-04-08T14:48:38Z",
+      "timestamp": 1649429318000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://ieeexplore.ieee.org/document/9485033/"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2022,
+          4,
+          1
+        ]
+      ]
+    },
+    "references-count": 24,
+    "journal-issue": {
+      "issue": "4"
+    },
+    "URL": "https://doi.org/10.1109/tpds.2021.3097283",
+    "relation": {},
+    "ISSN": [
+      "1045-9219",
+      "1558-2183",
+      "2161-9883"
+    ],
+    "issn-type": [
+      {
+        "value": "1045-9219",
+        "type": "print"
+      },
+      {
+        "value": "1558-2183",
+        "type": "electronic"
+      },
+      {
+        "value": "2161-9883",
+        "type": "electronic"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2022,
+          4,
+          1
+        ]
+      ]
+    }
+  }
+}

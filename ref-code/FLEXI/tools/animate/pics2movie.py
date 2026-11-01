@@ -1,0 +1,76 @@
+#!/usr/bin/python
+
+import argparse
+import os
+import shutil
+import subprocess
+import sys
+import tempfile
+
+parser = argparse.ArgumentParser(description='Merge pictures to movie')
+parser.add_argument('-t','--trim', help='Trim pictures before merge', action='store_true')
+parser.add_argument('-f','--fps', type=int, default=10, help='Frames per second')
+parser.add_argument('-b','--bitrate', type=int, default=3000, help='Bitrate of movie')
+parser.add_argument('-o','--output', type=str, default='output.avi', help='Output-Filename')
+parser.add_argument('-c','--codec', type=str, default='h264', help='Codec (h264,mp4) default: h264')
+parser.add_argument('pictures', nargs='+', help='Picture to animate')
+
+args = parser.parse_args()
+
+tmpdir = tempfile.mkdtemp()
+
+try :
+    ext = os.path.splitext(args.pictures[0])[1]
+except Exception:
+    sys.exit(1)
+
+cmd = ['identify']
+cmd.append('-format')
+cmd.append('%@')
+cmd.append(args.pictures[0])
+p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+p.wait()
+dimension = p.stdout.read().strip()
+
+i = 0
+for p in args.pictures :
+    i = i+1
+    sys.stdout.write(f'\r{100.0 * i / len(args.pictures):05.2f} % Process: {p}')
+    sys.stdout.flush()
+    if args.trim :
+        cmd = ['convert']
+        cmd.append(p)
+        cmd.append('-crop')
+        cmd.append(dimension)
+    else :
+        cmd = ['cp']
+        cmd.append(p)
+    cmd.append(os.path.join(tmpdir, os.path.basename(p)))
+    p = subprocess.Popen(cmd)
+    p.wait()
+
+sys.stdout.write('\n')
+
+
+print('Generate movie ....')
+cmd = ['mencoder']
+cmd.append(f'mf://{tmpdir}/*{ext}')
+cmd.append('-mf')
+cmd.append(f'fps={args.fps}')
+cmd.append('-o')
+cmd.append(f'{args.output}')
+cmd.append('-ovc')
+if args.codec == "mp4" :
+    cmd.append('lavc')
+    cmd.append('-lavcopts')
+    cmd.append(f'vcodec=msmpeg4v2:vbitrate={args.bitrate}')
+elif args.codec == "h264" :
+    cmd.append('x264')
+    cmd.append('-x264encopts')
+    cmd.append(f'preset=veryslow:tune=film:crf=15:frameref=15:fast_pskip=0:bitrate={args.bitrate}:threads=auto')
+p = subprocess.Popen(cmd)
+p.wait()
+print('done')
+
+shutil.rmtree(tmpdir)
+

@@ -1,0 +1,57 @@
+[
+  {
+    "id": "B01_PMPP",
+    "title": "Programming Massively Parallel Processors",
+    "subtitle": [],
+    "doi": "10.1016/c2020-0-02969-5",
+    "isbn": [
+      "9780323912310"
+    ],
+    "date": [
+      2023
+    ],
+    "publisher": "Elsevier",
+    "authors": [],
+    "status": "metadata-only; publisher fulltext not downloaded"
+  },
+  {
+    "id": "B02_Conservation",
+    "title": "Numerical Methods for Conservation Laws",
+    "subtitle": [
+      "From Analysis to Algorithms"
+    ],
+    "doi": "10.1137/1.9781611975109",
+    "isbn": [
+      "9781611975093",
+      "9781611975109"
+    ],
+    "date": [
+      2018,
+      2,
+      1
+    ],
+    "publisher": "Society for Industrial and Applied Mathematics",
+    "authors": [
+      {
+        "given": "Jan S.",
+        "family": "Hesthaven",
+        "sequence": "first",
+        "affiliation": [
+          {
+            "name": "EPFL",
+            "place": [
+              "Switzerland"
+            ]
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "status": "metadata-only; publisher fulltext not downloaded"
+  }
+]

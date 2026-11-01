@@ -1,0 +1,1230 @@
+{
+  "id": "https://openalex.org/W3200743451",
+  "doi": "https://doi.org/10.1109/mcse.2021.3098509",
+  "title": "The Kokkos EcoSystem: Comprehensive Performance Portability for High Performance Computing",
+  "display_name": "The Kokkos EcoSystem: Comprehensive Performance Portability for High Performance Computing",
+  "publication_year": 2021,
+  "publication_date": "2021-08-02",
+  "ids": {
+    "openalex": "https://openalex.org/W3200743451",
+    "doi": "https://doi.org/10.1109/mcse.2021.3098509",
+    "mag": "3200743451"
+  },
+  "language": "en",
+  "primary_location": {
+    "id": "doi:10.1109/mcse.2021.3098509",
+    "doi": "https://doi.org/10.1109/mcse.2021.3098509",
+    "is_oa": false,
+    "landing_page_url": "https://doi.org/10.1109/mcse.2021.3098509",
+    "pdf_url": null,
+    "source": {
+      "id": "https://openalex.org/S107923245",
+      "display_name": "Computing in Science & Engineering",
+      "issn_l": "1521-9615",
+      "issn": [
+        "1521-9615",
+        "1558-366X"
+      ],
+      "is_oa": false,
+      "is_in_doaj": false,
+      "is_core": true,
+      "listed_in": [
+        "cwts-core",
+        "dongbi-c",
+        "jufo-1",
+        "norway-1",
+        "poland-100",
+        "russia-white-list-2",
+        "vabb-shw"
+      ],
+      "host_organization": "https://openalex.org/P4310320061",
+      "host_organization_name": "AIP Publishing",
+      "host_organization_lineage": [
+        "https://openalex.org/P4310320061",
+        "https://openalex.org/P4310320257"
+      ],
+      "host_organization_lineage_names": [
+        "AIP Publishing",
+        "American Institute of Physics"
+      ],
+      "type": "journal"
+    },
+    "license": null,
+    "license_id": null,
+    "version": "publishedVersion",
+    "is_accepted": true,
+    "is_published": true,
+    "raw_source_name": "Computing in Science &amp; Engineering",
+    "raw_type": "journal-article"
+  },
+  "volume": null,
+  "type": "article",
+  "indexed_in": [
+    "crossref"
+  ],
+  "open_access": {
+    "is_oa": false,
+    "oa_status": "closed",
+    "oa_url": null,
+    "any_repository_has_fulltext": false
+  },
+  "authorships": [
+    {
+      "author_position": "first",
+      "author": {
+        "id": "https://openalex.org/A5081085090",
+        "display_name": "Christian Robert Trott",
+        "orcid": "https://orcid.org/0000-0003-0661-5594",
+        "observed_orcids": [
+          "https://orcid.org/0000-0003-0661-5594"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4210104735",
+          "display_name": "Sandia National Laboratories",
+          "ror": "https://ror.org/01apwpt12",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Christian Trott",
+      "raw_affiliation_strings": [
+        "Sandia National Laboratories, Albuquerque, NM, USA"
+      ],
+      "raw_orcid": "https://orcid.org/0000-0003-0661-5594",
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Sandia National Laboratories, Albuquerque, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5076850408",
+        "display_name": "Luc Berger‐Vergiat",
+        "orcid": "https://orcid.org/0000-0001-5550-3527",
+        "observed_orcids": [
+          "https://orcid.org/0000-0001-5550-3527"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4210104735",
+          "display_name": "Sandia National Laboratories",
+          "ror": "https://ror.org/01apwpt12",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Luc Berger-Vergiat",
+      "raw_affiliation_strings": [
+        "Sandia National Laboratories, Albuquerque, NM, USA"
+      ],
+      "raw_orcid": "https://orcid.org/0000-0001-5550-3527",
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Sandia National Laboratories, Albuquerque, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5082282882",
+        "display_name": "David Poliakoff",
+        "orcid": "https://orcid.org/0000-0001-9678-0766",
+        "observed_orcids": [
+          "https://orcid.org/0000-0001-9678-0766"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4210104735",
+          "display_name": "Sandia National Laboratories",
+          "ror": "https://ror.org/01apwpt12",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "David Poliakoff",
+      "raw_affiliation_strings": [
+        "Sandia National Laboratories, Albuquerque, NM, USA"
+      ],
+      "raw_orcid": "https://orcid.org/0000-0001-9678-0766",
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Sandia National Laboratories, Albuquerque, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5023482297",
+        "display_name": "Sivasankaran Rajamanickam",
+        "orcid": "https://orcid.org/0000-0002-5854-409X",
+        "observed_orcids": [
+          "https://orcid.org/0000-0002-5854-409X"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I4210104735",
+          "display_name": "Sandia National Laboratories",
+          "ror": "https://ror.org/01apwpt12",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Sivasankaran Rajamanickam",
+      "raw_affiliation_strings": [
+        "Sandia National Laboratories, Albuquerque, NM, USA"
+      ],
+      "raw_orcid": "https://orcid.org/0000-0002-5854-409X",
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Sandia National Laboratories, Albuquerque, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I4210104735"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5037788490",
+        "display_name": "Damien Lebrun-Grandié",
+        "orcid": "https://orcid.org/0000-0003-1952-7219",
+        "observed_orcids": [
+          "https://orcid.org/0000-0003-1952-7219"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I1289243028",
+          "display_name": "Oak Ridge National Laboratory",
+          "ror": "https://ror.org/01qz5mb56",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1289243028",
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I39565521",
+            "https://openalex.org/I4210159294"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Damien Lebrun-Grandie",
+      "raw_affiliation_strings": [
+        "Oak Ridge National Laboratory, Oak Ridge, TN, USA"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Oak Ridge National Laboratory, Oak Ridge, TN, USA",
+          "institution_ids": [
+            "https://openalex.org/I1289243028"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5052353335",
+        "display_name": "Jonathan Madsen",
+        "orcid": null,
+        "observed_orcids": []
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I148283060",
+          "display_name": "Lawrence Berkeley National Laboratory",
+          "ror": "https://ror.org/02jbv0t02",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I148283060",
+            "https://openalex.org/I39565521"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Jonathan Madsen",
+      "raw_affiliation_strings": [
+        "Lawrence Berkeley National Laboratory, Berkeley, CA, USA"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Lawrence Berkeley National Laboratory, Berkeley, CA, USA",
+          "institution_ids": [
+            "https://openalex.org/I148283060"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5045662707",
+        "display_name": "Nader Al Awar",
+        "orcid": "https://orcid.org/0000-0002-7390-5834",
+        "observed_orcids": [
+          "https://orcid.org/0000-0002-7390-5834"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I86519309",
+          "display_name": "The University of Texas at Austin",
+          "ror": "https://ror.org/00hj54h04",
+          "country_code": "US",
+          "type": "education",
+          "lineage": [
+            "https://openalex.org/I86519309"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Nader Al Awar",
+      "raw_affiliation_strings": [
+        "The University of Texas at Austin, Austin, TX, USA"
+      ],
+      "raw_orcid": "https://orcid.org/0000-0002-7390-5834",
+      "affiliations": [
+        {
+          "raw_affiliation_string": "The University of Texas at Austin, Austin, TX, USA",
+          "institution_ids": [
+            "https://openalex.org/I86519309"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5063052820",
+        "display_name": "Milos Gligoric",
+        "orcid": "https://orcid.org/0000-0002-5894-7649",
+        "observed_orcids": [
+          "https://orcid.org/0000-0002-5894-7649",
+          "https://orcid.org/0000-0002-1745-3765"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I86519309",
+          "display_name": "The University of Texas at Austin",
+          "ror": "https://ror.org/00hj54h04",
+          "country_code": "US",
+          "type": "education",
+          "lineage": [
+            "https://openalex.org/I86519309"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Milos Gligoric",
+      "raw_affiliation_strings": [
+        "The University of Texas at Austin, Austin, TX, USA"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "The University of Texas at Austin, Austin, TX, USA",
+          "institution_ids": [
+            "https://openalex.org/I86519309"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "middle",
+      "author": {
+        "id": "https://openalex.org/A5019916149",
+        "display_name": "Galen M Shipman",
+        "orcid": "https://orcid.org/0000-0001-6297-2145",
+        "observed_orcids": [
+          "https://orcid.org/0000-0001-6297-2145"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I1343871089",
+          "display_name": "Los Alamos National Laboratory",
+          "ror": "https://ror.org/01e41cf67",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I1343871089",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210120050"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Galen Shipman",
+      "raw_affiliation_strings": [
+        "Los Alamos National Laboratory, Los Alamos, NM, USA"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Los Alamos National Laboratory, Los Alamos, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I1343871089"
+          ]
+        }
+      ]
+    },
+    {
+      "author_position": "last",
+      "author": {
+        "id": "https://openalex.org/A5064282320",
+        "display_name": "Geoff Womeldorff",
+        "orcid": "https://orcid.org/0000-0003-0383-8100",
+        "observed_orcids": [
+          "https://orcid.org/0000-0003-0383-8100"
+        ]
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I1343871089",
+          "display_name": "Los Alamos National Laboratory",
+          "ror": "https://ror.org/01e41cf67",
+          "country_code": "US",
+          "type": "facility",
+          "lineage": [
+            "https://openalex.org/I1330989302",
+            "https://openalex.org/I1343871089",
+            "https://openalex.org/I198811213",
+            "https://openalex.org/I4210120050"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": false,
+      "raw_author_name": "Geoff Womeldorff",
+      "raw_affiliation_strings": [
+        "Los Alamos National Laboratory, Los Alamos, NM, USA"
+      ],
+      "raw_orcid": null,
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Los Alamos National Laboratory, Los Alamos, NM, USA",
+          "institution_ids": [
+            "https://openalex.org/I1343871089"
+          ]
+        }
+      ]
+    }
+  ],
+  "institutions": [],
+  "countries_distinct_count": 1,
+  "institutions_distinct_count": 5,
+  "corresponding_author_ids": [],
+  "corresponding_institution_ids": [],
+  "apc_list": {
+    "value": 2995,
+    "currency": "USD",
+    "value_usd": 2995
+  },
+  "apc_paid": null,
+  "fwci": 10.7933,
+  "has_fulltext": false,
+  "cited_by_count": 117,
+  "citation_normalized_percentile": {
+    "value": 0.99378625,
+    "is_in_top_1_percent": true,
+    "is_in_top_10_percent": true
+  },
+  "cited_by_percentile_year": {
+    "min": 96,
+    "max": 100
+  },
+  "biblio": {
+    "volume": "23",
+    "issue": "5",
+    "first_page": "10",
+    "last_page": "18"
+  },
+  "is_retracted": false,
+  "is_paratext": false,
+  "is_xpac": false,
+  "primary_topic": {
+    "id": "https://openalex.org/T10054",
+    "display_name": "Parallel Computing and Optimization Techniques",
+    "score": 0.9976000189781189,
+    "subfield": {
+      "id": "https://openalex.org/subfields/1708",
+      "display_name": "Hardware and Architecture"
+    },
+    "field": {
+      "id": "https://openalex.org/fields/17",
+      "display_name": "Computer Science"
+    },
+    "domain": {
+      "id": "https://openalex.org/domains/3",
+      "display_name": "Physical Sciences"
+    }
+  },
+  "topics": [
+    {
+      "id": "https://openalex.org/T10054",
+      "display_name": "Parallel Computing and Optimization Techniques",
+      "score": 0.9976000189781189,
+      "subfield": {
+        "id": "https://openalex.org/subfields/1708",
+        "display_name": "Hardware and Architecture"
+      },
+      "field": {
+        "id": "https://openalex.org/fields/17",
+        "display_name": "Computer Science"
+      },
+      "domain": {
+        "id": "https://openalex.org/domains/3",
+        "display_name": "Physical Sciences"
+      }
+    },
+    {
+      "id": "https://openalex.org/T10904",
+      "display_name": "Embedded Systems Design Techniques",
+      "score": 0.0008999999845400453,
+      "subfield": {
+        "id": "https://openalex.org/subfields/1708",
+        "display_name": "Hardware and Architecture"
+      },
+      "field": {
+        "id": "https://openalex.org/fields/17",
+        "display_name": "Computer Science"
+      },
+      "domain": {
+        "id": "https://openalex.org/domains/3",
+        "display_name": "Physical Sciences"
+      }
+    },
+    {
+      "id": "https://openalex.org/T10715",
+      "display_name": "Distributed and Parallel Computing Systems",
+      "score": 0.0005000000237487257,
+      "subfield": {
+        "id": "https://openalex.org/subfields/1705",
+        "display_name": "Computer Networks and Communications"
+      },
+      "field": {
+        "id": "https://openalex.org/fields/17",
+        "display_name": "Computer Science"
+      },
+      "domain": {
+        "id": "https://openalex.org/domains/3",
+        "display_name": "Physical Sciences"
+      }
+    }
+  ],
+  "keywords": [
+    {
+      "id": "https://openalex.org/keywords/kokkos",
+      "display_name": "Kokkos",
+      "score": 0.925000011920929
+    },
+    {
+      "id": "https://openalex.org/keywords/performance-portability",
+      "display_name": "performance portability",
+      "score": 0.9599999785423279
+    },
+    {
+      "id": "https://openalex.org/keywords/high-performance-computing",
+      "display_name": "high-performance computing",
+      "score": 0.8679999709129333
+    },
+    {
+      "id": "https://openalex.org/keywords/math-library",
+      "display_name": "math libraries",
+      "score": 0.7760000228881836
+    },
+    {
+      "id": "https://openalex.org/keywords/heterogeneous-hardware-platforms",
+      "display_name": "heterogeneous hardware platforms",
+      "score": 0.6050000190734863
+    },
+    {
+      "id": "https://openalex.org/keywords/software-stack",
+      "display_name": "software stack",
+      "score": 0.4059999883174896
+    }
+  ],
+  "concepts": [
+    {
+      "id": "https://openalex.org/C63000827",
+      "wikidata": "https://www.wikidata.org/wiki/Q3080428",
+      "display_name": "Software portability",
+      "level": 2,
+      "score": 0.9134478569030762
+    },
+    {
+      "id": "https://openalex.org/C168065819",
+      "wikidata": "https://www.wikidata.org/wiki/Q845566",
+      "display_name": "Debugging",
+      "level": 2,
+      "score": 0.8354459404945374
+    },
+    {
+      "id": "https://openalex.org/C41008148",
+      "wikidata": "https://www.wikidata.org/wiki/Q21198",
+      "display_name": "Computer science",
+      "level": 0,
+      "score": 0.8033754229545593
+    },
+    {
+      "id": "https://openalex.org/C519991488",
+      "wikidata": "https://www.wikidata.org/wiki/Q28865",
+      "display_name": "Python (programming language)",
+      "level": 2,
+      "score": 0.7205593585968018
+    },
+    {
+      "id": "https://openalex.org/C115903868",
+      "wikidata": "https://www.wikidata.org/wiki/Q80993",
+      "display_name": "Software engineering",
+      "level": 1,
+      "score": 0.6648247241973877
+    },
+    {
+      "id": "https://openalex.org/C20136886",
+      "wikidata": "https://www.wikidata.org/wiki/Q749647",
+      "display_name": "Interoperability",
+      "level": 2,
+      "score": 0.6644197702407837
+    },
+    {
+      "id": "https://openalex.org/C83283714",
+      "wikidata": "https://www.wikidata.org/wiki/Q121117",
+      "display_name": "Supercomputer",
+      "level": 2,
+      "score": 0.5163315534591675
+    },
+    {
+      "id": "https://openalex.org/C187191949",
+      "wikidata": "https://www.wikidata.org/wiki/Q1138496",
+      "display_name": "Profiling (computer programming)",
+      "level": 2,
+      "score": 0.4972696602344513
+    },
+    {
+      "id": "https://openalex.org/C2777904410",
+      "wikidata": "https://www.wikidata.org/wiki/Q7397",
+      "display_name": "Software",
+      "level": 2,
+      "score": 0.4205428957939148
+    },
+    {
+      "id": "https://openalex.org/C118524514",
+      "wikidata": "https://www.wikidata.org/wiki/Q173212",
+      "display_name": "Computer architecture",
+      "level": 1,
+      "score": 0.33683639764785767
+    },
+    {
+      "id": "https://openalex.org/C111919701",
+      "wikidata": "https://www.wikidata.org/wiki/Q9135",
+      "display_name": "Operating system",
+      "level": 1,
+      "score": 0.3035934567451477
+    }
+  ],
+  "mesh": [],
+  "locations_count": 4,
+  "locations": [
+    {
+      "id": "doi:10.1109/mcse.2021.3098509",
+      "doi": "https://doi.org/10.1109/mcse.2021.3098509",
+      "is_oa": false,
+      "landing_page_url": "https://doi.org/10.1109/mcse.2021.3098509",
+      "pdf_url": null,
+      "source": {
+        "id": "https://openalex.org/S107923245",
+        "display_name": "Computing in Science & Engineering",
+        "issn_l": "1521-9615",
+        "issn": [
+          "1521-9615",
+          "1558-366X"
+        ],
+        "is_oa": false,
+        "is_in_doaj": false,
+        "is_core": true,
+        "listed_in": [
+          "cwts-core",
+          "dongbi-c",
+          "jufo-1",
+          "norway-1",
+          "poland-100",
+          "russia-white-list-2",
+          "vabb-shw"
+        ],
+        "host_organization": "https://openalex.org/P4310320061",
+        "host_organization_name": "AIP Publishing",
+        "host_organization_lineage": [
+          "https://openalex.org/P4310320061",
+          "https://openalex.org/P4310320257"
+        ],
+        "host_organization_lineage_names": [
+          "AIP Publishing",
+          "American Institute of Physics"
+        ],
+        "type": "journal"
+      },
+      "license": null,
+      "license_id": null,
+      "version": "publishedVersion",
+      "is_accepted": true,
+      "is_published": true,
+      "raw_source_name": "Computing in Science &amp; Engineering",
+      "raw_type": "journal-article"
+    },
+    {
+      "id": "pmh:oai:osti.gov:1817719",
+      "doi": null,
+      "is_oa": false,
+      "landing_page_url": "https://www.osti.gov/biblio/1817719",
+      "pdf_url": null,
+      "source": {
+        "id": "https://openalex.org/S4306402487",
+        "display_name": "OSTI OAI (U.S. Department of Energy Office of Scientific and Technical Information)",
+        "issn_l": null,
+        "issn": null,
+        "is_oa": false,
+        "is_in_doaj": false,
+        "is_core": false,
+        "listed_in": [],
+        "host_organization": "https://openalex.org/I139351228",
+        "host_organization_name": "Office of Scientific and Technical Information",
+        "host_organization_lineage": [
+          "https://openalex.org/I139351228"
+        ],
+        "host_organization_lineage_names": [],
+        "type": "repository"
+      },
+      "license": null,
+      "license_id": null,
+      "version": "submittedVersion",
+      "is_accepted": false,
+      "is_published": false,
+      "raw_source_name": null,
+      "raw_type": null
+    },
+    {
+      "id": "pmh:oai:osti.gov:1818111",
+      "doi": null,
+      "is_oa": false,
+      "landing_page_url": "https://www.osti.gov/biblio/1818111",
+      "pdf_url": null,
+      "source": {
+        "id": "https://openalex.org/S4306402487",
+        "display_name": "OSTI OAI (U.S. Department of Energy Office of Scientific and Technical Information)",
+        "issn_l": null,
+        "issn": null,
+        "is_oa": false,
+        "is_in_doaj": false,
+        "is_core": false,
+        "listed_in": [],
+        "host_organization": "https://openalex.org/I139351228",
+        "host_organization_name": "Office of Scientific and Technical Information",
+        "host_organization_lineage": [
+          "https://openalex.org/I139351228"
+        ],
+        "host_organization_lineage_names": [],
+        "type": "repository"
+      },
+      "license": null,
+      "license_id": null,
+      "version": "submittedVersion",
+      "is_accepted": false,
+      "is_published": false,
+      "raw_source_name": null,
+      "raw_type": null
+    },
+    {
+      "id": "pmh:oai:osti.gov:1867788",
+      "doi": null,
+      "is_oa": false,
+      "landing_page_url": "https://www.osti.gov/biblio/1867788",
+      "pdf_url": null,
+      "source": {
+        "id": "https://openalex.org/S4306402487",
+        "display_name": "OSTI OAI (U.S. Department of Energy Office of Scientific and Technical Information)",
+        "issn_l": null,
+        "issn": null,
+        "is_oa": false,
+        "is_in_doaj": false,
+        "is_core": false,
+        "listed_in": [],
+        "host_organization": "https://openalex.org/I139351228",
+        "host_organization_name": "Office of Scientific and Technical Information",
+        "host_organization_lineage": [
+          "https://openalex.org/I139351228"
+        ],
+        "host_organization_lineage_names": [],
+        "type": "repository"
+      },
+      "license": null,
+      "license_id": null,
+      "version": "submittedVersion",
+      "is_accepted": false,
+      "is_published": false,
+      "raw_source_name": null,
+      "raw_type": null
+    }
+  ],
+  "best_oa_location": null,
+  "sustainable_development_goals": [],
+  "sustainable_development_goals_aurora": [],
+  "study_designs": [],
+  "awards": [],
+  "funders": [
+    {
+      "id": "https://openalex.org/F4320306084",
+      "display_name": "U.S. Department of Energy",
+      "ror": "https://ror.org/01bj3aw27"
+    },
+    {
+      "id": "https://openalex.org/F4320332369",
+      "display_name": "National Nuclear Security Administration",
+      "ror": "https://ror.org/03sk1we31"
+    }
+  ],
+  "has_content": {
+    "pdf": false,
+    "grobid_xml": false
+  },
+  "content_urls": null,
+  "referenced_works_count": 6,
+  "referenced_works": [
+    "https://openalex.org/W2019465613",
+    "https://openalex.org/W2078794610",
+    "https://openalex.org/W2767612671",
+    "https://openalex.org/W2898519564",
+    "https://openalex.org/W3138063244",
+    "https://openalex.org/W3166310167"
+  ],
+  "related_works": [
+    "https://openalex.org/W1584537303",
+    "https://openalex.org/W2750549761",
+    "https://openalex.org/W4388155270",
+    "https://openalex.org/W28826848",
+    "https://openalex.org/W2122272819",
+    "https://openalex.org/W4367156293",
+    "https://openalex.org/W1872724644",
+    "https://openalex.org/W2130894091",
+    "https://openalex.org/W2059759476",
+    "https://openalex.org/W1618604010"
+  ],
+  "abstract_inverted_index": {
+    "State-of-the-art": [
+      0
+    ],
+    "engineering": [
+      1
+    ],
+    "and": [
+      2,
+      30,
+      34,
+      82,
+      84,
+      89,
+      104
+    ],
+    "science": [
+      3
+    ],
+    "codes": [
+      4
+    ],
+    "have": [
+      5,
+      17
+    ],
+    "grown": [
+      6
+    ],
+    "in": [
+      7
+    ],
+    "complexity": [
+      8
+    ],
+    "dramatically": [
+      9
+    ],
+    "over": [
+      10
+    ],
+    "the": [
+      11,
+      50,
+      68,
+      73,
+      97
+    ],
+    "last": [
+      12
+    ],
+    "two": [
+      13
+    ],
+    "decades.": [
+      14
+    ],
+    "Application": [
+      15
+    ],
+    "teams": [
+      16
+    ],
+    "adopted": [
+      18
+    ],
+    "more": [
+      19,
+      112
+    ],
+    "sophisticated": [
+      20
+    ],
+    "development": [
+      21
+    ],
+    "strategies,": [
+      22
+    ],
+    "leveraging": [
+      23
+    ],
+    "third": [
+      24
+    ],
+    "party": [
+      25
+    ],
+    "libraries,": [
+      26,
+      77
+    ],
+    "deploying": [
+      27
+    ],
+    "comprehensive": [
+      28
+    ],
+    "testing,": [
+      29
+    ],
+    "using": [
+      31
+    ],
+    "advanced": [
+      32
+    ],
+    "debugging": [
+      33
+    ],
+    "profiling": [
+      35
+    ],
+    "tools.": [
+      36
+    ],
+    "In": [
+      37,
+      92
+    ],
+    "today’s": [
+      38
+    ],
+    "environment": [
+      39
+    ],
+    "of": [
+      40
+    ],
+    "diverse": [
+      41
+    ],
+    "hardware": [
+      42
+    ],
+    "platforms,": [
+      43
+    ],
+    "these": [
+      44,
+      108
+    ],
+    "applications": [
+      45
+    ],
+    "also": [
+      46
+    ],
+    "desire": [
+      47
+    ],
+    "performance": [
+      48
+    ],
+    "portability—avoiding": [
+      49
+    ],
+    "need": [
+      51
+    ],
+    "to": [
+      52
+    ],
+    "duplicate": [
+      53
+    ],
+    "work": [
+      54
+    ],
+    "for": [
+      55,
+      86
+    ],
+    "various": [
+      56
+    ],
+    "platforms.": [
+      57
+    ],
+    "The": [
+      58
+    ],
+    "Kokkos": [
+      59,
+      69
+    ],
+    "EcoSystem": [
+      60,
+      74
+    ],
+    "provides": [
+      61,
+      75
+    ],
+    "that": [
+      62
+    ],
+    "portable": [
+      63
+    ],
+    "software": [
+      64
+    ],
+    "stack.": [
+      65
+    ],
+    "Based": [
+      66
+    ],
+    "on": [
+      67
+    ],
+    "Core": [
+      70
+    ],
+    "Programming": [
+      71
+    ],
+    "Model,": [
+      72
+    ],
+    "math": [
+      76
+    ],
+    "interoperability": [
+      78
+    ],
+    "capabilities": [
+      79
+    ],
+    "with": [
+      80
+    ],
+    "Python": [
+      81
+    ],
+    "Fortran,": [
+      83
+    ],
+    "Tools": [
+      85
+    ],
+    "analyzing,": [
+      87
+    ],
+    "debugging,": [
+      88
+    ],
+    "optimizing": [
+      90
+    ],
+    "applications.": [
+      91
+    ],
+    "this": [
+      93
+    ],
+    "article,": [
+      94
+    ],
+    "we": [
+      95
+    ],
+    "overview": [
+      96
+    ],
+    "components,": [
+      98
+    ],
+    "discuss": [
+      99
+    ],
+    "some": [
+      100
+    ],
+    "specific": [
+      101
+    ],
+    "use": [
+      102
+    ],
+    "cases,": [
+      103
+    ],
+    "highlight": [
+      105
+    ],
+    "how": [
+      106
+    ],
+    "codesigning": [
+      107
+    ],
+    "components": [
+      109
+    ],
+    "enables": [
+      110
+    ],
+    "a": [
+      111
+    ],
+    "developer": [
+      113
+    ],
+    "friendly": [
+      114
+    ],
+    "experience.": [
+      115
+    ]
+  },
+  "counts_by_year": [
+    {
+      "year": 2026,
+      "cited_by_count": 21
+    },
+    {
+      "year": 2025,
+      "cited_by_count": 30
+    },
+    {
+      "year": 2024,
+      "cited_by_count": 24
+    },
+    {
+      "year": 2023,
+      "cited_by_count": 20
+    },
+    {
+      "year": 2022,
+      "cited_by_count": 18
+    },
+    {
+      "year": 2021,
+      "cited_by_count": 4
+    }
+  ],
+  "updated_date": "2026-10-27T15:51:10.671819",
+  "created_date": "2021-09-27T00:00:00"
+}

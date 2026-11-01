@@ -1,0 +1,1529 @@
+                                          GALÆXI: Solving complex compressible flows with high-order discontinuous Galerkin
+                                                              methods on accelerator-based systems
+
+                                         Marius Kurza,b,1 , Daniel Kempfa,1,∗, Marcel Blinda , Patrick Koppera , Philipp Offenhäuserc , Anna Schwarza , Spencer Starra , Jens
+                                                                                                Keima , Andrea Becka
+                                                              a Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Pfaffenwaldring 21, 70569 Stuttgart, Germany
+                                                                         b Centrum Wiskunde & Informatica (CWI), Science Park 123, 1098 XG Amsterdam, The Netherlands
+                                                                             c Hewlett Packard Enterprise (HPE), Herrenberger Straße 140, 71034 Böblingen, Germany
+
+
+
+
+                                        Abstract
+                                            This work presents GALÆXI as a novel, energy-efficient flow solver for the simulation of compressible flows on unstructured
+arXiv:2404.12703v2 [cs.MS] 2 Oct 2024
+
+
+
+
+                                        hexahedral meshes leveraging the parallel computing power of modern Graphics Processing Units (GPUs). GALÆXI implements
+                                        the high-order Discontinuous Galerkin Spectral Element Method (DGSEM) using shock capturing with a finite-volume subcell
+                                        approach to ensure the stability of the high-order scheme near shocks. This work provides details on the general code design,
+                                        the parallelization strategy, and the implementation approach for the compute kernels with a focus on the element local mappings
+                                        between volume and surface data due to the unstructured mesh. The scheme is implemented using a pure distributed memory
+                                        parallelization based on a domain decomposition, where each GPU handles a distinct region of the computational domain. On
+                                        each GPU, the computations are assigned to different compute streams which allows to antedate the computation of quantities
+                                        required for communication while performing local computations from other streams to hide the communication latency. This
+                                        parallelization strategy allows for maximizing the use of available computational resources. This results in excellent strong scaling
+                                        properties of GALÆXI up to 1024 GPUs if each GPU is assigned a minimum of one million degrees of freedom. To verify its
+                                        implementation, a convergence study is performed that recovers the theoretical order of convergence of the implemented numerical
+                                        schemes. Moreover, the solver is validated using both the incompressible and compressible formulation of the Taylor–Green-Vortex
+                                        at a Mach number of 0.1 and 1.25, respectively. A mesh convergence study shows that the results converge to the high-fidelity
+                                        reference solution and that the results match the original CPU implementation. Finally, GALÆXI is applied to a large-scale wall-
+                                        resolved large eddy simulation of a linear cascade of the NASA Rotor 37. Here, the supersonic region and shocks at the leading
+                                        edge are captured accurately and robustly by the implemented shock-capturing approach. It is demonstrated that GALÆXI requires
+                                        less than half of the energy to carry out this simulation in comparison to the reference CPU implementation. This renders GALÆXI
+                                        as a potent tool for accurate and efficient simulations of compressible flows in the realm of exascale computing and the associated
+                                        new HPC architectures.
+                                        Keywords: Discontinuous Galerkin, High-Performance Computing, GPUs, Accelerators, Turbulence, Compressible Flow
+
+
+                                        1. Introduction                                                                   successes also rely on significant breakthroughs in the devel-
+                                                                                                                          opment of numerical methods and physical models, a major
+                                            The computational sciences have become an essential driver                    portion can be ascribed to the exponential increase in avail-
+                                        for understanding the dynamics of complex, nonlinear systems                      able computing power, which has allowed simulating increas-
+                                        ranging from the dynamics of earth’s climate [1] to obtaining                     ingly large and complex problems over the last decades. How-
+                                        information about a patient’s characteristic blood flow to derive                 ever, the corresponding process of shrinking transistors from
+                                        personalized approaches in medical therapy [2]. While these                       generation to generation has become increasingly challenging
+                                                                                                                          and the resulting gains in performance have diminished in re-
+                                           ∗ Corresponding author                                                         cent years [3]. As a consequence, the community is moving
+                                              Email addresses: marius.kurz@iag.uni-stuttgart.de (Marius                   towards accelerator chips, which do not serve as a one-size-fits-
+                                        Kurz), daniel.kempf@iag.uni-stuttgart.de (Daniel Kempf),                          all hardware like traditional CPUs. These chips are specialized
+                                        marcel.blind@iag.uni-stuttgart.de (Marcel Blind),                                 to yield better performance and efficiency for specific tasks,
+                                        patrick.kopper@iag.uni-stuttgart.de (Patrick Kopper),
+                                                                                                                          such as workloads in artificial intelligence, video encoding or
+                                        philipp.offenhaeuser@hpe.com (Philipp Offenhäuser),
+                                        anna.schwarz@iag.uni-stuttgart.de (Anna Schwarz),                                 cryptography. This also shows in the field of high-performance
+                                        spencer.starr@iag.uni-stuttgart.de (Spencer Starr),                               computing (HPC), where nine out of the ten fastest supercom-
+                                        jens.keim@iag.uni-stuttgart.de (Jens Keim),                                       puters listed in the most recent TOP500 [4] from November
+                                        andrea.beck@iag.uni-stuttgart.de (Andrea Beck)
+                                            1 M. Kurz and D. Kempf contributed equally and cordially agree to share       2023 employ some form of accelerator. In the most recent
+                                        first authorship.                                                                 GREEN500 [5] list, which focuses on sustainability in terms
+
+                                        Preprint submitted to Elsevier                                                                                                              October 3, 2024
+of energy invested per computation, all of the ten most efficient  support in recent years.
+HPC systems employ GPU accelerators.                                    In this work, we present GALÆXI2 as a GPU-accelerated
+     However, such accelerators generally differ considerably from solver for hyperbolic-parabolic conservation laws with special
+general-purpose CPUs in terms of hardware design, as well as       emphasis on compressible flows. The numerical simulation of
+the working principle. As a consequence, using accelerators of-    compressible flows is highly relevant for a large number of
+tentimes not only requires rewriting and redesigning large por-    problems, e.g., from the aviation industry or aeroacoustics. GA-
+tions of existing code to make efficient use of such hardware,     LÆXI builds on the well-established FLEXI solver [21] and
+but also might change which numerical algorithms are most ef-      inherits the majority of its features and its extensive pre- and
+ficient for a specific task. This poses significant challenges for post-processing suite that is designed for large-scale applica-
+legacy HPC codes due to the considerable effort required to mi-    tions. Hence, GALÆXI implements multiple flavors of the Dis-
+grate the existing codebase to hardware accelerators. This is-     continuous Galerkin Spectral Element Method (DGSEM) and
+sue is particularly pervasive in the field of Computational Fluid  can handle fully unstructured, hexahedral, curved, high-order
+Dynamics (CFD), where scale-resolving simulations of turbu-        meshes to account for complex geometries. Moreover, multiple
+lent flows generally require significant HPC resources. Here,      stabilization techniques are implemented to ensure the stability
+modern high-order discretization methods such as Discontinu-       of the scheme in underresolved simulations and in the vicin-
+ous Galerkin (DG) and Flux Reconstruction (FR) schemes have        ity of shocks using shock capturing schemes based on localized
+become popular due to their computational efficiency for such      finite-volume (FV) subcell approaches. We consider this fo-
+multi-scale problems and their excellent scaling properties on     cus on compressible, transonic flow through the combination of
+HPC systems.                                                       high-order accuracy and provable stability near shocks together
+     Over the last two decades, these advantages have led to       with the efficient implementation of this hybrid discretization
+the development of a rich landscape of high-order HPC solvers      on GPU systems as one of the unique features of GALÆXI
+for scale-resolving CFD simulations. Here, spectral element        that sets it apart from existing solvers. The user interface of
+discretizations have seen particular interest and have been im-    GALÆXI is deliberately kept compatible to FLEXI, such that
+plemented for instance in Nektar++ [6] and HORSES3D [7],           GALÆXI can serve as a drop-in replacement to run existing
+which can solve both the compressible and incompressible Navier– simulation setups on GPU systems without modifications.
+Stokes equations (NSE), and the DG solver ExaDG [8], which              This work contributes the following aspects to the chal-
+solves the incompressible NSE. While these solvers are writ-       lenging but necessary steps for the transition to exascale HPC
+ten in traditional HPC languages like C++ and Fortran, the         architectures in CFD. It provides insights into the suitability
+solver Trixi.jl [9] implements multiple DG discretizations in      of DGSEM for GPU acceleration and quantifies the gains in
+Julia to combine the advantages of high computational perfor-      performance and efficiency that can be expected for explicit,
+mance with the flexibility and ease of implementation provided     high-order DG methods when moving from traditional CPUs
+by modern Python-style languages. In addition to DG-based          to GPUs. It also provides practical guidelines on how existing
+approaches, also other high-order methods have been widely         codebases can be ported to GPU hardware and proposes par-
+adopted using for instance weighted essentially non-oscillatory    allelization concepts for achieving parallel efficiency on HPC
+(WENO) finite volume (FV) schemes as implemented in UCNS3D hardware with high-order schemes. Furthermore, the savings in
+[10] or high-order finite difference methods with WENO-type        the context of energy-to-solution are discussed in particular and
+shock capturing utilized in the STREAmS [11, 12] solver.           can serve as a point of reference in terms of energy efficiency.
+     The need to adapt the existing and established code bases          This work is organized as follows. First, Section 2 intro-
+to the new GPU-focused HPC architectures has already been          duces the governing equations and the numerical methods im-
+considered in the CFD community. One of the most established       plemented in GALÆXI. Based on this, Section 3 provides de-
+high-order codes for incompressible and weakly compressible        tails on the parallelization strategy and the implementation of
+flow is Nek5000 [13]. The first effort to port Nek5000 to accel-   the compute kernels. The resulting performance and scaling
+erators was reported in 2015 [14], where a barebones version       abilities of GALÆXI are presented and discussed in Section 4.
+of the code was adapted for GPUs using the OpenACC library.        The implementation of the numerical scheme is verified in Sec-
+Full GPU support was then offered by its successor NekRS [15],     tion 5, demonstrating the theoretical convergence rates of the
+which is based on the Open Concurrent Computing Abstrac-           numerical methods and accurate results for the incompressible
+tion (OCCA) [16]. Similarly, Neko [17] was implemented from        and compressible formulations of the Taylor–Green-Vortex (TGV)
+scratch using modern, object-orientated Fortran and abstraction    test case. To demonstrate the applicability to applications of
+layers to support multiple hardware backends. While the pre-       relevance, GALÆXI is employed in Section 6 to compute a
+vious codes focus mainly on incompressible and weakly com-         large-scale, wall-resolved LES of the NASA Rotor 37 [22] test
+pressible flows, pyFR [18] also solves the compressible NSE        case. Section 7 summarizes the major results of the paper and
+on unstructured meshes using the FR approach. Moreover, it         provides an outlook on further developments.
+is written in Python and relies on code generation to support
+multiple computing backends including accelerators and pro-
+                                                                      2 https://github.com/flexi-framework/galaexi/
+vides excellent scaling properties on HPC systems. Similarly,
+the deal.II [19] and MFEM [20] libraries provide DG discretiza-
+tions to solve the compressible NSE and both have added GPU
+                                                                2
+2. Numerical Methods                                                                  η+
+    GALÆXI is implemented as a general solution framework
+for hyperbolic-parabolic conservation equations, similar to the
+FLEXI framework, but exhibits a particular focus on the com-
+pressible Navier–Stokes equations (NSE), which are introduced
+in Section 2.1. The DGSEM with its temporal and spatial high-
+order accurate discretization will be introduced in Section 2.2,
+followed by the compatible sub-cell shock capturing scheme in
+Section 2.3.
+
+2.1. Governing Equations
+    GALÆXI is used to solve the compressible NSE, which de-
+scribe the evolution of the conserved variables U(x, t) = (ρ, ρu, ρe)T
+                                                                               η
+which are comprised of the density, momentum, and energy
+density, respectively, at each position in space x and time t.
+The NSE can be derived by enforcing the conservation of mass,
+momentum, and energy across an infinitesimal control volume.                           ξ                                                          ξ+
+                                                                           ζ                                  ζ+
+This yields the evolution equations of the conserved variables
+in differential form as
+                                                                         Figure 1: Perspective sketch of a single DG element in the reference space us-
+       ∂ρ                                                                ing Legendre-Gauss interpolation points with N = 2. Gray cubes indicate the
+           + ∇ · (ρu)                               = 0,       (1)       interpolation points within the element, while the gray squares indicate interpo-
+        ∂t                                                               lation points on the six local faces called ξ± , η± , ζ ± . The linewise operations of
+      ∂ρu                                                                the tensor product ansatz are indicated for the center interpolation point, where
+           + ∇ · (ρu ⊗ u + pI − τ)                  = 0,       (2)
+       ∂t                                                                the operations along the coordinates ξ = (ξ, η, ζ) are highlighted in blue, red
+      ∂ρe                                                                and green, respectively.
+           + ∇ · (u (ρe + p) − τ · u + q)           = 0,       (3)
+       ∂t
+where p denotes the static pressure, I the identity matrix, and 0            Lastly, the equation-of-state (EOS) closes the NSE by pro-
+the zero vector. Assuming a Newtonian fluid and Fourier’s law            viding a relationship between the conserved variables and the
+of thermal conduction yields the stress tensor τ and heat flux q         pressure. For a perfect gas, this can be written as
+as                                                                                               ρ       
+                                                                               p = (γ − 1) ρe − u · u , or                          (8)
+                           2                                                                      2
+                                     !
+       τ = µ ∇u + ∇uT − (∇ · u) I ,                           (4)                     p
+                           3                                                   T=       .                                           (9)
+                                                                                     ρR
+      q = −λ ∇T.                                               (5)
+                                                                         Equations (8) and (9) thus allow the computation of the primi-
+Here, µ denotes the dynamic viscosity of the fluid and λ de-             tive, i.e. non-conserved, variables U prim = (ρ, u, p, T )T from the
+notes its heat conductivity. Both are material properties of the         state U.
+specific fluid and depend in the general case on the fluid’s lo-
+cal state. Hence, both quantities cannot be considered constant          2.2. Discontinuous Galerkin Spectral Element Method
+in the general case. In this work, we assume the viscosity to
+                                                                             In the following section, the DGSEM will be derived for the
+follow Sutherland’s law [23], which postulates a dependency of
+                                                                         compressible NSE, which can be written in flux formulation as
+the viscosity on the temperature of the form
+                                                                                   ∂U
+                      1.4042 (T/T re f )3/2                                           + ∇x · F(U, ∇x U) = 0,                                             (10)
+      µ(T ) = µre f                         ,                  (6)                 ∂t
+                       T/T re f + 0.4042
+                                                                         where F(U, ∇x U) encapsulates both the convective and viscous
+where µre f is the viscosity at the reference temperature T re f .       fluxes. Each of the main construction steps of the DGSEM
+Based on this, the thermal conductivity can be computed as               will be discussed. However, a more in-depth derivation of the
+                                                                         DGSEM and its implementation is provided by Krais et al. [21].
+            γR µ
+      λ=            ,                                          (7)
+           γ − 1 Pr                                                      Mapping the Equations
+with γ as the ratio of specific heats, R denoting the specific gas           For the DGSEM, the domain Ω is subdivided into a set of
+constant, and Pr as the dimensionless Prandtl number, which is           non-overlapping, curvilinear, hexahedral elements. Each physi-
+assumed in the following to be constant with Pr = 0.71.                  cal element is then mapped from the physical space x = (x, y, z)T
+                                                                         to the reference element E ∈ [−1, 1]3 in computational space
+                                                                         ξ = (ξ, η, ζ)T using a transfinite polynomial mapping ξ = χ(x).
+                                                                     3
+The reference element is shown for N = 2 in Fig. 1. The Ja-                      nodes are used as interpolation points. The superscript is sub-
+cobian J of this mapping follows as the determinant of the Ja-                   sequently dropped to keep the notation concise. Lagrange poly-
+cobian matrix ∇ξ χ, where ∇ξ denotes the del operator in the                     nomials fulfill the Kronecker delta property given by
+computational coordinates. The transformation of the govern-                                      
+ing equations into the computational space requires the con-                                   1, if i = j,
+                                                                                       ℓi x j =                                            (16)
+                                                                                                  
+travariant basis vectors Jai , with i = 1, 2, 3, which follow in                                  0, if i , j.
+                                                                                                  
+the curl form as
+                                                                                 A tensor-product ansatz is used to construct a three-dimensional
+      Jain = − x̂i · ∇ξ × (xl ∇ξ xm ),          (n, m, l) cyclic,     (11)       basis of the polynomial subspace PN from the one-dimensional
+                                                                                 Lagrange polynomials. This yields the approximation of the
+where x̂i is the unit vector in the i-th Cartesian direction. Using              solution in the computational space as
+the basis vectors and the Jacobian, the transformed equations in
+the reference element follow as                                                                      N
+                                                                                                     X
+                                                                                       U(ξ, t) ≈               Ûi jk (t) ℓi (ξ) ℓ j (η) ℓk (ζ).                             (17)
+          ∂U
+      J      + ∇ξ · F i = 0,                                          (12)                          i, j,k=0
+          ∂t
+                                                                                 Semi-discrete form
+where F i denotes the contravariant fluxes given by                                  Evaluating the integrals using the Gauss-type quadrature as-
+                                                                                 sociated with the chosen set of interpolation points, i.e. collo-
+      F i = Jai · F.                                                  (13)
+                                                                                 cation of interpolation and integration points, yields the semi-
+To construct the DGSEM, Eq. (12) is formulated in the weak                       discrete form of the DG operator that can be written for each
+form, which will be derived in the next paragraph.                               point i, j, k ∈ [0, N] as
+                                                                                                   ApplyJac          FillFlux      FillFlux
+Weak formulation                                                                                 z}|{ " N
+                                                                                        ∂Ûi jk     1 X 1           z }| {       z }| {
+                                                                                                                      ∗ ξ+ +  ∗ ξ− − 
+    To derive its weak form, Eq. (12) is projected onto a set of                                =−          F D̂iα + f ŝ jk ℓ̂i + f ŝ jk ℓ̂i
+                                                                                         ∂t        Ji jk α=0 α jk
+test functions ψ(ξ), spanning a polynomial subspace, using the
+inner product, which yields                                                                                        N
+                                                                                                                                                   +          − 
+                                                                                                                           2
+                                                                                                                   X
+                                                                                                                                             f ∗ ŝ ηik ℓ̂+j + f ∗ ŝ ηik ℓ̂−j
+                                                                                                                                        
+                                                                                                               +         Fiβk D̂ jβ +
+          ∂U
+     Z               I                  Z
+                                                                                                                   β=0
+        J     ψ dξ + ψ (F · N)∗ dS − F · ∇ξ ψ dξ = 0. (14)
+           ∂t                                                                                                      N                                                               #
+     E                                  E
+                                                                                                                   X
+                                                                                                                            3                      +           −
+                                                                                                                                             f ∗ ŝ ζi j ℓ̂k+ + f ∗ ŝ ζi j ℓ̂k−
+                                                                                                                                        
+                    ∂E
+                     |     {z       } | {z }                                                                   +         Fi jγ D̂kγ +                                                .
+                             Surface Integral       Volume Integral                                                γ=0
+                                                                                                                   | {z }               |                 {z                   }
+                                                                                                                      VolInt                            SurfInt
+Here, the surface integral incorporates the contribution of the
+                                                                                                                                                                             (18)
+fluxes across the element faces while the volume integral con-
+siders only the degrees of freedom within the element. Be-                       This notation follows Kopriva [24], where
+cause adjacent elements share a common face and no conti-
+nuity across elements has been imposed, the solution is gen-                                    ℓi (±1)                                      ωi dℓi (ξ)
+                                                                                       ℓ̂i± =                      and         D̂i j = −                                     (19)
+erally discontinuous across the element faces. Consequently,                                       ωi                                        ω j dξ ξ=ξ j
+the solution and hence the fluxes on the element faces are non-
+unique. Therefore, numerical flux functions are used to com-                     are one-dimensional building blocks that entail the numerical
+pute a unique numerical flux across element boundaries, which                    quadrature weights ωi and are precomputed during initializa-
+is denoted by the asterisk (·)∗ .                                                tion to improve the overall performance of the implementation.
+                                                                                 Moreover, f ∗ = f ∗ (Ũ L , ŨR ) denotes the unique flux at the faces
+Solution Representation                                                          based on the solution on the surface of the left and right ele-
+    Within each element, the solution is represented by high-                    ment, respectively, and ŝ denotes the surface element, which
+order Lagrange polynomials with any desired order resulting in                   is the norm of the non-normalized physical unit vector as dis-
+arbitrary high-order accuracy of the DGSEM as demonstrated                       cussed in more detail by Krais et al. [21]. The monospaced
+in Section 5.1. The j-th one-dimensional Lagrange polynomial                     namings in Eq. (18) refer to the routines in the numerical im-
+of degree N is defined as                                                        plementation which are summarized in Table 1 and are also de-
+                                                                                 tailed in Appendix A.
+                  N
+                  Y xi − x                                                            At this point, we would like to briefly discuss the influence
+      ℓiN (x) =                     ,                                 (15)       of the unstructured mesh topology. First of all, the unstructured
+                  i=0
+                         xi − x j
+                  i, j
+                                                                                 neighbor relations only influence the surface-related operations
+                                                                                 and only direct neighbors are considered. Here, the relative ori-
+with respect to a set of interpolation points {x j }Nj=0 . In practice,          entation between the adjacent elements and their faces must be
+either Legendre–Gauss (GL) or Legendre–Gauss–Lobatto (LGL)                       taken into account. This is taken into account by corresponding
+                                                                                 mappings in the ProlongToFace and SurfInt routines.
+                                                                             4
+ Routine                  Vol/Surf       DOF-local        Lift *      Operations       Explanation
+                                                                             2,3
+ ConsToPrim              Surf, Vol           YES           NO           O(N )          Computes primitive variables U prim from state U.
+ VolInt                     Vol              NO            YES          O(N 4 )        Evaluates volume fluxes F and multiplies with D̂.
+ ProlongToFace           Vol→Surf            NO            YES          O(N 2 )        Evaluates solution at element faces U L/R to compute f ∗ .
+ FillFlux                  Surf              YES           YES          O(N 2 )        Computes common flux f ∗ on faces with Riemann solver.
+ SurfInt                 Vol←Surf            NO            YES          O(N 2 )        Computes surface integral with f ∗ and ℓ̂± .
+ ApplyJac                   Vol              YES           YES          O(N 3 )        Applies Jacobian J to Ût .
+
+Table 1: Individual operations required to evaluate the three-dimensional DG operator with details on whether the routine acts on volume data or surface data.
+Moreover, it is indicated whether performed operations are DOF-local, i.e. are performed independently for each specific DOF, if they have to be re-applied during
+the computation of the gradients, which is indicated by the prefix Lift *, and their computational complexity in terms of N. A more detailed discussion of these
+routines can be found in Appendix A.
+
+
+
+Time integration                                                                    by Bassi and Rebay [33]. Here, so-called lifted gradients g are
+    The semi-discrete form Eq. (18) is integrated in time using                     introduced that should fulfill
+an appropriate integration scheme. GALÆXI offers a variety                                       1
+of different explicit high-order Runge–Kutta-type schemes in                               g−      ∇x U prim = 0.                                           (20)
+                                                                                                 J
+a low-storage formulation to reduce the memory consumption.
+In the following, a fourth-order Runge–Kutta scheme with 5                          This equation is then solved for g by deriving the weak form of
+stages [25] is used for the validation and verification results in                  Eq. (20) and applying the DGSEM as is done for the NSE them-
+Section 5, while a scheme with 14 stages [26] is used for the                       selves. This yields an additional set of equations that is struc-
+large-scale application in Section 6. The latter scheme is chosen                   turally similar to Eq. (18) but using the lifting fluxes instead of
+since it exhibits an optimized stability region for convection-                     the fluxes of the NSE as detailed in Krais et al. [21]. Hence, the
+dominated problems and allows for larger time steps.                                computation of the gradients corresponds to increasing the set
+                                                                                    of unknowns by an additional (ndim × nlift ) variables, where ndim
+Nonlinear Stability                                                                 corresponds to the number of spatial dimensions and nlift to the
+    The semi-discrete form of the DG discretization in Eq. (18)                     number of primitive variables for which the gradients should
+is derived by means of numerical quadrature rules. However,                         be computed. This also means that each of the operations indi-
+since the integrands, i.e. the fluxes of the compressible NSE,                      cated in Eq. (18), i.e. ApplyJac, SurfInt, VolInt, FillFlux, has
+are non-polynomial, they cannot be integrated exactly by the                        to be executed again for the lifting procedure in each spatial
+applied quadrature rules. The resulting integration errors mani-                    direction.
+fest as aliasing that can cause simulations to crash, especially in
+the underresolved regime. For DG, multiple mitigation strate-                       Computational Complexity
+gies have been devised ranging from overintegration [27, 28],                            Table 1 also provides the estimated number of operations,
+also referred to as polynomial dealiasing, to filtering procedures                  i.e. the computational complexity, for the different steps of the
+that strive to counteract the accumulation of energy in the high-                   three-dimensional DG discretization. The given numbers de-
+est solution modes [29, 30]. In this work, we rely on the split-                    scribe the asymptotic behavior of the individual operations with-
+flux formulation introduced by Gassner et al. [31] to construct                     out considering details such as the computational complexity
+a non-linear stable DG scheme. This approach is based on the                        of the flux computation and compiler optimizations. Most im-
+strong formulation of the governing equations, which can be                         portantly, the computational effort to compute the volume inte-
+obtained through a second integration-by-parts of Eq. (14). The                     gral scales one order higher in terms of N than all other opera-
+discretized form can be cast into the same algorithmic form as                      tions, i.e. it scales with O(N 4 ) instead of O(N 3 ) or even O(N 2 ).
+Eq. (18) with only minor modifications in the formulation of the                    Hence, the volume integral becomes the dominant operation
+fluxes [21]. Here, the fluxes of the NSE are replaced by split-                     for increasing N. However, the computations carried out for
+form two-point fluxes that are equivalent on an analytical level                    the volume integral are purely element local, highly dense and
+but can be used to enforce additional constraints such as en-                       can be computed very efficiently on various types of hardware.
+tropy consistency in the discretized formulation. In this work,                     In practice, this increase in efficiency was observed to partly
+a kinetic-energy-preserving split-flux formulation proposed by                      compensate for the additional operations required with increas-
+Pirozzoli [32] is applied. It is important to stress that the evalu-                ing N [34]. Moreover, the communication stencil between el-
+ation of two-point fluxes increases the computational cost con-                     ements is small, since only surface fluxes with direct neighbor
+siderably.                                                                          elements have to be exchanged. Consequently, the high cost
+                                                                                    of the volume integral and the small communication stencil al-
+Second-Order Equations                                                              low for hiding the communication latencies very efficiently in
+    For the NSE, the gradients of the primitive variables ∇x U prim                 parallel computations.
+are required to evaluate the viscous fluxes. While several ap-
+proaches exist in the literature, GALÆXI follows the BR1 method
+                                                                                5
+2.3. Shock Capturing                                                                                                          U(ξ)
+     GALÆXI is designed for the simulation of compressible
+flows which can entail discontinuities in the form of shocks.                                    ωi
+However, the application of high-order discretizations near dis-
+continuities or strong gradients in the solution produces spuri-
+ous oscillations and can cause the numerical scheme to become
+unstable. As a consequence, a wide variety of different shock
+identification and capturing methods are proposed in the liter-
+ature that all strive to stabilize high-order discretizations near
+shocks and provide stable and accurate simulations of com-                   −1                                0                               1
+pressible flows. The common objective of those methods is to                                                   ξ
+retain the high-order accuracy of the baseline scheme in smooth
+regions while identifying and handling so-called troubled cells          Figure 2: Sketch of the sub-cell shock capturing scheme. The DG polynomial
+within the domain during the simulation. Already Cockburn                using LGL points and a polynomial degree of N = 3 is shown in black with
+                                                                         the interpolation points indicated as dots and the integral mean solution within
+and Shu [35] used limiters to stabilize DG methods near shocks,          the subcells is shown in blue. The solution in the neighboring DG elements is
+which was in parts inspired by the total variation diminish-             indicated in red.
+ing/bounded properties of FV schemes. Based on this, a myriad
+of different limiting techniques have been proposed in the liter-
+ature [36, 37, 38]. Other common approaches introduce some               geometries should be retained. Second, we strive to retain the
+form of artificial viscosity near the shock region [39, 40, 41]          majority of the codebase and the associated features of the orig-
+or use high-order filtering techniques [42]. Another approach            inal implementation. Lastly, GALÆXI is designed such that
+is to employ a hybrid discretization, where the high-order DG            all routines called during the time-stepping are executed on
+scheme is stabilized in the vicinity of the troubled region with         the accelerator without the need to transfer data to and from
+a low-order FV scheme. For this, the DG element is subdivided            the CPU. Device code and compute kernels are only required
+into multiple FV subcells as indicated in Fig. 2. This low-order         for routines that are called during time-stepping and thus have
+scheme can then either be solved directly within the troubled            to be computed on the accelerator. In contrast, initialization
+elements and coupled to the surrounding DG elements using                and non-frequently performed analyzing routines are still com-
+the common Riemann fluxes [43] or can also be used as a regu-            puted on the CPU, since they are less time-critical and CPUs
+larizing limiter [44]. In the following, we employ the blending          are better suited towards unstructured workloads. Both GA-
+approach by Hennemann et al. [45], who proposed to compute a             LÆXI and FLEXI are implemented in modern Fortran 2008.
+convex blending of both discretization operators. This approach          The device code for the accelerators in GALÆXI is currently
+has also been demonstrated to yield a sensible turbulence model          implemented using CUDA Fortran, but the integration of other
+if tuned correctly [46]. Within each element both the high-order         compute backends is under development.
+DG operator RDG (Û) and the compatible low-order FV scheme                  The design and implementation of GALÆXI is detailed in
+RFV (Û) are evaluated. The convex blending of both schemes              the following sections using a hierarchical top-down approach.
+then yields                                                              First, the high-level distribution of work across different com-
+                                                                         pute devices and the employed communication scheme between
+      ∂Û                                                                them is detailed in Section 3.1. Based on this, Section 3.2 pro-
+          = (1 − α) RDG (Û) + α RFV (Û),                   (21)
+      ∂t                                                                 vides details on how communication and compute kernels are
+                                                                         arranged and scheduled on a single GPU. Lastly, the general
+where the blending factor α ∈ [0, 1] can be computed either via
+                                                                         implementation paradigms for the individual compute kernels
+an a priori or a posteriori strategy for each individual DG ele-
+                                                                         are detailed in Section 3.3. Obviously, performance optimiza-
+ment [47]. In this work, the a priori indicator by Hennemann
+                                                                         tions have to be performed across all of these three levels and
+et al. [45] is used, for which the blending approach becomes
+                                                                         changes on one level affect the suitability and performance of
+an operator local to each individual element. Clearly, the stan-
+                                                                         the others. While these individual levels are inherently inter-
+dard DG scheme can be recovered for α = 0, while α = 1
+                                                                         linked, we chose this partitioning in the following to provide a
+yields a pure FV discretization. It is important to stress that
+                                                                         more structured overview of the design principles and methods
+only the contributions of the operators within the element have
+                                                                         applied in GALÆXI.
+to be blended since the outer surface fluxes are identical for the
+DG and FV formulation.
+                                                                         3.1. Inter-GPU Parallelization
+                                                                     The parallelization strategy between GPUs in GALÆXI is
+3. Parallelization Strategy on Accelerators                      largely inherited from FLEXI, which employs a pure distributed
+                                                                 memory approach using MPI. Before going into the specific im-
+    GALÆXI is the endeavor to extend the flow solver FLEXI [21]
+                                                                 plementation details of GALÆXI, the original MPI paralleliza-
+towards accelerator-based HPC systems. Here, GALÆXI fol-
+                                                                 tion strategy of FLEXI is briefly presented. Here, each com-
+lows three distinct design principles. First, the general data
+                                                                 putational rank is assigned a subdomain of roughly the same
+structure and parallelization strategy of FLEXI for unstructured
+                                                                     6
+Figure 3: Domain decomposition for a generic airfoil simulation with large spanwise extension. The domain is cut such that the airfoil (transparent surface) including
+the boundary layer part is visible. Patches of different colors represent individual MPI domains that are processed by different ranks. This figure is an example of a
+fine granularity, e.g. in the CPU case. In the GPU case, larger MPI domains occur.
+
+
+
+amount of elements as shown in Fig. 3. In the DG context, el-                         rect access to the local memory of different GPUs on the same
+ements are only coupled via their surface fluxes. Thus, only                          node and transmission of MPI messages directly from the GPU
+the surface information across the MPI borders has to be ex-                          to the network adapter without the assistance of the CPU or the
+changed between individual MPI ranks during the computa-                              main memory. The following key differences emerge between
+tion. Moreover, FLEXI sorts this face information such that                           the CPU and GPU implementations. First, the domain size on
+the data exchanged between two MPI partners is contiguous in                          a single GPU is larger than for the CPU case. This is a result
+memory and that the sorting is known a priori on both faces.                          of the much higher computational power a GPU provides com-
+This allows to exchange solely the data itself without any addi-                      pared to a single CPU core. A GPU requires significantly more
+tional sorting information. The overall communication effort is                       workload to run at capacity and to exploit the full degree of
+thus proportional to the number of faces at the MPI boundaries,                       its parallelism. In practice, this means that the computational
+which are referred to in the following simply as MPI faces.                           domain per rank increases if GPUs are used. Since the subdo-
+To minimize the amount of communication, i.e. the number of                           mains are compact, an increase in size means that the volume
+MPI faces in the domain, FLEXI distributes the domain along a                         increases much faster than the MPI surface, i.e. that inner work
+pre-computed space-filling curve. This ensures that the result-                       becomes more dominant in comparison to the required com-
+ing subdomains remain reasonably compact for any amount of                            munication and at the same time the amount of data to be com-
+subdomains while minimizing partitioning effort. During the                           municated decreases. In consequence, the performance of the
+simulation, communication is generally asynchronous and non-                          interconnect becomes less dominant than in the CPU case. Sec-
+blocking, which means that communicated data is computed                              ond, the GPU implementation has to consider the asynchronic-
+and sent at the earliest possible opportunity. The communica-                         ity between the GPU device and the host. While an operation is
+tion barrier that checks whether the data has been received is                        launched by the host at a specific position in the code sequence,
+positioned at the latest possible instant before the data is ac-                      the GPU schedules and executes the operation independently
+tually required for further computations. This allows to effec-                       of the work performed by the host in the meantime. Hence,
+tively hide the communication latency by performing local op-                         additional synchronization between the host and the device is
+erations during the data exchange. For this, operations on MPI                        necessary to ensure data consistency. This entails for instance
+faces are prioritized over inner faces to use all operations per-                     ensuring that a buffer that is about to be sent via MPI has al-
+formed on inner faces for latency hiding.                                             ready been filled with the required information by the GPU.
+    GALÆXI follows the same general approach for paralleliz-                          This introduces additional overhead. However, due to the asyn-
+ing across multiple GPUs. Here, each GPU on a node is asso-                           chronous operation, CPU and device operations can again be
+ciated with a distinct CPU core while respecting the memory                           overlapped, which results in an additional level of parallelism
+topology to optimize performance.3 Moreover, CUDA-aware4                              on an intra-GPU level and is addressed in Section 3.2.
+implementations of MPI are used, which improve the perfor-
+mance of MPI communication. By providing Remote Direct                                3.2. Intra-GPU Parallelization
+Memory Access (RDMA) and host offloading, these allow di-                                 As already discussed in the previous paragraphs, device ker-
+                                                                                      nels are launched within host code. However, the GPU sched-
+   3 This means, for instance, to associate the CPU core and the GPU such that
+                                                                                      ules and executes the launched kernels asynchronously and can
+both reside within the same non-uniform memory access (NUMA) domain.                  also execute multiple kernels concurrently to maximize its uti-
+   4 For further information about CUDA-aware MPI see: https://docs.
+
+open-mpi.org/en/v5.0.x/tuning-apps/networking/cuda.html
+                                                                                      lization. It is important to consider these properties to maxi-
+
+                                                                                  7
+                                                  U
+                                                                                                   tion and thus the overall performance.
+                                                                                                        A key factor when using streams is to ensure correct re-
+                                                                                                   sults independent of how the individual kernels are scheduled.
+                                                                                                   Therefore, another level of synchronization between the streams
+              Stream 1                 Stream 2                        Stream 3
+                                                                                                   is required to mitigate race conditions. In GALÆXI, the differ-
+                 ConsToPrim              ProlongToFace
+                                                                                                   ent operations of the convective DG operator, summarized in
+                                                                                    L/R
+                                                                                                   Table 1, are assigned to individual streams depending on their
+                         U prim                         L/R                       ŨMPI
+                                                      Ũinner                                      interdependence. This means that if one kernel requires a pre-
+    MPI                                                                          L/R
+                                                                                                   vious kernel to be completed, both are assigned to the same
+                                                                         Comm. ŨMPI
+    Barrier                                                                                        stream to be executed sequentially. In contrast, operations that
+                                                                                    L/R
+                                                                                  ŨMPI            are independent of each other get assigned to different streams.
+                                                                                                   In GALÆXI, three streams are employed to account for the
+                                           ConsToPrim                     ConsToPrim               available concurrency:
+                                                        prim,L/R                    prim,L/R
+                   VolInt                             Ũinner                     ŨMPI               • Stream 1 (priority low): Operations within DG elements.
+                         UtVolInt           FillFlux                       FillFlux                   • Stream 2 (priority mid): Operations on inner faces.
+                                                        ∗                          ∗
+                                                      finner                      fMPI
+                                                                                                      • Stream 3 (priority top): Operations on MPI faces.
+    MPI
+    Barrier
+                                                                                 ∗
+                                                                          Comm. fMPI               Here, each stream is assigned a priority which incentivizes the
+                                                                                                   GPU to preempt and postpone the execution of low-priority ker-
+                                                                                                   nels in favor of high-priority ones. In GALÆXI, Stream 3 con-
+                                                                                                   taining the MPI faces is assigned the highest priority to ensure
+                                  Device Synchronization Barrier
+                                                                                                   that data that has to be communicated is always computed at
+                                                      UtVolInt , f ∗                               the earliest possible instant to ensure optimal latency hiding.
+                                                                                                   The flowchart for the evaluation of the DG operator using these
+                                             SurfInt                                               streams is shown in Fig. 4. The local operations within the
+                                                                                                   DG element and the operations at the element faces can be per-
+                                                                                                   formed independently in their streams until the computation of
+                                               Ut                                                  SurfInt, where the surface fluxes f ∗ as well as the contributions
+                                                                                                   of the VolInt denoted UtVolInt are required. Hence, an explicit
+                                                                                                   synchronization barrier is employed to wait until all previous
+Figure 4: Flowchart of GALÆXI for a single evaluation of the convective DG
+operator using streams. Some routines comprise several individual compute                          operations in all streams have completed. Then, the surface
+kernels instead of single, monolithic device kernels. These are summarized                         contributions can be added to the volume integral to yield the
+here to keep the flowchart concise. Moreover, the lifting procedure to compute                     final Ut .
+the gradients is omitted here for readability.
+                                                                                                       Special care must be taken when extending the operator
+                                                                                                   towards multiple GPUs, which requires MPI communication.
+mize the achieved performance on the device. GALÆXI relies                                         Here, it has to be ensured that all kernels within the GPU are as-
+on so-called streams to manage the concurrency and scheduling                                      signed correctly to individual streams and that the MPI commu-
+of operations on the GPU. Within the GPU context, streams are                                      nication between GPUs is effectively hidden by the local work.
+similar to execution pipelines. Kernels within each stream are                                     For this, the work associated with MPI faces, i.e. Stream 3, is
+executed serially, i.e. the next kernel within a stream pipeline                                   ensured to be computed with the highest priority, such that the
+is only executed once all preceding kernels within this distinct                                   communication can be initialized as soon as possible. The work
+pipeline have finished execution. However, kernels from dif-                                       queued in the other streams is then used to hide both the local
+ferent streams can run concurrently on the GPU to maximize                                         overhead of tail effects on the GPU and the latency of the MPI
+utilization. This can improve the overall performance either                                       communication. In practical application, the host idles at the
+when running small kernels that cannot fully utilize the GPU or                                    MPI barrier until the communication is finished, but the GPU
+by hiding the overhead associated with starting a kernel on the                                    is kept busy with the work from Stream 1 and Stream 2 to re-
+device. Another benefit is that streams allow the mitigation of                                    tain the overall efficiency. Effectively, the communication of
+                                                                                                                                    L/R
+the tail effect, which describes the negative performance impact                                   the solution at the MPI faces ŨMPI  is hidden by ConsToPrim on
+of the last partial wave of computations in a kernel. This effect                                  Stream 1. The communication of the resulting fluxes across the
+                                                                                                                 ∗
+stems from the last thread blocks of a kernel call which will                                      MPI faces fMPI    is hidden by VolInt in Stream 1 and ConsTo-
+generally not fill the whole GPU, leading to a significant por-                                    Prim and FillFlux in Stream 2.
+tion of the GPU idling when the last wave of computations are
+performed. By using streams, the idling resources can execute                                      3.3. Kernel Implementation
+kernels from different streams that are known to be indepen-                                          The goal for the implementation of the compute kernels is
+dent of the current computation, which improves GPU utiliza-                                       to maximize the utilization of the available parallel resources
+                                                                                               8
+                  Lift FillFlux              Lift SurfInt                              Algorithm 1 Wrapper for ConsToPrim Point on CPU
+     Lift ProlongToFace                                 Lift VolInt
+            ApplyJac                                                                    1: function ConsToPrim CPU(N, nElems , U)
+                                 4.8   5.8
+   ProlongToFace
+                             3.7                  7.2                                   2:   for n ← 1 to nElems do         ▷ loop        over elements
+       SurfInt           2.5                                       FillFlux             3:      for i, j, k ← 0 to N do       ▷ loop within element
+                      2.4
+                    2.4                                   10.1                          4:        Uiprim
+                                                                                                      jk,n ← ConsToPrim Point(U i jk,n )
+       Misc                                                                             5:      end for
+                 7.7
+                                                                                        6:   end for
+                                                                                        7:   return U prim
+                                                            14.5                        8: end function
+                                                                      ConsToPrim
+                                                                                       Algorithm 2 Wrapper for ConsToPrim Point on GPU
+                                                                                        1: function ConsToPrim GPU(N, nElems , U)
+                               39.0
+                                                                                        2:   nDOF ← (N + 1)3 nElems    ▷ number of DOF in array
+                                                                                        3:   U prim ← ConsToPrim Kernel<<config>>(nDOF , U)
+                      VolInt
+                                                                                        4:   return U prim
+Figure 5: Portion of compute time in percent for individual routines on HAWK-           5: end function
+AI with N = 7, split-form DG and 8.9 × 105 DOF on a single GPU. Routines                6:
+associated with the computation of the gradients via the lifting method are pre-        7: kernel ConsToPrim Kernel (nDOF , U)
+fixed with “Lift ”. Various small routines associated with performing the actual
+time integration, i.e. updating U, are summarized under Misc.
+                                                                                        8:   i ←(blockID-1)*blockDim+threadID               ▷ own index
+                                                                                        9:   if i ≤ nDOF then
+                                                                                       10:      UiPrim ← ConsToPrim Point(Ui )
+provided by the device which roughly translates to keeping as                          11:     return Uiprim
+many threads as possible busy. However, oftentimes the num-                            12:   end if
+ber of concurrent threads is limited by the number of regis-                           13: end kernel
+ters required by each thread and the amount of shared memory.
+Futhermore, the effective performance is limited by the avail-
+able memory bandwidth, which might not be sufficient to keep                           ment for different hardware. Hence, the following paragraph
+all threads busy.                                                                      first introduces how kernels are designed for DOF-wise oper-
+     Since the specifics of these limitations and their importance                     ations in GALÆXI before moving to the much more intricate
+depend heavily on the specific hardware, GALÆXI approaches                             task of kernels that map data between the volume and faces of
+the problem from a more general perspective. Here, it is as-                           DG elements.
+sumed that addressing these GPU-specific limitations in gen-
+eral and improving the overall performance for some generic                            Pointwise operations
+GPU architecture also yields sensible improvements across all                              For pointwise operations, a large number of identical com-
+specific GPU models. While this approach may not achieve the                           putations have to be performed with no interdependence be-
+optimum performance for each specific type of hardware, it has                         tween individual DOFs. Such a computation becomes embar-
+demonstrated to yield a suitable baseline for more in-depth and                        rassingly parallel and straightforward to distribute. The follow-
+hardware-specific optimization.                                                        ing paragraph details how such computations are implemented
+     Device code is typically based on a kernel, which is the code                     in GALÆXI using the ConsToPrim operation as an example.
+each individual thread executes. The overall number of threads                         This operation computes the primitive variables U prim = (ρ, u, p, T )T
+and their grouping are specified in the launch configuration. In                       based on the vector of conservative variables U using the EOS
+some sense, the launch configuration entails an implicit tightly                       defined in Eqs. (8) and (9). For this, an elemental ConsTo-
+nested loop, while the loop body, i.e. the actual computation,                         Prim Point routine is implemented that performs the compu-
+is implemented in the kernel. The optimal launch configura-                            tation for a single DOF. This elemental routine is the building
+tion is oftentimes highly hardware-specific and can improve                            block of the main computation and is agnostic to the underly-
+(or impair) the overall performance significantly. Along the                           ing hardware. GALÆXI then uses different wrappers for this
+same lines as discussed above, our code relies on sensible initial                     elemental function. These wrappers distribute the overall work
+guesses for all of these kernels, which gave reasonable results.                       depending on the specific type of computational hardware used.
+Further improvements are planned through the application of                            If CPUs are used, the design of the wrapper becomes straight-
+more sophisticated tuning approaches, for instance the kernel                          forward as shown in Algorithm 1. A single CPU core just calls
+tuner toolkit [48], which allows automatized optimization of                           the ConsToPrim Point routine for each DOF within each ele-
+the launch configuration for specific hardware.                                        ment of its domain using a tightly nested loop. The GPU wrap-
+     The complete list of operations of the DG operator is de-                         per shown in Algorithm 2 is based on the CUDA programming
+tailed in Table 1 and the computing time of the kernels asso-                          model and consists of two individual components. First, the
+ciated with these operations is summarized in Fig. 5. Natu-                            kernel that implements the actual compute operation of an in-
+rally, operations that are DOF-local are the easiest to imple-                         dividual GPU thread. The second component is a function that
+                                                                                   9
+calls the kernel and provides the launch configuration config.                           Algorithm 3 CPU implementation of the SurfInt operation
+The launch configuration determines how many threads will be
+                                                                                          1: function SurfInt( f ∗ , Ut , ℓ̂+ , ℓ̂− )
+started to execute the kernel and how the individual threads are
+                                                                                          2:   for s ← 1 to nFaces do
+grouped into thread blocks. In this specific case, each thread
+                                                                                          3:     if isPrimary then
+of the GPU performs the computation for a single DOF in the
+                                                                                          4:         f ∗,tmp , locFace ← FaceMapping(s, isPrimary, f s∗ )
+domain. For this, each thread determines in line 8 of Algo-
+                                                                                          5:        Ut ← DoSurfInt(locFace, Ut , f ∗,tmp , ℓ̂+ , ℓ̂− )
+rithm 2 its own globally unique thread ID i. This thread ID
+                                                                                          6:      end if
+incorporates the ID of the current block (blockID), the size of
+                                                                                          7:      if isReplica then
+each block (blockDim), and its thread number within the block
+                                                                                          8:          f ∗,tmp , locFace ← FaceMapping(s, isPrimary, − f s∗ )
+(threadID), which are all available for each thread during run-
+                                                                                          9:         Ut ← DoSurfInt(locFace, Ut , f ∗,tmp , ℓ̂+ , ℓ̂− )
+time. The thread then performs the computation for this i-th
+                                                                                         10:      end if
+DOF. Note that the high-dimensional structure of the array be-
+                                                                                         11:   end for
+comes irrelevant in this case and can be “flattened” to a one-
+                                                                                         12:   return Ut
+dimensional array containing nDOF entries.
+                                                                                         13: end function
+     More advanced techniques can be used to optimize those
+                                                                                         14:
+wrappers for different hardware. This includes for instance                                                                    ∗
+                                                                                         15: function DoSurfInt(locFace,Ut , f pq , ℓ̂+ , ℓ̂− )
+vectorization, such that either the vector units of a CPU or
+                                                                                         16:   switch (locFace)
+real vector accelerators can perform the operations performed
+                                                                                         17:     case ξ−
+in ConsToPrim on several entries of U simultaneously. Sim-
+                                                                                         18:        for i, j, k ← 0 to N do
+ilarly, optimization such as loop unrolling or shared memory
+                                                                                         19:           Ut,i jk ← Ut,i jk + f jk∗ ℓ̂i−
+parallelization are straightforward to implement. For GPU us-
+                                                                                         20:        end for
+age, the wrapper can be adapted to distribute multiple DOFs
+                                                                                         21:      case ...
+to each thread and optimize the launch configuration, depend-
+                                                                                         22:      case ζ +
+ing on the hardware specifics. The same building block ap-
+                                                                                         23:        for i, j, k ← 0 to N do
+proach can also be applied to support other backends such as
+                                                                                         24:           Ut,i jk ← Ut,i jk + fi∗j ℓ̂k+
+HIP, ROCm, OpenMP or OpenACC while only maintaining a
+                                                                                         25:        end for
+single version of the equation-specific code.
+                                                                                         26: end function
+
+Volume↔ Surface Operations
+    The optimization potential of the pointwise operations dis-                          Algorithm 4 GPU kernel for the SurfInt operation
+cussed above is mostly independent of the core algorithms them-                           1: kernel SurfInt Kernel (N, nElems , f ∗ , Ut )
+selves. In contrast, the most challenging routines for GPU port-                          2:   i ← (blockID-1)*blockDim+threadID
+ing and parallelization in the DG context are routines that map                           3:   nDOF ← (N + 1)3 nElems               ▷ number of volume DOF
+data between the faces and the volume. Due to the highly lo-                              4:   if i ≤ nDOF then
+cal nature of the DG method, the transfer of data from within                             5:      for locFace ∈ {ξ− , η− , ζ − , ξ+ , η+ , ζ + } do
+the element to its faces and vice versa is required in only a few                         6:        p, q, s, ℓ̂k± , isPrimary ← FaceMapping(i, locFace)
+operations. Thus, the original FLEXI code opted to store the                              7:        if isPrimary then
+                                                                                                                          ∗
+data on the element faces and within the elements in different                            8:           Ut,i = Ut,i + f pq,s  ℓ̂k±
+arrays from which it is retrieved based on precomputed map-                               9:        else
+                                                                                                                          ∗
+pings. However, revisiting Table 1 reveals that two specific                             10:           Ut,i = Ut,i − f pq,s  ℓ̂k±
+operations in the DG operator access both volume and surface                             11:        end if
+data: ProlongToFace and SurfInt.5 The former evaluates the                               12:     end for
+polynomial solution from the interior points at the element faces                        13:     return Ut,i
+and stores it in a face-based array (U → Ũ L/R ), while the lat-                        14:   end if
+ter computes the integral of the fluxes on the element faces and                         15: end kernel
+adds their contribution to the volume ( f ∗ → Ut ). In both cases,
+an interpolation point in the volume is linked to several points
+on the surface and vice versa, as shown in Fig. 1. Special care                              In the original CPU version, Algorithm 3, the SurfInt rou-
+must be taken to exploit the full potential for parallelization of                       tine loops over all faces on the current rank. For each face, it
+the task on a GPU while avoiding race conditions and costly                              obtains the orientation of the face with respect to the volume.
+synchronizations among individual threads. In the following,                             The orientation of the face of a hexahedral DG element depends
+this is illustrated for the SurfInt routine.                                             on which of its six local faces it refers to. The contribution of
+                                                                                         this face is then added to all DOFs within the element.
+   5 As shown in Table 1, the volume integral is also not a point-local operation            This operation is hard to parallelize for GPU hardware since
+due to the application of the differentiation matrix along the lines indicated in        all 6 local faces add their contribution to each individual DOF
+Fig. 1. However, the operations are retained to the interpolation points within
+the volume of the DG element, i.e. no exchange of information between the
+                                                                                         within the element. Writing to the same entries in an array mul-
+volume and the faces is required.                                                        tiple times can yield race conditions if the individual threads are
+
+                                                                                    10
+not properly synchronized–but synchronizing threads is costly.             Second, the individual compute kernels within the GPU are
+In GALÆXI, the sequence of operations is thus altered for the              scheduled using streams to improve the overall utilization of
+GPU implementation in comparison to the original CPU im-                   the GPU. Operations associated with the MPI communication
+plementation. The developed algorithm, Algorithm 4, runs as                are assigned to the stream with the highest priority to allow the
+follows. First, each GPU thread is assigned a single DOF within            GPU to antedate the execution of these kernels to initiate the
+an element. Due to the tensor product structure of the DGSEM,              communication at the earliest possible point in time. Third, the
+this results in only a single DOF per face influencing the solu-           design concepts of the kernels were introduced using the Cons-
+tion as indicated in Fig. 1. The thread then loops over all six            ToPrim operations as an example for pointwise operations and
+faces (locFace) of the element. For each face, it identifies the           the SurfInt to detail the more intricate case of kernels that have
+face index s within the flux array and the corresponding DOF               to map from the elements’ volume to their faces and vice versa.
+on the face specified by the indices p, q. The face whose normal           The resulting performance of the kernels demonstrates that the
+vector is used to compute the Riemann flux is determined by the            overhead of the unstructured mesh is negligible. A detailed
+flag isPrimary, while for the adjacent element (isReplica face)            discussion of the resulting parallel performance of GALÆXI
+the sign of the flux contribution has to be flipped to account             across multiple GPUs is provided in the following paragraphs.
+for the fact that its outward facing normal vector points in the
+opposite direction. Additionally, the correct integration weight
+                                                                           4. Performance Evaluation
+ω̂ is identified to add the flux contribution of this locFace to
+the respective DOF. While this requires multiple threads to ac-                In the following section, the performance and the scaling
+cess the same face data multiple times, it avoids race conditions          abilities of GALÆXI are demonstrated. First, Section 4.1 in-
+between threads without the need of explicit synchronization,              troduces the details of the applied systems, i.e. HAWK-AI and
+since only a single thread writes to a specific entry in the Ut            JUWELS Booster. Section 4.2 then derives the performance
+array. Lastly, transforming the fluxes from the face-local to the          metrics that are used to evaluate the performance. With these in
+element-local coordinate system requires some form of map-                 place, Section 4.3 provides details on the code’s memory con-
+ping. Since GALÆXI is an unstructured solver, the algorithm                sumption while the results of the scaling tests are discussed in
+also needs to account for the case where coordinate systems                Section 4.4.
+of neighboring elements are rotated with respect to each other.
+The combination results in mappings which are non-trivial to               4.1. Hardware Architecture
+obtain. However, the required mappings are hardware-agnostic
+                                                                                The performance of GALÆXI and FLEXI is investigated
+and not relevant for the efficiency of the GPU kernel. In con-
+                                                                           for two different systems. First, the JUWELS Booster installed
+sequence, these specifics are condensed into a single call to a
+                                                                           at the Jülich Supercomputing Centre (JSC) and second, the HAWK
+subroutine FaceMapping to keep the algorithm concise. More
+                                                                           and HAWK-AI systems at the High-Performance Computing
+details on the face connectivity can be found in Krais et al. [21].
+                                                                           Center Stuttgart (HLRS).
+     At this point, it is important to revisit the required com-
+                                                                                The JUWELS Booster module entails a total of 936 two-
+pute time of the different DG operations as shown in Fig. 5. It
+                                                                           socket nodes. Each node provides two AMD EPYC 7402 pro-
+is evident that the majority of the computational work can be
+                                                                           cessors with 24 cores per socket and a total of 512 GiB of
+attributed to the operations VolInt, Lift VolInt, and ConsTo-
+                                                                           DDR4-3200 main memory per node. Each node comprises
+Prim, which are operations local to each DG element that can be
+                                                                           4 NVIDIA A100 GPUs with 40 GiB memory interconeccted
+scheduled independently of any communication. This has three
+                                                                           using NVlink, where each GPU is connected to its own net-
+crucial implications. First, only a small number of routines re-
+                                                                           work adapter and the individual nodes are integrated using a
+quire the majority of the compute time, which yields distinct
+                                                                           Mellanox HDR200 InfiniBand interconnect with 200 Gbit/s per
+targets for more sophisticated optimization. Second, these rou-
+                                                                           adapter in a DragonFly+ topology.
+tines do not require any communication, which again highlights
+                                                                                The HAWK supercomputer at HLRS is based on an HPE
+the beneficial ratio of local work to required communication of
+                                                                           Apollo 9000 with 5632 dual-socket nodes. Each node is equipped
+DG schemes. Third, the overhead introduced by the unstruc-
+                                                                           with two AMD EPYC 7742 CPUs, which yield 128 CPU cores
+tured mesh is negligible, since the additional work is mainly
+                                                                           per node. Each node comprises 256 GiB of main memory and
+limited to the routines mapping from the faces to the volumes,
+                                                                           the nodes are connected using a Mellanox HDR200 InfiniBand
+i.e. SurfInt and ProlongToFace, which take only around 15 %
+                                                                           interconnect in a 9D-hypercube topology. The HAWK-AI par-
+of the overall compute time.
+                                                                           tition of HAWK is based on an HPE Apollo 6500 Gen10 Plus
+3.4. Summary of the Parallelization Strategy                               with 24 nodes, where each node is equipped with two 64-core
+                                                                           AMD EPYC 7702 processors, 8 NVIDIA A100 GPUs inter-
+    This section provides details on the parallelization concept
+                                                                           coneccted using NVlink, and 1 TiB of main memory. 20 nodes
+of GALÆXI on three different levels. First, the parallelization
+                                                                           employ A100 GPUs with 40 GiB memory and 4 nodes entail
+of the workload between GPUs was introduced. Here, GA-
+                                                                           A100 GPUs in the 80 GiB version. The nodes of HAWK-AI
+LÆXI subdivides the domain into subdomains with roughly
+                                                                           are fully integrated into the main HAWK partition using an In-
+the same number of elements, which are then assigned to the
+                                                                           ifiniband interconnect in a Fat-Tree topology, such that nodes
+individual GPUs and communication across the boundaries of
+                                                                           from both systems can be used within a single compute job.
+neighboring subdomains is performed using CUDA-aware MPI.
+                                                                      11
+The HAWK-AI partition was designed to integrate AI and big
+                                                                                                                                                     #GPUs
+data capabilities into traditional HPC jobs but is also capable of                                                                                        1
+                                                                                         −7
+running and scaling GPU-accelerated HPC applications on its                            10                                                                 4
+
+
+
+
+                                                                                              Communication
+own.                                                                                                                                                     32
+                                                                                                                                                        256
+4.2. Performance Metrics                                                                                                                                512
+
+
+
+
+                                                                          PID in [s]
+                                                                                                                                                       1024
+    In the following, we focus on two distinct metrics to quan-
+tify and compare the performance of GALÆXI and FLEXI on
+different hardware, which rely on the time-to-solution and the                         10−8
+energy-to-solution paradigms, respectively. For this, we use the
+performance index (PID), which is a commonly used metric to
+quantify the performance of DG codes [21, 49] and is defined
+as                                                                                                            low-load-bound          kernel-bound
+
+               Walltime × #Ranks
+      PID =                      .                           (22)                      10−9
+              #RK-stages × #DOF                                                                        104           105        106              107
+                                                                                                                       DOF per GPU
+The PID describes the walltime required by a single rank to ad-
+vance a single DOF for one stage of the explicit Runge–Kutta              Figure 6: Scaling results for GALÆXI with the split-form DG scheme and
+time-stepping. Hence, the PID is independent of the number of             N = 7 plotted as PID over the specific load, i.e. DOF per GPU, for up to 1024
+timesteps performed, the number of DOF used in the simulation             GPUs.
+and the number of ranks employed, where a rank refers either
+to a CPU core or a whole GPU as discussed in Section 3. While
+                                                                          4.4. Scaling Tests
+this provides a good measure of efficiency for code performance
+comparison on either CPU or GPU systems, the usefulness of                     To evaluate the scalability of GALÆXI on HPC systems,
+this definition is limited when comparing GPU and CPU codes               its parallel performance is evaluated on the JUWELS booster
+with each other. Here, a whole GPU would be compared to a                 module using up to 1024 GPUs for a wide range of problem
+single CPU core with a vastly different compute performance               sizes. For this, the spatial resolution of a Cartesian mesh with
+and power consumption. To account for the differences in hard-            4 × 4 × 2 = 32 elements is successively doubled in each spa-
+ware, we propose in this work the novel energy-normalized PID             tial direction until the finest resolution of 2563 = 16.8 × 106
+(EPID) as a more suitable measure of performance. The EPID                elements is reached. For a polynomial degree of N = 7, which
+is defined as                                                             is a typical choice for production runs, this results in 16 384 to
+                                                                          8.6 × 109 DOF, respectively. The case for the scaling test is
+                Walltime × Power   Power                                  based on the setup of the incompressible Taylor–Green-Vortex
+      EPID =                     =        × PID, (23)
+               #RK-stages × #DOF | #Ranks
+                                     {z }                                 considered in Section 5.2. Its simulation domain is a triple pe-
+                                            Prank                         riodic box with corresponding initial conditions. However, in
+                                                                          contrast to an implicit time integration scheme, the computa-
+and describes the energy required to compute the time update              tional cost and thus the scaling behavior of the explicit scheme
+for a single DOF on the specific computing hardware. The                  is independent of the chosen initial condition. Each computa-
+EPID can thus be interpreted as the PID normalized by the spe-            tion is advanced for 100 timesteps and the scaling properties
+cific power required per rank, which is denoted as Prank .                are evaluated based on the PID. Here, only the time for the
+                                                                          timestepping is considered and initialization and analyze rou-
+4.3. Memory Requirements                                                  tines are neglected. The results of the scaling tests are pre-
+     The memory consumption of a real-world application on the            sented from three different perspectives—first, the influence of
+device is given in Table 2 in KiB per DOF for different polyno-           the computational load per GPU on the overall performance,
+mial degrees N. In general, the overall memory consumption                second, investigating the parallel efficiency in a weak scaling
+is low, which is a well-known property of the explicit numer-             setting and third, from a strong scaling perspective.
+ical scheme. The results clearly show that increasing N im-                    In a first step, the PID is plotted against the specific load in
+proves the memory efficiency, i.e. reduces the required amount            terms of DOF per GPU in Fig. 6. Since the PID is a measure of
+of memory per DOF. This is because GALÆXI stores both the                 computational time, a lower PID indicates better performance.
+solution for the DOFs within the DG element ((N + 1)3 ) and               Most strikingly, all curves converge above the limit of 106 DOF
+on its surfaces (6(N + 1)2 ). With increasing N, the ratio be-            per GPU, which means that the overhead of the parallelization
+tween surface to volume information thus decreases, yielding a            and communication becomes negligible in comparison to us-
+lower overall memory footprint. As an illustration of memory              ing only a single GPU. Hence, GALÆXI scales almost per-
+efficiency, it is possible to compute a problem with N = 7 and            fectly beyond the threshold of 106 DOF per GPU. The behavior
+48 million DOF per solution variable on a single device with              changes for loads below this threshold. Here the PID increases
+40 GiB of memory.                                                         towards lower loads for all cases, which means that the com-
+
+                                                                     12
+         Table 2: Measured memory consumption per DOF on the GPU for different polynomial degrees N and the Navier–Stokes equation system.
+
+
+           N         1         2         3         4         5         6                             7          8           9            10       11      12
+           KiB     1.457     1.188     1.049     0.996     0.942     0.895          0.869                      0.841      0.827      0.808    0.801      0.787
+
+
+putational efficiency decreases. Moreover, the more GPUs are
+                                                                                                         1.2
+used for the simulation, the more pronounced this loss in per-
+formance becomes. This can be attributed to two factors. First,
+the communication latency between the GPUs cannot be hid-                                                 1
+
+
+
+
+                                                                               Parallel Efficiency
+den completely at low loads, since the amount of local work is
+insufficient to hide the communication. Furthermore, the loss                                            0.8
+in performance becomes more pronounced the more potential                                                            #DOF/GPU
+communication partners, i.e. GPUs, are used for the simulation.                                                        2.6 × 105
+The severity of this performance penalty depends strongly on                                             0.6
+                                                                                                                       1.0 × 106
+the network topology of the HPC system and the job placement                                                           2.1 × 106
+on the system, which is determined by the scheduler. In the                                              0.4           8.4 × 106
+case of the JUWELS booster module, which uses a DragonFly-                                                             3.4 × 107
+type network topology, the communication cost increases sig-
+                                                                                                         0.2
+nificantly when the nodes are spread across a larger number of                                                 100                 101             102           103
+switch groups, which contain 192 GPUs each. However, lack-                                                                                #GPUs
+ing latency hiding cannot explain the performance loss when
+using a single GPU, since here no communication is necessary.                Figure 7: Weak scaling of GALÆXI with the split-form DG scheme and N = 7
+Instead, this drop in performance can be attributed to the over-             plotted as the parallel efficiency over the number of GPUs for specific loads,
+                                                                             i.e. DOF per GPU. The parallel efficiency is computed based on the PID on a
+head associated with launching kernels on the GPU. If the ac-                single node, i.e. on 4 GPUs.
+tual computational load of the kernel becomes too small, the
+kernels cannot be launched quickly enough to use the GPU to
+capacity. Moreover, tail effects become noticeable, as discussed             show again the threshold of 106 DOF per GPU as discussed
+in Section 3. To summarize the results, the GPU implemen-                    before. For lower loads, the communication latency degrades
+tation can be seen to be kernel-bound for high loads, where                  the overall performance, while loads above 106 DOF per GPU
+the performance becomes independent of the total number of                   show almost perfect weak scaling up to the maximum of 1024
+GPUs used. For very low loads, the performance gets low-load-                GPUs.
+bound and becomes increasingly communication-bound with                           Lastly, the results for strong scaling of GALÆXI are shown
+a dominant performance penalty the more compute nodes are                    in Fig. 8. The strong scaling analysis investigates how perfor-
+used. This is in stark contrast to the CPU implementation of                 mance changes when the number of GPUs is increased while
+FLEXI as reported by Blind et al. [50]. Here, the impact of the              the problem size remains constant. This causes problems for
+communication overhead is similarly noticeable for very low                  large cases, which might not fit into the memory of only a few
+loads. However, a performance penalty also appears for very                  GPUs, but rather require a larger number of GPUs to be ac-
+high loads, since here the fast CPU cache cannot hold all nec-               tually computed. This limitation is the reason why the scal-
+essary data and the bandwidth to the main memory becomes the                 ing results in Fig. 8 not exclusively start at a single GPU, but
+bottleneck. This results in a narrow band in the rage of 3000 to             rather at the minimum number of GPUs required to compute
+10 000 DOF per rank, where optimal performance is achieved                   the given problem size due to memory constraints. The per-
+[21, 50]. In the case of GALÆXI, increasing the load only im-                formance using this minimum number of GPUs is then used to
+proves the overall performance with the available GPU memory                 compute the relative speedup when increasing the number of
+as the single limiting factor.                                               GPUs. The strong scaling capabilities of GALÆXI are excel-
+    In Fig. 7 the investigated weak scaling properties of GA-                lent up to the maximum 1024 GPUs, as long as the computa-
+LÆXI are depicted. In the weak scaling paradigm, the problem                 tional load exceeds the threshold of 106 DOF per rank, which
+size and the amount of compute resources are increased propor-               is indicated explicitly for both cases. Below this threshold, i.e.
+tionally, such that the overall load per GPU is kept constant for            towards larger number of GPUs, the load per device is insuf-
+each case. The parallel efficiency is presented with respect to              ficient to exploit the computing power of the GPU and to hide
+the performance of a complete compute node equipped with 4                   the necessary communication, which results in the loss of per-
+GPUs (parallel efficiency equal to 1). This is done in order to              formance. This also matches the results by Fischer et al. [15],
+take communication into account in a meaningful way, as the                  who report that NekRS reaches its limit for strong scaling at a
+baseline case includes MPI communication. It also enables a                  similar load of about 2 to 4 million DOF per rank. For com-
+suitable assessment of the communication overhead in the case                putational loads above this threshold, GALÆXI yields almost
+that only one GPU is used without communication. The results                 perfect strong scaling results up to the maximum of 1024 GPUs.
+
+                                                                        13
+                    #DOF
+                                                                                               where the amplitude and advection speed are chosen as A = 0.1
+            103
+                           3.4 × 107 w streams
+                                                        106 DOF per GPU                        and a = 1, respectively. This solution describes an oblique, pe-
+                           5.4 × 108 w streams                                                 riodic wave that is advected linearly with speed a. The source
+                           2.1 × 109 w streams                                                 terms that are required for Eq. (24) to be an exact function of
+                           3.4 × 107 w/o streams                                               the NSE are detailed in Gassner et al. [53]. The problem is
+            102            5.4 × 108 w/o streams                                               then initialized within a domain of Ω ∈ [−1, 1]3 with periodic
+  Speedup
+
+
+
+
+                                                             streams
+                                                                                               boundary conditions and is discretized with varying N ∈ [2, 9].
+                                                      (up to 92% increase)                     The meshes are varied in the range of containing a single el-
+                                                                                               ement up to 643 elements at maximum. The computation is
+                                                                                               advanced in time up to t = 1 and the timestep is chosen suf-
+            101                                     106 DOF per GPU
+                                                                                               ficiently small to not influence the overall discretization error.
+                                                                                               The convergence test is carried out with both the standard collo-
+                                                                                               cation formulation on GL interpolation points and the split-flux
+                                                                                               formulation on LGL interpolation points. The results in Fig. 9
+            100 0
+              10                   101                102                    103               demonstrate that the expected design order is reached for all in-
+                                                 #GPUs                                         vestigated cases, which verifies the correct implementation of
+                                                                                               the schemes.
+Figure 8: Strong scaling of GALÆXI with the split-form DG scheme and N = 7
+plotted as the speedup over the number of GPUs for three problem sizes. For                    5.2. Validation - Taylor–Green-Vortex
+two cases, the results without the use of parallel streams are shown dashed. The
+speedup is computed based on the smallest number of GPUs that was able to                           A popular validation case for turbulent flows is the Taylor–
+run the given case. The ideal speedup is shown in black.                                       Green-Vortex (TGV) introduced by Taylor and Green [54]. One
+                                                                                               reason for its widespread use are its analytically prescribed ini-
+                                                                                               tial conditions, which are given for a domain of size Ω ∈ [0, 2πL]3
+Next, the influence of our scheduling strategy based on paral-                                 by
+lel streams and introduced in Section 3.2 is investigated. For
+                                                                                                                    U0 sin Lx cos Ly cos Lz 
+                                                                                                                                          
+this, Fig. 8 also shows the scaling results for the same prob-
+lem sizes, with (solid lines) and without (dashed lines) the use                                      u(x, 0) = −U0 cos Lx sin Ly cos Lz  ,              (25)
+                                                                                                                                         
+
+of parallel streams for kernel scheduling. For both setups, the                                                                    0
+                                                                                                                                                
+omittance of stream scheduling results in a significant loss in                                                               2 
+                                                                                                                         ρ0 U0
+parallel performance for low loads. This can be attributed to                                                                    cos 2x    + cos 2y   2 + cos 2zL ,
+                                                                                                                                                        
+                                                                                                      p(x, 0) = p0 +                   L           L
+two aspects. First, parallel streams allow for hiding the over-                                                            16
+head of kernels launches and tail effects for low loads. How-                                  with L = 1 denoting the characteristic length, U0 = 1 the mag-
+ever, more importantly, our implementation permits the GPU to                                  nitude of the initial velocity fluctuations and ρ0 = 1 the ref-
+preempt the computation of quantities that have to be commu-                                   erence density. The background pressure p0 is p      chosen to fit a
+nicated via MPI. This facilitates more efficient communication                                 prescribed background Mach number Ma0 = U0 ρ0 /(γp0 ) and
+latency hiding, resulting in better parallel performance in cases                              the viscosity µre f is used to obtain the desired Reynolds num-
+involving many communication partners and low amounts of                                       ber which is defined as Re = ρ0 U0 L/µre f . However, Eq. (25)
+local work.                                                                                    does not yield sufficient initial conditions for a compressible
+                                                                                               flow field, since it lacks information about the density and tem-
+                                                                                               perature fields. Two different approaches are commonly used
+5. Verification & Validation
+                                                                                               to extend it to a full description of a compressible flow field as
+5.1. Verification - Convergence Tests                                                          required for the computation with a compressible solver. For
+                                                                                               this, either field is held constant, while the other quantity is
+    The correct implementation of the high-order accurate nu-
+                                                                                               computed to yield a thermodynamically admissible state. As-
+merical schemes in GALÆXI is verified by testing the order of
+                                                                                               suming an perfect gas that follows Eq. (9) this yields the two
+convergence of the spatial operator with the method of man-
+                                                                                               variants
+ufactured solutions [51]. This method allows the derivation
+                                                                                                                                                      p
+of source terms for nonlinear partial differential equations that                                     Version I: ρ(x, 0) = ρ0 ,          T (x, 0) =       ,   (26)
+lead to exact solutions that can be expressed in analytical form                                                                                     Rρ0
+                                                                                                                                p
+and allow computing the error of the numerical discretization                                         Version II: ρ(x, 0) =         ,    T (x, 0) = T 0 .     (27)
+scheme. Following Hindenlang et al. [52], the exact function is                                                                RT 0
+assumed to follow a sinusoidal solution of the form                                                Two common metrics to assess the accuracy of numerical
+                                                                                               schemes for the TGV case are the instantaneous kinetic energy
+            ρ(x, t) = 2 + A sin (2π(x + y + z − at)) ,                                         in the domain Ek and the viscous dissipation rate εT . The inte-
+            u(x, t) = 2 + A sin (2π(x + y + z − at)) ,                             (24)        gral kinetic energy is defined as
+            E(x, t) = 2 + A sin (2π(x + y + z − at)) 2 ,                                                        1
+                                                                                                                      Z
+                                                                                                      Ek =                 ρ u · u dΩ,                     (28)
+                                                                                                            2ρ0 U02 |Ω| Ω
+                                                                                          14
+                                Standard DG – GL nodes                                         Split-Flux DG – LGL nodes
+
+                                                                                                                                                 N=2
+                        −2              1                                       −2                   1                                           N=3
+                     10                                                     10
+                                    3                                                          3                                                 N=4
+                                                                                                                                                 N=5
+                                                                                                                                                 N=6
+                     10−5                                                   10−5
+     L2 -Error (ρ)
+
+
+
+
+                                                                                                                                                 N=7
+                                                                                                                                                 N=8
+                                                                                                                                                 N=9
+                     10−8                                    10
+                                                                            10−8                                               10
+
+                                                       1                                                                 1
+                     10−11                                                 10−11
+
+
+                     10−14                                                 10−14
+                             10−1                    100                                   10−1                          100
+                                            ∆x                                                               ∆x
+
+Figure 9: Convergence of the split-flux DG scheme on LGL nodes (left) and the standard DG scheme on GL nodes (right) using N ∈ [2, 9] for the manufactured
+solution.
+
+
+
+where |Ω| denotes the overall size of the integration domain.
+The viscous dissipation rate of the kinetic energy can be split
+into a solenoidal and a dilatational contribution (Zeman [55],                                                                                  Ma
+Sarkar et al. [56]), which are defined as                                                                                                            0.1
+
+                 L2        µ(T )
+                       Z
+       εS =                      ω · ω dΩ,                (29)                                                                                       8 · 10−2
+             ReU02 |Ω| Ω µ0
+                 4L2        µ(T )
+                        Z
+                                                                                                                                                     6 · 10−2
+      εD =          2
+                                   (∇ · u)2 dΩ,           (30)
+             3ReU0 |Ω| Ω µ0
+                                                                                                                                                     4 · 10−2
+respectively. The solenoidal component εS can be related to the
+vortical motion and the dilatational component εD to compress-
+                                                                                                                                                     2 · 10−2
+ibility effects.
+     Two versions of the TGV case are investigated, which both
+exhibit a Reynolds number of Re = 1600 with the initial con-                                                                                         0
+ditions prescribed in Eq. (25). First, the weakly compressible
+case with Ma0 = 0.1 is investigated to verify that GALÆXI ac-
+curately captures the physics of turbulent flow. In a second step,
+the Mach number is increased to Ma0 = 1.25, which causes                         Figure 10: Instantaneous flow field of the incompressible TGV case with Ma0 =
+complex shock patterns to emerge during the simulation. Con-                     0.1 and Re = 1600 at time t = 10 using 5123 DOF visualized by iso-surfaces
+sequently, this supersonic TGV setup is a suitable test case to                  of the Q-criterion colored by Ma.
+assess the stability and accuracy of compressible flow solvers
+for shock-turbulence interaction.
+                                                                                 (left) demonstrate that GALÆXI and FLEXI yield the same re-
+Incompressible TGV                                                               sults up to machine precision. Moreover, as the resolution in-
+     First, we consider the TGV at Re = 1600 in the incompress-                  creases, the temporal evolution of the dissipation rate converges
+ible limit with Ma0 = 0.1 and Version II, i.e. an initially con-                 to the reference solution, to the point where the solution on the
+stant temperature field. Four different uniform resolutions were                 finest mesh with 512 DOF in each direction matches the refer-
+investigated to demonstrate the mesh convergence of the code.                    ence almost perfectly. The instantaneous flow field of the TGV
+For this, either 83 , 163 , 323 , or 643 elements were used with a               case at t = 10 is illustrated in Fig. 10, highlighting its vortex
+polynomial degree of N = 7, corresponding to 643 , 1283 , 2563 ,                 structures using iso-contours of the Q-criterion colored by the
+or 5123 DOF. Two simulations were carried out for each mesh,                     Mach number.
+first with the GPU-accelerated GALÆXI and second with its
+CPU-based predecessor FLEXI for verification purposes. The                       Compressible TGV
+results are also validated against the high-fidelity reference so-                   More recently, the TGV case was extended to the compress-
+lution published by DeBonis [57]. The results shown in Fig. 11                   ible regime by increasing the Mach number of the initial flow
+
+                                                                           15
+                             Incompressible TGV                                               Compressible TGV
+          0.015
+                                                                                                                                            Reference
+                                                                                                                                            GPU 643 DOF
+                                                                                                                                            GPU 1283 DOF
+                                                                                                                                            GPU 2563 DOF
+           0.01
+                                                                                                                                            GPU 5123 DOF
+                                                                                                                                            CPU 643 DOF
+     εS
+
+
+
+
+                                                                                                                                            CPU 1283 DOF
+                                                                                                                                            CPU 2563 DOF
+          0.005
+                                                                                                                                            CPU 5123 DOF
+
+
+
+
+               0
+                   0         5           10           15          20            0           5           10           15           20
+                                          t                                                              t
+
+Figure 11: Temporal evolution of the solenoidal dissipation rate εS for the incompressible TGV at Ma0 = 0.1 (left) and the compressible TGV at Ma0 = 1.25 (right)
+using between 83 and 643 elements with a polynomial degree N = 7 which results in 643 to 5123 DOF. The results by DeBonis [57] (left) and Chapelier et al. [58]
+(left) serve as the reference solution for the incompressible and compressible case, respectively. The results of the CPU implementation are given for reference.
+
+
+
+field [59, 58]. A common choice is Ma0 = 1.25, for which                            flow within a NASA Rotor 37 rectilinear transonic compres-
+complex shock patterns emerge that interact with the turbulent                      sor cascade. This rotor was originally employed in one of four
+flow. Consequently, the compressible, supersonic TGV case al-                       transonic axial-flow compressor stages designed and tested at
+lows for assessing the stability and accuracy of compressible                       the NASA Lewis Research Center in the late 1970s [22]. With
+flow solvers for shock-turbulence interactions. The simulation                      its geometry parameters and measurement data publicly avail-
+is again initialized using the setup in Eq. (27), i.e. Version II,                  able [60, 61], the rotor has since become a benchmark test
+and Sutherland’s law is applied to address the dependency of                        case in the turbomachinery research community including CFD
+the viscosity on the temperature in the compressible case. The                      studies [62], investigation of optimization techniques [63], tip
+shock capturing scheme introduced in Section 2.3 is applied                         leakage flow analysis [64], and uncertainty quantification ap-
+for the stabilization of the scheme near shocks. Again, four                        proaches [65]. At its design point, the rotor operates with a
+mesh resolutions were investigated with 643 , 1283 , 2563 , and                     blade tip Mach number of 1.4939, generating an overall pres-
+5123 DOF and a polynomial degree of N = 7. The permitted                            sure ratio of 2.106. The setup investigated here corresponds to
+maximum of the blending parameter α is set identically across                       a ground-idle condition, providing a tip Mach number of 0.824
+all investigated resolutions. The results reported by Chapelier                     with a total pressure ratio of 1.305. The cascade geometry is
+et al. [58] serve as the reference solution. The results in Fig. 11                 generated by unwinding the blade profile at mid-span and ex-
+(right) again show that GALÆXI and FLEXI yield identical                            truding for 5 % of the chord length. The resulting Reynolds
+results for the temporal evolution of the solenoidal dissipation                    number based on the inflow velocity and the rotor chord is
+rate. Moreover, at higher resolutions, the results converge to the                  972 550. The low operating point and the position at mid-span
+reference solution, where the results are almost identical for the                  results in an inlet relative Mach number of 0.758 and an inci-
+largest case of 512 DOF per spatial direction.                                      dence relative to the mean camberline of 10.1◦ . Validation of
+                                                                                    the FLEXI solution against experimental integral data at mid-
+                                                                                    span is given in Kopper [66]. Results obtained from GALÆ-
+6. Application
+                                                                                    XI were confirmed to match the solution of the CPU-based
+    Based on these verification and validation results, both GA-                    framework. Both solvers predict a transonic expansion region
+LÆXI and FLEXI are applied to the large-scale application case                      forms on the suction side near the leading edge as a result of
+of a wall-resolved LES of the NASA Rotor 37 [22]. This allows                       the high subsonic inflow velocity and near-stall condition. The
+for verification that GALÆXI can handle complex simulations                         region is terminated with a near-normal shock and subsequent
+of compressible flow and quantify the gains in efficiency and                       shock-boundary-layer interaction with flow separation occur-
+energy-to-solution by using GPUs. For this, Section 6.1 first                       ring throughout the suction side. On the pressure side, a small
+provides some background on the case, while Section 6.2 gives                       laminar separation region forms which is subsequently termi-
+details on the computational setup. Finally, the results are dis-                   nated by turbulent re-attachment.
+cussed in Section 6.3.
+                                                                                    6.2. Computational Setup
+6.1. Description                                                                        The computational setup is identical for both GALÆXI and
+   In the following section, the applicability of GALÆXI to-                        FLEXI, except for the hardware on which the simulations are
+wards large-scale test cases is demonstrated for the turbulent                      run. The mesh for the LES comprises one compressor pitch
+
+                                                                              16
+                                                                                   flow enters from the left with a high incidence relative to the
+                                                                                   camberline. This results in a shift of the stagnation point to-
+                                                                                   wards the pressure side and a strong transonic expansion fan
+                                                                                   on the suction side. The supersonic region is terminated with
+                                                                                   a near-normal shock, as illustrated in the zoom region. The
+                                                                                   corresponding pressure jump results in a forced boundary layer
+                                                                                   transition with high levels of unsteadiness. Numerical oscilla-
+                                                                                   tions in the vicinity of the discontinuity, i.e. shock, resulting
+                                                                                   from Gibb’s phenomenon, are mitigated with the convex blend-
+                                                                                   ing approach outlined in Section 2.3. The grayscale overlay in
+                                                                                   the zoom region represents the local values of the blending fac-
+                                                                                   tor α. It is evident that the FV shock capturing is active only
+                                                                                   near the shock in order to preserve the high numerical order of
+                                                                                   the DG operator in areas with a smooth solution. Downstream
+                                                                                   of the shock region, the separation of the boundary layer causes
+                                                                                   temporally varying blockage which couples with the upstream
+                                                                                   flow physics resulting in a highly unsteady flow field. Periods
+                                                                                   with enhanced separation result in counter-rotating vortex shed-
+                                                                                   ding as is visible near the wake downstream of the blade row.
+                                                                                        The achieved performance for both codes is summarized in
+Figure 12: Computational mesh for the simulation of the NASA Rotor 37 case.        Table 3. For GALÆXI, a PID increase of about 35 % is ob-
+The inflow and outflow regions are pruned and a zoom highlights the mesh           served in comparison to the performance reported in Section 4.
+around the leading edge.                                                           This is attributed to the additional work and load imbalance be-
+                                                                                   tween the ranks introduced by the test case, which includes the
+                                                                                   sponge zones, the boundary conditions, the shock indicator and
+with the compressor blade orientated with the stagger angle of
+                                                                                   the FV shock capturing scheme. The slight deviation in wall-
+51.2◦ and is depicted in Fig. 12. The domain is discretized us-
+                                                                                   time per t∗ between the GPU and CPU cases stems from choos-
+ing 1.2 × 106 elements with N = 5, which results in a total of
+                                                                                   ing powers of two for the resources.
+2.6 × 108 DOFs for the simulation. The inflow is modeled us-
+                                                                                        The power draw of the simulation runs was measured via
+ing far-field conditions and a subsonic outflow condition [67]
+                                                                                   the monitoring facilities of the systems’ operators at the HLRS.
+is employed. Additionally, sponge zones [68] are positioned at
+                                                                                   It is important to stress that these measurement systems are not
+the inflow and outflow boundaries to prevent the formation of
+                                                                                   originally designed for the purpose of measuring the energy
+artificial reflections. The rotor itself is modeled as an adiabatic
+                                                                                   consumption of individual simulation runs, but rather to moni-
+wall and the spanwise and pitchwise boundaries are defined as
+                                                                                   tor and adjust the power draw of the overall facility. As a con-
+periodic. The simulation is performed using the split-form DG
+                                                                                   sequence, the power draw can only be measured on a rack-wise
+method as introduced in Section 2.2 to mitigate aliasing errors
+                                                                                   level and is limited in terms of accuracy and granularity, which
+with the flux formulation given by Pirozzoli [32]. The solution
+                                                                                   means that the obtained results should be seen as a rough esti-
+is advanced in time using a 14-stage 4th-order Runge–Kutta
+                                                                                   mate. From these measurements, the specific power draw per
+method [26]. During the simulation, the viscosity is computed
+                                                                                   rank Prank shown in Table 3 is computed as the overall power
+with Sutherland’s law as given in Eq. (6).
+                                                                                   delivered to the racks used divided by the number of ranks The
+     The computational resources are chosen such that both codes
+                                                                                   measured power thus also includes the power for the network
+run at their maximum efficiency. For GALÆXI, 128 Nvidia
+                                                                                   switches. It is important to note that due to the specific hard-
+A100 GPUs on HAWK-AI are employed, which yields a to-
+                                                                                   ware layout, cooling is included in the total power consumption
+tal load of 2.0 × 106 DOF per GPU. For FLEXI, the number
+                                                                                   for the GPU case, while the cooling effort is not included for
+of CPU nodes is chosen such that the walltime is similar to
+                                                                                   the CPU system. Hence, the obtained results tend to favor the
+the GALÆXI computation, which is obtained when using 256
+                                                                                   CPU implementation and should thus be seen as a conservative
+nodes (32 768 CPU cores). This results in a load of around
+                                                                                   lower bound for the potential gains in efficiency provided by
+7900 DOF/core, which resides well within the performance op-
+                                                                                   GPU hardware.
+timum of FLEXI [21]. The details of these setups are summa-
+                                                                                        When comparing the resulting EPID, i.e. the necessary amount
+rized in Table 3. The simulations are initialized with a precom-
+                                                                                   of energy to advance a single DOF for a single time level, GA-
+puted converged flow state and are advanced for a total of 8
+                                                                                   LÆXI more than halves the required energy-to-solution. In to-
+characteristic time units t∗ = t u∞ /c, where t∗ is defined with
+                                                                                   tal, GALÆXI requires around 147 kWh to advance the solution
+respect to the inflow velocity u∞ and the chord length c.
+                                                                                   for one characteristic time unit t∗ , while FLEXI requires around
+                                                                                   339 kWh per t∗ on CPUs. It is reasonable to relate this reduction
+6.3. Results
+                                                                                   in energy demand by GALÆXI to a similar reduction in asso-
+   The instantaneous Mach number distribution on the domain                        ciated carbon emissions. However, it is important to note that
+centerline computed by GALÆXI is depicted in Fig. 13. The                          the I/O operations and analyzing routines are excluded from the
+                                                                              17
+                                                                                                                                                      Ma
+                                                                                                                                                           1.5
+
+
+
+
+                                                                                                                                                           1
+
+
+
+
+                                                                                                                                                           0.5
+
+
+
+
+                                                                                                                                                           0
+
+
+Figure 13: Instantaneous field solution for the NASA Rotor 37 case colored by the Mach number. A zoom of the leading edge highlights the supersonic flow
+region with the local blending values α of the FV shock capturing scheme overlaid for all elements with α = 0.1 (light gray) up to α = 0.7 (black). The domain is
+periodically extended which is indicated by a blurred overlay.
+
+                       Table 3: Setup and performance results for the simulation runs on both CPU and GPU for a simulation time of 8t∗ .
+
+
+                          Ranks      DOF/Rank         Prank [W]         PID [s]          EPID [J]         Walltime/t∗ [s]       Energy/t∗ [kWh]
+            GPU             128      2.03 × 106          448         4.58 × 10−9        2.05 × 10−6             9209                    147
+            CPU          32 768      7.93 × 103          4.94        1.02 × 10−6        5.06 × 10−6             7538                    339
+            Savings                                                                        59.5 %                                     56.8 %
+
+
+PID computation. Since these operations are still performed on                     As a demonstration of a large-scale application, GALÆXI was
+the CPU for GALÆXI, the resulting overhead causes a slight                         employed for the simulation of a wall-resolved LES of a NASA
+discrepancy in the savings for the EPID and energy-to-solution.                    Rotor 37 compressor cascade. Using this example of compress-
+As discussed before, due to the measurement limitations, both                      ible flow, the implemented finite volume subcell approach was
+results should be regarded as an estimate and lower bound of                       demonstrated to yield a stable and accurate scheme for cap-
+the achieved performance.                                                          turing the unsteady supersonic expansion region at the leading
+                                                                                   edge. In addition, GALÆXI has been shown to use only half
+                                                                                   the energy required to run the same simulation using the CPU
+7. Conclusion & Outlook
+                                                                                   implementation. With this, GALÆXI reduced the required en-
+    This work presents the open-source flow solver GALÆ-                           ergy from around 339 kWh to 147 kWh per characteristic time
+XI, which implements high-order DG methods on unstructured                         unit in comparison to the CPU implementation, which halved
+meshes for GPU-accelerated HPC systems. GALÆXI is the                              the associated carbon emissions.
+GPU-accelerated spinoff of the established FLEXI solver and                            Currently, GALÆXI is implemented using the CUDA For-
+it supports the majority of the features provided by FLEXI,                        tran framework, which does not support GPU hardware from
+which are continuously being extended. This allows the ap-                         vendors other than NVIDIA. Current efforts are focused on in-
+plication of GALÆXI for scale-resolving simulations of com-                        corporating different compute backends into GALÆXI to sup-
+plex compressible flows including shock waves using modern                         port accelerator devices of different vendors alongside the base-
+GPU-based HPC systems. This work provides details on the                           line CPU implementation via hardware abstractions. The en-
+general code design, the parallelization strategy, and the imple-                  visioned code is intended to be readily extendable to arbitrary
+mentation approach for the compute kernels. Thus, it serves                        compute devices, such that novel accelerator types can be incor-
+as an indication on how existing spectral element codes can be                     porated without fundamental code redesigns. Concurrent work
+ported efficiently for GPUs. As long as the GPUs are suffi-                        focuses on further optimization of key routines, in particular the
+ciently loaded, the results demonstrate excellent scaling prop-                    VolInt and FillFlux routines, which together consume almost
+erties for GALÆXI on up to 1024 GPUs. The correct high-                            half of the computing time as was demonstrated. Along the
+order accurate implementation of GALÆXI has been verified                          same lines, automatic tuning of hardware-specific launch con-
+by demonstrating the expected convergence rates. Furthermore,                      figurations is to be integrated into the code. This is expected to
+the code has been validated against reference data for the in-                     provide high levels of performance across a wide range of dif-
+compressible and compressible variants of the established TGV.                     ferent hardware. Here, the KernelTuner [48] package appears to
+
+                                                                              18
+be a suitable choice. Lastly, graph-based approaches to domain          Appendix A. Description of the Routines for the Discontin-
+decomposition might improve the utilization of the direct, high-                    uous Galerkin Spectral Element Method
+bandwidth connection between individual GPUs on the same
+node by maximizing the amount of intra-node and minimizing                  The following paragraph provides more detailed descrip-
+the amount of inter-node communication.                                 tions of the individual routines required to evaluate the three-
+    This work has demonstrated that high-order DG methods               dimensional DG operator given in Eq. (18). Please note that
+are well-suited candidates for the efficient simulation of com-         only the main routines listed in Table 1 are detailed here, which
+pressible flows on GPU systems. GALÆXI has showcased                    are the both the most important routines and also the ones dis-
+that unstructured mesh topologies and adequate state-of-the-art         cussed throughout the paper. Consequently, the lifting operator
+shock capturing based on FV subcells impose only negligible             is omitted in the following. The routines are listed in the order
+overhead on GPU hardware. Most importantly, GALÆXI is                   of their computation in the DG scheme.
+capable of reducing the carbon emission associated with large-
+scale flow simulations by more than 55 % in comparison to the           ConsToPrim
+CPU reference, which renders it a potent tool for the upcoming              This routine computes the primitive variables U prim from
+generation of sustainable, exascale HPC systems.                        the state U. The primitive variables are required for two dif-
+                                                                        ferent purposes. First, the computation of the pressure p from
+                                                                        the conserved variables U is required to evaluate the fluxes of
+Acknowledgments
+                                                                        the NSE. Secondly, the primitive variables are needed for the
+     This work was funded by the European Union. This work              computation of the gradients in the lifting routines, which are
+has received funding from the European High Performance Com-            required to evaluate the viscous fluxes. For an ideal gas, the
+puting Joint Undertaking (JU) and Sweden, Germany, Spain,               primitive variables can be computed using the EOS in Eqs. (8)
+Greece, and Denmark under grant agreement No 101093393.                 and (9). The computation of the primitive variables is DOF-
+Moreover, this research presented was funded by Deutsche For-           local, since it only depends on the conserved state U at a given
+schungsgemeinschaft (DFG, German Research Foundation) un-               point and can thus be performed independently for each inter-
+der Germany’s Excellence Strategy EXC 2075 – 390740016, by              polation point in the volume and on the element faces.
+the DFG Rebound – 420603919, and in the framework of the
+research unit FOR 2895. We acknowledge the support by the               VolInt
+Stuttgart Center for Simulation Science (SimTech). The authors              The VolInt is the computationally most intense routine in
+gratefully acknowledge the Gauss Centre for Supercomputing              the DGSEM. It can be separated into two parts. First, the eval-
+e.V. (www.gauss-centre.eu) for funding this project by provid-          uation of the fluxes F 1,2,3 at each interpolation point of the
+ing computing time through the John von Neumann Institute for           element and second, the linewise multiplication of the fluxes
+Computing (NIC) on the GCS Supercomputer JUWELS [69]                    with the derivative matrix D̂, which entails the derivatives of
+at Jülich Supercomputing Centre (JSC) as well as the support           the basis functions. The evaluation of the fluxes is again DOF-
+and the computing time on “Hawk” and its “Hawk-AI” exten-               local and can be performed independently for each interpolation
+sion provided by the Supercomputing Centre Stuttgart (HLRS)             point. In contrast, the application of the derivative matrix D̂ is
+through the project “hpcdg”. This work was completed in part            not DOF-local, since the contribution to point (i, j, k) depends
+at the Helmholtz GPU Hackathon, part of the Open Hackathons             on the fluxes along the summation indices α, β, γ in Eq. (18),
+program. The authors would like to acknowledge OpenACC-                 which are the linewise connections originally shown in Fig. 1.
+Standard.org, JSC, HZDR, and HIDA for their support.                    This introduces complications when trying to parallelize this
+                                                                        routine on GPUs, because the update for a single interpolation
+Data Availability Statement                                             point exhibits a wide stencil. Our approach was to take advan-
+                                                                        tage of the shared memory of the GPU, such that one thread
+    The GALÆXI and FLEXI codes used within this work are                block of the GPU gets assigned a single DG element. This
+available under the GPL-3.0 license at:                                 thread block then first computes all fluxes in the element, stores
+   • https://github.com/flexi-framework/galaexi                         them in shared memory and then applies the derivative matrix
+                                                                        to these fluxes stored in shared memory. This ensures that the
+   • https://github.com/flexi-framework/flexi                           volume fluxes as intermediate results do not have to be moved
+    The data generated in the context of this work and instruc-         to main memory, every flux has to be computed only once, and
+tions to reproduce them with these codes are made available             the full parallelism of the algorithm can be exploited. If the
+under the CC-BY 4.0 license sorted by section at:                       split-flux formulation is employed, the algorithmic structure re-
+                                                                        mains almost identical, but minor modifications are necessary,
+   • 10.18419/darus-4140 (Section 4)                                    as already discussed in Section 2.2.
+   • 10.18419/darus-4155 (Section 5.1)
+                                                                        ProlongToFace
+   • 10.18419/darus-4139 (Section 5.2)                                     The ProlongToFace routine interpolates the solution for U,
+   • 10.18419/darus-4138 (Section 6)                                    which are defined in the reference element, to the element faces.
+                                                                        The solution on the faces is denoted as Ũ L/R , the solution from
+                                                                   19
+the left and right neighbor. This is required later by the FillFlux                   [4] TOP500 - November 2023, https://www.top500.org/lists/
+routine to evaluate the fluxes across the faces. For this, the poly-                      top500/list/2023/11/, 2023. Accessed: 2024-03-13.
+                                                                                      [5] GREEN500 - November 2023, https://www.top500.org/lists/
+nomial basis from Eq. (17) is evaluated at the faces with the                             green500/list/2023/11/, 2023. Accessed: 2024-03-13.
+current coefficients Û. Additional mappings then allow to infer                      [6] D. Moxey, C. D. Cantwell, Y. Bao, A. Cassinelli, G. Castiglioni, S. Chun,
+to which global face number the specific local face of the ele-                           E. Juda, E. Kazemi, K. Lackhove, J. Marcon, et al., Nektar++: Enhancing
+ment belongs in order to store the solution in the correct place.                         the capability and application of high-fidelity spectral/hp element meth-
+                                                                                          ods, Computer Physics Communications 249 (2020) 107110.
+This mapping from element to face information is required due                         [7] E. Ferrer, G. Rubio, G. Ntoukas, W. Laskowski, O. A. Mariño,
+to the unstructured nature of the mesh. This mapping entails                              S. Colombo, A. Mateo-Gabı́n, H. Marbona, F. M. de Lara, D. Huergo,
+two different steps. First, it has to account for the orientation                         et al., HORSES3D: A high-order discontinuous Galerkin solver for flow
+of the face-based coordinates to the element-based coordinate                             simulations and multi-physics applications, Computer Physics Commu-
+                                                                                          nications 287 (2023) 108700.
+system. Second, the relative rotation of a face with its neighbor                     [8] D. Arndt, N. Fehn, G. Kanschat, K. Kormann, M. Kronbichler, P. Munch,
+has to be considered. These transformations are performed here                            W. A. Wall, J. Witte, Exadg: High-order discontinuous galerkin for the
+to ensure that the face information is already correctly aligned                          exa-scale, in: Software for exascale computing-SPPEXA 2016-2019,
+for the computation of the face fluxes in FillFlux.                                       Springer International Publishing, 2020, pp. 189–224.
+                                                                                      [9] H. Ranocha, M. Schlottke-Lakemper, A. R. Winters, E. Faulhaber,
+                                                                                          J. Chan, G. Gassner, Adaptive numerical simulations with Trixi.jl:
+FillFlux                                                                                  A case study of Julia for scientific computing,            Proceedings of
+    This routine computes the common flux f ∗ = f ∗ (Ũ L , ŨR )                         the JuliaCon Conferences 1 (2022) 77. doi:10.21105/jcon.00077.
+                                                                                          arXiv:2108.06476.
+across the element faces based on their left and right solution                      [10] A. F. Antoniadis, D. Drikakis, P. S. Farmakis, L. Fu, I. Kokkinakis,
+using a Riemann solver. Since the correct mapping and orien-                              X. Nogueira, P. A. Silva, M. Skote, V. Titarev, P. Tsoutsanis, UCNS3D:
+tation of the neighboring faces is already ensured by the Pro-                            An open-source high-order finite-volume unstructured CFD solver, Com-
+longToFace routine, the Riemann solver can be applied directly.                           puter Physics Communications 279 (2022) 108453.
+                                                                                     [11] M. Bernardini, D. Modesti, F. Salvadore, S. Pirozzoli, STREAmS: A
+The routine is thus DOF-local and easily parallelizable for GPUs,                         high-fidelity accelerated solver for direct numerical simulation of com-
+since the Riemann solver can be applied independently for each                            pressible turbulent flows, Computer Physics Communications 263 (2021)
+interpolation point on the faces. In addition, this routine multi-                        107906.
+plies the flux with the surface element ŝ, which entails the size                   [12] M. Bernardini, D. Modesti, F. Salvadore, S. Sathyanarayana,
+                                                                                          G. Della Posta, S. Pirozzoli, STREAmS-2.0: Supersonic turbulent ac-
+of the face.                                                                              celerated Navier-Stokes solver version 2.0, Computer Physics Communi-
+                                                                                          cations 285 (2023) 108644.
+SurfInt                                                                              [13] P. Fischer, J. Lottes, H. Tufo, Nek5000, Technical Report, Argonne Na-
+                                                                                          tional Lab, Argonne, IL (United States), 2007.
+    This routine integrates the fluxes on the faces of the ele-                      [14] S. Markidis, J. Gong, M. Schliephake, E. Laure, A. Hart, D. Henty,
+ment and adds their contribution to the right-hand side of the                            K. Heisey, P. Fischer, OpenACC acceleration of the Nek5000 spectral
+DGSEM. Again, this routine entails a surface to volume map-                               element code, The International Journal of High Performance Computing
+ping, due to the same reasons as in the ProlongToFace routine.                            Applications 29 (2015) 311–319.
+                                                                                     [15] P. Fischer, S. Kerkemeier, M. Min, Y.-H. Lan, M. Phillips, T. Rathnayake,
+Since this routine is discussed at length in Section 2.2, we refer                        E. Merzari, A. Tomboulides, A. Karakus, N. Chalmers, et al., NekRS, a
+to this section for further details.                                                      GPU-accelerated spectral element Navier–Stokes solver, Parallel Com-
+                                                                                          puting 114 (2022) 102982.
+ApplyJac                                                                             [16] D. S. Medina, A. St-Cyr, T. Warburton, OCCA: A unified approach to
+                                                                                          multi-threading languages, arXiv preprint arXiv:1403.0968 (2014).
+    The ApplyJac routine divides the right-hand side of Eq. (18)                     [17] N. Jansson, M. Karp, A. Podobas, S. Markidis, P. Schlatter, Neko: A
+with the Jacobian Ji jk of the mapping for each individual in-                            modern, portable, and scalable framework for high-fidelity computational
+terpolation point. This operation is thus DOF-local in the sense                          fluid dynamics, Computers & Fluids (2024) 106243.
+                                                                                     [18] F. D. Witherden, B. C. Vermeire, P. E. Vincent, Heterogeneous computing
+that the division can be performed independently for each in-                             on mixed unstructured grids with PyFR, Computers & Fluids 120 (2015)
+terpolation point. This operation exhibits a low arithmetic in-                           173–186.
+tensity, since it performs only 5 floating point multiplications                     [19] D. Arndt, W. Bangerth, D. Davydov, T. Heister, L. Heltai, M. Kronbichler,
+per interpolation point, but 6 floats to be copied from memory                            M. Maier, J.-P. Pelteret, B. Turcksin, D. Wells, The deal. II finite element
+                                                                                          library: Design, features, and insights, Computers & Mathematics with
+(one entry for each conserved variable in U and the (pointwise                            Applications 81 (2021) 407–422.
+scalar) Jacobian J). Hence, further optimization of the GPU                          [20] R. Anderson, J. Andrej, A. Barker, J. Bramwell, J.-S. Camier, J. Cerveny,
+implementation could fuse this operation for instance with the                            V. Dobrev, Y. Dudouit, A. Fisher, T. Kolev, et al., MFEM: A modular
+priorly computed SurfInt to increase the number of operations                             finite element methods library, Computers & Mathematics with Applica-
+                                                                                          tions 81 (2021) 42–74.
+performed for each byte of data transferred.                                         [21] N. Krais, A. Beck, T. Bolemann, H. Frank, D. Flad, G. Gassner, F. Hin-
+                                                                                          denlang, M. Hoffmann, T. Kuhn, M. Sonntag, C.-D. Munz, FLEXI: A
+                                                                                          high order discontinuous Galerkin framework for hyperbolic–parabolic
+References                                                                                conservation laws, Computers & Mathematics with Applications 81
+                                                                                          (2021) 186–219.
+ [1] P. Lynch, The origins of computer weather prediction and climate mod-           [22] L. Reid, R. D. Moore, Design and overall performance of four highly
+     eling, Journal of Computational Physics 227 (2008) 3431–3444.                        loaded, high speed inlet stages for an advanced high-pressure-ratio core
+ [2] L. Gundelwein, J. Miró, F. G. Barlatay, C. Lapierre, K. Rohr, L. Duong,             compressor, Technical Report 1337, NASA Lewis Research Center,
+     Personalized stent design for congenital heart defects using pulsatile               Cleveland, OH, United States, 1978.
+     blood flow simulations, Journal of Biomechanics 81 (2018) 68–75.                [23] W. Sutherland, LII. The viscosity of gases and molecular force, The
+ [3] M. S. Lundstrom, M. A. Alam, Moore’s law: The journey ahead, Science                 London, Edinburgh, and Dublin Philosophical Magazine and Journal of
+     378 (2022) 722–723.
+
+                                                                                20
+     Science 36 (1893) 507–531.                                                        [46] A. Beck, M. Kurz, Toward discretization-consistent closure schemes for
+[24] D. A. Kopriva, Implementing spectral methods for partial differential                  large eddy simulation using reinforcement learning, Physics of Fluids 35
+     equations: Algorithms for scientists and engineers, Springer Science &                 (2023).
+     Business Media, 2009.                                                             [47] A. M. Rueda-Ramı́rez, W. Pazner, G. J. Gassner, Subcell limiting strate-
+[25] M. H. Carpenter, C. A. Kennedy, Fourth-order 2N-storage Runge–Kutta                    gies for discontinuous Galerkin spectral element methods, Computers &
+     schemes, Technical Report NASA-TM-109112, NASA, Langley Re-                            Fluids 247 (2022) 105627.
+     search Center, 1994.                                                              [48] B. van Werkhoven, Kernel Tuner: A search-optimizing GPU code auto-
+[26] J. Niegemann, R. Diehl, K. Busch, Efficient low-storage Runge–Kutta                    tuner, Future Generation Computer Systems 90 (2019) 347–358.
+     schemes with optimized stability regions, Journal of Computational                [49] N. Fehn, W. A. Wall, M. Kronbichler, A matrix-free high-order discontin-
+     Physics 231 (2012) 364–372.                                                            uous Galerkin compressible Navier-Stokes solver: A performance com-
+[27] R. M. Kirby, G. E. Karniadakis, De-aliasing on non-uniform grids: Al-                  parison of compressible and incompressible formulations for turbulent
+     gorithms and applications, Journal of Computational Physics 191 (2003)                 incompressible flows, International Journal for Numerical Methods in
+     249–264.                                                                               Fluids 89 (2019) 71–102.
+[28] A. D. Beck, D. G. Flad, C. Tonhäuser, G. Gassner, C.-D. Munz, On                 [50] M. Blind, M. Gao, D. Kempf, P. Kopper, M. Kurz, A. Schwarz, A. Beck,
+     the influence of polynomial de-aliasing on subgrid scale models, Flow,                 Towards exascale CFD simulations using the discontinuous Galerkin
+     Turbulence and Combustion 97 (2016) 475–511.                                           solver FLEXI, 2023. arXiv:2306.12891.
+[29] J. S. Hesthaven, T. Warburton, Nodal discontinuous Galerkin methods,              [51] P. J. Roache, Code verification by the method of manufactured solutions,
+     Texts in Applied Mathematics, Springer, New York, NY, 2007.                            J. Fluids Eng. 124 (2002) 4–10.
+[30] D. Flad, A. Beck, C.-D. Munz, Simulation of underresolved turbulent               [52] F. Hindenlang, G. J. Gassner, C. Altmann, A. Beck, M. Staudenmaier,
+     flows by adaptive filtering using the high order discontinuous Galerkin                C.-D. Munz, Explicit discontinuous Galerkin methods for unsteady prob-
+     spectral element method, Journal of Computational Physics 313 (2016)                   lems, Computers & Fluids 61 (2012) 86–93.
+     1–12.                                                                             [53] G. J. Gassner, F. Lörcher, C.-D. Munz, J. S. Hesthaven, Polymorphic
+[31] G. J. Gassner, A. R. Winters, D. A. Kopriva, Split form nodal discontin-               nodal elements and their application in discontinuous Galerkin methods,
+     uous Galerkin schemes with summation-by-parts property for the com-                    Journal of Computational Physics 228 (2009) 1573–1590.
+     pressible Euler equations, Journal of Computational Physics 327 (2016)            [54] G. I. Taylor, A. E. Green, Mechanism of the production of small eddies
+     39–66.                                                                                 from large ones, Proceedings of the Royal Society of London. Series
+[32] S. Pirozzoli, Numerical methods for high-speed flows, Annual Review of                 A-Mathematical and Physical Sciences 158 (1937) 499–521.
+     Fluid Mechanics 43 (2011) 163–194.                                                [55] O. Zeman, Dilatation dissipation: The concept and application in model-
+[33] F. Bassi, S. Rebay, A high-order accurate discontinuous finite element                 ing compressible mixing layers, Physics of Fluids A: Fluid Dynamics 2
+     method for the numerical solution of the compressible Navier–Stokes                    (1990) 178–188.
+     equations, Journal of Computational Physics 131 (1997) 267–279.                   [56] S. Sarkar, G. Erlebacher, M. Y. Hussaini, H. O. Kreiss, The analysis and
+[34] A. D. Beck, T. Bolemann, D. Flad, H. Frank, G. J. Gassner, F. Hindenlang,              modelling of dilatational terms in compressible turbulence, Journal of
+     C.-D. Munz, High-order discontinuous Galerkin spectral element meth-                   Fluid Mechanics 227 (1991) 473–493.
+     ods for transitional and turbulent flow simulations, International Journal        [57] J. DeBonis, Solutions of the Taylor–Green vortex problem using high-
+     for Numerical Methods in Fluids 76 (2014) 522–548.                                     resolution explicit finite difference methods, in: 51st AIAA Aerospace
+[35] B. Cockburn, C.-W. Shu, TVB Runge-Kutta local projection discontin-                    Sciences Meeting, 2013, p. 382.
+     uous Galerkin finite element method for conservation laws II: General             [58] J.-B. Chapelier, D. J. Lusher, W. Van Noordt, C. Wenzel, T. Gibis,
+     framework, Mathematics of computation 52 (1989) 411–435.                               P. Mossier, A. D. Beck, G. Lodato, C. Brehm, M. Ruggeri, C. Scalo,
+[36] L. Krivodonova, Limiters for high-order discontinuous Galerkin methods,                N. Sandham, Comparison of high-order numerical methodologies for
+     Journal of Computational Physics 226 (2007) 879–896.                                   the simulation of the supersonic Taylor-Green vortex flow, submitted to
+[37] X. Zhang, C.-W. Shu, On positivity-preserving high order discontinuous                 Physics of Fluids (2024).
+     galerkin schemes for compressible euler equations on rectangular meshes,          [59] D. J. Lusher, N. D. Sandham, Assessment of low-dissipative shock-
+     Journal of Computational Physics 229 (2010) 8918–8934.                                 capturing schemes for the compressible Taylor–Green vortex, AIAA
+[38] A. Burbeau, P. Sagaut, C.-H. Bruneau, A problem-independent limiter                    Journal 59 (2021) 533–545.
+     for high-order runge–kutta discontinuous galerkin methods, Journal of             [60] R. D. Moore, L. Reid, Performance of single-stage axial-flow transonic
+     Computational Physics 169 (2001) 111–150.                                              compressor with rotor and stator aspect ratios of 1.19 and 1.26 respec-
+[39] J. Zeifang, A. Beck, A data-driven high order sub-cell artificial viscos-              tively, and with design pressure ratio of 2.05, Technical Report 1659,
+     ity for the discontinuous Galerkin spectral element method, Journal of                 National Aeronautics and Space Administration, Cleveland, OH, United
+     Computational Physics 441 (2021) 110475.                                               States, 1980.
+[40] P.-O. Persson, J. Peraire, Sub-cell shock capturing for discontinuous             [61] K. L. Suder, Experimental Investigation of the Flow Field in a Transonic,
+     Galerkin methods, in: 44th AIAA Aerospace Sciences Meeting and Ex-                     Axial Flow Compressor with Respect to the Development of Blockage
+     hibit, 2006, p. 112.                                                                   and Loss, Ph.D. thesis, Case Western Reserve University, 1996.
+[41] A. Klöckner, T. Warburton, J. S. Hesthaven, Viscous shock capturing in           [62] J. D. Denton, Lessons from Rotor 37, Journal of Thermal Science 6
+     a time-explicit discontinuous Galerkin method, Mathematical Modelling                  (1997).
+     of Natural Phenomena 6 (2011) 57–83.                                              [63] E. Benini, Three-dimensional multi-objective design optimization of a
+[42] M. Bohm, S. Schermeng, A. R. Winters, G. J. Gassner, G. B. Jacobs,                     transonic compressor rotor, Journal of Propulsion and Power 20 (2004)
+     Multi-element SIAC filter for shock capturing applied to high-order dis-               559–565. doi:10.2514/1.2703.
+     continuous Galerkin spectral element methods, Journal of Scientific Com-          [64] P. Seshadri, G. T. Parks, S. Shahpar, Leakage uncertainties in compres-
+     puting 81 (2019) 820–844.                                                              sors: The case of rotor 37, Journal of Propulsion and Power 31 (2015)
+[43] M. Sonntag, C.-D. Munz, Shock capturing for discontinuous Galerkin                     456–466. doi:10.2514/1.b35039.
+     methods using finite volume subcells, in: Finite Volumes for Complex              [65] A. Loeven, H. Bijl,         The application of the probabilistic collo-
+     Applications VII-Elliptic, Parabolic and Hyperbolic Problems: FVCA 7,                  cation method to a transonic axial flow compressor,             in: 51st
+     Berlin, June 2014, Springer, 2014, pp. 945–953.                                        AIAA/ASME/ASCE/AHS/ASC structures, structural dynamics, and ma-
+[44] F. Fambri, M. Dumbser, O. Zanotti, Space-time adaptive ADER-DG                         terials conference 18th AIAA/ASME/AHS adaptive structures confer-
+     schemes for dissipative flows: Compressible Navier–Stokes and resistive                ence 12th, American Institute of Aeronautics and Astronautics, 2010.
+     MHD equations, Computer Physics Communications 220 (2017) 297–                         doi:10.2514/6.2010-2923.
+     318.                                                                              [66] P. Kopper, An Euler–Lagrange Method for Compressible Dispersed Mul-
+[45] S. Hennemann, A. M. Rueda-Ramı́rez, F. J. Hindenlang, G. J. Gassner, A                 tiscale Flow, Ph.D. thesis, University of Stuttgart, 2024.
+     provably entropy stable subcell shock capturing approach for high order           [67] J.-R. Carlson, Inflow/outflow boundary conditions with application to
+     split form DG for the compressible Euler equations, Journal of Compu-                  FUN3D, Technical Report NASA/TM–2011-217181, NASA, Langley
+     tational Physics 426 (2021) 109935.                                                    Research Center, 2011.
+
+
+                                                                                  21
+[68] D. Flad, A. D. Beck, G. Gassner, C.-D. Munz, A discontinuous Galerkin
+     spectral element method for the direct numerical simulation of aeroacous-
+     tics, in: 20th AIAA/CEAS aeroacoustics conference, 2014, p. 2740.
+[69] Jülich Supercomputing Centre, JUWELS Cluster and Booster: Exas-
+     cale Pathfinder with Modular Supercomputing Architecture at Juelich
+     Supercomputing Centre,         Journal of large-scale research facili-
+     ties 7 (2021). URL: http://dx.doi.org/10.17815/jlsrf-7-183.
+     doi:10.17815/jlsrf-7-183.
+
+
+
+
+                                                                                 22
+

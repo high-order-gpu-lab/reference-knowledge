@@ -1,0 +1,646 @@
+                                                   APU-Accelerated Large Eddy Simulation with
+                                                   the Discontinuous Galerkin Solver GALÆXI
+
+                                                   Spencer Starr† , Anna Schwarz† , Justin Du Plessis† , Andreas Wanninger† ,
+                                                   Johanna Hintz† , Rohan Kaushik† , Patrick Kopper† , and Andrea Beck†
+arXiv:2606.18927v1 [physics.flu-dyn] 17 Jun 2026
+
+
+
+
+                                                   Abstract The exascale computing era, driven by heterogeneous GPU architec-
+                                                   tures, requires a fundamental redesign of traditional CFD solvers to fully leverage
+                                                   those heterogeneous systems. The discontinuous Galerkin spectral element method
+                                                   (DGSEM) provides an ideal foundation for this transition due to its high-order ac-
+                                                   curacy and local computational stencil. This work presents recent advances in the
+                                                   development and application of the architecture-agnostic DGSEM framework GA-
+                                                   LÆXI by linking hardware optimization, software implementation, and physical
+                                                   validation. The performance of GALÆXI on the AMD MI300A Accelerated Pro-
+                                                   cessing Units (APUs) featured on the Hunter supercomputer is analyzed. Specif-
+                                                   ically, evaluations of the strong and weak scaling performance and the impact of
+                                                   the compute partitioning modes available on the AMD MI300As are performed.
+                                                   Second, the strategy used to integrate the algorithms necessary for wall-modeled
+                                                   large eddy simulations into the GPU-accelerated framework is outlined. Validation
+                                                   of those algorithms is presented in the form of a plane turbulent channel testcase.
+                                                   Finally, the solver is applied to a demanding flow problem in the form of a wall-
+                                                   resolved large eddy simulation of a transonic compressor cascade. The results from
+                                                   this investigation demonstrate the capabilities of GALÆXI to accurately capture
+                                                   complex shock-wave/turbulent boundary-layer interactions.
+
+
+
+                                                   1 Introduction
+
+                                                   Over the last several decades, the steady increase of computational resources has
+                                                   transformed the computational sciences, allowing researchers to tackle increas-
+                                                   ingly complex research questions through larger and more impactful simulations.
+
+                                                   † Institute of Aerodynamics and Gas Dynamics, University of Stuttgart,
+
+
+                                                   e-mail:  starr/schwarz/du-plessis/wanninger/hintz/kaushik/kopper/
+                                                   beck@iag.uni-stuttgart.de
+
+
+                                                                                                                                    1
+2                    Starr, Schwarz, Du Plessis, Wanninger, Hintz, Kaushik, Kopper, and Beck
+
+This new generation of supercomputers offers unprecedented computing power that
+promises to accelerate both fundamental scientific research and industrial innova-
+tion. Unlike previous generations, the performance of exascale systems is primarily
+driven by heterogeneous architectures centered on GPU-based accelerators. While
+these systems offer massive throughput, their stream-based nature renders branching
+operations and host-to-device data transfers relatively expensive.
+    Consequently, the design and optimization of computational fluid dynamics
+(CFD) solvers must inherently adapt to these hardware shifts to realize potential
+performance gains. High-order numerical methods, particularly the discontinuous
+Galerkin spectral element method, provide an ideal foundation for this transition
+due to their high-order accuracy, local computational stencils, and efficient memory
+utilization. The DGSEM constitutes the basis for the CPU-based CFD framework
+FLEXI [15], as well as its accelerated version GALÆXI [16, 22]. Both of these
+are currently under active development and have been applied to a variety of com-
+plex applications, including aeroacoustics, particle-flow interactions, and turbulent
+flows [5, 6, 12, 13, 14, 21].
+    This report addresses the recent advances in the exascale transition of GALÆXI
+by bridging hardware-specific optimization, efficient software implementation, and
+high-fidelity physical validation. To this end, the report is structured across three
+critical pillars. In Section 2, the GPU-acceleration strategy of GALÆXI is briefly
+outlined, alongside the parallel performance and a comprehensive investigation into
+the effect of partitioning modes on AMD MI300A Accelerated Processing Units
+(APUs). Building on these hardware insights, the GPU-acceleration of the algo-
+rithms necessary for wall-modelled large eddy simulations (WMLES) in GALÆXI
+is covered in Section 3. Parallel to this computational advancement, the framework
+is applied to a physically demanding wall-resolved large-eddy simulation (WR-
+LES) of a transonic compressor cascade, investigating the shock-wave/turbulent
+boundary-layer interaction (STBLI) at the suction side of the blade. This interac-
+tion serves as a rigorous test case, requiring the solver to capture both the fine-scale
+turbulence of the boundary layer and the sharp discontinuities of the shock system.
+Section 5 summarizes the findings of this work.
+
+
+
+2 Performance
+
+Modern heterogeneous HPC architectures rely heavily on accelerators to tackle
+large-scale problems. Leveraging these systems often requires the redesign of ex-
+isting software and special implementations of GPU-enabled programming models.
+The following section discusses the strategy used in GALÆXI to support GPU-
+accelerated computations on accelerator-based systems, with specific focus the
+AMD MI300A APU architecture featured in the Hunter supercomputer at HLRS.
+Discussions then follow on the performance of GALÆXI on that hardware, includ-
+ing strong and weak scaling and a comparison of the different compute partitioning
+modes available on the AMD MI300A.
+APU-Accelerated Large Eddy Simulation with GALÆXI                                   3
+
+2.1 Strategy for GPU-Acceleration
+
+For GPU-accelerated simulations on the AMD MI300A APUs, compute kernels in
+GALÆXI are implemented in HIP C++ [4]. The Fortran core of GALÆXI is inter-
+faced to these compute kernels using Fortran-C interfaces as defined in the Fortran
+standard [20]. All operations that mutate the memory of the GPU (i.e. allocate or
+copy) are issued from the HIP C++ API. Fortran code calls a wrapper which passes
+to a C++ function that then uses the HIP API (e.g. hipMalloc). A pointer to allo-
+cated GPU memory is stored in a Fortran variable, where it is passed to HIP kernels
+later to perform operations on the data. CPU-allocated Fortran arrays are mapped to
+flattened, one-dimensional arrays in GPU memory and data retains Fortran column
+major ordering in HIP kernels. Indexing functions are used in kernel code to find
+offsets in the flattened arrays to the data assigned to each GPU thread.
+    The algorithms in GALÆXI are parallelized in HIP kernels by assigning a sin-
+gle GPU thread to operate on a single degree of freedom (DOF). Beyond the kernel
+level, GALÆXI employs device streams [4] to allow multiple, independent opera-
+tions in the DGSEM operator execute on a single GPU simultaneously. GALÆXI
+uses three device streams with three levels of priority. The highest priority is given
+to kernels that perform computations on element faces at the boundary between MPI
+processes. The lowest priority is for volume operations within elements, which are
+independent of other neighboring elements. To control data dependencies between
+kernels executing on different streams, GALÆXI uses device events for synchro-
+nization [4]. GPU-aware MPI is leveraged on distributed systems to scale GALÆXI
+to multiple GPUs. The computational domain is divided into non-overlapping sub-
+domains using a space-filling curve and each subdomain is assigned to a single
+MPI process, which corresponds to a CPU-core-GPU pair. The approach for GPU-
+acceleration used in GALÆXI is described in further detail in [22].
+
+
+
+2.2 Scaling Performance
+
+To demonstrate the solver’s scaling capabilities on Hunter, a verification test case
+is conducted using a uniform solution initialized on a periodic 3D Cartesian mesh.
+As GALÆXI relies on explicit time-stepping, the performance is entirely indepen-
+dent of the initialized solution. For the scaling tests, a split-form DG scheme with a
+polynomial degree of N = 9 evaluated at Legendre–Gauss–Lobatto nodes was em-
+ployed. Each computation was advanced in time for 10 explicit Runge–Kutta (RK)
+time steps. The strong and weak scaling performance of GALÆXI on Hunter are
+illustrated in Fig. 1. The strong scaling experiments were performed up to 64 nodes
+(256 MI300A APUs) with a computational domain featuring 524 million DOFs.
+GALÆXI showcases excellent scalability on Hunter, achieving near ideal strong
+scaling. The weak scaling was measured up to 128 nodes. For the weak scaling
+runs, the computational domain is incrementally increased to maintain a constant
+load of 4.096 million DOFs per APU. In the largest weak scaling case, a mesh of
+4                   Starr, Schwarz, Du Plessis, Wanninger, Hintz, Kaushik, Kopper, and Beck
+
+2.097 billion DOFs was run on 512 APUs with a parallel efficiency of 90.4%. Strong
+scaling speedup and weak scaling parallel efficiency are both calculated with respect
+to the single node wall times.
+
+
+
+
+Fig. 1: Strong (left) and weak (right) scaling of GALÆXI on Hunter. The ideal
+speedup and parallel efficiency are indicated by the black dotted lines.
+
+
+
+
+2.3 Effect of AMD MI300A APU Partitioning Modes
+
+The AMD MI300A APUs offer the ability for users to configure the compute re-
+sources of the chip to meet application-specific needs. The compute units (CUs) of
+a single AMD MI300A APUs are built on the chip as six sub-chips, called Acceler-
+ated Complex Dies (XCDs) [3]. It is possible for the six XCDs to be partitioned in
+three different modes. Single Partition Accelerator (SPX) mode is the manufacturer
+default which treats all six XCDs as a single monolithic GPU [3]. It is presented
+as the preferred mode for applications that benefit from the large throughput and
+memory bandwidth available from a full MI300A. The Triple Partition Accelerator
+(TPX) and Core Partition Accelerator (CPX) modes then subdivide the XCDs, cre-
+ating three logical GPUs in TPX mode and six in CPX mode. CPX mode can offer
+better performance when applications run many smaller tasks in parallel and TPX
+mode provides a balanced, middle option.
+   All scaling performance results presented in Section 2.2 were collected using
+SPX mode. However, in typical applications, GALÆXI demonstrates neither of the
+features (i.e. large memory and compute requirements) to fully benefit from SPX
+mode. The explicit DGSEM implemented in GALÆXI requires roughly 1.2 GB
+of RAM per 1 million DOFs, resulting in a typical production-scale run on AMD
+MI300As (i.e. roughly 4 million DOFs/APU) using 3.75% of the available RAM.
+For simulations on Hunter at the same 4 million DOFs/APU, GALÆXI produces
+APU-Accelerated Large Eddy Simulation with GALÆXI                                     5
+
+a maximum compute throughput (Rmax ) that is 2% of the 61.3 TFLOP peak FP64
+throughput (R peak ) of the MI300A [2]. The main limiting factor in GALÆXI to
+pushing utilization higher is the highly memory bound nature of the DGSEM algo-
+rithms when implemented for GPUs.
+
+
+Table 1: Comparison of the performance of GALÆXI with the three available com-
+pute partitioning modes (SPX, TPX and CPX) for the AMD MI300A APUs.
+
+                                    PID [s]                    Time-to-solution [s]
+     DOFs/APU
+                      SPX            TPX            CPX        SPX    TPX     CPX
+     7.02 × 105   4.260 × 10−9 3.468 × 10−9 2.984 × 10−94.12 2.76 2.66
+     1.40 × 106 3.208 × 10−9 3.195 × 10−9 2.813 × 10−9 5.01 2.68 1.88
+     2.80 × 106 2.945 × 10−9 2.938 × 10−9 2.732 × 10−9 8.74 4.01 3.11
+     5.62 × 106 2.800 × 10−9 2.774 × 10−9 2.721 × 10−9 16.45 7.55 5.44
+     1.12 × 107 2.635 × 10−9 2.632 × 10−9 2.540 × 10−9 32.3 14.68 10.31
+     2.25 × 107 2.564 × 10−9 2.550 × 10−9 2.457 × 10−9 63.89 27.59 20.42
+
+
+    From the above factors, the TPX and CPX modes, which are oriented toward
+lightweight applications, are predicted to offer some amount of performance benefit
+to GALÆXI. To test the effect of the partitioning mode on the performance of GA-
+LÆXI, eight nodes (32 MI300A APUs) on Hunter were used to compute a series
+of simulations with progressively larger meshes. A freestream flow in a Cartesian
+box was chosen as the testcase and the polynomial order of the DGSEM was set to
+N = 7. The results of these experiments are presented in Table 1 with two perfor-
+mance metrics, the performance index (PID) per APU and the time-to-solution. PID
+is calculated as
+                                 wall-clock-time · #APUs
+                      PID =                                   ,                (1)
+                              #DOF · #time steps · #RK-stages
+noting that, regardless of the partitioning mode used, the total number of full APUs
+is used in Eq. (1). Time-to-solution is the total wall time of a computation, including
+all wall time required for initialization, data analysis and file output.
+    CPX mode produces an average reduction in the PID of 10.03% over SPX mode
+across the range of mesh sizes, while TPX mode provides negligible benefit. As
+GALÆXI is a memory-bound application, the source of the improvement with CPX
+mode comes from better memory locality and cache reuse in algorithms that require
+large numbers of non-contiguous memory accesses. Between SPX mode and TPX
+mode, speedups in time-to-solution of 1.86x to 2.31x speedups are seen for all cases
+featuring a computational load of 1 million DOFs/APU or larger. The benefits are
+greater for CPX mode, which produced speedups between 2.66x and 3.13x in time-
+to-solution over SPX mode in the same range.
+6                    Starr, Schwarz, Du Plessis, Wanninger, Hintz, Kaushik, Kopper, and Beck
+
+3 GPU-Accelerated Wall-Modeled LES
+
+Despite ever-growing high performance computing resources, turbulent wall-boun-
+ded flows at high Reynolds numbers imply prohibitively high computational costs
+when solved with WRLES. The restrictive resolution constraints of WRLES are
+driven by the near-wall problem, which dictates that the size of energy-carrying
+eddies in the inner boundary layer scales down with increasing Reynolds numbers.
+Consequently, Deardorff [8] proposed to model the inner part of the boundary layer,
+while still resolving the rest of the domain to circumvent the near-wall problem
+[11]. To this day, the associated WMLES approach provides the optimal trade-off
+between accuracy and computational cost for high Reynolds number wall-bounded
+flows.
+    The following section outlines the algorithms necessary for integrating WMLES
+into GALÆXI. Prior to discussing the implementation, a brief overview of wall
+modeling approaches is provided to contextualize the selected wall model. While
+the underlying theory is provided for completeness, the primary focus of this work
+is on the GPU-accelerated implementation within GALÆXI. The GPU-acceleration
+strategy is subsequently validated using a turbulent channel flow benchmark.
+
+
+
+3.1 Wall Modeling
+
+A plethora of WMLES approaches have been proposed in recent decades, whereof
+the focus in this study is placed on wall-stress models, following the taxonomy in-
+troduced by Larsson et al. [17]. Physics-based wall stress models formally solve
+the large-eddy simulation (LES) all the way down to the wall and rely on either the
+ensemble-/Favre-averaged or low-pass filtered Navier–Stokes–Fourier equations as
+governing equations to model the effect of unresolved energetic scales in the inner
+layer [17]. Two of the most prominent categories of wall-stress models are algebraic
+models, e.g. based on Spalding’s law and ODE-based models. Algebraic wall-stress
+models rely on a functional relationship between the velocity and wall-normal dis-
+tance in viscous units. Thus, they bypass the need to solve the filtered Navier–Stokes
+equations (PDE-based models) or the thin boundary layer equations (ODE-based
+models), which assume the effects of convective transport and pressure gradients
+cancel out under the equilibrium assumption. Consequently, algebraic models offer
+a significantly reduced computational cost compared to their PDE- and ODE-based
+counterparts. However, their accuracy is typically constrained by the underlying as-
+sumptions of both flow equilibrium and incompressibility, though more recent vari-
+ants have been developed to address these shortcomings such as by considering non-
+equilibrium effects [28]. While for many engineering applications the equilibrium
+assumption is applicable, such as the turbulent channel flow test case considered in
+this study, the incompressibility assumption can be relaxed through the use of a Van-
+Driest velocity transformation [25, 26], which allows to map the incompressible to
+the compressible boundary layer.
+APU-Accelerated Large Eddy Simulation with GALÆXI                                     7
+
+    The coupling between the LES domain and the wall model is executed through
+the following mechanisms. For a given interface point located at a distance hwm from
+the wall, the wall model samples the instantaneous LES data. Based on these local
+flow characteristics, the wall model computes a wall shear stress τw , and, for the case
+of compressible flows with an isothermal wall boundary condition, additionally the
+wall heat flux qw . These values are subsequently imposed on the viscous fluxes at
+the wall. To facilitate this, the no-slip boundary condition employed in WRLES
+is relaxed to a slip condition, thereby leaving the tangential velocity components
+unconstrained. This is due to the fact that the respective wall model enforces the no-
+slip condition either as a boundary condition, or, in the case of algebraic wall-stress
+models, by construction. While alternative enforcement strategies have emerged re-
+cently, the present work is constrained to the classical slip boundary condition. The
+viscous fluxes are governed by the computed wall shear stress and, optionally, the
+wall heat flux.
+
+
+
+3.2 GPU-Acceleration of Wall-Models for Compressible Flows
+
+Implementing the features necessary for WMLES in to GALÆXI is essential, as
+the use of GPU-accelerated architectures allows access to large-scale WMLES pro-
+duction cases that were previously prohibitive in size. To this end, a physics-based,
+algebraic, equilibrium wall-stress model based on Spalding’s law of the wall is uti-
+lized, which reads as
+                     "                                                          #
+                                                    2            3            4
+    +    +             0.4u+           +   (0.4u+ )      (0.4u+ )     (0.4u+ )
+   y = u + 0.1108 e          − 1 − 0.4u −             −            −              (2)
+                                               2!           3!           4!
+
+and results in a unified expression for the streamwise velocity u+ in the viscous sub-
+layer, buffer layer, and the log layer in terms of the wall-normal distance y+ . Note
+that both streamwise velocity u+ and wall-normal distance y+ are given in viscous
+wall units which allows solving this nonlinear equation for the wall shear stress τw .
+The wall model can be extended to compressible flows by computing an equiva-
+lent incompressible velocity. The equivalent velocity is based on the instantaneous,
+compressible LES velocity at the wall model interface through the aforementioned
+Van–Driest velocity transformation. See [6] for further details.
+    Implementing the equilibrium-based compressible algebraic wall-stress model
+relies on several underlying utilities. The interface utility provides primitive solu-
+tion variables at the matching height hwm and the weak enforcement of wall shear
+stress within the viscous fluxes. Coverage of these foundational routines is omitted
+here and the focus is laid on the acceleration strategy for the core wall-modeling rou-
+tine itself. Notably, the following formulation implies that the wall model is strictly
+applicable to compressible flows featuring an adiabatic wall boundary condition. An
+overview of the original CPU-based approach is provided in Algorithm 1, with its
+GPU counterpart presented in Algorithm 2.
+8                    Starr, Schwarz, Du Plessis, Wanninger, Hintz, Kaushik, Kopper, and Beck
+
+    Algorithm 1: CPU-based wall-model implementation.
+     foreach wall-modeled face f do
+         foreach degree of freedom (i, j) on face f do
+             Compute τw ← SolveWallStress(ũ∥ , hwm )
+     Weakly enforce component-wise wall shear stress τw in viscous fluxes
+
+
+    Algorithm 2: GPU-based wall-model implementation.
+     Launch WallModelKernel with one thread per face degree of freedom
+     foreach GPU thread assigned to ( f , i, j) do
+         Compute flattened-array offsets
+         Compute streamwise velocity magnitude u∥ at hwm
+         Compute τw ← SolveWallStress(ũ∥ , hwm )
+     Weakly enforce component-wise wall shear stress τw in viscous fluxes
+
+
+
+    As detailed in Algorithm 1, the legacy CPU framework processes the wall model
+using a nested loop hierarchy. The solver first initiates a top-level loop over all
+boundary faces designated for wall modeling, specifically, those sides where the
+fluid volume is intercepted by the wall-normal interface height hwm . For every wall-
+modeled face, a nested loop iterates over all local DOFs to retrieve the primitive
+variables in local wall-normal coordinates. For the algebraic model of interest, only
+the wall-parallel velocity components are extracted to compute the streamwise ve-
+locity magnitude. This velocity magnitude serves as the direct input for the core wall
+model logic, which effectively acts as a black box to output the wall-shear stress
+magnitude, which is then projected along both tangential directions and weakly en-
+forced inside the viscous fluxes at the wall. Operationally, the model execution fol-
+lows a multi-step numerical sequence at each DOF, applying the Van Driest trans-
+form and executing the nonlinear root-finding solver.
+    Within GALÆXI the core convention dictates that each individual DOF per wall-
+modeled face is mapped to a single GPU thread. Rather than sequentially stepping
+through all boundaries and their associated DOFs, the GPU implementation pro-
+cesses them concurrently, cf. Algorithm 2. Consequently, the legacy nested loop
+structure is entirely replaced by a unified kernel function call implemented in HIP
+C++. Inside the kernel itself, the overarching philosophy of GALÆXI is preserved:
+the original, validated CPU-based Fortran logic is modified only where strictly nec-
+essary for hardware acceleration. As a result, the fundamental steps of the rou-
+tine—recovering the primitive variables, applying the Van Driest transform, and
+executing the nonlinear root-finding solver—remain numerically identical to their
+CPU counterparts, ensuring strict consistency across architectures.
+APU-Accelerated Large Eddy Simulation with GALÆXI                                   9
+
+3.3 Validation of the Ported Wall Model
+
+The GPU-accelerated implementation of Spalding’s algebraic wall model is val-
+idated using a plane turbulent channel flow at Mach and Reynolds numbers of
+Ma = 0.1 and Reτ = 180, which serves as a common benchmark case for validating
+equilibrium-based wall models. The computational domain Ω ∈ [0, 2π] × [0, 2δ ] ×
+[0, π] with channel half-height δ = 1, is discretized using (5, 30, 3) elements in the
+respective directions, where the mesh spacing in the wall-normal (y) direction de-
+creases successively towards the wall. A polynomial degree of N = 5 is chosen,
+which results in a total number of 162 000 DOFs. Periodic boundary conditions are
+imposed in the streamwise and spanwise directions. The aforementioned slip bound-
+ary condition, including enforcement of the wall shear stress in the viscous fluxes
+computed via the wall model, are prescribed on the bottom and upper wall. Initially,
+an analytical mean turbulent velocity profile of constant, unit density is assigned.
+Sine perturbations are superimposed in all three velocity components in order to
+imitate turbulent structures. Additionally, a constant pressure gradient ∂∂ xp = −1 is
+used as a volume source term to avoid slow-down of the flow.
+    Figure 2 shows the initial transient evolution of the instantaneous, streamwise
+body force FBF,x and the normalized relative deviation ε between the CPU and
+GPU results of the compressible version of Spalding’s wall model. The subscript
+(·)x denotes the streamwise (x) component of the corresponding variable. The re-
+sults demonstrate that the relative deviations in the observed streamwise body
+force remain within machine floating-point precision. This exceptional agreement
+rigorously validates the correctness and numerical fidelity of the proposed GPU-
+acceleration strategy.
+
+
+
+4 WRLES of a Transient Compressor Cascade
+
+The interaction between shock waves and turbulent boundary layers is among
+the most complex flow phenomena encountered in aerodynamics. One application
+where these interactions are prevalent is the transonic flow through an axial ro-
+tor [18]. As the passage shock intersects the blade suction surface, it imposes a
+sharp adverse pressure gradient on the boundary layer, promoting transition, thick-
+ening, and in severe cases, full flow separation. The effects extend beyond localized
+aerodynamic losses, with strong shock-turbulent boundary layer interactions being
+the primary driver of unsteady shock motion that governs aeroelastic response and
+energy transfer, rendering their accurate characterization fundamental to both com-
+pressor performance prediction and efficient blade design.
+   The NASA Rotor 67 has long served as a canonical benchmark for transonic
+compressor research, with well-documented experimental data spanning a range of
+operating conditions [19, 23, 24, 27]. A notable trend shown in literature is the
+progressive movement of the shock in the passage. The movement is driven by in-
+creasing back pressure from the choked flow condition towards near stall condition,
+10                  Starr, Schwarz, Du Plessis, Wanninger, Hintz, Kaushik, Kopper, and Beck
+
+
+
+
+Fig. 2: Top: Comparison of instantaneous, streamwise body force FBF,x . Bottom:
+Normalized relative error ε of the GPU implementation with respect to the CPU-
+based reference.
+
+
+pushing the passage shock forwards towards the leading edge. This progression in-
+tensifies the effects of the interaction between the shock and the boundary layer on
+the suction side of the blade.
+    These shock-boundary layer interactions are examined through a series of 2.5D
+numerical simulations of the Rotor 67 blade section at 70% span measured from the
+hub. Simulations were conducted at varying back pressure conditions to track the
+forward migration of the passage shock as conditions approach stall. In the 2.5D
+framework, the back pressure required to drive strong STBLI differs from that ob-
+served in three-dimensional experiments and a key objective of this work is to estab-
+lish the revised pressure conditions under which these critical flow features emerge.
+    All simulations are performed with GALÆXI on the Hunter supercomputer. The
+computational grid comprises 3.6 × 107 DOFs at a polynomial degree of N = 3.
+APU-Accelerated Large Eddy Simulation with GALÆXI                                   11
+
+The rotor blade section is treated as an adiabatic no-slip wall, with periodic bound-
+ary conditions enforced at the spanwise extents. The mesh is refined in the near-
+wall region to ensure wall-resolved LES, achieving an averaged y+ < 0.8 across the
+blade surface. Inflow is prescribed via a supersonic Dirichlet boundary condition,
+and the outflow is handled using a subsonic pressure outflow condition. Temporal
+discretization is achieved through a fourth-order low-storage Runge–Kutta scheme,
+with the time step governed by a CFL number of 0.9. Spatial discretization employs
+a split DGSE formulation with an entropy conserving flux function [7]. Numerical
+fluxes at the faces are computed using the Roe Riemann solver with entropy correc-
+tion according to Harten et al. [10]. The working fluid is modeled as an ideal gas,
+with dynamic viscosity evaluated using Sutherland’s law. The simulation conditions,
+summarized in Table 2, share a relative inflow Mach number of Marel = 1.197 at a
+Reynolds number of Re = 2.6 × 106 based on the chord length c = 0.093 m. The
+inputs are based on the three-dimensional experimental values from [24], with Case
+1 being the inputs required for peak efficiency and Case 2 being the inputs for near
+stall. Freestream inflow conditions are set to the sea level conditions from the Inter-
+national Standard Atmosphere (ISA) [1].
+
+
+Table 2: Simulation inflow and outflow conditions, where αrel is defined as the in-
+flow relative flow angle.
+
+                     Case       Marel     αrel         p2 /pre f
+                     1          1.197     63.2        1.1862
+                     2          1.197     64.6        1.3242
+
+
+   Table 3 presents a comparison of the LES results against experimental data at
+measurement planes positioned one chord length upstream and downstream of the
+blade, showing generally good agreement in the static pressure ratios across both
+conditions, although it is noted that Case 1 does have a noticeable difference at the
+upstream measurement plane.
+
+
+Table 3: Pressure ratios at measurement planes upstream and downstream of the
+rotor.
+
+                         Case                p1 /pre f p2 /pre f
+                         LES Case 1        0.91         1.182
+                         Experiment Case 1 0.79         1.186
+                         LES Case 2        0.84          1.31
+                         Experiment Case 2 0.83          1.32
+12                   Starr, Schwarz, Du Plessis, Wanninger, Hintz, Kaushik, Kopper, and Beck
+
+    At both the peak efficiency and near stall conditions, the passage shock remains
+in the aft portion of the blade passage, intersecting the suction surface close to the
+trailing edge, as shown in the left image of Fig. 3. This is inconsistent with the
+trend observed in the three-dimensional experiments [27] and the three-dimensional
+simulations by [9], where increasing back pressure drives the shock progressively
+forward into the passage. This result reinforces the notion that the pressure ratios
+derived from three-dimensional experimental data do not produce an equivalent
+shock structure when applied to a 2.5D blade section simulation, a consequence of
+the missing three-dimensional flow effects. For this reason, the outlet pressure was
+increased beyond the experimental near-stall value until the pressure ratio at the
+downstream station was p2 /pre f = 1.53. This new back pressure was found to be
+sufficient to drive the shock forwards and establish a condition which better resem-
+bles the three-dimensional shock structures. Results with the larger back pressure
+are shown in the right image of Fig. 3.
+
+
+
+                            0.0     0.4    0.8    1.2
+                                    Mach number M
+
+
+
+
+Fig. 3: Shock wave formation for a static pressure ratio (Case 2; left) and increased
+back pressure (right). The instantaneous flow field coloured by Mach number at
+t/CTU = 50 is shown.
+
+
+   The results of the study demonstrate that the 2.5D modelling framework requires
+a higher back pressure than the experimentally-defined near-stall value. Prescrib-
+ing a higher back pressure allows the reproduction within the current methodology
+of the equivalent shock structures observed in three-dimensional experiments. This
+highlights the significant influence of three-dimensional flow effects, such as tip
+clearance, spanwise redistribution and passage blockage, in promoting earlier shock
+migration in the full rotor. In both flow conditions, the shock induces a rapid transi-
+tion to a turbulent boundary layer, confirming that despite the elevated pressure ratio
+inherent to the 2.5D approach, the configuration remains well-suited for investigat-
+ing STBLI and, by extension, the resulting aeroelastic effects. These findings will
+APU-Accelerated Large Eddy Simulation with GALÆXI                                              13
+
+serve as a basis for future work in which the effects of the unsteady shock motion
+and the resulting aeroelastic effects will be investigated.
+
+
+
+5 Summary
+
+The increased usage of GPU architectures in the exascale computing era allows the
+computation of ever more complex flow problems. The present work showcases re-
+cent advancements in the GPU-accelerated CFD solver GALÆXI and its application
+to such problems. It was shown that GALÆXI provides excellent strong scaling up
+to 256 AMD MI300A APUs on the Hunter supercomputer. Subsequent weak scaling
+runs, utilizing up to 512 APUs, demonstrated a parallel efficiency exceeding 90%.
+The effect of the three available compute partitioning modes on the AMD MI300A
+APUs on the performance of GALÆXI was also studied. It was demonstrated that
+CPX mode, where a single APU is treated as six logical GPUs, averages a 10%
+reduction in PID across a range of computational loads. Up to a 3x speedup in time-
+to-solution was also observed when using CPX mode when compared to the default
+SPX mode.
+   GALÆXI was also extended to a more diverse set of applications with the imple-
+mentation of features necessary to support WMLES. The GPU-acceleration strategy
+for this feature is outlined for the case of an equilibrium-based, algebraic wall stress
+model. Special considerations were given to the interface communication and the
+boundary condition implementation. A plane turbulent channel flow was chosen as
+a validation test case. The resulting numerical solutions from the GPU-accelerated
+solver match the baseline CPU implementation to near machine precision. Finally,
+GALÆXI was applied to more complex flow phenomena via a WRLES of a 2.5D
+configuration of the transonic NASA Rotor 67 geometry. The study of different back
+pressures reveals that the 2.5D simulation requires a greater pressure ratio when
+compared to experiment to ensure that the three-dimensional shock structures are
+replicated.
+
+Acknowledgements This work was funded by the European Union and has received funding
+from the European High Performance Computing Joint Undertaking (JU) and Sweden, Germany,
+Spain, Greece, and Denmark under grant agreement No 101093393. This work is partly funded by
+the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) with - EXC2075 –
+390740016 under Germany’s Excellence Strategy and in the framework of the research unit FOR
+2895 and FOR 2687. The research presented in this paper was funded in parts by the state of Baden-
+Württemberg under the project Aerospace 2050 MWK32-7531-49/13/7 "FLUTTER"/"QUASAR".
+The authors also gratefully acknowledge the Federal Ministry for Economic Affairs and Energy
+(BMWE) for funding this work in the framework of the research project SaFuMa (FKZ: 20E2409)
+We acknowledge the support by the Stuttgart Center for Simulation Science (SimTech).
+14                  Starr, Schwarz, Du Plessis, Wanninger, Hintz, Kaushik, Kopper, and Beck
+
+References
+
+ [1] Standard atmosphere. Standard ISO 2533:1975, International Organization for
+     Standardization, Geneva, Switzerland, 1975.
+ [2] Advanced       Micro      Devices.            AMD        CDNA™        Architec-
+     ture.                https://www.amd.com/content/dam/amd/en/
+     documents/instinct-tech-docs/white-papers/
+     amd-cdna-3-white-paper.pdf, 2025.
+ [3] Advanced Micro Devices. AMD GPU Driver (amdgpu). https://rocm.
+     docs.amd.com/projects/HIP/en/latest/, 2026.
+ [4] Advanced Micro Devices. HIP. https://rocm.docs.amd.com/
+     projects/HIP/en/latest/, 2026.
+ [5] A. Beck, T. Bolemann, D. Flad, H. Frank, N. Krais, K. Kukuschkin, M. Son-
+     ntag, and C.-D. Munz. Application and development of the high order discon-
+     tinuous Galerkin spectral element method for compressible multiscale flows.
+     In High Performance Computing in Science and Engineering’17, pages 387–
+     407. Springer, 2018.
+ [6] M. Blind, M. Gao, D. Kempf, P. Kopper, M. Kurz, A. Schwarz, and A. Beck.
+     Towards Exascale CFD Simulations Using the Discontinuous Galerkin Solver
+     FLEXI, pages 207–221. Springer Nature Switzerland, 2026.
+ [7] P. Chandrashekar. Kinetic Energy Preserving and Entropy Stable Finite Vol-
+     ume Schemes for Compressible Euler and Navier-Stokes Equations. Commu-
+     nications in Computational Physics, 14(5):1252–1286, 2013.
+ [8] J. W. Deardorff. A numerical study of three-dimensional turbulent channel
+     flow at large Reynolds numbers. Journal of Fluid Mechanics, 41(2):453–480,
+     1970.
+ [9] E. Fior. CFD Study of an Installed Transonic Rotor. PhD thesis, Universita
+     degli Studi di Padova, 2018.
+[10] A. Harten and J. M. Hyman. Self adjusting grid methods for one-dimensional
+     hyperbolic conservation laws. Journal of Computational Physics, 50(2):235–
+     269, 1983.
+[11] S. Kawai and J. Larsson. Wall-modeling in large eddy simulation: Length
+     scales, grid resolution, and accuracy. Physics of Fluids, 24, 01 2012.
+[12] J. Keim, A. Schwarz, P. Kopper, M. Blind, C. Rohde, and A. Beck. Entropy
+     stable high-order discontinuous Galerkin spectral-element methods on curvi-
+     linear, hybrid meshes. Journal of Computational Physics, 557:114829, 2026.
+[13] D. Kempf, M. Gao, A. Beck, M. Blind, P. Kopper, T. Kuhn, , M. Kurz,
+     A. Schwarz, and C.-D. Munz. Development of turbulent inflow methods for
+     the high order HPC framework FLEXI. In High Performance Computing in
+     Science and Engineering’21. Springer. In press.
+[14] P. Kopper, A. Schwarz, S. M. Copplestone, P. Ortwein, S. Staudacher, and
+     A. Beck. A framework for high-fidelity particle tracking on massively parallel
+     systems. Computer Physics Communications, 289:108762, Apr. 2023.
+[15] N. Krais, A. Beck, T. Bolemann, H. Frank, D. Flad, G. Gassner, F. Hinden-
+     lang, M. Hoffmann, T. Kuhn, M. Sonntag, and C.-D. Munz. FLEXI: A high
+APU-Accelerated Large Eddy Simulation with GALÆXI                                15
+
+     order discontinuous Galerkin framework for hyperbolic–parabolic conserva-
+     tion laws. Computers & Mathematics with Applications, 81:186–219, 2021.
+[16] M. Kurz, D. Kempf, M. Blind, P. Kopper, P. Offenhäuser, A. Schwarz, S. Starr,
+     J. Keim, and A. Beck. GALÆXI: Solving complex compressible flows
+     with high-order discontinuous Galerkin methods on accelerator-based sys-
+     tems. Computer Physics Communications, 306, 2024.
+[17] J. Larsson, S. Kawai, J. Bodart, and I. Bermejo-Moreno. Large eddy simula-
+     tion with modeled wall-stress: Recent progress and future directions. Mechan-
+     ical Engineering Reviews, 3, 11 2015.
+[18] F. Meng, J. Tang, J. Li, J. Zhong, and P. Guo. Large eddy simulation of shock
+     wave/boundary layer interactions in a transonic compressor cascade. Physics
+     of Fluids, 36(7):076101, 2024.
+[19] M. J. Pierzga and J. R. Wood. Investigation of the three-dimensional flow field
+     within a transonic fan rotor: Experiment and analysis. Journal of Engineering
+     for Gas Turbines and Power, 107(2):436–448, 1985.
+[20] J. Reid. The new features of Fortran 2003. 26(1):10–33, 2007.
+[21] A. Schwarz, D. Kempf, J. Keim, P. Kopper, C. Rohde, and A. Beck. Com-
+     parison of entropy stable collocation high-order DG methods for compressible
+     turbulent flows. Computers & Fluids, 303:106874, 2025.
+[22] S. Starr, Y. Feldner, P. Kopper, M. Blind, D. Kempf, J. Schrempp, F. Rodach,
+     A. Beck, and A. Schwarz. An architecture-agnostic high-order discontinuous
+     Galerkin framework for compressible flows, 2026.
+[23] A. J. Strazisar. Investigation of flow phenomena in a transonic fan rotor us-
+     ing laser anemometry. Journal of Engineering for Gas Turbines and Power,
+     107(2):427–435, 1985.
+[24] J. Strazisar, R. Wood, D. Hathaway, and L. Suder. Laser anemometer mea-
+     surements in a transonic axial-flow fan rotor. Technical report, NASA, 1989.
+     Coordinates of rotor found in PDF starting from PDF page 22.
+[25] E. R. Van Driest. Turbulent boundary layer in compressible fluids. J. Aero.
+     Sci., 18:145–160, 1951.
+[26] F. M. White. Viscous fluid flow. McGraw-Hill series in mechanical engineer-
+     ing. McGraw-Hill, Boston, Mass., 3. ed. edition, 2006.
+[27] J. R. Wood, A. J. Strazisar, and P. S. Simonyi. Shock Structure Measured in a
+     Transonic Fan Using Laser Anemometry. In AGARD Conference Proceedings
+     No. 401 Transonic and Supersonic Phenomena in Turbomachines, pages 2–1,
+     Munich, Germany, 1986.
+[28] X. Yang, J. Sadique, R. Mittal, and C. Meneveau. Integral wall model for
+     large eddy simulations of wall-bounded turbulent flows. Physics of Fluids,
+     27:025112, 02 2015.
+

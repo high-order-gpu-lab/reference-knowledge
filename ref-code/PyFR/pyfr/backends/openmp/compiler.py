@@ -1,0 +1,149 @@
+from ctypes import CDLL
+import itertools as it
+import os
+from pathlib import Path
+import platform
+import shlex
+from subprocess import PIPE, STDOUT, run
+import tempfile
+
+from pyfr.cache import ObjectCache
+from pyfr.ctypesutil import platform_libname
+from pyfr.util import digest, rm
+
+
+class OpenMPCompiler:
+    _dir_seq = it.count()
+
+    def __init__(self, cfg):
+        # Find GCC (or a compatible alternative)
+        self.cc = str(cfg.getpath('backend-openmp', 'cc', 'cc'))
+
+        # User specified compiler flags
+        self.cflags = shlex.split(cfg.get('backend-openmp', 'cflags', ''))
+
+        # Get the processor string
+        self.proc = platform.processor()
+
+        # Get the compiler version string
+        self.version = run([self.cc, '-v'], stdout=PIPE, stderr=STDOUT).stdout
+
+        # Auto-detect the architecture-specific tuning flag
+        self.marchflag = self.cc_option(['-march=native', '-mcpu=native'])
+
+        # Get the base compiler command string
+        self.cmd = self.cc_cmd(None, None)
+
+        # Get the cache
+        self.cache = ObjectCache('omp')
+
+    def build(self, src, *, fast_math=True):
+        # Compute a digest of the processor, compiler, source, and flags
+        ckey = digest(self.proc, self.version, self.cmd, src, fast_math)
+
+        # Attempt to load the library from the cache
+        mod = self._cache_loadlib(ckey)
+
+        # Otherwise, we need to compile the kernel
+        if mod is None:
+            # Create a scratch directory
+            tmpidx = next(self._dir_seq)
+            tmpdir = Path(tempfile.mkdtemp(prefix=f'pyfr-{tmpidx}-'))
+
+            try:
+                # Temporary source and library names
+                cname, lname = 'tmp.c', platform_libname('tmp')
+
+                # Write the source code out
+                (tmpdir / cname).write_bytes(src.encode())
+
+                # Invoke the compiler
+                run(self.cc_cmd(cname, lname, fast_math=fast_math),
+                    cwd=tmpdir, check=True)
+
+                # Add it to the cache and load it
+                mod = self._cache_set_and_loadlib(ckey, tmpdir / lname)
+            finally:
+                # Unless we're debugging delete the scratch directory
+                if 'PYFR_DEBUG_OMP_KEEP_LIBS' not in os.environ:
+                    rm(tmpdir)
+
+        return OpenMPCompilerModule(mod)
+
+    def cc_cmd(self, srcname, libname, *, fast_math=True):
+        cmd = [
+            self.cc,                # Compiler name
+            '-shared',              # Create a shared library
+            '-std=c11',             # Enable C11 support
+            '-O3',                  # Optimise
+            '-fopenmp',             # Enable OpenMP support
+            '-fPIC',                # Generate position-independent code
+            '-o', libname, srcname, # Library and source file names
+            '-lm'                   # Link against libm
+        ]
+
+        # Use CPU-specific instructions where available
+        if self.marchflag:
+            cmd.append(self.marchflag)
+
+        if fast_math:
+            cmd.append('-ffast-math')
+
+        # Append any user-provided arguments and return
+        return cmd + self.cflags
+
+    def cc_option(self, opts):
+        with tempfile.TemporaryDirectory() as tdir:
+            # Write out a dummy C program
+            sp = Path(tdir, 'probe.c')
+            sp.write_text('int main() { return 0; }\n')
+
+            # Base compiler argments
+            args = [self.cc, '-Werror', '-c', str(sp), '-o', os.devnull]
+
+            # Iterate over the provided options
+            for opt in opts:
+                # Attempt to compile the program
+                ret = run(args + [opt], capture_output=True)
+
+                # If status is 0 and stdout/stderr are empty then return
+                if not (ret.returncode or ret.stdout or ret.stderr):
+                    return opt
+
+        # All options failed
+        return None
+
+    def _cache_loadlib(self, ckey):
+        if path := self.cache.get_path(platform_libname(ckey)):
+            try:
+                return CDLL(path)
+            except OSError:
+                return
+
+    def _cache_set_and_loadlib(self, ckey, lpath):
+        ckey = platform_libname(ckey)
+
+        # Attempt to add the item to the cache and load
+        if cpath := self.cache.set_with_path(ckey, lpath):
+            while True:
+                try:
+                    return CDLL(cpath)
+                except OSError as e:
+                    if 'file inode changed' not in str(e):
+                        raise
+        # Otherwise, load from the current temporary path
+        else:
+            return CDLL(lpath)
+
+
+class OpenMPCompilerModule:
+    def __init__(self, mod):
+        self.mod = mod
+
+    def function(self, name, restype=None, argtypes=None):
+        fn = getattr(self.mod, name)
+        fn.restype = restype
+        if argtypes:
+            fn.argtypes = argtypes
+
+        return fn

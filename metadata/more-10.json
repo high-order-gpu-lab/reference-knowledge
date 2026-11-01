@@ -1,0 +1,2585 @@
+{
+  "meta": {
+    "notice": "No API key, so this request shares one free daily budget ($0.10) with everyone on your network's IP address. Get a free key with its own $1/day at https://openalex.org/settings/api and add api_key=YOUR_KEY to your requests. An AI agent can get one for its user in one call: POST https://api.openalex.org/api-keys with {\"email\": \"<your user's email>\"}; we email them a link, and the key works once they click it. Docs for agents: https://help.openalex.org/llms.txt",
+    "count": 700,
+    "db_response_time_ms": 86,
+    "page": 1,
+    "per_page": 4,
+    "groups_count": null,
+    "x_query": {
+      "oql": "get works with (Implementing Spectral Methods Partial Differential Equations Kopriva) in the full text",
+      "x_new_oql": "get works with (Implementing Spectral Methods Partial Differential Equations Kopriva) in the full text",
+      "oqo": {
+        "get_rows": "works",
+        "filter_rows": [
+          {
+            "column_id": "fulltext.search",
+            "value": "Implementing Spectral Methods Partial Differential Equations Kopriva",
+            "operator": "has"
+          }
+        ]
+      },
+      "url": "/works?filter=fulltext.search:Implementing Spectral Methods Partial Differential Equations Kopriva&per_page=4",
+      "order": "best matches first",
+      "order_default": true
+    },
+    "cost_usd": 0.001
+  },
+  "results": [
+    {
+      "id": "https://openalex.org/W114707485",
+      "doi": null,
+      "title": "Implementing Spectral Methods for Partial Differential Equations : Algorithms for Scientists and Engineers",
+      "display_name": "Implementing Spectral Methods for Partial Differential Equations : Algorithms for Scientists and Engineers",
+      "relevance_score": 90.57596,
+      "publication_year": 2009,
+      "publication_date": "2009-08-29",
+      "ids": {
+        "openalex": "https://openalex.org/W114707485",
+        "mag": "114707485"
+      },
+      "language": "en",
+      "primary_location": {
+        "id": "pmh:oai:aleph.bib-bvb.de:BVB01-018628517",
+        "doi": null,
+        "is_oa": false,
+        "landing_page_url": "http://bvbr.bib-bvb.de:8991/F?func=service&amp;doc_library=BVB01&amp;local_base=BVB01&amp;doc_number=018628517&amp;sequence=000003&amp;line_number=0001&amp;func_code=DB_RECORDS&amp;service_type=MEDIA",
+        "pdf_url": null,
+        "source": null,
+        "license": null,
+        "license_id": null,
+        "version": "submittedVersion",
+        "is_accepted": false,
+        "is_published": false,
+        "raw_source_name": "",
+        "raw_type": "text"
+      },
+      "volume": null,
+      "type": "article",
+      "indexed_in": [],
+      "open_access": {
+        "is_oa": false,
+        "oa_status": "closed",
+        "oa_url": null,
+        "any_repository_has_fulltext": false
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": "https://openalex.org/A5072099027",
+            "display_name": "David A. Kopriva",
+            "orcid": "https://orcid.org/0000-0002-8076-0856",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-8076-0856"
+            ]
+          },
+          "institutions": [],
+          "countries": [],
+          "is_corresponding": true,
+          "raw_author_name": "David A. Kopriva",
+          "raw_affiliation_strings": [],
+          "raw_orcid": "https://orcid.org/0000-0002-8076-0856",
+          "affiliations": []
+        }
+      ],
+      "institutions": [],
+      "countries_distinct_count": 0,
+      "institutions_distinct_count": 0,
+      "corresponding_author_ids": [
+        "https://openalex.org/A5072099027"
+      ],
+      "corresponding_institution_ids": [],
+      "apc_list": null,
+      "apc_paid": null,
+      "fwci": 6.7321,
+      "has_fulltext": false,
+      "cited_by_count": 257,
+      "citation_normalized_percentile": {
+        "value": 0.97394533,
+        "is_in_top_1_percent": false,
+        "is_in_top_10_percent": true
+      },
+      "cited_by_percentile_year": {
+        "min": 98,
+        "max": 100
+      },
+      "biblio": {
+        "volume": null,
+        "issue": null,
+        "first_page": null,
+        "last_page": null
+      },
+      "is_retracted": false,
+      "is_paratext": false,
+      "is_xpac": false,
+      "primary_topic": {
+        "id": "https://openalex.org/T10339",
+        "display_name": "Advanced Numerical Methods in Computational Mathematics",
+        "score": 0.6104000210762024,
+        "subfield": {
+          "id": "https://openalex.org/subfields/2206",
+          "display_name": "Computational Mechanics"
+        },
+        "field": {
+          "id": "https://openalex.org/fields/22",
+          "display_name": "Engineering"
+        },
+        "domain": {
+          "id": "https://openalex.org/domains/3",
+          "display_name": "Physical Sciences"
+        }
+      },
+      "topics": [
+        {
+          "id": "https://openalex.org/T10339",
+          "display_name": "Advanced Numerical Methods in Computational Mathematics",
+          "score": 0.6104000210762024,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10173",
+          "display_name": "Computational Fluid Dynamics and Aerodynamics",
+          "score": 0.26460000872612,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T11416",
+          "display_name": "Numerical methods for differential equations",
+          "score": 0.05420000106096268,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2612",
+            "display_name": "Numerical Analysis"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/26",
+            "display_name": "Mathematics"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        }
+      ],
+      "keywords": [
+        {
+          "id": "https://openalex.org/keywords/spectral-methods",
+          "display_name": "spectral methods",
+          "score": 0.9980000257492065
+        },
+        {
+          "id": "https://openalex.org/keywords/partial-differential-equations",
+          "display_name": "partial differential equations",
+          "score": 0.9599999785423279
+        },
+        {
+          "id": "https://openalex.org/keywords/fft-algorithm",
+          "display_name": "FFT algorithm",
+          "score": 0.7440000176429749
+        },
+        {
+          "id": "https://openalex.org/keywords/gaussian-quadrature",
+          "display_name": "Gaussian quadrature",
+          "score": 0.9440000057220459
+        },
+        {
+          "id": "https://openalex.org/keywords/derivative-approximation",
+          "display_name": "derivative approximation",
+          "score": 0.9380000233650208
+        },
+        {
+          "id": "https://openalex.org/keywords/time-dependent-partial-differential-equations",
+          "display_name": "time-dependent partial differential equations",
+          "score": 0.7369999885559082
+        },
+        {
+          "id": "https://openalex.org/keywords/potential-problems",
+          "display_name": "potential problems",
+          "score": 0.5730000138282776
+        },
+        {
+          "id": "https://openalex.org/keywords/transportation-challenges",
+          "display_name": "transport problems",
+          "score": 0.847000002861023
+        },
+        {
+          "id": "https://openalex.org/keywords/wave-propagation",
+          "display_name": "wave propagation",
+          "score": 0.9829999804496765
+        },
+        {
+          "id": "https://openalex.org/keywords/complex-geometries",
+          "display_name": "complex geometries",
+          "score": 0.8560000061988831
+        }
+      ],
+      "concepts": [
+        {
+          "id": "https://openalex.org/C11413529",
+          "wikidata": "https://www.wikidata.org/wiki/Q8366",
+          "display_name": "Algorithm",
+          "level": 1,
+          "score": 0.6156896352767944
+        },
+        {
+          "id": "https://openalex.org/C2776760102",
+          "wikidata": "https://www.wikidata.org/wiki/Q5139990",
+          "display_name": "Code (set theory)",
+          "level": 3,
+          "score": 0.5463789105415344
+        },
+        {
+          "id": "https://openalex.org/C41008148",
+          "wikidata": "https://www.wikidata.org/wiki/Q21198",
+          "display_name": "Computer science",
+          "level": 0,
+          "score": 0.5312086343765259
+        },
+        {
+          "id": "https://openalex.org/C93779851",
+          "wikidata": "https://www.wikidata.org/wiki/Q271977",
+          "display_name": "Partial differential equation",
+          "level": 2,
+          "score": 0.5287211537361145
+        },
+        {
+          "id": "https://openalex.org/C23463724",
+          "wikidata": "https://www.wikidata.org/wiki/Q2308831",
+          "display_name": "Spectral method",
+          "level": 2,
+          "score": 0.5274983644485474
+        },
+        {
+          "id": "https://openalex.org/C9652623",
+          "wikidata": "https://www.wikidata.org/wiki/Q190109",
+          "display_name": "Field (mathematics)",
+          "level": 2,
+          "score": 0.5243016481399536
+        },
+        {
+          "id": "https://openalex.org/C75172450",
+          "wikidata": "https://www.wikidata.org/wiki/Q623950",
+          "display_name": "Fast Fourier transform",
+          "level": 2,
+          "score": 0.5015885829925537
+        },
+        {
+          "id": "https://openalex.org/C2983668108",
+          "wikidata": "https://www.wikidata.org/wiki/Q280453",
+          "display_name": "Spectral analysis",
+          "level": 3,
+          "score": 0.41897502541542053
+        },
+        {
+          "id": "https://openalex.org/C80444323",
+          "wikidata": "https://www.wikidata.org/wiki/Q2878974",
+          "display_name": "Theoretical computer science",
+          "level": 1,
+          "score": 0.3463122248649597
+        },
+        {
+          "id": "https://openalex.org/C2777686260",
+          "wikidata": "https://www.wikidata.org/wiki/Q144037",
+          "display_name": "Calculus (dental)",
+          "level": 2,
+          "score": 0.32649433612823486
+        },
+        {
+          "id": "https://openalex.org/C33923547",
+          "wikidata": "https://www.wikidata.org/wiki/Q395",
+          "display_name": "Mathematics",
+          "level": 0,
+          "score": 0.29493871331214905
+        },
+        {
+          "id": "https://openalex.org/C121332964",
+          "wikidata": "https://www.wikidata.org/wiki/Q413",
+          "display_name": "Physics",
+          "level": 0,
+          "score": 0.13430863618850708
+        },
+        {
+          "id": "https://openalex.org/C134306372",
+          "wikidata": "https://www.wikidata.org/wiki/Q7754",
+          "display_name": "Mathematical analysis",
+          "level": 1,
+          "score": 0.11106640100479126
+        },
+        {
+          "id": "https://openalex.org/C199360897",
+          "wikidata": "https://www.wikidata.org/wiki/Q9143",
+          "display_name": "Programming language",
+          "level": 1,
+          "score": 0.10681319236755371
+        },
+        {
+          "id": "https://openalex.org/C202444582",
+          "wikidata": "https://www.wikidata.org/wiki/Q837863",
+          "display_name": "Pure mathematics",
+          "level": 1,
+          "score": 0.08096295595169067
+        },
+        {
+          "id": "https://openalex.org/C71924100",
+          "wikidata": "https://www.wikidata.org/wiki/Q11190",
+          "display_name": "Medicine",
+          "level": 0,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C199343813",
+          "wikidata": "https://www.wikidata.org/wiki/Q12128",
+          "display_name": "Dentistry",
+          "level": 1,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C32891209",
+          "wikidata": "https://www.wikidata.org/wiki/Q483666",
+          "display_name": "Spectroscopy",
+          "level": 2,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C62520636",
+          "wikidata": "https://www.wikidata.org/wiki/Q944",
+          "display_name": "Quantum mechanics",
+          "level": 1,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C177264268",
+          "wikidata": "https://www.wikidata.org/wiki/Q1514741",
+          "display_name": "Set (abstract data type)",
+          "level": 2,
+          "score": 0.0
+        }
+      ],
+      "mesh": [],
+      "locations_count": 2,
+      "locations": [
+        {
+          "id": "pmh:oai:aleph.bib-bvb.de:BVB01-018628517",
+          "doi": null,
+          "is_oa": false,
+          "landing_page_url": "http://bvbr.bib-bvb.de:8991/F?func=service&amp;doc_library=BVB01&amp;local_base=BVB01&amp;doc_number=018628517&amp;sequence=000003&amp;line_number=0001&amp;func_code=DB_RECORDS&amp;service_type=MEDIA",
+          "pdf_url": null,
+          "source": null,
+          "license": null,
+          "license_id": null,
+          "version": "submittedVersion",
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": "",
+          "raw_type": "text"
+        },
+        {
+          "id": "mag:114707485",
+          "doi": null,
+          "is_oa": false,
+          "landing_page_url": "http://ci.nii.ac.jp/ncid/BA90170704",
+          "pdf_url": null,
+          "source": null,
+          "license": null,
+          "license_id": null,
+          "version": null,
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": null,
+          "raw_type": null
+        }
+      ],
+      "best_oa_location": null,
+      "sustainable_development_goals": [],
+      "sustainable_development_goals_aurora": [],
+      "study_designs": [],
+      "awards": [],
+      "funders": [],
+      "has_content": {
+        "grobid_xml": false,
+        "pdf": false
+      },
+      "content_urls": null,
+      "referenced_works_count": 0,
+      "referenced_works": [],
+      "related_works": [
+        "https://openalex.org/W1627568958",
+        "https://openalex.org/W1583515859",
+        "https://openalex.org/W2079263908",
+        "https://openalex.org/W2066985111",
+        "https://openalex.org/W1969915246",
+        "https://openalex.org/W2031567600",
+        "https://openalex.org/W2329498394",
+        "https://openalex.org/W17056376",
+        "https://openalex.org/W1583892864",
+        "https://openalex.org/W1908859542",
+        "https://openalex.org/W2130350269",
+        "https://openalex.org/W2118065331",
+        "https://openalex.org/W2049068370",
+        "https://openalex.org/W1805381866",
+        "https://openalex.org/W2343405662",
+        "https://openalex.org/W2095039621",
+        "https://openalex.org/W1968345767",
+        "https://openalex.org/W96335314",
+        "https://openalex.org/W321261355",
+        "https://openalex.org/W2046734098"
+      ],
+      "abstract_inverted_index": null,
+      "counts_by_year": [
+        {
+          "year": 2025,
+          "cited_by_count": 7
+        },
+        {
+          "year": 2024,
+          "cited_by_count": 11
+        },
+        {
+          "year": 2023,
+          "cited_by_count": 14
+        },
+        {
+          "year": 2022,
+          "cited_by_count": 20
+        },
+        {
+          "year": 2021,
+          "cited_by_count": 24
+        },
+        {
+          "year": 2020,
+          "cited_by_count": 30
+        },
+        {
+          "year": 2019,
+          "cited_by_count": 14
+        },
+        {
+          "year": 2018,
+          "cited_by_count": 22
+        },
+        {
+          "year": 2017,
+          "cited_by_count": 23
+        },
+        {
+          "year": 2016,
+          "cited_by_count": 29
+        },
+        {
+          "year": 2015,
+          "cited_by_count": 20
+        },
+        {
+          "year": 2014,
+          "cited_by_count": 11
+        },
+        {
+          "year": 2013,
+          "cited_by_count": 12
+        },
+        {
+          "year": 2012,
+          "cited_by_count": 14
+        }
+      ],
+      "updated_date": "2026-10-25T09:29:13.331239",
+      "created_date": "2025-10-10T00:00:00"
+    },
+    {
+      "id": "https://openalex.org/W1571130907",
+      "doi": "https://doi.org/10.21236/ada182809",
+      "title": "Spectral Methods for Time Dependent Partial Differential Equations",
+      "display_name": "Spectral Methods for Time Dependent Partial Differential Equations",
+      "relevance_score": 60.18595,
+      "publication_year": 1986,
+      "publication_date": "1986-11-20",
+      "ids": {
+        "openalex": "https://openalex.org/W1571130907",
+        "doi": "https://doi.org/10.21236/ada182809",
+        "mag": "1571130907"
+      },
+      "language": "en",
+      "primary_location": {
+        "id": "doi:10.21236/ada182809",
+        "doi": "https://doi.org/10.21236/ada182809",
+        "is_oa": false,
+        "landing_page_url": "http://doi.org/10.21236/ada182809",
+        "pdf_url": null,
+        "source": null,
+        "license": null,
+        "license_id": null,
+        "version": "publishedVersion",
+        "is_accepted": true,
+        "is_published": true,
+        "raw_source_name": "US Dept of the Air Force",
+        "raw_type": "report"
+      },
+      "volume": null,
+      "type": "report",
+      "indexed_in": [
+        "crossref"
+      ],
+      "open_access": {
+        "is_oa": true,
+        "oa_status": "green",
+        "oa_url": "https://ntrs.nasa.gov/api/citations/19840002769/downloads/19840002769.pdf",
+        "any_repository_has_fulltext": true
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": null,
+            "display_name": "David Gottlieb",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I16391192",
+              "display_name": "Tel Aviv University",
+              "ror": "https://ror.org/04mhzgx49",
+              "country_code": "IL",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I16391192"
+              ]
+            }
+          ],
+          "countries": [
+            "IL"
+          ],
+          "is_corresponding": true,
+          "raw_author_name": "David Gottlieb",
+          "raw_affiliation_strings": [
+            "Tel-Aviv  University"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Tel-Aviv  University",
+              "institution_ids": [
+                "https://openalex.org/I16391192"
+              ]
+            }
+          ]
+        }
+      ],
+      "institutions": [],
+      "countries_distinct_count": 1,
+      "institutions_distinct_count": 1,
+      "corresponding_author_ids": [],
+      "corresponding_institution_ids": [
+        "https://openalex.org/I16391192"
+      ],
+      "apc_list": null,
+      "apc_paid": null,
+      "fwci": null,
+      "has_fulltext": true,
+      "cited_by_count": 9,
+      "citation_normalized_percentile": null,
+      "cited_by_percentile_year": null,
+      "biblio": {
+        "volume": null,
+        "issue": null,
+        "first_page": null,
+        "last_page": null
+      },
+      "is_retracted": false,
+      "is_paratext": false,
+      "is_xpac": false,
+      "primary_topic": {
+        "id": "https://openalex.org/T10173",
+        "display_name": "Computational Fluid Dynamics and Aerodynamics",
+        "score": 0.6596999764442444,
+        "subfield": {
+          "id": "https://openalex.org/subfields/2206",
+          "display_name": "Computational Mechanics"
+        },
+        "field": {
+          "id": "https://openalex.org/fields/22",
+          "display_name": "Engineering"
+        },
+        "domain": {
+          "id": "https://openalex.org/domains/3",
+          "display_name": "Physical Sciences"
+        }
+      },
+      "topics": [
+        {
+          "id": "https://openalex.org/T10173",
+          "display_name": "Computational Fluid Dynamics and Aerodynamics",
+          "score": 0.6596999764442444,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10339",
+          "display_name": "Advanced Numerical Methods in Computational Mathematics",
+          "score": 0.22660000622272491,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T11416",
+          "display_name": "Numerical methods for differential equations",
+          "score": 0.06620000302791595,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2612",
+            "display_name": "Numerical Analysis"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/26",
+            "display_name": "Mathematics"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        }
+      ],
+      "keywords": [
+        {
+          "id": "https://openalex.org/keywords/spectral-methods",
+          "display_name": "spectral methods",
+          "score": 0.9990000128746033
+        },
+        {
+          "id": "https://openalex.org/keywords/time-dependent-partial-differential-equations",
+          "display_name": "time-dependent partial differential equations",
+          "score": 0.9369999766349792
+        },
+        {
+          "id": "https://openalex.org/keywords/separation-of-variables",
+          "display_name": "separation of variables",
+          "score": 0.8600000143051147
+        },
+        {
+          "id": "https://openalex.org/keywords/chebyshev-method",
+          "display_name": "Chebyshev method",
+          "score": 0.953000009059906
+        },
+        {
+          "id": "https://openalex.org/keywords/hyperbolic-systems",
+          "display_name": "hyperbolic systems",
+          "score": 0.7799999713897705
+        },
+        {
+          "id": "https://openalex.org/keywords/parabolic-systems",
+          "display_name": "parabolic systems",
+          "score": 0.9929999709129333
+        },
+        {
+          "id": "https://openalex.org/keywords/galerkin-method",
+          "display_name": "Galerkin method",
+          "score": 0.8830000162124634
+        },
+        {
+          "id": "https://openalex.org/keywords/collocation-method",
+          "display_name": "collocation method",
+          "score": 0.9860000014305115
+        },
+        {
+          "id": "https://openalex.org/keywords/nonlinear-problems",
+          "display_name": "nonlinear problems",
+          "score": 0.8500000238418579
+        },
+        {
+          "id": "https://openalex.org/keywords/shock-waves",
+          "display_name": "shock waves",
+          "score": 0.5230000019073486
+        }
+      ],
+      "concepts": [
+        {
+          "id": "https://openalex.org/C33923547",
+          "wikidata": "https://www.wikidata.org/wiki/Q395",
+          "display_name": "Mathematics",
+          "level": 0,
+          "score": 0.48212361335754395
+        },
+        {
+          "id": "https://openalex.org/C28826006",
+          "wikidata": "https://www.wikidata.org/wiki/Q33521",
+          "display_name": "Applied mathematics",
+          "level": 1,
+          "score": 0.47610247135162354
+        },
+        {
+          "id": "https://openalex.org/C93779851",
+          "wikidata": "https://www.wikidata.org/wiki/Q271977",
+          "display_name": "Partial differential equation",
+          "level": 2,
+          "score": 0.4134894013404846
+        },
+        {
+          "id": "https://openalex.org/C134306372",
+          "wikidata": "https://www.wikidata.org/wiki/Q7754",
+          "display_name": "Mathematical analysis",
+          "level": 1,
+          "score": 0.372040331363678
+        },
+        {
+          "id": "https://openalex.org/C41008148",
+          "wikidata": "https://www.wikidata.org/wiki/Q21198",
+          "display_name": "Computer science",
+          "level": 0,
+          "score": 0.36261823773384094
+        }
+      ],
+      "mesh": [],
+      "locations_count": 2,
+      "locations": [
+        {
+          "id": "doi:10.21236/ada182809",
+          "doi": "https://doi.org/10.21236/ada182809",
+          "is_oa": false,
+          "landing_page_url": "http://doi.org/10.21236/ada182809",
+          "pdf_url": null,
+          "source": null,
+          "license": null,
+          "license_id": null,
+          "version": "publishedVersion",
+          "is_accepted": true,
+          "is_published": true,
+          "raw_source_name": "US Dept of the Air Force",
+          "raw_type": "report"
+        },
+        {
+          "id": "pmh:oai:casi.ntrs.nasa.gov:19840002769",
+          "doi": null,
+          "is_oa": true,
+          "landing_page_url": "http://hdl.handle.net/2060/19840002769",
+          "pdf_url": "https://ntrs.nasa.gov/api/citations/19840002769/downloads/19840002769.pdf",
+          "source": {
+            "id": "https://openalex.org/S4377196257",
+            "display_name": "NASA STI Repository (National Aeronautics and Space Administration)",
+            "issn_l": null,
+            "issn": null,
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": "https://openalex.org/I4210124779",
+            "host_organization_name": "National Aeronautics and Space Administration",
+            "host_organization_lineage": [
+              "https://openalex.org/I4210124779"
+            ],
+            "host_organization_lineage_names": [],
+            "type": "repository"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "submittedVersion",
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": "CASI",
+          "raw_type": "REPT-83-54"
+        }
+      ],
+      "best_oa_location": {
+        "id": "pmh:oai:casi.ntrs.nasa.gov:19840002769",
+        "doi": null,
+        "is_oa": true,
+        "landing_page_url": "http://hdl.handle.net/2060/19840002769",
+        "pdf_url": "https://ntrs.nasa.gov/api/citations/19840002769/downloads/19840002769.pdf",
+        "source": {
+          "id": "https://openalex.org/S4377196257",
+          "display_name": "NASA STI Repository (National Aeronautics and Space Administration)",
+          "issn_l": null,
+          "issn": null,
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": false,
+          "listed_in": [],
+          "host_organization": "https://openalex.org/I4210124779",
+          "host_organization_name": "National Aeronautics and Space Administration",
+          "host_organization_lineage": [
+            "https://openalex.org/I4210124779"
+          ],
+          "host_organization_lineage_names": [],
+          "type": "repository"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "submittedVersion",
+        "is_accepted": false,
+        "is_published": false,
+        "raw_source_name": "CASI",
+        "raw_type": "REPT-83-54"
+      },
+      "sustainable_development_goals": [],
+      "sustainable_development_goals_aurora": [],
+      "study_designs": [],
+      "awards": [
+        {
+          "id": "https://openalex.org/G9000133688",
+          "display_name": null,
+          "funder_award_id": "83-0089",
+          "funder_id": "https://openalex.org/F4320338279",
+          "funder_display_name": "Air Force Office of Scientific Research"
+        }
+      ],
+      "funders": [
+        {
+          "id": "https://openalex.org/F4320306101",
+          "display_name": "National Aeronautics and Space Administration",
+          "ror": "https://ror.org/027ka1x80"
+        },
+        {
+          "id": "https://openalex.org/F4320332378",
+          "display_name": "Langley Research Center",
+          "ror": "https://ror.org/0399mhs52"
+        },
+        {
+          "id": "https://openalex.org/F4320338279",
+          "display_name": "Air Force Office of Scientific Research",
+          "ror": "https://ror.org/011e9bt93"
+        }
+      ],
+      "has_content": {
+        "grobid_xml": true,
+        "pdf": true
+      },
+      "content_urls": {
+        "pdf": "https://content.openalex.org/works/W1571130907.pdf",
+        "grobid_xml": "https://content.openalex.org/works/W1571130907.grobid-xml"
+      },
+      "referenced_works_count": 30,
+      "referenced_works": [
+        "https://openalex.org/W108781542",
+        "https://openalex.org/W788555739",
+        "https://openalex.org/W1520181471",
+        "https://openalex.org/W1546292516",
+        "https://openalex.org/W1562449431",
+        "https://openalex.org/W1574656040",
+        "https://openalex.org/W1806940145",
+        "https://openalex.org/W1824763114",
+        "https://openalex.org/W1985144286",
+        "https://openalex.org/W1987377268",
+        "https://openalex.org/W1994973951",
+        "https://openalex.org/W1996199419",
+        "https://openalex.org/W2006041274",
+        "https://openalex.org/W2020168202",
+        "https://openalex.org/W2030257712",
+        "https://openalex.org/W2034591416",
+        "https://openalex.org/W2036353384",
+        "https://openalex.org/W2041657637",
+        "https://openalex.org/W2048065823",
+        "https://openalex.org/W2053425018",
+        "https://openalex.org/W2057159272",
+        "https://openalex.org/W2059998776",
+        "https://openalex.org/W2070597252",
+        "https://openalex.org/W2073128326",
+        "https://openalex.org/W2081018069",
+        "https://openalex.org/W2166590326",
+        "https://openalex.org/W2586101611",
+        "https://openalex.org/W3095659425",
+        "https://openalex.org/W3151190849",
+        "https://openalex.org/W4230437758"
+      ],
+      "related_works": [
+        "https://openalex.org/W2899084033",
+        "https://openalex.org/W2748952813",
+        "https://openalex.org/W1979597421",
+        "https://openalex.org/W2007980826",
+        "https://openalex.org/W4245490552",
+        "https://openalex.org/W4225152035",
+        "https://openalex.org/W2061531152",
+        "https://openalex.org/W3002753104",
+        "https://openalex.org/W2077600819",
+        "https://openalex.org/W1587224694"
+      ],
+      "abstract_inverted_index": {
+        "The": [
+          0,
+          33
+        ],
+        "theory": [
+          1,
+          34
+        ],
+        "of": [
+          2,
+          51
+        ],
+        "spectral": [
+          3
+        ],
+        "methods": [
+          4,
+          19,
+          30
+        ],
+        "for": [
+          5,
+          23,
+          37,
+          69
+        ],
+        "time": [
+          6
+        ],
+        "dependent": [
+          7
+        ],
+        "partial": [
+          8
+        ],
+        "differential": [
+          9
+        ],
+        "equations": [
+          10
+        ],
+        "is": [
+          11,
+          16,
+          35,
+          64
+        ],
+        "reviewed.": [
+          12
+        ],
+        "When": [
+          13
+        ],
+        "the": [
+          14,
+          52,
+          59
+        ],
+        "domain": [
+          15
+        ],
+        "periodic": [
+          17
+        ],
+        "Fourier": [
+          18
+        ],
+        "are": [
+          20,
+          31,
+          73
+        ],
+        "presented": [
+          21,
+          36
+        ],
+        "while": [
+          22
+        ],
+        "nonperiodic": [
+          24
+        ],
+        "problems": [
+          25,
+          55,
+          63,
+          70
+        ],
+        "both": [
+          26,
+          38,
+          44
+        ],
+        "Chebyshev": [
+          27
+        ],
+        "and": [
+          28,
+          40,
+          46
+        ],
+        "Legendre": [
+          29
+        ],
+        "discussed.": [
+          32,
+          66
+        ],
+        "hyperbolic": [
+          39
+        ],
+        "parabolic": [
+          41
+        ],
+        "systems": [
+          42
+        ],
+        "using": [
+          43
+        ],
+        "Galerkin": [
+          45
+        ],
+        "collocation": [
+          47
+        ],
+        "procedures.": [
+          48
+        ],
+        "While": [
+          49
+        ],
+        "most": [
+          50
+        ],
+        "review": [
+          53
+        ],
+        "considers": [
+          54
+        ],
+        "with": [
+          56,
+          71
+        ],
+        "constant": [
+          57
+        ],
+        "coefficients": [
+          58
+        ],
+        "extension": [
+          60
+        ],
+        "to": [
+          61
+        ],
+        "nonlinear": [
+          62
+        ],
+        "also": [
+          65
+        ],
+        "Some": [
+          67
+        ],
+        "results": [
+          68
+        ],
+        "shocks": [
+          72
+        ],
+        "presented.": [
+          74
+        ]
+      },
+      "counts_by_year": [],
+      "updated_date": "2026-10-14T16:39:01.820549",
+      "created_date": "2025-10-10T00:00:00"
+    },
+    {
+      "id": "https://openalex.org/W1678272269",
+      "doi": "https://doi.org/10.1016/j.jcp.2015.06.031",
+      "title": "The automatic solution of partial differential equations using a global spectral method",
+      "display_name": "The automatic solution of partial differential equations using a global spectral method",
+      "relevance_score": 59.487186,
+      "publication_year": 2015,
+      "publication_date": "2015-07-05",
+      "ids": {
+        "openalex": "https://openalex.org/W1678272269",
+        "doi": "https://doi.org/10.1016/j.jcp.2015.06.031",
+        "mag": "1678272269"
+      },
+      "language": "en",
+      "primary_location": {
+        "id": "doi:10.1016/j.jcp.2015.06.031",
+        "doi": "https://doi.org/10.1016/j.jcp.2015.06.031",
+        "is_oa": false,
+        "landing_page_url": "https://doi.org/10.1016/j.jcp.2015.06.031",
+        "pdf_url": null,
+        "source": {
+          "id": "https://openalex.org/S148709879",
+          "display_name": "Journal of Computational Physics",
+          "issn_l": "0021-9991",
+          "issn": [
+            "0021-9991",
+            "1090-2716"
+          ],
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": true,
+          "listed_in": [
+            "anvur-scientific",
+            "cwts-core",
+            "dongbi-a",
+            "jufo-2",
+            "ki-jl-2",
+            "norway-2",
+            "poland-140",
+            "russia-white-list-1"
+          ],
+          "host_organization": "https://openalex.org/P4310320990",
+          "host_organization_name": "Elsevier BV",
+          "host_organization_lineage": [
+            "https://openalex.org/P4310320990"
+          ],
+          "host_organization_lineage_names": [
+            "Elsevier BV"
+          ],
+          "type": "journal"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "publishedVersion",
+        "is_accepted": true,
+        "is_published": true,
+        "raw_source_name": "Journal of Computational Physics",
+        "raw_type": "journal-article"
+      },
+      "volume": null,
+      "type": "article",
+      "indexed_in": [
+        "arxiv",
+        "crossref",
+        "datacite"
+      ],
+      "open_access": {
+        "is_oa": true,
+        "oa_status": "green",
+        "oa_url": "https://arxiv.org/pdf/1409.2789",
+        "any_repository_has_fulltext": true
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": "https://openalex.org/A5003110773",
+            "display_name": "Alex Townsend",
+            "orcid": "https://orcid.org/0000-0002-8183-7077",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-8183-7077",
+              "https://orcid.org/0000-0002-7587-7355"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I63966007",
+              "display_name": "Massachusetts Institute of Technology",
+              "ror": "https://ror.org/042nb2s44",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I63966007"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": true,
+          "raw_author_name": "Alex Townsend",
+          "raw_affiliation_strings": [
+            "Department of Mathematics, Massachusetts Institute of Technology, 77 Massachusetts Avenue, Cambridge, MA 02139-4307, United States",
+            "Department of MathematicsMassachusetts Institute of Technology77 Massachusetts AvenueCambridge, MA 02139-4307United States"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0002-7587-7355",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Department of Mathematics, Massachusetts Institute of Technology, 77 Massachusetts Avenue, Cambridge, MA 02139-4307, United States",
+              "institution_ids": [
+                "https://openalex.org/I63966007"
+              ]
+            },
+            {
+              "raw_affiliation_string": "Department of MathematicsMassachusetts Institute of Technology77 Massachusetts AvenueCambridge, MA 02139-4307United States",
+              "institution_ids": [
+                "https://openalex.org/I63966007"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "last",
+          "author": {
+            "id": "https://openalex.org/A5010027385",
+            "display_name": "Sheehan Olver",
+            "orcid": "https://orcid.org/0000-0001-6920-0826",
+            "observed_orcids": [
+              "https://orcid.org/0000-0001-6920-0826"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I129604602",
+              "display_name": "The University of Sydney",
+              "ror": "https://ror.org/0384j8v12",
+              "country_code": "AU",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I129604602"
+              ]
+            }
+          ],
+          "countries": [
+            "AU"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Sheehan Olver",
+          "raw_affiliation_strings": [
+            "School of Mathematics and Statistics, The University of Sydney, Sydney, Australia",
+            "School of Mathematics and Statistics, The University of Sydney , Sydney, Australia"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "School of Mathematics and Statistics, The University of Sydney, Sydney, Australia",
+              "institution_ids": [
+                "https://openalex.org/I129604602"
+              ]
+            },
+            {
+              "raw_affiliation_string": "School of Mathematics and Statistics, The University of Sydney , Sydney, Australia",
+              "institution_ids": [
+                "https://openalex.org/I129604602"
+              ]
+            }
+          ]
+        }
+      ],
+      "institutions": [],
+      "countries_distinct_count": 2,
+      "institutions_distinct_count": 2,
+      "corresponding_author_ids": [
+        "https://openalex.org/A5003110773"
+      ],
+      "corresponding_institution_ids": [
+        "https://openalex.org/I63966007"
+      ],
+      "apc_list": {
+        "value": 3980,
+        "currency": "USD",
+        "value_usd": 3980
+      },
+      "apc_paid": null,
+      "fwci": 11.6609,
+      "has_fulltext": true,
+      "cited_by_count": 70,
+      "citation_normalized_percentile": {
+        "value": 0.98634534,
+        "is_in_top_1_percent": false,
+        "is_in_top_10_percent": true
+      },
+      "cited_by_percentile_year": {
+        "min": 89,
+        "max": 99
+      },
+      "biblio": {
+        "volume": "299",
+        "issue": null,
+        "first_page": "106",
+        "last_page": "123"
+      },
+      "is_retracted": false,
+      "is_paratext": false,
+      "is_xpac": false,
+      "primary_topic": {
+        "id": "https://openalex.org/T11191",
+        "display_name": "Mathematical functions and polynomials",
+        "score": 0.25679999589920044,
+        "subfield": {
+          "id": "https://openalex.org/subfields/2604",
+          "display_name": "Applied Mathematics"
+        },
+        "field": {
+          "id": "https://openalex.org/fields/26",
+          "display_name": "Mathematics"
+        },
+        "domain": {
+          "id": "https://openalex.org/domains/3",
+          "display_name": "Physical Sciences"
+        }
+      },
+      "topics": [
+        {
+          "id": "https://openalex.org/T11191",
+          "display_name": "Mathematical functions and polynomials",
+          "score": 0.25679999589920044,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2604",
+            "display_name": "Applied Mathematics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/26",
+            "display_name": "Mathematics"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T11416",
+          "display_name": "Numerical methods for differential equations",
+          "score": 0.25200000405311584,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2612",
+            "display_name": "Numerical Analysis"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/26",
+            "display_name": "Mathematics"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10792",
+          "display_name": "Matrix Theory and Algorithms",
+          "score": 0.16089999675750732,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1703",
+            "display_name": "Computational Theory and Mathematics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        }
+      ],
+      "keywords": [
+        {
+          "id": "https://openalex.org/keywords/linear-partial-differential-equations",
+          "display_name": "linear partial differential equations",
+          "score": 0.8510000109672546
+        },
+        {
+          "id": "https://openalex.org/keywords/varying-coefficients",
+          "display_name": "variable coefficients",
+          "score": 0.8769999742507935
+        },
+        {
+          "id": "https://openalex.org/keywords/sylvester-equation",
+          "display_name": "Sylvester equation",
+          "score": 0.8500000238418579
+        },
+        {
+          "id": "https://openalex.org/keywords/chebfun",
+          "display_name": "Chebfun",
+          "score": 0.7760000228881836
+        },
+        {
+          "id": "https://openalex.org/keywords/elliptic-equations",
+          "display_name": "elliptic equations",
+          "score": 0.7770000100135803
+        },
+        {
+          "id": "https://openalex.org/keywords/rectangular-domain",
+          "display_name": "rectangular domain",
+          "score": 0.6380000114440918
+        }
+      ],
+      "concepts": [
+        {
+          "id": "https://openalex.org/C33923547",
+          "wikidata": "https://www.wikidata.org/wiki/Q395",
+          "display_name": "Mathematics",
+          "level": 0,
+          "score": 0.7322888374328613
+        },
+        {
+          "id": "https://openalex.org/C93779851",
+          "wikidata": "https://www.wikidata.org/wiki/Q271977",
+          "display_name": "Partial differential equation",
+          "level": 2,
+          "score": 0.6874160766601562
+        },
+        {
+          "id": "https://openalex.org/C23463724",
+          "wikidata": "https://www.wikidata.org/wiki/Q2308831",
+          "display_name": "Spectral method",
+          "level": 2,
+          "score": 0.5396819710731506
+        },
+        {
+          "id": "https://openalex.org/C97826883",
+          "wikidata": "https://www.wikidata.org/wiki/Q7069659",
+          "display_name": "Numerical partial differential equations",
+          "level": 3,
+          "score": 0.5225607752799988
+        },
+        {
+          "id": "https://openalex.org/C53846429",
+          "wikidata": "https://www.wikidata.org/wiki/Q186475",
+          "display_name": "Partial derivative",
+          "level": 2,
+          "score": 0.5051775574684143
+        },
+        {
+          "id": "https://openalex.org/C54067925",
+          "wikidata": "https://www.wikidata.org/wiki/Q3607962",
+          "display_name": "Elliptic partial differential equation",
+          "level": 3,
+          "score": 0.4677222967147827
+        },
+        {
+          "id": "https://openalex.org/C153353860",
+          "wikidata": "https://www.wikidata.org/wiki/Q4555178",
+          "display_name": "Symbol of a differential operator",
+          "level": 5,
+          "score": 0.45023781061172485
+        },
+        {
+          "id": "https://openalex.org/C28826006",
+          "wikidata": "https://www.wikidata.org/wiki/Q33521",
+          "display_name": "Applied mathematics",
+          "level": 1,
+          "score": 0.44518184661865234
+        },
+        {
+          "id": "https://openalex.org/C182310444",
+          "wikidata": "https://www.wikidata.org/wiki/Q1332643",
+          "display_name": "Boundary value problem",
+          "level": 2,
+          "score": 0.43809017539024353
+        },
+        {
+          "id": "https://openalex.org/C70610323",
+          "wikidata": "https://www.wikidata.org/wiki/Q427625",
+          "display_name": "Elliptic operator",
+          "level": 2,
+          "score": 0.41953301429748535
+        },
+        {
+          "id": "https://openalex.org/C106487976",
+          "wikidata": "https://www.wikidata.org/wiki/Q685816",
+          "display_name": "Matrix (chemical analysis)",
+          "level": 2,
+          "score": 0.41554445028305054
+        },
+        {
+          "id": "https://openalex.org/C2778770139",
+          "wikidata": "https://www.wikidata.org/wiki/Q1966904",
+          "display_name": "Solver",
+          "level": 2,
+          "score": 0.41404736042022705
+        },
+        {
+          "id": "https://openalex.org/C134306372",
+          "wikidata": "https://www.wikidata.org/wiki/Q7754",
+          "display_name": "Mathematical analysis",
+          "level": 1,
+          "score": 0.40559035539627075
+        },
+        {
+          "id": "https://openalex.org/C78045399",
+          "wikidata": "https://www.wikidata.org/wiki/Q11214",
+          "display_name": "Differential equation",
+          "level": 2,
+          "score": 0.34868478775024414
+        },
+        {
+          "id": "https://openalex.org/C126255220",
+          "wikidata": "https://www.wikidata.org/wiki/Q141495",
+          "display_name": "Mathematical optimization",
+          "level": 1,
+          "score": 0.16395553946495056
+        },
+        {
+          "id": "https://openalex.org/C186219872",
+          "wikidata": "https://www.wikidata.org/wiki/Q955889",
+          "display_name": "Differential algebraic equation",
+          "level": 4,
+          "score": 0.15010520815849304
+        },
+        {
+          "id": "https://openalex.org/C51544822",
+          "wikidata": "https://www.wikidata.org/wiki/Q465274",
+          "display_name": "Ordinary differential equation",
+          "level": 3,
+          "score": 0.132432758808136
+        },
+        {
+          "id": "https://openalex.org/C159985019",
+          "wikidata": "https://www.wikidata.org/wiki/Q181790",
+          "display_name": "Composite material",
+          "level": 1,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C192562407",
+          "wikidata": "https://www.wikidata.org/wiki/Q228736",
+          "display_name": "Materials science",
+          "level": 0,
+          "score": 0.0
+        }
+      ],
+      "mesh": [],
+      "locations_count": 3,
+      "locations": [
+        {
+          "id": "doi:10.1016/j.jcp.2015.06.031",
+          "doi": "https://doi.org/10.1016/j.jcp.2015.06.031",
+          "is_oa": false,
+          "landing_page_url": "https://doi.org/10.1016/j.jcp.2015.06.031",
+          "pdf_url": null,
+          "source": {
+            "id": "https://openalex.org/S148709879",
+            "display_name": "Journal of Computational Physics",
+            "issn_l": "0021-9991",
+            "issn": [
+              "0021-9991",
+              "1090-2716"
+            ],
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": true,
+            "listed_in": [
+              "anvur-scientific",
+              "cwts-core",
+              "dongbi-a",
+              "jufo-2",
+              "ki-jl-2",
+              "norway-2",
+              "poland-140",
+              "russia-white-list-1"
+            ],
+            "host_organization": "https://openalex.org/P4310320990",
+            "host_organization_name": "Elsevier BV",
+            "host_organization_lineage": [
+              "https://openalex.org/P4310320990"
+            ],
+            "host_organization_lineage_names": [
+              "Elsevier BV"
+            ],
+            "type": "journal"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "publishedVersion",
+          "is_accepted": true,
+          "is_published": true,
+          "raw_source_name": "Journal of Computational Physics",
+          "raw_type": "journal-article"
+        },
+        {
+          "id": "pmh:oai:arXiv.org:1409.2789",
+          "doi": null,
+          "is_oa": true,
+          "landing_page_url": "https://arxiv.org/abs/1409.2789",
+          "pdf_url": "https://arxiv.org/pdf/1409.2789",
+          "source": {
+            "id": "https://openalex.org/S4306400194",
+            "display_name": "arXiv (Cornell University)",
+            "issn_l": "2331-8422",
+            "issn": [
+              "2331-8422"
+            ],
+            "is_oa": true,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": "https://openalex.org/I205783295",
+            "host_organization_name": "Cornell University",
+            "host_organization_lineage": [
+              "https://openalex.org/I205783295"
+            ],
+            "host_organization_lineage_names": [],
+            "type": "repository"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "submittedVersion",
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": null,
+          "raw_type": "text"
+        },
+        {
+          "id": "doi:10.48550/arxiv.1409.2789",
+          "doi": "https://doi.org/10.48550/arxiv.1409.2789",
+          "is_oa": true,
+          "landing_page_url": "https://doi.org/10.48550/arxiv.1409.2789",
+          "pdf_url": null,
+          "source": {
+            "id": "https://openalex.org/S4306400194",
+            "display_name": "arXiv (Cornell University)",
+            "issn_l": "2331-8422",
+            "issn": [
+              "2331-8422"
+            ],
+            "is_oa": true,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": "https://openalex.org/I205783295",
+            "host_organization_name": "Cornell University",
+            "host_organization_lineage": [
+              "https://openalex.org/I205783295"
+            ],
+            "host_organization_lineage_names": [],
+            "type": "repository"
+          },
+          "license": null,
+          "license_id": null,
+          "version": null,
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": null,
+          "raw_type": "Preprint"
+        }
+      ],
+      "best_oa_location": {
+        "id": "pmh:oai:arXiv.org:1409.2789",
+        "doi": null,
+        "is_oa": true,
+        "landing_page_url": "https://arxiv.org/abs/1409.2789",
+        "pdf_url": "https://arxiv.org/pdf/1409.2789",
+        "source": {
+          "id": "https://openalex.org/S4306400194",
+          "display_name": "arXiv (Cornell University)",
+          "issn_l": "2331-8422",
+          "issn": [
+            "2331-8422"
+          ],
+          "is_oa": true,
+          "is_in_doaj": false,
+          "is_core": false,
+          "listed_in": [],
+          "host_organization": "https://openalex.org/I205783295",
+          "host_organization_name": "Cornell University",
+          "host_organization_lineage": [
+            "https://openalex.org/I205783295"
+          ],
+          "host_organization_lineage_names": [],
+          "type": "repository"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "submittedVersion",
+        "is_accepted": false,
+        "is_published": false,
+        "raw_source_name": null,
+        "raw_type": "text"
+      },
+      "sustainable_development_goals": [],
+      "sustainable_development_goals_aurora": [
+        {
+          "score": 0.7699999809265137,
+          "display_name": "Peace, justice, and strong institutions",
+          "id": "https://metadata.un.org/sdg/16"
+        }
+      ],
+      "study_designs": [],
+      "awards": [
+        {
+          "id": "https://openalex.org/G507430640",
+          "display_name": null,
+          "funder_award_id": "291068",
+          "funder_id": "https://openalex.org/F4320334678",
+          "funder_display_name": "European Research Council"
+        },
+        {
+          "id": "https://openalex.org/G8170762138",
+          "display_name": "A new class of fast and reliable spectral methods for partial differential equations",
+          "funder_award_id": "DE130100333",
+          "funder_id": "https://openalex.org/F4320334704",
+          "funder_display_name": "Australian Research Council"
+        }
+      ],
+      "funders": [
+        {
+          "id": "https://openalex.org/F4320334678",
+          "display_name": "European Research Council",
+          "ror": "https://ror.org/0472cxd90"
+        },
+        {
+          "id": "https://openalex.org/F4320334704",
+          "display_name": "Australian Research Council",
+          "ror": "https://ror.org/05mmh0f86"
+        }
+      ],
+      "has_content": {
+        "grobid_xml": true,
+        "pdf": true
+      },
+      "content_urls": {
+        "pdf": "https://content.openalex.org/works/W1678272269.pdf",
+        "grobid_xml": "https://content.openalex.org/works/W1678272269.grobid-xml"
+      },
+      "referenced_works_count": 58,
+      "referenced_works": [
+        "https://openalex.org/W114707485",
+        "https://openalex.org/W217710249",
+        "https://openalex.org/W226168478",
+        "https://openalex.org/W574371225",
+        "https://openalex.org/W640428934",
+        "https://openalex.org/W784036489",
+        "https://openalex.org/W1486053256",
+        "https://openalex.org/W1490180844",
+        "https://openalex.org/W1494982173",
+        "https://openalex.org/W1549220217",
+        "https://openalex.org/W1558122728",
+        "https://openalex.org/W1574656040",
+        "https://openalex.org/W1592109991",
+        "https://openalex.org/W1805381866",
+        "https://openalex.org/W1912930600",
+        "https://openalex.org/W1974295409",
+        "https://openalex.org/W1974523495",
+        "https://openalex.org/W1987449763",
+        "https://openalex.org/W1988742704",
+        "https://openalex.org/W1993482030",
+        "https://openalex.org/W1997701847",
+        "https://openalex.org/W2000630868",
+        "https://openalex.org/W2006456820",
+        "https://openalex.org/W2006850990",
+        "https://openalex.org/W2008515709",
+        "https://openalex.org/W2011156671",
+        "https://openalex.org/W2012601868",
+        "https://openalex.org/W2013529907",
+        "https://openalex.org/W2013901196",
+        "https://openalex.org/W2014078287",
+        "https://openalex.org/W2025485823",
+        "https://openalex.org/W2033702923",
+        "https://openalex.org/W2041588624",
+        "https://openalex.org/W2045467508",
+        "https://openalex.org/W2047352485",
+        "https://openalex.org/W2048028343",
+        "https://openalex.org/W2066109671",
+        "https://openalex.org/W2082849992",
+        "https://openalex.org/W2088748973",
+        "https://openalex.org/W2102591969",
+        "https://openalex.org/W2135479785",
+        "https://openalex.org/W2160015531",
+        "https://openalex.org/W2161644951",
+        "https://openalex.org/W2165693128",
+        "https://openalex.org/W2167284312",
+        "https://openalex.org/W2167965189",
+        "https://openalex.org/W2171692351",
+        "https://openalex.org/W2321428294",
+        "https://openalex.org/W2334430587",
+        "https://openalex.org/W2408478130",
+        "https://openalex.org/W2410898212",
+        "https://openalex.org/W2796303555",
+        "https://openalex.org/W3021722416",
+        "https://openalex.org/W3172448017",
+        "https://openalex.org/W3207663632",
+        "https://openalex.org/W4206142625",
+        "https://openalex.org/W4250431399",
+        "https://openalex.org/W4298060601"
+      ],
+      "related_works": [
+        "https://openalex.org/W184885699",
+        "https://openalex.org/W162905608",
+        "https://openalex.org/W4390946918",
+        "https://openalex.org/W2123186262",
+        "https://openalex.org/W4300850117",
+        "https://openalex.org/W2062472350",
+        "https://openalex.org/W4243096424",
+        "https://openalex.org/W2582405793",
+        "https://openalex.org/W104797869",
+        "https://openalex.org/W1590810315"
+      ],
+      "abstract_inverted_index": null,
+      "counts_by_year": [
+        {
+          "year": 2026,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2025,
+          "cited_by_count": 9
+        },
+        {
+          "year": 2024,
+          "cited_by_count": 7
+        },
+        {
+          "year": 2023,
+          "cited_by_count": 5
+        },
+        {
+          "year": 2022,
+          "cited_by_count": 4
+        },
+        {
+          "year": 2021,
+          "cited_by_count": 7
+        },
+        {
+          "year": 2020,
+          "cited_by_count": 11
+        },
+        {
+          "year": 2019,
+          "cited_by_count": 7
+        },
+        {
+          "year": 2018,
+          "cited_by_count": 3
+        },
+        {
+          "year": 2017,
+          "cited_by_count": 7
+        },
+        {
+          "year": 2016,
+          "cited_by_count": 6
+        },
+        {
+          "year": 2015,
+          "cited_by_count": 2
+        },
+        {
+          "year": 2014,
+          "cited_by_count": 1
+        }
+      ],
+      "updated_date": "2026-10-16T09:59:22.235173",
+      "created_date": "2016-06-24T00:00:00"
+    },
+    {
+      "id": "https://openalex.org/W1976312688",
+      "doi": "https://doi.org/10.1006/jcph.1996.0234",
+      "title": "Spectral Methods on Arbitrary Grids",
+      "display_name": "Spectral Methods on Arbitrary Grids",
+      "relevance_score": 53.651207,
+      "publication_year": 1996,
+      "publication_date": "1996-11-01",
+      "ids": {
+        "openalex": "https://openalex.org/W1976312688",
+        "doi": "https://doi.org/10.1006/jcph.1996.0234",
+        "mag": "1976312688"
+      },
+      "language": "en",
+      "primary_location": {
+        "id": "doi:10.1006/jcph.1996.0234",
+        "doi": "https://doi.org/10.1006/jcph.1996.0234",
+        "is_oa": false,
+        "landing_page_url": "https://doi.org/10.1006/jcph.1996.0234",
+        "pdf_url": null,
+        "source": {
+          "id": "https://openalex.org/S148709879",
+          "display_name": "Journal of Computational Physics",
+          "issn_l": "0021-9991",
+          "issn": [
+            "0021-9991",
+            "1090-2716"
+          ],
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": true,
+          "listed_in": [
+            "anvur-scientific",
+            "cwts-core",
+            "dongbi-a",
+            "jufo-2",
+            "ki-jl-2",
+            "norway-2",
+            "poland-140",
+            "russia-white-list-1"
+          ],
+          "host_organization": "https://openalex.org/P4310320990",
+          "host_organization_name": "Elsevier BV",
+          "host_organization_lineage": [
+            "https://openalex.org/P4310320990"
+          ],
+          "host_organization_lineage_names": [
+            "Elsevier BV"
+          ],
+          "type": "journal"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "publishedVersion",
+        "is_accepted": true,
+        "is_published": true,
+        "raw_source_name": "Journal of Computational Physics",
+        "raw_type": "journal-article"
+      },
+      "volume": null,
+      "type": "article",
+      "indexed_in": [
+        "crossref"
+      ],
+      "open_access": {
+        "is_oa": true,
+        "oa_status": "green",
+        "oa_url": "https://ntrs.nasa.gov/api/citations/19950020827/downloads/19950020827.pdf",
+        "any_repository_has_fulltext": true
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": "https://openalex.org/A5085452549",
+            "display_name": "Mark H. Carpenter",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1319063186",
+              "display_name": "Langley Research Center",
+              "ror": "https://ror.org/0399mhs52",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1319063186",
+                "https://openalex.org/I4210124779"
+              ]
+            },
+            {
+              "id": "https://openalex.org/I4210124779",
+              "display_name": "National Aeronautics and Space Administration",
+              "ror": "https://ror.org/027ka1x80",
+              "country_code": "US",
+              "type": "government",
+              "lineage": [
+                "https://openalex.org/I4210124779"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Mark H. Carpenter",
+          "raw_affiliation_strings": [
+            "Research Scientist, Aerodynamic and Acoustic Methods Branch, NASA Langley Research Center, Hampton, Virginia, 23681-0001",
+            "Research Scientist, Aerodynamic and Acoustic Methods Branch, NASA Langley Research Center, Hampton, Virginia, 23681-0001#TAB#"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Research Scientist, Aerodynamic and Acoustic Methods Branch, NASA Langley Research Center, Hampton, Virginia, 23681-0001",
+              "institution_ids": [
+                "https://openalex.org/I1319063186",
+                "https://openalex.org/I4210124779"
+              ]
+            },
+            {
+              "raw_affiliation_string": "Research Scientist, Aerodynamic and Acoustic Methods Branch, NASA Langley Research Center, Hampton, Virginia, 23681-0001#TAB#",
+              "institution_ids": [
+                "https://openalex.org/I1319063186",
+                "https://openalex.org/I4210124779"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "last",
+          "author": {
+            "id": null,
+            "display_name": "David Gottlieb",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I27804330",
+              "display_name": "Brown University",
+              "ror": "https://ror.org/05gq02987",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I27804330"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "David Gottlieb",
+          "raw_affiliation_strings": [
+            "Division of Applied Mathematics, Brown University, Providence, Rhode Island, 02912",
+            "Division of Applied Mathematics, Brown University Providence, Rhode Island 02912"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Division of Applied Mathematics, Brown University, Providence, Rhode Island, 02912",
+              "institution_ids": [
+                "https://openalex.org/I27804330"
+              ]
+            },
+            {
+              "raw_affiliation_string": "Division of Applied Mathematics, Brown University Providence, Rhode Island 02912",
+              "institution_ids": [
+                "https://openalex.org/I27804330"
+              ]
+            }
+          ]
+        }
+      ],
+      "institutions": [],
+      "countries_distinct_count": 1,
+      "institutions_distinct_count": 3,
+      "corresponding_author_ids": [],
+      "corresponding_institution_ids": [],
+      "apc_list": {
+        "value": 3980,
+        "currency": "USD",
+        "value_usd": 3980
+      },
+      "apc_paid": null,
+      "fwci": 3.079,
+      "has_fulltext": true,
+      "cited_by_count": 137,
+      "citation_normalized_percentile": {
+        "value": 0.89934524,
+        "is_in_top_1_percent": false,
+        "is_in_top_10_percent": false
+      },
+      "cited_by_percentile_year": {
+        "min": 88,
+        "max": 100
+      },
+      "biblio": {
+        "volume": "129",
+        "issue": "1",
+        "first_page": "74",
+        "last_page": "86"
+      },
+      "is_retracted": false,
+      "is_paratext": false,
+      "is_xpac": false,
+      "primary_topic": {
+        "id": "https://openalex.org/T10339",
+        "display_name": "Advanced Numerical Methods in Computational Mathematics",
+        "score": 0.7768999934196472,
+        "subfield": {
+          "id": "https://openalex.org/subfields/2206",
+          "display_name": "Computational Mechanics"
+        },
+        "field": {
+          "id": "https://openalex.org/fields/22",
+          "display_name": "Engineering"
+        },
+        "domain": {
+          "id": "https://openalex.org/domains/3",
+          "display_name": "Physical Sciences"
+        }
+      },
+      "topics": [
+        {
+          "id": "https://openalex.org/T10339",
+          "display_name": "Advanced Numerical Methods in Computational Mathematics",
+          "score": 0.7768999934196472,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10173",
+          "display_name": "Computational Fluid Dynamics and Aerodynamics",
+          "score": 0.12399999797344208,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T11416",
+          "display_name": "Numerical methods for differential equations",
+          "score": 0.025499999523162842,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2612",
+            "display_name": "Numerical Analysis"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/26",
+            "display_name": "Mathematics"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        }
+      ],
+      "keywords": [
+        {
+          "id": "https://openalex.org/keywords/spectral-methods",
+          "display_name": "spectral methods",
+          "score": 0.906000018119812
+        },
+        {
+          "id": "https://openalex.org/keywords/arbitrary-grids",
+          "display_name": "arbitrary grids",
+          "score": 0.9940000176429749
+        },
+        {
+          "id": "https://openalex.org/keywords/legendre-galerkin-method",
+          "display_name": "Legendre-Galerkin method",
+          "score": 0.9020000100135803
+        },
+        {
+          "id": "https://openalex.org/keywords/partial-differential-equations",
+          "display_name": "partial differential equations",
+          "score": 0.7929999828338623
+        },
+        {
+          "id": "https://openalex.org/keywords/spectral-accuracy",
+          "display_name": "spectral accuracy",
+          "score": 0.6980000138282776
+        }
+      ],
+      "concepts": [
+        {
+          "id": "https://openalex.org/C111458787",
+          "wikidata": "https://www.wikidata.org/wiki/Q215405",
+          "display_name": "Legendre polynomials",
+          "level": 2,
+          "score": 0.9024972915649414
+        },
+        {
+          "id": "https://openalex.org/C186899397",
+          "wikidata": "https://www.wikidata.org/wiki/Q1491980",
+          "display_name": "Galerkin method",
+          "level": 3,
+          "score": 0.7948755025863647
+        },
+        {
+          "id": "https://openalex.org/C80023036",
+          "wikidata": "https://www.wikidata.org/wiki/Q5147531",
+          "display_name": "Collocation (remote sensing)",
+          "level": 2,
+          "score": 0.7045281529426575
+        },
+        {
+          "id": "https://openalex.org/C23463724",
+          "wikidata": "https://www.wikidata.org/wiki/Q2308831",
+          "display_name": "Spectral method",
+          "level": 2,
+          "score": 0.6857106685638428
+        },
+        {
+          "id": "https://openalex.org/C187691185",
+          "wikidata": "https://www.wikidata.org/wiki/Q2020720",
+          "display_name": "Grid",
+          "level": 2,
+          "score": 0.6589936017990112
+        },
+        {
+          "id": "https://openalex.org/C33923547",
+          "wikidata": "https://www.wikidata.org/wiki/Q395",
+          "display_name": "Mathematics",
+          "level": 0,
+          "score": 0.6469118595123291
+        },
+        {
+          "id": "https://openalex.org/C108408018",
+          "wikidata": "https://www.wikidata.org/wiki/Q1124546",
+          "display_name": "Laguerre polynomials",
+          "level": 2,
+          "score": 0.593826174736023
+        },
+        {
+          "id": "https://openalex.org/C93779851",
+          "wikidata": "https://www.wikidata.org/wiki/Q271977",
+          "display_name": "Partial differential equation",
+          "level": 2,
+          "score": 0.5858998894691467
+        },
+        {
+          "id": "https://openalex.org/C28826006",
+          "wikidata": "https://www.wikidata.org/wiki/Q33521",
+          "display_name": "Applied mathematics",
+          "level": 1,
+          "score": 0.5545816421508789
+        },
+        {
+          "id": "https://openalex.org/C92244383",
+          "wikidata": "https://www.wikidata.org/wiki/Q428273",
+          "display_name": "Discontinuous Galerkin method",
+          "level": 3,
+          "score": 0.4863460659980774
+        },
+        {
+          "id": "https://openalex.org/C134306372",
+          "wikidata": "https://www.wikidata.org/wiki/Q7754",
+          "display_name": "Mathematical analysis",
+          "level": 1,
+          "score": 0.4493534564971924
+        },
+        {
+          "id": "https://openalex.org/C2126413",
+          "wikidata": "https://www.wikidata.org/wiki/Q1779479",
+          "display_name": "Collocation method",
+          "level": 4,
+          "score": 0.4413856565952301
+        },
+        {
+          "id": "https://openalex.org/C78045399",
+          "wikidata": "https://www.wikidata.org/wiki/Q11214",
+          "display_name": "Differential equation",
+          "level": 2,
+          "score": 0.3069671392440796
+        },
+        {
+          "id": "https://openalex.org/C135628077",
+          "wikidata": "https://www.wikidata.org/wiki/Q220184",
+          "display_name": "Finite element method",
+          "level": 2,
+          "score": 0.24326270818710327
+        },
+        {
+          "id": "https://openalex.org/C41008148",
+          "wikidata": "https://www.wikidata.org/wiki/Q21198",
+          "display_name": "Computer science",
+          "level": 0,
+          "score": 0.21492624282836914
+        },
+        {
+          "id": "https://openalex.org/C51544822",
+          "wikidata": "https://www.wikidata.org/wiki/Q465274",
+          "display_name": "Ordinary differential equation",
+          "level": 3,
+          "score": 0.18463551998138428
+        },
+        {
+          "id": "https://openalex.org/C2524010",
+          "wikidata": "https://www.wikidata.org/wiki/Q8087",
+          "display_name": "Geometry",
+          "level": 1,
+          "score": 0.1577245593070984
+        },
+        {
+          "id": "https://openalex.org/C121332964",
+          "wikidata": "https://www.wikidata.org/wiki/Q413",
+          "display_name": "Physics",
+          "level": 0,
+          "score": 0.12010741233825684
+        },
+        {
+          "id": "https://openalex.org/C97355855",
+          "wikidata": "https://www.wikidata.org/wiki/Q11473",
+          "display_name": "Thermodynamics",
+          "level": 1,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C119857082",
+          "wikidata": "https://www.wikidata.org/wiki/Q2539",
+          "display_name": "Machine learning",
+          "level": 1,
+          "score": 0.0
+        }
+      ],
+      "mesh": [],
+      "locations_count": 2,
+      "locations": [
+        {
+          "id": "doi:10.1006/jcph.1996.0234",
+          "doi": "https://doi.org/10.1006/jcph.1996.0234",
+          "is_oa": false,
+          "landing_page_url": "https://doi.org/10.1006/jcph.1996.0234",
+          "pdf_url": null,
+          "source": {
+            "id": "https://openalex.org/S148709879",
+            "display_name": "Journal of Computational Physics",
+            "issn_l": "0021-9991",
+            "issn": [
+              "0021-9991",
+              "1090-2716"
+            ],
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": true,
+            "listed_in": [
+              "anvur-scientific",
+              "cwts-core",
+              "dongbi-a",
+              "jufo-2",
+              "ki-jl-2",
+              "norway-2",
+              "poland-140",
+              "russia-white-list-1"
+            ],
+            "host_organization": "https://openalex.org/P4310320990",
+            "host_organization_name": "Elsevier BV",
+            "host_organization_lineage": [
+              "https://openalex.org/P4310320990"
+            ],
+            "host_organization_lineage_names": [
+              "Elsevier BV"
+            ],
+            "type": "journal"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "publishedVersion",
+          "is_accepted": true,
+          "is_published": true,
+          "raw_source_name": "Journal of Computational Physics",
+          "raw_type": "journal-article"
+        },
+        {
+          "id": "pmh:oai:casi.ntrs.nasa.gov:19950020827",
+          "doi": null,
+          "is_oa": true,
+          "landing_page_url": "http://hdl.handle.net/2060/19950020827",
+          "pdf_url": "https://ntrs.nasa.gov/api/citations/19950020827/downloads/19950020827.pdf",
+          "source": {
+            "id": "https://openalex.org/S4306402118",
+            "display_name": "NASA Technical Reports Server (NASA)",
+            "issn_l": null,
+            "issn": null,
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": "https://openalex.org/I1305493378",
+            "host_organization_name": "NASA Headquarters",
+            "host_organization_lineage": [
+              "https://openalex.org/I1305493378"
+            ],
+            "host_organization_lineage_names": [],
+            "type": "repository"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "submittedVersion",
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": "CASI",
+          "raw_type": "NAS 1.26:198158"
+        }
+      ],
+      "best_oa_location": {
+        "id": "pmh:oai:casi.ntrs.nasa.gov:19950020827",
+        "doi": null,
+        "is_oa": true,
+        "landing_page_url": "http://hdl.handle.net/2060/19950020827",
+        "pdf_url": "https://ntrs.nasa.gov/api/citations/19950020827/downloads/19950020827.pdf",
+        "source": {
+          "id": "https://openalex.org/S4306402118",
+          "display_name": "NASA Technical Reports Server (NASA)",
+          "issn_l": null,
+          "issn": null,
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": false,
+          "listed_in": [],
+          "host_organization": "https://openalex.org/I1305493378",
+          "host_organization_name": "NASA Headquarters",
+          "host_organization_lineage": [
+            "https://openalex.org/I1305493378"
+          ],
+          "host_organization_lineage_names": [],
+          "type": "repository"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "submittedVersion",
+        "is_accepted": false,
+        "is_published": false,
+        "raw_source_name": "CASI",
+        "raw_type": "NAS 1.26:198158"
+      },
+      "sustainable_development_goals": [],
+      "sustainable_development_goals_aurora": [],
+      "study_designs": [],
+      "awards": [
+        {
+          "id": "https://openalex.org/G4482256485",
+          "display_name": null,
+          "funder_award_id": "NAS1-19480",
+          "funder_id": "https://openalex.org/F4320306101",
+          "funder_display_name": "National Aeronautics and Space Administration"
+        },
+        {
+          "id": "https://openalex.org/G4736275274",
+          "display_name": "Mathematical Sciences: High Order Methods for Discontinuous Problems",
+          "funder_award_id": "9211820",
+          "funder_id": "https://openalex.org/F4320306076",
+          "funder_display_name": "National Science Foundation"
+        }
+      ],
+      "funders": [
+        {
+          "id": "https://openalex.org/F4320306076",
+          "display_name": "National Science Foundation",
+          "ror": "https://ror.org/021nxhr62"
+        },
+        {
+          "id": "https://openalex.org/F4320306101",
+          "display_name": "National Aeronautics and Space Administration",
+          "ror": "https://ror.org/027ka1x80"
+        },
+        {
+          "id": "https://openalex.org/F4320332378",
+          "display_name": "Langley Research Center",
+          "ror": "https://ror.org/0399mhs52"
+        },
+        {
+          "id": "https://openalex.org/F4320332815",
+          "display_name": "Advanced Research Projects Agency",
+          "ror": "https://ror.org/02caytj08"
+        },
+        {
+          "id": "https://openalex.org/F4320338279",
+          "display_name": "Air Force Office of Scientific Research",
+          "ror": "https://ror.org/011e9bt93"
+        }
+      ],
+      "has_content": {
+        "grobid_xml": true,
+        "pdf": true
+      },
+      "content_urls": {
+        "pdf": "https://content.openalex.org/works/W1976312688.pdf",
+        "grobid_xml": "https://content.openalex.org/works/W1976312688.grobid-xml"
+      },
+      "referenced_works_count": 8,
+      "referenced_works": [
+        "https://openalex.org/W84545731",
+        "https://openalex.org/W1965855805",
+        "https://openalex.org/W2046683716",
+        "https://openalex.org/W2047352485",
+        "https://openalex.org/W2053856828",
+        "https://openalex.org/W2071323852",
+        "https://openalex.org/W2076987291",
+        "https://openalex.org/W2150366328"
+      ],
+      "related_works": [
+        "https://openalex.org/W2022839532",
+        "https://openalex.org/W2055134999",
+        "https://openalex.org/W2915414498",
+        "https://openalex.org/W4248043797",
+        "https://openalex.org/W3136695212",
+        "https://openalex.org/W2365959816",
+        "https://openalex.org/W2385237360",
+        "https://openalex.org/W2318462232",
+        "https://openalex.org/W2075173897",
+        "https://openalex.org/W3033023825"
+      ],
+      "abstract_inverted_index": null,
+      "counts_by_year": [
+        {
+          "year": 2026,
+          "cited_by_count": 3
+        },
+        {
+          "year": 2025,
+          "cited_by_count": 4
+        },
+        {
+          "year": 2024,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2023,
+          "cited_by_count": 6
+        },
+        {
+          "year": 2022,
+          "cited_by_count": 7
+        },
+        {
+          "year": 2021,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2020,
+          "cited_by_count": 11
+        },
+        {
+          "year": 2019,
+          "cited_by_count": 3
+        },
+        {
+          "year": 2018,
+          "cited_by_count": 10
+        },
+        {
+          "year": 2017,
+          "cited_by_count": 10
+        },
+        {
+          "year": 2016,
+          "cited_by_count": 16
+        },
+        {
+          "year": 2015,
+          "cited_by_count": 14
+        },
+        {
+          "year": 2014,
+          "cited_by_count": 8
+        },
+        {
+          "year": 2013,
+          "cited_by_count": 3
+        },
+        {
+          "year": 2012,
+          "cited_by_count": 2
+        }
+      ],
+      "updated_date": "2026-10-14T16:39:01.820549",
+      "created_date": "2025-10-10T00:00:00"
+    }
+  ],
+  "group_by": []
+}

@@ -1,0 +1,1210 @@
+                                                         An Architecture-Agnostic High-Order Discontinuous Galerkin Framework for
+                                                                                    Compressible Flows
+
+                                                   Spencer Starra,∗, Yannik Feldnera , Patrick Koppera , Marcel Blinda , Daniel Kempfa , Jannik Schremppa , Felix Rodacha ,
+                                                                                                Andrea Becka , Anna Schwarza
+                                                               a Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Wankelstraße 3, 70563 Stuttgart, Germany
+arXiv:2605.28627v1 [physics.flu-dyn] 27 May 2026
+
+
+
+
+                                                   Abstract
+                                                   With the recent proliferation of heterogeneous, GPU-accelerated supercomputers, high-order computational fluid dy-
+                                                   namics (CFD) simulations of complex, turbulent flows are more accessible than ever. To leverage the computing power
+                                                   of these machines, CFD software must adapt. However, complicating the situation is the emerging need to support
+                                                   hardware from multiple GPU vendors. Addressing this need is the GPU-accelerated, discontinuous Galerkin spectral
+                                                   element method (DGSEM) framework GALÆXI, a high-order, open source, architecture-agnostic toolchain for the study
+                                                   of complex, compressible, turbulent flows on unstructured, hexahedral grids. GPU-accelerated computations with GA-
+                                                   LÆXI are possible on GPU hardware by interfacing Fortran source code to the vendor models CUDA C++ for NVIDIA
+                                                   and HIP C++ for AMD.
+                                                       The DGSEM implementation in GALÆXI was verified using the method of manufactured solutions to rigorously
+                                                   confirm the expected order of convergence. Simulations of a compressible Taylor-Green-Vortex also demonstrated ex-
+                                                   cellent agreement with reference solutions across all supported architectures. GALÆXI achieved near ideal strong and
+                                                   weak scaling on GPU hardware from both NVIDIA and AMD. In the largest case, GALÆXI performed a simulation
+                                                   with 67.1 billion degrees of freedom on 65 536 AMD MI250X graphics compute devices with a parallel eﬀiciency of
+                                                   82.6%. Comparing node-to-node performance, GPU simulations offered speedups between 7.75x and 8.08x over CPU
+                                                   computations in time-to-solution while consuming less than half the energy. To demonstrate GALÆXI’s effectiveness
+                                                   for production-scale simulations, wall-resolved large eddy simulations of the transonic flow past a NACA 64A-110 airfoil
+                                                   and an ONERA OAT15A airfoil under shock buffet conditions were computed.
+                                                   Keywords: Discontinuous Galerkin, Portability, Fortran, GPUs, Turbulence, Compressible Flow
+
+
+                                                   1. Introduction                                                       lations demand a significant computational cost, requir-
+                                                                                                                         ing the use of supercomputers for their calculation to be
+                                                       In the ever-evolving landscape of computational fluid             possible. Since the beginning of high performance com-
+                                                   dynamics (CFD), there is a constant push toward larger                puting (HPC), computational capacity of supercomputers
+                                                   and more complex problems. One discipline of CFD where                has steadily increased over time, accommodating studies
+                                                   this is especially true is the study of three-dimensional,            of turbulent flow fields of simultaneously increasing fidelity
+                                                   compressible, turbulent flows. This regime contains large             and complexity.
+                                                   disparities in temporal and physical scales along with elab-              Currently, the largest computers in the world are ca-
+                                                   orate interactions between turbulent structures and other             pable of performing more than 1018 floating point opera-
+                                                   flows features like shock waves. The situation is compli-             tions per second (FLOPs) [1], or one exaFLOP. To achieve
+                                                   cated even further when such flows involve complex, de-               those groundbreaking computational capacities, hardware
+                                                   tailed geometries, which is often the case in applications            manufacturers have turned to specialized computer chips,
+                                                   such as supercritical wing aerodynamics or turbomachin-               generally named accelerators, that offer greater comput-
+                                                   ery.                                                                  ing capability over traditional CPUs. The most popular
+                                                       State-of-the-art research in this area frequently uses            type of accelerator is the graphics processing unit (GPU),
+                                                   approaches such as direct numerical simulation (DNS) or               whose hardware is specifically suited for the rendering of
+                                                   large-eddy simulation (LES) which, for complex geome-                 computer graphics. In the last decade, their use in general
+                                                   tries, typically require high-order numerical approxima-              HPC applications has increased significantly.
+                                                   tions and high-fidelity, unstructured meshes. Such simu-                  While the number of supercomputers featuring GPUs
+                                                                                                                         has risen, the number of manufacturers in the market has
+                                                     ∗ Corresponding author                                              also risen. Looking back five years, of the 12 GPU ac-
+                                                       Email address: spencer.starr@iag.uni-stuttgart.de (Spencer        celerated systems in the top 25, every one used NVIDIA
+                                                   Starr)
+
+                                                                                                                     1
+GPUs [2]. Now, only four of the systems in the top ten of          Finally, the specific architecture-agnostic strategies
+the current Top500 [1] utilize GPUs from NVIDIA, while        employed by these frameworks present hurdles for broader
+a further four feature AMD GPUs and a ninth system uses       adoption and cross-platform transferability. OpenACC re-
+GPUs from Intel. For CFD software developers, support-        stricts
+ing computations on GPU hardware from multiple vendors        SOD2D’s effective portability to systems equipped with
+is quickly becoming a requirement. Due to competing,          NVIDIA and AMD GPUs [11], leaving a gap for other
+manufacturer-specific programming models for GPUs, this       emerging hardware architectures. PyFR’s reliance on a
+requirement presents a significant roadblock to producing     Python-centric stack is a distinct departure from the high-
+CFD software that can leverage all current HPC systems.       order CFD landscape, which is predominantly built upon
+    Several software frameworks have emerged that over-       the Fortran [12, 13, 14, 15, 16] or C++ [17] programming
+come the portability barrier and enable architecture-agnostic languages. Consequently, the specialized porting mecha-
+solutions for complex flow simulations. Table 1 summa-        nisms developed for PyFR are not easily transferable to
+rizes state-of-the-art, architecture-agnostic software frame- the majority of existing production codes, complicating
+works designed for high-order accurate simulations of three-  the exchange of optimized kernels and limiting the wider
+dimensional, compressible flows on unstructured grids. SOD2Dimpact
+                                                               [3]      of its portability breakthroughs.
+is a Fortran-based solver which uses OpenACC for multi-            To address the dual challenges of extreme scalability
+vendor support. It leverages a spectral element method        and hardware-agnostic portability without sacrificing high-
+(SEM) and offers an entropy viscosity stabilization ap-       order accuracy in the vicinity of discontinuities, this work
+proach to maintain robustness in the presence of discon-      introduces the final entry in Table 1, GALÆXI. This frame-
+tinuities. To date, performance of SOD2D has been re-         work is built upon three core pillars:
+ported on up to 64 GPUs [5]. In contrast, PyFR [4] is a
+Python-based framework centered on the flux reconstruc-           • Broad and Transferable Portability: GALÆXI achieves
+tion (FR) method in tandem with an entropy-based adap-               portability by interfacing an existing Fortran code
+tive filtering approach for a-posteriori shock capturing [6].        base to the C++ variants of the programming mod-
+By leveraging Mako templates [7] to abstract GPU kernels             els CUDA [18] for NVIDIA GPUs and HIP [19] for
+in a vendor-agnostic way, PyFR achieves broad backend                AMD GPUs, providing a template for porting other
+compatibility, including NVIDIA, AMD, Intel, and Ap-                 Fortran-based computational software. This approach
+ple Metal hardware and has demonstrated parallel perfor-             ensures immediate performance on NVIDIA and AMD
+mance up to 2048 GPUs.                                               hardware while remaining extensible to other ven-
+    While these frameworks offer robust solutions for tur-           dors and hardware.
+bulent, compressible flows, certain limitations currently re-     • Scalability: Leveraging the excellent parallelization
+strict their broader applicability. A primary concern is             properties of the discontinuous Galerkin spectral el-
+the lack of proven performance at the largest computing              ement
+scales. High-fidelity DNS and LES of turbulent flows at              method (DGSEM) — which has demonstrated scal-
+realistic Reynolds numbers often demand resolutions ex-              ability to over 500 000 CPU cores [20] — this work
+ceeding tens of billions of degrees of freedom (DOFs) [8, 9].        extends that eﬀiciency to the GPU domain. This
+Executing such simulations necessitates proven scalability           targets the deployment on tens of thousands of accel-
+not merely on thousands of GPUs, but on the order of tens            erators required for next-generation DNS and LES,
+of thousands.                                                        moving beyond the proof-of-concept performance demon-
+    Furthermore, the numerical fidelity and scalability of           strated in initial GPU porting attempts [21].
+these solvers are significantly impacted by their respective
+numerical treatments of discontinuities. The entropy fil-         • High-Fidelity: Unlike artificial viscosity or filter-based
+tering approach in PyFR relies on a computationally de-              shock capturing approaches, GALÆXI utilizes a more
+manding a posteriori sub-iteration process to adaptively             accurate shock capturing based on the switching of
+determine the filter strength by enforcing positivity and            troubled DG cells to an equidistant finite volume
+local discrete minimum entropy principles [6]. This shares           (FV) sub-cell operator [22]. This allows for robust
+a fundamental limitation with artificial viscosity schemes:          handling of discontinuities and, combined with the
+the inherent diﬀiculty in retaining sub-cell resolution [10].        DGSEM, strictly preserves high-order accuracy and
+This often results in overly dissipative behavior that smears        sub-element resolution in the surrounding turbulent
+the solution, thereby degrading the high-order accuracy              flow.
+not just at the discontinuity, but in the smooth flow re-
+gions immediately surrounding the shock front. This is             By unifying these three aspects, GALÆXI provides
+particularly crucial for more complex flow scenarios such     a  high-performance      pathway for the high-fidelity simula-
+as shock-turbulence interactions, where capturing the fine-   tion  of  complex,   compressible  flows at previously inacces-
+scale amplification of eddies across a shock requires avoid-  sible  scales.   GALÆXI      is derived   from the open-source
+ing the overly dissipative behavior inherent to artificial    solver   FLEXI     [15], a mature   codebase   thoroughly vali-
+viscosity or filter-based shock capturing approaches.         dated    across  a  diverse range   of fluid dynamics  applica-
+
+                                                            2
+Table 1: Comparison of multi-architecture CFD solvers intended for high-order solutions of three-dimensional, compressible flows on unstruc-
+tured grids.
+
+                           Numerical             Shock               Programming              Porting               Supported
+           Software
+                            Method              Capturing              Language              Approach              GPU Vendors
+
+                                         Entropy Viscosity
+       SOD2D [3]           SEM                                      Fortran           OpenACC                    NVIDIA, AMD
+                                         Stabilization
+                                                                                      Mako templates /          NVIDIA, AMD,
+       PyFR [4]            FR            Entropy Filtering          Python
+                                                                                      code generation           Intel, Apple Metal
+
+       GALÆXI              DGSEM         FV sub-cell                Fortran           C++ vendor mod-            NVIDIA, AMD
+                                                                                      els (CUDA, HIP)
+
+
+tions [23, 24, 25]. From this foundation, GALÆXI inher-                  code decorators called directives to build structured blocks
+its a robust suite of high-order numerical algorithms. This              of code called constructs that can execute on the CPU or
+work focuses its core advancements on elevating the ca-                  GPU. While directives can be a non-intrusive way to port
+pabilities of those algorithms to achieve performance and                Fortran codes to GPUs, algorithms may still demand ex-
+architecture-agnostic portability for complex, compress-                 tensive code refactors to account for the multi-threaded
+ible flow simulations.                                                   nature of GPUs [34]. Both OpenMP and OpenACC are
+    The discussions that follow are organized thus. The                  Fortran-native, foregoing any need to rewrite portions of
+next section provides a review of architecture-agnostic GPU              the code base in another programming language to support
+porting approaches for Fortran-based computational physics               certain hardware or vendors. OpenMP supports offloading
+software. Section 3 then describes the governing equations               to GPUs from NVIDIA, AMD and Intel while OpenACC
+and numerics scheme of GALÆXI before elaborating on                      supports GPU hardware from NVIDIA and AMD [11].
+the implemented approach for architecture-agnostic com-                  The main drawbacks of directive models is their lack of
+puting. The validation of the implementation is presented                fine-grain control over performance and their heavy re-
+in Section 4. The performance of GALÆXI is highlighted                   liance on compiler support for performance and portabil-
+in Section 5, with aspects such as the scaling performance,              ity. In a review of OpenMP porting efforts [34], codes
+time- and energy-to-solution discussed. Finally, in Sec-                 from many scientific disciplines found performant results,
+tion 6, GALÆXI is used to compute a wall-resolved LES                    though some struggled with OpenMP’s feature support
+(WRLES) of two transonic airfoil configurations to demon-                across compilers and control over GPU memory.
+strate its performance for representative use cases. Sec-                    Looking specifically at CFD software packages, several
+tion 7 then provides a summary and conclusion.                           have used directive models to port their codes. SOD2D [3]
+                                                                         uses OpenACC and can compute on CPU-based systems
+2. Architecture-agnostic Acceleration Approaches for For-                and can also offload to NVIDIA and AMD GPUs. STREAmS-
+   tran Software                                                         2 [35, 36] is a high-order finite difference (FD) solver which
+                                                                         supports Intel, AMD and NVIDIA GPUs while retain-
+    While Fortran has not been a mainstream program-                     ing CPU support and has been demonstrated on simu-
+ming language for many decades, it is still highly preva-                lations featuring more than 2000 GPUs. The developers
+lent in the computational sciences and HPC [33]. As was                  of STREAmS-2 used a mixture of CUDA Fortran [32],
+highlighted in Section 1, that includes many high-order                  OpenMP and a bespoke source-to-source (S2S) translation
+CFD software frameworks. In the current age of heteroge-                 tool to achieve this. Another solver is URANOS [13, 37],
+nous computing environments, the process of selecting a                  which supports computations on CPUs and GPU hard-
+portable GPU porting strategy can be a diﬀicult task for                 ware from NVIDIA and AMD using OpenACC.
+Fortran-based CFD codes. While there are many resources                      Another option to provide maximum portability are a
+available to guide developers in making this impactful de-               class of methods called abstraction frameworks. Exam-
+cision, there are no objective rules on which will be best for           ples of such frameworks include Kokkos [28], RAJA [29]
+a given piece of software. Each software must individually               and ALPAKA [30]. All of these frameworks offer some
+select an approach based on their own requirements. The                  level of vendor-agnostic abstraction, allowing GPU code to
+task is complicated by the fact there are rarely opportuni-              be written generally then the individual architectures are
+ties to reconsider the choice of approach once developers                handled behind the scenes by the framework. The biggest
+have committed to it. In Table 2, a selection of the possi-              drawback of these libraries, however, is their either cursory
+ble portable programming models available to developers                  or non-existent Fortran support.
+of Fortran scientific software is presented.                                 The final option is using the vendor models offered
+    Attractive options in this category are the directive-               by each GPU hardware manufacturer. Examples of these
+based models OpenMP [26] and OpenACC [27], which use
+                                                                     3
+    Table 2: Selection of available programming models for the architecture-agnostic GPU porting of Fortran-based scientific software
+
+                      Programming                   Native Fortran            Supported Vendors /               Level of
+                         Model                         Support                   Architectures                 Abstraction
+
+          OpenMP [26]                              YES                   CPU, NVIDIA, AMD, IN-             Directives
+                                                                         TEL
+          OpenACC [27]                             YES                   CPU, NVIDIA, AMD                  Directives
+          Kokkos [28]                              NO                    CPU, NVIDIA, AMD, IN-             Framework
+                                                                         TEL
+          RAJA [29]                                NO                    CPU, NVIDIA, AMD, IN-             Framework
+                                                                         TEL
+          ALPAKA [30]                              NO                    CPU, NVIDIA, AMD                  Framework
+          Vendor models
+                                          Mixeda                         Mixedb                            None
+          (CUDA [18],HIP [19], SYCL [31])
+
+  a Each vendor’s model natively supports that vendor’s hardware. HIP also supports NVIDIA GPUs [19], and SYCL supports all vendors [11].
+  b CUDA natively supports Fortran with CUDA Fortran [32]. HIP and SYCL only natively support C/C++.
+
+
+
+
+models include CUDA [18] for NVIDIA GPUs, HIP [19] for                       After weighing the benefits and considering the
+AMD and SYCL [31] for Intel. HIP also boasts support                     above-enumerated examples of each programming model,
+for NVIDIA GPUs [19] and use of SYCL for both AMD                        the approach using Fortran-C interfaces to the C++ ven-
+and NVIDIA GPUs is possible through the AdaptiveCpp                      dor models was chosen for GALÆXI. This is due to the
+project [38]. NVIDIA’s CUDA offers full support for GPU                  available fine-grain control of performance, success of the
+kernel code in Fortran [32]. The limitation here is that                 approach in similar software packages and a proven record
+AMD and Intel do not offer this same support, with their                 of scaling on the largest supercomputers in the world.
+models only available for use in C or C++ software [11].
+From a performance perspective, vendor models allow de-
+                                                                         3. Implementation
+velopers to interact directly with the accelerator hardware
+with little to no abstraction, providing the highest degree                  In the following section, brief coverage of the DGSEM
+of control. When compared in the context of a high-order                 method is provided. That is followed by a detailed de-
+DG code, OpenMP and Kokkos were slower than CUDA                         scription of GALÆXI’s strategy for interfacing an existing
+on NVIDIA GPUs [39]. The authors of Bauman et al. [40]                   Fortran implementation of the DGSEM to the C++ ven-
+concluded that the largest performance benefits were seen                dor models including coverage on memory management
+when scientific codes used vendor models for porting.                    and parallelization strategies. We introduce these numer-
+    If either the abstraction frameworks or vendor models                ical and implementation aspects to provide the necessary
+are chosen, all compute methods would have to be rewrit-                 context for the performance benchmarks and physical val-
+ten in C/C++ in order to support all GPU vendors. Both                   idations that follow.
+NEKO [14] and FUN3D [41] are examples of Fortran CFD
+codes that leverage vendor models through Fortran-to-C                   3.1. Governing Equations and Numerical Method
+interfaces in a performant and portable way. NEKO is
+                                                                            A compressible, viscous fluid governed by the
+a GPU-accelerated version of the well-known CFD soft-
+                                                                         Navier–Stokes–Fourier equations is considered, given as:
+ware Nek5000 [12]. It utilizes a SEM, but is limited to the
+incompressible regime on structured grids. NEKO lever-
+ages modern, object-oriented Fortran to create a class hi-                    (q)t + ∇ · F(q, ∇q) = 0,                           (1)
+erarchy where backends for multiple vendors can be im-                             [                                          ]>
+plemented as instances of solver classes. Through that                        F = ρu, ρu ⊗ u + pI − τ, (ρe + p)u − τ · u − λ∇T ,
+approach, NEKO features support for CPUs and GPUs                                        [        ]
+from NVIDIA, AMD and Intel and has been shown to                             where q = ρ, ρu, ρe > , is the vector of conserved vari-
+scale up to 512 GPUs [42]. The finite volume software                    ables, consisting of the density ρ, the velocity vector u,
+package FUN3D [43] uses interfaces to the C++ vendor                     and the total energy e per unit mass. The unit tensor is
+models CUDA [18], HIP [19] and SYCL [31], which are                      denoted by I, T is the temperature, λ the thermal conduc-
+contained in an external library called FLUDA. With this                 tivity, p the pressure, F the physical flux, and the viscous
+approach, FUN3D has been scaled to thousands of GPUs                     stress tensor τ for a Newtonian fluid. The heat flux is
+from multiple vendors [41, 44].                                          modeled in accordance with Fourier’s law. The equations
+
+                                                                     4
+are closed by the caloric and thermal equations of state of          integral means per DG element [48] using a modal indica-
+a perfect gas, given as p = ρ(1 − γ)ϵ and p = ρRT with               tor [49] for the detection of troubled DG cells. The solu-
+the specific gas constant R of ambient air and the internal          tion is advanced in time by an explicit low-storage Runge–
+energy ϵ per unit mass.                                              Kutta fourth-order accurate scheme with five stages (RK4-
+    Following the method of lines approach, the conserva-            5) [50] or 14 stages (RK4-14) [51]. If not stated otherwise,
+tion equations are discretized in space by the DGSEM.                in this work a CFL (Courant, Friedrichs and Lewy) number
+The computational domain Ω ⊆ R3 is discretized by non-               of CFL = 0.9 is set, the same applies to the viscous time
+overlapping, (non-) conforming hexahedral elements with              step restriction. The reader is referred to [48, 15, 52] for
+six possibly curvilinear element faces. Subsequently, the            further details on the entropy-stable DGSEM, the FV sub-
+considered governing equations are mapped onto the ref-              cell based shock capturing procedure, and applications.
+erence space E = [−1, 1]3 via the mapping χ : ξ ∈ E 7→
+( ∈ )Ω. The Jacobian matrix of this mapping is J =
+x                                                                    3.2. Porting Strategy
+ ∇ξ χ ∈ R3×3 with J = det J as the corresponding determi-          GALÆXI inherits the Fortran core of its code base from
+nant. The element-local solution q is approximated by a        the CPU-only DGSEM framework FLEXI [15]. To sup-
+polynomial representation using the tensor-product of one-     port multiple vendors of GPU hardware, the Fortran code
+dimensional nodal Lagrange basis functions ℓ of degree N,      interfaces to compute kernels written in the C++ vari-
+The weak form is retrieved by a discrete L2 projection of      ants of the vendor models. To conquer the limitations of
+the resulting equations onto the test space composed of        Fortran-to-C interoperability as well as the limitations of
+polynomials ϕ(ξ) up to degree N, chosen similarly to the       the boundary between CPU and GPU, the programming
+basis functions (Galerkin approach) and followed by an         language barrier is placed at the hardware barrier. This
+application of Gauss’ theorem, yielding                        results in a software design in GALÆXI where all Fortran
+                                                               code executes on the CPU and all C/C++ code either ex-
+      ∫                ∫                                       ecutes on the GPU or mutates the GPU’s state through
+          Jqt ϕ(ξ) dξ+     (F · n̂)∗ ϕ(ξ) dS              (2)  kernel launches or vendor model API calls.
+        E
+                       ∫∂E                                         Owing to the similarities between CUDA C++ and
+                     −     F (q, ∇q) · ∇ξ ϕ(ξ) dξ = 0,         HIP C++, the same kernel code can be reused for both
+                         E                                     CUDA and HIP, with the small differences between the
+    where n̂ is the unit normal vector in E, and F are         two vendor models hidden behind a thin abstraction layer
+the contravariant fluxes. Neighboring elements are weakly      using pre-processor macros. New methods named entry
+coupled via the numerical flux (F · n̂)∗ normal to the el-     points branch between the different backends of a com-
+ement faces, here approximated by Roe’s numerical flux         pute kernel at runtime. An example of such an entry point
+with the entropy fix by [45] and the viscous fluxes are sim-   method is found in Listing 1. Beyond their primary pur-
+ply averaged. The collocation property is exploited for        pose of splitting between different hardware backends, the
+the numerical integration of Eq. (2) by the use of (N + 1)3    entry point methods can also perform operations that are
+Legendre–Gauss–Lobatto or Legendre–Gauss quadrature            shared between CPU and GPU backends.
+points as interpolation nodes for q.                               For computations on CPUs, the original Fortran com-
+    To calculate the viscous fluxes, the Navier–Stokes–Fourier pute method from FLEXI is called. When the GPU back-
+equations require the gradients of the primitive variables,    ends are active, the call to DeviceBackend in Listing 1
+∇qprim . In this work, the BR1 lifting scheme [46] is applied  routes through a standard Fortran-C interface [53] and
+to approximate these gradients. This approach involves         into a method called the kernel launcher, an example of
+solving an auxiliary set of equations; after applying the      which is shown in Listing 2. The INVOKE_KERNEL macro
+DGSEM, the resulting semi-discrete form is written as          in Listing 2 hides the vendor-specific kernel launch syntax.
+
+      ∫                     ∫                                        3.2.1. Memory Management
+              Jgϕ(ξ) dξ −           {qprim · n̂}}ϕ(ξ) dS   (3)           A major design challenge with the chosen approach
+          E
+                         ∫∂E                                         was how to manage GPU memory. With all initialization
+                       +    qprim · ∇ξ ϕ(ξ) dξ = 0,                  routines remaining in Fortran, the instructions to mutate
+                                E                                    GPU memory (i.e. allocate, free or copy to/from the CPU)
+                                                                     must be issued from Fortran. While CUDA and HIP sup-
+   with the lifted gradients g = ∇ x qprim and the averaging         ply Fortran wrappers for their memory APIs, this would
+operator at the element faces {·}}i j = [(·)i + (·) j ]/2.           limit flexibility, as some models, such as SYCL, do not
+   In this work, the entropy-stable DGSEM with the en-               have Fortran wrappers. The approach seen in Listing 3 is
+tropy conservative fluxes of [47] is utilized to alleviate nu-       used, which keeps all backend-specific API calls in C++.
+merical stability issues and mitigate aliasing errors due
+to the approximation of the nonlinear (convective) flux.
+The shock capturing procedure is based on a 2nd-order
+accurate finite volume (FV) sub-cell scheme with (N + 1)3
+                                                                 5
+                                                                          ALLOCATE( HostArr(arrSize) )
+                                                                          d_DevPtr = AllocateMemDevice(SIZE_DBLE,arrSize)
+                                                                          CALL CopyToDevice(d_DevPtr,HostArr,SIZE_DBLE,
+                                                                             arrSize)
+SUBROUTINE EntryPoint(nTotal,VecOut,d_Out,Const)
+USE ISO_C_BINDING, ONLY: C_PTR                                            void* AllocateMemDevice(
+IMPLICIT NONE                                                                size_t typeSize_bytes, int arraySize
+                                                                          )
+! INPUT/OUTPUT VARIABLES                                                  {
+!< memory size length                                                        void* d_arr;
+INTEGER,INTENT(IN)    :: nTotal
+!< host memory                                                            #if (USE_ACCEL == ACCEL_CUDA)
+REAL(KIND=8),INTENT(INOUT) :: VecOut(nTotal)                                 cudaMalloc(&d_arr, typeSize_bytes*arraySize);
+!< device memory                                                          #elif (USE_ACCEL == ACCEL_HIP)
+TYPE(C_PTR),INTENT(IN) :: d_Out                                              hipMalloc( &d_arr, typeSize_bytes*arraySize);
+!< constant                                                               #endif /* USE_ACCEL */
+REAL(KIND=8),INTENT(IN) :: Const
+                                                                              return d_arr;
+#if (USE_ACCEL == ACCEL_OFF)                                              }
+   CALL HostBackend(nTotal,VecOut,Const)
+#else
+   CALL DeviceBackend(nTotal,d_Out,Const)                                 void CopyToDevice(
+#endif                                                                       void* dVarPtr,void* hostMemory,
+                                                                             size_t typeSize_bytes,int arraySize
+END SUBROUTINE EntryPoint                                                 )
+                                                                          {
+Listing 1: Fortran entry-point method to split between architecture
+backends in GALÆXI. Note the use of a pre-processor flag to decide           // ... CUDA/HIP memory copy calls
+which backend will be invoked at compile time.                            }
+                                                                          Listing 3: Example of how GPU memory is allocated and managed
+                                                                          in GALÆXI. The top code snippet shows how the methods are called
+                                                                          from Fortran. The bottom shows the API calls in C++ code. Pre-
+                                                                          processor macros determine which API is used to allocate memory.
+                                                                          This same design is used to expose all necessary functionality from
+                                                                          vendor-specific C++ APIs in Fortran code.
+
+                                                                              Fortran code calls the wrapper API for GPU memory
+                                                                          handling. The call passes to a C++ function which uses
+                                                                          the backend appropriate memory allocator (e.g. cudaMal-
+                                                                          loc) to allocate GPU memory. A pointer to this newly
+#if (USE_ACCEL == ACCEL_CUDA)                                             allocated GPU memory is returned to the Fortran side
+#define INVOKE_KERNEL(fun,blcks,thrds,shrd,strm,...)\                     and stored in a Fortran variable. There it can be passed
+   fun<<<blcks,thrds,shrd,strm>>>(__VA_ARGS__)
+                                                                          through functions in Fortran code and handed off to the
+#elif (USE_ACCEL == ACCEL_HIP)
+// Define AMD kernel launch syntax
+                                                                          C++ side later to perform operations on the data, such
+#endif /* USE_ACCEL */                                                    as memory copies and kernel launches. MPI communica-
+                                                                          tion routines and other vendor model API calls for device
+void DeviceBackend(int nTotal,void* d_VecOut,double Const                 synchronization, pinning, etc. are abstracted in the same
+      )                                                                   fashion.
+{                                                                             As directly mapping runtime allocated, assumed-shape
+   INVOKE_KERNEL(KernelFunc, nTotal/256+1,256,0,0,                        Fortran arrays to multi-dimensional C arrays is not pos-
+        nTotal, (double*)d_VecOut, Const                                  sible [53], all CPU-allocated Fortran arrays are mapped
+   );                                                                     to flattened, one-dimensional arrays in GPU memory. To
+}                                                                         avoid reordering operations when copying data between
+Listing 2: Example of a kernel launcher method in GALÆXI. The             the hardware and programming languages, data retains
+INVOKE_KERNEL macro hides the vendor-specific kernel launch               the original CPU allocated, Fortran column major order-
+syntax.
+                                                                          ing in GPU kernels. A small set of indexing functions
+                                                                          is used in kernel code to find the offset to a particular
+                                                                          thread’s data in the flattened arrays.
+
+
+
+
+                                                                      6
+Algorithm 1 Face-local algorithm for projecting solution                     process used on the CPU to map the solution across such
+from big to small faces for two-to-one non-conforming ele-                   interfaces. The non-DOF local aspect of the algorithm is
+ment (mortar) interfaces on the CPU                                          the filling of U for a given DOF p, q depends on result of
+ 1: function FillMortarFaces(N, n Mortars , U, I L , I R , Mort ma p)
+                                                                             the first tensor product, Utmp , for other DOFs in the face.
+ 2:    for n ← 1 to n Mortars do  ▷ loop over mortar faces                   Breaking Algorithm 1 into two DOF-local operations in-
+ 3:        ! Perform mapping                                                 volves each loop over the DOFs in a face becoming its own
+ 4:        for p, q ← 0 to N do      ▷ loop over face DOFs                   operation. Every face must finish calculating the interme-
+ 5:            for r ← 0 to N do                                             diate solution Utmp and store it in global memory before
+ 6:               ! Interpolate (non-DOF local operation)                    the filling of U can proceed.
+                  Utmp       tmp                                                 Both face-local and DOF-local versions of Algorithm 1
+ 7:                  pq,1 ← U pq,1 + U pr,n ILrq
+                                                                             were implemented as GPU kernels and tested. A com-
+ 8:               Utmp       tmp
+                     pq,2 ← U pq,2 + U pr,n IRrq                             parison of the performance for the two approaches is pre-
+ 9:           end for                                                        sented in Table 3. The timings in the table were measured
+10:       end for                                                            on a single NVIDIA GeForce 4070 Ti Super GPU using
+11:       ! Fill solution big to small                                       NVIDIA’s NSight Compute [57] profiling software. The
+12:       for p, q ← 0 to N do          ▷ loop over face DOFs                computational mesh contained 32 non-conforming faces
+13:           for i ← 1 to 2 do ▷ two small sides per large                  and the polynomial order was set to N = 7, resulting in 64
+14:                j ← Mort mapi                                             DOFs per non-conforming interface and 2048 total DOFs
+15:               U pq, j ← Utmp
+                             pq,i                                            on all non-conforming interfaces. Translating Algorithm 1
+16:           end for                                                        directly to a GPU kernel which assigns each thread a sin-
+17:       end for                                                            gle face (i.e. one thread operates on 64 DOFs), the op-
+18:    end for                                                               eration completes in 1.888ms. Using the split version of
+19:    return U                                                              Algorithm 1 with two DOF-local GPU kernels results in
+20: end function                                                             a total runtime of 0.06392ms, a 29.54x speedup over the
+                                                                             single face-local kernel. That runtime is for both DOF-
+                                                                             local kernels combined, including launch latencies and tail
+3.2.2. Thread Level Parallelism
+                                                                             effect (i.e. the time required to complete the last partial
+    The thread parallelization strategy of GPU kernels in                    wave of computations in a kernel where GPU utilization is
+GALÆXI, as is common in GPU-accelerated DG codes [54,                        low). In general, any algorithm in GALÆXI that requires
+55, 56, 21], assumes a single GPU thread operates on a                       an intermediate value be calculated for multiple DOFs and
+single degree of freedom (DOF). For the core operations                      then accessed in a non-DOF-local fashion by subsequent
+of the DGSEM, this approach is appropriate, as many of                       steps uses this kernel splitting approach. Some examples
+those operations are pointwise, or DOF-local. This means                     include the calculation of the modal troubled cell indica-
+individual DOFs can complete operations independently of                     tor and the switching operation of troubled DG cells to
+all others without the need to handle data dependencies                      FV sub-cells.
+between GPU threads.
+Table 3: Comparison of wall times for two configurations of the kernel       3.2.3. Intra-GPU Parallelism
+used to fill fluxes at non-conforming mesh interfaces in GALÆXI.                 To maximize occupancy, device streams are used on
+The times were taken on a single NVIDIA GeForce 4070 Ti Super                both AMD and NVIDIA GPUs. Detail of the DGSEM
+GPU for 32 total non-conforming faces with a polynomial order of
+N = 7. Times were collected using NVIDIA’s NSight Compute [57]
+                                                                             operation’s distribution across the device streams is shown
+profiling software.                                                          in Figure 1. Summarized briefly, some operations in the
+                                                                             DGSEM are input data-independent and can be performed
+                                        Operation                            simultaneously on two different device streams. An exam-
+             Approach                                     Speedup
+                                       Wall Time [ms]                        ple is the conversion of the conservative variables to prim-
+  Face-local kernel                        1.888              –              itive variables (Cons. To Prim. (Volume) in Figure 1)
+  Multiple DOF-local kernels              0.063 92         29.54x            in the volume and the prolongation of the conservative
+                                                                             variables to the element faces (Prolong Solution To Face
+                                                                             in Figure 1). GALÆXI uses three device streams with
+    However, some operations in GALÆXI are not DOF-
+                                                                             three levels of increasing priority. Kernels that operate
+local. It was found that breaking such non-DOF-local
+                                                                             on element faces located on the boundary between MPI
+operations into multiple, DOF-local kernels was signifi-
+                                                                             processes are the highest priority, to ensure data for MPI
+cantly more performant that having one large non-DOF-
+                                                                             communication is ready as early as possible. The lowest
+local kernel. To emphasize, the procedure for filling non-
+                                                                             priority is for volume operations within elements, which
+conforming element interfaces is presented as an example.
+                                                                             are independent of neighboring elements. The volume op-
+GALÆXI allows meshes to contain non-conforming ele-
+                                                                             erations can compute in the background while the opera-
+ment faces (i.e. hanging nodes), using the mortar tech-
+                                                                             tions on element faces occur on the higher priority streams.
+nique of Kopriva [58]. Algorithm 1 presents the face-local
+                                                                                 A challenge with using device streams is that there is
+                                                                         7
+                                Cons. To Prim. Fill Lifted Fluxes                                                                       Fill Fluxes
+                                 (MPI Sides)      (MPI Sides)                                                                          (MPI Sides)
+
+      High stream                       MPI              MPI                                                                                   MPI
+
+
+                    Prolong Solution              Fill Lifted Fluxes        Prolong Gradients                                                               Surface
+                        To Face                    (Interior Sides)              to Face                                                                    Integral
+
+       Mid stream
+                               Cons. To Prim.                            Lifting                                                           Fill Fluxes              Apply
+                               (Interior Sides)                        Surface Int                    Apply Deriv.                       (Interior Sides)          Jacobian
+                                                                                                        Matrix       Volume Integral
+
+       Low stream
+                       Cons. To Prim.    Lifting Volume Integral                           Evaluate
+                         (Volume)                                                           Fluxes
+
+Figure 1: Evaluation timeline of the entropy-stable DGSEM from Eq. (3) including the lifting operator with device streams in GALÆXI.
+Computation proceeds from left to right. Operations on data needed for MPI communication are assigned to the highest priority stream.
+Large volumetric operations, such as the volume integration, are given lowest priority. All other operations are given middle priority.
+
+
+
+no guarantee that upstream data dependencies are satis-                                         tested using the method of manufactured solutions [59]. A
+fied before a kernel begins. To enforce data dependencies                                       periodic, rectilinear domain Ω = [−1, 1]3 is initialized with
+between kernels, device events are used. Device events                                          a travelling, three-dimensional, sinusoidal solution of the
+are a CUDA/HIP construct that allows markers to be at-                                          form
+tached to a kernel and used downstream in the computa-
+tion to query the execution status of the kernel [18, 19].
+In GALÆXI, all kernels have an associated device event.                                                   ρ = 2 + A sin(2π(x + y + z − at)), ρu = ρ, ρe = (ρ)2 ,
+Before launching a kernel, event synchronizations are used                                                                                                                    (4)
+to confirm upstream kernels that operate on that kernel’s
+input data are complete.                                         where the amplitude and advection speed are chosen as
+                                                             A = 0.1 and a = 1, respectively. The solution is advanced
+3.2.4. Inter-GPU Parallelism                                 in time to t = 1. The timestep is chosen suﬀiciently small
+    The final level of parallelism is that on distributed    as to have no influence on the discretization error.
+systems. The computational domain is divided into non-           Table 4 presents the h-convergence behavior of the L2
+overlapping subdomains using a space-filling curve. Each     error  of the density on Gauss–Legendre quadrature nodes
+subdomain is assigned to a single MPI process, which be-     for  a  polynomial order of N = 3. As the computational
+longs to a single CPU core for CPU backends and a CPU        mesh    is incrementally refined from a single element up to
+                                                               3
+core-GPU pair for device-accelerated backends. Non-blocking, 8   elements,    the results confirm the theoretical order of
+point-to-point MPI communication is used to pass data be-    convergence     and  the values for the L2 error match to dou-
+tween element faces that lie on subdomain boundaries. As     ble  precision   across all three compared architectures. For
+with dependent kernels, device event synchronizations are    the   p-convergence    study,  a mesh size of 43 elements was
+used to check data for MPI communication is ready be-        held fixed and the polynomial order N ∈ [4, 8] gradually
+fore the passing step begins. A representation of how MPI    increased.    Again the values for the L2 error of the den-
+communication features in the runtime of GALÆXI is in-       sity  match    to double precision for all architectures and
+cluded in Figure 1. In GALÆXI, device pinning, or the        demonstrate     the expected exponential decay with increas-
+assignment of a GPU to a given MPI process/CPU core,         ing  polynomial    degree, cf. Table 5.
+is performed in-software using CUDA/HIP API calls.
+                                                                                                4.2. Compressible Taylor-Green-Vortex
+                                                                                                    The compressible Taylor–Green-Vortex (TGV) at a Mach
+4. Validation
+                                                                                                number of Ma0 = 1.25 is a common benchmark for as-
+    In the following section, the implemented numerical                                         sessing the performance of numerical schemes in capturing
+methods are validated, starting with a generic manufac-                                         small scale turbulent structures while providing necessary
+tured solution to demonstrate the convergence properties                                        dissipation to stabilize localized discontinuities [60]. This
+of the DGSEM. The discussion then progresses to the com-                                        makes the compressible TGV particularly suited to ex-
+pressible Taylor–Green–Vortex to evaluate the scheme’s                                          amine the ability of GALÆXI to simulate problems with
+robustness and accuracy in the context of shock-turbulence                                      complex shock-turbulence interactions.
+interactions.                                                                                       Initial conditions for the velocity and pressure fields
+                                                                                                are given analytically as
+4.1. Convergence
+    To verify the implementation of the DGSEM in GA-
+LÆXI, the spatial convergence of the scheme is rigorously
+                                                                                           8
+Table 4: h-convergence of GALÆXI for a manufactured solution with a polynomial order of N = 3. Meshes were refined from a single element
+to 83 elements.
+
+                                                  CPU                     NVIDIA GH200                 AMD MI250X
+                               Grid
+                                            L2 Error        EOC          L2 Error         EOC         L2 Error        EOC
+                                                       −2                           −2                           −2
+                               13
+                                         7.653 × 10           –        7.653 × 10          –       7.653 × 10           –
+                               23        3.393 × 10−3       4.496      3.393 × 10−3      4.496     3.393 × 10−3       4.496
+                               43        3.030 × 10−4       3.485      3.030 × 10−4      3.485     3.030 × 10−4       3.485
+                               83        1.473 × 10−5       4.362      1.473 × 10−5      4.362     1.473 × 10−5       4.362
+
+
+Table 5: p-convergence of GALÆXI using a manufactured solution
+on a 43 element mesh.
+
+                                      L2 Error
+    N
+                 CPU           NVIDIA GH200            AMD MI250X
+    4       1.789 × 10−5        1.789 × 10−5           1.789 × 10−5
+    5       3.623 × 10−6        3.623 × 10−6           3.623 × 10−6
+    6       1.046 × 10−7        1.046 × 10−7           1.046 × 10−7
+    7       4.674 × 10−8        4.674 × 10−8           4.674 × 10−8
+    8       7.473 × 10−10       7.473 × 10−10          7.473 × 10−10
+    9       3.634 × 10−10       3.634 × 10−10          3.634 × 10−10
+
+
+
+                              ( )      ( )    ( )
+                     U0 sin Lx cos Ly cos Lz 
+                            ( )      (y)    ( )
+        u(x, 0) = −U0 cos Lx sin L cos Lz  ,                     (5)
+                                                  
+                                     0
+                                2 (    ( )        ( 2y )) (         ( ))
+                           ρ0 U0
+        p(x, 0) = p0 +              cos 2x
+                                         L  + cos    L      2 + cos  2z
+                                                                     L    ,
+                            16
+    where L = 1 is the characteristic length, U0 = 1 is the
+magnitude of the initial velocity fluctuations and ρ0 = 1
+the reference density. The initial pressure p0 is chosen
+   match a prescribed background Mach number Ma0 =
+to √
+U0 ρ0 /(γp0 ). The domain is a periodic cube with dimen-
+sions Ω ∈ [0, 2πL]3 . To yield a complete set of initial condi-
+tions for a compressible flow field, the density is specified
+using the equation of state of an ideal gas ρ(x, 0) = RTp 0 with                  Figure 2: Comparison of the integral kinetic energy Ek (top left) and
+the temperature T (x, t = 0) = T 0 . The desired Reynolds                         solenoidal viscous dissipation rate εS (top right) for the supersonic,
+                                                                                  compressible TGV. All simulations used a mesh with 163 elements
+number, chosen as Re = ρ0 U0 L/µ0 = 1600, is obtained by                          and a polynomial order of N = 3. CPU computations for FLEXI
+adjusting the initial dynamic viscosity µ0 .                                      and GALÆXI were performed on AMD EPYC CPUs. The results
+    The accuracy of the numerical scheme is assessed by                           from FLEXI are presented as the reference solution. The results for
+                                                                                  the GPU backends in GALÆXI are shown for AMD MI300A APUs
+two commonly used metrics, the integral kinetic energy,
+                                                                                  and NVIDIA A100 GPUs. The percent error in the solutions with
+                       ∫                                                          GALÆXI on the selected hardware is also presented for Ek (bottom
+                1
+      Ek =                ρ u · u dΩ,                        (6)                  left) and εS (bottom right)
+            2ρ0 U02 |Ω| Ω
+and the solenoidal component of the viscous dissipation
+rate, defined in Sarkar et al. [61] as
+                     ∫
+               L2       µ(T )
+      εS =                    ω · ω dΩ,             (7)
+            ReU0 |Ω| Ω µ0
+                2
+
+
+where |Ω| is the total volume of the computational domain,
+µ(T ) is the temperature-dependent dynamic viscosity of
+the fluid, computed using Sutherland’s law [62] and ω is
+the vorticity vector.
+                                                                              9
+                                                                               5. Performance Evaluation
+
+                                                                                   To demonstrate the portability of GALÆXI, it was de-
+                                                                               ployed on eleven HPC systems. The hardware and con-
+                                                                               figuration of each of these systems is summarized in Ta-
+                                                                               ble 6. Throughout the remaining sections of this publica-
+                                                                               tion these systems will be referred to by the System Name
+                                                                               listed in Table 6.
+                                                                                   Please note that the AMD MI250X is a multi-chip mod-
+                                                                               ule (MCM) and a single MI250X contains two GPU dies,
+                                                                               called graphics compute devices (GCDs) [74, 70]. There-
+                                                                               fore, in Table 6 and throughout the rest of this work, when
+                                                                               the number of MI250X GPUs is mentioned, this is the
+                                                                               number of total GCDs, which is always twice the number
+                                                                               of AMD MI250X modules.
+
+                                                                               5.1. Performance Metrics
+                                                                                   The primary performance metric for comparing back-
+                                                                               ends of GALÆXI is the time-to-solution, which the is total
+                                                                               wall time required for a computation in GALÆXI to com-
+                                                                               plete, including the time required for operations such as
+                                                                               data initialization and file output. In some cases, another
+Figure 3: Center plane slice of a Schlieren image of the flow field for        metric known as the performance index (PID) is used. The
+the compressible TGV case with Ma0 = 1.25 and Re = 1600 at time
+t = 15. Presented solution was computed with NVIDIA A100 GPUs                  PID represents the time to integrate a single DOF through
+on the Leonardo Booster supercomputer.                                         single RK stage on a single CPU core or single GPU and
+                                                                               is defined as
+
+    Computations were performed on a 163 element mesh                                        Walltime × #Ranks
+                                                                                    PID =                      .                       (8)
+with a polynomial order of N = 3. To suppress aliasing                                      #RK-stages × #DOF
+errors and ensure numerical stability in the presence of
+                                                                                  When energy consumption is discussed, total power
+strong gradients, the entropy-stable DGSEM on Gauss–
+                                                                               draw of a simulation will be given in megajoules (MJ).
+Legendre nodes coupled with a FV sub-cell based shock
+                                                                               Where available, the sacct tool from SLURM [75] was
+capturing approach was employed. CPU results were col-
+                                                                               used to report energy usage. The exception to this was
+lected on the Discoverer supercomputer [63] in Sophia,
+                                                                               on Marenostrum 5, where the EAR [76] framework was
+Bulgaria, with the solution from the CPU-only DGSEM
+                                                                               used.
+framework FLEXI serving as the reference. The GPU com-
+putations with GALÆXI were performed with the AMD
+                                                                               5.2. Scaling Performance on GPU Systems
+MI300A APUs on the Hunter supercomputer [64] at the
+High Performance Computing Center Stuttgart (HLRS)                                 The parallel performance of GALÆXI on GPU-accelerated
+and the NVIDIA A100 GPUs on the Booster partition of                           systems was investigated using strong and weak scaling
+the Leonardo supercomputer [65] at CINECA in Bologna,                          experiments. For both weak and strong scaling, a simu-
+Italy.                                                                         lation of a freestream flow is advanced ten timesteps on
+    The results of the compressible TGV are given in Fig-                      a Cartesian mesh. The tests are run with the split-flux
+ure 2. The bottom two plots of Figure 2 provide the per-                       formulation of the DGSEM on Legendre-Gauss-Lobatto
+cent error in Ek and εS of the solutions from GALÆXI rela-                     nodes using the full hyperbolic-parabolic NSE equations.
+tive to the reference solution. The maximum percent error                      All console and file output is deactivated and the polyno-
+for the CPU backends of GALÆXI is 1.906 × 10−11 % and                          mial order is held at N = 9. Each case is run three times
+7.899 × 10−10 % for Ek and εS , respectively. For the GPU                      and the performance metrics are averaged. For the strong
+backends, the NVIDIA A100s and AMD MI300 produced                              scaling experiments, the wall time on the smallest number
+comparable solutions, both with maximum percent errors                         of GPUs in a given sweep is used as the baseline for cal-
+of 0.007% for Ek and 0.122% for εS . A two-dimensional                         culations of parallel speedup. The single node wall time
+slice of the instantaneous solution at t = 15 is given in                      is used to calculate parallel eﬀiciency in the weak scaling
+Figure 3. The slice was taken at the center plane of the                       experiments.
+domain and shows a Schlieren image of the flow field using                         For strong scaling, the resolution of a Cartesian mesh
+the result from Leonardo.                                                      is held constant while the number of GPUs used to com-
+                                                                               pute the case is increased by doubling the previous number
+                                                                               of GPUs. For weak scaling, the mesh sizes are increased
+
+                                                                          10
+Table 6: Hardware overview for the systems used for GALÆXI development and testing. Due to the amount of systems, only the most basic
+information can be included. Note that the listed ”CPU Node Hardware” corresponds to the CPU-only compute nodes. For some systems, the
+host CPU architecture on GPU-accelerated nodes differs from the CPU-only compute nodes. For those systems that do not have CPU-only
+compute nodes, the ”CPU Node Hardware” is left blank. Detailed information on individual systems is available in the cited references.
+
+                              Computing                              CPU Node                              GPU Node
+        System Name                             Location                                 # CPUs                                 # GPUs
+                                Center                               Hardware                              Hardware
+
+   Deucalion x86 [66]         MACC           Guimarães,        AMD EPYC                   64 000      NVIDIA A100                  132
+                                             PT
+   Discoverer [63]            SofiaTech      Sofia, BG         AMD EPYC                  144 384      NVIDIA H200                   32
+   Frontier [67]              OLCF           Oak Ridge,                    –                 –        AMD MI250X                   78848
+                                             TN, USA
+   Hunter [64]                HLRS           Stuttgart,                    –                 –        AMD MI300A                   752
+                                             DE
+   JUPITER [68]               FZJ            Jülich, DE                    –                 –        NVIDIA GH200               23 536
+   Karolina [69]              IT4I           Ostrava, CZ       AMD EPYC                   92 160      NVIDIA A100                  576
+   Leonardo [65]              CINECA         Bologna, IT       Intel Xeon                172 032      NVIDIA A100                13 824
+   LUMI [70]                  CSC            Kajaani, FI       AMD EPYC                  262 144      AMD MI250X                 23 824
+   Marenostrum5 [71]          BSC            Barcelona,        Intel Xeon                726 880      NVIDIA H100                  4480
+                                             ES
+   MeluXina [72]              LuxProvide Bertrange,            AMD EPYC                   73 216      NVIDIA A100                  800
+                                         LU
+   Vega [73]                  IZUM           Maribor, SI       AMD EPYC                   98 304      NVIDIA A100                  240
+
+
+Table 7: Mesh resolutions for the strong and weak scaling tests           with a parallel eﬀiciency of 82.6%.
+of GALÆXI on GPU-accelerated systems. For the strong scaling
+meshes, the number of DOFs for the entire domain is presented. For
+weak scaling the resolutions are given in DOFs/GPU.                       5.3. Scaling Performance on CPU Systems
+
+                                     Mesh Resolution                      Table 8: Mesh resolutions for the strong and weak scaling tests of
+     System                            (in DOFs)                          GALÆXI on CPU systems. For the strong scaling meshes, the num-
+                                                                          ber of DOFs for the entire domain is presented. For weak scaling the
+                              Strong        Weak (per GPU)                resolutions are given in DOFs/core.
+     Hunter                5.243 × 10   9
+                                              4.096 × 106
+     Frontier             16.780 × 109        1.024 × 106                                                     Mesh Resolution
+     JUPITER               8.389 × 109        8.192 × 106                       System                          (in DOFs)
+     LUMI                  2.097 × 109        2.05 × 106                                                  Strong       Weak (per core)
+     Marenostrum 5         0.453 × 109        1.77 × 106                        Deucalion x86          2.83 × 10   6
+                                                                                                                            6192
+                                                                                Discoverer             2.83 × 106           6192
+                                                                                Karolina               2.83 × 106           6192
+in conjunction with the number of GPUs to maintain the
+                                                                                LUMI                  226.5 × 106           6192
+same load per GPU in each case. The selected mesh res-
+                                                                                MeluXina               2.83 × 106           6192
+olutions for each system are given in Table 7. All meshes
+                                                                                Marenostrum 5          56.6 × 106           7899
+for this scaling study were generated using the open-source
+                                                                                Vega                   2.83 × 106           6192
+pre-processing framework pyHOPE [77]. The final results
+of the scaling tests for a selection of systems are found in
+Figure 4.                                                                     As was described in Section 3.2, the ability to perform
+    GALÆXI demonstrated near linear strong scaling on                     CPU computations was retained in GALÆXI. To mea-
+all systems, regardless of architecture. Strong scaling up                sure the scaling performance of the CPU backends, scal-
+to 65 536 AMD MI250X GCDs on Frontier was achieved.                       ing experiments similar to those performed for the GPU
+For weak scaling, GALÆXI achieves above 80% parallel                      backends were repeated. For all CPU scaling tests, the
+eﬀiciency on all systems for the investigated ranges. The                 polynomial order is held at N = 5. Otherwise, the setup
+largest weak scaling case in that study featured a mesh                   for the CPU scaling tests exactly mirrored those for GPUs
+of 67.1 billion DOFs on 65 536 MI250X GCDs on Frontier                    described in Section 5.2. The mesh resolutions selected
+
+                                                                     11
+Figure 4: Strong (left) and weak (right) scaling performance of GALÆXI on GPU-accelerated HPC systems.
+
+
+
+
+  Figure 5: Strong (left) and weak (right) scaling performance of GALÆXI on CPU-based HPC systems.
+
+
+
+
+                                                 12
+for the scaling tests on CPU systems are given in Table 8.           in Table 10 were collected on a single, full node on each
+The results of these experiments are shown in Figure 5.              system and hardware. On LUMI, this corresponds to 128
+     Due to reduced cache pressure, GALÆXI showed su-                AMD EPYC 7763 CPU cores for the CPU simulations and
+perlinear strong scaling on all tested systems, including on         eight AMD MI250X GCDs for the GPU simulations [70].
+up to 65 536 CPU cores on LUMI and 28 672 CPU cores on               On Marenostrum 5 a single CPU node contains 112 Intel
+Marenostrum 5. Weak scaling performance up to 65 536                 Sapphire Rapids 8480+ cores and a GPU-accelerated node
+CPU cores on LUMI and 57 344 CPU cores on Marenos-                   features four NVIDIA H100 GPUs [71].
+trum 5 was achieved, with parallel eﬀiciencies on those two              The reductions in energy-to-solution for the GPU com-
+systems higher than 80% for the largest cases. Parallel ef-          putations are 2.05x for Marenostrum 5 and 2.06x on LUMI.
+ficiencies higher than 60% were observed for all systems             The GPU-accelerated simulations in GALÆXI therefore
+for the largest tested CPU core counts.                              require half of the energy per node as those on CPU-
+                                                                     based systems to compute the same problem. This value
+5.4. Single Node Performance                                         also includes the energy consumed performing initializa-
+    Table 9 presents a comparison of the CPU and GPU                 tion, mesh handling and other non-compute intensive op-
+backends with regards to both PID and time-to-solution.              erations that are performed on the CPU even for GPU-
+For this comparison, a problem size of 16.78 million DOFs            accelerated runs.
+was used, with polynomial order of N = 3. A freestream
+flow was simulated on a full CPU node on Karolina, which
+                                                                     6. Applications
+consist of 128 AMD EPYC 7H12 CPU cores [69], and a
+full node on Hunter, with four AMD MI300A accelerated                    To demonstrate the capabilities of GALÆXI for production-
+processing units                                                     scale cases, it is applied to two WRLES of transonic flow
+(APUs) [64]. This was repeated three times and the results           over two airfoil configurations, the National Advisory Com-
+averaged for each architecture. Legendre-Gauss nodes were            mittee for Aeronautics (NACA) 64A-110 and the Oﬀice
+used. For the simulations featuring FV sub-cell shock                National
+capturing, 50% of the cells are forced into the FV repre-            d’etudes et de Recherches Aerospatiales (ONERA) OAT15A.
+sentation in a checkerboard pattern by a special troubled            In this section, results are presented for both configura-
+cell indicator. The simulation was allowed to run for ten            tions and the performance of the CPU and GPU backends
+timesteps and the PID and time-to-solution measured.                 in GALÆXI are compared.
+    Comparing the performance of the two backends of
+GALÆXI on Hunter, a 519.1x speedup in PID is seen                    6.1. Transonic flow over a NACA 64A-110 airfoil
+for full DG and a 393.1x for DG/FV hybrids simulations.
+                                                                     6.1.1. Problem Description and Setup
+The theoretical throughput of an AMD MI300A for 64-bit
+floating point operations is 61 × 1012 FLOPs [78] and the                The NACA 64A-110 was selected as an example geom-
+corresponding value for a single AMD EPYC 7H12 core                  etry for airfoils commonly used in the horizontal tails of
+is 26.4 × 109 FLOPs [79]. As the PID is effectively com-             aircraft. From a computational perspective, it serves as a
+paring a single AMD MI300A APU to a single CPU core,                 model case for compressible, turbulent flow fields without
+                                                                     the presence of shock waves.
+such a large speedup in PID is expected. A fairer com-
+                                                                         The two-dimensional airfoil profile is extended to a
+parison of the performance of the two architectures is the
+total time-to-solution. The time-to-solution measurements            spanwise extent of 0.05c, where c is the airfoil chord length.
+include serializations, such as solution initialization, data        The airfoil is subjected to a freestream flow with a Reynolds
+analysis and file output, which are not accounted for in the         number of Rec = 9.3 × 105 based on the chord length and
+PID and are largely carried out on the CPU in GALÆXI.                a Mach number of Ma = 0.72. The airfoil is oriented at
+                                                                     an angle of attack (AoA) of α = 0◦ . The entropy-stable
+Speedups in time-to-solution for Hunter versus the CPU
+                                                                     DGSEM on Legendre–Gauss–Lobatto nodes are integrated
+computations are 7.75x and 8.08x for full DG and DG/FV
+hybrid, respectively, providing a more realistic picture of          in time by using the RK4-14 for additional numerical sta-
+the benefits in real applications from GPU-acceleration in           bility. The polynomial order is set to N = 7, resulting
+GALÆXI.                                                              in a computational domain with 663 million DOFs. The
+    Superior throughput also enables GPUs to compute                 mesh uses curved boundaries and nearfield volume ele-
+                                                                     ments, represented by a polynomial degree of NGeo = 4,
+the same problem sizes on a smaller hardware footprint,
+                                                                     to accurately represent the curvature of the airfoil geom-
+improving energy consumption versus CPU-based com-
+putations. Table 10 presents a comparison of energy-to-              etry. To force the turbulent transition of the boundary
+solution from the CPU and GPU backends. To collect the               layer, a geometric trip is placed at x/c = 0.05. The trip
+data in Table 10, a freestream flow was calculated on a              is applied on both the pressure and suction sides of the
+Cartesian mesh with 16.78 million DOFs at a polynomial               airfoil. It is extended into the boundary layer to an ap-
+                                                                     proximate non-dimensional wall distance of y+ ∈ [40, 60].
+order of N = 7. The simulation was allowed to progress for
+                                                                     To prevent non-physical behavior at the farfield bound-
+1000 timesteps and energy measured on the two systems
+using the methods described in Section 5.1. The results              aries, an exponentially decaying filter by Pruett [80] in a
+
+                                                                13
+Table 9: Comparison of PID and time-to-solution on Karolina and Hunter with a problem size of 16.78 million DOFs with a polynomial order
+of N = 3. Results are compared full node to full node, i.e. 128 AMD EPYC 7H12 CPU cores for Karolina CPU and 4 AMD MI300As on
+Hunter. % FV denotes the percentage of total elements switched to use FV sub-cells.
+
+                                                                                  Speedup     Time To       Speedup
+                       System         Hardware        % FV          PID [s]
+                                                                                  vs CPU     Solution [s]   vs CPU
+                                                         0     1.852 × 10−6          –         525.13          –
+                     Karolina      CPU
+                                                        50     3.286 × 10−6          –         929.47          –
+                                                         0     3.569 × 10−9        519.1x       67.73        7.75x
+                     Hunter        AMD MI300A
+                                                        50     8.359 × 10−9        393.1x      115.03        8.08x
+
+
+Table 10: Comparison of energy-to-solution on Marenostrum 5 and          flow data from the surface of the airfoil at t∗ = 69 is used
+LUMI with a problem size of 16.78 million DOFs with a polynomial
+order of N = 7. energy-to-solution results are compared full node        to calculate the coeﬀicients. The bottom plot of Figure 7
+to full node, i.e 112 Intel Xeon CPU cores to four NVIDIA H100s          presents the absolute difference of the two solutions which
+for Marenostrum 5 [71] and 128 AMD EPYC cores to eight AMD               is greatest immediately downstream of the geometric trip
+MI250X GCDs on LUMI [70].                                                and settles into a range of 1×10−4 to 1×10−2 along the air-
+                                                                         foil. The average percent difference along the chord length
+                                    Energy To       Improvement
+      System          Hardware
+                                   Solution [MJ]      vs CPU
+                                                                         between the two architectures is 0.41%, showing excellent
+                                                                         agreement. Execution of both CPU and GPU backends in
+                      CPU              32.16             –               GALÆXI is non-deterministic, so small differences in the
+ Marenostrum 5
+                      GPU              15.67           2.05x             solutions are expected. These results demonstrate GALÆ-
+                      CPU              27.43             –               XI’s ability to deliver robust solutions in production-scale
+ LUMI
+                      GPU              13.34           2.06x             turbulent flow cases regardless of the compute backend
+                                                                         used.
+region starting at a radius of 50c from the airfoil is added.            Table 11: Performance comparisons for simulations of the NACA
+All computations were carried out on LUMI. The CPU-                      64A-110 with the CPU and AMD HIP backends of GALÆXI. Com-
+based simulations were performed on 256 nodes (32 768                    putations were performed on LUMI. Note that the value of ’Ranks’
+                                                                         for the GPU results corresponds to the number of AMD MI250X
+CPU cores) resulting in 20 248 DOFs per CPU core. For                    GCDs.
+the GPU-accelerated case, the AMD HIP backend of GA-
+LÆXI was deployed on 128 nodes (1024 AMD MI250X                                                                       Time To
+                                                                                                                                   Speedup
+GCDs) resulting in a load of 647 928 DOFs/GPU.                                Hardware      Ranks    DOFs/Rank         Solution
+                                                                                                                                   vs CPU
+                                                                                                                     per CTU [s]
+    For both architectures, benchmark simulations were
+                                                                           CPU              32 768       20 248        49 097        –
+initialized with a pre-converged flow state that was ad-
+                                                                           AMD MI250X        1024       647 928        14 172      3.46x
+vanced for 67 characteristic time units (CTUs) t∗ = tu∞ /c,
+where t is the solution time and u∞ is the freestream veloc-
+ity. From this initial point, the solution is advanced in all                A comparison of the achieved time-to-solution of a sin-
+cases for two additional CTUs. The flow data is analyzed                 gle CTU for all three simulations is found in Table 11.
+and written to file every 0.2t∗ , a configuration intended to            The GPU-accelerated AMD HIP backends of GALÆXI
+mimic production scenarios. Data analysis and output at                  required 3.93 hours to complete a single CTU versus 13.6
+each checkpoint includes the full instantaneous and time-                hours for the CPU backends, providing a improvement in
+averaged flow field and the local instantaneous flow state               time-to-solution of 3.46x.
+at a set of probe points along the airfoil surface.
+                                                                         6.2. Transonic shock-buffet on a OAT15A airfoil
+6.1.2. Results                                                           6.2.1. Problem Description and Setup
+    A representation of flow field at t∗ = 69 colored by lo-                 The second application presented is an ONERA OAT15A
+cal Mach number is shown in Figure 6. The results shown                  airfoil under shock-buffet conditions. The OAT15A is a
+in this figure come from the GPU-accelerated simulation.                 supercritical airfoil that represents a typical main wing
+The flow in the figure proceeds from left to right. The                  cross-section on transport aircraft and was designed as a
+strong geometric trip on both sides of the airfoil are vis-              validation case for CFD codes [81]. In the context of this
+ible near the leading edge. After the trip, the boundary                 work, the OAT15A builds upon the previous section by fea-
+transitions to a fully turbulent state and well-developed                turing a flow field with shock waves and shock-turbulence
+turbulent structures can be seen in the immediate vicinity               interaction.
+of the trailing edge.                                                        The initial and freestream flow conditions are described
+    Figure 7 compares the evolution of the surface pressure              by a Reynolds number of Rec = 3 × 106 based on the chord
+C p coeﬀicient along the chord of the airfoil from the CPU               length of the airfoil and a Mach number of Ma = 0.73.
+and AMD GPU backends of GALÆXI. Spanwise-averaged                        The airfoil is oriented with an AoA of α = 3.5◦ relative
+
+                                                                    14
+Figure 6: Isosurface of the instantaneous Mach number at t∗ = 69 for the NACA 64A-110 airfoil at α = 0◦ . The visualized plane is located at
+the center point of the airfoil extent in the spanwise direction. Presented data was computed on LUMI with AMD MI250X GPUs.
+
+
+
+                                                                            to the freestream. The influence of artificial reflections
+                                                                            at the farfield boundary is prevented by choosing a large
+                                                                            farfield radius of 80c and by again applying the exponential
+                                                                            decaying Pruett filter in a region starting at a radius of 50c
+                                                                            from the airfoil.
+                                                                                Again, the entropy-stable DGSEM on
+                                                                            Legendre–Gauss–Lobatto nodes in combination with the
+                                                                            RK4-14 for time integration is employed with a polyno-
+                                                                            mial order of N = 3. To preserve the high-order accuracy
+                                                                            of the DGSEM, the hybrid structured-unstructured com-
+                                                                            putational mesh features curved surface elements, repre-
+                                                                            sented by a polynomial order of NGeo = 3. Numerical sta-
+                                                                            bility in the presence of discontinuities is ensured by the
+                                                                            FV sub-cell shock capturing scheme using the troubled cell
+                                                                            indicator of Persson [49].
+                                                                                CPU computations with GALÆXI were run with 25 600
+                                                                            CPU cores (200 nodes) on LUMI. This results in a load
+                                                                            of ∼8000 DOFs/core for CPU core. GPU computations
+                                                                            were performed on 112 NVIDIA A100 GPUs on Karolina
+                                                                            and 112 AMD MI300A APUs on Hunter. The number of
+                                                                            GPUs for the Karolina simulation is chosen such that the
+                                                                            resulting computational load per GPU is ∼2 × 106 DOFs.
+                                                                            For the AMD MI300A APUs featured on Hunter, the same
+                                                                            approximate load of ∼2 × 106 DOFs/APU is used.
+                                                                                For this case, the solution for each architecture is com-
+Figure 7: Comparison of the results for the CPU and AMD GPU                 puted separately starting from t = 0 with the same, con-
+backends of GALÆXI for the NACA 64A-110 using the variation
+of surface pressure coeﬀicient (top) along the chord. Calculation of
+                                                                            stant initial solution. The solution is advanced to t∗ = 28
+the coeﬀicients used spanwise-averaged flow state data at t∗ = 69           with N = 1 to overcome non-physical transient effects early
+using data from probe points along both sides of the airfoil. The           in the solution. The simulations are then restarted using
+absolute difference between the two solutions (bottom) is calculated        the same mesh and problem conditions, but using the fi-
+as the absolute value of the difference between the CPU and GPU-
+accelerated solutions.                                                      nal N = 3 polynomial order. The solution is subsequently
+                                                                            advanced with N = 3 for a single buffet cycle, which corre-
+                                                                            sponds to 14 CTUs, to record data for each architecture.
+
+                                                                            6.2.2. Results
+                                                                                A rendering of the instantaneous flow field at t∗ = 42
+                                                                            for the simulation performed on Hunter can be found in
+                                                                            Figure 8. A slice plane, which shows the flow field col-
+                                                                            ored by the local Mach number, forms the background
+                                                                            of the figure. The surface of the airfoil is colored by the
+                                                                            static pressure. The separated wake downstream of the
+
+                                                                       15
+Figure 8: Visualization of the flow around ONERA OAT15A airfoil at α = 3.5◦ at t∗ = 42. The visualized plane in the background shows the
+flow field colored by instantaneous Mach number. The surface of the airfoil is colored by static pressure. The separated wake is demonstrated
+with a isosurface of Q-criterion, also colored by Mach number. Cells which have been switched to a FV representation near the shock wave
+are shown by the translucent grey region on the upper surface of the airfoil. Presented data was computed on Hunter with AMD MI300A
+APUs.
+
+
+
+shock wave boundary layer interaction (SWBLI) is visual-                  on the largest computing resources available. To address
+ized using isocontours of the Q-criterion which are colored               this challenge, the discontinuous Galerkin spectral ele-
+by local Mach number. In the region of the shock wave,                    ment method framework GALÆXI was presented as an
+gray volume shading is added to those cells which have                    architecture-agnostic toolchain to enable the study of com-
+been marked by the troubled cell indicator and switched                   plex, compressible, turbulent flows at extreme scales.
+to the sub-cell FV representation.                                            GALÆXI offers hardware-agnostic portability, achieved
+    A comparison of the time-to-solution and compute re-                  by interfacing a core of Fortran source code to C++ com-
+sources consumed for a single CTU (in node-hours) for                     pute kernels that are compiled as either CUDA for NVIDIA
+the OAT15A across multiple architectures is given in Ta-                  GPUs or HIP for AMD GPUs. For CPU-based systems,
+ble 12. The GPU-accelerated AMD HIP backends of GA-                       compute routines in Fortran are retained from a CPU-
+LÆXI on Hunter and the NVIDIA CUDA backends on                            only predecessor. The portability approach employed in
+Karolina required comparable time-to-solution to the CPU                  GALÆXI provides a template for similar Fortran-based
+cases. However, the AMD HIP backend of GALÆXI re-                         software to achieve comparable results. GALÆXI has also
+quired 6.45x fewer computing resources the CPU backends                   demonstrated extreme scalability. On GPUs from multi-
+to obtain the same solution in the same wall time. That                   ple vendors, GALÆXI achieved near ideal strong and weak
+directly translates to improved energy consumption and                    scaling up to 65 536 GPUs. In the largest weak scaling
+emphasizes that the gains in energy eﬀiciency seen for sin-               case, GALÆXI computed a case with 67.1 billion DOFs on
+gle nodes in Section 5.4 translate to production runs of                  65 536 MI250X graphics compute devices on the Frontier
+GALÆXI.                                                                   supercomputer with a parallel eﬀiciency of 82.6%, demon-
+                                                                          strating GALÆXI’s ability to effectively scale up to on
+7. Conclusion                                                             tens of thousands of accelerators. On CPUs, superlinear
+                                                                          strong scaling was seen on up to 65 536 CPU cores. Futher-
+    A significant roadblock to modern computational fluid                 more, GALÆXI allows robust, high-order accurate solu-
+dynamics software is the need to support constantly evolv-                tions for compressible flow problems that feature shock-
+ing, heterogeneous computing environments. This is espe-                  turbulence interactions. The solver was validated using
+cially true for software intended for the study of turbu-                 the compressible Taylor-Green-Vortex, where solutions for
+lent flows, which often demand high-fidelity simulations
+                                                                     16
+Table 12: Performance comparisons for simulations of the ONERA OAT15A with the CPU and AMD HIP backends of GALÆXI. The CPU
+and GPU-accelerated calculations were performed on LUMI and Hunter, respectively. Note that the value of ’Ranks’ for the GALÆXI Hunter
+results corresponds to the number of full AMD MI300A APUs.
+
+                                                                                Time To
+                                                                                             Speedup    Node-hours
+                           Hardware               Ranks     DOFs / Rank          Solution
+                                                                                             vs CPU      per CTU
+                                                                               per CTU [s]
+                  CPU (LUMI)                      25 600          8668          9647.46         –           536
+                  AMD MI300A (Hunter)              112         1 981 481       10 690.28      0.90x          83
+                  NVIDIA A100 (Karolina)           112         1 981 481       10 790.97      0.89x          84
+
+
+all backends of GALÆXI showed excellent agreement with                Formal Analysis, Writing - Review & Editing Marcel Blind:
+reference data. To demonstrate GALÆXI effectiveness for               Conceptualization, Methodology, Software Daniel Kempf:
+production-scale problems, wall-resolved large eddy sim-              Conceptualization, Methodology, Software, Supervision
+ulations of transonic flows over NACA 64A-110 and ON-                 Jannik Schrempp: Software Felix Rodach: Software An-
+ERA OAT15A airfoil configurations were performed. For                 drea Beck: Writing - Review & Editing, Resources, Super-
+the NACA airfoil, the simulation with the 1024 AMD                    vision, Project Administration, Funding acquisition Anna
+MI250X GCDs on LUMI provided a 3.46x improvement in                   Schwarz: Writing - Review & Editing, Visualization, Con-
+time-to-solution over a CPU run on 32 768 CPU cores. Re-              ceptualization, Supervision
+sults from the CPU and AMD HIP backends of GALÆXI
+showed excellent agreement for the NACA 64A-110, pro-                 Acknowledgments
+ducing an average percent difference in the surface pres-
+sure coeﬀicient along the chord length of 0.41%.                          This work was funded by the European Union. This
+                                                                      work has received funding from the European High Per-
+Data Availability Statement                                           formance Computing Joint Undertaking (JU) and Sweden,
+                                                                      Germany, Spain, Greece, and Denmark under grant agree-
+  The source code of GALÆXI is available under the                    ment No 101093393.
+GPLv3 license at:                                                         Further funding was provided by the Deutsche Forschungs-
+                                                                      gemeinschaft DFG (German Research Foundation) in the
+   • https://github.com/flexi-framework/galaexi                       framework of the research unit FOR 2895 (Grant No. BE
+    The data generated in the context of this work and                6100/3-1 and BE 6100/3-2).
+instructions to reproduce them with these codes are made                  The authors also thank the Friedrich und Elisabeth
+available under the CC-BY 4.0 license sorted by section               Boysen-Stiftung for supporting the work under grant BOY187.
+at:                                                                       We acknowledge EuroHPC Joint Undertaking for award-
+                                                                      ing us access to Vega at IZUM, Slovenia, Karolina at IT4Innovations
+   • 10.18419/DARUS-6118 (Section 3)                                  Czech Republic, MeluXina at LuxProvide, Luxembourg,
+                                                                      Discoverer at SofiaTech, Bulgaria, LUMI at CSC, Finland,
+   • 10.18419/DARUS-6120 (Section 4)
+                                                                      Leonardo at CINECA, Italy, Marenostrum5 at BSC, Spain
+   • 10.18419/DARUS-6119 (Section 5)                                  and Deucalion at MACC, Portugal.
+                                                                          The authors gratefully acknowledge the Gauss Centre
+   • 10.18419/DARUS-6121 (Section 6)                                  for Supercomputing e.V. (www.gauss-centre.eu) for fund-
+                                                                      ing this project by providing computing time through the
+Declaration of competing interest                                     John von Neumann Institute for Computing (NIC) on the
+                                                                      GCS Supercomputer JUPITER at Jülich Supercomputing
+    The authors declare that they have no known compet-               Centre (JSC) as well as the support and the computing
+ing financial interests or personal relationships that could          time on ”Hunter” by the Supercomputing Centre Stuttgart
+have appeared to influence the work reported in this paper.           (HLRS) through the project
+                                                                      ”hpcdg”.
+CRediT authorship contribution statement                                  This research used resources of the Oak Ridge Leader-
+                                                                      ship Computing Facility at the Oak Ridge National Lab-
+    Spencer Starr: Conceptualization, Methodology, Soft-              oratory, which is supported by the Advanced Scientific
+ware, Validation, Formal Analysis, Investigation, Data Cu-            Computing Research programs in the Oﬀice of Science of
+ration, Writing - Original Draft, Visualization, Project Ad-          the U.S. Department of Energy under Contract No. DE-
+ministration Yannik Feldner: Methodology, Software, In-               AC05-00OR22725.
+vestigation, Formal Analysis, Writing - Review & Editing,                 This work was completed in part at the 2024 and 2025
+Visualization Patrick Kopper Conceptualization, Method-               Helmholtz GPU Hackathons, part of the Open Hackathons
+ology, Software,                                                      program. The authors would like to acknowledge
+                                                                 17
+OpenACC-Standard.org, JSC, HZDR, and HIDA for their         [17] P. Fischer, S. Kerkemeier, M. Min, Y.-H. Lan, M. Phillips,
+support.                                                         T. Rathnayake, E. Merzari, A. Tomboulides, A. Karakus,
+                                                                 N. Chalmers, et al., NekRS, a GPU-accelerated spectral element
+   The authors would also like to acknowledge individual         Navier–Stokes solver, Parallel Computing 114 (2022) 102982.
+contributions from Marius Kurz and Johanna Potyka at        [18] NVIDIA, CUDA Toolkit,           https://developer.nvidia.com/
+AMD,                                                             cuda-toolkit, 2026. Accessed: 2026-11-03.
+Philipp Offenhäuser from Hewlett-Packard Enterprises (HPE). [19] Advanced Micro Devices, HIP, https://rocm.docs.amd.com/
+                                                                                   projects/HIP/en/latest/, 2026. Accessed: 2026-11-03.
+                                                                              [20] M. Blind, M. Gao, D. Kempf, P. Kopper, M. Kurz, A. Schwarz,
+                                                                                   A. Beck, Towards Exascale CFD Simulations Using the Discon-
+References
+                                                                                   tinuous Galerkin Solver FLEXI, Springer Nature Switzerland,
+ [1] TOP500 - November 2025, https://www.top500.org/lists/                         2026, pp. 207–221. doi:10.1007/978-3-031-91312-9_15.
+     top500/list/2025/11/, 2025. Accessed: 2026-14-01.                        [21] M. Kurz, D. Kempf, M. Blind, P. Kopper, P. Offenhäuser,
+ [2] TOP500 - November 2020, https://www.top500.org/lists/                         A. Schwarz, S. Starr, J. Keim, A. Beck, GALÆXI: Solving com-
+     top500/list/2020/11/, 2020. Accessed: 2026-14-01.                             plex compressible flows with high-order discontinuous Galerkin
+ [3] L. Gasparino, F. Spiga, O. Lehmkuhl, SOD2D: A GPU-enabled                     methods on accelerator-based systems, Computer Physics Com-
+     spectral finite elements method for compressible scale-resolving              munications 306 (2024). doi:10.1016/j.cpc.2024.109388.
+     simulations, Computer Physics Communications 297 (2024)                  [22] M. Sonntag, C.-D. Munz, Shock capturing for discontinuous
+     109067.                                                                       Galerkin methods using finite volume subcells, in: Finite Vol-
+ [4] F. D. Witherden, P. E. Vincent, W. Trojak, Y. Abe, A. Ak-                     umes for Complex Applications VII-Elliptic, Parabolic and Hy-
+     barzadeh, S. Akkurt, M. Alhawwary, L. Caros, T. Dzanic,                       perbolic Problems: FVCA 7, Berlin, June 2014, Springer, 2014,
+     G. Giangaspero, et al., PyFR v2.0.3: Towards industrial adop-                 pp. 945–953.
+     tion of scale-resolving simulations, Computer Physics Commu-             [23] A. D. Beck, T. Bolemann, D. Flad, H. Frank, G. J. Gassner,
+     nications 311 (2025) 109567.                                                  F. Hindenlang, C.-D. Munz, High-order discontinuous Galerkin
+ [5] P.-E. Eleftherakis, G. Anagnostopoulos, A. Kapetanakis,                       spectral element methods for transitional and turbulent flow
+     M. Umair, J.-Y. Vet, K. Iliakis, J. Vincent, J. Gong, R. Vin-                 simulations, International Journal for Numerical Methods in
+     uesa, S. Xydis, POSTER: Performance Portability in GPU-                       Fluids 76 (2014) 522–548.
+     Accelerated Spectral Finite Element Fluid Simulations: A                 [24] J. Keim, A. Schwarz, P. Kopper, M. Blind, C. Rohde, A. Beck,
+     Cross-layer Exploration Approach, in: Proceedings of the 22nd                 Entropy Stable High-Order Discontinuous Galerkin Spectral-
+     ACM International Conference on Computing Frontiers, 2025,                    Element Methods on Curvilinear, Hybrid Meshes, Journal of
+     pp. 228–229.                                                                  Computational Physics 557 (2026) 114829. doi:10.1016/j.jcp.
+ [6] T. Dzanic, F. Witherden, Positivity-preserving entropy-based                  2026.114829.
+     adaptive filtering for discontinuous spectral element methods,           [25] P. Mossier, P. Oestringer, S. Jöns, J. Keim, C. Mavriplis, A. D.
+     Journal of Computational Physics 468 (2022) 111501. doi:https:                Beck, C.-D. Munz, Tackling Compressible Turbulent Multi-
+     //doi.org/10.1016/j.jcp.2022.111501.                                          Component Flows with Dynamic Hp-Adaptation 306 (2026)
+ [7] Mako,      Mako Templates for Python,              https://www.               106928. doi:10.1016/j.compfluid.2025.106928.
+     makotemplates.org/, 2026. Accessed: 2026-23-04.                          [26] OpenMP, https://www.openmp.org/, 2026. Accessed: 2026-26-
+ [8] K. Fujii, S. Kawai, D. Gaitonde, Scale Resolving Methods for                  02.
+     Aeronautical Flows toward the Era of “Industrial LES”, Flow,             [27] OpenACC, https://www.openacc.org/, 2026. Accessed: 2026-
+     Turbulence and Combustion 115 (2025) 405–446.                                 26-02.
+ [9] A. Ceci, A. Palumbo, S. Pirozzoli, Grid resolution requirements          [28] C. R. Trott, D. Lebrun-Grandié, D. Arndt, J. Ciesko, V. Dang,
+     for dns of shock/boundary-layer interactions, Computers & Flu-                N. Ellingwood, R. Gayatri, E. Harvey, D. S. Hollman, D. Ibanez,
+     ids (2025) 106892.                                                            N. Liber, J. Madsen, J. Miles, D. Poliakoff, A. Powell, S. Raja-
+[10] J. Zeifang, A. Beck, A data-driven high order sub-cell artifi-                manickam, M. Simberg, D. Sunderland, B. Turcksin, J. Wilke,
+     cial viscosity for the discontinuous Galerkin spectral element                Kokkos 3: Programming Model Extensions for the Exascale
+     method, Journal of Computational Physics 441 (2021) 110475.                   Era, IEEE Transactions on Parallel and Distributed Systems
+     doi:10.1016/j.jcp.2021.110475.                                                33 (2022) 805–817. doi:10.1109/TPDS.2021.3097283.
+[11] A. Herten, Many Cores, Many Models: GPU Programming                      [29] Lawrence Livermore National Laboratory, RAJA Portabil-
+     Model vs. Vendor Compatibility Overview, in: Proceedings of                   ity Suite: Enabling Performance Portable CPU and GPU
+     the SC ’23 Workshops of the International Conference on High                  HPC      Applications,     https://computing.llnl.gov/projects/
+     Performance Computing, Network, Storage, and Analysis, SC-                    raja-managing-application-portability-next-generation\
+     W ’23, Association for Computing Machinery, 2023, pp. 1019–                   protect\penalty\z@-platforms, 2026.
+     1026. doi:10.1145/3624062.3624178.                                       [30] E. Zenker, B. Worpitz, R. Widera, A. Huebl, G. Juckeland,
+[12] P. Fischer, J. Lottes, H. Tufo, Nek5000, Technical Report, Ar-                A. Knüpfer, W. E. Nagel, M. Bussmann, Alpaka – An Ab-
+     gonne National Lab, Argonne, IL (United States), 2007.                        straction Library for Parallel Kernel Acceleration, in: 2016
+                                                                                   IEEE International Parallel and Distributed Processing Sym-
+[13] F. De Vanna, F. Avanzi, M. Cogo, S. Sandrin, M. Bettencourt,
+     F. Picano, E. Benini, URANOS: A GPU accelerated Navier-                       posium Workshops (IPDPSW), 2016, pp. 631–640. doi:10.1109/
+                                                                                   IPDPSW.2016.50.
+     Stokes solver for compressible wall-bounded flows, Computer
+     Physics Communications 287 (2023) 108717.                                [31] Khronos Group, SYCL, https://www.khronos.org/sycl/, 2026.
+                                                                                   Accessed: 2026-11-03.
+[14] N. Jansson, M. Karp, A. Podobas, S. Markidis, P. Schlatter,
+     Neko: A modern, portable, and scalable framework for high-               [32] NVIDIA, CUDA Fortran, https://developer.nvidia.com/
+                                                                                   cuda-fortran, 2026. Accessed: 2026-26-02.
+     fidelity computational fluid dynamics, Computers & Fluids
+     (2024) 106243.                                                           [33] Fortran Community, Fortran: High-performance parallel pro-
+[15] N. Krais, A. Beck, T. Bolemann, H. Frank, D. Flad, G. Gassner,                gramming language, https://fortran-lang.org/, 2026. Accessed:
+     F. Hindenlang, M. Hoffmann, T. Kuhn, M. Sonntag, C.-D.                        2026-15-04.
+     Munz, FLEXI: A high order discontinuous Galerkin frame-                  [34] S. Bak, C. Bertoni, S. Boehm, R. Budiardja, B. M. Chap-
+     work for hyperbolic–parabolic conservation laws, Computers                    man, J. Doerfert, M. Eisenbach, H. Finkel, O. Hernandez,
+     & Mathematics with Applications 81 (2021) 186–219.                            J. Huber, S. Iwasaki, V. Kale, P. R. Kent, J. Kwack, M. Lin,
+[16] G. Rubio, HORSES3D: a high-order discontinuous Galerkin                       P. Luszczek, Y. Luo, B. Pham, S. Pophale, K. Ravikumar,
+     solver for flow simulations and multi-physics applications, arXiv             V. Sarkar, T. Scogland, S. Tian, P. Yeung, OpenMP application
+     (Cornell University) (2022).                                                  experiences: Porting to accelerated nodes, Parallel Computing
+
+
+                                                                         18
+     109 (2022) 102856. doi:10.1016/j.parco.2021.102856.                         j.jcp.2011.09.003.
+[35] M. Bernardini, D. Modesti, F. Salvadore, S. Pirozzoli,                 [52] A. Schwarz, D. Kempf, J. Keim, P. Kopper, C. Rohde, A. Beck,
+     STREAmS: A high-fidelity accelerated solver for direct nu-                  Comparison of Entropy Stable Collocation High-Order DG
+     merical simulation of compressible turbulent flows, Computer                Methods for Compressible Turbulent Flows, Computers & Flu-
+     Physics Communications 263 (2021) 107906.                                   ids 303 (2025) 106874. doi:10.1016/j.compfluid.2025.106874.
+[36] F. Salvadore, G. Rossi, S. Sathyanarayana, M. Bernardini,              [53] J. Reid, The new features of Fortran 2003 26 (2007) 10–33.
+     OpenMP offload toward the exascale using Intel® GPU Max                     doi:10.1145/1243413.1243415.
+     1550: evaluation of STREAmS compressible solver, The Jour-             [54] A. Klöckner, T. Warburton, J. Bridge, J. Hesthaven, Nodal
+     nal of Supercomputing 80 (2024) 21094–127.                                  discontinuous Galerkin methods on graphics processors, Journal
+[37] F. De Vanna, G. Baldan, URANOS-2.0: Improved performance,                   of Computational Physics 228 (2009) 7863–7882. doi:j.jcp.2009.
+     enhanced portability, and model extension towards exascale                  06.041.
+     computing of high-speed engineering flows, Computer Physics            [55] J. Chan, Z. Wang, A. Modave, J.-F. Remacle, T. Warbur-
+     Communications 303 (2024) 109285.                                           ton, GPU-accelerated discontinuous Galerkin methods on hy-
+[38] M. Solanki,       AdaptiveCpp design and architecture,                      brid meshes, Journal of Computational Physics 318 (2016) 142–
+     https://github.com/AdaptiveCpp/AdaptiveCpp/blob/                            168. doi:https://doi.org/10.1016/j.jcp.2016.04.003.
+     develop/doc/architecture.md, 2025. Accessed: 2026-09-03.               [56] A. Karakus, N. Chalmers, K. Świrydowicz, T. Warburton, A
+[39] Z. Dai, L. Deng, Y. Che, M. Li, J. Zhang, Y. Wang, Evalu-                   GPU accelerated discontinuous Galerkin incompressible flow
+     ating performance portability of five shared-memory program-                solver, Journal of Computational Physics 390 (2019) 380–404.
+     ming models using a high-order unstructured CFD solver, Jour-               doi:https://doi.org/10.1016/j.jcp.2019.04.010.
+     nal of Parallel and Distributed Computing 187 (2024) 104831.           [57] NVIDIA, Nsight Compute™, https://developer.nvidia.com/
+     doi:j.jpdc.2023.104831.                                                     nsight-compute, 2026. Accessed: 2026-03-03.
+[40] P. Bauman, B. Messer, J. Glenski, A. Georgiadou, J. Li-                [58] D. A. Kopriva, A conservative staggered-grid chebyshev mul-
+     etz, K. Gottiparthi, M. Day, J. Chen, J. Rood, L. Esclapez,                 tidomain method for compressible flows. ii. a semi-structured
+     J. White III, G. R. Jansen, N. Curtis, S. Nichols, J. Kurzak,               method, Journal of computational physics 128 (1996) 475–488.
+     N. Chalmers, C. Freitag, N. Malaya, A. Fanfarillo, R. D. Bu-           [59] P. J. Roache, Code verification by the method of manufactured
+     diardja, T. Papatheodore, N. Frontiere, D. Mcdougall, M. Nor-               solutions, J. Fluids Eng. 124 (2002) 4–10.
+     man, S. Sreepathi, P. Roth, D. Bykov, N. Wolfe, P. Mullowney,          [60] D. J. Lusher, N. D. Sandham, Assessment of low-dissipative
+     M. Eisenbach, M. T. Henry De Frahan, W. Joubert, Experi-                    shock-capturing schemes for the compressible Taylor–Green vor-
+     ences readying applications for Exascale, in: Proceedings of                tex, AIAA Journal 59 (2021) 533–545.
+     the International Conference for High Performance Computing,           [61] S. Sarkar, G. Erlebacher, M. Y. Hussaini, H. O. Kreiss, The
+     Networking, Storage and Analysis, Association for Computing                 analysis and modelling of dilatational terms in compressible tur-
+     Machinery, 2023. doi:10.1145/3581784.3607065.                               bulence, Journal of Fluid Mechanics 227 (1991) 473–493.
+[41] G. Nastac, A. Walden, E. J. Nielsen, K. Frendi, Implicit               [62] W. Sutherland, LII. The viscosity of gases and molecular
+     Thermochemical Nonequilibrium Flow Simulations on Unstruc-                  force, The London, Edinburgh, and Dublin Philosophical Mag-
+     tured Grids using GPUs, in: AIAA Scitech 2021 Forum, 2021.                  azine and Journal of Science 36 (1893) 507–531. doi:10.1080/
+     doi:10.2514/6.2021-0159.                                                    14786449308620508.
+[42] N. Jansson, M. Karp, J. Wahlgren, S. Markidis, P. Schlatter,           [63] Discoverer HPC, Discoverer HPC docs, https://docs.discoverer.
+     Design of Neko—A Scalable High-Fidelity Simulation Frame-                   bg/index.html, 2026. Accessed: 2026-19-02.
+     work With Extensive Accelerator Support, Concurrency and               [64] Höchstleistungsrechenzentrum Stuttgart (HLRS), Hunter
+     Computation: Practice and Experience 37 (2025).                             (HPE),         https://kb.hlrs.de/platforms/index.php/Hunter_
+[43] W. K. Anderson, R. T. Biedron, J.-R. Carlson, J. M. Derlaga,                (HPE), 2026. Accessed: 2026-19-02.
+     B. Diskin, C. T. Druyor Jr., et al, FUN3D Manual: 14.2, 2025.          [65] CINECA HPC, Leonardo, https://www.hpc.cineca.it/systems/
+[44] G. Nastac, A. Walden, L. Wang, E. J. Nielsen, Y. Liu,                       hardware/leonardo/, 2026. Accessed: 2026-19-02.
+     M. Opgenorth, J. Orender, M. Zubair, A Multi-Architecture              [66] Minho Advanced Computing Center (MACC), Deucalion User
+     Approach for Implicit Computational Fluid Dynamics on Un-                   Guide, https://docs.macc.fccn.pt/, 2026. Accessed: 2026-19-02.
+     structured Grids, in: AIAA Scitech 2023 Forum, 2023. doi:10.           [67] Oak Ridge National Laboratory (ORNL) Leadership Comput-
+     2514/6.2023-1226.                                                           ing Facility, Frontier User Guide, https://docs.olcf.ornl.gov/
+[45] A. Harten, J. M. Hyman, Self Adjusting Grid Methods for One-                systems/frontier_user_guide.html, 2026. Accessed: 2026-10-
+     Dimensional Hyperbolic Conservation Laws, Journal of Compu-                 04.
+     tational Physics 50 (1983) 235–269. doi:10.1016/0021-9991(83)          [68] Jülich Supercomputing Centre (JSC), JUPITER - Exascale
+     90066-9.                                                                    for Europe, https://www.fz-juelich.de/en/jsc/jupiter, 2026. Ac-
+[46] F. Bassi, S. Rebay, A High-Order Accurate Discontinuous Finite              cessed: 2026-12-03.
+     Element Method for the Numerical Solution of the Compressible          [69] IT4Innovations,         Karolina,       https://www.it4i.cz/en/
+     Navier-Stokes Equations, Journal of Computational Physics 131               infrastructure/karolina, 2026. Accessed: 2026-19-02.
+     (1997) 267–279. doi:10.1006/jcph.1996.5572.                            [70] CSC - IT Center for Science, LUMI Documentation, https://
+[47] P. Chandrashekar, Kinetic Energy Preserving and Entropy Sta-                docs.lumi-supercomputer.eu/firststeps/, 2026. Accessed: 2026-
+     ble Finite Volume Schemes for Compressible Euler and Navier-                19-02.
+     Stokes Equations, Communications in Computational Physics              [71] Barcelona Supercomputing Center (BSC), MareNostrum
+     14 (2013) 1252–1286. doi:10.4208/cicp.170712.010313a.                       5 Technical information, https://www.bsc.es/marenostrum/
+[48] M. Sonntag, Shape Derivatives and Shock Capturing for                       marenostrum-5, 2026. Accessed: 2026-19-02.
+     the Navier-Stokes Equations in Discontinuous Galerkin Meth-            [72] LuxProvide, MeluXina, https://www.luxprovide.lu/meluxina/,
+     ods, Ph.D. thesis, Universität Stuttgart, 2017. doi:10.18419/               2026. Accessed: 2026-19-02.
+     opus-9342.                                                             [73] Institute for Information Science, Maribor (IZUM), Vega, https:
+[49] P.-O. Persson, J. Peraire, Sub-Cell Shock Capturing for Discon-             //izum.si/en/vega-en/, 2026. Accessed: 2026-19-02.
+     tinuous Galerkin Methods, 2006. doi:10.2514/6.2006-112.                [74] Advanced Micro Devices, AMD Instinct™ MI250X Ac-
+[50] M. H. Carpenter, A. Kennedy, Fourth-Order 2N-Storage Runge-                 celerators, https://www.amd.com/en/products/accelerators/
+     Kutta Schemes, Nasa Technical Memorandum 109112 (1994)                      instinct/mi200/mi250x.html, 2026.
+     1–26.                                                                  [75] SchedMD, Slurm Workload Manager, https://slurm.schedmd.
+[51] J. Niegemann, R. Diehl, K. Busch, Eﬀicient Low-Storage                      com/, 2026. Accessed: 2026-27-01.
+     Runge–Kutta Schemes with Optimized Stability Regions, Jour-            [76] Barcelona Supercomputing Center (BSC), EAR: Energy
+     nal of Computational Physics 231 (2012) 364–372. doi:10.1016/               management framework for HPC, https://www.bsc.es/
+
+
+                                                                       19
+     research-and-development/software-and-apps/software-list/
+     ear-energy-management-framework-hpc,         2026.   Accessed:
+     2026-27-01.
+[77] P. Kopper, M. P. Blind, A. Schwarz, M. Kurz, F. Rodach,
+     S. M. Copplestone, A. D. Beck, PyHOPE: A Python Toolkit
+     for Three-Dimensional Unstructured High-Order Meshes, Jour-
+     nal of Open Source Software 10 (2025) 8769. URL: https:
+     //doi.org/10.21105/joss.08769. doi:10.21105/joss.08769.
+[78] Advanced Micro Devices, AMD CDNA™ Architecture,
+     https://www.amd.com/content/dam/amd/en/documents/
+     instinct-tech-docs/white-papers/amd-cdna-3-white-paper.pdf,
+     2025. Accessed: 2026-17-03.
+[79] Advanced Micro Devices, AMD EPYC™ 7002 Series Processors,
+     https://www.amd.com/content/dam/amd/en/documents/
+     products/epyc/amd-epyc-7002-series-datasheet.pdf,        2025.
+     Accessed: 2026-17-03.
+[80] C. D. Pruett, T. B. Gatski, C. E. Grosch, W. D. Thacker, The
+     temporally filtered Navier–Stokes equations: Properties of the
+     residual stress, Physics of Fluids 15 (2003) 2127–2140. doi:10.
+     1063/1.1582858.
+[81] A. Rodde, J. Archambaud, OAT15A Airfoil Data. AGARD Ad-
+     visory Report Num. 303 Volume 1: A Selection of Experimen-
+     tal Test Cases for the Validation of CFD codes, Technical Re-
+     port, Advisory Group for Aerospace Research & Development
+     (AGARD), 1994.
+
+
+
+
+                                                                       20
+

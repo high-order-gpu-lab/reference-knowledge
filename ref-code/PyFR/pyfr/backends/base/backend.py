@@ -1,0 +1,252 @@
+from collections import defaultdict, namedtuple
+from contextlib import contextmanager
+from functools import cached_property, wraps
+from itertools import count
+import math
+from weakref import WeakSet, WeakValueDictionary
+
+import numpy as np
+
+from pyfr.backends.base.provider import NotSuitableError
+from pyfr.backends.base.makoutil import mfilttag
+from pyfr.backends.base.storage import _Arena, Extent
+from pyfr.backends.base.types import ViewMapping
+from pyfr.template import DottedTemplateLookup
+from pyfr.util import digest
+
+
+MemoryInfo = namedtuple('MemoryInfo', ['current', 'peak', 'free', 'total'])
+
+
+def recordmat(fn):
+    @wraps(fn)
+    def newfn(self, *args, **kwargs):
+        m = fn(self, *args, **kwargs)
+
+        if not hasattr(m, 'mid'):
+            m.mid = next(self._mat_counter)
+            self.mats[m.mid] = m
+
+        return m
+    return newfn
+
+
+class BaseBackend:
+    name = None
+    has_double = True
+    _annotator = None
+
+    def __init__(self, cfg):
+        self.cfg = cfg
+
+        # Numeric data type
+        prec = cfg.get('backend', 'precision', 'double')
+        if prec not in {'single', 'double'}:
+            raise ValueError('Backend precision must be either single or '
+                             'double')
+
+        # Convert to a NumPy data type
+        self.fpdtype = np.dtype(prec).type
+        self.fpdtype_eps = float(np.finfo(self.fpdtype).eps)
+        self.fpdtype_max = float(np.finfo(self.fpdtype).max)
+
+        # Memory model
+        match cfg.get('backend', 'memory-model', 'normal'):
+            case 'normal':
+                self.ixdtype = np.int32
+            case 'large':
+                self.ixdtype = np.int64
+            case _:
+                raise ValueError('Backend memory model must be either normal '
+                                 'or large')
+
+        # Autotuning improvement factor
+        self.autotune_ifac = cfg.getfloat('backend', 'autotune-ifac', 0.95)
+
+        # Allocated matrices
+        self.mats = WeakValueDictionary()
+        self._mat_counter = count()
+
+        # Constant matrix deduplication candidates
+        self._const_cache = defaultdict(WeakSet)
+
+        # Extents
+        self._extents = {}
+        self._all_extents = WeakSet()
+
+        # Peak memory tracking
+        self._mem_peak = 0
+
+    def get_extent(self, name):
+        return self._extents[name]
+
+    def extent(self):
+        return Extent(self.alignb)
+
+    @cached_property
+    def lookup(self):
+        pkg = f'pyfr.backends.{self.name}.kernels'
+        dfltargs = {
+            'fpdtype': self.fpdtype, 'ixdtype': self.ixdtype,
+            'fpdtype_max': self.fpdtype_max, 'csubsz': self.csubsz,
+            'soasz': self.soasz, 'math': math
+        }
+
+        lookup = DottedTemplateLookup(pkg, dfltargs)
+
+        # Add source filters
+        lookup.filters.append(mfilttag)
+
+        return lookup
+
+    def malloc(self, obj, extent):
+        match extent:
+            case None:
+                ext = Extent(self.alignb)
+                ext.reserve(obj)
+                self.commit_extent(ext)
+            case str() as name:
+                ext = self._extents.setdefault(name, Extent(self.alignb))
+                ext.reserve(obj)
+            case _Arena() as ext:
+                ext.reserve(obj)
+            case _:
+                raise ValueError(f'Invalid extent: {extent!r}')
+
+    def commit_extent(self, ext):
+        ext.commit(self._malloc_checked)
+        self._track_extent(ext)
+
+    def commit(self):
+        for ext in self._extents.values():
+            self.commit_extent(ext)
+        self._extents.clear()
+
+    def _malloc_checked(self, nbytes):
+        if self.ixdtype == np.int32 and nbytes > 4*2**31 - 1:
+            raise RuntimeError('Allocation too large for normal backend '
+                               'memory-model')
+
+        return self._malloc_impl(nbytes)
+
+    def _malloc_impl(self, nbytes):
+        pass
+
+    def _track_extent(self, ext):
+        self._all_extents.add(ext)
+        mem = sum(e.nbytes for e in self._all_extents)
+        self._mem_peak = max(self._mem_peak, mem)
+
+    def memory_info(self):
+        mem = sum(e.nbytes for e in self._all_extents)
+        return MemoryInfo(mem, self._mem_peak, None, None)
+
+    @recordmat
+    def const_matrix(self, initval, dtype=None, tags=set()):
+        dtype = dtype or self.fpdtype
+
+        # Derive a key from a sample of the matrix
+        arr = np.asarray(initval, dtype=dtype)
+        sample = arr.flat[::max(1, arr.size >> 16)]
+        key = digest(arr.dtype.str, arr.shape, sample)
+
+        # See if we have previously allocated an identical matrix
+        for m in self._const_cache[key]:
+            if tags.issubset(m.tags) and (m.get() == initval).all():
+                break
+        else:
+            m = self.const_matrix_cls(self, dtype, arr, tags)
+            self._const_cache[key].add(m)
+
+        return m
+
+    @recordmat
+    def matrix(self, ioshape, initval=None, extent=None, tags=set(),
+               dtype=None):
+        dtype = dtype or self.fpdtype
+        return self.matrix_cls(self, dtype, ioshape, initval, extent, tags)
+
+
+    @recordmat
+    def matrix_slice(self, mat, ra, rb, ca, cb):
+        return self.matrix_slice_cls(self, mat, ra, rb, ca, cb)
+
+    @recordmat
+    def xchg_matrix(self, ioshape, initval=None, extent=None, tags=set()):
+        return self.xchg_matrix_cls(self, self.fpdtype, ioshape, initval,
+                                    extent, tags)
+
+    def xchg_matrix_for_view(self, view, tags=set()):
+        return self.xchg_matrix((view.nvrow, view.nvcol*view.n), tags=tags)
+
+    @recordmat
+    def tiled_matrix(self, block_size, nmats, tile_shape, dtype=None,
+                     extent=None, tags=set()):
+        dtype = dtype or self.fpdtype
+        return self.tiled_matrix_cls(self, dtype, block_size, nmats,
+                                     tile_shape, extent, tags)
+
+    def optimal_tile_shape(self, block_size, dtype):
+        # Square 64-byte-wide tile; wide-wavefront backends override this
+        s = 64 // np.dtype(dtype).itemsize
+        return (s, s)
+
+    def view_mapping(self, matmap, rmap, cmap, rstridemap=1, vshape=()):
+        return ViewMapping(self, matmap, rmap, cmap, rstridemap, vshape)
+
+    def view(self, vmap, tags=set()):
+        return self.view_cls(self, vmap, tags)
+
+    def xchg_view(self, vmap, tags=set()):
+        return self.xchg_view_cls(self, vmap, tags)
+
+    @contextmanager
+    def region(self, name):
+        if self._annotator:
+            self._annotator.push(name)
+
+        try:
+            yield
+        finally:
+            if self._annotator:
+                self.wait()
+                self._annotator.pop(name)
+
+    def kernel(self, name, *args, **kwargs):
+        with self.region('kernel-setup'):
+            best_kern = None
+
+            # Loop through each kernel provider instance
+            for prov in self._providers:
+                # See if it can potentially provide the requested kernel
+                kern_meth = getattr(prov, name, None)
+                if kern_meth:
+                    ifac = self.autotune_ifac
+
+                    try:
+                        # Ask the provider for the kernel
+                        kern = kern_meth(*args, **kwargs)
+                    except NotSuitableError:
+                        continue
+
+                    # Evaluate this kernel compared to the best seen so far
+                    if best_kern is None or kern.dt < ifac*best_kern.dt:
+                        best_kern = kern
+
+                        # If there is no benchmark data then short circut
+                        if np.isnan(best_kern.dt):
+                            return best_kern
+
+        if best_kern is None:
+            raise KeyError(f'Kernel {name!r} has no providers')
+
+        return best_kern
+
+    def ordered_meta_kernel(self, kerns):
+        return self.ordered_meta_kernel_cls(kerns)
+
+    def unordered_meta_kernel(self, kerns, splits=None):
+        return self.unordered_meta_kernel_cls(kerns, splits)
+
+    def graph(self):
+        return self.graph_cls(self)

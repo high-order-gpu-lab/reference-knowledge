@@ -1,0 +1,5751 @@
+{
+  "meta": {
+    "notice": "No API key, so this request shares one free daily budget ($0.10) with everyone on your network's IP address. Get a free key with its own $1/day at https://openalex.org/settings/api and add api_key=YOUR_KEY to your requests. An AI agent can get one for its user in one call: POST https://api.openalex.org/api-keys with {\"email\": \"<your user's email>\"}; we email them a link, and the key works once they click it. Docs for agents: https://help.openalex.org/llms.txt",
+    "count": 43,
+    "db_response_time_ms": 30,
+    "page": 1,
+    "per_page": 4,
+    "groups_count": null,
+    "x_query": {
+      "oql": "get works with (libCEED Fast algebra high-order) in the full text",
+      "x_new_oql": "get works with (libCEED Fast algebra high-order) in the full text",
+      "oqo": {
+        "get_rows": "works",
+        "filter_rows": [
+          {
+            "column_id": "fulltext.search",
+            "value": "libCEED Fast algebra high-order",
+            "operator": "has"
+          }
+        ]
+      },
+      "url": "/works?filter=fulltext.search:libCEED Fast algebra high-order&per_page=4",
+      "order": "best matches first",
+      "order_default": true
+    },
+    "cost_usd": 0.001
+  },
+  "results": [
+    {
+      "id": "https://openalex.org/W3179468891",
+      "doi": "https://doi.org/10.21105/joss.02945",
+      "title": "libCEED: Fast algebra for high-order element-based discretizations",
+      "display_name": "libCEED: Fast algebra for high-order element-based discretizations",
+      "relevance_score": 151.35918,
+      "publication_year": 2021,
+      "publication_date": "2021-07-09",
+      "ids": {
+        "openalex": "https://openalex.org/W3179468891",
+        "doi": "https://doi.org/10.21105/joss.02945",
+        "mag": "3179468891"
+      },
+      "language": "en",
+      "primary_location": {
+        "id": "doi:10.21105/joss.02945",
+        "doi": "https://doi.org/10.21105/joss.02945",
+        "is_oa": true,
+        "landing_page_url": "https://doi.org/10.21105/joss.02945",
+        "pdf_url": "https://joss.theoj.org/papers/10.21105/joss.02945.pdf",
+        "source": {
+          "id": "https://openalex.org/S4210214273",
+          "display_name": "The Journal of Open Source Software",
+          "issn_l": "2475-9066",
+          "issn": [
+            "2475-9066"
+          ],
+          "is_oa": true,
+          "is_in_doaj": true,
+          "is_core": true,
+          "listed_in": [
+            "cwts-core",
+            "ddh",
+            "doaj",
+            "jufo-1",
+            "ki-jl-1",
+            "norway-1",
+            "vabb-shw"
+          ],
+          "host_organization": "https://openalex.org/P4310315853",
+          "host_organization_name": "Open Journals",
+          "host_organization_lineage": [
+            "https://openalex.org/P4310315853"
+          ],
+          "host_organization_lineage_names": [
+            "Open Journals"
+          ],
+          "type": "journal"
+        },
+        "license": "cc-by",
+        "license_id": "https://openalex.org/licenses/cc-by",
+        "version": "publishedVersion",
+        "is_accepted": true,
+        "is_published": true,
+        "raw_source_name": "Journal of Open Source Software",
+        "raw_type": "journal-article"
+      },
+      "volume": null,
+      "type": "article",
+      "indexed_in": [
+        "crossref",
+        "doaj"
+      ],
+      "open_access": {
+        "is_oa": true,
+        "oa_status": "diamond",
+        "oa_url": "https://joss.theoj.org/papers/10.21105/joss.02945.pdf",
+        "any_repository_has_fulltext": false
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": "https://openalex.org/A5073696890",
+            "display_name": "Jed Brown",
+            "orcid": "https://orcid.org/0000-0002-9945-0639",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-9945-0639"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I188538660",
+              "display_name": "University of Colorado Boulder",
+              "ror": "https://ror.org/02ttsq026",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Jed Brown",
+          "raw_affiliation_strings": [
+            "University of Colorado at Boulder"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0002-9945-0639",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "University of Colorado at Boulder",
+              "institution_ids": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5077268543",
+            "display_name": "Ahmad Abdelfattah",
+            "orcid": "https://orcid.org/0000-0001-5054-4784",
+            "observed_orcids": [
+              "https://orcid.org/0000-0001-5054-4784"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I75027704",
+              "display_name": "University of Tennessee at Knoxville",
+              "ror": "https://ror.org/020f3ap87",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I75027704"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Ahmad Abdelfattah",
+          "raw_affiliation_strings": [
+            "University of Tennessee"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0001-5054-4784",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "University of Tennessee",
+              "institution_ids": [
+                "https://openalex.org/I75027704"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5030501980",
+            "display_name": "Valeria Barra",
+            "orcid": "https://orcid.org/0000-0003-1129-2056",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-1129-2056"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I188538660",
+              "display_name": "University of Colorado Boulder",
+              "ror": "https://ror.org/02ttsq026",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Valeria Barra",
+          "raw_affiliation_strings": [
+            "University of Colorado at Boulder"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0003-1129-2056",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "University of Colorado at Boulder",
+              "institution_ids": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5056933759",
+            "display_name": "Natalie N. Beams",
+            "orcid": "https://orcid.org/0000-0001-6060-4082",
+            "observed_orcids": [
+              "https://orcid.org/0000-0001-6060-4082"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I75027704",
+              "display_name": "University of Tennessee at Knoxville",
+              "ror": "https://ror.org/020f3ap87",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I75027704"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Natalie Beams",
+          "raw_affiliation_strings": [
+            "University of Tennessee"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0001-6060-4082",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "University of Tennessee",
+              "institution_ids": [
+                "https://openalex.org/I75027704"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5050967111",
+            "display_name": "Jean‐Sylvain Camier",
+            "orcid": "https://orcid.org/0000-0003-2421-1999",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-2421-1999"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Jean-Sylvain Camier",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Laboratory"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0003-2421-1999",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Laboratory",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5027158038",
+            "display_name": "Veselin A. Dobrev",
+            "orcid": "https://orcid.org/0000-0003-1793-5622",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-1793-5622"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Veselin Dobrev",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Laboratory"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0003-1793-5622",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Laboratory",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5015269383",
+            "display_name": "Yohann Dudouit",
+            "orcid": "https://orcid.org/0000-0001-5831-561X",
+            "observed_orcids": [
+              "https://orcid.org/0000-0001-5831-561X"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Yohann Dudouit",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Laboratory"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0001-5831-561X",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Laboratory",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5046432041",
+            "display_name": "Leila Ghaffari",
+            "orcid": "https://orcid.org/0000-0002-0965-214X",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-0965-214X"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I188538660",
+              "display_name": "University of Colorado Boulder",
+              "ror": "https://ror.org/02ttsq026",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Leila Ghaffari",
+          "raw_affiliation_strings": [
+            "University of Colorado at Boulder"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0002-0965-214X",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "University of Colorado at Boulder",
+              "institution_ids": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5003911272",
+            "display_name": "Tzanio Kolev",
+            "orcid": "https://orcid.org/0000-0002-2810-3090",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-2810-3090"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Tzanio Kolev",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Laboratory"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0002-2810-3090",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Laboratory",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5110265276",
+            "display_name": "David Medina",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [],
+          "countries": [],
+          "is_corresponding": false,
+          "raw_author_name": "David Medina",
+          "raw_affiliation_strings": [
+            "Occalytics LLC"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Occalytics LLC",
+              "institution_ids": []
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5030630927",
+            "display_name": "Will Pazner",
+            "orcid": "https://orcid.org/0000-0003-4885-2934",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-4885-2934"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Will Pazner",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Laboratory"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0003-4885-2934",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Laboratory",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5001600890",
+            "display_name": "Thilina Ratnayaka",
+            "orcid": "https://orcid.org/0000-0001-6102-6560",
+            "observed_orcids": [
+              "https://orcid.org/0000-0001-6102-6560"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I157725225",
+              "display_name": "University of Illinois Urbana-Champaign",
+              "ror": "https://ror.org/047426m28",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I157725225"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Thilina Ratnayaka",
+          "raw_affiliation_strings": [
+            "University of Illinois at Urbana-Champaign"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0001-6102-6560",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "University of Illinois at Urbana-Champaign",
+              "institution_ids": [
+                "https://openalex.org/I157725225"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5003319003",
+            "display_name": "Jeremy Thompson",
+            "orcid": "https://orcid.org/0000-0003-2980-0899",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-2980-0899"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I188538660",
+              "display_name": "University of Colorado Boulder",
+              "ror": "https://ror.org/02ttsq026",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Jeremy Thompson",
+          "raw_affiliation_strings": [
+            "University of Colorado at Boulder"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0003-2980-0899",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "University of Colorado at Boulder",
+              "institution_ids": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "last",
+          "author": {
+            "id": "https://openalex.org/A5083604741",
+            "display_name": "Stanimire Z. Tomov",
+            "orcid": "https://orcid.org/0000-0002-5937-7959",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-5937-7959"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I75027704",
+              "display_name": "University of Tennessee at Knoxville",
+              "ror": "https://ror.org/020f3ap87",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I75027704"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Stan Tomov",
+          "raw_affiliation_strings": [
+            "University of Tennessee"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0002-5937-7959",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "University of Tennessee",
+              "institution_ids": [
+                "https://openalex.org/I75027704"
+              ]
+            }
+          ]
+        }
+      ],
+      "institutions": [],
+      "countries_distinct_count": 1,
+      "institutions_distinct_count": 4,
+      "corresponding_author_ids": [],
+      "corresponding_institution_ids": [],
+      "apc_list": null,
+      "apc_paid": null,
+      "fwci": 1.985,
+      "has_fulltext": true,
+      "cited_by_count": 23,
+      "citation_normalized_percentile": {
+        "value": 0.85404529,
+        "is_in_top_1_percent": false,
+        "is_in_top_10_percent": false
+      },
+      "cited_by_percentile_year": {
+        "min": 88,
+        "max": 99
+      },
+      "biblio": {
+        "volume": "6",
+        "issue": "63",
+        "first_page": "2945",
+        "last_page": "2945"
+      },
+      "is_retracted": false,
+      "is_paratext": false,
+      "is_xpac": false,
+      "primary_topic": {
+        "id": "https://openalex.org/T10339",
+        "display_name": "Advanced Numerical Methods in Computational Mathematics",
+        "score": 0.8270999789237976,
+        "subfield": {
+          "id": "https://openalex.org/subfields/2206",
+          "display_name": "Computational Mechanics"
+        },
+        "field": {
+          "id": "https://openalex.org/fields/22",
+          "display_name": "Engineering"
+        },
+        "domain": {
+          "id": "https://openalex.org/domains/3",
+          "display_name": "Physical Sciences"
+        }
+      },
+      "topics": [
+        {
+          "id": "https://openalex.org/T10339",
+          "display_name": "Advanced Numerical Methods in Computational Mathematics",
+          "score": 0.8270999789237976,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10054",
+          "display_name": "Parallel Computing and Optimization Techniques",
+          "score": 0.0714000016450882,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1708",
+            "display_name": "Hardware and Architecture"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10739",
+          "display_name": "Electromagnetic Scattering and Analysis",
+          "score": 0.03189999982714653,
+          "subfield": {
+            "id": "https://openalex.org/subfields/3107",
+            "display_name": "Atomic and Molecular Physics, and Optics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/31",
+            "display_name": "Physics and Astronomy"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        }
+      ],
+      "keywords": [
+        {
+          "id": "https://openalex.org/keywords/high-order-discretization",
+          "display_name": "high-order discretization",
+          "score": 0.777999997138977
+        },
+        {
+          "id": "https://openalex.org/keywords/finite-element-analysis",
+          "display_name": "finite element analysis",
+          "score": 0.4449999928474426
+        },
+        {
+          "id": "https://openalex.org/keywords/open-source-library",
+          "display_name": "open-source library",
+          "score": 0.3799999952316284
+        }
+      ],
+      "concepts": [
+        {
+          "id": "https://openalex.org/C200288055",
+          "wikidata": "https://www.wikidata.org/wiki/Q2621792",
+          "display_name": "Element (criminal law)",
+          "level": 2,
+          "score": 0.6504319310188293
+        },
+        {
+          "id": "https://openalex.org/C182306322",
+          "wikidata": "https://www.wikidata.org/wiki/Q1779371",
+          "display_name": "Order (exchange)",
+          "level": 2,
+          "score": 0.581964910030365
+        },
+        {
+          "id": "https://openalex.org/C136119220",
+          "wikidata": "https://www.wikidata.org/wiki/Q1000660",
+          "display_name": "Algebra over a field",
+          "level": 2,
+          "score": 0.5702385306358337
+        },
+        {
+          "id": "https://openalex.org/C33923547",
+          "wikidata": "https://www.wikidata.org/wiki/Q395",
+          "display_name": "Mathematics",
+          "level": 0,
+          "score": 0.46090447902679443
+        },
+        {
+          "id": "https://openalex.org/C41008148",
+          "wikidata": "https://www.wikidata.org/wiki/Q21198",
+          "display_name": "Computer science",
+          "level": 0,
+          "score": 0.3457489609718323
+        },
+        {
+          "id": "https://openalex.org/C202444582",
+          "wikidata": "https://www.wikidata.org/wiki/Q837863",
+          "display_name": "Pure mathematics",
+          "level": 1,
+          "score": 0.2699747085571289
+        },
+        {
+          "id": "https://openalex.org/C17744445",
+          "wikidata": "https://www.wikidata.org/wiki/Q36442",
+          "display_name": "Political science",
+          "level": 0,
+          "score": 0.05026170611381531
+        },
+        {
+          "id": "https://openalex.org/C199539241",
+          "wikidata": "https://www.wikidata.org/wiki/Q7748",
+          "display_name": "Law",
+          "level": 1,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C10138342",
+          "wikidata": "https://www.wikidata.org/wiki/Q43015",
+          "display_name": "Finance",
+          "level": 1,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C162324750",
+          "wikidata": "https://www.wikidata.org/wiki/Q8134",
+          "display_name": "Economics",
+          "level": 0,
+          "score": 0.0
+        }
+      ],
+      "mesh": [],
+      "locations_count": 1,
+      "locations": [
+        {
+          "id": "doi:10.21105/joss.02945",
+          "doi": "https://doi.org/10.21105/joss.02945",
+          "is_oa": true,
+          "landing_page_url": "https://doi.org/10.21105/joss.02945",
+          "pdf_url": "https://joss.theoj.org/papers/10.21105/joss.02945.pdf",
+          "source": {
+            "id": "https://openalex.org/S4210214273",
+            "display_name": "The Journal of Open Source Software",
+            "issn_l": "2475-9066",
+            "issn": [
+              "2475-9066"
+            ],
+            "is_oa": true,
+            "is_in_doaj": true,
+            "is_core": true,
+            "listed_in": [
+              "cwts-core",
+              "ddh",
+              "doaj",
+              "jufo-1",
+              "ki-jl-1",
+              "norway-1",
+              "vabb-shw"
+            ],
+            "host_organization": "https://openalex.org/P4310315853",
+            "host_organization_name": "Open Journals",
+            "host_organization_lineage": [
+              "https://openalex.org/P4310315853"
+            ],
+            "host_organization_lineage_names": [
+              "Open Journals"
+            ],
+            "type": "journal"
+          },
+          "license": "cc-by",
+          "license_id": "https://openalex.org/licenses/cc-by",
+          "version": "publishedVersion",
+          "is_accepted": true,
+          "is_published": true,
+          "raw_source_name": "Journal of Open Source Software",
+          "raw_type": "journal-article"
+        }
+      ],
+      "best_oa_location": {
+        "id": "doi:10.21105/joss.02945",
+        "doi": "https://doi.org/10.21105/joss.02945",
+        "is_oa": true,
+        "landing_page_url": "https://doi.org/10.21105/joss.02945",
+        "pdf_url": "https://joss.theoj.org/papers/10.21105/joss.02945.pdf",
+        "source": {
+          "id": "https://openalex.org/S4210214273",
+          "display_name": "The Journal of Open Source Software",
+          "issn_l": "2475-9066",
+          "issn": [
+            "2475-9066"
+          ],
+          "is_oa": true,
+          "is_in_doaj": true,
+          "is_core": true,
+          "listed_in": [
+            "cwts-core",
+            "ddh",
+            "doaj",
+            "jufo-1",
+            "ki-jl-1",
+            "norway-1",
+            "vabb-shw"
+          ],
+          "host_organization": "https://openalex.org/P4310315853",
+          "host_organization_name": "Open Journals",
+          "host_organization_lineage": [
+            "https://openalex.org/P4310315853"
+          ],
+          "host_organization_lineage_names": [
+            "Open Journals"
+          ],
+          "type": "journal"
+        },
+        "license": "cc-by",
+        "license_id": "https://openalex.org/licenses/cc-by",
+        "version": "publishedVersion",
+        "is_accepted": true,
+        "is_published": true,
+        "raw_source_name": "Journal of Open Source Software",
+        "raw_type": "journal-article"
+      },
+      "sustainable_development_goals": [],
+      "sustainable_development_goals_aurora": [
+        {
+          "id": "https://metadata.un.org/sdg/4",
+          "display_name": "Quality education",
+          "score": 0.5899999737739563
+        }
+      ],
+      "study_designs": [],
+      "awards": [
+        {
+          "id": "https://openalex.org/G1193633358",
+          "display_name": null,
+          "funder_award_id": "17‐SC‐20‐SC",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G1796307089",
+          "display_name": null,
+          "funder_award_id": "17- SC-20-SC",
+          "funder_id": "https://openalex.org/F4320332369",
+          "funder_display_name": "National Nuclear Security Administration"
+        },
+        {
+          "id": "https://openalex.org/G3886122786",
+          "display_name": null,
+          "funder_award_id": "17-SC20-SC",
+          "funder_id": "https://openalex.org/F4320332359",
+          "funder_display_name": "Office of Science"
+        }
+      ],
+      "funders": [
+        {
+          "id": "https://openalex.org/F4320306084",
+          "display_name": "U.S. Department of Energy",
+          "ror": "https://ror.org/01bj3aw27"
+        },
+        {
+          "id": "https://openalex.org/F4320332359",
+          "display_name": "Office of Science",
+          "ror": "https://ror.org/00mmn6b08"
+        },
+        {
+          "id": "https://openalex.org/F4320332369",
+          "display_name": "National Nuclear Security Administration",
+          "ror": "https://ror.org/03sk1we31"
+        },
+        {
+          "id": "https://openalex.org/F4320338286",
+          "display_name": "Lawrence Livermore National Laboratory",
+          "ror": "https://ror.org/041nk4h53"
+        }
+      ],
+      "has_content": {
+        "grobid_xml": true,
+        "pdf": true
+      },
+      "content_urls": {
+        "pdf": "https://content.openalex.org/works/W3179468891.pdf",
+        "grobid_xml": "https://content.openalex.org/works/W3179468891.grobid-xml"
+      },
+      "referenced_works_count": 22,
+      "referenced_works": [
+        "https://openalex.org/W1510543252",
+        "https://openalex.org/W1978588246",
+        "https://openalex.org/W1979677378",
+        "https://openalex.org/W1985144286",
+        "https://openalex.org/W2002555321",
+        "https://openalex.org/W2053572944",
+        "https://openalex.org/W2071166325",
+        "https://openalex.org/W2072132691",
+        "https://openalex.org/W2101912276",
+        "https://openalex.org/W2120575449",
+        "https://openalex.org/W2245493112",
+        "https://openalex.org/W3016268593",
+        "https://openalex.org/W3035965352",
+        "https://openalex.org/W3040786754",
+        "https://openalex.org/W3045712545",
+        "https://openalex.org/W3046774627",
+        "https://openalex.org/W3099878876",
+        "https://openalex.org/W3167826856",
+        "https://openalex.org/W3170377433",
+        "https://openalex.org/W4245654886",
+        "https://openalex.org/W6884641258",
+        "https://openalex.org/W6949780048"
+      ],
+      "related_works": [
+        "https://openalex.org/W2748952813",
+        "https://openalex.org/W1979597421",
+        "https://openalex.org/W2007980826",
+        "https://openalex.org/W4245490552",
+        "https://openalex.org/W2061531152",
+        "https://openalex.org/W3002753104",
+        "https://openalex.org/W2077600819",
+        "https://openalex.org/W1587224694",
+        "https://openalex.org/W2042127053",
+        "https://openalex.org/W2142036596"
+      ],
+      "abstract_inverted_index": null,
+      "counts_by_year": [
+        {
+          "year": 2026,
+          "cited_by_count": 5
+        },
+        {
+          "year": 2025,
+          "cited_by_count": 4
+        },
+        {
+          "year": 2024,
+          "cited_by_count": 7
+        },
+        {
+          "year": 2023,
+          "cited_by_count": 4
+        },
+        {
+          "year": 2022,
+          "cited_by_count": 2
+        },
+        {
+          "year": 2021,
+          "cited_by_count": 1
+        }
+      ],
+      "updated_date": "2026-10-25T09:29:13.331239",
+      "created_date": "2025-10-10T00:00:00"
+    },
+    {
+      "id": "https://openalex.org/W7128740326",
+      "doi": "https://doi.org/10.21105/joss.08388",
+      "title": "Ratel: Performance portable solid mechanics with libCEED and PETSc",
+      "display_name": "Ratel: Performance portable solid mechanics with libCEED and PETSc",
+      "relevance_score": 46.96613,
+      "publication_year": 2026,
+      "publication_date": "2026-02-12",
+      "ids": {
+        "openalex": "https://openalex.org/W7128740326",
+        "doi": "https://doi.org/10.21105/joss.08388"
+      },
+      "language": null,
+      "primary_location": {
+        "id": "doi:10.21105/joss.08388",
+        "doi": "https://doi.org/10.21105/joss.08388",
+        "is_oa": true,
+        "landing_page_url": "https://doi.org/10.21105/joss.08388",
+        "pdf_url": "https://joss.theoj.org/papers/10.21105/joss.08388.pdf",
+        "source": {
+          "id": "https://openalex.org/S4210214273",
+          "display_name": "The Journal of Open Source Software",
+          "issn_l": "2475-9066",
+          "issn": [
+            "2475-9066"
+          ],
+          "is_oa": true,
+          "is_in_doaj": true,
+          "is_core": true,
+          "listed_in": [
+            "cwts-core",
+            "ddh",
+            "doaj",
+            "jufo-1",
+            "ki-jl-1",
+            "norway-1",
+            "vabb-shw"
+          ],
+          "host_organization": "https://openalex.org/P4310315853",
+          "host_organization_name": "Open Journals",
+          "host_organization_lineage": [
+            "https://openalex.org/P4310315853"
+          ],
+          "host_organization_lineage_names": [
+            "Open Journals"
+          ],
+          "type": "journal"
+        },
+        "license": "cc-by",
+        "license_id": "https://openalex.org/licenses/cc-by",
+        "version": "publishedVersion",
+        "is_accepted": true,
+        "is_published": true,
+        "raw_source_name": "Journal of Open Source Software",
+        "raw_type": "journal-article"
+      },
+      "volume": null,
+      "type": "article",
+      "indexed_in": [
+        "crossref",
+        "doaj"
+      ],
+      "open_access": {
+        "is_oa": true,
+        "oa_status": "diamond",
+        "oa_url": "https://joss.theoj.org/papers/10.21105/joss.08388.pdf",
+        "any_repository_has_fulltext": false
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": "https://openalex.org/A5013275476",
+            "display_name": "Zachary R. Atkins",
+            "orcid": "https://orcid.org/0000-0002-2491-0725",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-2491-0725"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I188538660",
+              "display_name": "University of Colorado Boulder",
+              "ror": "https://ror.org/02ttsq026",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Zachary R. Atkins",
+          "raw_affiliation_strings": [
+            "University of Colorado at Boulder"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0002-2491-0725",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "University of Colorado at Boulder",
+              "institution_ids": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5073696890",
+            "display_name": "Jed Brown",
+            "orcid": "https://orcid.org/0000-0002-9945-0639",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-9945-0639"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I188538660",
+              "display_name": "University of Colorado Boulder",
+              "ror": "https://ror.org/02ttsq026",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Jed Brown",
+          "raw_affiliation_strings": [
+            "University of Colorado at Boulder"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0002-9945-0639",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "University of Colorado at Boulder",
+              "institution_ids": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5051161096",
+            "display_name": "Fabio Di Gioacchino",
+            "orcid": "https://orcid.org/0000-0003-2056-1510",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-2056-1510"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I188538660",
+              "display_name": "University of Colorado Boulder",
+              "ror": "https://ror.org/02ttsq026",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Fabio Di Gioacchino",
+          "raw_affiliation_strings": [
+            "University of Colorado at Boulder"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0003-2056-1510",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "University of Colorado at Boulder",
+              "institution_ids": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5046432041",
+            "display_name": "Leila Ghaffari",
+            "orcid": "https://orcid.org/0000-0002-0965-214X",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-0965-214X"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I188538660",
+              "display_name": "University of Colorado Boulder",
+              "ror": "https://ror.org/02ttsq026",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Layla Ghaffari",
+          "raw_affiliation_strings": [
+            "University of Colorado at Boulder"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0002-0965-214X",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "University of Colorado at Boulder",
+              "institution_ids": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5013135493",
+            "display_name": "Zachariah T. Irwin",
+            "orcid": "https://orcid.org/0000-0003-0832-9807",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-0832-9807"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I188538660",
+              "display_name": "University of Colorado Boulder",
+              "ror": "https://ror.org/02ttsq026",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Zachariah T. Irwin",
+          "raw_affiliation_strings": [
+            "University of Colorado at Boulder"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0003-0832-9807",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "University of Colorado at Boulder",
+              "institution_ids": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5046560103",
+            "display_name": "Rezgar Shakeri",
+            "orcid": "https://orcid.org/0000-0003-4790-7016",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-4790-7016"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I188538660",
+              "display_name": "University of Colorado Boulder",
+              "ror": "https://ror.org/02ttsq026",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Rezgar Shakeri",
+          "raw_affiliation_strings": [
+            "University of Colorado at Boulder"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0003-4790-7016",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "University of Colorado at Boulder",
+              "institution_ids": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5041738041",
+            "display_name": "Karen Stengel",
+            "orcid": "https://orcid.org/0000-0002-8764-9122",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-8764-9122"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I188538660",
+              "display_name": "University of Colorado Boulder",
+              "ror": "https://ror.org/02ttsq026",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Karen Stengel",
+          "raw_affiliation_strings": [
+            "University of Colorado at Boulder"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0002-8764-9122",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "University of Colorado at Boulder",
+              "institution_ids": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "last",
+          "author": {
+            "id": "https://openalex.org/A5003319003",
+            "display_name": "Jeremy Thompson",
+            "orcid": "https://orcid.org/0000-0003-2980-0899",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-2980-0899"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I188538660",
+              "display_name": "University of Colorado Boulder",
+              "ror": "https://ror.org/02ttsq026",
+              "country_code": "US",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Jeremy L Thompson",
+          "raw_affiliation_strings": [
+            "University of Colorado at Boulder"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0003-2980-0899",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "University of Colorado at Boulder",
+              "institution_ids": [
+                "https://openalex.org/I188538660"
+              ]
+            }
+          ]
+        }
+      ],
+      "institutions": [],
+      "countries_distinct_count": 1,
+      "institutions_distinct_count": 1,
+      "corresponding_author_ids": [],
+      "corresponding_institution_ids": [
+        "https://openalex.org/I188538660"
+      ],
+      "apc_list": null,
+      "apc_paid": null,
+      "fwci": 2.8849,
+      "has_fulltext": true,
+      "cited_by_count": 1,
+      "citation_normalized_percentile": {
+        "value": 0.85128535,
+        "is_in_top_1_percent": false,
+        "is_in_top_10_percent": false
+      },
+      "cited_by_percentile_year": {
+        "min": 92,
+        "max": 96
+      },
+      "biblio": {
+        "volume": "11",
+        "issue": "118",
+        "first_page": "8388",
+        "last_page": "8388"
+      },
+      "is_retracted": false,
+      "is_paratext": false,
+      "is_xpac": false,
+      "primary_topic": {
+        "id": "https://openalex.org/T10339",
+        "display_name": "Advanced Numerical Methods in Computational Mathematics",
+        "score": 0.9286999702453613,
+        "subfield": {
+          "id": "https://openalex.org/subfields/2206",
+          "display_name": "Computational Mechanics"
+        },
+        "field": {
+          "id": "https://openalex.org/fields/22",
+          "display_name": "Engineering"
+        },
+        "domain": {
+          "id": "https://openalex.org/domains/3",
+          "display_name": "Physical Sciences"
+        }
+      },
+      "topics": [
+        {
+          "id": "https://openalex.org/T10339",
+          "display_name": "Advanced Numerical Methods in Computational Mathematics",
+          "score": 0.9286999702453613,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10054",
+          "display_name": "Parallel Computing and Optimization Techniques",
+          "score": 0.041999999433755875,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1708",
+            "display_name": "Hardware and Architecture"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10792",
+          "display_name": "Matrix Theory and Algorithms",
+          "score": 0.01860000006854534,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1703",
+            "display_name": "Computational Theory and Mathematics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        }
+      ],
+      "keywords": [
+        {
+          "id": "https://openalex.org/keywords/solid-mechanics",
+          "display_name": "solid mechanics",
+          "score": 0.8489999771118164
+        },
+        {
+          "id": "https://openalex.org/keywords/matrix-free-methods",
+          "display_name": "matrix-free methods",
+          "score": 0.7879999876022339
+        },
+        {
+          "id": "https://openalex.org/keywords/higher-order-finite-elements",
+          "display_name": "high-order finite elements",
+          "score": 0.9509999752044678
+        },
+        {
+          "id": "https://openalex.org/keywords/petsc",
+          "display_name": "PETSc",
+          "score": 1.0
+        },
+        {
+          "id": "https://openalex.org/keywords/gpu-computing",
+          "display_name": "GPU computing",
+          "score": 0.574999988079071
+        },
+        {
+          "id": "https://openalex.org/keywords/cuda",
+          "display_name": "CUDA",
+          "score": 0.9660000205039978
+        },
+        {
+          "id": "https://openalex.org/keywords/rocm",
+          "display_name": "ROCm",
+          "score": 0.9980000257492065
+        },
+        {
+          "id": "https://openalex.org/keywords/preconditioning",
+          "display_name": "preconditioning",
+          "score": 0.843999981880188
+        },
+        {
+          "id": "https://openalex.org/keywords/sparse-linear-systems",
+          "display_name": "sparse linear systems",
+          "score": 0.6549999713897705
+        },
+        {
+          "id": "https://openalex.org/keywords/automatic-differentiation",
+          "display_name": "automatic differentiation",
+          "score": 0.5630000233650208
+        },
+        {
+          "id": "https://openalex.org/keywords/open-source-library",
+          "display_name": "open-source library",
+          "score": 0.6489999890327454
+        }
+      ],
+      "concepts": [
+        {
+          "id": "https://openalex.org/C192562407",
+          "wikidata": "https://www.wikidata.org/wiki/Q228736",
+          "display_name": "Materials science",
+          "level": 0,
+          "score": 0.6395000219345093
+        },
+        {
+          "id": "https://openalex.org/C2994054872",
+          "wikidata": "https://www.wikidata.org/wiki/Q3489404",
+          "display_name": "Solid surface",
+          "level": 2,
+          "score": 0.3862999975681305
+        },
+        {
+          "id": "https://openalex.org/C171250308",
+          "wikidata": "https://www.wikidata.org/wiki/Q11468",
+          "display_name": "Nanotechnology",
+          "level": 1,
+          "score": 0.3163999915122986
+        },
+        {
+          "id": "https://openalex.org/C78519656",
+          "wikidata": "https://www.wikidata.org/wiki/Q101333",
+          "display_name": "Mechanical engineering",
+          "level": 1,
+          "score": 0.2969000041484833
+        },
+        {
+          "id": "https://openalex.org/C159985019",
+          "wikidata": "https://www.wikidata.org/wiki/Q181790",
+          "display_name": "Composite material",
+          "level": 1,
+          "score": 0.2937999963760376
+        },
+        {
+          "id": "https://openalex.org/C57879066",
+          "wikidata": "https://www.wikidata.org/wiki/Q41217",
+          "display_name": "Mechanics",
+          "level": 1,
+          "score": 0.2624000012874603
+        },
+        {
+          "id": "https://openalex.org/C37167619",
+          "wikidata": "https://www.wikidata.org/wiki/Q3312239",
+          "display_name": "Micromechanics",
+          "level": 3,
+          "score": 0.24979999661445618
+        },
+        {
+          "id": "https://openalex.org/C41008148",
+          "wikidata": "https://www.wikidata.org/wiki/Q21198",
+          "display_name": "Computer science",
+          "level": 0,
+          "score": 0.24729999899864197
+        },
+        {
+          "id": "https://openalex.org/C199639397",
+          "wikidata": "https://www.wikidata.org/wiki/Q1788588",
+          "display_name": "Engineering drawing",
+          "level": 1,
+          "score": 0.24220000207424164
+        },
+        {
+          "id": "https://openalex.org/C102951782",
+          "wikidata": "https://www.wikidata.org/wiki/Q49295",
+          "display_name": "Atomic force microscopy",
+          "level": 2,
+          "score": 0.23190000653266907
+        }
+      ],
+      "mesh": [],
+      "locations_count": 1,
+      "locations": [
+        {
+          "id": "doi:10.21105/joss.08388",
+          "doi": "https://doi.org/10.21105/joss.08388",
+          "is_oa": true,
+          "landing_page_url": "https://doi.org/10.21105/joss.08388",
+          "pdf_url": "https://joss.theoj.org/papers/10.21105/joss.08388.pdf",
+          "source": {
+            "id": "https://openalex.org/S4210214273",
+            "display_name": "The Journal of Open Source Software",
+            "issn_l": "2475-9066",
+            "issn": [
+              "2475-9066"
+            ],
+            "is_oa": true,
+            "is_in_doaj": true,
+            "is_core": true,
+            "listed_in": [
+              "cwts-core",
+              "ddh",
+              "doaj",
+              "jufo-1",
+              "ki-jl-1",
+              "norway-1",
+              "vabb-shw"
+            ],
+            "host_organization": "https://openalex.org/P4310315853",
+            "host_organization_name": "Open Journals",
+            "host_organization_lineage": [
+              "https://openalex.org/P4310315853"
+            ],
+            "host_organization_lineage_names": [
+              "Open Journals"
+            ],
+            "type": "journal"
+          },
+          "license": "cc-by",
+          "license_id": "https://openalex.org/licenses/cc-by",
+          "version": "publishedVersion",
+          "is_accepted": true,
+          "is_published": true,
+          "raw_source_name": "Journal of Open Source Software",
+          "raw_type": "journal-article"
+        }
+      ],
+      "best_oa_location": {
+        "id": "doi:10.21105/joss.08388",
+        "doi": "https://doi.org/10.21105/joss.08388",
+        "is_oa": true,
+        "landing_page_url": "https://doi.org/10.21105/joss.08388",
+        "pdf_url": "https://joss.theoj.org/papers/10.21105/joss.08388.pdf",
+        "source": {
+          "id": "https://openalex.org/S4210214273",
+          "display_name": "The Journal of Open Source Software",
+          "issn_l": "2475-9066",
+          "issn": [
+            "2475-9066"
+          ],
+          "is_oa": true,
+          "is_in_doaj": true,
+          "is_core": true,
+          "listed_in": [
+            "cwts-core",
+            "ddh",
+            "doaj",
+            "jufo-1",
+            "ki-jl-1",
+            "norway-1",
+            "vabb-shw"
+          ],
+          "host_organization": "https://openalex.org/P4310315853",
+          "host_organization_name": "Open Journals",
+          "host_organization_lineage": [
+            "https://openalex.org/P4310315853"
+          ],
+          "host_organization_lineage_names": [
+            "Open Journals"
+          ],
+          "type": "journal"
+        },
+        "license": "cc-by",
+        "license_id": "https://openalex.org/licenses/cc-by",
+        "version": "publishedVersion",
+        "is_accepted": true,
+        "is_published": true,
+        "raw_source_name": "Journal of Open Source Software",
+        "raw_type": "journal-article"
+      },
+      "sustainable_development_goals": [],
+      "sustainable_development_goals_aurora": [
+        {
+          "id": "https://metadata.un.org/sdg/7",
+          "display_name": "Affordable and clean energy",
+          "score": 0.5898193717002869
+        }
+      ],
+      "study_designs": [],
+      "awards": [
+        {
+          "id": "https://openalex.org/G102163711",
+          "display_name": null,
+          "funder_award_id": "DE‐ AC02‐06CH11357",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G1588715386",
+          "display_name": "EXTENDING PETSC'S COMPOSABLE HIERARCHICAL SOLVERS",
+          "funder_award_id": "DESC0016140",
+          "funder_id": "https://openalex.org/F4320332359",
+          "funder_display_name": "Office of Science"
+        },
+        {
+          "id": "https://openalex.org/G2178118504",
+          "display_name": null,
+          "funder_award_id": "DENA0003962",
+          "funder_id": "https://openalex.org/F4320332369",
+          "funder_display_name": "National Nuclear Security Administration"
+        },
+        {
+          "id": "https://openalex.org/G2287611682",
+          "display_name": null,
+          "funder_award_id": "AC02‐06CH11357",
+          "funder_id": "https://openalex.org/F4320332359",
+          "funder_display_name": "Office of Science"
+        },
+        {
+          "id": "https://openalex.org/G262962599",
+          "display_name": null,
+          "funder_award_id": "AC02‐06CH11357",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G3318903820",
+          "display_name": null,
+          "funder_award_id": "DE-AC02-06CH11357",
+          "funder_id": "https://openalex.org/F4320332369",
+          "funder_display_name": "National Nuclear Security Administration"
+        },
+        {
+          "id": "https://openalex.org/G3869744194",
+          "display_name": "EXTENDING PETSC'S COMPOSABLE HIERARCHICAL SOLVERS",
+          "funder_award_id": "DESC0016140",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G4111456705",
+          "display_name": "TO SIMULATE TO STIMULATE WITH QUANTIFIED UNCERTAINTY, FROM PORE-PARTICLE-TO-CONTINUUMSCALES, A CLASS OF PROBLEMS INVOLVING GRANULAR FLOWS, LARGE DEFORMATIONS, AND FRACTURE/FRAGMENTATION OF UNBONDED\nAND BONDED PARTICULATE MATERIALS.",
+          "funder_award_id": "DENA0003962",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G498139845",
+          "display_name": null,
+          "funder_award_id": "DE-AC02",
+          "funder_id": "https://openalex.org/F4320332359",
+          "funder_display_name": "Office of Science"
+        },
+        {
+          "id": "https://openalex.org/G6848031779",
+          "display_name": null,
+          "funder_award_id": "06CH11357",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G6918803902",
+          "display_name": null,
+          "funder_award_id": "06CH11357",
+          "funder_id": "https://openalex.org/F4320332359",
+          "funder_display_name": "Office of Science"
+        },
+        {
+          "id": "https://openalex.org/G878601127",
+          "display_name": null,
+          "funder_award_id": "DE-AC02-06CH11357",
+          "funder_id": "https://openalex.org/F4320337506",
+          "funder_display_name": "Advanced Scientific Computing Research"
+        },
+        {
+          "id": "https://openalex.org/G969889393",
+          "display_name": null,
+          "funder_award_id": "DE-AC02-",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G993149817",
+          "display_name": null,
+          "funder_award_id": "DE-AC02-06CH11357 ",
+          "funder_id": "https://openalex.org/F4320332359",
+          "funder_display_name": "Office of Science"
+        }
+      ],
+      "funders": [
+        {
+          "id": "https://openalex.org/F4320306084",
+          "display_name": "U.S. Department of Energy",
+          "ror": "https://ror.org/01bj3aw27"
+        },
+        {
+          "id": "https://openalex.org/F4320332359",
+          "display_name": "Office of Science",
+          "ror": "https://ror.org/00mmn6b08"
+        },
+        {
+          "id": "https://openalex.org/F4320332369",
+          "display_name": "National Nuclear Security Administration",
+          "ror": "https://ror.org/03sk1we31"
+        },
+        {
+          "id": "https://openalex.org/F4320337506",
+          "display_name": "Advanced Scientific Computing Research",
+          "ror": "https://ror.org/0012c7r22"
+        }
+      ],
+      "has_content": {
+        "grobid_xml": true,
+        "pdf": true
+      },
+      "content_urls": {
+        "pdf": "https://content.openalex.org/works/W7128740326.pdf",
+        "grobid_xml": "https://content.openalex.org/works/W7128740326.grobid-xml"
+      },
+      "referenced_works_count": 28,
+      "referenced_works": [
+        "https://openalex.org/W1448623749",
+        "https://openalex.org/W1966882731",
+        "https://openalex.org/W1982167538",
+        "https://openalex.org/W1987895449",
+        "https://openalex.org/W2002555321",
+        "https://openalex.org/W2019070244",
+        "https://openalex.org/W2089985310",
+        "https://openalex.org/W2128560225",
+        "https://openalex.org/W2170133891",
+        "https://openalex.org/W2525584805",
+        "https://openalex.org/W2587288333",
+        "https://openalex.org/W2742132188",
+        "https://openalex.org/W2977001942",
+        "https://openalex.org/W3000936750",
+        "https://openalex.org/W3040786754",
+        "https://openalex.org/W3167826856",
+        "https://openalex.org/W3170377433",
+        "https://openalex.org/W3179468891",
+        "https://openalex.org/W3195293013",
+        "https://openalex.org/W3199011904",
+        "https://openalex.org/W3199141021",
+        "https://openalex.org/W3210510236",
+        "https://openalex.org/W4224903327",
+        "https://openalex.org/W4246527699",
+        "https://openalex.org/W4390583890",
+        "https://openalex.org/W4400801301",
+        "https://openalex.org/W4404169347",
+        "https://openalex.org/W6949780048"
+      ],
+      "related_works": [],
+      "abstract_inverted_index": {
+        "Ratel": [
+          0
+        ],
+        "is": [
+          1
+        ],
+        "a": [
+          2,
+          51,
+          131
+        ],
+        "solid": [
+          3,
+          149
+        ],
+        "mechanics": [
+          4,
+          41,
+          150
+        ],
+        "library": [
+          5
+        ],
+        "and": [
+          6,
+          21,
+          36,
+          38,
+          78,
+          111,
+          114,
+          125,
+          146,
+          158
+        ],
+        "applications": [
+          7
+        ],
+        "based": [
+          8
+        ],
+        "on": [
+          9
+        ],
+        "libCEED": [
+          10
+        ],
+        "(Abdelfattah,": [
+          11
+        ],
+        "Barra,": [
+          12
+        ],
+        "Beams,": [
+          13
+        ],
+        "Brown,": [
+          14
+        ],
+        "et": [
+          15,
+          18,
+          24,
+          27
+        ],
+        "al.,": [
+          16,
+          19,
+          25,
+          28
+        ],
+        "2021;Brown": [
+          17
+        ],
+        "2021)": [
+          20,
+          29
+        ],
+        "PETSc": [
+          22
+        ],
+        "(Balay": [
+          23
+        ],
+        "2025;Zhang": [
+          26
+        ],
+        "with": [
+          30,
+          71,
+          83,
+          134
+        ],
+        "support": [
+          31
+        ],
+        "for": [
+          32,
+          46,
+          64
+        ],
+        "efficient": [
+          33,
+          143
+        ],
+        "high-order": [
+          34
+        ],
+        "elements": [
+          35,
+          128
+        ],
+        "CUDA": [
+          37
+        ],
+        "ROCm": [
+          39
+        ],
+        "GPUs.Solid": [
+          40
+        ],
+        "simulations": [
+          42
+        ],
+        "provide": [
+          43
+        ],
+        "vital": [
+          44
+        ],
+        "information": [
+          45
+        ],
+        "many": [
+          47
+        ],
+        "engineering": [
+          48,
+          156
+        ],
+        "applications,": [
+          49
+        ],
+        "using": [
+          50,
+          88
+        ],
+        "large": [
+          52
+        ],
+        "amount": [
+          53
+        ],
+        "of": [
+          54,
+          108,
+          122
+        ],
+        "computational": [
+          55,
+          113,
+          165
+        ],
+        "resources": [
+          56,
+          166
+        ],
+        "from": [
+          57
+        ],
+        "workstation": [
+          58
+        ],
+        "to": [
+          59,
+          120,
+          161,
+          176
+        ],
+        "supercomputing": [
+          60
+        ],
+        "scales.The": [
+          61
+        ],
+        "industry": [
+          62
+        ],
+        "standard": [
+          63
+        ],
+        "implicit": [
+          65
+        ],
+        "analysis": [
+          66
+        ],
+        "uses": [
+          67
+        ],
+        "assembled": [
+          68
+        ],
+        "sparse": [
+          69,
+          89
+        ],
+        "matrices": [
+          70
+        ],
+        "low-order": [
+          72
+        ],
+        "elements,": [
+          73,
+          82
+        ],
+        "typically": [
+          74
+        ],
+        "𝑄": [
+          75
+        ],
+        "1": [
+          76
+        ],
+        "hexahedral": [
+          77
+        ],
+        "𝑃": [
+          79
+        ],
+        "2": [
+          80
+        ],
+        "tetrahedral": [
+          81
+        ],
+        "the": [
+          84
+        ],
+        "linear": [
+          85
+        ],
+        "systems": [
+          86
+        ],
+        "solved": [
+          87
+        ],
+        "direct": [
+          90
+        ],
+        "solvers,": [
+          91
+        ],
+        "algebraic": [
+          92
+        ],
+        "multigrid,": [
+          93
+        ],
+        "or": [
+          94
+        ],
+        "multilevel": [
+          95
+        ],
+        "domain": [
+          96
+        ],
+        "decomposition.This": [
+          97
+        ],
+        "approach": [
+          98
+        ],
+        "has": [
+          99
+        ],
+        "two": [
+          100
+        ],
+        "fundamental": [
+          101
+        ],
+        "inefficiencies:": [
+          102
+        ],
+        "poor": [
+          103
+        ],
+        "approximation": [
+          104
+        ],
+        "accuracy": [
+          105
+        ],
+        "per": [
+          106,
+          117
+        ],
+        "Degree": [
+          107
+        ],
+        "Freedom": [
+          109
+        ],
+        "(DoF)": [
+          110
+        ],
+        "high": [
+          112
+        ],
+        "memory": [
+          115
+        ],
+        "cost": [
+          116
+        ],
+        "DoF": [
+          118
+        ],
+        "due": [
+          119
+        ],
+        "choice": [
+          121
+        ],
+        "data": [
+          123,
+          144
+        ],
+        "structures": [
+          124,
+          145
+        ],
+        "algorithms.High-order": [
+          126
+        ],
+        "finite": [
+          127
+        ],
+        "implemented": [
+          129
+        ],
+        "in": [
+          130
+        ],
+        "matrix-free": [
+          132
+        ],
+        "fashion": [
+          133
+        ],
+        "appropriate": [
+          135
+        ],
+        "preconditioning": [
+          136
+        ],
+        "strategies": [
+          137
+        ],
+        "can": [
+          138,
+          153,
+          173
+        ],
+        "overcome": [
+          139
+        ],
+        "these": [
+          140
+        ],
+        "inefficiencies.Integrating": [
+          141
+        ],
+        "more": [
+          142
+        ],
+        "algorithms": [
+          147
+        ],
+        "into": [
+          148
+        ],
+        "software": [
+          151
+        ],
+        "libraries": [
+          152
+        ],
+        "greatly": [
+          154
+        ],
+        "improve": [
+          155
+        ],
+        "workflows": [
+          157
+        ],
+        "allow": [
+          159
+        ],
+        "users": [
+          160
+        ],
+        "better": [
+          162
+        ],
+        "utilize": [
+          163
+        ],
+        "their": [
+          164
+        ],
+        "while": [
+          167
+        ],
+        "new": [
+          168
+        ],
+        "technologies": [
+          169
+        ],
+        "like": [
+          170
+        ],
+        "Automatic": [
+          171
+        ],
+        "Differentiation": [
+          172
+        ],
+        "be": [
+          174
+        ],
+        "used": [
+          175
+        ],
+        "shorten": [
+          177
+        ],
+        "development": [
+          178
+        ],
+        "time.": [
+          179
+        ]
+      },
+      "counts_by_year": [
+        {
+          "year": 2026,
+          "cited_by_count": 1
+        }
+      ],
+      "updated_date": "2026-10-14T16:39:01.820549",
+      "created_date": "2026-02-08T00:00:00"
+    },
+    {
+      "id": "https://openalex.org/W4212813033",
+      "doi": "https://doi.org/10.2172/1845639",
+      "title": "High-order algorithmic developments and optimizations for large-scale GPU-accelerated simulations (Milestone CEED-MS36)",
+      "display_name": "High-order algorithmic developments and optimizations for large-scale GPU-accelerated simulations (Milestone CEED-MS36)",
+      "relevance_score": 23.236254,
+      "publication_year": 2021,
+      "publication_date": "2021-03-31",
+      "ids": {
+        "openalex": "https://openalex.org/W4212813033",
+        "doi": "https://doi.org/10.2172/1845639"
+      },
+      "language": "en",
+      "primary_location": {
+        "id": "doi:10.2172/1845639",
+        "doi": "https://doi.org/10.2172/1845639",
+        "is_oa": false,
+        "landing_page_url": "https://doi.org/10.2172/1845639",
+        "pdf_url": null,
+        "source": null,
+        "license": null,
+        "license_id": null,
+        "version": "publishedVersion",
+        "is_accepted": true,
+        "is_published": true,
+        "raw_source_name": "Lawrence Livermore National Laboratory (LLNL)",
+        "raw_type": "report"
+      },
+      "volume": null,
+      "type": "report",
+      "indexed_in": [
+        "crossref"
+      ],
+      "open_access": {
+        "is_oa": true,
+        "oa_status": "green",
+        "oa_url": "https://www.osti.gov/servlets/purl/1845639",
+        "any_repository_has_fulltext": true
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": "https://openalex.org/A5003911272",
+            "display_name": "Tzanio Kolev",
+            "orcid": "https://orcid.org/0000-0002-2810-3090",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-2810-3090"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Tzanio Kolev",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5106696040",
+            "display_name": "Paul Fischer",
+            "orcid": "https://orcid.org/0000-0002-6506-4502",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-6506-4502",
+              "https://orcid.org/0000-0002-6970-3041",
+              "https://orcid.org/0009-0002-1327-0627"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Paul Fischer",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": null,
+            "display_name": "Anthony Austin",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Anthony Austin",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5002772153",
+            "display_name": "Andrew Barker",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Andrew Barker",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5056933759",
+            "display_name": "Natalie N. Beams",
+            "orcid": "https://orcid.org/0000-0001-6060-4082",
+            "observed_orcids": [
+              "https://orcid.org/0000-0001-6060-4082"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Natalie Beams",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5073696890",
+            "display_name": "Jed Brown",
+            "orcid": "https://orcid.org/0000-0002-9945-0639",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-9945-0639"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Jed Brown",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5050967111",
+            "display_name": "Jean‐Sylvain Camier",
+            "orcid": "https://orcid.org/0000-0003-2421-1999",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-2421-1999"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Jean-Sylvain Camier",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5020250502",
+            "display_name": "Noel Chalmers",
+            "orcid": "https://orcid.org/0000-0002-1293-7525",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-1293-7525"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Noel Chalmers",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5027158038",
+            "display_name": "Veselin A. Dobrev",
+            "orcid": "https://orcid.org/0000-0003-1793-5622",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-1793-5622"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Veselin Dobrev",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5015269383",
+            "display_name": "Yohann Dudouit",
+            "orcid": "https://orcid.org/0000-0001-5831-561X",
+            "observed_orcids": [
+              "https://orcid.org/0000-0001-5831-561X"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Yohann Dudouit",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5046432041",
+            "display_name": "Leila Ghaffari",
+            "orcid": "https://orcid.org/0000-0002-0965-214X",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-0965-214X"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Leila Ghaffari",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5100789880",
+            "display_name": "Stefan Kerkemeir",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Stefan Kerkemeir",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5082085684",
+            "display_name": "Yu-Hsiang Lan",
+            "orcid": "https://orcid.org/0000-0002-1680-675X",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-1680-675X"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Yu-Hsiang Lan",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5046254414",
+            "display_name": "Elia Merzari",
+            "orcid": "https://orcid.org/0000-0003-0174-7424",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-0174-7424"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Elia Merzari",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5029616613",
+            "display_name": "Misun Min",
+            "orcid": "https://orcid.org/0000-0002-5646-5689",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-5646-5689"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Misun Min",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5030630927",
+            "display_name": "Will Pazner",
+            "orcid": "https://orcid.org/0000-0003-4885-2934",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-4885-2934"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Will Pazner",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5112284344",
+            "display_name": "Thilina Rathnayake",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Thilina Rathnayake",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5080270359",
+            "display_name": "Mark S. Shephard",
+            "orcid": "https://orcid.org/0000-0002-3225-6794",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-3225-6794",
+              "https://orcid.org/0000-0002-2867-9612"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Mark Shephard",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5090831003",
+            "display_name": "Morteza Hakimi Siboni",
+            "orcid": "https://orcid.org/0000-0003-2647-299X",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-2647-299X"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Morteza Siboni",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5006782507",
+            "display_name": "Cameron Smith",
+            "orcid": "https://orcid.org/0000-0001-9258-5226",
+            "observed_orcids": [
+              "https://orcid.org/0000-0001-9258-5226"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Cameron Smith",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5003319003",
+            "display_name": "Jeremy Thompson",
+            "orcid": "https://orcid.org/0000-0003-2980-0899",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-2980-0899"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Jeremy Thompson",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5083604741",
+            "display_name": "Stanimire Z. Tomov",
+            "orcid": "https://orcid.org/0000-0002-5937-7959",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-5937-7959"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Stanimire Tomov",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "last",
+          "author": {
+            "id": "https://openalex.org/A5084171041",
+            "display_name": "Tim Warburton",
+            "orcid": "https://orcid.org/0000-0002-3202-1151",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-3202-1151"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Tim Warburton",
+          "raw_affiliation_strings": [
+            "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Lawrence Livermore National Lab. (LLNL), Livermore, CA (United States)",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        }
+      ],
+      "institutions": [],
+      "countries_distinct_count": 1,
+      "institutions_distinct_count": 1,
+      "corresponding_author_ids": [],
+      "corresponding_institution_ids": [
+        "https://openalex.org/I1282311441"
+      ],
+      "apc_list": null,
+      "apc_paid": null,
+      "fwci": null,
+      "has_fulltext": true,
+      "cited_by_count": 5,
+      "citation_normalized_percentile": null,
+      "cited_by_percentile_year": null,
+      "biblio": {
+        "volume": null,
+        "issue": null,
+        "first_page": null,
+        "last_page": null
+      },
+      "is_retracted": false,
+      "is_paratext": false,
+      "is_xpac": false,
+      "primary_topic": {
+        "id": "https://openalex.org/T10054",
+        "display_name": "Parallel Computing and Optimization Techniques",
+        "score": 0.8935999870300293,
+        "subfield": {
+          "id": "https://openalex.org/subfields/1708",
+          "display_name": "Hardware and Architecture"
+        },
+        "field": {
+          "id": "https://openalex.org/fields/17",
+          "display_name": "Computer Science"
+        },
+        "domain": {
+          "id": "https://openalex.org/domains/3",
+          "display_name": "Physical Sciences"
+        }
+      },
+      "topics": [
+        {
+          "id": "https://openalex.org/T10054",
+          "display_name": "Parallel Computing and Optimization Techniques",
+          "score": 0.8935999870300293,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1708",
+            "display_name": "Hardware and Architecture"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10792",
+          "display_name": "Matrix Theory and Algorithms",
+          "score": 0.06809999793767929,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1703",
+            "display_name": "Computational Theory and Mathematics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10339",
+          "display_name": "Advanced Numerical Methods in Computational Mathematics",
+          "score": 0.02669999934732914,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        }
+      ],
+      "keywords": [
+        {
+          "id": "https://openalex.org/keywords/high-order-methods",
+          "display_name": "high-order methods",
+          "score": 0.6880000233650208
+        },
+        {
+          "id": "https://openalex.org/keywords/gpu-acceleration",
+          "display_name": "GPU acceleration",
+          "score": 0.6520000100135803
+        },
+        {
+          "id": "https://openalex.org/keywords/mixed-finite-element-method",
+          "display_name": "mixed finite element method",
+          "score": 0.7590000033378601
+        },
+        {
+          "id": "https://openalex.org/keywords/solver-benchmarking",
+          "display_name": "solver benchmarking",
+          "score": 0.593999981880188
+        },
+        {
+          "id": "https://openalex.org/keywords/fugaku",
+          "display_name": "Fugaku",
+          "score": 0.9539999961853027
+        }
+      ],
+      "concepts": [
+        {
+          "id": "https://openalex.org/C120060458",
+          "wikidata": "https://www.wikidata.org/wiki/Q10145",
+          "display_name": "Milestone",
+          "level": 2,
+          "score": 0.8332573175430298
+        },
+        {
+          "id": "https://openalex.org/C41008148",
+          "wikidata": "https://www.wikidata.org/wiki/Q21198",
+          "display_name": "Computer science",
+          "level": 0,
+          "score": 0.7484442591667175
+        },
+        {
+          "id": "https://openalex.org/C185798385",
+          "wikidata": "https://www.wikidata.org/wiki/Q1161707",
+          "display_name": "Benchmark (surveying)",
+          "level": 2,
+          "score": 0.741483211517334
+        },
+        {
+          "id": "https://openalex.org/C106251023",
+          "wikidata": "https://www.wikidata.org/wiki/Q851989",
+          "display_name": "Porting",
+          "level": 3,
+          "score": 0.5159671902656555
+        },
+        {
+          "id": "https://openalex.org/C2777904410",
+          "wikidata": "https://www.wikidata.org/wiki/Q7397",
+          "display_name": "Software",
+          "level": 2,
+          "score": 0.45099544525146484
+        },
+        {
+          "id": "https://openalex.org/C182306322",
+          "wikidata": "https://www.wikidata.org/wiki/Q1779371",
+          "display_name": "Order (exchange)",
+          "level": 2,
+          "score": 0.4331701695919037
+        },
+        {
+          "id": "https://openalex.org/C111919701",
+          "wikidata": "https://www.wikidata.org/wiki/Q9135",
+          "display_name": "Operating system",
+          "level": 1,
+          "score": 0.19497543573379517
+        },
+        {
+          "id": "https://openalex.org/C10138342",
+          "wikidata": "https://www.wikidata.org/wiki/Q43015",
+          "display_name": "Finance",
+          "level": 1,
+          "score": 0.059485822916030884
+        },
+        {
+          "id": "https://openalex.org/C95457728",
+          "wikidata": "https://www.wikidata.org/wiki/Q309",
+          "display_name": "History",
+          "level": 0,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C205649164",
+          "wikidata": "https://www.wikidata.org/wiki/Q1071",
+          "display_name": "Geography",
+          "level": 0,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C13280743",
+          "wikidata": "https://www.wikidata.org/wiki/Q131089",
+          "display_name": "Geodesy",
+          "level": 1,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C162324750",
+          "wikidata": "https://www.wikidata.org/wiki/Q8134",
+          "display_name": "Economics",
+          "level": 0,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C166957645",
+          "wikidata": "https://www.wikidata.org/wiki/Q23498",
+          "display_name": "Archaeology",
+          "level": 1,
+          "score": 0.0
+        }
+      ],
+      "mesh": [],
+      "locations_count": 2,
+      "locations": [
+        {
+          "id": "doi:10.2172/1845639",
+          "doi": "https://doi.org/10.2172/1845639",
+          "is_oa": false,
+          "landing_page_url": "https://doi.org/10.2172/1845639",
+          "pdf_url": null,
+          "source": null,
+          "license": null,
+          "license_id": null,
+          "version": "publishedVersion",
+          "is_accepted": true,
+          "is_published": true,
+          "raw_source_name": "Lawrence Livermore National Laboratory (LLNL)",
+          "raw_type": "report"
+        },
+        {
+          "id": "pmh:oai:osti.gov:1845639",
+          "doi": null,
+          "is_oa": true,
+          "landing_page_url": "https://www.osti.gov/biblio/1845639",
+          "pdf_url": "https://www.osti.gov/servlets/purl/1845639",
+          "source": {
+            "id": "https://openalex.org/S4306402487",
+            "display_name": "OSTI OAI (U.S. Department of Energy Office of Scientific and Technical Information)",
+            "issn_l": null,
+            "issn": null,
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": "https://openalex.org/I139351228",
+            "host_organization_name": "Office of Scientific and Technical Information",
+            "host_organization_lineage": [
+              "https://openalex.org/I139351228"
+            ],
+            "host_organization_lineage_names": [],
+            "type": "repository"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "submittedVersion",
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": null,
+          "raw_type": null
+        }
+      ],
+      "best_oa_location": {
+        "id": "pmh:oai:osti.gov:1845639",
+        "doi": null,
+        "is_oa": true,
+        "landing_page_url": "https://www.osti.gov/biblio/1845639",
+        "pdf_url": "https://www.osti.gov/servlets/purl/1845639",
+        "source": {
+          "id": "https://openalex.org/S4306402487",
+          "display_name": "OSTI OAI (U.S. Department of Energy Office of Scientific and Technical Information)",
+          "issn_l": null,
+          "issn": null,
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": false,
+          "listed_in": [],
+          "host_organization": "https://openalex.org/I139351228",
+          "host_organization_name": "Office of Scientific and Technical Information",
+          "host_organization_lineage": [
+            "https://openalex.org/I139351228"
+          ],
+          "host_organization_lineage_names": [],
+          "type": "repository"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "submittedVersion",
+        "is_accepted": false,
+        "is_published": false,
+        "raw_source_name": null,
+        "raw_type": null
+      },
+      "sustainable_development_goals": [],
+      "sustainable_development_goals_aurora": [],
+      "study_designs": [],
+      "awards": [
+        {
+          "id": "https://openalex.org/G102163711",
+          "display_name": null,
+          "funder_award_id": "DE‐ AC02‐06CH11357",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G107546177",
+          "display_name": null,
+          "funder_award_id": "DE- AC02-06-CH11357",
+          "funder_id": "https://openalex.org/F4320338284",
+          "funder_display_name": "Argonne National Laboratory"
+        },
+        {
+          "id": "https://openalex.org/G1193633358",
+          "display_name": null,
+          "funder_award_id": "17‐SC‐20‐SC",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G1313983767",
+          "display_name": null,
+          "funder_award_id": "DE-AC02",
+          "funder_id": "https://openalex.org/F4320338284",
+          "funder_display_name": "Argonne National Laboratory"
+        },
+        {
+          "id": "https://openalex.org/G1356433355",
+          "display_name": null,
+          "funder_award_id": "DE‐AC5207NA27344",
+          "funder_id": "https://openalex.org/F4320338286",
+          "funder_display_name": "Lawrence Livermore National Laboratory"
+        },
+        {
+          "id": "https://openalex.org/G14554683",
+          "display_name": null,
+          "funder_award_id": "DEAC5207NA27344",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G1645119126",
+          "display_name": null,
+          "funder_award_id": "AC05-00OR22725",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G1664757510",
+          "display_name": null,
+          "funder_award_id": "AC02–06CH11357",
+          "funder_id": "https://openalex.org/F4320338284",
+          "funder_display_name": "Argonne National Laboratory"
+        },
+        {
+          "id": "https://openalex.org/G1796307089",
+          "display_name": null,
+          "funder_award_id": "17- SC-20-SC",
+          "funder_id": "https://openalex.org/F4320332369",
+          "funder_display_name": "National Nuclear Security Administration"
+        },
+        {
+          "id": "https://openalex.org/G203625172",
+          "display_name": null,
+          "funder_award_id": "DE--AC05--00OR22725",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G2145270357",
+          "display_name": null,
+          "funder_award_id": "AC52‐07NA27344",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G217780377",
+          "display_name": null,
+          "funder_award_id": "DE-AC52-07-NA27344",
+          "funder_id": "https://openalex.org/F4320332369",
+          "funder_display_name": "National Nuclear Security Administration"
+        },
+        {
+          "id": "https://openalex.org/G2366088775",
+          "display_name": null,
+          "funder_award_id": "17-SC-20-SC",
+          "funder_id": "https://openalex.org/F4320338287",
+          "funder_display_name": "Oak Ridge National Laboratory"
+        },
+        {
+          "id": "https://openalex.org/G254035773",
+          "display_name": null,
+          "funder_award_id": "DE-AC02-06CH11357",
+          "funder_id": "https://openalex.org/F4320338286",
+          "funder_display_name": "Lawrence Livermore National Laboratory"
+        },
+        {
+          "id": "https://openalex.org/G262962599",
+          "display_name": null,
+          "funder_award_id": "AC02‐06CH11357",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G2988778103",
+          "display_name": null,
+          "funder_award_id": "DE-AC05?",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G3075337988",
+          "display_name": null,
+          "funder_award_id": "06CH11357",
+          "funder_id": "https://openalex.org/F4320338284",
+          "funder_display_name": "Argonne National Laboratory"
+        },
+        {
+          "id": "https://openalex.org/G3318903820",
+          "display_name": null,
+          "funder_award_id": "DE-AC02-06CH11357",
+          "funder_id": "https://openalex.org/F4320332369",
+          "funder_display_name": "National Nuclear Security Administration"
+        },
+        {
+          "id": "https://openalex.org/G4017386982",
+          "display_name": null,
+          "funder_award_id": "DE-AC52-07NA27344",
+          "funder_id": "https://openalex.org/F4320338287",
+          "funder_display_name": "Oak Ridge National Laboratory"
+        },
+        {
+          "id": "https://openalex.org/G4094752214",
+          "display_name": null,
+          "funder_award_id": "DE-AC52-07NA27344",
+          "funder_id": "https://openalex.org/F4320337506",
+          "funder_display_name": "Advanced Scientific Computing Research"
+        },
+        {
+          "id": "https://openalex.org/G4370606643",
+          "display_name": null,
+          "funder_award_id": "DE-AC05-00OR22725",
+          "funder_id": "https://openalex.org/F4320337506",
+          "funder_display_name": "Advanced Scientific Computing Research"
+        },
+        {
+          "id": "https://openalex.org/G4423657506",
+          "display_name": null,
+          "funder_award_id": "AC05-00OR22725",
+          "funder_id": "https://openalex.org/F4320338287",
+          "funder_display_name": "Oak Ridge National Laboratory"
+        },
+        {
+          "id": "https://openalex.org/G5685548091",
+          "display_name": null,
+          "funder_award_id": "AC52-07NA27344",
+          "funder_id": "https://openalex.org/F4320337506",
+          "funder_display_name": "Advanced Scientific Computing Research"
+        },
+        {
+          "id": "https://openalex.org/G5692331544",
+          "display_name": null,
+          "funder_award_id": "17‐SC‐20‐SC",
+          "funder_id": "https://openalex.org/F4320337506",
+          "funder_display_name": "Advanced Scientific Computing Research"
+        },
+        {
+          "id": "https://openalex.org/G6086734019",
+          "display_name": null,
+          "funder_award_id": "DE-AC05-00OR22725",
+          "funder_id": "https://openalex.org/F4320338286",
+          "funder_display_name": "Lawrence Livermore National Laboratory"
+        },
+        {
+          "id": "https://openalex.org/G6750061500",
+          "display_name": null,
+          "funder_award_id": "DEAC52-07NA27344",
+          "funder_id": "https://openalex.org/F4320338284",
+          "funder_display_name": "Argonne National Laboratory"
+        },
+        {
+          "id": "https://openalex.org/G675320460",
+          "display_name": null,
+          "funder_award_id": "DE-AC05-00OR22725",
+          "funder_id": "https://openalex.org/F4320338287",
+          "funder_display_name": "Oak Ridge National Laboratory"
+        },
+        {
+          "id": "https://openalex.org/G6848031779",
+          "display_name": null,
+          "funder_award_id": "06CH11357",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G816254390",
+          "display_name": null,
+          "funder_award_id": "#DE-AC05-00OR22725",
+          "funder_id": "https://openalex.org/F4320332369",
+          "funder_display_name": "National Nuclear Security Administration"
+        },
+        {
+          "id": "https://openalex.org/G8286507625",
+          "display_name": null,
+          "funder_award_id": "DE-AC02-06CH11357",
+          "funder_id": "https://openalex.org/F4320338287",
+          "funder_display_name": "Oak Ridge National Laboratory"
+        },
+        {
+          "id": "https://openalex.org/G878601127",
+          "display_name": null,
+          "funder_award_id": "DE-AC02-06CH11357",
+          "funder_id": "https://openalex.org/F4320337506",
+          "funder_display_name": "Advanced Scientific Computing Research"
+        },
+        {
+          "id": "https://openalex.org/G8906985441",
+          "display_name": null,
+          "funder_award_id": "00OR22725",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G969889393",
+          "display_name": null,
+          "funder_award_id": "DE-AC02-",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G991281326",
+          "display_name": null,
+          "funder_award_id": "AC52-07NA27344",
+          "funder_id": "https://openalex.org/F4320338286",
+          "funder_display_name": "Lawrence Livermore National Laboratory"
+        }
+      ],
+      "funders": [
+        {
+          "id": "https://openalex.org/F4320306084",
+          "display_name": "U.S. Department of Energy",
+          "ror": "https://ror.org/01bj3aw27"
+        },
+        {
+          "id": "https://openalex.org/F4320309938",
+          "display_name": "Centre of Excellence for Environmental Decisions, Australian Research Council",
+          "ror": "https://ror.org/01k8nkc73"
+        },
+        {
+          "id": "https://openalex.org/F4320332369",
+          "display_name": "National Nuclear Security Administration",
+          "ror": "https://ror.org/03sk1we31"
+        },
+        {
+          "id": "https://openalex.org/F4320335125",
+          "display_name": "RIKEN",
+          "ror": "https://ror.org/01sjwvz98"
+        },
+        {
+          "id": "https://openalex.org/F4320337506",
+          "display_name": "Advanced Scientific Computing Research",
+          "ror": "https://ror.org/0012c7r22"
+        },
+        {
+          "id": "https://openalex.org/F4320338284",
+          "display_name": "Argonne National Laboratory",
+          "ror": "https://ror.org/05gvnxz63"
+        },
+        {
+          "id": "https://openalex.org/F4320338286",
+          "display_name": "Lawrence Livermore National Laboratory",
+          "ror": "https://ror.org/041nk4h53"
+        },
+        {
+          "id": "https://openalex.org/F4320338287",
+          "display_name": "Oak Ridge National Laboratory",
+          "ror": "https://ror.org/01qz5mb56"
+        }
+      ],
+      "has_content": {
+        "grobid_xml": true,
+        "pdf": true
+      },
+      "content_urls": {
+        "pdf": "https://content.openalex.org/works/W4212813033.pdf",
+        "grobid_xml": "https://content.openalex.org/works/W4212813033.grobid-xml"
+      },
+      "referenced_works_count": 0,
+      "referenced_works": [],
+      "related_works": [
+        "https://openalex.org/W4387878404",
+        "https://openalex.org/W2356602486",
+        "https://openalex.org/W2584040191",
+        "https://openalex.org/W2561695978",
+        "https://openalex.org/W2351992668",
+        "https://openalex.org/W1950486549",
+        "https://openalex.org/W3133583653",
+        "https://openalex.org/W3140574787",
+        "https://openalex.org/W2990251955",
+        "https://openalex.org/W2324828474"
+      ],
+      "abstract_inverted_index": {
+        "The": [
+          0,
+          85,
+          135
+        ],
+        "goal": [
+          1
+        ],
+        "of": [
+          2,
+          35,
+          38,
+          45,
+          54,
+          71,
+          116,
+          133,
+          142,
+          156
+        ],
+        "this": [
+          3,
+          46,
+          90
+        ],
+        "milestone": [
+          4,
+          91
+        ],
+        "was": [
+          5
+        ],
+        "to": [
+          6,
+          73,
+          161
+        ],
+        "improve": [
+          7,
+          162
+        ],
+        "the": [
+          8,
+          33,
+          51,
+          55,
+          69,
+          139,
+          143,
+          148,
+          171,
+          176
+        ],
+        "high-order": [
+          9,
+          117,
+          124
+        ],
+        "software": [
+          10,
+          57,
+          145
+        ],
+        "ecosystem": [
+          11
+        ],
+        "for": [
+          12,
+          76,
+          122,
+          181
+        ],
+        "CEED-enabled": [
+          13
+        ],
+        "ECP": [
+          14,
+          25
+        ],
+        "applications": [
+          15,
+          160
+        ],
+        "by": [
+          16
+        ],
+        "making": [
+          17
+        ],
+        "progress": [
+          18
+        ],
+        "on": [
+          19,
+          61,
+          99,
+          126
+        ],
+        "efficient": [
+          20
+        ],
+        "matrix-free": [
+          21,
+          30
+        ],
+        "kernels": [
+          22,
+          28
+        ],
+        "targeting": [
+          23
+        ],
+        "forthcoming": [
+          24
+        ],
+        "architectures.": [
+          26
+        ],
+        "These": [
+          27
+        ],
+        "included": [
+          29
+        ],
+        "preconditioning": [
+          31,
+          115
+        ],
+        "and": [
+          32,
+          67,
+          78,
+          95,
+          111,
+          129,
+          153,
+          165,
+          168,
+          175
+        ],
+        "development": [
+          34
+        ],
+        "new": [
+          36
+        ],
+        "set": [
+          37
+        ],
+        "CEED": [
+          39,
+          56,
+          97,
+          144,
+          172,
+          177
+        ],
+        "solver": [
+          40
+        ],
+        "bake-off": [
+          41
+        ],
+        "problems.": [
+          42
+        ],
+        "As": [
+          43
+        ],
+        "part": [
+          44
+        ],
+        "milestone,": [
+          47
+        ],
+        "we": [
+          48
+        ],
+        "also": [
+          49
+        ],
+        "released": [
+          50
+        ],
+        "next": [
+          52,
+          140,
+          149
+        ],
+        "version": [
+          53,
+          141
+        ],
+        "stack,": [
+          58,
+          146
+        ],
+        "CEED-4.0,": [
+          59,
+          147
+        ],
+        "reported": [
+          60
+        ],
+        "results": [
+          62
+        ],
+        "from": [
+          63
+        ],
+        "several": [
+          64
+        ],
+        "application": [
+          65
+        ],
+        "collaborations,": [
+          66
+        ],
+        "documented": [
+          68
+        ],
+        "efforts": [
+          70
+        ],
+        "porting": [
+          72
+        ],
+        "AMD": [
+          74
+        ],
+        "GPUs": [
+          75
+        ],
+        "Frontier": [
+          77,
+          100
+        ],
+        "other": [
+          79
+        ],
+        "modern": [
+          80
+        ],
+        "architectures,": [
+          81
+        ],
+        "such": [
+          82
+        ],
+        "as": [
+          83
+        ],
+        "Fugaku.": [
+          84
+        ],
+        "specific": [
+          86
+        ],
+        "tasks": [
+          87
+        ],
+        "addressed": [
+          88
+        ],
+        "in": [
+          89,
+          108
+        ],
+        "were:": [
+          92
+        ],
+        "(1)": [
+          93
+        ],
+        "Port": [
+          94
+        ],
+        "run": [
+          96
+        ],
+        "benchmarks/miniapps": [
+          98
+        ],
+        "EA": [
+          101
+        ],
+        "systems;": [
+          102
+        ],
+        "(2)": [
+          103
+        ],
+        "Demonstrate": [
+          104
+        ],
+        "performant": [
+          105
+        ],
+        "libCEED": [
+          106,
+          150
+        ],
+        "integration": [
+          107
+        ],
+        "MFEM,": [
+          109
+        ],
+        "Nek": [
+          110
+        ],
+        "applications;": [
+          112
+        ],
+        "(3)": [
+          113
+        ],
+        "Matrix-free": [
+          114
+        ],
+        "operators;": [
+          118
+        ],
+        "(4)": [
+          119
+        ],
+        "Benchmark": [
+          120
+        ],
+        "problems": [
+          121
+        ],
+        "fast": [
+          123
+        ],
+        "solvers": [
+          125
+        ],
+        "GPU": [
+          127,
+          164
+        ],
+        "platforms;": [
+          128
+        ],
+        "(5)": [
+          130
+        ],
+        "Public": [
+          131
+        ],
+        "release": [
+          132
+        ],
+        "CEED-4.0.": [
+          134
+        ],
+        "artifacts": [
+          136
+        ],
+        "delivered": [
+          137
+        ],
+        "include": [
+          138
+        ],
+        "release,": [
+          151
+        ],
+        "libCEED-0.8,": [
+          152
+        ],
+        "a": [
+          154
+        ],
+        "number": [
+          155
+        ],
+        "developments": [
+          157
+        ],
+        "integrated": [
+          158
+        ],
+        "within": [
+          159
+        ],
+        "their": [
+          163
+        ],
+        "CPU": [
+          166
+        ],
+        "performance": [
+          167
+        ],
+        "capabilities.": [
+          169
+        ],
+        "See": [
+          170
+        ],
+        "website,": [
+          173
+        ],
+        "https://ceed.exascaleproject.org": [
+          174
+        ],
+        "GitHub": [
+          178
+        ],
+        "organization,": [
+          179
+        ],
+        "https://github.com/ceed": [
+          180
+        ],
+        "more": [
+          182
+        ],
+        "details.": [
+          183
+        ]
+      },
+      "counts_by_year": [
+        {
+          "year": 2025,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2023,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2022,
+          "cited_by_count": 2
+        },
+        {
+          "year": 2021,
+          "cited_by_count": 1
+        }
+      ],
+      "updated_date": "2026-10-16T09:59:22.235173",
+      "created_date": "2025-10-10T00:00:00"
+    },
+    {
+      "id": "https://openalex.org/W3099516061",
+      "doi": "https://doi.org/10.1002/nla.2348",
+      "title": "Matrix‐free preconditioning for high‐order H (curl) discretizations",
+      "display_name": "Matrix‐free preconditioning for high‐order H (curl) discretizations",
+      "relevance_score": 20.341442,
+      "publication_year": 2020,
+      "publication_date": "2020-11-09",
+      "ids": {
+        "openalex": "https://openalex.org/W3099516061",
+        "doi": "https://doi.org/10.1002/nla.2348",
+        "mag": "3099516061"
+      },
+      "language": "en",
+      "primary_location": {
+        "id": "doi:10.1002/nla.2348",
+        "doi": "https://doi.org/10.1002/nla.2348",
+        "is_oa": false,
+        "landing_page_url": "https://doi.org/10.1002/nla.2348",
+        "pdf_url": null,
+        "source": {
+          "id": "https://openalex.org/S60324941",
+          "display_name": "Numerical Linear Algebra with Applications",
+          "issn_l": "1070-5325",
+          "issn": [
+            "1070-5325",
+            "1099-1506"
+          ],
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": true,
+          "listed_in": [
+            "anvur-scientific",
+            "cwts-core",
+            "dongbi-b",
+            "jufo-1",
+            "ki-jl-1",
+            "norway-1",
+            "poland-100",
+            "russia-white-list-1"
+          ],
+          "host_organization": "https://openalex.org/P4310320595",
+          "host_organization_name": "Wiley",
+          "host_organization_lineage": [
+            "https://openalex.org/P4310320595"
+          ],
+          "host_organization_lineage_names": [
+            "Wiley"
+          ],
+          "type": "journal"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "publishedVersion",
+        "is_accepted": true,
+        "is_published": true,
+        "raw_source_name": "Numerical Linear Algebra with Applications",
+        "raw_type": "journal-article"
+      },
+      "volume": null,
+      "type": "article",
+      "indexed_in": [
+        "crossref"
+      ],
+      "open_access": {
+        "is_oa": true,
+        "oa_status": "green",
+        "oa_url": "https://www.osti.gov/servlets/purl/1835018",
+        "any_repository_has_fulltext": true
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": "https://openalex.org/A5071233708",
+            "display_name": "Andrew T. Barker",
+            "orcid": "https://orcid.org/0000-0003-3572-911X",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-3572-911X"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": true,
+          "raw_author_name": "Andrew T. Barker",
+          "raw_affiliation_strings": [
+            "Center for Applied Scientific Computing Lawrence Livermore National Laboratory Livermore California USA",
+            "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, California, USA"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0003-3572-911X",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Center for Applied Scientific Computing Lawrence Livermore National Laboratory Livermore California USA",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            },
+            {
+              "raw_affiliation_string": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, California, USA",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "last",
+          "author": {
+            "id": "https://openalex.org/A5003911272",
+            "display_name": "Tzanio Kolev",
+            "orcid": "https://orcid.org/0000-0002-2810-3090",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-2810-3090"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1282311441",
+              "display_name": "Lawrence Livermore National Laboratory",
+              "ror": "https://ror.org/041nk4h53",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I1282311441",
+                "https://openalex.org/I1330989302",
+                "https://openalex.org/I198811213",
+                "https://openalex.org/I4210138311"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Tzanio Kolev",
+          "raw_affiliation_strings": [
+            "Center for Applied Scientific Computing Lawrence Livermore National Laboratory Livermore California USA",
+            "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, California, USA"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Center for Applied Scientific Computing Lawrence Livermore National Laboratory Livermore California USA",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            },
+            {
+              "raw_affiliation_string": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, California, USA",
+              "institution_ids": [
+                "https://openalex.org/I1282311441"
+              ]
+            }
+          ]
+        }
+      ],
+      "institutions": [],
+      "countries_distinct_count": 1,
+      "institutions_distinct_count": 1,
+      "corresponding_author_ids": [
+        "https://openalex.org/A5071233708"
+      ],
+      "corresponding_institution_ids": [
+        "https://openalex.org/I1282311441"
+      ],
+      "apc_list": {
+        "value": 3600,
+        "currency": "USD",
+        "value_usd": 3600
+      },
+      "apc_paid": null,
+      "fwci": 0.2366,
+      "has_fulltext": true,
+      "cited_by_count": 4,
+      "citation_normalized_percentile": {
+        "value": 0.5513804,
+        "is_in_top_1_percent": false,
+        "is_in_top_10_percent": false
+      },
+      "cited_by_percentile_year": {
+        "min": 88,
+        "max": 96
+      },
+      "biblio": {
+        "volume": "28",
+        "issue": "2",
+        "first_page": null,
+        "last_page": null
+      },
+      "is_retracted": false,
+      "is_paratext": false,
+      "is_xpac": false,
+      "primary_topic": {
+        "id": "https://openalex.org/T10792",
+        "display_name": "Matrix Theory and Algorithms",
+        "score": 0.7529000043869019,
+        "subfield": {
+          "id": "https://openalex.org/subfields/1703",
+          "display_name": "Computational Theory and Mathematics"
+        },
+        "field": {
+          "id": "https://openalex.org/fields/17",
+          "display_name": "Computer Science"
+        },
+        "domain": {
+          "id": "https://openalex.org/domains/3",
+          "display_name": "Physical Sciences"
+        }
+      },
+      "topics": [
+        {
+          "id": "https://openalex.org/T10792",
+          "display_name": "Matrix Theory and Algorithms",
+          "score": 0.7529000043869019,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1703",
+            "display_name": "Computational Theory and Mathematics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10339",
+          "display_name": "Advanced Numerical Methods in Computational Mathematics",
+          "score": 0.23819999396800995,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10739",
+          "display_name": "Electromagnetic Scattering and Analysis",
+          "score": 0.002400000113993883,
+          "subfield": {
+            "id": "https://openalex.org/subfields/3107",
+            "display_name": "Atomic and Molecular Physics, and Optics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/31",
+            "display_name": "Physics and Astronomy"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        }
+      ],
+      "keywords": [
+        {
+          "id": "https://openalex.org/keywords/higher-order-finite-elements",
+          "display_name": "high-order finite elements",
+          "score": 0.8690000176429749
+        },
+        {
+          "id": "https://openalex.org/keywords/maxwell-s-equations",
+          "display_name": "Maxwell's equations",
+          "score": 0.6600000262260437
+        },
+        {
+          "id": "https://openalex.org/keywords/unstructured-quadrilateral-meshes",
+          "display_name": "unstructured quadrilateral meshes",
+          "score": 0.7580000162124634
+        },
+        {
+          "id": "https://openalex.org/keywords/curved-elements",
+          "display_name": "curved elements",
+          "score": 0.4390000104904175
+        },
+        {
+          "id": "https://openalex.org/keywords/varying-coefficients",
+          "display_name": "variable coefficients",
+          "score": 0.6209999918937683
+        },
+        {
+          "id": "https://openalex.org/keywords/arithmetic-intensity",
+          "display_name": "arithmetic intensity",
+          "score": 0.36899998784065247
+        },
+        {
+          "id": "https://openalex.org/keywords/krylov-subspace-methods",
+          "display_name": "Krylov subspace methods",
+          "score": 0.5740000009536743
+        }
+      ],
+      "concepts": [
+        {
+          "id": "https://openalex.org/C167431342",
+          "wikidata": "https://www.wikidata.org/wiki/Q1754327",
+          "display_name": "Preconditioner",
+          "level": 3,
+          "score": 0.8921619057655334
+        },
+        {
+          "id": "https://openalex.org/C33923547",
+          "wikidata": "https://www.wikidata.org/wiki/Q395",
+          "display_name": "Mathematics",
+          "level": 0,
+          "score": 0.6798059344291687
+        },
+        {
+          "id": "https://openalex.org/C135628077",
+          "wikidata": "https://www.wikidata.org/wiki/Q220184",
+          "display_name": "Finite element method",
+          "level": 2,
+          "score": 0.6319778561592102
+        },
+        {
+          "id": "https://openalex.org/C147663694",
+          "wikidata": "https://www.wikidata.org/wiki/Q1144631",
+          "display_name": "Curl (programming language)",
+          "level": 2,
+          "score": 0.5323669910430908
+        },
+        {
+          "id": "https://openalex.org/C73000952",
+          "wikidata": "https://www.wikidata.org/wiki/Q17007827",
+          "display_name": "Discretization",
+          "level": 2,
+          "score": 0.5047832727432251
+        },
+        {
+          "id": "https://openalex.org/C28826006",
+          "wikidata": "https://www.wikidata.org/wiki/Q33521",
+          "display_name": "Applied mathematics",
+          "level": 1,
+          "score": 0.4787539839744568
+        },
+        {
+          "id": "https://openalex.org/C2778770139",
+          "wikidata": "https://www.wikidata.org/wiki/Q1966904",
+          "display_name": "Solver",
+          "level": 2,
+          "score": 0.4679402709007263
+        },
+        {
+          "id": "https://openalex.org/C84545080",
+          "wikidata": "https://www.wikidata.org/wiki/Q1147936",
+          "display_name": "Condition number",
+          "level": 3,
+          "score": 0.46226489543914795
+        },
+        {
+          "id": "https://openalex.org/C106487976",
+          "wikidata": "https://www.wikidata.org/wiki/Q685816",
+          "display_name": "Matrix (chemical analysis)",
+          "level": 2,
+          "score": 0.42912283539772034
+        },
+        {
+          "id": "https://openalex.org/C51255310",
+          "wikidata": "https://www.wikidata.org/wiki/Q1163016",
+          "display_name": "Tensor product",
+          "level": 2,
+          "score": 0.4140707552433014
+        },
+        {
+          "id": "https://openalex.org/C6802819",
+          "wikidata": "https://www.wikidata.org/wiki/Q1072174",
+          "display_name": "Linear system",
+          "level": 2,
+          "score": 0.3073612451553345
+        },
+        {
+          "id": "https://openalex.org/C126255220",
+          "wikidata": "https://www.wikidata.org/wiki/Q141495",
+          "display_name": "Mathematical optimization",
+          "level": 1,
+          "score": 0.27566319704055786
+        },
+        {
+          "id": "https://openalex.org/C134306372",
+          "wikidata": "https://www.wikidata.org/wiki/Q7754",
+          "display_name": "Mathematical analysis",
+          "level": 1,
+          "score": 0.2553666830062866
+        },
+        {
+          "id": "https://openalex.org/C202444582",
+          "wikidata": "https://www.wikidata.org/wiki/Q837863",
+          "display_name": "Pure mathematics",
+          "level": 1,
+          "score": 0.20846548676490784
+        },
+        {
+          "id": "https://openalex.org/C41008148",
+          "wikidata": "https://www.wikidata.org/wiki/Q21198",
+          "display_name": "Computer science",
+          "level": 0,
+          "score": 0.18355587124824524
+        },
+        {
+          "id": "https://openalex.org/C158693339",
+          "wikidata": "https://www.wikidata.org/wiki/Q190524",
+          "display_name": "Eigenvalues and eigenvectors",
+          "level": 2,
+          "score": 0.14337649941444397
+        },
+        {
+          "id": "https://openalex.org/C199360897",
+          "wikidata": "https://www.wikidata.org/wiki/Q9143",
+          "display_name": "Programming language",
+          "level": 1,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C192562407",
+          "wikidata": "https://www.wikidata.org/wiki/Q228736",
+          "display_name": "Materials science",
+          "level": 0,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C121332964",
+          "wikidata": "https://www.wikidata.org/wiki/Q413",
+          "display_name": "Physics",
+          "level": 0,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C159985019",
+          "wikidata": "https://www.wikidata.org/wiki/Q181790",
+          "display_name": "Composite material",
+          "level": 1,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C62520636",
+          "wikidata": "https://www.wikidata.org/wiki/Q944",
+          "display_name": "Quantum mechanics",
+          "level": 1,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C97355855",
+          "wikidata": "https://www.wikidata.org/wiki/Q11473",
+          "display_name": "Thermodynamics",
+          "level": 1,
+          "score": 0.0
+        }
+      ],
+      "mesh": [],
+      "locations_count": 3,
+      "locations": [
+        {
+          "id": "doi:10.1002/nla.2348",
+          "doi": "https://doi.org/10.1002/nla.2348",
+          "is_oa": false,
+          "landing_page_url": "https://doi.org/10.1002/nla.2348",
+          "pdf_url": null,
+          "source": {
+            "id": "https://openalex.org/S60324941",
+            "display_name": "Numerical Linear Algebra with Applications",
+            "issn_l": "1070-5325",
+            "issn": [
+              "1070-5325",
+              "1099-1506"
+            ],
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": true,
+            "listed_in": [
+              "anvur-scientific",
+              "cwts-core",
+              "dongbi-b",
+              "jufo-1",
+              "ki-jl-1",
+              "norway-1",
+              "poland-100",
+              "russia-white-list-1"
+            ],
+            "host_organization": "https://openalex.org/P4310320595",
+            "host_organization_name": "Wiley",
+            "host_organization_lineage": [
+              "https://openalex.org/P4310320595"
+            ],
+            "host_organization_lineage_names": [
+              "Wiley"
+            ],
+            "type": "journal"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "publishedVersion",
+          "is_accepted": true,
+          "is_published": true,
+          "raw_source_name": "Numerical Linear Algebra with Applications",
+          "raw_type": "journal-article"
+        },
+        {
+          "id": "pmh:oai:osti.gov:1804606",
+          "doi": null,
+          "is_oa": true,
+          "landing_page_url": "https://www.osti.gov/biblio/1804606",
+          "pdf_url": "https://www.osti.gov/servlets/purl/1835018",
+          "source": {
+            "id": "https://openalex.org/S4306402487",
+            "display_name": "OSTI OAI (U.S. Department of Energy Office of Scientific and Technical Information)",
+            "issn_l": null,
+            "issn": null,
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": "https://openalex.org/I139351228",
+            "host_organization_name": "Office of Scientific and Technical Information",
+            "host_organization_lineage": [
+              "https://openalex.org/I139351228"
+            ],
+            "host_organization_lineage_names": [],
+            "type": "repository"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "submittedVersion",
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": null,
+          "raw_type": null
+        },
+        {
+          "id": "pmh:oai:osti.gov:1835018",
+          "doi": null,
+          "is_oa": false,
+          "landing_page_url": "https://www.osti.gov/biblio/1835018",
+          "pdf_url": null,
+          "source": {
+            "id": "https://openalex.org/S4306402487",
+            "display_name": "OSTI OAI (U.S. Department of Energy Office of Scientific and Technical Information)",
+            "issn_l": null,
+            "issn": null,
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": "https://openalex.org/I139351228",
+            "host_organization_name": "Office of Scientific and Technical Information",
+            "host_organization_lineage": [
+              "https://openalex.org/I139351228"
+            ],
+            "host_organization_lineage_names": [],
+            "type": "repository"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "submittedVersion",
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": null,
+          "raw_type": null
+        }
+      ],
+      "best_oa_location": {
+        "id": "pmh:oai:osti.gov:1804606",
+        "doi": null,
+        "is_oa": true,
+        "landing_page_url": "https://www.osti.gov/biblio/1804606",
+        "pdf_url": "https://www.osti.gov/servlets/purl/1835018",
+        "source": {
+          "id": "https://openalex.org/S4306402487",
+          "display_name": "OSTI OAI (U.S. Department of Energy Office of Scientific and Technical Information)",
+          "issn_l": null,
+          "issn": null,
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": false,
+          "listed_in": [],
+          "host_organization": "https://openalex.org/I139351228",
+          "host_organization_name": "Office of Scientific and Technical Information",
+          "host_organization_lineage": [
+            "https://openalex.org/I139351228"
+          ],
+          "host_organization_lineage_names": [],
+          "type": "repository"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "submittedVersion",
+        "is_accepted": false,
+        "is_published": false,
+        "raw_source_name": null,
+        "raw_type": null
+      },
+      "sustainable_development_goals": [],
+      "sustainable_development_goals_aurora": [],
+      "study_designs": [],
+      "awards": [
+        {
+          "id": "https://openalex.org/G1356433355",
+          "display_name": null,
+          "funder_award_id": "DE‐AC5207NA27344",
+          "funder_id": "https://openalex.org/F4320338286",
+          "funder_display_name": "Lawrence Livermore National Laboratory"
+        },
+        {
+          "id": "https://openalex.org/G14554683",
+          "display_name": null,
+          "funder_award_id": "DEAC5207NA27344",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G2145270357",
+          "display_name": null,
+          "funder_award_id": "AC52‐07NA27344",
+          "funder_id": "https://openalex.org/F4320306084",
+          "funder_display_name": "U.S. Department of Energy"
+        },
+        {
+          "id": "https://openalex.org/G522925834",
+          "display_name": null,
+          "funder_award_id": "20‐ERD‐002",
+          "funder_id": "https://openalex.org/F4320337547",
+          "funder_display_name": "Laboratory Directed Research and Development"
+        },
+        {
+          "id": "https://openalex.org/G991281326",
+          "display_name": null,
+          "funder_award_id": "AC52-07NA27344",
+          "funder_id": "https://openalex.org/F4320338286",
+          "funder_display_name": "Lawrence Livermore National Laboratory"
+        }
+      ],
+      "funders": [
+        {
+          "id": "https://openalex.org/F4320306084",
+          "display_name": "U.S. Department of Energy",
+          "ror": "https://ror.org/01bj3aw27"
+        },
+        {
+          "id": "https://openalex.org/F4320337547",
+          "display_name": "Laboratory Directed Research and Development",
+          "ror": "https://ror.org/01e41cf67"
+        },
+        {
+          "id": "https://openalex.org/F4320338286",
+          "display_name": "Lawrence Livermore National Laboratory",
+          "ror": "https://ror.org/041nk4h53"
+        }
+      ],
+      "has_content": {
+        "grobid_xml": true,
+        "pdf": true
+      },
+      "content_urls": {
+        "pdf": "https://content.openalex.org/works/W3099516061.pdf",
+        "grobid_xml": "https://content.openalex.org/works/W3099516061.grobid-xml"
+      },
+      "referenced_works_count": 28,
+      "referenced_works": [
+        "https://openalex.org/W1519509134",
+        "https://openalex.org/W1982005385",
+        "https://openalex.org/W1985144286",
+        "https://openalex.org/W2005047411",
+        "https://openalex.org/W2018225490",
+        "https://openalex.org/W2024977211",
+        "https://openalex.org/W2039789965",
+        "https://openalex.org/W2053572944",
+        "https://openalex.org/W2062618977",
+        "https://openalex.org/W2063162860",
+        "https://openalex.org/W2067484330",
+        "https://openalex.org/W2067673417",
+        "https://openalex.org/W2072132691",
+        "https://openalex.org/W2072662440",
+        "https://openalex.org/W2075993982",
+        "https://openalex.org/W2080159996",
+        "https://openalex.org/W2142682200",
+        "https://openalex.org/W2592996154",
+        "https://openalex.org/W2607476412",
+        "https://openalex.org/W2614048889",
+        "https://openalex.org/W2767520933",
+        "https://openalex.org/W2903118314",
+        "https://openalex.org/W2915180890",
+        "https://openalex.org/W2943869808",
+        "https://openalex.org/W2963889991",
+        "https://openalex.org/W2969262004",
+        "https://openalex.org/W3016268593",
+        "https://openalex.org/W3046457476"
+      ],
+      "related_works": [
+        "https://openalex.org/W2151629037",
+        "https://openalex.org/W2108653069",
+        "https://openalex.org/W1575783825",
+        "https://openalex.org/W1518768192",
+        "https://openalex.org/W2096346341",
+        "https://openalex.org/W2525981419",
+        "https://openalex.org/W3139004046",
+        "https://openalex.org/W2890462359",
+        "https://openalex.org/W2337689163",
+        "https://openalex.org/W2612464611"
+      ],
+      "abstract_inverted_index": {
+        "Abstract": [
+          0
+        ],
+        "The": [
+          1,
+          201
+        ],
+        "greater": [
+          2
+        ],
+        "arithmetic": [
+          3
+        ],
+        "intensity": [
+          4
+        ],
+        "of": [
+          5,
+          20,
+          35,
+          51,
+          64,
+          87,
+          147,
+          162,
+          166
+        ],
+        "high‐order": [
+          6,
+          21,
+          52,
+          108,
+          169,
+          235
+        ],
+        "finite": [
+          7,
+          22,
+          111
+        ],
+        "element": [
+          8,
+          23,
+          112
+        ],
+        "discretizations": [
+          9
+        ],
+        "makes": [
+          10
+        ],
+        "them": [
+          11
+        ],
+        "attractive": [
+          12
+        ],
+        "for": [
+          13,
+          39,
+          71,
+          107,
+          187
+        ],
+        "implementation": [
+          14
+        ],
+        "on": [
+          15,
+          114,
+          143,
+          158
+        ],
+        "next‐generation": [
+          16
+        ],
+        "hardware,": [
+          17
+        ],
+        "but": [
+          18,
+          67
+        ],
+        "assembly": [
+          19
+        ],
+        "operators": [
+          24,
+          41,
+          53,
+          75
+        ],
+        "as": [
+          25
+        ],
+        "matrices": [
+          26
+        ],
+        "is": [
+          27,
+          180
+        ],
+        "prohibitively": [
+          28
+        ],
+        "expensive.": [
+          29
+        ],
+        "As": [
+          30
+        ],
+        "a": [
+          31,
+          89,
+          99,
+          136,
+          152,
+          159
+        ],
+        "result,": [
+          32
+        ],
+        "the": [
+          33,
+          59,
+          62,
+          85,
+          115,
+          132,
+          163,
+          167,
+          175,
+          234
+        ],
+        "development": [
+          34
+        ],
+        "general": [
+          36,
+          74
+        ],
+        "algebraic": [
+          37
+        ],
+        "solvers": [
+          38,
+          70
+        ],
+        "such": [
+          40
+        ],
+        "has": [
+          42,
+          54
+        ],
+        "been": [
+          43
+        ],
+        "an": [
+          44,
+          126,
+          144
+        ],
+        "open": [
+          45
+        ],
+        "research": [
+          46
+        ],
+        "challenge.": [
+          47
+        ],
+        "Fast": [
+          48
+        ],
+        "matrix‐free": [
+          49
+        ],
+        "application": [
+          50
+        ],
+        "received": [
+          55
+        ],
+        "significant": [
+          56
+        ],
+        "attention": [
+          57
+        ],
+        "in": [
+          58,
+          61,
+          125,
+          135,
+          233
+        ],
+        "literature": [
+          60
+        ],
+        "context": [
+          63
+        ],
+        "Poisson‐type": [
+          65
+        ],
+        "problems,": [
+          66
+        ],
+        "preconditioners": [
+          68,
+          106,
+          121,
+          134,
+          232
+        ],
+        "and": [
+          69,
+          171,
+          198,
+          219
+        ],
+        "inverting": [
+          72
+        ],
+        "more": [
+          73
+        ],
+        "are": [
+          76
+        ],
+        "not": [
+          77
+        ],
+        "very": [
+          78,
+          183
+        ],
+        "well‐developed.": [
+          79
+        ],
+        "In": [
+          80
+        ],
+        "this": [
+          81
+        ],
+        "paper,": [
+          82
+        ],
+        "we": [
+          83,
+          172
+        ],
+        "consider": [
+          84
+        ],
+        "problem": [
+          86
+        ],
+        "preconditioning": [
+          88
+        ],
+        "definite": [
+          90
+        ],
+        "Maxwell": [
+          91,
+          231
+        ],
+        "operator": [
+          92
+        ],
+        "at": [
+          93,
+          182
+        ],
+        "high": [
+          94,
+          184
+        ],
+        "polynomial": [
+          95,
+          185
+        ],
+        "order": [
+          96
+        ],
+        "without": [
+          97
+        ],
+        "assembling": [
+          98
+        ],
+        "matrix.": [
+          100
+        ],
+        "We": [
+          101,
+          130
+        ],
+        "show": [
+          102,
+          173
+        ],
+        "that": [
+          103,
+          174
+        ],
+        "given": [
+          104
+        ],
+        "efficient": [
+          105,
+          118
+        ],
+        "H": [
+          109,
+          119,
+          154,
+          177
+        ],
+        "1": [
+          110,
+          155,
+          213
+        ],
+        "problems": [
+          113,
+          190
+        ],
+        "same": [
+          116
+        ],
+        "mesh,": [
+          117
+        ],
+        "(curl)": [
+          120,
+          178
+        ],
+        "can": [
+          122
+        ],
+        "be": [
+          123
+        ],
+        "constructed": [
+          124,
+          157
+        ],
+        "auxiliary": [
+          127
+        ],
+        "space": [
+          128
+        ],
+        "framework.": [
+          129
+        ],
+        "demonstrate": [
+          131
+        ],
+        "resulting": [
+          133,
+          176,
+          202
+        ],
+        "practical": [
+          137
+        ],
+        "setting": [
+          138
+        ],
+        "with": [
+          139,
+          191,
+          205
+        ],
+        "tensor‐product": [
+          140
+        ],
+        "basis": [
+          141
+        ],
+        "functions": [
+          142
+        ],
+        "unstructured": [
+          145
+        ],
+        "mesh": [
+          146,
+          161
+        ],
+        "quadrilaterals.": [
+          148
+        ],
+        "Our": [
+          149
+        ],
+        "approach": [
+          150
+        ],
+        "uses": [
+          151
+        ],
+        "sparsified": [
+          153
+        ],
+        "solver": [
+          156
+        ],
+        "low‐order": [
+          160
+        ],
+        "nodal": [
+          164
+        ],
+        "points": [
+          165
+        ],
+        "underlying": [
+          168
+        ],
+        "space,": [
+          170
+        ],
+        "preconditioner": [
+          179,
+          203
+        ],
+        "effective": [
+          181
+        ],
+        "orders": [
+          186
+        ],
+        "two‐dimensional": [
+          188
+        ],
+        "model": [
+          189
+        ],
+        "complicated": [
+          192
+        ],
+        "geometry,": [
+          193
+        ],
+        "varying": [
+          194
+        ],
+        "piecewise": [
+          195
+        ],
+        "constant": [
+          196
+        ],
+        "coefficients,": [
+          197
+        ],
+        "curved": [
+          199
+        ],
+        "elements.": [
+          200
+        ],
+        "scales": [
+          204
+        ],
+        "nearly": [
+          206
+        ],
+        "optimal": [
+          207,
+          220
+        ],
+        "O": [
+          208,
+          221
+        ],
+        "(": [
+          209,
+          222
+        ],
+        "p": [
+          210,
+          223
+        ],
+        "d": [
+          211,
+          224
+        ],
+        "+": [
+          212
+        ],
+        ")": [
+          214,
+          225
+        ],
+        "floating": [
+          215
+        ],
+        "point": [
+          216
+        ],
+        "operation": [
+          217
+        ],
+        "count": [
+          218
+        ],
+        "memory": [
+          226
+        ],
+        "transfer": [
+          227
+        ],
+        "requirements,": [
+          228
+        ],
+        "outperforming": [
+          229
+        ],
+        "existing": [
+          230
+        ],
+        "regime.": [
+          236
+        ]
+      },
+      "counts_by_year": [
+        {
+          "year": 2024,
+          "cited_by_count": 2
+        },
+        {
+          "year": 2023,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2021,
+          "cited_by_count": 1
+        }
+      ],
+      "updated_date": "2026-10-16T09:59:22.235173",
+      "created_date": "2020-11-23T00:00:00"
+    }
+  ],
+  "group_by": []
+}

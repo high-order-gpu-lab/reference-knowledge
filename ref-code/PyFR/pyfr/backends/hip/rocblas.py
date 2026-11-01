@@ -1,0 +1,189 @@
+from ctypes import (POINTER, byref, c_int, c_int64, c_double, c_float,
+                    c_uint32, c_void_p)
+import os
+
+import numpy as np
+
+from pyfr.backends.hip.provider import HIPKernel, HIPKernelProvider
+from pyfr.ctypesutil import LibWrapper
+from pyfr.util import nogc
+
+
+# Possible RocBLAS exception types
+class RocBLASError(Exception): pass
+class RocBLASInvalidHandle(RocBLASError): pass
+class RocBLASNotImplemented(RocBLASError): pass
+class RocBLASInvalidPointer(RocBLASError): pass
+class RocBLASInvalidSize(RocBLASError): pass
+class RocBLASInternalError(RocBLASError): pass
+class RocBLASInvalidValue(RocBLASError): pass
+
+
+class RocBLASWrappers(LibWrapper):
+    _libname = 'rocblas'
+
+    # Error codes
+    _statuses = {
+        1: RocBLASInvalidHandle,
+        2: RocBLASNotImplemented,
+        3: RocBLASInvalidPointer,
+        4: RocBLASInvalidSize,
+        6: RocBLASInternalError,
+        11: RocBLASInvalidValue
+    }
+
+    # Constants
+    OPERATION_NONE = 111
+    OPERATION_TRANSPOSE = 112
+    DATATYPE_F32_R = 151
+    DATATYPE_F64_R = 152
+    GEMM_ALGO_SOLUTION_INDEX = 1
+
+    # Functions
+    _functions = [
+        (c_int, 'rocblas_create_handle', POINTER(c_void_p)),
+        (c_int, 'rocblas_destroy_handle', c_void_p),
+        (c_int, 'rocblas_set_stream', c_void_p, c_void_p),
+        (c_int, 'rocblas_dgemm_64', c_void_p, c_int, c_int, c_int64, c_int64,
+         c_int64, POINTER(c_double), c_void_p, c_int64, c_void_p, c_int64,
+         POINTER(c_double), c_void_p, c_int64),
+        (c_int, 'rocblas_sgemm_64', c_void_p, c_int, c_int, c_int64, c_int64,
+         c_int64, POINTER(c_float), c_void_p, c_int64, c_void_p, c_int64,
+         POINTER(c_float), c_void_p, c_int64),
+        (c_int, 'rocblas_gemm_ex_get_solutions', c_void_p, c_int, c_int, c_int,
+         c_int, c_int, c_void_p, c_void_p, c_int, c_int, c_void_p,
+         c_int, c_int, c_void_p, c_void_p, c_int, c_int, c_void_p,
+         c_int, c_int, c_int, c_int, c_uint32, POINTER(c_int), POINTER(c_int)),
+        (c_int, 'rocblas_gemm_ex', c_void_p, c_int, c_int, c_int,
+         c_int, c_int, c_void_p, c_void_p, c_int, c_int, c_void_p,
+         c_int, c_int, c_void_p, c_void_p, c_int, c_int, c_void_p,
+         c_int, c_int, c_int, c_int, c_int, c_uint32)
+    ]
+
+
+class HIPRocBLASKernels(HIPKernelProvider):
+    def __init__(self, backend):
+        super().__init__(backend)
+
+        self._cstream = backend.hip.create_stream()
+
+        # Ensure memory can be allocated in captured streams
+        os.environ['ROCBLAS_STREAM_ORDER_ALLOC'] = '1'
+
+        # Load and wrap rocBLAS
+        self._wrappers = RocBLASWrappers()
+
+        # Init
+        self._handle = c_void_p()
+        self._wrappers.rocblas_create_handle(self._handle)
+
+        # GEMM cache
+        self._mul_cache = {}
+
+        # Maximum number of solution indices to try
+        self.nkerns = backend.cfg.getint('backend-hip', 'rocblas-nkerns', 2048)
+
+    def __del__(self):
+        try:
+            if self._handle:
+                self._wrappers.rocblas_set_stream(self._handle, self._cstream)
+                self._wrappers.rocblas_destroy_handle(self._handle)
+        except AttributeError:
+            pass
+
+    def mul(self, a, b, out, alpha=1.0, beta=0.0):
+        h, w = self._handle, self._wrappers
+        cstream = self._cstream
+
+        # Ensure the matrices are compatible
+        if a.nrow != out.nrow or a.ncol != b.nrow or b.ncol != out.ncol:
+            raise ValueError('Incompatible matrices for out = a*b')
+
+        # RocBLAS expects inputs to be column-major (or Fortran order in
+        # NumPy parlance).  However as C = A*B => C^T = (A*B)^T
+        # = (B^T)*(A^T) with a little trickery we can multiply our
+        # row-major matrices directly.
+        m, n, k = b.ncol, a.nrow, a.ncol
+        A, B, C = b, a, out
+
+        # Cache key
+        ckey = (A.dtype, alpha, beta, m, n, k, A.leaddim, B.leaddim, C.leaddim)
+
+        # Do not transpose either A or B
+        opA = opB = w.OPERATION_NONE
+
+        # α and β factors for C = α*(A*B) + β*C
+        if a.dtype == np.float64:
+            rtype = w.DATATYPE_F64_R
+            gemm_fn = w.rocblas_dgemm_64
+            alpha_ct, beta_ct = c_double(alpha), c_double(beta)
+        else:
+            rtype = w.DATATYPE_F32_R
+            gemm_fn = w.rocblas_sgemm_64
+            alpha_ct, beta_ct = c_float(alpha), c_float(beta)
+
+        def gemm(stream, algo):
+            w.rocblas_set_stream(h, stream)
+            if algo is None:
+                gemm_fn(h, opA, opB, m, n, k, byref(alpha_ct), A, A.leaddim, B,
+                        B.leaddim, byref(beta_ct), C, C.leaddim)
+            else:
+                w.rocblas_gemm_ex(
+                    h, opA, opB, m, n, k, byref(alpha_ct), A, rtype, A.leaddim,
+                    B, rtype, B.leaddim, byref(beta_ct), C, rtype, C.leaddim,
+                    C, rtype, C.leaddim, rtype, w.GEMM_ALGO_SOLUTION_INDEX,
+                    algo, 0
+                )
+
+        try:
+            algo, dt = self._mul_cache[ckey]
+        except KeyError:
+            ifac = self.backend.autotune_ifac
+
+            # Check if sizes fit in 32-bit for gemm_ex autotuning
+            if all(sz <= 2**31 - 1 for sz in ckey[3:]):
+                def get_solutions(sidx):
+                    size_ct = c_int(len(sidx) if sidx is not None else 0)
+                    w.rocblas_gemm_ex_get_solutions(
+                        h, opA, opB, m, n, k, byref(alpha_ct), A, rtype,
+                        A.leaddim, B, rtype, B.leaddim, byref(beta_ct), C,
+                        rtype, C.leaddim, C, rtype, C.leaddim, rtype,
+                        w.GEMM_ALGO_SOLUTION_INDEX, 0, sidx, byref(size_ct)
+                    )
+                    return size_ct.value
+
+                sidx = (c_int * min(get_solutions(None), self.nkerns - 1))()
+                get_solutions(sidx)
+                candidates = [None, *sidx]
+            else:
+                candidates = [None]
+
+            best_kern = None
+            with self._bench_data(save=[out], rand=[b]):
+                for algo in candidates:
+                    try:
+                        dt = self._benchmark(lambda s: gemm(s, algo))
+                        if best_kern is None or dt < ifac*best_kern[-1]:
+                            best_kern = algo, dt
+                    # In the case of invalid values raised by rocblas
+                    except RocBLASInvalidValue:
+                        pass
+
+            # Update the cache
+            self._mul_cache[ckey] = algo, dt = best_kern
+
+        class MulKernel(HIPKernel):
+            @nogc
+            def add_to_graph(self, graph, deps):
+                # Capture the execution of rocBLAS to obtain a graph
+                cstream.begin_capture()
+                self.run(cstream)
+                gnode = cstream.end_capture()
+
+                # Embed this graph in our main graph
+                return graph.graph.add_graph(gnode, deps)
+
+            def run(self, stream):
+                gemm(stream, algo)
+
+        return MulKernel(mats=[a, b, out], dt=dt)

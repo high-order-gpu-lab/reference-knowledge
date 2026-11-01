@@ -1,0 +1,3218 @@
+{
+  "status": "ok",
+  "message-type": "work-list",
+  "message-version": "1.0.0",
+  "message": {
+    "facets": {},
+    "total-results": 2592840,
+    "items": [
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              9,
+              15
+            ]
+          ],
+          "date-time": "2026-09-15T00:25:19Z",
+          "timestamp": 1789431919449,
+          "version": "build-2803163510"
+        },
+        "reference-count": 49,
+        "publisher": "SAGE Publications",
+        "issue": "2",
+        "license": [
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2022,
+                  7,
+                  7
+                ]
+              ],
+              "date-time": "2022-07-07T00:00:00Z",
+              "timestamp": 1657152000000
+            },
+            "content-version": "tdm",
+            "delay-in-days": 0,
+            "URL": "https://journals.sagepub.com/page/policies/text-and-data-mining-license"
+          }
+        ],
+        "funder": [
+          {
+            "DOI": "10.13039/501100022273",
+            "name": "Gauss Centre for Supercomputing e.V",
+            "doi-asserted-by": "crossref",
+            "award": [
+              "pr83te"
+            ],
+            "award-info": [
+              {
+                "award-number": [
+                  "pr83te"
+                ]
+              }
+            ],
+            "id": [
+              {
+                "id": "10.13039/501100022273",
+                "id-type": "DOI",
+                "asserted-by": "crossref"
+              }
+            ]
+          },
+          {
+            "name": "Competence Network for Scientific High Performance Computing in Bavaria",
+            "award": [
+              "High-order matrix-free finite element implementati"
+            ],
+            "award-info": [
+              {
+                "award-number": [
+                  "High-order matrix-free finite element implementati"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Competence Network for Scientific High Performance Computing in Bavaria",
+            "award": [
+              "High-order matrix-free finite element implementati"
+            ],
+            "award-info": [
+              {
+                "award-number": [
+                  "High-order matrix-free finite element implementati"
+                ]
+              }
+            ]
+          }
+        ],
+        "content-domain": {
+          "domain": [
+            "journals.sagepub.com"
+          ],
+          "crossmark-restriction": true
+        },
+        "short-container-title": [
+          "The International Journal of High Performance Computing Applications"
+        ],
+        "published-print": {
+          "date-parts": [
+            [
+              2023,
+              3
+            ]
+          ]
+        },
+        "abstract": "<jats:p>This work investigates a variant of the conjugate gradient (CG) method and embeds it into the context of high-order finite-element schemes with fast matrix-free operator evaluation and cheap preconditioners like the matrix diagonal. Relying on a data-dependency analysis and appropriate enumeration of degrees of freedom, we interleave the vector updates and inner products in a CG iteration with the matrix-vector product with only minor organizational overhead. As a result, around 90% of the vector entries of the three active vectors of the CG method are transferred from slow RAM memory exactly once per iteration, with all additional access hitting fast cache memory. Node-level performance analyses and scaling studies on up to 147k cores show that the CG method with the proposed performance optimizations is around two times faster than a standard CG solver as well as optimized pipelined CG and s-step CG methods for large sizes that exceed processor caches, and provides similar performance near the strong scaling limit.</jats:p>",
+        "DOI": "10.1177/10943420221107880",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2022,
+              7,
+              7
+            ]
+          ],
+          "date-time": "2022-07-07T21:22:15Z",
+          "timestamp": 1657228935000
+        },
+        "page": "61-81",
+        "update-policy": "https://doi.org/10.1177/sage-journals-update-policy",
+        "source": "Crossref",
+        "is-referenced-by-count": 17,
+        "title": [
+          "Enhancing data locality of the conjugate gradient method for high-order matrix-free finite-element implementations"
+        ],
+        "prefix": "10.1177",
+        "volume": "37",
+        "author": [
+          {
+            "ORCID": "https://orcid.org/0000-0001-8406-835X",
+            "authenticated-orcid": false,
+            "given": "Martin",
+            "family": "Kronbichler",
+            "sequence": "first",
+            "affiliation": [
+              {
+                "name": "Institute for Computational Mechanics, Technical University of Munich, Germany"
+              },
+              {
+                "name": "Department of Mathematics, University of Augsburg, Germany"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Dmytro",
+            "family": "Sashko",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "School of Mechanical and Mining Engineering, The University of Queensland, Saint Lucia, QLD, Australia"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Peter",
+            "family": "Munch",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Institute for Computational Mechanics, Technical University of Munich, Germany"
+              },
+              {
+                "name": "Institute of Material Systems Modeling, Helmholtz-Zentrum Hereon, Germany"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "member": "179",
+        "published-online": {
+          "date-parts": [
+            [
+              2022,
+              7,
+              7
+            ]
+          ]
+        },
+        "reference": [
+          {
+            "key": "bibr1-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/ICPP.2013.41"
+          },
+          {
+            "key": "bibr2-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1515/jnma-2020-0043"
+          },
+          {
+            "key": "bibr3-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.camwa.2020.02.022"
+          },
+          {
+            "key": "bibr4-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1007/978-3-030-47956-5_8"
+          },
+          {
+            "key": "bibr5-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1145/2049673.2049678"
+          },
+          {
+            "key": "bibr6-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1137/17m1148384"
+          },
+          {
+            "key": "bibr7-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1007/s10915-010-9396-8"
+          },
+          {
+            "key": "bibr8-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1137/10079163"
+          },
+          {
+            "key": "bibr9-10943420221107880",
+            "unstructured": "Chalmers N, Warburton T (2020) Portable high-order finite element Kernels I: streaming operations. preprint ArXiv: 2009.10917."
+          },
+          {
+            "key": "bibr10-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1177/1094342019842645"
+          },
+          {
+            "key": "bibr11-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/0377-0427(89)90045-9"
+          },
+          {
+            "key": "bibr12-10943420221107880",
+            "unstructured": "Cornelis J, Cools S, Vanroose W (2018) The communication-hiding conjugate gradient method with deep pipelines. ArXiv e-prints 1801.4728v3."
+          },
+          {
+            "key": "bibr13-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/TMAG.2010.2081662"
+          },
+          {
+            "key": "bibr14-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/0045-7825(90)90081-v"
+          },
+          {
+            "key": "bibr15-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1017/CBO9780511546792"
+          },
+          {
+            "key": "bibr16-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1137/0902001"
+          },
+          {
+            "key": "bibr17-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1145/3330345.3330358"
+          },
+          {
+            "key": "bibr18-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1002/fld.4511"
+          },
+          {
+            "key": "bibr19-10943420221107880",
+            "unstructured": "Fischer P, Kerkemeier S, Peplinski A, et al. (2021) Nek5000 Web page. https://nek5000.mcs.anl.gov"
+          },
+          {
+            "key": "bibr20-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1177/1094342020915762"
+          },
+          {
+            "key": "bibr21-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.parco.2013.06.001"
+          },
+          {
+            "key": "bibr22-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1137/18M1196285"
+          },
+          {
+            "key": "bibr23-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.cma.2020.113608"
+          },
+          {
+            "key": "bibr24-10943420221107880",
+            "volume-title": "Introduction to High Performance Computing for Scientists and Engineers",
+            "author": "Hager G",
+            "year": "2011"
+          },
+          {
+            "key": "bibr25-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1145/3424144"
+          },
+          {
+            "key": "bibr26-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1177/10943420211020803"
+          },
+          {
+            "key": "bibr27-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.jcp.2017.07.039"
+          },
+          {
+            "key": "bibr28-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1007/978-3-319-99654-7_7"
+          },
+          {
+            "key": "bibr29-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1177/1094342016671790"
+          },
+          {
+            "key": "bibr30-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.compfluid.2012.04.012"
+          },
+          {
+            "key": "bibr31-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1145/3325864"
+          },
+          {
+            "key": "bibr32-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1145/3322813"
+          },
+          {
+            "key": "bibr33-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1137/16M110455X"
+          },
+          {
+            "key": "bibr34-10943420221107880",
+            "first-page": "1",
+            "volume-title": "HPC ’17: Proceedings of the 25th High Performance Computing Symposium",
+            "author": "Ljungkvist K",
+            "year": "2017"
+          },
+          {
+            "key": "bibr35-10943420221107880",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Lockhart S, Bienz A, Gropp W, et al. (2022) Performance analysis and optimal node-aware communication for enlarged conjugate gradient methods. arXiv preprint arXiv:2203.06144.",
+            "DOI": "10.1145/3580003"
+          },
+          {
+            "key": "bibr36-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1145/3155290"
+          },
+          {
+            "key": "bibr37-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/TMAG.2013.2244861"
+          },
+          {
+            "key": "bibr38-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1137/19m1246523"
+          },
+          {
+            "key": "bibr39-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1145/3469720"
+          },
+          {
+            "key": "bibr40-10943420221107880",
+            "volume-title": "S-step and communication-avoiding iterative methods",
+            "author": "Naumov M",
+            "year": "2016"
+          },
+          {
+            "key": "bibr41-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/0021-9991(80)90005-4"
+          },
+          {
+            "key": "bibr42-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/0021-9991(84)90128-1"
+          },
+          {
+            "key": "bibr43-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1145/2907944"
+          },
+          {
+            "key": "bibr44-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1137/0906059"
+          },
+          {
+            "key": "bibr45-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/0021-9991(92)90182-X"
+          },
+          {
+            "key": "bibr46-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1177/1094342020945005"
+          },
+          {
+            "key": "bibr47-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1177/1094342018816368"
+          },
+          {
+            "key": "bibr48-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/ICPPW.2010.38"
+          },
+          {
+            "key": "bibr49-10943420221107880",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/SC.1999.10035"
+          }
+        ],
+        "container-title": [
+          "The International Journal of High Performance Computing Applications"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "https://journals.sagepub.com/doi/pdf/10.1177/10943420221107880",
+            "content-type": "application/pdf",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://journals.sagepub.com/doi/full-xml/10.1177/10943420221107880",
+            "content-type": "application/xml",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://journals.sagepub.com/doi/pdf/10.1177/10943420221107880",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2026,
+              4,
+              29
+            ]
+          ],
+          "date-time": "2026-04-29T08:17:22Z",
+          "timestamp": 1777450642000
+        },
+        "score": 42.3917,
+        "resource": {
+          "primary": {
+            "URL": "https://journals.sagepub.com/doi/10.1177/10943420221107880"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2022,
+              7,
+              7
+            ]
+          ]
+        },
+        "references-count": 49,
+        "journal-issue": {
+          "issue": "2",
+          "published-print": {
+            "date-parts": [
+              [
+                2023,
+                3
+              ]
+            ]
+          }
+        },
+        "alternative-id": [
+          "10.1177/10943420221107880"
+        ],
+        "URL": "https://doi.org/10.1177/10943420221107880",
+        "ISSN": [
+          "1094-3420",
+          "1741-2846"
+        ],
+        "issn-type": [
+          {
+            "value": "1094-3420",
+            "type": "print"
+          },
+          {
+            "value": "1741-2846",
+            "type": "electronic"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2022,
+              7,
+              7
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2025,
+              3,
+              18
+            ]
+          ],
+          "date-time": "2025-03-18T04:15:10Z",
+          "timestamp": 1742271310396,
+          "version": "3.40.1"
+        },
+        "posted": {
+          "date-parts": [
+            [
+              2025
+            ]
+          ]
+        },
+        "group-title": "SSRN",
+        "reference-count": 53,
+        "publisher": "Elsevier BV",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "DOI": "10.2139/ssrn.5159472",
+        "type": "posted-content",
+        "created": {
+          "date-parts": [
+            [
+              2025,
+              2,
+              28
+            ]
+          ],
+          "date-time": "2025-02-28T02:37:41Z",
+          "timestamp": 1740710261000
+        },
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Multi-Material Ale Remap with Interface Sharpening Using High-Order Matrix-Free Finite Element Methods"
+        ],
+        "prefix": "10.2139",
+        "author": [
+          {
+            "given": "Arturo",
+            "family": "Vargas",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Vladimir",
+            "family": "Tomov",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Michael  Aaron",
+            "family": "Skinner",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Veselin",
+            "family": "Dobrev",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Jan",
+            "family": "Nikl",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Tzanio",
+            "family": "Kolev",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Robert",
+            "family": "Rieben",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "78",
+        "reference": [
+          {
+            "key": "ref1",
+            "doi-asserted-by": "crossref",
+            "first-page": "32",
+            "DOI": "10.1137/17M1116453",
+            "article-title": "High-order multi-material ALE hydrodynamics",
+            "volume": "40",
+            "author": "R W Anderson",
+            "year": "2018",
+            "journal-title": "SIAM J. Sci. Comput"
+          },
+          {
+            "key": "ref2",
+            "doi-asserted-by": "crossref",
+            "first-page": "603",
+            "DOI": "10.1016/j.jcp.2016.07.001",
+            "article-title": "Arbitrary Lagrangian-Eulerian methods for modeling high-speed compressible multimaterial flows",
+            "volume": "322",
+            "author": "A J Barlow",
+            "year": "2016",
+            "journal-title": "J. Comput. Phys"
+          },
+          {
+            "key": "ref3",
+            "doi-asserted-by": "crossref",
+            "first-page": "606",
+            "DOI": "10.1137/120864672",
+            "article-title": "High order curvilinear finite element methods for Lagrangian hydrodynamics",
+            "volume": "34",
+            "author": "V A Dobrev",
+            "year": "2012",
+            "journal-title": "SIAM J. Sci. Comput"
+          },
+          {
+            "key": "ref4",
+            "doi-asserted-by": "crossref",
+            "first-page": "689",
+            "DOI": "10.1002/fld.4236",
+            "article-title": "Multi-material closure model for high-order finite element Lagrangian hydrodynamics",
+            "volume": "82",
+            "author": "V A Dobrev",
+            "year": "2016",
+            "journal-title": "Int. J. Numer. Methods Fluids"
+          },
+          {
+            "key": "ref5",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.1016/j.compfluid.2020.104577",
+            "article-title": "A matrix-free hyperviscosity formulation for high-order ALE hydrodynamics",
+            "volume": "205",
+            "author": "P D Bello-Maldonado",
+            "year": "2020",
+            "journal-title": "Computers & Fluids"
+          },
+          {
+            "key": "ref6",
+            "doi-asserted-by": "crossref",
+            "first-page": "249",
+            "DOI": "10.1002/fld.3965",
+            "article-title": "Monotonicity in high-order curvilinear finite element arbitrary Lagrangian-Eulerian remap",
+            "volume": "77",
+            "author": "R W Anderson",
+            "year": "2015",
+            "journal-title": "Int. J. Numer. Methods Fluids"
+          },
+          {
+            "key": "ref7",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.1017/CBO9780511546792",
+            "author": "M O Deville",
+            "year": "2002",
+            "journal-title": "High-Order Methods for Incompressible Fluid Flow"
+          },
+          {
+            "key": "ref8",
+            "doi-asserted-by": "crossref",
+            "first-page": "511",
+            "DOI": "10.1016/j.cma.2004.05.018",
+            "article-title": "Constrained interpolation (remap) of divergence-free fields",
+            "volume": "194",
+            "author": "P Bochev",
+            "year": "2005",
+            "journal-title": "Comput. Methods Appl. Mech. Engrg"
+          },
+          {
+            "key": "ref9",
+            "doi-asserted-by": "crossref",
+            "first-page": "5199",
+            "DOI": "10.1016/j.jcp.2011.03.017",
+            "article-title": "Formulation, analysis and numerical study of an optimization-based conservative interpolation (remap) of scalar fields for arbitrary Lagrangian-Eulerian methods",
+            "volume": "230",
+            "author": "P Bochev",
+            "year": "2011",
+            "journal-title": "J. Comput. Phys"
+          },
+          {
+            "key": "ref10",
+            "doi-asserted-by": "crossref",
+            "first-page": "268",
+            "DOI": "10.1016/j.jcp.2013.10.050",
+            "article-title": "Conservative multi-material remap for staggered multi-material arbitrary Lagrangian-Eulerian methods",
+            "volume": "258",
+            "author": "M Kucharik",
+            "year": "2014",
+            "journal-title": "J. Comput. Phys"
+          },
+          {
+            "key": "ref11",
+            "doi-asserted-by": "crossref",
+            "first-page": "38",
+            "DOI": "10.1016/0021-9991(73)90147-2",
+            "article-title": "Flux-corrected transport. I. SHASTA, A fluid transport algorithm that works",
+            "volume": "11",
+            "author": "J P Boris",
+            "year": "1973",
+            "journal-title": "J. Comput. Phys"
+          },
+          {
+            "key": "ref12",
+            "doi-asserted-by": "crossref",
+            "first-page": "101",
+            "DOI": "10.1016/0021-9991(79)90145-1",
+            "article-title": "Towards the ultimate conservative difference scheme",
+            "volume": "32",
+            "author": "B Vanleer",
+            "year": "1979",
+            "journal-title": "J. Comput. Phys"
+          },
+          {
+            "key": "ref13",
+            "doi-asserted-by": "crossref",
+            "first-page": "131",
+            "DOI": "10.1016/j.jcp.2004.01.015",
+            "article-title": "High-resolution FEM-TVD schemes based on a fully multidimensional flux limiter",
+            "volume": "198",
+            "author": "D Kuzmin",
+            "year": "2004",
+            "journal-title": "J. Comput. Phys"
+          },
+          {
+            "journal-title": "Flux-Corrected Transport, Principals, Algorithms and Applications",
+            "year": "2005",
+            "author": "D Kuzmin",
+            "key": "ref14"
+          },
+          {
+            "journal-title": "CALE93: The Eulerian interface advection scheme in CALE",
+            "year": "1994",
+            "author": "R Tipton",
+            "key": "ref15"
+          },
+          {
+            "key": "ref16",
+            "first-page": "273",
+            "article-title": "Time-dependent multi-material flow with large fluid distortion",
+            "volume": "24",
+            "author": "D Youngs",
+            "year": "1982",
+            "journal-title": "Num. Method Fluid Dyn"
+          },
+          {
+            "key": "ref17",
+            "doi-asserted-by": "crossref",
+            "first-page": "112",
+            "DOI": "10.1006/jcph.1998.5906",
+            "article-title": "Reconstructing volume tracking",
+            "volume": "141",
+            "author": "W J Rider",
+            "year": "1998",
+            "journal-title": "J. Comput. Phys"
+          },
+          {
+            "key": "ref18",
+            "doi-asserted-by": "crossref",
+            "first-page": "2792",
+            "DOI": "10.1016/j.jcp.2008.12.031",
+            "article-title": "Adaptive moment-of-fluid method",
+            "volume": "228",
+            "author": "H T Ahn",
+            "year": "2009",
+            "journal-title": "J. Comput. Phys"
+          },
+          {
+            "key": "ref19",
+            "doi-asserted-by": "crossref",
+            "first-page": "2432",
+            "DOI": "10.1016/j.jcp.2009.07.009",
+            "article-title": "A comparative study of interface reconstruction methods for multi-material ALE simulations",
+            "volume": "229",
+            "author": "S S M Kucharik",
+            "year": "2010",
+            "journal-title": "J. Comput. Phys"
+          },
+          {
+            "key": "ref20",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.1016/j.jcp.2023.111998",
+            "article-title": "Moments-based interface reconstruction, remap and advection",
+            "volume": "479",
+            "author": "M Shashkov",
+            "year": "2023",
+            "journal-title": "J. Comput. Phys"
+          },
+          {
+            "key": "ref21",
+            "article-title": "An adaptive moments-based interface reconstruction using intersection of the cell with one half-plane, two half-planes and a circle",
+            "author": "M Shashkov",
+            "year": "2023",
+            "journal-title": "J. Comput. Phys"
+          },
+          {
+            "key": "ref22",
+            "doi-asserted-by": "crossref",
+            "first-page": "7086",
+            "DOI": "10.1016/j.jcp.2011.06.012",
+            "article-title": "Revisit to the THINC scheme: A simple algebraic VOF algorithm",
+            "volume": "230",
+            "author": "F Xiao",
+            "year": "2011",
+            "journal-title": "J. Comput. Phys"
+          },
+          {
+            "key": "ref23",
+            "doi-asserted-by": "crossref",
+            "first-page": "326",
+            "DOI": "10.1016/j.jcp.2014.03.010",
+            "article-title": "An Eulerian interface sharpening algorithm for compressible two-phase flow: The algebraic THINC approach",
+            "volume": "268",
+            "author": "K.-M Shyue",
+            "year": "2014",
+            "journal-title": "J. Comput. Phys"
+          },
+          {
+            "key": "ref24",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.1016/j.compfluid.2020.104804",
+            "article-title": "Multi-material hydrodynamics with algebraic sharp interface capturing",
+            "volume": "215",
+            "author": "A K Pandare",
+            "year": "2021",
+            "journal-title": "Computers & Fluids"
+          },
+          {
+            "key": "ref25",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.2172/1814095",
+            "author": "J W Liu",
+            "year": "2021",
+            "journal-title": "Non-Diffusive Volume Advection with A High Order Interface Reconstruction Method"
+          },
+          {
+            "key": "ref26",
+            "doi-asserted-by": "crossref",
+            "first-page": "611",
+            "DOI": "10.1002/cpa.3160300506",
+            "article-title": "The artificial compression method for computation of shocks and contact discontinuities. I. Single conservation laws",
+            "volume": "30",
+            "author": "A Harten",
+            "year": "1977",
+            "journal-title": "Commun. Pure Appl. Math"
+          },
+          {
+            "key": "ref27",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.1016/j.parco.2021.102841",
+            "volume": "108",
+            "author": "A Abdelfattah",
+            "year": "2021",
+            "journal-title": "Parallel Comput"
+          },
+          {
+            "key": "ref28",
+            "doi-asserted-by": "crossref",
+            "first-page": "492",
+            "DOI": "10.1177/10943420221100262",
+            "article-title": "Matrix-free approaches for GPU acceleration of a high-order finite element hydrodynamics application using MFEM, Umpire, and RAJA",
+            "volume": "36",
+            "author": "A Vargas",
+            "year": "2022",
+            "journal-title": "Int. J. High Perform. Comput. Appl"
+          },
+          {
+            "key": "ref29",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.1016/j.cma.2019.112658",
+            "article-title": "Matrix-free subcell residual distribution for Bernstein finite element discretizations of linear advection equations",
+            "volume": "359",
+            "author": "H Hajduk",
+            "year": "2020",
+            "journal-title": "Comput. Methods Appl. Mech. Eng"
+          },
+          {
+            "key": "ref30",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.2172/1724326",
+            "author": "R Anderson",
+            "year": "2020",
+            "journal-title": "The Multiphysics on Advanced Platforms Project"
+          },
+          {
+            "key": "ref31",
+            "volume": "208",
+            "author": "V A Dobrev",
+            "year": "2020",
+            "journal-title": "Simulation-driven optimization of high-order meshes in ALE hydrodynamics"
+          },
+          {
+            "key": "ref32",
+            "doi-asserted-by": "crossref",
+            "first-page": "50",
+            "DOI": "10.1137/18M1167206",
+            "article-title": "The Target-Matrix Optimization Paradigm for high-order meshes",
+            "volume": "41",
+            "author": "V A Dobrev",
+            "year": "2019",
+            "journal-title": "SIAM J. Sci. Comput"
+          },
+          {
+            "journal-title": "Flux-Corrected Transport: Principles, Algorithms, and Applications, Scientific Computation",
+            "year": "2014",
+            "author": "D Kuzmin",
+            "key": "ref33"
+          },
+          {
+            "key": "ref34",
+            "doi-asserted-by": "crossref",
+            "first-page": "448",
+            "DOI": "10.1016/j.cam.2017.02.016",
+            "article-title": "An conservative anti-diffusion technique for the level set method",
+            "volume": "321",
+            "author": "J.-L Guermond",
+            "year": "2017",
+            "journal-title": "J. Comput. Appl. Math"
+          },
+          {
+            "key": "ref35",
+            "doi-asserted-by": "crossref",
+            "first-page": "262",
+            "DOI": "10.1016/j.jcp.2018.11.044",
+            "article-title": "A monolithic conservative level set method with built-in redistancing",
+            "volume": "379",
+            "author": "M Quezada De Luna",
+            "year": "2019",
+            "journal-title": "J. Comput. Phys"
+          },
+          {
+            "key": "ref36",
+            "doi-asserted-by": "crossref",
+            "first-page": "3670",
+            "DOI": "10.1137/18M1193992",
+            "article-title": "Non-conforming mesh refinement for high-order finite elements",
+            "volume": "41",
+            "author": "J Cerveny",
+            "year": "2019",
+            "journal-title": "SIAM J. Sci. Comput"
+          },
+          {
+            "key": "ref37",
+            "doi-asserted-by": "crossref",
+            "first-page": "578",
+            "DOI": "10.1177/10943420231175462",
+            "article-title": "End-to-end GPU acceleration of low-order-refined preconditioning for high-order finite element discretizations",
+            "volume": "37",
+            "author": "W Pazner",
+            "year": "2023",
+            "journal-title": "Int. J. High Perform. Comput. Appl"
+          },
+          {
+            "key": "ref38",
+            "article-title": "Accelerating high-order mesh optimization using finite element partial assembly on GPUs",
+            "volume": "474",
+            "author": "J.-S Camier",
+            "year": "2023",
+            "journal-title": "J. Comput. Phys"
+          },
+          {
+            "key": "ref39",
+            "doi-asserted-by": "crossref",
+            "first-page": "89",
+            "DOI": "10.1137/S003614450036757X",
+            "article-title": "Strong stability-preserving high-order time discretization methods",
+            "volume": "43",
+            "author": "S Gottlieb",
+            "year": "2001",
+            "journal-title": "SIAM Rev"
+          },
+          {
+            "key": "ref40",
+            "doi-asserted-by": "crossref",
+            "first-page": "3366",
+            "DOI": "10.1137/21M145793X",
+            "article-title": "Invariant-domain-preserving high-order time stepping: I. Explicit Runge-Kutta schemes",
+            "volume": "44",
+            "author": "A Ern",
+            "year": "2022",
+            "journal-title": "SIAM J. Sci. Comp"
+          },
+          {
+            "key": "ref41",
+            "doi-asserted-by": "crossref",
+            "first-page": "101",
+            "DOI": "10.1006/jcph.1996.0198",
+            "article-title": "A synchronous and iterative flux-correction formalism for coupled transport equations",
+            "volume": "128",
+            "author": "C Sch�r",
+            "year": "1996",
+            "journal-title": "J. Comput. Phys"
+          },
+          {
+            "key": "ref42",
+            "doi-asserted-by": "crossref",
+            "first-page": "102",
+            "DOI": "10.1016/j.jcp.2016.12.031",
+            "article-title": "High-order local maximum principle preserving (MPP) discontinuous Galerkin finite element method for the transport equation",
+            "volume": "334",
+            "author": "R W Anderson",
+            "year": "2017",
+            "journal-title": "J. Comput. Phys"
+          },
+          {
+            "journal-title": "High-Order Multi-Material ALE Hydrodynamics (Extended Version)",
+            "year": "2016",
+            "author": "R W Anderson",
+            "key": "ref43"
+          },
+          {
+            "key": "ref44",
+            "first-page": "128",
+            "volume": "175",
+            "author": "B P Howell",
+            "year": "2002",
+            "journal-title": "A free-Lagrange augmented Godunov method for the simulation of elastic-plastic solids"
+          },
+          {
+            "key": "ref45",
+            "first-page": "1062",
+            "article-title": "High-order curvilinear finite elements for elastic-plastic",
+            "volume": "257",
+            "author": "V A Dobrev",
+            "year": "2014",
+            "journal-title": "Lagrangian dynamics"
+          },
+          {
+            "key": "ref46",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.2172/1845653",
+            "author": "S Tomov",
+            "year": "2018",
+            "journal-title": "Performance tuning of CEED software and first wave apps"
+          },
+          {
+            "key": "ref47",
+            "doi-asserted-by": "crossref",
+            "first-page": "42",
+            "DOI": "10.1016/j.camwa.2020.06.009",
+            "article-title": "MFEM: A modular finite element methods library",
+            "volume": "81",
+            "author": "R Anderson",
+            "year": "2021",
+            "journal-title": "Computers & Mathematics with Applications"
+          },
+          {
+            "key": "ref48",
+            "first-page": "447",
+            "article-title": "High-performance finite elements with MFEM",
+            "volume": "38",
+            "author": "J Andrej",
+            "year": "2024",
+            "journal-title": "Int. J. High Perform. Comput. Appl"
+          },
+          {
+            "key": "ref49",
+            "doi-asserted-by": "crossref",
+            "first-page": "232",
+            "DOI": "10.1016/j.parco.2009.12.005",
+            "article-title": "Towards dense linear algebra for hybrid GPU accelerated manycore systems",
+            "volume": "36",
+            "author": "S Tomov",
+            "year": "2010",
+            "journal-title": "Parallel Computing"
+          },
+          {
+            "key": "ref50",
+            "first-page": "1",
+            "article-title": "Dense linear algebra solvers for multicore with GPU accelerators",
+            "author": "S Tomov",
+            "year": "2010",
+            "journal-title": "Proc. of the IEEE IPDPS'10"
+          },
+          {
+            "key": "ref51",
+            "first-page": "1",
+            "article-title": "Accelerating numerical dense linear algebra calculations with GPUs",
+            "author": "J Dongarra",
+            "year": "2014",
+            "journal-title": "Numerical Computations with GPUs"
+          },
+          {
+            "key": "ref52",
+            "first-page": "71",
+            "article-title": "RAJA: Portable performance for large-scale scientific applications",
+            "author": "D A Beckingsale",
+            "year": "2019",
+            "journal-title": "IEEE"
+          },
+          {
+            "key": "ref53",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.1115/1.4064493",
+            "article-title": "Performance portable GPU acceleration of a high-order finite element multiphysics application",
+            "volume": "146",
+            "author": "T Stitt",
+            "year": "2024",
+            "journal-title": "J. Fluids Eng"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2025,
+              3,
+              17
+            ]
+          ],
+          "date-time": "2025-03-17T18:52:25Z",
+          "timestamp": 1742237545000
+        },
+        "score": 35.61322,
+        "resource": {
+          "primary": {
+            "URL": "https://www.ssrn.com/abstract=5159472"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2025
+            ]
+          ]
+        },
+        "references-count": 53,
+        "URL": "https://doi.org/10.2139/ssrn.5159472",
+        "published": {
+          "date-parts": [
+            [
+              2025
+            ]
+          ]
+        },
+        "subtype": "preprint"
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2023,
+              10,
+              7
+            ]
+          ],
+          "date-time": "2023-10-07T17:14:02Z",
+          "timestamp": 1696698842624
+        },
+        "posted": {
+          "date-parts": [
+            [
+              2023
+            ]
+          ]
+        },
+        "group-title": "SSRN",
+        "reference-count": 0,
+        "publisher": "Elsevier BV",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "DOI": "10.2139/ssrn.4594538",
+        "type": "posted-content",
+        "created": {
+          "date-parts": [
+            [
+              2023,
+              10,
+              6
+            ]
+          ],
+          "date-time": "2023-10-06T11:18:32Z",
+          "timestamp": 1696591112000
+        },
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Fast Hardware-Aware Matrix-Free Algorithm for Higher-Order Finite-Element Discretized Matrix Multivector Products on Distributed Systems"
+        ],
+        "prefix": "10.2139",
+        "author": [
+          {
+            "given": "Gourab",
+            "family": "Panigrahi",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Nikhil",
+            "family": "Kodali",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Debashis",
+            "family": "Panda",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Phani",
+            "family": "Motamarri",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "78",
+        "deposited": {
+          "date-parts": [
+            [
+              2023,
+              10,
+              6
+            ]
+          ],
+          "date-time": "2023-10-06T11:18:32Z",
+          "timestamp": 1696591112000
+        },
+        "score": 35.215725,
+        "resource": {
+          "primary": {
+            "URL": "https://www.ssrn.com/abstract=4594538"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2023
+            ]
+          ]
+        },
+        "references-count": 0,
+        "URL": "https://doi.org/10.2139/ssrn.4594538",
+        "published": {
+          "date-parts": [
+            [
+              2023
+            ]
+          ]
+        },
+        "subtype": "preprint"
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              7,
+              1
+            ]
+          ],
+          "date-time": "2026-07-01T23:04:15Z",
+          "timestamp": 1782947055144,
+          "version": "3.54.5"
+        },
+        "reference-count": 29,
+        "publisher": "SAGE Publications",
+        "issue": "4",
+        "license": [
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2022,
+                  5,
+                  25
+                ]
+              ],
+              "date-time": "2022-05-25T00:00:00Z",
+              "timestamp": 1653436800000
+            },
+            "content-version": "tdm",
+            "delay-in-days": 0,
+            "URL": "https://journals.sagepub.com/page/policies/text-and-data-mining-license"
+          }
+        ],
+        "content-domain": {
+          "domain": [
+            "journals.sagepub.com"
+          ],
+          "crossmark-restriction": true
+        },
+        "short-container-title": [
+          "The International Journal of High Performance Computing Applications"
+        ],
+        "published-print": {
+          "date-parts": [
+            [
+              2022,
+              7
+            ]
+          ]
+        },
+        "abstract": "<jats:p>With the introduction of advanced heterogeneous computing architectures based on GPU accelerators, large-scale production codes have had to rethink their numerical algorithms and incorporate new programming models and memory management strategies in order to run efficiently on the latest supercomputers. In this work we discuss our co-design strategy to address these challenges and achieve performance and portability with MARBL, a next-generation multi-physics code in development at Lawrence Livermore National Laboratory. We present a two-fold approach, wherein new hardware is used to motivate both new algorithms and new abstraction layers, resulting in a single source application code suitable for a variety of platforms. Focusing on MARBL’s ALE hydrodynamics package, we demonstrate scalability on different platforms and highlight that many of our innovations have been contributed back to open-source software libraries, such as MFEM (finite element algorithms) and RAJA (kernel abstractions).</jats:p>",
+        "DOI": "10.1177/10943420221100262",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2022,
+              5,
+              25
+            ]
+          ],
+          "date-time": "2022-05-25T22:16:57Z",
+          "timestamp": 1653517017000
+        },
+        "page": "492-509",
+        "update-policy": "https://doi.org/10.1177/sage-journals-update-policy",
+        "source": "Crossref",
+        "is-referenced-by-count": 12,
+        "title": [
+          "Matrix-free approaches for GPU acceleration of a high-order finite element hydrodynamics application using MFEM, Umpire, and RAJA"
+        ],
+        "prefix": "10.1177",
+        "volume": "36",
+        "author": [
+          {
+            "ORCID": "https://orcid.org/0000-0001-8001-5517",
+            "authenticated-orcid": false,
+            "given": "Arturo",
+            "family": "Vargas",
+            "sequence": "first",
+            "affiliation": [
+              {
+                "name": "Weapons and Complex Integration, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Thomas M",
+            "family": "Stitt",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Weapons and Complex Integration, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0001-6649-8022",
+            "authenticated-orcid": false,
+            "given": "Kenneth",
+            "family": "Weiss",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Weapons and Complex Integration, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Vladimir Z",
+            "family": "Tomov",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Jean-Sylvain",
+            "family": "Camier",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0002-2810-3090",
+            "authenticated-orcid": false,
+            "given": "Tzanio",
+            "family": "Kolev",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Robert N",
+            "family": "Rieben",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Weapons and Complex Integration, Lawrence Livermore National Laboratory, Livermore, CA, USA"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "member": "179",
+        "published-online": {
+          "date-parts": [
+            [
+              2022,
+              5,
+              25
+            ]
+          ]
+        },
+        "reference": [
+          {
+            "key": "bibr1-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.camwa.2020.06.009"
+          },
+          {
+            "key": "bibr2-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.2172/1724326"
+          },
+          {
+            "key": "bibr3-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1002/fld.3965"
+          },
+          {
+            "key": "bibr4-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1137/17M1116453"
+          },
+          {
+            "key": "bibr5-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.jcp.2016.07.001"
+          },
+          {
+            "key": "bibr6-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/P3HPC49587.2019.00012"
+          },
+          {
+            "issue": "3",
+            "key": "bibr7-10943420221100262",
+            "first-page": "00",
+            "volume": "64",
+            "author": "Beckingsale D",
+            "year": "2019",
+            "journal-title": "IBM Journal of Research and Development"
+          },
+          {
+            "key": "bibr8-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.compfluid.2020.104577"
+          },
+          {
+            "key": "bibr9-10943420221100262",
+            "volume-title": "Center for Efficient Exascale Discretizations, Exascale Computing Project",
+            "author": "CEED",
+            "year": "2021"
+          },
+          {
+            "key": "bibr10-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.2172/1724326"
+          },
+          {
+            "key": "bibr11-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1137/18M1167206"
+          },
+          {
+            "key": "bibr12-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1137/120864672"
+          },
+          {
+            "key": "bibr13-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.compfluid.2012.06.004"
+          },
+          {
+            "key": "bibr14-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.compfluid.2020.104602"
+          },
+          {
+            "key": "bibr15-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1002/fld.4236"
+          },
+          {
+            "key": "bibr16-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.compfluid.2020.104541"
+          },
+          {
+            "key": "bibr17-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.jcp.2010.04.019"
+          },
+          {
+            "key": "bibr18-10943420221100262",
+            "volume-title": "Copy-Hiding Array Abstraction To Automatically Migrate Data Between Memory Spaces",
+            "author": "Jones H",
+            "year": "2021"
+          },
+          {
+            "key": "bibr19-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1007/s00366-011-0230-1"
+          },
+          {
+            "key": "bibr20-10943420221100262",
+            "volume-title": "Concepts and Meta-Programming Library",
+            "author": "Kunen A",
+            "year": "2018"
+          },
+          {
+            "key": "bibr21-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1007/978-94-007-4038-9"
+          },
+          {
+            "key": "bibr22-10943420221100262",
+            "volume-title": "Laghos: High-order Lagrangian Hydrodynamics Miniapp",
+            "author": "Laghos",
+            "year": "2021"
+          },
+          {
+            "key": "bibr23-10943420221100262",
+            "volume-title": "OCCA: A Unified Approach to Multi-Threading Languages",
+            "author": "Medina DS",
+            "year": "2014"
+          },
+          {
+            "key": "bibr24-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.11578/dc.20171025.1248"
+          },
+          {
+            "key": "bibr25-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1145/2907944"
+          },
+          {
+            "key": "bibr26-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/TPDS.2021.3097283"
+          },
+          {
+            "key": "bibr27-10943420221100262",
+            "unstructured": "Walters W (2008) A brief history of shaped charges. In: 24th International Symposium on Ballistics, New Orleans, LA, 2008, pp. 3–15."
+          },
+          {
+            "key": "bibr28-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/IPDPSW.2016.50"
+          },
+          {
+            "key": "bibr29-10943420221100262",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1177/10943420211022811"
+          }
+        ],
+        "container-title": [
+          "The International Journal of High Performance Computing Applications"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "https://journals.sagepub.com/doi/pdf/10.1177/10943420221100262",
+            "content-type": "application/pdf",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://journals.sagepub.com/doi/full-xml/10.1177/10943420221100262",
+            "content-type": "application/xml",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://journals.sagepub.com/doi/pdf/10.1177/10943420221100262",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2026,
+              4,
+              29
+            ]
+          ],
+          "date-time": "2026-04-29T08:17:21Z",
+          "timestamp": 1777450641000
+        },
+        "score": 34.976337,
+        "resource": {
+          "primary": {
+            "URL": "https://journals.sagepub.com/doi/10.1177/10943420221100262"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2022,
+              5,
+              25
+            ]
+          ]
+        },
+        "references-count": 29,
+        "journal-issue": {
+          "issue": "4",
+          "published-print": {
+            "date-parts": [
+              [
+                2022,
+                7
+              ]
+            ]
+          }
+        },
+        "alternative-id": [
+          "10.1177/10943420221100262"
+        ],
+        "URL": "https://doi.org/10.1177/10943420221100262",
+        "ISSN": [
+          "1094-3420",
+          "1741-2846"
+        ],
+        "issn-type": [
+          {
+            "value": "1094-3420",
+            "type": "print"
+          },
+          {
+            "value": "1741-2846",
+            "type": "electronic"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2022,
+              5,
+              25
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              4,
+              29
+            ]
+          ],
+          "date-time": "2026-04-29T12:27:56Z",
+          "timestamp": 1777465676883,
+          "version": "3.51.4"
+        },
+        "reference-count": 29,
+        "publisher": "Elsevier BV",
+        "license": [
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2022,
+                  5,
+                  1
+                ]
+              ],
+              "date-time": "2022-05-01T00:00:00Z",
+              "timestamp": 1651363200000
+            },
+            "content-version": "tdm",
+            "delay-in-days": 0,
+            "URL": "https://www.elsevier.com/tdm/userlicense/1.0/"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2022,
+                  5,
+                  1
+                ]
+              ],
+              "date-time": "2022-05-01T00:00:00Z",
+              "timestamp": 1651363200000
+            },
+            "content-version": "tdm",
+            "delay-in-days": 0,
+            "URL": "https://www.elsevier.com/legal/tdmrep-license"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2023,
+                  3,
+                  23
+                ]
+              ],
+              "date-time": "2023-03-23T00:00:00Z",
+              "timestamp": 1679529600000
+            },
+            "content-version": "am",
+            "delay-in-days": 326,
+            "URL": "http://www.elsevier.com/open-access/userlicense/1.0/"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2022,
+                  5,
+                  1
+                ]
+              ],
+              "date-time": "2022-05-01T00:00:00Z",
+              "timestamp": 1651363200000
+            },
+            "content-version": "stm-asf",
+            "delay-in-days": 0,
+            "URL": "https://doi.org/10.15223/policy-017"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2022,
+                  5,
+                  1
+                ]
+              ],
+              "date-time": "2022-05-01T00:00:00Z",
+              "timestamp": 1651363200000
+            },
+            "content-version": "stm-asf",
+            "delay-in-days": 0,
+            "URL": "https://doi.org/10.15223/policy-037"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2022,
+                  5,
+                  1
+                ]
+              ],
+              "date-time": "2022-05-01T00:00:00Z",
+              "timestamp": 1651363200000
+            },
+            "content-version": "stm-asf",
+            "delay-in-days": 0,
+            "URL": "https://doi.org/10.15223/policy-012"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2022,
+                  5,
+                  1
+                ]
+              ],
+              "date-time": "2022-05-01T00:00:00Z",
+              "timestamp": 1651363200000
+            },
+            "content-version": "stm-asf",
+            "delay-in-days": 0,
+            "URL": "https://doi.org/10.15223/policy-029"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2022,
+                  5,
+                  1
+                ]
+              ],
+              "date-time": "2022-05-01T00:00:00Z",
+              "timestamp": 1651363200000
+            },
+            "content-version": "stm-asf",
+            "delay-in-days": 0,
+            "URL": "https://doi.org/10.15223/policy-004"
+          }
+        ],
+        "content-domain": {
+          "domain": [
+            "elsevier.com",
+            "sciencedirect.com"
+          ],
+          "crossmark-restriction": true
+        },
+        "short-container-title": [
+          "Computers &amp; Fluids"
+        ],
+        "published-print": {
+          "date-parts": [
+            [
+              2022,
+              5
+            ]
+          ]
+        },
+        "DOI": "10.1016/j.compfluid.2022.105408",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2022,
+              3,
+              17
+            ]
+          ],
+          "date-time": "2022-03-17T21:25:02Z",
+          "timestamp": 1647552302000
+        },
+        "page": "105408",
+        "update-policy": "https://doi.org/10.1016/elsevier_cm_policy",
+        "source": "Crossref",
+        "is-referenced-by-count": 4,
+        "special_numbering": "C",
+        "title": [
+          "A fast matrix-free approach to the high-order control volume finite element method with application to low-Mach flow"
+        ],
+        "prefix": "10.1016",
+        "volume": "239",
+        "author": [
+          {
+            "given": "Robert",
+            "family": "Knaus",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "78",
+        "reference": [
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b1",
+            "doi-asserted-by": "crossref",
+            "first-page": "532",
+            "DOI": "10.1016/j.jcp.2019.04.063",
+            "article-title": "Error scaling of large-eddy simulation in the outer region of wall-bounded turbulence",
+            "volume": "392",
+            "author": "Lozano-Durán",
+            "year": "2019",
+            "journal-title": "J Comput Phys"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b2",
+            "first-page": "195",
+            "article-title": "The representation of small-scale turbulence in numerical simulation experiments",
+            "author": "Lilly",
+            "year": "1967",
+            "journal-title": "IBM Form"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b3",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.1088/1742-6596/1452/1/012071",
+            "article-title": "Exawind: A multifidelity modeling and simulation environment for wind energy",
+            "volume": "1452",
+            "author": "Sprague",
+            "year": "2020",
+            "journal-title": "J Phys Conf Ser"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b4",
+            "series-title": "Studying turbulence using numerical simulation databases - XV",
+            "first-page": "387",
+            "article-title": "A comparison between low-order and higher-order low-mach discretization approaches",
+            "author": "Domino",
+            "year": "2014"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b5",
+            "doi-asserted-by": "crossref",
+            "first-page": "331",
+            "DOI": "10.1016/j.jcp.2018.01.007",
+            "article-title": "Design-order, non-conformal low-mach fluid algorithms using a hybrid CVFEM/DG approach",
+            "volume": "349",
+            "author": "Domino",
+            "year": "2018",
+            "journal-title": "J Comput Phys"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b6",
+            "series-title": "Numerical methods for partial differential equations",
+            "first-page": "273",
+            "article-title": "Spectral methods for problems in complex geometrics",
+            "author": "Orszag",
+            "year": "1979"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b7",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.1002/0470091355.ecm010",
+            "article-title": "Finite volume methods: Foundation and analysis",
+            "author": "Barth",
+            "year": "2004",
+            "journal-title": "Encycl Comput Mech"
+          },
+          {
+            "issue": "4",
+            "key": "10.1016/j.compfluid.2022.105408_b8",
+            "doi-asserted-by": "crossref",
+            "first-page": "2030",
+            "DOI": "10.1137/140963121",
+            "article-title": "L2 Error estimates for a class of any order finite volume schemes over quadrilateral meshes",
+            "volume": "53",
+            "author": "Lin",
+            "year": "2015",
+            "journal-title": "SIAM J Numer Anal"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b9",
+            "doi-asserted-by": "crossref",
+            "first-page": "47",
+            "DOI": "10.4208/nmtma.OA-2020-0027",
+            "article-title": "On the construction and analysis of finite volume element schemes with optimal L2 convergence rate",
+            "volume": "14",
+            "author": "Wang",
+            "year": "2021",
+            "journal-title": "Numer Math Theory Methods Appl"
+          },
+          {
+            "issue": "5",
+            "key": "10.1016/j.compfluid.2022.105408_b10",
+            "doi-asserted-by": "crossref",
+            "first-page": "2729",
+            "DOI": "10.1137/140988486",
+            "article-title": "L2 Error estimates for high order finite volume methods on triangular meshes",
+            "volume": "54",
+            "author": "Wang",
+            "year": "2016",
+            "journal-title": "SIAM J Numer Anal"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b11",
+            "series-title": "Spectral and high order methods for partial differential equations",
+            "first-page": "199",
+            "article-title": "Edge functions for spectral element methods",
+            "author": "Gerritsma",
+            "year": "2011"
+          },
+          {
+            "issue": "3",
+            "key": "10.1016/j.compfluid.2022.105408_b12",
+            "doi-asserted-by": "crossref",
+            "first-page": "1226",
+            "DOI": "10.1137/S0036142902406302",
+            "article-title": "On the construction and analysis of high order locally conservative finite volume-type methods for one-dimensional elliptic problems",
+            "volume": "42",
+            "author": "Plexousakis",
+            "year": "2004",
+            "journal-title": "SIAM J Numer Anal"
+          },
+          {
+            "issue": "3–4",
+            "key": "10.1016/j.compfluid.2022.105408_b13",
+            "doi-asserted-by": "crossref",
+            "first-page": "185",
+            "DOI": "10.1080/00102208508960376",
+            "article-title": "The derivation and numerical solution of the equations for zero mach number combustion",
+            "volume": "42",
+            "author": "Majda",
+            "year": "1985",
+            "journal-title": "Combus Sci Technol"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b14",
+            "series-title": "Proceedings of the 2006 summer program, center for turbulence research. Vol. 11",
+            "first-page": "163",
+            "article-title": "Toward verification of formal time accuracy for a family of approximate projection methods using the method of manufactured solutions",
+            "author": "Domino",
+            "year": "2006"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b15",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Moen C, Domino S. A Review of Splitting Errors for Approximate Projection Methods. In: 16th AIAA computational fluid dynamics conference. 2003, p. 4236.",
+            "DOI": "10.2514/6.2003-4236"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b16",
+            "series-title": "The trilinos project website",
+            "author": "The Trilinos Project Team",
+            "year": "2020"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b17",
+            "series-title": "MueLu user’s guide 1.0",
+            "author": "Prokopenko",
+            "year": "2014"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b18",
+            "series-title": "Spectral methods: fundamentals in single domains",
+            "author": "Canuto",
+            "year": "2007"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b19",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.1016/j.compfluid.2020.104541",
+            "article-title": "High-order matrix-free incompressible flow solvers with gpu acceleration and low-order refined preconditioners",
+            "volume": "203",
+            "author": "Franco",
+            "year": "2020",
+            "journal-title": "Comput & Fluids"
+          },
+          {
+            "issue": "8",
+            "key": "10.1016/j.compfluid.2022.105408_b20",
+            "doi-asserted-by": "crossref",
+            "first-page": "811",
+            "DOI": "10.1002/fld.3767",
+            "article-title": "High-order CFD methods: current status and perspective",
+            "volume": "72",
+            "author": "Wang",
+            "year": "2013",
+            "journal-title": "Internat J Numer Methods Fluids"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b21",
+            "unstructured": "Diosady L, Murman S. Case 3.3: Taylor green vortex evolution. In: Case summary for 3rd international workshop on higher-order CFD methods. 2015."
+          },
+          {
+            "issue": "3–4",
+            "key": "10.1016/j.compfluid.2022.105408_b22",
+            "doi-asserted-by": "crossref",
+            "first-page": "221",
+            "DOI": "10.1007/s00162-011-0253-7",
+            "article-title": "On the accuracy of high-order discretizations for underresolved turbulence simulations",
+            "volume": "27",
+            "author": "Gassner",
+            "year": "2013",
+            "journal-title": "Theor Comput Fluid Dyn"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b23",
+            "doi-asserted-by": "crossref",
+            "first-page": "265",
+            "DOI": "10.1016/j.jcp.2017.09.033",
+            "article-title": "A stopping criterion for the iterative solution of partial differential equations",
+            "volume": "352",
+            "author": "Rao",
+            "year": "2018",
+            "journal-title": "J Comput Phys"
+          },
+          {
+            "issue": "4",
+            "key": "10.1016/j.compfluid.2022.105408_b24",
+            "doi-asserted-by": "crossref",
+            "first-page": "943",
+            "DOI": "10.1063/1.869966",
+            "article-title": "Direct numerical simulation of turbulent channel flow up to Reτ=590",
+            "volume": "11",
+            "author": "Moser",
+            "year": "1999",
+            "journal-title": "Phys Fluids"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b25",
+            "series-title": "4Th international workshop on high-order cfd methods",
+            "author": "Committee",
+            "year": "2016"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b26",
+            "doi-asserted-by": "crossref",
+            "first-page": "655",
+            "DOI": "10.1016/j.compfluid.2018.12.002",
+            "article-title": "An assessment of atypical mesh topologies for low-mach large-eddy simulation",
+            "volume": "179",
+            "author": "Domino",
+            "year": "2019",
+            "journal-title": "Comput & Fluids"
+          },
+          {
+            "key": "10.1016/j.compfluid.2022.105408_b27",
+            "series-title": "Numerical methods for fluid dynamics VI",
+            "first-page": "293",
+            "article-title": "Wall-adapting local eddy-viscosity models for simulations in complex geometries",
+            "author": "Ducros",
+            "year": "1998"
+          },
+          {
+            "issue": "1",
+            "key": "10.1016/j.compfluid.2022.105408_b28",
+            "doi-asserted-by": "crossref",
+            "first-page": "65",
+            "DOI": "10.1007/s10915-010-9449-z",
+            "article-title": "Error-landscape assessment of large-eddy simulations: a review of the methodology",
+            "volume": "49",
+            "author": "Meyers",
+            "year": "2011",
+            "journal-title": "J Sci Comput"
+          },
+          {
+            "issue": "4",
+            "key": "10.1016/j.compfluid.2022.105408_b29",
+            "doi-asserted-by": "crossref",
+            "first-page": "735",
+            "DOI": "10.1177/1094342018816368",
+            "article-title": "Acceleration of tensor-product operations for high-order finite element methods",
+            "volume": "33",
+            "author": "Świrydowicz",
+            "year": "2019",
+            "journal-title": "Int J High Perform Comput Appl"
+          }
+        ],
+        "container-title": [
+          "Computers &amp; Fluids"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "https://api.elsevier.com/content/article/PII:S0045793022000755?httpAccept=text/xml",
+            "content-type": "text/xml",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://api.elsevier.com/content/article/PII:S0045793022000755?httpAccept=text/plain",
+            "content-type": "text/plain",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2025,
+              9,
+              23
+            ]
+          ],
+          "date-time": "2025-09-23T16:12:41Z",
+          "timestamp": 1758643961000
+        },
+        "score": 34.37324,
+        "resource": {
+          "primary": {
+            "URL": "https://linkinghub.elsevier.com/retrieve/pii/S0045793022000755"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2022,
+              5
+            ]
+          ]
+        },
+        "references-count": 29,
+        "alternative-id": [
+          "S0045793022000755"
+        ],
+        "URL": "https://doi.org/10.1016/j.compfluid.2022.105408",
+        "ISSN": [
+          "0045-7930"
+        ],
+        "issn-type": [
+          {
+            "value": "0045-7930",
+            "type": "print"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2022,
+              5
+            ]
+          ]
+        },
+        "assertion": [
+          {
+            "value": "Elsevier",
+            "name": "publisher",
+            "label": "This article is maintained by"
+          },
+          {
+            "value": "A fast matrix-free approach to the high-order control volume finite element method with application to low-Mach flow",
+            "name": "articletitle",
+            "label": "Article Title"
+          },
+          {
+            "value": "Computers & Fluids",
+            "name": "journaltitle",
+            "label": "Journal Title"
+          },
+          {
+            "value": "https://doi.org/10.1016/j.compfluid.2022.105408",
+            "name": "articlelink",
+            "label": "CrossRef DOI link to publisher maintained version"
+          },
+          {
+            "value": "article",
+            "name": "content_type",
+            "label": "Content Type"
+          },
+          {
+            "value": "© 2022 Elsevier Ltd. All rights reserved.",
+            "name": "copyright",
+            "label": "Copyright"
+          }
+        ],
+        "article-number": "105408"
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2023,
+              3,
+              3
+            ]
+          ],
+          "date-time": "2023-03-03T06:58:36Z",
+          "timestamp": 1677826716972
+        },
+        "reference-count": 0,
+        "publisher": "CIMNE",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "DOI": "10.23967/wccm-eccomas.2020.302",
+        "type": "proceedings-article",
+        "created": {
+          "date-parts": [
+            [
+              2021,
+              3,
+              22
+            ]
+          ],
+          "date-time": "2021-03-22T19:00:08Z",
+          "timestamp": 1616439608000
+        },
+        "source": "Crossref",
+        "is-referenced-by-count": 1,
+        "title": [
+          "Simulating Compressible and Nearly-Incompressible Linear Elasticity Using an Efficient Parallel Scalable Matrix-Free High-Order Finite Element Method"
+        ],
+        "prefix": "10.23967",
+        "author": [
+          {
+            "given": "A.",
+            "family": "Mehraban",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "J.",
+            "family": "Thompson",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "J.",
+            "family": "Brown",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "R.",
+            "family": "Regueiro",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "V.",
+            "family": "Barra",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "H.",
+            "family": "Tufo",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "10055",
+        "published-online": {
+          "date-parts": [
+            [
+              2021
+            ]
+          ]
+        },
+        "event": {
+          "name": "14th WCCM-ECCOMAS Congress",
+          "acronym": "WCCM-ECCOMAS 2020"
+        },
+        "container-title": [
+          "14th WCCM-ECCOMAS Congress"
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2021,
+              4,
+              19
+            ]
+          ],
+          "date-time": "2021-04-19T07:58:34Z",
+          "timestamp": 1618819114000
+        },
+        "score": 33.979828,
+        "resource": {
+          "primary": {
+            "URL": "https://www.scipedia.com/public/Mehraban_et_al_2021a"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2021
+            ]
+          ]
+        },
+        "references-count": 0,
+        "URL": "https://doi.org/10.23967/wccm-eccomas.2020.302",
+        "published": {
+          "date-parts": [
+            [
+              2021
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2024,
+              9,
+              10
+            ]
+          ],
+          "date-time": "2024-09-10T12:41:46Z",
+          "timestamp": 1725972106095
+        },
+        "edition-number": "1",
+        "reference-count": 1,
+        "publisher": "CRC Press",
+        "isbn-type": [
+          {
+            "type": "electronic",
+            "value": "9781315215624"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2017,
+              4,
+              28
+            ]
+          ]
+        },
+        "DOI": "10.1201/b15558-9",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2013,
+              9,
+              19
+            ]
+          ],
+          "date-time": "2013-09-19T17:10:03Z",
+          "timestamp": 1379610603000
+        },
+        "page": "349-374",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Matrix-Free Iterative Solution Procedure for Finite Element Problems"
+        ],
+        "prefix": "10.1201",
+        "member": "301",
+        "reference": [
+          {
+            "key": "ref9",
+            "unstructured": "Bastos J.P.A. . Is it possible to solve a FEM static case without assembling and storing an Ax = b matrix system? Int Compumag Soc. Newsl. 2009;16(1):4–10."
+          }
+        ],
+        "container-title": [
+          "Magnetic Materials and 3D Finite Element Modeling"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "http://www.crcnetbase.com/doi/pdf/10.1201/b15558-9",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2021,
+              4,
+              5
+            ]
+          ],
+          "date-time": "2021-04-05T15:48:47Z",
+          "timestamp": 1617637727000
+        },
+        "score": 33.669167,
+        "resource": {
+          "primary": {
+            "URL": "https://www.taylorfrancis.com/books/9781466592520/chapters/10.1201/b15558-9"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2017,
+              4,
+              28
+            ]
+          ]
+        },
+        "ISBN": [
+          "9781315215624"
+        ],
+        "references-count": 1,
+        "URL": "https://doi.org/10.1201/b15558-9",
+        "published": {
+          "date-parts": [
+            [
+              2017,
+              4,
+              28
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              8,
+              18
+            ]
+          ],
+          "date-time": "2026-08-18T03:50:14Z",
+          "timestamp": 1787025014520,
+          "version": "build-2736575974"
+        },
+        "reference-count": 0,
+        "publisher": "Society for Modeling and Simulation International (SCS)",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2017
+            ]
+          ]
+        },
+        "DOI": "10.22360/springsim.2017.hpc.004",
+        "type": "proceedings-article",
+        "created": {
+          "date-parts": [
+            [
+              2017,
+              6,
+              30
+            ]
+          ],
+          "date-time": "2017-06-30T17:23:28Z",
+          "timestamp": 1498843408000
+        },
+        "source": "Crossref",
+        "is-referenced-by-count": 1,
+        "title": [
+          "Matrix-Free Finite-Element Computations On Graphics Processors with Adaptively Refined Unstructured Meshes"
+        ],
+        "prefix": "10.22360",
+        "member": "9628",
+        "published-online": {
+          "date-parts": [
+            [
+              2017
+            ]
+          ]
+        },
+        "event": {
+          "name": "2017 Spring Simulation Multi-Conference",
+          "location": "Virginia Beach, VA, USA",
+          "acronym": "SpringSim17",
+          "start": {
+            "date-parts": [
+              [
+                2017,
+                4,
+                23
+              ]
+            ]
+          },
+          "end": {
+            "date-parts": [
+              [
+                2017,
+                4,
+                26
+              ]
+            ]
+          }
+        },
+        "container-title": [
+          "25th High Performance Computing Symposium (HPC 2017)"
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2017,
+              6,
+              30
+            ]
+          ],
+          "date-time": "2017-06-30T17:23:28Z",
+          "timestamp": 1498843408000
+        },
+        "score": 33.269554,
+        "resource": {
+          "primary": {
+            "URL": "http://dl.acm.org/citation.cfm?id=3108097"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2017
+            ]
+          ]
+        },
+        "references-count": 0,
+        "URL": "https://doi.org/10.22360/springsim.2017.hpc.004",
+        "published": {
+          "date-parts": [
+            [
+              2017
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2025,
+              7,
+              30
+            ]
+          ],
+          "date-time": "2025-07-30T13:06:45Z",
+          "timestamp": 1753880805679,
+          "version": "3.41.2"
+        },
+        "reference-count": 0,
+        "publisher": "American Society of Mechanical Engineers",
+        "license": [
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2021,
+                  11,
+                  1
+                ]
+              ],
+              "date-time": "2021-11-01T00:00:00Z",
+              "timestamp": 1635724800000
+            },
+            "content-version": "vor",
+            "delay-in-days": 0,
+            "URL": "https://www.asme.org/publications-submissions/publishing-information/legal-policies"
+          }
+        ],
+        "content-domain": {
+          "domain": [
+            "asmedigitalcollection.asme.org"
+          ],
+          "crossmark-restriction": true
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2021,
+              11,
+              1
+            ]
+          ]
+        },
+        "abstract": "<jats:title>Abstract</jats:title>\n               <jats:p>The paper investigates matrix-free high-order implementation of finite element discretization with p-multigrid preconditioning for the compressible Neo-Hookean hyperelasticity problem at finite strain on unstructured 3D meshes in parallel. We consider two formulations for the matrix-free action of the Jacobian in Neo-Hookean hyperelasticity: (i) working in the reference configuration to define the second Piola-Kirchhoff tensor as a function of the Green-Lagrange strain S(E) (or equivalently, the right Cauchy-Green tensor C = I+2E), and (ii) working in the current configuration to define the Kirchhoff stress in terms of the left Cauchy-Green tensor τ(b). The proposed efficient algorithm utilizes the Portable, Extensible Toolkit for Scientific Computation (PETSc), along with the libCEED library for efficient compiler optimized tensor-product-basis computation to demonstrate an efficient nonlinear solution algorithm. We utilize p-multigrid preconditioning on the high-order problem with algebraic multigrid (AMG) on the assembled linear Q1 coarse grid operator. In contrast to classical geometric multigrid, also known as h-multigrid, each level in p-multigrid is related to a different approximation polynomial order p, instead of the element size h. A Chebyshev polynomial smoother is used on each multigrid level. AMG is then applied to the assembled Q1 (trilinear hexahedral elements), which allows low storage that can be efficiently used to accelerate convergence to a solution. For the compressible Neo-Hookean hyperelastic constitutive model we exploit the stored energy density function to compute the stored elastic energy density of the Neo-Hookean material as it relates to the deformation gradient. Based on our formulation, we consider four different algorithms each with different storage strategies. Algorithms 1 and 3 are implemented in the reference and current configurations respectively and store ∇Xξ, det(∇ξX), and ∇Xu. Algorithm 2 in the reference configuration stores, ∇Xξ, det(∇ξX), ∇Xu, C−1, and λ log (J). Algorithm 4, in the current configuration, stores det(∇ξX), ∇xξ, τ, and μ – λ log(J). x refers to the current coordinates, X to the reference coordinates, and ξ to the natural coordinates. We perform 3D bending simulations of a tube composed of aluminum (modulus of elasticity E = 69 GPa, Poisson’s ratio v = 0.3) using unstructured meshes and polynomials of order p = 1 through p = 4 under mesh refinement. We explore accuracy-time-cost tradeoffs for the prediction of strain energy across the range of polynomial degrees and Jacobian representations. In all cases, Algorithm 4 using the current configuration formulation outperforms the other three algorithms and requires less storage. Similar simulations for large deformation compressible Neo-Hookean hyperelasticity as applied to the same aluminum material are conducted with ABAQUS, a commercial finite element software package which is a state-of-the-art engineering software package for finite element simulations involving large deformation. The best results from the proposed implementations and ABAQUS are compared in the case of p = 2 on an Intel system with @2.4 GHz and 128 GB RAM. Algorithm 4 outperforms ABAQUS for polynomial degree p = 2.</jats:p>",
+        "DOI": "10.1115/imece2021-70768",
+        "type": "proceedings-article",
+        "created": {
+          "date-parts": [
+            [
+              2022,
+              1,
+              25
+            ]
+          ],
+          "date-time": "2022-01-25T22:24:45Z",
+          "timestamp": 1643149485000
+        },
+        "update-policy": "https://doi.org/10.1115/crossmarkpolicy-asme",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Efficient Parallel Scalable Matrix-Free 3D High-Order Finite Element Simulation of Neo-Hookean Compressible Hyperelasticity at Finite Strain"
+        ],
+        "prefix": "10.1115",
+        "author": [
+          {
+            "given": "Arash",
+            "family": "Mehraban",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "University of Colorado, Boulder, Colorado, United States"
+              }
+            ],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Jed",
+            "family": "Brown",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "University of Colorado, Boulder, Colorado, United States"
+              }
+            ],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Henry",
+            "family": "Tufo",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "University of Colorado, Boulder, Colorado, United States"
+              }
+            ],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Jeremy",
+            "family": "Thompson",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "University of Colorado, Boulder, Colorado, United States"
+              }
+            ],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Rezgar",
+            "family": "Shakeri",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "University of Colorado, Boulder, Colorado, United States"
+              }
+            ],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Richard",
+            "family": "Regueiro",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "University of Colorado, Boulder, Colorado, United States"
+              }
+            ],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "33",
+        "published-online": {
+          "date-parts": [
+            [
+              2022,
+              1,
+              25
+            ]
+          ]
+        },
+        "event": {
+          "name": "ASME 2021 International Mechanical Engineering Congress and Exposition",
+          "start": {
+            "date-parts": [
+              [
+                2021,
+                11,
+                1
+              ]
+            ]
+          },
+          "sponsor": [
+            "ASME"
+          ],
+          "location": "Virtual, Online",
+          "end": {
+            "date-parts": [
+              [
+                2021,
+                11,
+                5
+              ]
+            ]
+          },
+          "acronym": "IMECE2021"
+        },
+        "container-title": [
+          "Volume 12: Mechanics of Solids, Structures, and Fluids; Micro- and Nano- Systems Engineering and Packaging"
+        ],
+        "link": [
+          {
+            "URL": "https://asmedigitalcollection.asme.org/IMECE/proceedings-pdf/doi/10.1115/IMECE2021-70768/6829164/v012t12a027-imece2021-70768.pdf",
+            "content-type": "application/pdf",
+            "content-version": "vor",
+            "intended-application": "syndication"
+          },
+          {
+            "URL": "https://asmedigitalcollection.asme.org/IMECE/proceedings-pdf/doi/10.1115/IMECE2021-70768/6829164/v012t12a027-imece2021-70768.pdf",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2022,
+              1,
+              25
+            ]
+          ],
+          "date-time": "2022-01-25T22:24:46Z",
+          "timestamp": 1643149486000
+        },
+        "score": 32.351948,
+        "resource": {
+          "primary": {
+            "URL": "https://asmedigitalcollection.asme.org/IMECE/proceedings/IMECE2021/85680/V012T12A027/1133236"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2021,
+              11,
+              1
+            ]
+          ]
+        },
+        "references-count": 0,
+        "URL": "https://doi.org/10.1115/imece2021-70768",
+        "published": {
+          "date-parts": [
+            [
+              2021,
+              11,
+              1
+            ]
+          ]
+        },
+        "article-number": "V012T12A027"
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2025,
+              5,
+              14
+            ]
+          ],
+          "date-time": "2025-05-14T07:18:24Z",
+          "timestamp": 1747207104919,
+          "version": "3.40.5"
+        },
+        "reference-count": 0,
+        "publisher": "US DOE",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2021,
+              7,
+              7
+            ]
+          ]
+        },
+        "DOI": "10.2172/1827838",
+        "type": "proceedings-article",
+        "created": {
+          "date-parts": [
+            [
+              2021,
+              10,
+              30
+            ]
+          ],
+          "date-time": "2021-10-30T02:55:44Z",
+          "timestamp": 1635562544000
+        },
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Matrix Element Calculations on the GPU"
+        ],
+        "prefix": "10.2172",
+        "author": [
+          {
+            "ORCID": "https://orcid.org/0000-0001-6164-1707",
+            "authenticated-orcid": false,
+            "given": "Joshua",
+            "family": "Isaacson",
+            "sequence": "first",
+            "affiliation": [
+              {
+                "name": "Fermilab"
+              }
+            ],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0001-6786-6843",
+            "authenticated-orcid": false,
+            "given": "Enrico",
+            "family": "Bothmann",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Fermilab"
+              }
+            ],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0001-5108-2307",
+            "authenticated-orcid": false,
+            "given": "Walter",
+            "family": "Giele",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Fermilab"
+              }
+            ],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0002-1370-6059",
+            "authenticated-orcid": false,
+            "given": "Stefan",
+            "family": "Hoeche",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Fermilab"
+              }
+            ],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0002-6632-6869",
+            "authenticated-orcid": false,
+            "given": "Max",
+            "family": "Knobbe",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Fermilab"
+              }
+            ],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "960",
+        "event": {
+          "name": "Matrix Element Calculations on the GPU"
+        },
+        "container-title": [
+          "Matrix Element Calculations on the GPU"
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2022,
+              2,
+              18
+            ]
+          ],
+          "date-time": "2022-02-18T03:15:18Z",
+          "timestamp": 1645154118000
+        },
+        "score": 32.14238,
+        "resource": {
+          "primary": {
+            "URL": "https://www.osti.gov/servlets/purl/1827838/"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2021,
+              7,
+              7
+            ]
+          ]
+        },
+        "references-count": 0,
+        "URL": "https://doi.org/10.2172/1827838",
+        "published": {
+          "date-parts": [
+            [
+              2021,
+              7,
+              7
+            ]
+          ]
+        }
+      }
+    ],
+    "items-per-page": 10,
+    "query": {
+      "start-index": 0,
+      "search-terms": "matrix free high order GPU finite element"
+    }
+  }
+}

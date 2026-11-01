@@ -1,0 +1,526 @@
+TY  - JOUR
+ID  - P01_PyFR_v2
+TI  - PyFR v2.0.3: Towards industrial adoption of scale-resolving simulations
+AU  - Freddie D. Witherden
+AU  - Peter E. Vincent
+AU  - Will Trojak
+AU  - Yoshiaki Abe
+AU  - Amir Akbarzadeh
+AU  - Semih Akkurt
+AU  - Mohammad Alhawwary
+AU  - Lidia Caros
+AU  - Tarik Dzanic
+AU  - Giorgio Giangaspero
+AU  - Arvind S. Iyer
+AU  - Antony Jameson
+AU  - Marius Koch
+AU  - Niki Loppi
+AU  - Sambit Mishra
+AU  - Rishit Modi
+AU  - Gonzalo Sáez-Mischlich
+AU  - Jin Seok Park
+AU  - Brian C. Vermeire
+AU  - Lai Wang
+PY  - 2025
+JO  - Computer Physics Communications
+DO  - 10.1016/j.cpc.2025.109567
+UR  - https://arxiv.org/abs/2408.16509
+N1  - fulltext
+ER  - 
+
+TY  - JOUR
+ID  - P02_GALAEXI
+TI  - GALÆXI: Solving complex compressible flows with high-order discontinuous Galerkin methods on accelerator-based systems
+AU  - Marius Kurz
+AU  - Daniel Kempf
+AU  - Marcel P. Blind
+AU  - Patrick Kopper
+AU  - Philipp Offenhäuser
+AU  - Anna Schwarz
+AU  - Spencer Starr
+AU  - Jens Keim
+AU  - Andrea Beck
+PY  - 2025
+JO  - Computer Physics Communications
+DO  - 10.1016/j.cpc.2024.109388
+UR  - https://arxiv.org/abs/2404.12703
+N1  - fulltext
+ER  - 
+
+TY  - GEN
+ID  - P03_HORSES3D_GPU
+TI  - HORSES3D-GPU: A high-order discontinuous Galerkin solver for multi-GPU systems
+AU  - Ntoukas, Gerasimos
+AU  - Rubio, Gonzalo
+AU  - Ballout, Abbas
+AU  - Colombo, Stefano
+AU  - Huergo, David
+AU  - Jané, Eduardo
+AU  - Jiménez-Ramos, Albert
+AU  - Kessasra, Hatem
+AU  - Marbona, Himpu
+AU  - Mariño, Oscar
+AU  - Salado, Rodrigo
+AU  - Solé-Miró, Pol
+AU  - Rueda-Ramírez, Andrés M.
+AU  - Chávez-Módena, Miguel
+AU  - Valero, Eusebio
+AU  - Ferrer, Esteban
+PY  - 2026
+JO  - 
+DO  - 
+UR  - https://arxiv.org/abs/2607.26674
+N1  - fulltext
+ER  - 
+
+TY  - JOUR
+ID  - P04_HORSES3D
+TI  - HORSES3D: A high-order discontinuous Galerkin solver for flow simulations and multi-physics applications
+AU  - E. Ferrer
+AU  - G. Rubio
+AU  - G. Ntoukas
+AU  - W. Laskowski
+AU  - O.A. Mariño
+AU  - S. Colombo
+AU  - A. Mateo-Gabín
+AU  - H. Marbona
+AU  - F. Manrique de Lara
+AU  - D. Huergo
+AU  - J. Manzanero
+AU  - A.M. Rueda-Ramírez
+AU  - D.A. Kopriva
+AU  - E. Valero
+PY  - 2023
+JO  - Computer Physics Communications
+DO  - 10.1016/j.cpc.2023.108700
+UR  - https://arxiv.org/abs/2206.09733
+N1  - fulltext
+ER  - 
+
+TY  - JOUR
+ID  - P05_MFEM
+TI  - MFEM: A modular finite element methods library
+AU  - Robert Anderson
+AU  - Julian Andrej
+AU  - Andrew Barker
+AU  - Jamie Bramwell
+AU  - Jean-Sylvain Camier
+AU  - Jakub Cerveny
+AU  - Veselin Dobrev
+AU  - Yohann Dudouit
+AU  - Aaron Fisher
+AU  - Tzanio Kolev
+AU  - Will Pazner
+AU  - Mark Stowell
+AU  - Vladimir Tomov
+AU  - Ido Akkerman
+AU  - Johann Dahm
+AU  - David Medina
+AU  - Stefano Zampini
+PY  - 2021
+JO  - Computers & Mathematics with Applications
+DO  - 10.1016/j.camwa.2020.06.009
+UR  - https://arxiv.org/abs/1911.09220
+N1  - fulltext
+ER  - 
+
+TY  - JOUR
+ID  - P06_LOR_GPU
+TI  - End-to-end GPU acceleration of low-order-refined preconditioning for high-order finite element discretizations
+AU  - Will Pazner
+AU  - Tzanio Kolev
+AU  - Jean-Sylvain Camier
+PY  - 2023
+JO  - The International Journal of High Performance Computing Applications
+DO  - 10.1177/10943420231175462
+UR  - https://arxiv.org/abs/2210.12253
+N1  - fulltext
+ER  - 
+
+TY  - JOUR
+ID  - P07_MFEM_RAJA
+TI  - Matrix-free approaches for GPU acceleration of a high-order finite element hydrodynamics application using MFEM, Umpire, and RAJA
+AU  - Arturo Vargas
+AU  - Thomas M Stitt
+AU  - Kenneth Weiss
+AU  - Vladimir Z Tomov
+AU  - Jean-Sylvain Camier
+AU  - Tzanio Kolev
+AU  - Robert N Rieben
+PY  - 2022
+JO  - The International Journal of High Performance Computing Applications
+DO  - 10.1177/10943420221100262
+UR  - https://arxiv.org/abs/2112.07075
+N1  - fulltext
+ER  - 
+
+TY  - JOUR
+ID  - P08_Mesh_GPU
+TI  - Accelerating high-order mesh optimization using finite element partial assembly on GPUs
+AU  - Jean-Sylvain Camier
+AU  - Veselin Dobrev
+AU  - Patrick Knupp
+AU  - Tzanio Kolev
+AU  - Ketan Mittal
+AU  - Robert Rieben
+AU  - Vladimir Tomov
+PY  - 2023
+JO  - Journal of Computational Physics
+DO  - 10.1016/j.jcp.2022.111808
+UR  - https://arxiv.org/abs/2205.12721
+N1  - fulltext
+ER  - 
+
+TY  - GEN
+ID  - P09_GALAEXI_v2
+TI  - An Architecture-Agnostic High-Order Discontinuous Galerkin Framework for Compressible Flows
+AU  - Starr, Spencer
+AU  - Feldner, Yannik
+AU  - Kopper, Patrick
+AU  - Blind, Marcel
+AU  - Kempf, Daniel
+AU  - Schrempp, Jannik
+AU  - Rodach, Felix
+AU  - Beck, Andrea
+AU  - Schwarz, Anna
+PY  - 2026
+JO  - 
+DO  - 
+UR  - https://arxiv.org/abs/2605.28627
+N1  - fulltext
+ER  - 
+
+TY  - GEN
+ID  - P10_GALAEXI_APU
+TI  - APU-Accelerated Large Eddy Simulation with the Discontinuous Galerkin Solver GALÆXI
+AU  - Starr, Spencer
+AU  - Schwarz, Anna
+AU  - Plessis, Justin Du
+AU  - Wanninger, Andreas
+AU  - Hintz, Johanna
+AU  - Kaushik, Rohan
+AU  - Kopper, Patrick
+AU  - Beck, Andrea
+PY  - 2026
+JO  - 
+DO  - 
+UR  - https://arxiv.org/abs/2606.18927
+N1  - fulltext
+ER  - 
+
+TY  - JOUR
+ID  - P11_FP64_Tensor
+TI  - Accelerating High-Order Finite Element Simulations at Extreme Scale with FP64 Tensor Cores
+AU  - Jiqun Tu
+AU  - Ian Karlin
+AU  - John Camier
+AU  - Veselin Dobrev
+AU  - Tzanio Kolev
+AU  - Stefan Henneking
+AU  - Omar Ghattas
+PY  - 2026
+JO  - ISC High Performance 2026 Research Paper Proceedings (41st International Conference)
+DO  - 10.23919/ISC.2026.11520474
+UR  - https://arxiv.org/abs/2603.09038
+N1  - fulltext
+ER  - 
+
+TY  - JOUR
+ID  - P12_Hdiv_solver
+TI  - Matrix-Free High-Performance Saddle-Point Solvers for High-Order Problems in \(\boldsymbol{H}(\operatorname{\textbf{div}})\)
+AU  - Will Pazner
+AU  - Tzanio Kolev
+AU  - Panayot S. Vassilevski
+PY  - 2024
+JO  - SIAM Journal on Scientific Computing
+DO  - 10.1137/23M1568806
+UR  - https://arxiv.org/abs/2304.12387
+N1  - fulltext
+ER  - 
+
+TY  - JOUR
+ID  - P13_PyFR_original
+TI  - PyFR: An open source framework for solving advection–diffusion type problems on streaming architectures using the flux reconstruction approach
+AU  - F.D. Witherden
+AU  - A.M. Farrington
+AU  - P.E. Vincent
+PY  - 2014
+JO  - Computer Physics Communications
+DO  - 10.1016/j.cpc.2014.07.011
+UR  - https://arxiv.org/abs/1312.1638
+N1  - fulltext
+ER  - 
+
+TY  - JOUR
+ID  - P14_PyFR_mixed
+TI  - Heterogeneous computing on mixed unstructured grids with PyFR
+AU  - F.D. Witherden
+AU  - B.C. Vermeire
+AU  - P.E. Vincent
+PY  - 2015
+JO  - Computers & Fluids
+DO  - 10.1016/j.compfluid.2015.07.016
+UR  - https://arxiv.org/abs/1409.0405
+N1  - fulltext
+ER  - 
+
+TY  - JOUR
+ID  - P15_FLEXI
+TI  - FLEXI: A high order discontinuous Galerkin framework for hyperbolic–parabolic conservation laws
+AU  - Nico Krais
+AU  - Andrea Beck
+AU  - Thomas Bolemann
+AU  - Hannes Frank
+AU  - David Flad
+AU  - Gregor Gassner
+AU  - Florian Hindenlang
+AU  - Malte Hoffmann
+AU  - Thomas Kuhn
+AU  - Matthias Sonntag
+AU  - Claus-Dieter Munz
+PY  - 2021
+JO  - Computers & Mathematics with Applications
+DO  - 10.1016/j.camwa.2020.05.004
+UR  - https://arxiv.org/abs/1910.02858
+N1  - fulltext
+ER  - 
+
+TY  - JOUR
+ID  - P16_GPU_CEED
+TI  - GPU algorithms for Efficient Exascale Discretizations
+AU  - Ahmad Abdelfattah
+AU  - Valeria Barra
+AU  - Natalie Beams
+AU  - Ryan Bleile
+AU  - Jed Brown
+AU  - Jean-Sylvain Camier
+AU  - Robert Carson
+AU  - Noel Chalmers
+AU  - Veselin Dobrev
+AU  - Yohann Dudouit
+AU  - Paul Fischer
+AU  - Ali Karakus
+AU  - Stefan Kerkemeier
+AU  - Tzanio Kolev
+AU  - Yu-Hsiang Lan
+AU  - Elia Merzari
+AU  - Misun Min
+AU  - Malachi Phillips
+AU  - Thilina Rathnayake
+AU  - Robert Rieben
+AU  - Thomas Stitt
+AU  - Ananias Tomboulides
+AU  - Stanimire Tomov
+AU  - Vladimir Tomov
+AU  - Arturo Vargas
+AU  - Tim Warburton
+AU  - Kenneth Weiss
+PY  - 2021
+JO  - Parallel Computing
+DO  - 10.1016/j.parco.2021.102841
+UR  - https://arxiv.org/abs/2109.05072
+N1  - fulltext
+ER  - 
+
+TY  - JOUR
+ID  - P17_CEED_review
+TI  - Efficient exascale discretizations: High-order finite element methods
+AU  - Tzanio Kolev
+AU  - Paul Fischer
+AU  - Misun Min
+AU  - Jack Dongarra
+AU  - Jed Brown
+AU  - Veselin Dobrev
+AU  - Tim Warburton
+AU  - Stanimire Tomov
+AU  - Mark S Shephard
+AU  - Ahmad Abdelfattah
+AU  - Valeria Barra
+AU  - Natalie Beams
+AU  - Jean-Sylvain Camier
+AU  - Noel Chalmers
+AU  - Yohann Dudouit
+AU  - Ali Karakus
+AU  - Ian Karlin
+AU  - Stefan Kerkemeier
+AU  - Yu-Hsiang Lan
+AU  - David Medina
+AU  - Elia Merzari
+AU  - Aleksandr Obabko
+AU  - Will Pazner
+AU  - Thilina Rathnayake
+AU  - Cameron W Smith
+AU  - Lukas Spies
+AU  - Kasia Swirydowicz
+AU  - Jeremy Thompson
+AU  - Ananias Tomboulides
+AU  - Vladimir Tomov
+PY  - 2021
+JO  - The International Journal of High Performance Computing Applications
+DO  - 10.1177/10943420211020803
+UR  - https://arxiv.org/abs/2109.04996
+N1  - fulltext
+ER  - 
+
+TY  - JOUR
+ID  - P18_GPU_DG_INS
+TI  - A GPU accelerated discontinuous Galerkin incompressible flow solver
+AU  - A. Karakus
+AU  - N. Chalmers
+AU  - K. Świrydowicz
+AU  - T. Warburton
+PY  - 2019
+JO  - Journal of Computational Physics
+DO  - 10.1016/j.jcp.2019.04.010
+UR  - https://arxiv.org/abs/1801.00246
+N1  - fulltext
+ER  - 
+
+TY  - JOUR
+ID  - P19_PETSc_GPU
+TI  - Toward performance-portable PETSc for GPU-based exascale systems
+AU  - Richard Tran Mills
+AU  - Mark F. Adams
+AU  - Satish Balay
+AU  - Jed Brown
+AU  - Alp Dener
+AU  - Matthew Knepley
+AU  - Scott E. Kruger
+AU  - Hannah Morgan
+AU  - Todd Munson
+AU  - Karl Rupp
+AU  - Barry F. Smith
+AU  - Stefano Zampini
+AU  - Hong Zhang
+AU  - Junchao Zhang
+PY  - 2021
+JO  - Parallel Computing
+DO  - 10.1016/j.parco.2021.102831
+UR  - https://arxiv.org/abs/2011.00715
+N1  - fulltext
+ER  - 
+
+TY  - JOUR
+ID  - P20_libCEED
+TI  - libCEED: Fast algebra for high-order element-based discretizations
+AU  - Jed Brown
+AU  - Ahmad Abdelfattah
+AU  - Valeria Barra
+AU  - Natalie Beams
+AU  - Jean-Sylvain Camier
+AU  - Veselin Dobrev
+AU  - Yohann Dudouit
+AU  - Leila Ghaffari
+AU  - Tzanio Kolev
+AU  - David Medina
+AU  - Will Pazner
+AU  - Thilina Ratnayaka
+AU  - Jeremy Thompson
+AU  - Stan Tomov
+PY  - 2021
+JO  - Journal of Open Source Software
+DO  - 10.21105/joss.02945
+UR  - https://doi.org/10.21105/joss.02945
+N1  - fulltext
+ER  - 
+
+TY  - JOUR
+ID  - P21_HiFiLES
+TI  - Verification and Validation of HiFiLES: a High-Order LES unstructured solver on multi-GPU platforms
+AU  - Manuel R. López
+AU  - Abhishek Sheshadri
+AU  - Jonathan R. Bull
+AU  - Thomas D. Economon
+AU  - Joshua Romero
+AU  - Jerry E. Watkins
+AU  - David M. Williams
+AU  - Francisco Palacios
+AU  - Antony Jameson
+AU  - David E. Manosalvas
+PY  - 2014
+JO  - 32nd AIAA Applied Aerodynamics Conference
+DO  - 10.2514/6.2014-3168
+UR  - https://doi.org/10.2514/6.2014-3168
+N1  - repository-manuscript-source
+ER  - 
+
+TY  - JOUR
+ID  - P22_GiMMiK
+TI  - GiMMiK—Generating bespoke matrix multiplication kernels for accelerators: Application to high-order Computational Fluid Dynamics
+AU  - Bartosz D. Wozniak
+AU  - Freddie D. Witherden
+AU  - Francis P. Russell
+AU  - Peter E. Vincent
+AU  - Paul H.J. Kelly
+PY  - 2016
+JO  - Computer Physics Communications
+DO  - 10.1016/j.cpc.2015.12.012
+UR  - https://doi.org/10.1016/j.cpc.2015.12.012
+N1  - metadata-only
+ER  - 
+
+TY  - JOUR
+ID  - P23_Kokkos
+TI  - The Kokkos EcoSystem: Comprehensive Performance Portability for High Performance Computing
+AU  - Christian Trott
+AU  - Luc Berger-Vergiat
+AU  - David Poliakoff
+AU  - Sivasankaran Rajamanickam
+AU  - Damien Lebrun-Grandie
+AU  - Jonathan Madsen
+AU  - Nader Al Awar
+AU  - Milos Gligoric
+AU  - Galen Shipman
+AU  - Geoff Womeldorff
+PY  - 2021
+JO  - Computing in Science & Engineering
+DO  - 10.1109/mcse.2021.3098509
+UR  - https://doi.org/10.1109/mcse.2021.3098509
+N1  - metadata-only
+ER  - 
+
+TY  - JOUR
+ID  - P24_Portability
+TI  - Evaluating performance portability of five shared-memory programming models using a high-order unstructured CFD solver
+AU  - Zhe Dai
+AU  - Liang Deng
+AU  - YongGang Che
+AU  - Ming Li
+AU  - Jian Zhang
+AU  - Yueqing Wang
+PY  - 2024
+JO  - Journal of Parallel and Distributed Computing
+DO  - 10.1016/j.jpdc.2023.104831
+UR  - https://doi.org/10.1016/j.jpdc.2023.104831
+N1  - metadata-only
+ER  - 
+
+TY  - JOUR
+ID  - P25_Kokkos3
+TI  - Kokkos 3: Programming Model Extensions for the Exascale Era
+AU  - Christian R. Trott
+AU  - Damien Lebrun-Grandie
+AU  - Daniel Arndt
+AU  - Jan Ciesko
+AU  - Vinh Dang
+AU  - Nathan Ellingwood
+AU  - Rahulkumar Gayatri
+AU  - Evan Harvey
+AU  - Daisy S. Hollman
+AU  - Dan Ibanez
+AU  - Nevin Liber
+AU  - Jonathan Madsen
+AU  - Jeff Miles
+AU  - David Poliakoff
+AU  - Amy Powell
+AU  - Sivasankaran Rajamanickam
+AU  - Mikael Simberg
+AU  - Dan Sunderland
+AU  - Bruno Turcksin
+AU  - Jeremiah Wilke
+PY  - 2022
+JO  - IEEE Transactions on Parallel and Distributed Systems
+DO  - 10.1109/tpds.2021.3097283
+UR  - https://doi.org/10.1109/tpds.2021.3097283
+N1  - metadata-only
+ER  - 

@@ -1,0 +1,648 @@
+
+  
+    
+    
+
+    
+    
+    
+    
+
+    
+        Programming Guide - Kokkos documentation
+      
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+  
+    
+    
+    
+
+
+  
+    Contents
+    
+      
+    
+  
+  
+    Menu
+    
+      
+      
+      
+    
+  
+  
+    Expand
+    
+      
+    
+  
+  
+    Light mode
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+  
+  
+    Dark mode
+    
+      
+      
+    
+  
+  
+    Auto light/dark, in light mode
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+  
+  
+    Auto light/dark, in dark mode
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+  
+  
+    
+      
+      
+      
+      
+    
+  
+  
+    
+      
+      
+      
+      
+      
+    
+  
+
+
+
+
+
+
+
+Skip to content
+
+
+
+
+  
+    
+      
+        
+      
+    
+    
+      Kokkos  documentation
+    
+    
+      
+        
+          
+          
+          
+          
+        
+      
+      
+        
+      
+    
+  
+  
+    
+      
+      
+  
+  Kokkos  documentation
+  
+
+  
+  
+  
+
+
+  
+Get Started
+Quick Start
+Requirements
+Integrating Kokkos into Your Project
+Building From Source
+Configuration Guide
+Package Managers
+Advanced Configuration and Build
+
+
+Programming Guide
+1. Introduction
+2. Machine Model
+3. Programming Model
+4. Initialization
+5. View: Multidimensional array
+6. Parallel dispatch
+7. Hierarchical Parallelism
+8. Multi-Dimensional Parallelism
+9. Custom Reductions
+9.1. Built-In-Reducers
+9.2. Built-In Reducers with Custom Scalar Types
+9.3. Custom Reducers
+
+
+10. Atomic Operations
+11. Subviews
+12. Backwards & Future Compatibility
+13. Interoperability and Legacy Codes
+14. Kokkos and Virtual Functions
+15. SIMD Types
+16. Graphs
+
+
+API References
+Core API
+Initialize and Finalize
+initialize
+finalize
+InitializationSettings
+ScopeGuard
+push_finalize_hook
+is_initialized and is_finalized
+
+
+View and related
+create_mirror[_view]
+deep_copy
+LayoutLeft
+LayoutRight
+LayoutStride
+MemoryTraits
+realloc
+resize
+subview
+Subview
+ALL, ALL_t
+View
+view_alloc
+View-like Types
+Iterators
+
+
+Parallel Execution/Dispatch
+parallel_for
+parallel_reduce
+parallel_scan
+fence
+ParallelForTag
+ParallelReduceTag
+ParallelScanTag
+
+
+Built-in Reducers
+ReducerConcept
+BAnd
+BOr
+FirstLoc
+LAnd
+LastLoc
+LOr
+Max
+MaxFirstLoc
+MaxLoc
+Min
+MinFirstLoc
+MinLoc
+MinMax
+MinMaxFirstLastLoc
+MinMaxLoc
+Prod
+Sum
+Reduction Scalar Types
+FirstLocScalar
+LastLocScalar
+MinMaxLocScalar
+MinMaxScalar
+ValLocScalar
+
+
+reduction_identity
+
+
+Execution Policies
+ExecutionPolicy
+MDRangePolicy
+NestedPolicies
+RangePolicy
+TeamHandleConcept
+TeamPolicy
+TeamThreadMDRange
+TeamThreadRange
+TeamVectorMDRange
+TeamVectorRange
+ThreadVectorMDRange
+ThreadVectorRange
+AUTO, AUTO_t
+
+
+Spaces
+Execution Spaces
+partition_space
+Memory Spaces
+Space Accessibility
+
+
+Task-Parallelism
+Multi-GPU Support
+Atomics
+atomic_load
+atomic_store
+atomic_exchange
+atomic_compare_exchange
+atomic_compare_exchange_strong
+atomic_assign
+atomic_fetch_[op]
+atomic_[op]
+atomic_[op]_fetch
+
+
+Numerics
+Mathematical constants
+Common math functions
+Numeric traits
+Bit manipulation
+Complex number arithmetic
+Reduced precision floating-point types
+
+
+C-style memory management
+kokkos_malloc
+kokkos_realloc
+kokkos_free
+
+
+Traits
+Kokkos Concepts
+STL Compatibility Issues
+Array
+pair
+
+
+Utilities
+abort
+KOKKOS_ASSERT
+printf
+device_id
+num_devices
+num_threads
+print_configuration
+Minimum/maximum operations
+kokkos_swap
+Timer
+
+
+Detection Idiom
+Macros
+Function Annotation Macros
+KOKKOS_IF_ON_HOST and KOKKOS_IF_ON_DEVICE
+
+
+Profiling
+Profiling::ScopedRegion
+Profiling::ProfilingSection
+
+
+
+
+Algorithms API
+Random-Number
+Generator
+Sort
+Sorting with nested policies (team- and thread-level)
+Std Algorithms
+Iterators
+Minimum/maximum
+min_element
+max_element
+minmax_element
+
+
+Modifying Sequence
+copy
+copy_if
+copy_n
+copy_backward
+move
+move_backward
+fill
+fill_n
+transform
+generate
+generate_n
+remove
+remove_if
+remove_copy
+remove_copy_if
+replace
+replace_if
+replace_copy
+replace_copy_if
+swap_ranges
+reverse
+reverse_copy
+rotate
+rotate_copy
+shift_left
+shift_right
+unique
+unique_copy
+
+
+Non-modifying Sequence
+adjacent_find
+count
+count_if
+equal
+all_of
+any_of
+none_of
+find
+find_if
+find_if_not
+find_end
+find_first_of
+for_each
+for_each_n
+lexicographical_compare
+mismatch
+search
+search_n
+
+
+Numeric
+adjacent_difference
+reduce
+exclusive_scan
+inclusive_scan
+transform_reduce
+transform_exclusive_scan
+transform_inclusive_scan
+
+
+Partitioning
+is_partitioned
+partition_point
+partition_copy
+
+
+Sorting
+is_sorted
+is_sorted_until
+
+
+
+
+
+
+Containers API
+Bitset
+ConstBitset
+DualView
+DynamicView
+DynRankView
+ErrorReporter
+OffsetView
+ScatterView
+StaticCrsGraph [DEPRECATED]
+UnorderedMap
+vector [DEPRECATED]
+
+
+SIMD API
+Experimental::simd
+Experimental::simd_mask
+Experimental::where_expression
+
+
+Deprecations
+
+
+Tutorials and Examples
+Tutorials
+Video lectures and slides
+1. Intro, Build, Parallel dispatch
+2. Views and Spaces
+3. Multidim loops and Data Structures
+4. Hierarchical Parallelism
+5. SIMD, Streams, Tasking
+6. Fortran/Python interop, MPI, PGAS
+7. Kokkos Tools
+8. Kokkos Kernels Math Library
+
+
+Use Cases and Examples
+MPI Halo Exchange
+ScatterView averaging elements to nodes
+Tagged Operators
+Overlapping Host and Device work
+Kokkos Tasking Use Case
+Fortran Interop Use Case
+Array of Structures and Structure of Arrays with Cabana
+Moving code from requiring Kokkos_ENABLE_CUDA_UVM to using SharedSpace
+
+
+
+
+Contributing
+Documentation Templates
+Class API Template
+
+
+Developer Guides
+PRs and Reviews
+Coding Standards
+Release Process
+
+
+Kokkos Planning and Testing
+Kokkos Project Planning
+Requirements, Issues and Feedback
+Kokkos Testing Processes and Change Process
+
+
+
+
+GitHub Repo
+Known issues
+FAQ
+Citing Kokkos
+License
+
+
+
+
+
+      
+      
+    
+  
+  
+    
+      
+        
+          
+            
+          
+          Back to top
+        
+        
+
+  
+    
+      
+      
+      
+    
+    Edit this page
+  
+
+
+          
+  
+    
+    View this page
+  
+
+
+            
+              
+              
+              
+              
+            
+          
+          
+            
+          
+        
+        
+          
+Programming Guide¶
+
+
+1. Introduction
+2. Machine Model
+3. Programming Model
+4. Initialization
+5. View: Multidimensional array
+6. Parallel dispatch
+7. Hierarchical Parallelism
+8. Multi-Dimensional Parallelism
+9. Custom Reductions
+10. Atomic Operations
+11. Subviews
+12. Backwards & Future Compatibility
+13. Interoperability and Legacy Codes
+14. Kokkos and Virtual Functions
+15. SIMD Types
+16. Graphs
+
+
+
+
+        
+      
+      
+        
+        
+          
+              
+                
+                  Next
+                
+                1. Introduction
+              
+              
+            
+          
+              
+              
+                
+                  Previous
+                
+                
+                Advanced Configuration and Build
+                
+              
+            
+        
+        
+          
+            
+                Copyright © 2026, Contributors to the Kokkos project
+            
+            Made with Sphinx and @pradyunsg's
+            
+            Furo
+            
+          
+          
+            
+          
+        
+        
+      
+    
+    
+      
+      
+      
+    
+  
+
+    
+    
+    
+    
+    
+    
+    

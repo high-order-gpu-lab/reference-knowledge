@@ -1,0 +1,974 @@
+                                                         GPU Algorithms for Efficient Exascale Discretizations
+
+                                          Ahmad Abdelfattahe , Valeria Barraf , Natalie Beamse , Ryan Bleilei , Jed Brownf , Jean-Sylvain Camiera ,
+                                          Robert Carsonj , Noel Chalmersh , Veselin Dobreva , Yohann Dudouita , Paul Fischerb,c,d , Ali Karakusm ,
+                                          Stefan Kerkemeierb , Tzanio Koleva,∗, Yu-Hsiang Lanb , Elia Merzarib,k , Misun Minb , Malachi Phillipsc ,
+                                            Thilina Rathnayakec , Robert Riebeni , Thomas Stitti , Ananias Tomboulidesb,l , Stanimire Tomove ,
+                                                           Vladimir Tomova , Arturo Vargasi , Tim Warburtong , Kenneth Weissi
+                                                a Center for Applied Scientific Computing, Lawrence Livermore National Laboratory, Livermore, CA 94550
+                                                          b Mathematics and Computer Science, Argonne National Laboratory, Lemont, IL 60439
+                                                     c Department of Computer Science, University of Illinois at Urbana-Champaign, Urbana, IL 61801
+                                            d Department of Mechanical Science and Engineering, University of Illinois at Urbana-Champaign, Urbana, IL 61801
+                                                            e Innovative Computing Laboratory, University of Tennessee, Knoxville, TN 37996
+arXiv:2109.05072v1 [cs.DC] 10 Sep 2021
+
+
+
+
+                                                              f Department of Computer Science, University of Colorado, Boulder, CO 80309
+                                                                    g Department of Mathematics, Virginia Tech, Blacksburg, VA 24061
+                                                                    h AMD Research, Advanced Micro Devices Inc., Austin, TX 78735
+                                                    i Weapons and Complex Integration, Lawrence Livermore National Laboratory, Livermore, CA 94550
+                                                  j Computational Engineering Division, Lawrence Livermore National Laboratory, Livermore, CA 94550
+                                                                       k Department of Nuclear Engineering, Penn State, PA 16802
+                                                        l Department of Mechanical Engineering, Aristotle University of Thessaloniki, Greece 54124
+                                                     m Mechanical Engineering Department, Middle East Technical University, Ankara, Turkey 06800
+
+
+
+
+                                         Abstract
+                                         In this paper we describe the research and development activities in the Center for Efficient Exascale Dis-
+                                         cretization within the US Exascale Computing Project, targeting state-of-the-art high-order finite-element
+                                         algorithms for high-order applications on GPU-accelerated platforms. We discuss the GPU developments
+                                         in several components of the CEED software stack, including the libCEED, MAGMA, MFEM, libParanu-
+                                         mal, and Nek projects. We report performance and capability improvements in several CEED-enabled
+                                         applications on both NVIDIA and AMD GPU systems.
+                                         Keywords: High-Performance Computing, GPU Acceleration, High-Order Discretizations, Finite Element
+                                         Methods, Exascale Applications
+
+
+                                         1. Introduction                                                   Central to CEED is the use of matrix-free high-
+                                                                                                        order finite element discretizations, which require
+                                            Exascale computing will provide scientists and              only O(n) data movement and yield exponential
+                                         engineers with an advanced tool to explore physical            convergence rates, O(hp ), for pth-order approxi-
+                                         phenomena over a large range of scales and in com-             mations to solutions having sufficient regularity.
+                                         plex domains. To maximize this potential, the sim-             With the number of degrees of freedom scaling
+                                         ulation codes must be efficient in their use of data           as n = O (p/h)d , in d dimensions, convergence
+                                         movement, both in terms of implementation and                  through increased p offers clear advantages over
+                                         algorithmic complexity. The DOE Center for Effi-               simple reductions in the grid spacing h. Kreiss and
+                                         cient Exascale Discretizations (CEED) [1, 2] seeks             Oliger [3] noted early on the particular relevance
+                                         to meet both of these goals by providing highly per-           of increased approximation order in controlling cu-
+                                         formant libraries for high-order discretizations on            mulative dispersion errors for large-scale transport
+                                         GPU-based compute nodes that form the basis for                problems where propagated feature sizes λ are much
+                                         current- and next-generation HPC platforms.                    smaller than the domain length, L, which is clearly
+                                                                                                        in the scope of problems that are enabled by exas-
+                                           ∗ Corresponding author                                       cale architectures. Although exponential conver-
+                                            Email address: tzanio@llnl.gov (Tzanio Kolev)
+
+                                                                                                    1
+gence is lost in many practical applications that                     Throughout the paper we use the CEED bake-
+lack regularity, high-order methods still provide fa-              off problems (BPs), introduced in [16], in order
+vorable error constants with respect to norms and                  to test and compare the performance of high-order
+insidious sources of error such as numerical disper-               codes. The CEED BPs are community benchmarks
+sion, and use of hp methods can sometimes restore                  for matrix-free operator evaluation of mass (BP1),
+exponential convergence [4]. Efficient implemen-                   stiffness (BP3) or collocated stiffness matrix (BP5).
+tation of methods of all orders, with a particular                 They include a mixture of compute-intensive ker-
+emphasis on high-order, is the principal objective                 nels, nearest-neighbor communication and vector
+of the CEED efforts.                                               reductions that is representative of high-order ap-
+   Practical application of spectral methods for                   plications. See [16] for details.
+complex domains was first considered by Orszag [5],                   Both the tensor and non-tensor cases pose unique
+who laid out several essential elements for perfor-                challenges for high-order algorithms on GPU plat-
+mant implementations. The principal feature was                    forms. In the following Section 2 we describe
+the use of pth-order tensor-product polynomial ap-                 the GPU-specific developments that are addressing
+proximations in a d-dimensional reference domain,                  these challenges in each of the CEED open-source
+r ∈ Ω̂ = [−1, 1]d , transformed to a complex do-                   libraries. We follow this by a discussion in Section
+main, Ω, through an invertible map, x(r). Unlike                   3, results from several CEED-enabled applications
+Fourier bases, stable polynomial bases1 can yield                  in Section 4, and conclusions in Section 5.
+exponential convergence for non-periodic boundary
+conditions, provided the solution has sufficient reg-
+                                                                   2. GPU Developments in the Center for Ef-
+ularity [6]. Orszag [5] noted that, although sep-
+                                                                      ficient Exascale Discretizations
+arability was lost in the transformed domain, the
+forward operator evaluation could still be effected
+                                                                      The major work intensive operations for pth or-
+efficiently using tensor-product sum factorization.
+                                                                   der elements are local interpolation and differen-
+He thus suggested using conjugate gradient itera-
+                                                                   tiation, which involve tensor contractions for Qp
+tion, preconditioned with spectrally-equivalent low-
+                                                                   and DGEMMs for Pp elements. For example,
+order (i.e., sparse) operators, to yield high-order
+                                                                   for tensor elements in 3D derivatives at nodal
+accuracy at low-order costs. All three of these
+                                                                   points (ri , sj , tk ) ∈ Ω̂ take the form uer (ri , sj , tk ) =
+ideas—orthogonal-polynomial based bases, tensor-                   P           e              e             e
+product sum factorization, and low-order precondi-                    m D̂im umjk = Dr u , where the uijk are the local
+                                                                                                e        e
+tioners, are common elements of modern high-order                  basis coefficients for u (r) on Ω and D̂ is a dense
+finite element codes (e.g., [7, 8, 9, 10, 11, 12]), al-            (p + 1) × (p + 1) derivative matrix.
+though the low-order preconditioners are commonly                     On a CPU, performance in the tensor Qp case
+supplanted with p-multigrid (e.g., [13, 14]) and/or                relies primarily on casting the tensor contractions,
+Schwarz-overlapping methods [15].                                  which comprise 90% of the flops, as optimized
+   Let Qp denote the Lagrange polynomial bases                     matrix-matrix products. On GPUs, vectorization
+on Gauss-Lobatto quadrature points. In the case                    must be expressed over the entire set of E ele-
+of tensor product elements, for pd degrees-of-                     ments local to a given GPU in order to leverage
+freedom per element, the use of tensor-product                     the node-parallel architecture and amortize ker-
+sum-factorization reduces operator evaluation costs                nel launch overhead. Kernels thus tend to be
+from O(p2d ) to (near-optimal) O(pd+1 ) and mem-                   expressed at the operator level, such as the dis-
+ory/storage costs from O(p2d ) to (optimal) O(pd ).                crete Laplacian, wL = AL uL , where AL =block-
+Matrix-free Qp bases form the foundation for much                  diag(Ae ), with Ae = DT Ge D the matrix-free form
+of the CEED software stack, including MFEM,                        of the stiffness matrix. For deformed elements Ae
+Nek5000/RS, libCEED, MAGMA, and libParanu-                         is dense, with (p + 1)6 entries. The factored form,
+mal. We are also interested in high-order discretiza-              however, involves only the tensor-product deriva-
+tion on (non-tensor) triangular and tetrahedral Pp                 tives, Dr , Ds , and Dt , and six diagonal matri-
+elements.                                                          ces, Gerr , Gers , . . . , Gett in the symmetric tensor
+                                                                   Ge . Including ue , the number of reads is thus
+                                                                   7(p + 1)3 per element, with a corresponding flop
+   1 Stable bases include orthogonal polynomials or Lagrange       count of 12(p + 1)4 + 15(p + 1)3 (double the first
+polynomials based on Gauss-type quadrature points.                 term for non-collocated quadrature). The O(p)
+                                                               2
+arithmetic intensity (flop-to-byte ratio) with low-            well as the OCCA and MAGMA libraries. libCEED
+memory data structures leads to high performance               provides a unified interface, so that users only
+on GPU and CPU architectures that have sufficient              need to write a single source code and can select
+registers/cache to exhibit memory locality through             the desired specialized implementation at run time.
+the sequence of dependent operations.                          Moreover, each process or thread can instantiate an
+  In the rest of this section, we describe the devel-          arbitrary number of backends.
+opments in each of the CEED packages that address                 Since matrix-free finite element algorithms move
+the multitude of issues that arise when implement-             potentially O(pd ) times less data than algorithms
+ing operations of the form AL uL on GPUs. For                  using sparse matrices, where p is the polynomial or-
+detailed description of these operations see [16].             der, and d the dimension, O(pd ) speedup can the-
+                                                               oretically be achieved on architectures where the
+2.1. libCEED                                                   matrix-free algorithms are limited in performance
+                                                               by the data movements, i.e. are memory bound.
+   libCEED [17, 18] is a new library that offers
+                                                                  The matrix-free algorithms to apply tensor finite
+a purely algebraic interface for matrix-free opera-
+                                                               element operators are completely memory bound on
+tor evaluation and supports run-time selection of
+                                                               GPU due to their low arithmetic intensities. O(pd )
+implementations tuned for a variety of computa-
+                                                               speedup can be achieved in practice for tensor finite
+tional device types, including CPUs and GPUs.
+                                                               element when compared to a standard approach us-
+libCEED’s purely algebraic interface can unobtru-
+                                                               ing a sparse matrix, see Figure 2, because the GPU
+sively be integrated in new and legacy software
+                                                               kernels are solely memory bound.
+to provide performance portable interfaces. While
+the focus is on high-order finite elements, the ap-
+                                                                   Throughput (DoFs per second)
+
+
+
+
+proach is algebraic and thus applicable to other dis-
+cretizations in factored form. libCEED’s role, as a
+lightweight portable library that allows a wide va-
+                                                                                                  109
+riety of applications to share highly optimized dis-
+cretization kernels, is illustrated in Figure 1, where
+a non-exhaustive list of specialized implementations
+(backends) is listed. libCEED provides a low-level
+                                                                                                  108
+Application     Library        Backends      Hardware                                                       CuSparse
+                                                                                                            libCEED
+                                Pure C
+                                                                                                        1    2    3    4   5    6    7   8
+                                  AVX                                                                             Polynomial order
+                                                 CPU
+                                                               Figure 2: Comparison of the performance in the satu-
+  MFEM                         LIBXSMM
+                                                               rated regime for the CEED benchmark problem BP1 [16]
+                                                               on a NVIDIA V100 using a sparse matrix (with CuSparse)
+  Nek5000       libCEED          OCCA                          against the cuda-gen backend of libCEED for different poly-
+                                              NVIDIA GPU       nomial orders p.
+   PETSc                       Pure CUDA
+                                                                  However, applying non-tensor finite element op-
+                                Pure HIP                       erators does not necessarily result in memory bound
+                                              AMD GPU
+                                                               GPU kernels. The libCEED interface allows the
+                                MAGMA
+                                                               caller to provide arrays representing the evaluation
+Figure 1: libCEED allows different applications to share       and gradient of the basis functions along with the
+highly optimized discretization kernels.                       quadrature weights to be used. With the arith-
+                                                               metic intensity of the matrix-free algorithms in-
+Application Programming Interface (API) for user               creasing in O(pd ) for general non-tensor elements–
+codes so that applications with their own discretiza-          compared to O(p) in the tensor element case–GPU
+tion infrastructure (e.g., those in PETSc, MFEM                kernels quickly become computationally bound for
+and Nek5000) can evaluate and use the core opera-              high p orders on sufficiently many elements, es-
+tions enabled by libCEED. GPU backends are avail-              pecially in 3D. The higher number of basis func-
+able via pure CUDA or HIP implementations, as                  tions and quadrature points for non-tensor elements
+                                                           3
+also results in operations that are more difficult         the process at the same time (nelem), we can
+to cache efficiently on the very limited memories          reshape the input vector to be a matrix of size
+of GPU caches and registers. Therefore, achieving          d × P × nelem × ncomp, with each column corre-
+peak performance for non-tensor finite elements is         sponding to one component for one element, and P
+more challenging, and the theoretical gain is not          and Q representing the total number of basis and
+as interesting as for tensor finite elements. We           quadrature points in the element, respectively. Now
+note that there exist specialized sum factorization        the application of the interpolation or gradient ma-
+schemes for collapsed elements (e.g. [19, 20], with        trix action for all the elements is easily represented
+recent SIMD vectorization targeting CPU perfor-            by one standard general matrix-matrix multiplica-
+mance [10]) and other fast evaluation methods such         tion, C = AB, as represented in Figure 3 for input
+as [21, 22]; adding such methods to libCEED would          B, output C, and basis matrix A.
+require addition of a public interface and dedicated
+                                                                                     n = nelem ✕ ncomp
+backend support.
+   On NVIDIA GPUs the libCEED library achieves
+close to peak performance for operators using ten-                                            B
+sor finite elements. The performance on the CEED                         k = q
+benchmark problems is comparable to state-of-the-
+
+                                                                m = p
+art specialized hand tuned kernels [23].                                A or AT               C
+   The CUDA and HIP backends provide native
+support for non-tensor finite elements, while the          Figure 3: Shape of the DGEMM operation for the non-tensor
+OCCA and MAGMA backends, which depend on                   basis action in libCEED.
+their eponymous libraries [24, 25], also support
+non-tensor finite elements. The MAGMA backend                 Figure 3 shows a typical shape for the GEMM call
+achieves the highest performance of all libCEED            in a libCEED non-tensor basis computation, with
+GPU backends for non-tensor finite elements.               dimensions (m, n, k). Here m and k are relatively
+                                                           small, as they are tied to the number of basis nodes
+2.2. MAGMA                                                 or quadrature points in one element; n can poten-
+   MAGMA [25] is a high-performance linear al-             tially be orders of magnitude larger, as it depends
+gebra library that includes LAPACK for GPUs,               on the number of elements in the local operator.
+BLAS, sparse iterative solvers, and many other             Since vendor-provided GEMM routines are gener-
+general matrix computation kernels. The batched            ally designed to achieve maximum performance for
+computations provided by MAGMA can be gen-                 square matrices, these unbalanced dimensions may
+eralized to provide highly efficient tensor compu-         prevent the GEMM operation from reaching the
+tations [26]. While the libCEED MAGMA back-                GPU peak performance. Therefore, to make the
+end contains specialized tensor basis kernels sepa-        best possible use of the available BLAS libraries,
+rate from the MAGMA library itself, the library’s          we also consider performing the GEMM operation
+batched GEMM capabilities are used directly to op-         in Figure 3 as a batched GEMM operation, split
+timize non-tensor basis computations, with a goal          across the n dimension, so that each batched oper-
+of hardware portability [27]. In contrast to the re-       ation has the same A matrix, but uses submatrices
+cent CPU-based work of Sun et al. [11], which ap-          B̂ and Ĉ of B and C, with η columns each. The
+plies code generation and transformations toward           additional parameter of batch size η increases the
+SIMD vectorization across batches of (tensor and           space in which we can search for the best possible
+non-tensor) element kernels, the MAGMA back-               parameter set, given dimensions m and k, with the
+end’s batched computations leverage standard li-           goal of creating a more balanced workload for the
+brary BLAS routines for the non-tensor basis ac-           GPU. Transforming the GEMM in Figure 3 into a
+tions within libCEED’s algebraic framework.                batched GEMM does not require setting up pointer
+   As the non-tensor basis computations in                 arrays that may impact the performance, and thus
+libCEED are basis- and quadrature-rule-agnostic,           does not add any overheads. Both cuBLAS and
+the full interpolation or gradient matrices must           MAGMA provide stride-based batched GEMM ker-
+be applied for an input vector for every element,          nels.
+rather than performing a series of small tensor               Figure 4 shows example performance numbers for
+contractions. If we consider all elements local to         the GEMM versus the batched GEMM for typical
+                                                       4
+                            4000
+                                   V100: DGEMM                                                                   The MFEM performance portability approach is
+                            3500   V100: Batch DGEMM                                              1.36x
+                                                                                                              based on a system of backends and kernels work-
+                                   MI100: DGEMM
+                            3000   MI100: Batch DGEMM
+                                                                                      1.02x
+                                                                                                              ing seamlessly with a lightweight memory spaces
+    Performance (Gflop/s)
+
+
+
+
+                            2500
+                                                                                              ​               manager. A distinctive feature of this approach is
+                            2000                               1.59x
+                                                                                                              the ability to select the backends at runtime. For
+                                                                           1.87x
+                                                                                                              instance, different MPI ranks can choose different
+                            1500
+                                                                                                              backends (like CPU or GPU), allowing applications
+                            1000                                       ​
+                                                                                                              to take full advantage of heterogeneous architec-
+                                     1.9x
+                             500                  2.7x                                                        tures. Another important aspect of MFEM’s ap-
+                                              ​
+                               0                                                                              proach is the ability to easily mix CPU-only code
+                                     (36,33)                   (84, 126)              (165, 330)
+                                            Problem size (m, k) = (P,Q) -- n is fixed at 10,240
+                                                                                                              with code that utilizes the new backends, thus al-
+                                                                                                              lowing for selective gradual transition of existing ca-
+Figure 4: Performance of different DGEMM configurations                                                       pabilities. Most of the kernels are based on a single
+using hipBLAS and cuBLAS. Results are for different (P ,
+Q) pairs on a Nvidia V100 (CUDA 11.2) and an AMD                                                              source, while still offering good performance. For
+InstinctTM MI100 (ROCm 4.2) GPUs.                                                                             performance-critical kernels, where a single source
+                                                                                                              does not provide good performance, the implemen-
+                                                                                                              tation introduces dispatch points based on the se-
+sizes encountered in the MFEM-libCEED BP3 [16]                                                                lected backend and, in some cases, on kernel pa-
+benchmark for triangle or tetrahedron non-tensor                                                              rameters such as the finite element order.
+elements. The figure considers an NVIDIA V100
+GPU and initial experience with an AMD MI100                                                                     Figure 5 illustrates the main components of
+GPU. The best-performing routine of MAGMA and                                                                 MFEM’s modular design for accelerator support.
+the vendor-provided BLAS is shown for each GPU.                                                               The Library side of MFEM (on the left) represents
+We see that batching the GEMM operation across                                                                the software components where new kernels have
+the n dimension achieves a better performance than                                                            been added. Kernels and memory management are
+launching a single GEMM operation for these sizes,                                                            the two ingredients most programming models have
+with the speedup relative to the single GEMM in-                                                              to deal with when providing such an abstraction to
+dicated above each batched GEMM bar.                                                                          address code portability for HPC platforms. Simi-
+   To determine the best possible combination of                                                              larly to Figure 1 the MFEM design allows for a vari-
+routine (vendor BLAS or MAGMA library) and                                                                    ety of runtime-selectable backends that can execute
+batch size η (with a standard, non-batch call corre-                                                          its kernels on both CPU and GPU hardware. Un-
+sponding to η = n), we use data from offline bench-                                                           like the libCEED figure though, Figure 5 includes
+mark parameter sweeps to construct a lightweight                                                              the kernel abstraction for a much broader range of
+abstraction layer. This layer automatically selects                                                           meshing, finite element and linear algebra features
+the best choice for the non-tensor GEMM oper-                                                                 that a general finite element library like MFEM
+ations. In [27], we show that for higher orders                                                               needs to support. For more details, see [12, 16]
+of basis functions, the benefit of the optimized                                                              and Section 3.
+GEMM formulation is clear in comparison to the
+pure CUDA kernels in the “cuda-ref” backend (up                                                               Library             Kernels         Backends     Hardware
+to 10× speedup for the MAGMA formulation on                                                                                                        CUDA
+the V100 GPU).
+                                                                                                                                                    HIP
+                                                                                                                                  Memory
+                                                                                                               linalg                                           NVIDIA GPU
+2.3. MFEM                                                                                                                                          OCCA
+                                                                                                                              R     RW        W
+   MFEM [12] is a general-purpose finite element li-                                                           mesh                                              AMD GPU
+                                                                                                                                   Kernel          libCEED
+brary that since version 4.0 supports hardware ac-
+                                                                                                                fem                                                CPU
+celerators, such as GPUs, as well as programming                                                                                  Execution
+                                                                                                                                                    RAJA
+models and libraries, such as CUDA, HIP, OCCA
+[24], libCEED [17], RAJA [28] and OpenMP. The                                                                                                       OMP
+
+goal of the MFEM developments in CEED is to pro-
+                                                                                                              Figure 5: Diagram of MFEM’s modular design for acceler-
+vide state-of-the-art optimized performance high-                                                             ator support, combining flexible memory management with
+order kernels to applications in an ease of use, flex-                                                        runtime-selectable backends for executing key finite element
+ible form.                                                                                                    and linear algebra kernels.
+
+                                                                                                          5
+  MFEM’s GPU acceleration has demonstrated ex-                    kernels use intrinsic C types without recourse to
+cellent performance in a number of single-GPU                     structs and classes facilitating their use in other
+and multi-GPU benchmarks. The high-order al-                      projects.
+gorithms in MFEM are particularly well suited for                    Many finite element operations are heavily mem-
+GPUs as shown by the results in Figure 6 which re-                ory bound including Krylov updates, finite ele-
+port performance results from LLNL’s Corona ma-                   ment gather and scatter operations that admit high
+chine and a Linux configuration similar to the com-               throughput hardware agnostic implementations for
+pute nodes of LLNL’s Sierra supercomputer. We                     both the NVIDIA and AMD GPUs [31]. Imple-
+note that hand-tuning is still required for good per-             mentations of these kernels have been released in
+formance and the AMD results are preliminary.                     the streamParanumal standalone benchmark suite
+                                                                  [32].
+                                                                                                          BP1 AMD MI100 (OCCA:HIP)             BP1 NVIDIA V100 SXM2 (OCCA:CUDA)
+                                                                                                      ·109                                       ·109
+                                                                                                  5                                            5
+                                                                                                          p=1                                         p=1
+                                                                                                          p=2                                         p=2
+                                                                                                          p=3                                         p=3
+
+
+
+
+                                                                   Throughput (DoFs per second)
+                                                                                                  4                                            4
+                                                                                                          p=4                                         p=4
+                                                                                                          p=5                                         p=5
+                                                                                                          p=6                                         p=6
+                                                                                                  3       p=7                                  3      p=7
+                                                                                                          p=8                                         p=8
+
+                                                                                                  2                                            2
+
+
+
+                                                                                                  1                                            1
+
+
+
+                                                                                                  0 3                                          0 3
+                                                                                                  10      104      105      106    107   108   10    104      105      106    107   108
+                                                                                                                Degrees of freedom                         Degrees of freedom
+
+Figure 6: Performance results with selection of the backend
+available in MFEM v4.2: 2D Poisson problem with 1.3 mil-
+lion degrees of freedom solved using 200 unpreconditioned         Figure 7: Performance of the benchParanumal version of
+CG iterations, using Intel Xeon Gold 6130@2.1GHz CPU              the CEED benchmark problem BP1 on a single GPU of
+plus NVIDIA GV100 (ceed-raja, raja-cuda, CUDA 10.1) and           HPE/Tulip AMS InstinctTM MI100 (left) and NVIDIA V100
+AMD Radeon InstinctTM MI60 GPUs (hip, ROCm 3.8).                  SXM2 (right).
+Switching from serial to parallel execution on a desktop
+workstation leads to an order of magnitude performance im-
+provement (note: y-axis is logarithmic). Using the desktop                                                BP5 AMD MI100 (OCCA:HIP)             BP5 NVIDIA V100 SXM2 (OCCA:CUDA)
+                                                                                                      ·109                                       ·109
+GPU results in another order of magnitude performance.                                            4                                            4
+                                                                                                          p=1                                         p=1
+Note that these results are representative for the state of                                               p=2                                         p=2
+the MFEM backends as of version 4.2. We do not claim that                                                 p=3                                         p=3
+                                                                   Throughput (DoFs per second)
+
+
+
+
+                                                                                                  3       p=4                                  3      p=4
+they represent a fair comparison between CPUs and GPUs                                                    p=5                                         p=5
+                                                                                                          p=6                                         p=6
+because not all backends are fully optimized. (For example                                                p=7                                         p=7
+much better CPU results are reported in [13] and [14].)                                           2
+                                                                                                          p=8
+                                                                                                                                               2
+                                                                                                                                                      p=8
+
+
+
+
+                                                                                                  1                                            1
+2.4. libParanumal
+   The Paranumal project [29] started at Virginia                                                 0 3                                          0 3
+                                                                                                            104      105       106       107          104      105       106        107
+Tech in 2017 as a new GPU effort targeting 90% of                                                 10
+                                                                                                              Degrees of freedom
+                                                                                                                                               10
+                                                                                                                                                        Degrees of freedom
+the capabilities of the CPU version of Nek5000. It
+was not originally designed as a user facing library
+but rather as a collection of high-order finite el-               Figure 8: Performance of the benchParanumal version of
+                                                                  the CEED benchmark problem BP5 on a single GPU of
+ement streaming benchmarks (streamParanumal),                     HPE/Tulip AMD InstinctTM MI100 (left) and NVIDIA
+CEED benchmarks (benchParanumal), and self                        V100 SXM2 (right).
+contained mini-apps (libParanumal). These were
+all developed ab initio using the Open Concurrent                    Portable implementations of the CEED BP
+Computing Abstraction (OCCA) [24] and kernel                      benchmarks [16] are available in the benchParanu-
+language (OKL) [30]. Although OKL is a generic                    mal library. Figures 7 and 8 show the performance
+portable kernel programming language the initial                  of the benchParanumal implementations for the
+kernels were optimized for NVIDIA P100 and V100                   CEED BP1 and BP5 benchmark respectively on a
+GPUs, see [23]. By design the libParanumal OKL                    single AMD MI100 (ROCm 3.9) and NVIDIA V100
+                                                              6
+SXM2 (CUDA 10.1). The benchmarks achieved                   can be cast as small dense matrix-matrix products
+sustained average memory bandwidth depending                resulting in high performance with a minor amount
+on polynomial degree and mesh size of up to                 of tuning [39].
+950GB/s (AMD MI100) and 800GB/s (NVIDIA                        For GPU-based platforms, node-level parallelism
+V100 SXM2) despite involving sequences of tensor            requires kernels written at a higher level than sim-
+contractions for each element in the matrix-vector          ple tensor contractions. Early GPU ports started
+operations.                                                 with NekCEM [40], using OpenACC and run-
+   The libParanumal library is a self contained high-       ning on OLCF/Titan up to 16,384 NVIDIA K20X
+order finite element library that uses the same             GPUs. The OpenACC-based implementation and
+highly optimized OKL kernels as the streamPara-             performance studies were extended to Nek5000 [41,
+numal and benchParnaumal benchmark suites. It               42].
+also includes sub-libraries for dense linear alge-             For portability and performance reasons, we de-
+bra, Krylov solvers, parallel mesh handling and             cided to develop a new version of Nek5000, called
+polynomial approximation, p-type and algebraic              NekRS, which is written in C++/OCCA [24]. The
+multigrid, time stepping, gather-scatter operations         NekRS kernels started as a fork from libParanu-
+and halo exchanges, and core miscellaneous op-              mal in late 2018 and were tailored and expanded to
+erations.    The libParanumal sub-libraries sup-            meet the specific requirements of large-scale turbu-
+port meshes consisting of triangles, quadrilater-           lent flow simulations in complex domains (e.g., as
+als, tetrahedra, or hexes.        The libParanumal          illustrated in Figure 10). It retains access to the
+project also includes mini-apps demonstrating GPU           standard Nek5000 interface, which allows users to
+accelerated PDE solvers for linearized acoustics,           leverage existing user-specific source code such as
+scalar advection, Galerkin-Boltzmann finite mo-             statistical analysis tools for turbulence.
+ment gas-dynamics, compressible Navier-Stokes, el-             Several recent developments in NekRS have
+liptic equations, Fokker-Planck, and incompressible         led to significant performance gains on Summit.
+Navier-Stokes. Each solver supports multi-GPU               These include (i) An accelerator-oriented variant
+simulation via Nek’s gslib for efficient MPI based          of gslib [33] that selects from several communi-
+gather-scatter operations and halo exchanges [33].          cation strategies, including pack/unpack on the
+   The libParanumal library is highly modular and           host or device, and GPU-direct or host-based
+early fork of the project has been used with modifi-        communication.       Runtime-adaptation picks the
+cations as a platform for the custom physics require-       fastest strategy. (ii) Chebyshev-accelerated addi-
+ments of the Nek5000 user community [34] as de-             tive Schwarz smoothing. This approach combines
+scribed in the next section albeit without the most         the standard Nek5000 additive Schwarz method
+recent developments in portable streaming and op-           with the Chebyshev-accelerated Jacobi smooth-
+erator kernels. The algorithms and design princi-           ing provided in libParanumal (and, e.g., deal.ii
+ples of libParanumal kernels have also influenced           [14]). Local Schwarz solves are performed with fast-
+the design of kernels produced by the libCEED               diagonalization implemented with tensor contrac-
+cuda-gen backend (see Section 2.1). libParanumal            tions that have a complexity that is on par with
+is also beginning to be used in non-CEED projects           operator evaluation. (iii) Projection-based initial
+as for example in high fidelity time-dependent room         guesses to avoid redundant iteration work in suc-
+acoustic modeling [35].                                     cessive timesteps [43, 44]. The performance impact
+                                                            of these developments are described in detail in [34].
+2.5. Nek5000/RS                                                The advantage of basing NekRS on OCCA is
+   Nek5000 [36] is a spectral element code that is          clear from the results of Table 1, which demon-
+used for a wide range of thermal-fluids applica-            strates full Navier-Stokes performance results for
+tions. A companion code, NekCEM [37], is used               NVIDIA and AMD GPUs. The table shows a
+for computational electromagnetics. These codes             single-GPU comparison of the averaged-walltime
+have scaled to millions of MPI ranks using the Nek-         per timestep for the MI60, MI100, and A100, com-
+based gsLib communication library to handle all             pared to a single V100 on Summit. We remark
+near-neighbor and other stencil type communica-             that extensive tuning has been applied for the V100,
+tions (e.g., for algebraic multigrid) [38]. On CPUs,        which has been the primary development platform
+tensor contractions constitute the principal compu-         for NekRS. Despite this, the performance on the
+tational kernel (typically > 90% of the flops). These       other GPUs is within the scope of what we would
+                                                        7
+     System       Device    Backend      tstep (s)    R             of the CEED kernels can be easily implemented,
+    Summit        V100       CUDA       8.51e-02      1
+      Tulip       MI100       HIP       9.96e-02     0.85
+                                                                    modified and tested with it. Examples are provided
+      Tulip       MI60        HIP       1.41e-01     0.60           with the OCCA distribution that demonstrate the
+      Tulip       V100       CUDA       8.85e-02     0.96           simplicity of the API and kernel language [45].
+   Theta-GPU      A100       CUDA       5.59e-02     1.52              For the porting of existing codes, we have found
+                                                                    that integration of kernels at the for-loop level, as
+Table 1: NekRS Navier-Stokes performance on a single                with Kokkos and RAJA, has several important ben-
+GPU of HPE/Tulip AMD InstinctTM MI100, AMD Radeon
+InstinctTM MI60, NVIDIA V100 PCIe and ALCF/Theta-
+                                                                    efits. For example, in MFEM, the original code was
+GPU NVIDIA A100 SXM4 , compared to OLCF/Summit                      transformed to use a new for-loop abstraction de-
+NVIDIA V100 SXM2, for turbulent pipe flow simulation                fined as a set of MFEM FORALL macros, in order to
+with Re = 19, 000, E = 6840, p = 6, and n = 2, 346, 120.            take advantage of various backends supported via
+Time per step in seconds (tstep ) is averaged over 100 steps.
+R is the ratio of tstep on Summit V100 to that on other             the new macros. This approach allows for gradual
+systems.                                                            code transformations that are not too disruptive for
+                                                                    both MFEM developers and users. Existing appli-
+                                                                    cations based on MFEM are able to continue to
+expect for these nodes. The A100 performs remark-                   work as before with easy transition to accelerated
+ably well, with speedup 1.5× of the performance of                  kernels. This approach also allows interoperabil-
+the V100 and at a near-strong-scale-limit value of                  ity with other software components and external li-
+n = 2.22M gridpoints on a single GPU. Despite the                   braries that can be used in conjunction with MFEM
+fact that the AMD GPU code has seen less tuning                     (e.g., hypre, PETSc, SUNDIALS). The main chal-
+than the NVIDIA code the fact that the perfor-                      lenge in this transition to kernel-centric implemen-
+mance is on par illustrates the portability provided                tation is the need to transform existing algorithms
+by the OCCA base.                                                   to take full advantage of the increased levels of par-
+                                                                    allelism in the accelerators while maintaining good
+3. Discussion                                                       performances on standard CPU architectures.
+                                                                       An important aspect of GPU programming is the
+   In this section we share some of the porting ex-                 need to manage memory allocation and transfers
+periences on the CEED project, and discuss some                     between the CPU (host) and the accelerator (de-
+of the GPU lessons we have learned.                                 vice). This can be a frequent source of bugs and
+   Overall, we have found that porting to GPU ar-                   inefficiencies in complex applications. For example
+chitectures is a disruptive process, similar to the                 in MFEM, a special Memory class was introduced
+transition from serial to MPI parallel programming.                 to manage a pair of host and device pointers and
+As such, we recommend to start a new code for                       provides a simple interface for copying or moving
+the GPU port, if possible, (as with NekRS and lib-                  the data when needed. An important feature of
+Paranumal) as opposed to incrementally porting an                   this Memory class is the ability to work with exter-
+existing code (as with MFEM). We also recommend                     nally allocated host and/or device pointers which
+taking advantage of GPU-accelerated libraries, such                 is essential for interoperability with other libraries.
+as libCEED, when applicable. For low-order ap-                      The Memory has also been useful in the porting of
+plications, the CEED software also provides access                  MFEM-based applications, see Section 4.4.
+to new classes of algorithms (high-order methods)                      Finally, the optimization of GPU kernels really
+that can take better advantage of GPU hardware                      requires understanding of the GPU hardware and
+compared to traditional low-order approaches [16].                  its multi-level memory hierarchy as well as ad-
+   For new codes, we have found the use of OCCA                     vanced techniques such as code generation and JIT
+and its OKL language a pragmatic choice that has                    compilation. To illustrate these points, we de-
+allowed us to make quick progress in capturing e.g.                 scribe in the rest of the section the sequence of
+the capabilities of Nek5000 in libParanumal with-                   developments that led to the cuda-gen backend of
+out choosing a specific manufacturer’s GPU pro-                     libCEED, which achieves close to peak performance
+gramming model since OCCA translates OKL code                       for high-order operator evaluation with tensor finite
+into CUDA, HIP, OpenCL, or OpenMP at runtime                        elements on NVIDIA GPUs.
+for native just-in-time (JIT) compilation. OCCA                        The first libCEED CUDA backend was the ref-
+has also been instrumental in the exploration of the                erence backend cuda-ref, which established a
+high-order algorithmic space, as different versions                 blueprint for GPU porting in libCEED. The main
+                                                                8
+difficulty at this point was to handle all the run-         4. Applications
+time aspects of libCEED. Being able to produce
+efficient GPU kernels relies on the compiler know-             The CEED effort includes the development of al-
+ing as much as possible during compilation, which           gorithms, software, simulation and modeling, per-
+conflicts with the generality of the libCEED ap-            formance analysis and optimization for CEED-
+proach where users are free to specify e.g., polyno-        engaged applications. While we are focused on ex-
+mial order and number of quadrature points used             ascale applications in the ECP, CEED is also ex-
+at runtime. For this reason, it was critical to use         tending its contribution to a broader range of engi-
+JIT compilation to generate on the fly GPU ker-             neering and science application areas, such as nu-
+nels with as much information as we could provide           clear energy, wind energy, fusion, solid mechanics,
+at runtime. In general, we believe that JIT compi-          additive manufacturing, internal combustion, and
+lation will play an important role in HPC in the fu-        recent extension to weather modeling and aerosol
+ture, and is essentially a requirement for high-order       transport research. In this section, we demonstrate
+applications with runtime order selection.                  the impact of the CEED-developed open source
+                                                            codes, Nek5000/RS and MFEM with full simula-
+  The second libCEED CUDA backend,                          tion capability, scaling on various acceleration ar-
+cuda-shared, focused on optimizing each GPU                 chitectures (including the full scaling performance
+kernel individually to achieve peak performance.            on Summit GPUs), in DOE’s ExaSMR, ExaWind,
+The tensor kernels are highly memory bound, so              NEAMS, MARBL, and ExaAM projects.
+the challenge was to use the different memory
+bandwidths efficiently. Typically, the bottlenecks          4.1. ExaSMR
+are the local/shared memory bandwidths and
+                                                               ExaSMR’s target geometry is a small modular
+the memory access patterns to the data. If we
+                                                            reactor assembly comprising 37 bundles, each hav-
+compare the cuda-ref and cuda-shared backends
+                                                            ing a 17×17 array of rods, which totals to ∼10,000
+in Figure 9, we see that for low orders (1 to 3) the
+                                                            long communicating channels. For development, we
+performance of the cuda-ref and cuda-shared
+                                                            consider two geometries: a very long single 17×17
+backends are similar, the cuda-ref kernels do not
+                                                            bundle, and a collection of 37 such bundles that
+yet saturate the local/shared memory bandwidth.
+                                                            are shorter in length. We analyzed NekRS perfor-
+However, for orders higher to 4, we observe that
+                                                            mance behaviors for both geometries. Detailed per-
+the cuda-ref backend performance deteriorates
+                                                            formance for various geometries is discussed in [34].
+with the order. This is due to local/shared memory
+                                                            Here we present the baseline performance of the
+bandwidth getting more and more saturated. On
+                                                            long 17×17 bundle, illustrated in Fig. 10(a), hav-
+the other hand, the cuda-shared manages by
+                                                            ing the ratio between the characteristic length L
+careful memory accesses and unrolling loops to
+                                                            and the rod diameter D as L/D ≈ 288.
+continue saturating the global memory bandwidth
+                                                               Table 2 demonstrates strong- and weak-scaling
+and thus achieves high performance for each GPU
+                                                            runs out to 175 million elements on Summit—
+kernel.
+                                                            roughly twelve times larger than 15M-element that
+  The final, and best performing backend,                   were “hero calculations” on Mira as recently as
+cuda-gen uses a code generation approach, based             2020. We measured the average-walltime per step
+on the cuda-shared backend, to generate at run-             in seconds, tstep , using 101-200 steps for simula-
+time (with JIT compilation) a unique optimized              tions with ReD = 5000. For the strong scaling, we
+GPU kernel representing the whole operator. Since           used E = 175, 618, 000 and N = 7, totaling 60 bil-
+the cuda-ref, cuda-shared are decomposing the               lion grid points. We observe the 17×17 rod-bundle
+matrix free operators in a sequence of GPU kernels,         case continues to scale well to all of Summit, using
+they require the storage, in global memory, of un-          n/P = 2.1M with 70% parallel efficiency from the
+necessary temporary results in between each kernel          base of 1810 nodes using n/P = 5.5M , where P
+launch. Fusing GPU kernels prevents these unnec-            is the number of V100s. We see 80% efficiency is
+essary data storage and movements between kernel            sustained for n/P = 2.6M . The weak scaling uses
+launches resulting in a 2-3 time speedup over the           the meshes increased by 120, 440, 1100, 2200, 4400,
+cuda-shared backend, see Figure 9, and around 5             and 6340 layers in the streamwise (z) direction, ex-
+time speedup over the reference backend cuda-ref            truded from a two-dimensional 17×17 mesh having
+on the CEED benchmark problem BP3.                          E = 27, 700 spectral elements. Weak-scaling this
+                                                        9
+                                                       cuda-ref                                  cuda-shared                                cuda-gen
+                                     ·109                                        ·109                                      ·109
+                                 3                                           3                                         3
+                                            p=1                                         p=1                                       p=1
+  Throughput (DoFs per second)
+
+
+
+
+                                            p=2                                         p=2                                       p=2
+                                            p=3                                         p=3                                       p=3
+                                            p=4                                         p=4                                       p=4
+                                 2          p=5                              2          p=5                            2          p=5
+                                            p=6                                         p=6                                       p=6
+                                            p=7                                         p=7                                       p=7
+                                            p=8                                         p=8                                       p=8
+                                 1                                           1                                         1
+
+
+
+
+                                 0 3                                         0 3                                       0 3
+                                 10         104       105       106    107   10         104       105      106   107   10         104      105      106    107
+                                                  Degrees of freedom                          Degrees of freedom                        Degrees of freedom
+
+Figure 9: Performance of the cuda-ref (left) cuda-shared (center) and cuda-gen (right) backends of libCEED for the CEED
+benchmark problem BP3 on an NVIDIA V100 GPU.
+
+
+
+
+Figure 10: Nek5000/RS applications: (a) ExaSMR’s 17×17 fuel rod configuration and turbulent flows profile, (b) ExaWind’s
+atmospheric boundary layer modeling and analysis, (c) NEAMS’s pebble-bed reactor configurations with simulation demon-
+strating turbulent flows past 3344 pebbles in an annulus and 44257 pebbles in a cylinder.
+
+
+problem from 271 to 4608 nodes (1626 to 27648                                                         the Global Energy and Water Cycle Experiment
+GPUs) sustains more than 80% parallel efficiency                                                      Atmospheric Boundary Layer Study (GABLS), to
+throughout, using 2.1M grid points per GPU.                                                           demonstrate the suitability of high-order methods
+   We note that the pressure iteration counts, pi ,                                                   for large eddy simulations (LES) of the ABL. Initial
+are relatively very low for the 17×17 bundle com-                                                     convergence results of an LES study with Nek5000
+pared to the pebble cases, which have pi ∼ 8 for the                                                  are shown in Figure 10(b). We have initiated a
+same timestepper and preconditioner. The geomet-                                                      performance study for this problem on Theta-GPU
+ric complexity of the 17×17 rod-bundle is relatively                                                  (A100s) and Summit (V100s) for an E = 32768
+mild compared to the pebble case and also the syn-                                                    spectral element mesh with N = 7 (i.e., n=11.2M).
+thetic initial condition does not quickly transition                                                  Our simulations represent turbulent flows on the
+to full turbulence. We expect higher pressure iter-                                                   physical domain [400m × 400m × 400m] with
+ation counts (e.g., pi ∼ 4–8) once fully turbulent                                                    geostrophic wind speed of 8m/s in x-direction and
+flow is established for this case.                                                                    reference potential temperature of 263.5K with no-
+                                                                                                      slip boundary as well as wall functions based on
+4.2. ExaWind                                                                                          log-law at the lower wall, otherwise periodic bound-
+                                                                                                      ary conditions. Single-node scaling shows the 80%
+   Efficient simulation of atmospheric boundary
+                                                                                                      strong-scale limit to be 1.8M points/GPU for both
+layer flows (ABL) is important for the study of
+                                                                                                      the V100 and A100, with the A100 running at
+wind farms, urban canyons, and basic weather mod-
+                                                                                                      .055s/step and 1.55 times faster than the V100.
+eling. In collaboration with the ECP ExaWind
+team, we identified a well-documented test case,
+                                                                                                 10
+                           ExaSMR application performance: 17 × 17 fuel rods simulation
+        case    node      gpu      E      N   E/gpu n/gpu vi       pi    tstep (s)  R                   Rideal    Peff (%)
+                1810     10860 175618000  7    16171  5.5M     4    2   1.855e-01 1.00                   1.00       100
+       strong   2536     15216 175618000  7    11542  3.9M     4    2   1.517e-01 1.22                   1.40        87
+                3620     21720 175618000  7    8085   2.7M     4    2   1.120e-01 1.65                   2.00        82
+                4180     25080 175618000  7    7002   2.4M     4    2   1.128e-01 1.64                   2.30        71
+                4608     27648 175618000  7    6351   2.1M     4    2   1.038e-01 1.78                   2.54        70
+        case    node      gpu         E         N    E/gpu     n/gpu     vi    pi    tstep (s)    R     Rideal    Peff (%)
+                 87       522      3324000      7     6367     2.1M      4     2     8.57e-02    1.00    1.00       100
+                 320     1920     12188000      7     6347     2.1M      4     2     8.67e-02    0.98    1.00        98
+       weak      800     4800     30470000      7     6347     2.1M      4     2     9.11e-02    0.94    1.00        94
+                1600     9600     60940000      7     6347     2.1M      4     2     9.33e-02    0.91    1.00        91
+                3200     19200    121880000     7     6347     2.1M      4     2     9.71e-02    0.88    1.00        88
+                4608     27648    175618000     7     6351     2.1M      4     2     1.03e-01    0.83    1.00        83
+
+
+Table 2: ExaSMR: NekRS strong and weak scaling performed on Summit, using 6 GPUs per node, for simulating turbulent
+flow in the 17 × 17 rod-bundle of Figure 10(a), right, with ReD = 5000. Time per step in seconds (tstep ), velocity iteration
+count (vi ), and pressure iteration count (pi ), are all averaged over 100 steps. R is the ratio of tstep of 1810 nodes to that of
+others for strong scaling and tstep of 87 nodes to that of others for weak scaling, provided with the ideal ratio, Rideal and the
+parallel efficiency, Peff .
+
+
+4.3. NEAMS                                                          conservation laws of mass, momentum, and energy
+   Figure 10(c) demonstrates turbulent flows past                   in a moving material frame. The BLAST package
+3344 pebbles in an annulus (left) and 44257 peb-                    utilizes high-order finite element discretizations of
+bles in a cylinder (right) that were computed with                  physical processes on a high-order (curved) mov-
+NekRS on Summit using 840 GPUs and 1788 GPUs,                       ing mesh. BLAST’s finite element discretization
+respectively. The cylinder case has 13M elements                    infrastructure is entirely based on the MFEM li-
+of order N = 7, for a total of 4.4B grid points.                    brary. Therefore, the GPU port of BLAST makes
+The annulus configuration is a prototype for pebble-                extensive use of on the matrix-free approach and
+bed reactor configurations that are being studied                   GPU support via MFEM. In this section we provide
+by the DOE’s Nuclear Energy Advanced Modeling                       specifics about the major GPU kernels in BLAST,
+and Simulation project. We have developed a novel                   and the impact of the CEED project in these GPU
+meshing strategy for generating high-quality hexa-                  development efforts.
+hedral element meshes that ensure accurate repre-                   Memory management. Since MARBL/BLAST is
+sentation of densely packed spheres for these geome-                based on MFEM, it directly uses the high-level
+tries [46]. The meshing algorithm includes Voronoi                  memory management interface for reading and
+tessellation, edge collapse, facet projection onto the              writing device data. In addition, the MARBL team
+spheres, and mesh smoothing with quality measure-                   has enhanced the MFEM’s memory manager ca-
+ments. These simulations strong-scale well and the                  pabilities by introducing the Umpire [48] memory
+NEAMS target configuration of an annulus with                       manager providing access to memory pools. This
+300,000 pebbles will require about 30B grid points,                 approach enables the following benefits: substan-
+which is well within the current performance enve-                  tially reduces slowdowns caused by cudaMalloc per-
+lope on Summit.                                                     formance; sharing of device memory buffers inside
+                                                                    MARBL to reduce the total device usage; and shar-
+4.4. MARBL                                                          ing overall temporary memory between other exter-
+   MARBL is a next-gen multi-physics simu-                          nal packages in MARBL that use Umpire.
+lation code being developed at LLNL. The                            Lagrangian phase. In this phase the multi-material
+code provides multi-material radiation-magneto-                     compressible Euler equations are solved on a mov-
+hydrodynamics with applications in inertial con-                    ing curved mesh [49, 50]. The optimization of
+finement fusion (ICF), pulsed power and equation                    the needed mass and force operators has been
+of state/material strength experiments as part of                   aided by the matrix-free methods that were in-
+the NNSA ATDM program.           One of the cen-                    troduced by the CEED-developed Laghos miniapp
+tral components of MARBL is the BLAST package                       [51], which models the main computational ker-
+[47], which uses an ALE formulation to simulate                     nels of Lagrangian hydrodynamics. The GPU ker-
+                                                               11
+nels for these methods were implemented by the                with the final speedup of the matrix-free CPU vs
+MARBL team and reside in the BLAST code. The                  GPU kernels.
+latest Laghos GPU implementations of these ker-
+nels give an alternative that might be used in the
+future, based on performance tests. A key CEED
+benefit provided to MARBL is the ability to drop in
+replacements for these expensive kernels as they be-
+come available. Physics-specific quadrature point
+computations were implemented by the MARBL
+team, making use of the RAJA nested parallel loop
+abstractions combined with MFEM’s GPU capabil-
+ities, including GPU-friendly data structures, small
+dense matrix kernels, and use of shared memory.
+This phase also requires the computation of a hy-
+perviscosity [52] coefficient, which involves consecu-
+tive applications of a Laplacian operator. This pro-
+cedure has been ported on the GPU by applying                 Figure 11: 3D Triple-point problem throughput test in
+directly the MFEM’s optimized diffusion kernels.              MARBL. Comparison of 3 CPU-based systems versus the
+                                                              NVIDIA V100 GPU-based Sierra.
+Remesh phase. The mesh optimization phase of
+BLAST is based on the Target-Matrix Optimiza-
+tion Paradigm (TMOP), where the mesh optimiza-
+tion problem is posed as a variational minimization               Phase       FA CPU     PA CPU      PA GPU      speedup
+of a nonlinear functional [53, 54]. The development             Time Loop     3854.16    2866.54      221.03       12.9
+                                                                 Lagrange     1773.68    1098.42       69.73       15.7
+of the GPU port was performed in MFEM’s mesh
+                                                                 Remesh        557.98     366.24      42.67        8.5
+optimization miniapp, and then directly ported to                 Remap       1513.99    1393.34      100.95       13.8
+MARBL, as both codes use the same core TMOP
+algorithms.                                                   Table 3: CPU and GPU timings on 3 nodes of the LLNL’s
+                                                              rzgenie (36 tasks per node) and rzansel (4 GPUs per node)
+Remap phase. The remap algorithm in BLAST                     machines. FA is traditional full assembly, while PA is matrix-
+has two main components, namely, velocity remap,              free partial assembly. This is a full 3D high-order ALE sim-
+which is solved by a continuous Galerkin advec-               ulation with 224,160 elements.
+tion discretization, and remap of other fields, which
+is modeled by flux-limited discontinuous Galerkin
+(DG) advection [55, 56]. Using the MFEM infras-
+                                                              4.5. ExaConstit
+tructure, the MARBL developers have developed
+custom GPU code for matrix-free DG advection                     ExaConstit [58] is a general implicit quasi-static
+remap. It is expected that this approach will be              non-linear solid mechanics velocity-based finite el-
+improved significantly by the future work in the              ement application built on the MFEM framework
+CEED-developed Remhos miniapp, as it contains                 [12]. This code is being developed at LLNL for
+novel matrix-free DG remap methods [57]. The con-             the ExaAM project in the ECP, with the goals of
+tinuous Galerkin advection solve is also fully GPU            connecting local additive manufactured microstruc-
+ported. Similarly to the CG mass matrix inversion             tures to local macroscopic properties by means of
+in the Lagrangian phase, the remap GPU code is                crystal plasticity finite element methods. As part
+implemented inside MARBL, and the alternative to              of a larger workflow of the ExaAM workflow to
+switching to the optimized MFEM kernels will be               simulate the additive manufacturing process, Ex-
+explored. In Figure 11 we present a recent study of           aConstit and its constitutive library, ExaCMech
+MARBL that compares node-to-node throughput                   [59], needed be refactored to run on the GPU. This
+of several CPU machines at LLNL (a Commodity                  refactoring was required to run the hundreds to
+Technology System (CTS ), Astra and Magma) ver-               thousands of high-fidelity simulations on exascale
+sus the LLNL Sierra machine, showing clear advan-             hardware in a timely manner for the larger work-
+tage of the GPU executions. Table 3 shows timings             flow. ExaCMech was ported over to the GPU using
+of the three main phases of the application, along            RAJA forall loops wrapped around the entire large
+                                                         12
+constitutive kernel. Within ExaConstit, the dom-
+inant computational cost lies within the linearized
+system solve within a Newton-Raphson scheme.
+Therefore,the primary focus had been transitioning
+from a traditional full assembly method over to par-
+tial and element assembly methods. This transition
+required the physics/constitutive calculations to be
+completely separated from the assembly method
+and called in a separate setup phase. The setup
+phase is now responsible for calculating the updated
+stress and material tangent stiffness matrix. After-
+                                                              Figure 12: A representative microstructure within an ad-
+words, these values can be incorporated into any of
+                                                              ditive manufactured part over a 500 micron volume cube
+the runtime selected linear assembly methods. Ini-            and discretized into 27 million linear hexahedron elements.
+tial partial and element assembly formulations are            The highly heterogeneous effective plastic shearing rate is
+based on [60] and [61], respectively. In order to             plotted along with the microstructure where each crystal is
+                                                              represented as a different color.
+keep compute kernels backend agnostic, MFEM’s
+forall abstraction macros, which make use of the
+RAJA backends, and memory management capa-                    GPUs. We also discussed some of the challenges
+bilities were leveraged within ExaConstit for a vast          of porting to exascale GPU architectures and pre-
+majority of the compute kernels. Within ExaCon-               sented application results that use the CEED-
+stit, a few reduction operations were also converted          developed GPU technologies.
+to RAJA reduction policies to take advantage of the
+GPU as these are not available within the MFEM
+API. The end result of this refactoring is a ∼14.5x           Acknowledgments
+speed-up when using the GPU element assembly
+over the CPU full assembly on Summit. For an                     This research is supported by the Exascale Com-
+ExaAM challenge problem sized linear hexahedron               puting Project (17-SC-20-SC), a collaborative effort
+mesh of 6.7 million elements that undergoes 5%                of two U.S. Department of Energy organizations
+monotonic strain, the GPU port and assembly im-               (Office of Science and the National Nuclear Secu-
+provements result in a runtime decrease of roughly            rity Administration) responsible for the planning
+35 node-hours down to 2.5 node-hours on 8 nodes of            and preparation of a capable exascale ecosystem, in-
+Summit for just the ExaConstit stage. The results             cluding software, applications, hardware, advanced
+of these simulations will then be used determine the          system engineering and early testbed platforms, in
+properties being used in the part-scale simulation of         support of the nation’s exascale computing imper-
+the larger ExaAM workflow being run on exascale               ative.
+hardware. Finally from a physics point of view,                  The research used resources of the Argonne Lead-
+these improvements are also enabling the ExaAM                ership Computing Facility, which is supported by
+team to study the highly complex deformation pro-             the U.S. Department of Energy, Office of Science,
+cesses that occur within additively manufactured              under Contract DE-AC02-06CH11357. This re-
+microstructures, such as those shown in Figure 12,            search also used resources of the Oak Ridge Lead-
+at an unprecedented level of fidelity of typical crys-        ership Computing Facility at Oak Ridge National
+tal plasticity methods.                                       Laboratory, which is supported by the Office of
+                                                              Science of the U.S. Department of Energy under
+                                                              Contract DE-AC05-00OR22725. Work performed
+5. Conclusions
+                                                              under the auspices of the U.S. Department of En-
+  In this paper we described the development of               ergy under Contract DE-AC52-07NA27344 (LLNL-
+GPU-oriented algorithms for high-order finite ele-            JRNL-816034).
+ment discretizations in the ECP CEED projects.
+We presented the current GPU capabilities of
+                                                              References
+several CEED components, including libCEED,
+MAGMA, MFEM, libParanumal and Nek, which                       [1] Center for Efficient Exascale Discretizations, Exascale
+can now run efficiently on both NVIDIA and AMD                     Computing Project, DOE, ceed.exascaleproject.org.
+
+                                                         13
+ [2] T. Kolev, P. Fischer, M. Min, J. Dongarra, J. Brown,                   Comput. 24 (2005) 45–78.
+     V. Dobrev, T. Warburton, S. Tomov, M. S. Shep-                    [16] P. Fischer, M. Min, T. Rathnayake, S. Dutta, T. Kolev,
+     hard, A. Abdelfattah, V. Barra, N. Beams, J.-                          V. Dobrev, J.-S. Camier, M. Kronbichler, T. Warbur-
+     S. Camier, N. Chalmers, Y. Dudouit, A. Karakus,                        ton, K. Swirydowicz, J. Brown, Scalability of high-
+     I. Karlin, S. Kerkemeier, Y.-H. Lan, D. Medina,                        performance PDE solvers, Int. J. HPC App. 34 (5)
+     E. Merzari, A. Obabko, W. Pazner, T. Rathnayake,                       (2020) 562–586. doi:{10.1177/1094342020915762}.
+     C. W. Smith, L. Spies, K. Swirydowicz, J. Thomp-                  [17] J. Brown, A. Abdelfattah, V. Barra, N. Beams, J. S.
+     son, A. Tomboulides, V. Tomov, Efficient exas-                         Camier, V. Dobrev, Y. Dudouit, L. Ghaffari, T. Kolev,
+     cale discretizations: High-order finite element meth-                  D. Medina, W. Pazner, T. Ratnayaka, J. Thomp-
+     ods, Int. J. HPC App. (2021) 1–26doi:10.1177/                          son, S. Tomov, libCEED: Fast algebra for high-order
+     10943420211020803.                                                     element-based discretizations, Journal of Open Source
+ [3] H. Kreiss, J. Oliger, Comparison of accurate methods                   Software 6 (63) (2021) 2945. doi:10.21105/joss.
+     for the integration of hyperbolic problems, Tellus 24                  02945.
+     (1972) 199–215. doi:10.3402/tellusa.v24i3.10634.                  [18] A. Abdelfattah, V. Barra, N. Beams, J. Brown, J.-S.
+ [4] I. Babuška, M. Suri, The p and h−p versions of the finite             Camier, V. Dobrev, Y. Dudouit, L. Ghaffari, T. Kolev,
+     element method, basic principles and properties, SIAM                  D. Medina, W. Pazner, T. Ratnayaka, J. L. Thompson,
+     Review 36 (4) (1994) 578–632. doi:10.1137/1036141.                     S. Tomov, libCEED user manual (Jul. 2021). doi:10.
+ [5] S. Orszag, Spectral methods for problems in complex                    5281/zenodo.5077489.
+     geometry, J. Comput. Phys. 37 (1980) 70–92. doi:10.               [19] G. Karniadakis, S. Sherwin, Spectral/hp Element
+     1016/0021-9991(80)90005-4.                                             Methods for Computational Fluid Dynamics., Oxford
+ [6] D. Gottlieb, S. Orszag, Numerical Analysis of Spec-                    University Press, Oxford, 2005.
+     tral Methods: Theory and Applications, SIAM-CBMS,                 [20] P. E. Vos, S. J. Sherwin, R. M. Kirby, From h to p ef-
+     Philadelphia, 1977.                                                    ficiently: Implementing finite and spectral/hp element
+ [7] D. Arndt, N. Fehn, G. Kanschat, K. Kormann, M. Kro-                    methods to achieve optimal performance for low-and
+     nbichler, P. Munch, W. A. Wall, J. Witte, Exadg:                       high-order discretisations, Journal of Computational
+     High-order discontinuous galerkin for the exa-scale, in:               Physics 229 (13) (2010) 5161–5181. doi:10.1016/j.
+     H.-J. Bungartz, S. Reiz, B. Uekermann, P. Neumann,                     jcp.2010.03.031.
+     W. E. Nagel (Eds.), Software for Exascale Computing -             [21] M. Ainsworth, G. Andriamaro, O. Davydov, Bernstein-
+     SPPEXA 2016-2019, Springer International Publishing,                   Bézier finite elements of arbitrary order and opti-
+     Cham, 2020, pp. 189–224.                                               mal assembly procedures, SIAM Journal on Scientific
+ [8] P. D. Bello-Maldonado, P. F. Fischer, Scalable low-                    Computing 33 (6) (2011) 3087–3109. doi:10.1137/
+     order finite element preconditioners for high-order spec-              11082539X.
+     tral element Poisson solvers, SIAM Journal on Scien-              [22] R. C. Kirby, Fast simplicial finite element algo-
+     tific Computing 41 (5) (2019) S2–S18. doi:10.1137/                     rithms using Bernstein polynomials, Numerische Math-
+     18M1194997.                                                            ematik 117 (4) (2011) 631–652.             doi:10.1007/
+ [9] C. Canuto, P. Gervasio, A. Quarteroni, Finite-element                  s00211-010-0327-2.
+     preconditioning of G-NI spectral methods, SIAM Jour-              [23] K. Swirydowicz, N. Chalmers, A. Karakus, T. Warbur-
+     nal on Scientific Computing 31 (6) (2010) 4422–4451.                   ton, Acceleration of tensor-product operations for high-
+     doi:10.1137/090746367.                                                 order finite element methods, The International Jour-
+[10] D. Moxey, R. Amici, M. Kirby, Efficient matrix-free                    nal of High Performance Computing Applications 33 (4)
+     high-order finite element evaluation for simplicial ele-               (2019) 735–757. doi:10.1177/1094342018816368.
+     ments, SIAM Journal on Scientific Computing 42 (3)                [24] D. S. Medina, A. St-Cyr, T. Warburton, OCCA: A
+     (2020) C97–C123. doi:10.1137/19M1246523.                               unified approach to multi-threading languages, arXiv
+[11] T. Sun, L. Mitchell, K. Kulkarni, A. Klöckner, D. A.                  preprint arXiv:1403.0968.
+     Ham, P. H. Kelly, A study of vectorization for matrix-            [25] MAGMA: Matrix algebra on gpu and multicore archi-
+     free finite element methods, The International Journal                 tectures, icl.utk.edu/magma.
+     of High Performance Computing Applications 34 (6)                 [26] A. Abdelfattah, M. Baboulin, V. Dobrev, J. J. Don-
+     (2020) 629–644. doi:10.1177/1094342020945005.                          garra, C. W. Earl, J. Falcou, A. Haidar, I. Karlin, T. V.
+[12] R. Anderson, J. Andrej, A. Barker, J. Bramwell, J.-                    Kolev, I. Masliah, S. Tomov, High-Performance Ten-
+     S. Camier, J. C. V. Dobrev, Y. Dudouit, A. Fisher,                     sor Contractions for GPUs, in: International Confer-
+     T. Kolev, W. Pazner, M. Stowell, V. Tomov, I. Akker-                   ence on Computational Science, ICCS, 6-8 June 2016,
+     man, J. Dahm, D. Medina, S. Zampini, MFEM: A mod-                      San Diego, California, USA, 2016, pp. 108–118. doi:
+     ular finite element library, Computers & Mathematics                   10.1016/j.procs.2016.05.302.
+     with Applicationsdoi:10.1016/j.camwa.2020.06.009.                 [27] N. Beams, A. Abdelfattah, S. Tomov, J. Don-
+[13] M. Kronbichler, W. A. Wall, A performance compar-                      garra, T. Kolev, Y. Dudouit, High-Order Finite Ele-
+     ison of continuous and discontinuous galerkin meth-                    ment Method using Standard and Device-Level Batch
+     ods with fast multigrid solvers, SIAM Journal on Sci-                  GEMM on GPUs, in: 11th Workshop on Latest Ad-
+     entific Computing 40 (5) (2018) A3423–A3448. doi:                      vances in Scalable Algorithms for Large-Scale Sys-
+     10.1137/16M110455X.                                                    tems,Proceedings. To appear, 2020.
+[14] M. Kronbichler, K. Ljungkvist, Multigrid for matrix-              [28] R. D. Hornung, J. A. Keasler, The RAJA Portability
+     free high-order finite element computations on graphics                Layer: Overview and Status, Tech. Rep. LLNL-TR-
+     processors, ACM Trans. Parallel Comput. 6 (1) (2019)                   661403, LLNL (Sep. 2014).
+     1–32. doi:10.1145/3322813.                                        [29] N. Chalmers, A. Karakus, A. P. Austin, K. Swiry-
+[15] J. W. Lottes, P. F. Fischer, Hybrid multigrid/Schwarz                  dowicz, T. Warburton, libParanumal: a performance
+     algorithms for the spectral element method, J. Sci.                    portable high-order finite element library (2020). doi:
+
+                                                                  14
+     10.5281/zenodo.4004744.                                         [47] R. W. Anderson, V. A. Dobrev, T. V. Kolev, R. N.
+     URL github.com/paranumal/libparanumal                                Rieben, V. Z. Tomov, High-order multi-material ALE
+[30] D. Medina, Okl: a unified language for parallel archi-               hydrodynamics, SIAM J. Sci. Comp. 40 (1) (2018) B32–
+     tectures, Ph.D. thesis, Rice University (2015).                      B58. doi:10.1137/17M1116453.
+[31] N. Chalmers, T. Warburton, Portable high-order finite           [48] D. Beckingsale, M. McFadden, J. Dahm, R. Pankajak-
+     element kernels i: Streaming operations, arXiv preprint              shan, R. Hornung, Umpire: Application-focused man-
+     arXiv:2009.10917.                                                    agement and coordination of complex hierarchical mem-
+[32] N. Chalmers, T. Warburton, streamParanumal:                          ory, IBM Journal of Research and Development (2019)
+     Streaming microbenchmarks for high-order finite ele-                 1–10doi:10.1147/JRD.2019.2954403.
+     ment methods.                                                        URL ieeexplore.ieee.org/document/8907404
+     URL github.com/paranumal/streamparanumal                        [49] V. A. Dobrev, T. V. Kolev, R. N. Rieben, High-order
+[33] gslib: Gather-scatter library (2020).                                curvilinear finite element methods for Lagrangian hy-
+     URL github.com/Nek5000/gslib                                         drodynamics, SIAM J. Sci. Comp. 34 (5) (2012) B606–
+[34] P. Fischer, S. Kerkemeier, M. Min, Y. Lan, M. Phillips,              B641. doi:10.1137/120864672.
+     T. Rathnayake, E. Merzari, A. Tomboulides,                      [50] V. A. Dobrev, T. V. Kolev, R. N. Rieben, V. Z. To-
+     A. Karakus, N. Chalmers, T. Warburton, Nekrs,                        mov, Multi-material closure model for high-order finite
+     a gpu-accelerated spectral element navier-stokes solver,             element Lagrangian hydrodynamics, Internat. J. Nu-
+     CoRR abs/2104.05829. arXiv:2104.05829.                               mer. Methods Engrg. 82 (10) (2016) 689–706. doi:
+     URL https://arxiv.org/abs/2104.05829                                 10.1002/fld.4236.
+[35] A. Melander, E. Strøm, F. Pind, A. Engsig-Karup, C.-            [51] Laghos:      High-order Lagrangian hydrodynamics
+     H. Jeong, T. Warburton, N. Chalmers, J. S. Hesthaven,                miniapp, github.com/ceed/Laghos (2020).
+     Massive parallel nodal discontinuous galerkin finite el-        [52] P. D. Bello-Maldonado, T. V. Kolev, R. N. Rieben,
+     ement method simulator for room acoustics, Tech. rep.                V. Z. Tomov, A matrix-free hyperviscosity formula-
+     (2020).                                                              tion for high-order ALE hydrodynamics, Comput. Flu-
+[36] Nek: Open source, highly scalable and portable spectral              idsdoi:10.1016/j.compfluid.2020.104577.
+     element code, nek5000.mcs.anl.gov (2020).                       [53] V. Dobrev, P. Knupp, T. Kolev, K. Mittal, V. Tomov,
+[37] NekCEM: Scalable high-order computational electro-                   The Target-Matrix Optimization Paradigm for high-
+     magnetic code, github.com/NekCEM/NekCEM (2020).                      order meshes, SIAM Journal on Scientific Computing
+[38] P. F. Fischer, K. Heisey, M. Min, Scaling limits for                 41 (1) (2019) B50–B68. doi:10.1137/18M1167206.
+     PDE-based simulation, in: 22nd AIAA Computational               [54] V. A. Dobrev, P. Knupp, T. V. Kolev, K. Mittal, R. N.
+     Fluid Dynamics Conference, 2015, p. 3049.                            Rieben, V. Z. Tomov, Simulation-driven optimization
+[39] Deville, M.O., P. Fischer, E. Mund, High-order meth-                 of high-order meshes in ALE hydrodynamics, Comput.
+     ods for incompressible fluid flow, Cambridge University              Fluids 208. doi:10.1016/j.compfluid.2020.104602.
+     Press, Cambridge, 2002.                                         [55] R. W. Anderson, V. A. Dobrev, T. V. Kolev, R. N.
+[40] M. Otten, J. Gong, A. Mametjanov, A. Vose,                           Rieben, Monotonicity in high-order curvilinear finite
+     J. Levesque, P. Fischer, M. Min, An MPI/OpenACC                      element arbitrary Lagrangian–Eulerian remap, Inter-
+     implementation of a high order electromagnetics                      nat. J. Numer. Methods Engrg. 77 (5) (2015) 249–273.
+     solver with GPUDirect communication, The Inter-                      doi:10.1002/fld.3965.
+     national Journal of High Performance Computing                  [56] R. W. Anderson, V. A. Dobrev, T. V. Kolev,
+     Application 30 (3) (2016) 320–334.        doi:10.1177/               D. Kuzmin, M. Q. de Luna, R. N. Rieben, V. Z. To-
+     1094342015626584.                                                    mov, High-order local maximum principle preserving
+[41] J. Gong, S. Markidis, E. Laure, M. Otten, P. Fischer,                (MPP) discontinuous Galerkin finite element method
+     M. Min, Nekbone performance on gpus with openacc                     for the transport equation, J. Comp. Phys. 334 (2017)
+     and cuda fortran implementations, special issue on sus-              102–124. doi:10.1016/j.jcp.2016.12.031.
+     tainability on ultrascale computing systems and appli-          [57] H. Hajduk, D. Kuzmin, T. V. Kolev, R. Abgrall,
+     cations, J. Supercomputing 72 (11) (2016) 4160–4180.                 Matrix-free subcell residual distribution for Bernstein
+     doi:10.1007/s11227-016-1744-5.                                       finite element discretizations of linear advection equa-
+[42] E. Otero, J. Gong, M. Min, P. Fischer, P. Schlatter,                 tions, Comput. Methods Appl. Mech. Eng. 359. doi:
+     E. Laure, OpenACC acceleration for the PN −PN −2 al-                 10.1016/j.cma.2019.112658.
+     gorithm in Nek5000, Journal of Parallel and Distributed         [58] R. A. Carson, S. R. Wopschall, J. A. Bramwell, Exa-
+     Computing 132 (2019) 69–78. doi:10.1016/j.jpdc.                      Constit (Aug 2019). doi:10.11578/dc.20191024.2.
+     2019.05.010.                                                         URL github.com/LLNL/ExaConstit
+[43] P. Fischer, Projection techniques for iterative solution        [59] N. R. Barton, R. A. Carson, S. R. Wopschall, U. N. N. S.
+     of Ax = b with successive right-hand sides, Computer                 Administration, ECMech (12 2018). doi:10.11578/dc.
+     Methods in Applied Mechanics and Engineering 163                     20190809.2.
+     (1998) 193–204. doi:10.1016/S0045-7825(98)00012-7.                   URL github.com/LLNL/ExaCMech
+[44] A. P. Austin, N. Chalmers, T. Warburton, Initial                [60] A. K. Gupta, B. Mohraz, A method of computing
+     guesses for sequences of linear systems in a gpu-                    numerically integrated stiffness matrices, International
+     accelerated incompressible flow solver, arXiv preprint               Journal for Numerical Methods in Engineering 5 (1)
+     arXiv:2009.10863.                                                    (1972) 83–89. doi:10.1002/nme.1620050108.
+[45] OCCA: Lightweight performance portability library,              [61] A. K. Gupta, Efficient numerical integration of element
+     libocca.org (2020).                                                  stiffness matrices, International Journal for Numerical
+[46] Y.-H. Lan, P. Fischer, E. Merzari, M. Min, All-hex                   Methods in Engineering 19 (9) (1983) 1410–1413. doi:
+     meshing strategies for densely packed spheres, The 29th              10.1002/nme.1620190910.
+     International Meshing Roundtable.
+
+                                                                15
+

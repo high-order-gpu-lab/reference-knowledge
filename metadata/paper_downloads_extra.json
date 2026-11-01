@@ -1,0 +1,52 @@
+[
+  {
+    "id": "P15_FLEXI",
+    "arxiv": "1910.02858",
+    "url": "https://arxiv.org/pdf/1910.02858",
+    "retrieved": "2026-10-28",
+    "sha256": "653ab9589f9d3b8dfd290185660b3a314fdef54e542d92250771ed6c30ddb959",
+    "bytes": 8325127,
+    "local_pdf": "ref-paper/fulltext/P15_FLEXI.pdf",
+    "status": "fulltext"
+  },
+  {
+    "id": "P16_GPU_CEED",
+    "arxiv": "2109.05072",
+    "url": "https://arxiv.org/pdf/2109.05072",
+    "retrieved": "2026-10-28",
+    "sha256": "38a392e3d6de5be85cd612e8115c7ee824da9e57806d398e0e48f676748d3b78",
+    "bytes": 5639397,
+    "local_pdf": "ref-paper/fulltext/P16_GPU_CEED.pdf",
+    "status": "fulltext"
+  },
+  {
+    "id": "P17_CEED_review",
+    "arxiv": "2109.04996",
+    "url": "https://arxiv.org/pdf/2109.04996",
+    "retrieved": "2026-10-28",
+    "sha256": "d3e069405206b3b2369ed2fcefbc08db7f7b37668de29ddf1b6bee896c1d886b",
+    "bytes": 11407576,
+    "local_pdf": "ref-paper/fulltext/P17_CEED_review.pdf",
+    "status": "fulltext"
+  },
+  {
+    "id": "P18_GPU_DG_INS",
+    "arxiv": "1801.00246",
+    "url": "https://arxiv.org/pdf/1801.00246",
+    "retrieved": "2026-10-28",
+    "sha256": "0690c04c9eeb78b029d95ec607230d06eb206431ed20bbc5fea6e215decc246a",
+    "bytes": 1537747,
+    "local_pdf": "ref-paper/fulltext/P18_GPU_DG_INS.pdf",
+    "status": "fulltext"
+  },
+  {
+    "id": "P19_PETSc_GPU",
+    "arxiv": "2011.00715",
+    "url": "https://arxiv.org/pdf/2011.00715",
+    "retrieved": "2026-10-28",
+    "sha256": "069e9984cdd5d8854280db0ee3e178f63d5469ecb224a0b2e81e3c493a02a864",
+    "bytes": 1033012,
+    "local_pdf": "ref-paper/fulltext/P19_PETSc_GPU.pdf",
+    "status": "fulltext"
+  }
+]

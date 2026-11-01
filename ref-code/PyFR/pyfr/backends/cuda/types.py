@@ -1,0 +1,132 @@
+from functools import cached_property
+
+import numpy as np
+
+import pyfr.backends.base as base
+from pyfr.cache import memoize
+
+
+class _CUDAMatrixCommon:
+    @cached_property
+    def _as_parameter_(self):
+        return self.data
+
+    @memoize
+    def tensormap(self, spec):
+        tm = self.backend.cuda.pagelocked_empty((128,), np.uint8)
+        self.backend.cuda.set_tensormap(tm, self.data, spec)
+        return tm
+
+
+class CUDAMatrixBase(_CUDAMatrixCommon, base.MatrixBase):
+    def onalloc(self, basedata, offset):
+        self.basedata = basedata
+        self.data = int(self.basedata) + offset
+        self.offset = offset
+
+        # Process any initial value
+        if self._initval is not None:
+            self._set(self._initval)
+
+        # Remove
+        del self._initval
+
+    def _get_impl(self, start, end):
+        n = (end or self.nbytes // self.itemsize) - start
+
+        # Get a pinned bounce buffer from the backend
+        buf = self.backend.xfer_buf((n,), self.dtype)
+
+        # Copy from device
+        self.backend.cuda.memcpy(buf, self.data + start*self.itemsize,
+                                 n*self.itemsize)
+
+        return buf
+
+    def _set(self, ary):
+        # Pack into a pinned bounce buffer and copy to device
+        buf = self.backend.xfer_buf((self.nrow, self.leaddim), self.dtype)
+        self._pack(ary, out=buf)
+        self.backend.cuda.memcpy(self.data, buf, self.nbytes)
+
+
+class CUDAMatrixSlice(_CUDAMatrixCommon, base.MatrixSlice):
+    @cached_property
+    def data(self):
+        return int(self.basedata) + self.offset
+
+
+class CUDAMatrix(CUDAMatrixBase, base.Matrix): pass
+class CUDAConstMatrix(CUDAMatrixBase, base.ConstMatrix): pass
+class CUDAView(base.View): pass
+class CUDAXchgView(base.XchgView): pass
+
+
+class CUDATiledMatrix(_CUDAMatrixCommon, base.TiledMatrix):
+    def onalloc(self, basedata, offset):
+        self.basedata = basedata
+        self.data = int(self.basedata) + offset
+        self.offset = offset
+
+
+class CUDAXchgMatrix(CUDAMatrix, base.XchgMatrix):
+    def __init__(self, backend, dtype, ioshape, initval, extent, tags):
+        # Call the standard matrix constructor
+        super().__init__(backend, dtype, ioshape, initval, extent, tags)
+
+        # If MPI is CUDA-aware then we can elide copies to/from a host buffer
+        self.elide_copy = backend.mpitype == 'cuda-aware'
+        if self.elide_copy:
+            class HostData:
+                __array_interface__ = {
+                    'version': 3,
+                    'typestr': np.dtype(self.dtype).str,
+                    'data': (self.data, False),
+                    'shape': (self.nrow, self.ncol)
+                }
+
+            self.hdata = np.array(HostData(), copy=False)
+        # Otherwise, allocate a buffer on the host for MPI to send/recv from
+        else:
+            shape = (self.nrow, self.ncol)
+            self.hdata = backend.cuda.pagelocked_empty(shape, dtype)
+
+
+class CUDAGraph(base.Graph):
+    def __init__(self, backend):
+        super().__init__(backend)
+
+        self.graph = backend.cuda.create_graph()
+        self.stale_kparams = {}
+        self.mpi_events = []
+
+    def _add_mpi_req(self, req, deps=[]):
+        super()._add_mpi_req(req, deps)
+
+        if deps:
+            event = self.backend.cuda.create_event()
+            self.graph.add_event_record(event, [self.knodes[d] for d in deps])
+
+            self.mpi_events.append((event, req))
+
+    def _commit(self):
+        self.exc_graph = self.graph.instantiate()
+
+    def run(self, stream):
+        # Ensure our kernel parameters are up to date
+        for node, params in self.stale_kparams.items():
+            self.exc_graph.set_kernel_node_params(node, params)
+
+        self.exc_graph.launch(stream)
+        self.stale_kparams.clear()
+
+        # Start all dependency-free MPI requests
+        self._startall(self.mpi_root_reqs)
+
+        # Start any remaining requests once their dependencies are satisfied
+        for event, req in self.mpi_events:
+            event.synchronize()
+            req.Start()
+
+        # Wait for all of the MPI requests to finish
+        self._waitall(self.mpi_reqs)

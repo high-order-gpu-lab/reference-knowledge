@@ -1,0 +1,535 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "message": {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          10,
+          8
+        ]
+      ],
+      "date-time": "2026-10-08T06:52:12Z",
+      "timestamp": 1791442332099,
+      "version": "4.3.3"
+    },
+    "reference-count": 42,
+    "publisher": "IEEE",
+    "funder": [
+      {
+        "DOI": "10.13039/100000185",
+        "name": "DARPA",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "HR0011-25-3-0242"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "HR0011-25-3-0242"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100000185",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100014036",
+        "name": "MURI",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "FA9550-24-1-0327"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "FA9550-24-1-0327"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100014036",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100000015",
+        "name": "DOE",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "DE-SC0023171"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "DE-SC0023171"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100000015",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      },
+      {
+        "DOI": "10.13039/100006227",
+        "name": "Lawrence Livermore National Laboratory",
+        "doi-asserted-by": "publisher",
+        "award": [
+          "DE-AC52-07NA27344 (LLNL-PROC-2014338)"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "DE-AC52-07NA27344 (LLNL-PROC-2014338)"
+            ]
+          }
+        ],
+        "id": [
+          {
+            "id": "10.13039/100006227",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      }
+    ],
+    "content-domain": {
+      "domain": [],
+      "crossmark-restriction": false
+    },
+    "short-container-title": [],
+    "published-print": {
+      "date-parts": [
+        [
+          2026,
+          6
+        ]
+      ]
+    },
+    "DOI": "10.23919/isc.2026.11520474",
+    "type": "proceedings-article",
+    "created": {
+      "date-parts": [
+        [
+          2026,
+          6,
+          8
+        ]
+      ],
+      "date-time": "2026-06-08T19:48:54Z",
+      "timestamp": 1780948134000
+    },
+    "page": "1-12",
+    "source": "Crossref",
+    "is-referenced-by-count": 0,
+    "title": [
+      "Accelerating High-Order Finite Element Simulations at Extreme Scale with FP64 Tensor Cores"
+    ],
+    "prefix": "10.23919",
+    "author": [
+      {
+        "given": "Jiqun",
+        "family": "Tu",
+        "sequence": "first",
+        "affiliation": [
+          {
+            "name": "NVIDIA Corporation,USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Ian",
+        "family": "Karlin",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Queen's University,Canada"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "John",
+        "family": "Camier",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Lawrence Livermore National Laboratory,USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Veselin",
+        "family": "Dobrev",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Lawrence Livermore National Laboratory,USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Tzanio",
+        "family": "Kolev",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "Lawrence Livermore National Laboratory,USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Stefan",
+        "family": "Henneking",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "The University of Texas at Austin,USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Omar",
+        "family": "Ghattas",
+        "sequence": "additional",
+        "affiliation": [
+          {
+            "name": "The University of Texas at Austin,USA"
+          }
+        ],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "263",
+    "reference": [
+      {
+        "key": "ref1",
+        "volume-title": "NVIDIA Tesla V100 GPU Architecture",
+        "year": "2017"
+      },
+      {
+        "key": "ref2",
+        "volume-title": "NVIDIA V100"
+      },
+      {
+        "key": "ref3",
+        "volume-title": "NVIDIA GB200"
+      },
+      {
+        "key": "ref4",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1017/s0962492921000064"
+      },
+      {
+        "key": "ref5",
+        "volume-title": "NVIDIA A100"
+      },
+      {
+        "key": "ref6",
+        "volume-title": "NVIDIA GH200"
+      },
+      {
+        "key": "ref7",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1021/acs.jctc.2c00241"
+      },
+      {
+        "key": "ref8",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.cpc.2011.12.006"
+      },
+      {
+        "key": "ref9",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/1.9781611971811"
+      },
+      {
+        "key": "ref10",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/ipdps49936.2021.00114"
+      },
+      {
+        "key": "ref11",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3774934.3786414"
+      },
+      {
+        "key": "ref12",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3695466"
+      },
+      {
+        "key": "ref13",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3712285.3771787"
+      },
+      {
+        "key": "ref14",
+        "volume-title": "MFEM: Modular Finite Element Methods [Software]"
+      },
+      {
+        "key": "ref15",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.camwa.2020.06.009"
+      },
+      {
+        "key": "ref16",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/3-540-47789-6_66"
+      },
+      {
+        "key": "ref17",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/1089014.1089020"
+      },
+      {
+        "key": "ref18",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.2172/1968587"
+      },
+      {
+        "key": "ref19",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1177/10943420241261981"
+      },
+      {
+        "key": "ref20",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-1-4757-3951-0"
+      },
+      {
+        "key": "ref21",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1177/10943420231175462"
+      },
+      {
+        "key": "ref22",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.jcp.2026.114682"
+      },
+      {
+        "key": "ref23",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/24m1683172"
+      },
+      {
+        "key": "ref24",
+        "article-title": "Real-time probabilistic tsunami forecasting in Cascadia from sparse offshore pressure observations",
+        "author": "Henneking",
+        "year": "2026",
+        "journal-title": "arXiv"
+      },
+      {
+        "key": "ref25",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/s10596-015-9472-0"
+      },
+      {
+        "key": "ref26",
+        "volume-title": "SIMT architecture"
+      },
+      {
+        "key": "ref27",
+        "volume-title": "Shared memory"
+      },
+      {
+        "key": "ref28",
+        "volume-title": "Matrix fragments for mma.m8n8k4 with. f64 floating point type"
+      },
+      {
+        "key": "ref29",
+        "volume-title": "Multiply-and-accumulate instruction: mma"
+      },
+      {
+        "key": "ref30",
+        "volume-title": "CUTLASS"
+      },
+      {
+        "key": "ref31",
+        "volume-title": "CUBLAS"
+      },
+      {
+        "key": "ref32",
+        "volume-title": "CUBLASDx"
+      },
+      {
+        "key": "ref33",
+        "volume-title": "TOP500"
+      },
+      {
+        "key": "ref34",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/ipdpsw.2018.00091"
+      },
+      {
+        "key": "ref35",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1177/10943420241239588"
+      },
+      {
+        "key": "ref36",
+        "article-title": "Ozaki Scheme II: A GEMM-oriented emulation of floating-point matrix multiplication using an integer modular technique",
+        "author": "Ozaki",
+        "year": "2025",
+        "journal-title": "arXiv"
+      },
+      {
+        "key": "ref37",
+        "volume-title": "ECP Milestone Report CEED-MS40: Support ECP applications in their exascale challenge problem runs",
+        "author": "Kolev",
+        "year": "2023"
+      },
+      {
+        "key": "ref38",
+        "volume-title": "CEED: Center for Efficient Exascale Discretizations, Exascale Computing Project (ECP)"
+      },
+      {
+        "key": "ref39",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-3-031-86169-7_33"
+      },
+      {
+        "key": "ref40",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3394277.3401860"
+      },
+      {
+        "key": "ref41",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.jocs.2025.102659"
+      },
+      {
+        "key": "ref42",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-3-031-63759-9_31"
+      }
+    ],
+    "event": {
+      "name": "ISC High Performance 2026 Research Paper Proceedings (41st International Conference)",
+      "location": "Hamburg, Germany",
+      "start": {
+        "date-parts": [
+          [
+            2026,
+            6,
+            22
+          ]
+        ]
+      },
+      "end": {
+        "date-parts": [
+          [
+            2026,
+            6,
+            26
+          ]
+        ]
+      }
+    },
+    "container-title": [
+      "ISC High Performance 2026 Research Paper Proceedings (41st International Conference)"
+    ],
+    "original-title": [],
+    "link": [
+      {
+        "URL": "http://xplorestaging.ieee.org/ielx8/11520448/11520449/11520474.pdf?arnumber=11520474",
+        "content-type": "unspecified",
+        "content-version": "vor",
+        "intended-application": "similarity-checking"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2026,
+          10,
+          8
+        ]
+      ],
+      "date-time": "2026-10-08T06:18:58Z",
+      "timestamp": 1791440338000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://ieeexplore.ieee.org/document/11520474/"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2026,
+          6
+        ]
+      ]
+    },
+    "references-count": 42,
+    "URL": "https://doi.org/10.23919/isc.2026.11520474",
+    "relation": {},
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2026,
+          6
+        ]
+      ]
+    }
+  }
+}

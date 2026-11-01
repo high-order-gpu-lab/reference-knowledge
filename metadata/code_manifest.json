@@ -1,0 +1,135 @@
+[
+  {
+    "name": "FLEXI",
+    "repo": "flexi-framework/flexi",
+    "url": "https://github.com/flexi-framework/flexi",
+    "branch": "master",
+    "commit": "cfa7e7cfe73eaeb03d0cb8b7bf58152ab5dd3271",
+    "commit_date": "2026-10-06T18:35:19Z",
+    "license": {
+      "key": "gpl-3.0",
+      "name": "GNU General Public License v3.0",
+      "spdx_id": "GPL-3.0",
+      "url": "https://api.github.com/licenses/gpl-3.0",
+      "node_id": "MDc6TGljZW5zZTk="
+    },
+    "archive_url": "https://codeload.github.com/flexi-framework/flexi/tar.gz/cfa7e7cfe73eaeb03d0cb8b7bf58152ab5dd3271",
+    "archive_sha256": "6cf944f6d77cd0935a2d04c24176134396bed77a61512e9969ab35e2e45aa080",
+    "retrieved": "2026-10-28",
+    "bytes": 15906484
+  },
+  {
+    "name": "GALAEXI",
+    "repo": "flexi-framework/galaexi",
+    "url": "https://github.com/flexi-framework/galaexi",
+    "branch": "main",
+    "commit": "1f574224fec3990ca4387f968c32b28f72bf6df3",
+    "commit_date": "2024-10-11T08:21:09Z",
+    "license": {
+      "key": "gpl-3.0",
+      "name": "GNU General Public License v3.0",
+      "spdx_id": "GPL-3.0",
+      "url": "https://api.github.com/licenses/gpl-3.0",
+      "node_id": "MDc6TGljZW5zZTk="
+    },
+    "archive_url": "https://codeload.github.com/flexi-framework/galaexi/tar.gz/1f574224fec3990ca4387f968c32b28f72bf6df3",
+    "archive_sha256": "10fefc88b6d7c06dbcb62b8c4287d25660e242166da16b052ac2d3035d82d996",
+    "retrieved": "2026-10-28",
+    "bytes": 31765071
+  },
+  {
+    "name": "HORSES3D-GPU",
+    "repo": "horses-framework/horses3d-gpu",
+    "url": "https://github.com/horses-framework/horses3d-gpu",
+    "branch": "main",
+    "commit": "c7aac6a9382029da33da823612255741912aef24",
+    "commit_date": "2026-10-06T08:28:21Z",
+    "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    },
+    "archive_url": "https://codeload.github.com/horses-framework/horses3d-gpu/tar.gz/c7aac6a9382029da33da823612255741912aef24",
+    "archive_sha256": "83542191816eaf02d94565107120b5b63e38893c44aeb3d43ca6256df7b15b98",
+    "retrieved": "2026-10-28",
+    "bytes": 146929962
+  },
+  {
+    "name": "HORSES3D",
+    "repo": "horses-framework/horses3d",
+    "url": "https://github.com/horses-framework/horses3d",
+    "branch": "master",
+    "commit": "f751d86f5536b1c4489dd3f1eb3e6448a39ab8d7",
+    "commit_date": "2026-10-20T14:19:49Z",
+    "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    },
+    "archive_url": "https://codeload.github.com/horses-framework/horses3d/tar.gz/f751d86f5536b1c4489dd3f1eb3e6448a39ab8d7",
+    "archive_sha256": "0293c0eaa5bee873416caf74fb79b4dd04e15f30629de7ea718c2f7cfc9ad56e",
+    "retrieved": "2026-10-28",
+    "bytes": 64127875
+  },
+  {
+    "name": "HiFiLES",
+    "repo": "HiFiLES/HiFiLES-solver",
+    "url": "https://github.com/HiFiLES/HiFiLES-solver",
+    "branch": "master",
+    "commit": "4c55159185667196884961b107260efc62ee3dc0",
+    "commit_date": "2016-01-29T18:11:49Z",
+    "license": {
+      "key": "other",
+      "name": "Other",
+      "spdx_id": "NOASSERTION",
+      "url": null,
+      "node_id": "MDc6TGljZW5zZTA="
+    },
+    "archive_url": "https://codeload.github.com/HiFiLES/HiFiLES-solver/tar.gz/4c55159185667196884961b107260efc62ee3dc0",
+    "archive_sha256": "3be43c8e341ff4dadb6b3d593caede1d89df7f48ec78dec5321fa663ae71cebd",
+    "retrieved": "2026-10-28",
+    "bytes": 24286316
+  },
+  {
+    "name": "MFEM",
+    "repo": "mfem/mfem",
+    "url": "https://github.com/mfem/mfem",
+    "branch": "master",
+    "commit": "d259866bb8e42b13042907308cdba11947778a4e",
+    "commit_date": "2026-10-28T00:09:31Z",
+    "license": {
+      "key": "bsd-3-clause",
+      "name": "BSD 3-Clause \"New\" or \"Revised\" License",
+      "spdx_id": "BSD-3-Clause",
+      "url": "https://api.github.com/licenses/bsd-3-clause",
+      "node_id": "MDc6TGljZW5zZTU="
+    },
+    "archive_url": "https://codeload.github.com/mfem/mfem/tar.gz/d259866bb8e42b13042907308cdba11947778a4e",
+    "archive_sha256": "2060b8a36456d7fb22173a23236828321191bc73583f8583d56346dcd0d9ae55",
+    "retrieved": "2026-10-28",
+    "bytes": 4833810
+  },
+  {
+    "name": "PyFR",
+    "repo": "PyFR/PyFR",
+    "url": "https://github.com/PyFR/PyFR",
+    "branch": "develop",
+    "commit": "7139463e06094763c4f1ae7d1171f0d4ef7b7395",
+    "commit_date": "2026-10-28T01:11:47Z",
+    "license": {
+      "key": "other",
+      "name": "Other",
+      "spdx_id": "NOASSERTION",
+      "url": null,
+      "node_id": "MDc6TGljZW5zZTA="
+    },
+    "archive_url": "https://codeload.github.com/PyFR/PyFR/tar.gz/7139463e06094763c4f1ae7d1171f0d4ef7b7395",
+    "archive_sha256": "80887441969c75c3b58cea21e19975af1f71cc09e15d40abd1d8e263a14bdbff",
+    "retrieved": "2026-10-28",
+    "bytes": 1344229
+  }
+]

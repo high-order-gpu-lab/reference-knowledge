@@ -1,0 +1,695 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "message": {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          9,
+          11
+        ]
+      ],
+      "date-time": "2026-09-11T18:30:37Z",
+      "timestamp": 1789151437658,
+      "version": "build-2803163510"
+    },
+    "reference-count": 36,
+    "publisher": "Elsevier BV",
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2024,
+              5,
+              1
+            ]
+          ],
+          "date-time": "2024-05-01T00:00:00Z",
+          "timestamp": 1714521600000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://www.elsevier.com/tdm/userlicense/1.0/"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2024,
+              5,
+              1
+            ]
+          ],
+          "date-time": "2024-05-01T00:00:00Z",
+          "timestamp": 1714521600000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://www.elsevier.com/legal/tdmrep-license"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2024,
+              5,
+              1
+            ]
+          ],
+          "date-time": "2024-05-01T00:00:00Z",
+          "timestamp": 1714521600000
+        },
+        "content-version": "stm-asf",
+        "delay-in-days": 0,
+        "URL": "https://doi.org/10.15223/policy-017"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2024,
+              5,
+              1
+            ]
+          ],
+          "date-time": "2024-05-01T00:00:00Z",
+          "timestamp": 1714521600000
+        },
+        "content-version": "stm-asf",
+        "delay-in-days": 0,
+        "URL": "https://doi.org/10.15223/policy-037"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2024,
+              5,
+              1
+            ]
+          ],
+          "date-time": "2024-05-01T00:00:00Z",
+          "timestamp": 1714521600000
+        },
+        "content-version": "stm-asf",
+        "delay-in-days": 0,
+        "URL": "https://doi.org/10.15223/policy-012"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2024,
+              5,
+              1
+            ]
+          ],
+          "date-time": "2024-05-01T00:00:00Z",
+          "timestamp": 1714521600000
+        },
+        "content-version": "stm-asf",
+        "delay-in-days": 0,
+        "URL": "https://doi.org/10.15223/policy-029"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2024,
+              5,
+              1
+            ]
+          ],
+          "date-time": "2024-05-01T00:00:00Z",
+          "timestamp": 1714521600000
+        },
+        "content-version": "stm-asf",
+        "delay-in-days": 0,
+        "URL": "https://doi.org/10.15223/policy-004"
+      }
+    ],
+    "content-domain": {
+      "domain": [
+        "elsevier.com",
+        "sciencedirect.com"
+      ],
+      "crossmark-restriction": true
+    },
+    "short-container-title": [
+      "Journal of Parallel and Distributed Computing"
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2024,
+          5
+        ]
+      ]
+    },
+    "DOI": "10.1016/j.jpdc.2023.104831",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2023,
+          12,
+          29
+        ]
+      ],
+      "date-time": "2023-12-29T12:05:44Z",
+      "timestamp": 1703851544000
+    },
+    "page": "104831",
+    "update-policy": "https://doi.org/10.1016/elsevier_cm_policy",
+    "source": "Crossref",
+    "is-referenced-by-count": 6,
+    "special_numbering": "C",
+    "title": [
+      "Evaluating performance portability of five shared-memory programming models using a high-order unstructured CFD solver"
+    ],
+    "prefix": "10.1016",
+    "volume": "187",
+    "author": [
+      {
+        "given": "Zhe",
+        "family": "Dai",
+        "sequence": "first",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Liang",
+        "family": "Deng",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "YongGang",
+        "family": "Che",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Ming",
+        "family": "Li",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Jian",
+        "family": "Zhang",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Yueqing",
+        "family": "Wang",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "78",
+    "reference": [
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0060",
+        "series-title": "Enabling task parallelism for many-core architectures",
+        "author": "Atkinson",
+        "year": "2021"
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0120",
+        "series-title": "7th European Congress on Computational Methods in Applied Sciences and Engineering",
+        "first-page": "7992",
+        "article-title": "Hybrid openmp/mpi parallelization of a high–order discontinuous Galerkin cfd/caa solver",
+        "author": "Bassi",
+        "year": "2016"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.jpdc.2023.104831_br0300",
+        "doi-asserted-by": "crossref",
+        "first-page": "189",
+        "DOI": "10.1016/S0965-9978(96)00039-7",
+        "article-title": "Renumbering unstructured grids to improve the performance of codes on hierarchical memory machines",
+        "volume": "28",
+        "author": "Burgess",
+        "year": "1997",
+        "journal-title": "Adv. Eng. Softw."
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.jpdc.2023.104831_br0320",
+        "doi-asserted-by": "crossref",
+        "first-page": "321",
+        "DOI": "10.1007/s11227-014-1245-3",
+        "article-title": "Microarchitectural performance comparison of intel knights corner and intel sandy bridge with cfd applications",
+        "volume": "70",
+        "author": "Che",
+        "year": "2014",
+        "journal-title": "J. Supercomput."
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.jpdc.2023.104831_br0260",
+        "doi-asserted-by": "crossref",
+        "first-page": "199",
+        "DOI": "10.1006/jcph.1998.5892",
+        "article-title": "The Runge–Kutta discontinuous Galerkin method for conservation laws v: multidimensional systems",
+        "volume": "141",
+        "author": "Cockburn",
+        "year": "1998",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0040",
+        "doi-asserted-by": "crossref",
+        "first-page": "838",
+        "DOI": "10.1007/s10766-018-0589-3",
+        "article-title": "Openmp parallelization strategies for a discontinuous Galerkin solver",
+        "volume": "47",
+        "author": "Crivellini",
+        "year": "2019",
+        "journal-title": "Int. J. Parallel Program."
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0280",
+        "series-title": "2022 IEEE 24th Int Conf on High Performance Computing & Communications; 8th Int Conf on Data Science & Systems; 20th Int Conf on Smart City; 8th Int Conf on Dependability in Sensor, Cloud & Big Data Systems & Application (HPCC/DSS/SmartCity/DependSys)",
+        "first-page": "993",
+        "article-title": "Performance optimization and analysis of the unstructured discontinuous Galerkin solver on multi-core and many-core architectures",
+        "author": "Dai",
+        "year": "2022"
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.jpdc.2023.104831_br0240",
+        "doi-asserted-by": "crossref",
+        "first-page": "3",
+        "DOI": "10.1177/1094342010391989",
+        "article-title": "The international exascale software project roadmap",
+        "volume": "25",
+        "author": "Dongarra",
+        "year": "2011",
+        "journal-title": "Int. J. High Perform. Comput. Appl."
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0080",
+        "article-title": "Performance portability in extreme scale computing (Dagstuhl seminar 17431)",
+        "volume": "vol. 7",
+        "author": "Dubey",
+        "year": "2018"
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0150",
+        "author": "Glines"
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0270",
+        "doi-asserted-by": "crossref",
+        "first-page": "305",
+        "DOI": "10.1016/j.cpc.2018.07.001",
+        "article-title": "Some useful optimisations for unstructured computational fluid dynamics codes on multicore and manycore architectures",
+        "volume": "235",
+        "author": "Hadade",
+        "year": "2019",
+        "journal-title": "Comput. Phys. Commun."
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0030",
+        "series-title": "Proceedings of the 36th ACM International Conference on Supercomputing",
+        "first-page": "1",
+        "article-title": "Gaps: Gpu-acceleration of pde solvers for wave simulation",
+        "author": "Hanindhito",
+        "year": "2022"
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0160",
+        "doi-asserted-by": "crossref",
+        "first-page": "295",
+        "DOI": "10.1007/s00366-015-0418-x",
+        "article-title": "An mpi+ x x implementation of contact global search using kokkos",
+        "volume": "32",
+        "author": "Hansen",
+        "year": "2016",
+        "journal-title": "Eng. Comput."
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0050",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.compfluid.2022.105455",
+        "article-title": "An implementation of mpi and hybrid openmp/mpi parallelization strategies for an implicit 3d ddg solver",
+        "volume": "241",
+        "author": "He",
+        "year": "2022",
+        "journal-title": "Comput. Fluids"
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0210",
+        "doi-asserted-by": "crossref",
+        "first-page": "20",
+        "DOI": "10.1007/BF01201858",
+        "article-title": "A message-passing class library c++ for portable parallel programming",
+        "volume": "13",
+        "author": "Hsieh",
+        "year": "1997",
+        "journal-title": "Eng. Comput."
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0020",
+        "series-title": "2020 IEEE High Performance Extreme Computing Conference (HPEC)",
+        "first-page": "1",
+        "article-title": "Gpu-accelerated discontinuous Galerkin methods: 30x speedup on 345 billion unknowns",
+        "author": "Kirby",
+        "year": "2020"
+      },
+      {
+        "issue": "4",
+        "key": "10.1016/j.jpdc.2023.104831_br0090",
+        "doi-asserted-by": "crossref",
+        "first-page": "312",
+        "DOI": "10.1177/10943420211008288",
+        "article-title": "Gpu-accelerated molecular dynamics: state-of-art software performance and porting from nvidia cuda to amd hip",
+        "volume": "35",
+        "author": "Kondratyuk",
+        "year": "2021",
+        "journal-title": "Int. J. High Perform. Comput. Appl."
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0190",
+        "doi-asserted-by": "crossref",
+        "first-page": "1",
+        "DOI": "10.1016/j.jpdc.2019.02.005",
+        "article-title": "Performance portability study for massively parallel computational fluid dynamics application on scalable heterogeneous architectures",
+        "volume": "129",
+        "author": "Lee",
+        "year": "2019",
+        "journal-title": "J. Parallel Distrib. Comput."
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0230",
+        "doi-asserted-by": "crossref",
+        "first-page": "628",
+        "DOI": "10.1016/j.proeng.2015.11.251",
+        "article-title": "Applications of high order hybrid dg/fv schemes for two-dimensional rans simulations",
+        "volume": "126",
+        "author": "Li",
+        "year": "2015",
+        "journal-title": "Proc. Eng."
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0180",
+        "unstructured": "P.-H. Lin, Performance portability strategies for computational fluid dynamics (cfd) applications on hpc systems, 2013."
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0140",
+        "series-title": "54th AIAA Aerospace Sciences Meeting",
+        "first-page": "1815",
+        "article-title": "Openacc directive-based gpu acceleration of an implicit reconstructed discontinuous Galerkin method for compressible flows on 3d unstructured grids",
+        "author": "Lou",
+        "year": "2016"
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0010",
+        "series-title": "AIAA SciTech 2022 Forum",
+        "first-page": "1372",
+        "article-title": "hp-adaptation for a discontinuous Galerkin method in an unstructured flow solver",
+        "author": "Löwe",
+        "year": "2022"
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0130",
+        "first-page": "1",
+        "article-title": "A high-order srcr-dg method for simulating viscoelastic flows at high Weissenberg numbers",
+        "author": "Ma",
+        "year": "2022",
+        "journal-title": "Eng. Comput."
+      },
+      {
+        "issue": "15",
+        "key": "10.1016/j.jpdc.2023.104831_br0360",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1002/cpe.4117",
+        "article-title": "Assessing the performance portability of modern parallel programming models using tealeaf",
+        "volume": "29",
+        "author": "Martineau",
+        "year": "2017",
+        "journal-title": "Concurr. Comput., Pract. Exp."
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0070",
+        "series-title": "On the porting and optimisation of physics simulations for heterogeneous parallel processors",
+        "author": "Martineau",
+        "year": "2019"
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0100",
+        "series-title": "Supercomputing: 29th International Conference, ISC 2014, Proceedings 29",
+        "first-page": "53",
+        "article-title": "On the performance portability of structured grid codes on many-core computer architectures",
+        "author": "McIntosh-Smith",
+        "year": "2014"
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0350",
+        "first-page": "1",
+        "article-title": "A sloc counting standard",
+        "volume": "vol. 2007",
+        "author": "Nguyen",
+        "year": "2007"
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0330",
+        "doi-asserted-by": "crossref",
+        "first-page": "947",
+        "DOI": "10.1016/j.future.2017.08.007",
+        "article-title": "Implications of a metric for performance portability",
+        "volume": "92",
+        "author": "Pennycook",
+        "year": "2019",
+        "journal-title": "Future Gener. Comput. Syst."
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0170",
+        "series-title": "2012 SC Companion: High Performance Computing, Networking Storage and Analysis",
+        "first-page": "1116",
+        "article-title": "Pyop2: a high-level framework for performance-portable simulations on unstructured meshes",
+        "author": "Rathgeber",
+        "year": "2012"
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0200",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1016/j.compfluid.2020.104425",
+        "article-title": "Productivity, performance, and portability for computational fluid dynamics applications",
+        "volume": "199",
+        "author": "Reguly",
+        "year": "2020",
+        "journal-title": "Comput. Fluids"
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.jpdc.2023.104831_br0310",
+        "doi-asserted-by": "crossref",
+        "first-page": "1265",
+        "DOI": "10.1109/TPDS.2015.2453972",
+        "article-title": "Acceleration of a full-scale industrial cfd application with op2",
+        "volume": "27",
+        "author": "Reguly",
+        "year": "2015",
+        "journal-title": "IEEE Trans. Parallel Distrib. Syst."
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0110",
+        "series-title": "High Performance Computing: 36th International Conference, ISC High Performance 2021, Virtual Event, Proceedings 36",
+        "first-page": "391",
+        "article-title": "Under the hood of sycl–an initial performance analysis with an unstructured-mesh cfd application",
+        "author": "Reguly",
+        "year": "2021"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.jpdc.2023.104831_br0250",
+        "doi-asserted-by": "crossref",
+        "first-page": "357",
+        "DOI": "10.1016/0021-9991(81)90128-5",
+        "article-title": "Approximate Riemann solvers, parameter vectors, and difference schemes",
+        "volume": "43",
+        "author": "Roe",
+        "year": "1981",
+        "journal-title": "J. Comput. Phys."
+      },
+      {
+        "key": "10.1016/j.jpdc.2023.104831_br0340",
+        "series-title": "2020 IEEE/ACM International Workshop on Performance, Portability and Productivity in HPC (P3HPC)",
+        "first-page": "14",
+        "article-title": "Interpreting and visualizing performance portability metrics",
+        "author": "Sewall",
+        "year": "2020"
+      },
+      {
+        "issue": "6",
+        "key": "10.1016/j.jpdc.2023.104831_br0290",
+        "doi-asserted-by": "crossref",
+        "first-page": "651",
+        "DOI": "10.1109/12.286299",
+        "article-title": "False sharing and spatial locality in multiprocessor caches",
+        "volume": "43",
+        "author": "Torrellas",
+        "year": "1994",
+        "journal-title": "IEEE Trans. Comput."
+      },
+      {
+        "issue": "4",
+        "key": "10.1016/j.jpdc.2023.104831_br0220",
+        "doi-asserted-by": "crossref",
+        "first-page": "1104",
+        "DOI": "10.1016/j.jcp.2011.03.032",
+        "article-title": "A class of hybrid dg/fv methods for conservation laws ii: two-dimensional cases",
+        "volume": "231",
+        "author": "Zhang",
+        "year": "2012",
+        "journal-title": "J. Comput. Phys."
+      }
+    ],
+    "container-title": [
+      "Journal of Parallel and Distributed Computing"
+    ],
+    "original-title": [],
+    "language": "en",
+    "link": [
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0743731523002010?httpAccept=text/xml",
+        "content-type": "text/xml",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S0743731523002010?httpAccept=text/plain",
+        "content-type": "text/plain",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2025,
+          10,
+          9
+        ]
+      ],
+      "date-time": "2025-10-09T22:39:19Z",
+      "timestamp": 1760049559000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://linkinghub.elsevier.com/retrieve/pii/S0743731523002010"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2024,
+          5
+        ]
+      ]
+    },
+    "references-count": 36,
+    "alternative-id": [
+      "S0743731523002010"
+    ],
+    "URL": "https://doi.org/10.1016/j.jpdc.2023.104831",
+    "relation": {},
+    "ISSN": [
+      "0743-7315"
+    ],
+    "issn-type": [
+      {
+        "value": "0743-7315",
+        "type": "print"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2024,
+          5
+        ]
+      ]
+    },
+    "assertion": [
+      {
+        "value": "Elsevier",
+        "name": "publisher",
+        "label": "This article is maintained by"
+      },
+      {
+        "value": "Evaluating performance portability of five shared-memory programming models using a high-order unstructured CFD solver",
+        "name": "articletitle",
+        "label": "Article Title"
+      },
+      {
+        "value": "Journal of Parallel and Distributed Computing",
+        "name": "journaltitle",
+        "label": "Journal Title"
+      },
+      {
+        "value": "https://doi.org/10.1016/j.jpdc.2023.104831",
+        "name": "articlelink",
+        "label": "CrossRef DOI link to publisher maintained version"
+      },
+      {
+        "value": "article",
+        "name": "content_type",
+        "label": "Content Type"
+      },
+      {
+        "value": "© 2023 Elsevier Inc. All rights reserved.",
+        "name": "copyright",
+        "label": "Copyright"
+      }
+    ],
+    "article-number": "104831"
+  }
+}

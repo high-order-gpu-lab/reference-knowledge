@@ -1,0 +1,258 @@
+
+
+  
+  
+
+  
+  PyFR — Documentation
+      
+      
+      
+      
+      
+
+  
+    
+      
+      
+      
+      
+      
+      
+      
+    
+    
+    
+    
+     
+
+
+ 
+  
+    
+      
+        
+
+          
+          
+          
+            
+              
+          
+              
+                
+                
+              
+
+  
+    
+    
+    
+  
+
+        
+              
+Installation
+User Guide
+Meshing
+Post Processing
+Performance Tuning
+Examples
+Developer Guide
+File Format
+Disk I/O
+
+
+        
+      
+    
+
+    
+          
+          PyFR
+      
+
+      
+        
+          
+  
+      
+      PyFR
+      
+             View page source
+      
+  
+  
+
+          
+           
+             
+  
+PyFR
+PyFR 3.1 is an open-source flow solver that uses the high-order
+flux reconstruction method. For more information on the PyFR project
+visit our website, or to ask a question visit our forum.
+Contents:
+
+
+Installation
+Quick-start
+macOS
+Ubuntu
+
+
+Compiling from source
+Dependencies
+
+
+
+
+User Guide
+Running PyFR
+Configuration File (.ini)
+Backends
+Systems
+Boundary and Initial Conditions
+Nodal Point Sets
+Plugins
+Additional Information
+
+
+
+
+Meshing
+Importing Meshes
+
+
+Post Processing
+High-Order Export
+Clean to Grid
+Tessellate
+Avoiding Seams
+Parallel Processing
+Boundary and STL Export
+
+
+Performance Tuning
+OpenMP Backend
+AVX-512
+Cores vs. threads
+Loop Scheduling
+MPI processes vs. OpenMP threads
+Asynchronous MPI progression
+
+
+CUDA Backend
+CUDA-aware MPI
+
+
+HIP Backend
+HIP-aware MPI
+
+
+Partitioning
+METIS vs SCOTCH vs KaHIP
+Mixed grids
+Detecting load imbalances
+
+
+Scaling
+Plugins
+Start-up Time
+
+
+Examples
+Euler Equations
+2D Euler Vortex
+2D Double Mach Reflection
+
+
+Navier–Stokes Equations
+2D Couette Flow
+2D Incompressible Cylinder Flow
+2D Viscous Shock Tube
+3D Triangular Aerofoil
+3D Taylor-Green
+
+
+
+
+Developer Guide
+A Brief Overview of the PyFR Framework
+Where to Start
+Controller
+Stepper
+PseudoStepper
+System
+Elements
+Interfaces
+Backend
+Pointwise Kernel Provider
+Kernel Generator
+
+
+PyFR-Mako
+PyFR-Mako Kernels
+PyFR-Mako Macros
+Syntax
+
+
+
+
+File Format
+Mesh Format
+Node ordering
+Face numbering
+Partitioning
+Periodic interfaces
+
+
+Solution Format
+Subset solutions
+
+
+
+
+Disk I/O
+Solution File Writing
+VTU export
+
+
+
+
+
+Indices and Tables
+
+Index
+Module Index
+Search Page
+
+
+
+
+
+           
+          
+          
+        Next 
+    
+
+  
+
+  
+    © Copyright 2013–2026, Imperial College London.
+  
+
+  Built with Sphinx using a
+    theme
+    provided by Read the Docs.
+   
+
+
+        
+      
+    
+  
+   
+
+

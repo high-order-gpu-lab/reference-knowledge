@@ -1,0 +1,6638 @@
+
+
+  
+  
+
+  
+  Developer Guide — Documentation
+      
+      
+      
+      
+      
+
+  
+    
+      
+      
+      
+      
+      
+      
+    
+    
+    
+    
+    
+     
+
+
+ 
+  
+    
+      
+        
+
+          
+          
+          
+            
+              
+          
+              
+                
+                
+              
+
+  
+    
+    
+    
+  
+
+        
+              
+Installation
+User Guide
+Meshing
+Post Processing
+Performance Tuning
+Examples
+Developer Guide
+A Brief Overview of the PyFR Framework
+Where to Start
+Controller
+StdNoneController
+StdPIController
+DualNoneController
+DualNonePseudoController
+DualPIPseudoController
+
+
+Stepper
+StdEulerStepper
+StdRK4Stepper
+StdRK34Stepper
+StdRK45Stepper
+StdTVDRK3Stepper
+DualBackwardEulerStepper
+SDIRK33Stepper
+SDIRK43Stepper
+
+
+PseudoStepper
+DualRK4PseudoStepper
+DualTVDRK3PseudoStepper
+DualEulerPseudoStepper
+DualRK34PseudoStepper
+DualRK45PseudoStepper
+
+
+System
+ACEulerSystem
+ACNavierStokesSystem
+EulerSystem
+NavierStokesSystem
+
+
+Elements
+ACEulerElements
+ACNavierStokesElements
+EulerElements
+NavierStokesElements
+
+
+Interfaces
+ACEulerIntInters
+ACEulerMPIInters
+ACNavierStokesIntInters
+ACNavierStokesMPIInters
+EulerIntInters
+EulerMPIInters
+NavierStokesIntInters
+NavierStokesMPIInters
+
+
+Backend
+CUDABackend
+HIPBackend
+OpenCLBackend
+OpenMPBackend
+MetalBackend
+
+
+Pointwise Kernel Provider
+CUDAPointwiseKernelProvider
+HIPPointwiseKernelProvider
+OpenCLPointwiseKernelProvider
+OpenMPPointwiseKernelProvider
+MetalPointwiseKernelProvider
+
+
+Kernel Generator
+CUDAKernelGenerator
+HIPKernelGenerator
+OpenCLKernelGenerator
+OpenMPKernelGenerator
+MetalKernelGenerator
+
+
+
+
+PyFR-Mako
+PyFR-Mako Kernels
+PyFR-Mako Macros
+Syntax
+Basic Functionality
+Expression Substitution
+Conditionals
+Loops
+
+
+
+
+
+
+File Format
+Disk I/O
+
+
+        
+      
+    
+
+    
+          
+          PyFR
+      
+
+      
+        
+          
+  
+      
+      Developer Guide
+      
+             View page source
+      
+  
+  
+
+          
+           
+             
+  
+Developer Guide
+
+A Brief Overview of the PyFR Framework
+
+Where to Start
+The symbolic link pyfr.scripts.pyfr points to the script
+pyfr.scripts.main, which is where it all starts! Specifically,
+the function process_run calls the function
+_process_common, which in turn calls the function
+get_solver, returning an Integrator – a composite of a
+Controller and a Stepper. The Integrator has a method named
+run, which is then called to run the simulation.
+
+
+Controller
+A Controller acts to advance the simulation in time. Specifically, a
+Controller has a method named advance_to which advances a
+System to a specified time. There are three types of physical-time
+Controller available in PyFR 3.1:
+
+StdNoneController Click to show
+
+
+
+
+class pyfr.integrators.std.controllers.StdNoneController(*args, **kwargs)[source]
+
+
+_accept_step(dt, idxcurr, err=None)
+
+
+
+
+_add(*args, subdims=None)
+
+
+
+
+_addv(consts, regidxs, subdims=None)
+
+
+
+
+_check_abort()
+
+
+
+
+_finalise_plugins()
+
+
+
+
+_get_axnpby_kerns(*rs, subdims=None)
+
+
+
+
+_get_gndofs()
+
+
+
+
+_get_plugins(initsoln)
+
+
+
+
+_get_reduction_kerns(*rs, **kwargs)
+
+
+
+
+_invalidate_caches()
+
+
+
+
+_reject_step(dt, idxold, err=None)
+
+
+
+
+_run_plugins()
+
+
+
+
+advance_to(t)[source]
+
+
+
+
+call_plugin_dt(tstart, dt)
+
+
+
+
+property cfgmeta
+
+
+
+
+collect_stats(stats)
+
+
+
+
+controller_has_variable_dt = False
+
+
+
+
+controller_name = 'none'
+
+
+
+
+property controller_needs_errest
+
+
+
+
+property dt_soln
+
+
+
+
+formulation = 'std'
+
+
+
+
+property grad_soln
+
+
+
+
+property nsteps
+
+
+
+
+plugin_abort(reason)
+
+
+
+
+run()
+
+
+
+
+property soln
+
+
+
+
+step(t, dt)
+
+
+
+
+
+
+StdPIController Click to show
+
+
+
+
+class pyfr.integrators.std.controllers.StdPIController(backend, systemcls, mesh, initsoln, cfg)[source]
+
+
+_accept_step(dt, idxcurr, err=None)
+
+
+
+
+_add(*args, subdims=None)
+
+
+
+
+_addv(consts, regidxs, subdims=None)
+
+
+
+
+_check_abort()
+
+
+
+
+_errest(rcurr, rprev, rerr)[source]
+
+
+
+
+_finalise_plugins()
+
+
+
+
+_get_axnpby_kerns(*rs, subdims=None)
+
+
+
+
+_get_gndofs()
+
+
+
+
+_get_plugins(initsoln)
+
+
+
+
+_get_reduction_kerns(*rs, **kwargs)
+
+
+
+
+_init_dt_err(initsoln)[source]
+
+
+
+
+_invalidate_caches()
+
+
+
+
+_reject_step(dt, idxold, err=None)
+
+
+
+
+_run_plugins()
+
+
+
+
+advance_to(t)[source]
+
+
+
+
+call_plugin_dt(tstart, dt)
+
+
+
+
+property cfgmeta
+
+
+
+
+collect_stats(stats)
+
+
+
+
+controller_has_variable_dt = True
+
+
+
+
+controller_name = 'pi'
+
+
+
+
+property controller_needs_errest
+
+
+
+
+property dt_soln
+
+
+
+
+formulation = 'std'
+
+
+
+
+property grad_soln
+
+
+
+
+property nsteps
+
+
+
+
+plugin_abort(reason)
+
+
+
+
+run()
+
+
+
+
+property soln
+
+
+
+
+step(t, dt)
+
+
+
+
+
+
+DualNoneController Click to show
+
+
+
+
+class pyfr.integrators.dual.phys.controllers.DualNoneController(*args, **kwargs)[source]
+
+
+_accept_step(idxcurr)
+
+
+
+
+_check_abort()
+
+
+
+
+_finalise_plugins()
+
+
+
+
+_get_plugins(initsoln)
+
+
+
+
+_invalidate_caches()
+
+
+
+
+_run_plugins()
+
+
+
+
+advance_to(t)[source]
+
+
+
+
+call_plugin_dt(tstart, dt)
+
+
+
+
+property cfgmeta
+
+
+
+
+collect_stats(stats)
+
+
+
+
+controller_has_variable_dt = False
+
+
+
+
+controller_name = 'none'
+
+
+
+
+property dt_soln
+
+
+
+
+formulation = 'dual'
+
+
+
+
+property grad_soln
+
+
+
+
+property nsteps
+
+
+
+
+plugin_abort(reason)
+
+
+
+
+property pseudostepinfo
+
+
+
+
+run()
+
+
+
+
+property soln
+
+
+
+
+step(t, dt)
+
+
+
+
+property system
+
+
+
+
+
+
+
+
+Types of physical-time Controller are related via the following
+inheritance diagram:
+
+Inheritance diagram of pyfr.integrators.std.controllers, pyfr.integrators.dual.phys.controllers
+
+
+
+There are two types of pseudo-time Controller available in PyFR 3.1:
+
+DualNonePseudoController Click to show
+
+
+
+
+class pyfr.integrators.dual.pseudo.pseudocontrollers.DualNonePseudoController(*args, **kwargs)[source]
+
+
+_add(*args, subdims=None)
+
+
+
+
+_addv(consts, regidxs, subdims=None)
+
+
+
+
+_get_axnpby_kerns(*rs, subdims=None)
+
+
+
+
+_get_gndofs()
+
+
+
+
+_get_reduction_kerns(*rs, **kwargs)
+
+
+
+
+property _pseudo_stepper_regidx
+
+
+
+
+_resid(rcurr, rold, dt_fac)
+
+
+
+
+property _source_regidx
+
+
+
+
+property _stage_regidx
+
+
+
+
+property _stepper_regidx
+
+
+
+
+_update_pseudostepinfo(niters, resid)
+
+
+
+
+aux_nregs = 0
+
+
+
+
+commit()
+
+
+
+
+convmon(i, minniters, dt_fac=1)
+
+
+
+
+finalise_stage(currstg, tcurr)
+
+
+
+
+formulation = 'dual'
+
+
+
+
+init_stage(currstg, stepper_coeffs, dt)
+
+
+
+
+obtain_solution(bcoeffs)
+
+
+
+
+pseudo_advance(tcurr)[source]
+
+
+
+
+pseudo_controller_name = 'none'
+
+
+
+
+pseudo_controller_needs_lerrest = False
+
+
+
+
+store_current_soln()
+
+
+
+
+
+
+DualPIPseudoController Click to show
+
+
+
+
+class pyfr.integrators.dual.pseudo.pseudocontrollers.DualPIPseudoController(*args, **kwargs)[source]
+
+
+_add(*args, subdims=None)
+
+
+
+
+_addv(consts, regidxs, subdims=None)
+
+
+
+
+_get_axnpby_kerns(*rs, subdims=None)
+
+
+
+
+_get_gndofs()
+
+
+
+
+_get_reduction_kerns(*rs, **kwargs)
+
+
+
+
+property _pseudo_stepper_regidx
+
+
+
+
+_resid(rcurr, rold, dt_fac)
+
+
+
+
+property _source_regidx
+
+
+
+
+property _stage_regidx
+
+
+
+
+property _stepper_regidx
+
+
+
+
+_update_pseudostepinfo(niters, resid)
+
+
+
+
+aux_nregs = 0
+
+
+
+
+commit()
+
+
+
+
+convmon(i, minniters, dt_fac=1)
+
+
+
+
+finalise_stage(currstg, tcurr)
+
+
+
+
+formulation = 'dual'
+
+
+
+
+init_stage(currstg, stepper_coeffs, dt)
+
+
+
+
+localerrest(errbank)[source]
+
+
+
+
+obtain_solution(bcoeffs)
+
+
+
+
+pseudo_advance(tcurr)[source]
+
+
+
+
+pseudo_controller_name = 'local-pi'
+
+
+
+
+pseudo_controller_needs_lerrest = True
+
+
+
+
+store_current_soln()
+
+
+
+
+
+
+
+
+Types of pseudo-time Controller are related via the following
+inheritance diagram:
+
+Inheritance diagram of pyfr.integrators.dual.pseudo.pseudocontrollers
+
+
+
+
+
+Stepper
+A Stepper acts to advance the simulation by a single time-step.
+Specifically, a Stepper has a method named step which
+advances a System by a single time-step. There are eight types of
+Stepper available in PyFR 3.1:
+
+StdEulerStepper Click to show
+
+
+
+
+class pyfr.integrators.std.steppers.StdEulerStepper(backend, systemcls, mesh, initsoln, cfg)[source]
+
+
+_add(*args, subdims=None)
+
+
+
+
+_addv(consts, regidxs, subdims=None)
+
+
+
+
+_check_abort()
+
+
+
+
+_finalise_plugins()
+
+
+
+
+_get_axnpby_kerns(*rs, subdims=None)
+
+
+
+
+_get_gndofs()
+
+
+
+
+_get_plugins(initsoln)
+
+
+
+
+_get_reduction_kerns(*rs, **kwargs)
+
+
+
+
+_invalidate_caches()
+
+
+
+
+_run_plugins()
+
+
+
+
+property _stepper_nfevals
+
+
+
+
+advance_to(t)
+
+
+
+
+call_plugin_dt(tstart, dt)
+
+
+
+
+property cfgmeta
+
+
+
+
+collect_stats(stats)
+
+
+
+
+property controller_needs_errest
+
+
+
+
+property dt_soln
+
+
+
+
+formulation = 'std'
+
+
+
+
+property grad_soln
+
+
+
+
+property nsteps
+
+
+
+
+plugin_abort(reason)
+
+
+
+
+run()
+
+
+
+
+property soln
+
+
+
+
+step(t, dt)[source]
+
+
+
+
+stepper_has_errest = False
+
+
+
+
+stepper_name = 'euler'
+
+
+
+
+stepper_nregs = 2
+
+
+
+
+stepper_order = 1
+
+
+
+
+
+
+StdRK4Stepper Click to show
+
+
+
+
+class pyfr.integrators.std.steppers.StdRK4Stepper(backend, systemcls, mesh, initsoln, cfg)[source]
+
+
+_add(*args, subdims=None)
+
+
+
+
+_addv(consts, regidxs, subdims=None)
+
+
+
+
+_check_abort()
+
+
+
+
+_finalise_plugins()
+
+
+
+
+_get_axnpby_kerns(*rs, subdims=None)
+
+
+
+
+_get_gndofs()
+
+
+
+
+_get_plugins(initsoln)
+
+
+
+
+_get_reduction_kerns(*rs, **kwargs)
+
+
+
+
+_invalidate_caches()
+
+
+
+
+_run_plugins()
+
+
+
+
+property _stepper_nfevals
+
+
+
+
+advance_to(t)
+
+
+
+
+call_plugin_dt(tstart, dt)
+
+
+
+
+property cfgmeta
+
+
+
+
+collect_stats(stats)
+
+
+
+
+property controller_needs_errest
+
+
+
+
+property dt_soln
+
+
+
+
+formulation = 'std'
+
+
+
+
+property grad_soln
+
+
+
+
+property nsteps
+
+
+
+
+plugin_abort(reason)
+
+
+
+
+run()
+
+
+
+
+property soln
+
+
+
+
+step(t, dt)[source]
+
+
+
+
+stepper_has_errest = False
+
+
+
+
+stepper_name = 'rk4'
+
+
+
+
+stepper_nregs = 3
+
+
+
+
+stepper_order = 4
+
+
+
+
+
+
+StdRK34Stepper Click to show
+
+
+
+
+class pyfr.integrators.std.steppers.StdRK34Stepper(*args, **kwargs)[source]
+
+
+_add(*args, subdims=None)
+
+
+
+
+_addv(consts, regidxs, subdims=None)
+
+
+
+
+_check_abort()
+
+
+
+
+_finalise_plugins()
+
+
+
+
+_get_axnpby_kerns(*rs, subdims=None)
+
+
+
+
+_get_gndofs()
+
+
+
+
+_get_plugins(initsoln)
+
+
+
+
+_get_reduction_kerns(*rs, **kwargs)
+
+
+
+
+_get_rkvdh2_kerns(stage, r1, r2, rold=None, rerr=None)
+
+
+
+
+_invalidate_caches()
+
+
+
+
+_run_plugins()
+
+
+
+
+property _stepper_nfevals
+
+
+
+
+a = [0.32416573882874605, 0.5570978645055429, -0.08605491431272755]
+
+
+
+
+advance_to(t)
+
+
+
+
+b = [0.10407986927510238, 0.6019391368822611, 2.9750900268840206, -2.681109033041384]
+
+
+
+
+bhat = [0.3406814840808433, 0.09091523008632837, 2.866496742725443, -2.298093456892615]
+
+
+
+
+call_plugin_dt(tstart, dt)
+
+
+
+
+property cfgmeta
+
+
+
+
+collect_stats(stats)
+
+
+
+
+property controller_needs_errest
+
+
+
+
+property dt_soln
+
+
+
+
+formulation = 'std'
+
+
+
+
+property grad_soln
+
+
+
+
+property nsteps
+
+
+
+
+plugin_abort(reason)
+
+
+
+
+run()
+
+
+
+
+property soln
+
+
+
+
+step(t, dt)
+
+
+
+
+property stepper_has_errest
+
+
+
+
+stepper_name = 'rk34'
+
+
+
+
+property stepper_nregs
+
+
+
+
+stepper_order = 3
+
+
+
+
+
+
+StdRK45Stepper Click to show
+
+
+
+
+class pyfr.integrators.std.steppers.StdRK45Stepper(*args, **kwargs)[source]
+
+
+_add(*args, subdims=None)
+
+
+
+
+_addv(consts, regidxs, subdims=None)
+
+
+
+
+_check_abort()
+
+
+
+
+_finalise_plugins()
+
+
+
+
+_get_axnpby_kerns(*rs, subdims=None)
+
+
+
+
+_get_gndofs()
+
+
+
+
+_get_plugins(initsoln)
+
+
+
+
+_get_reduction_kerns(*rs, **kwargs)
+
+
+
+
+_get_rkvdh2_kerns(stage, r1, r2, rold=None, rerr=None)
+
+
+
+
+_invalidate_caches()
+
+
+
+
+_run_plugins()
+
+
+
+
+property _stepper_nfevals
+
+
+
+
+a = [0.22502245872571303, 0.5440433129514047, 0.14456824349399464, 0.7866643421983568]
+
+
+
+
+advance_to(t)
+
+
+
+
+b = [0.05122930664033915, 0.3809548257264019, -0.3733525963923833, 0.5925012850263623, 0.34866717899927996]
+
+
+
+
+bhat = [0.13721732210321927, 0.19188076232938728, -0.2292067211595315, 0.6242946765438954, 0.27581396018302956]
+
+
+
+
+call_plugin_dt(tstart, dt)
+
+
+
+
+property cfgmeta
+
+
+
+
+collect_stats(stats)
+
+
+
+
+property controller_needs_errest
+
+
+
+
+property dt_soln
+
+
+
+
+formulation = 'std'
+
+
+
+
+property grad_soln
+
+
+
+
+property nsteps
+
+
+
+
+plugin_abort(reason)
+
+
+
+
+run()
+
+
+
+
+property soln
+
+
+
+
+step(t, dt)
+
+
+
+
+property stepper_has_errest
+
+
+
+
+stepper_name = 'rk45'
+
+
+
+
+property stepper_nregs
+
+
+
+
+stepper_order = 4
+
+
+
+
+
+
+StdTVDRK3Stepper Click to show
+
+
+
+
+class pyfr.integrators.std.steppers.StdTVDRK3Stepper(backend, systemcls, mesh, initsoln, cfg)[source]
+
+
+_add(*args, subdims=None)
+
+
+
+
+_addv(consts, regidxs, subdims=None)
+
+
+
+
+_check_abort()
+
+
+
+
+_finalise_plugins()
+
+
+
+
+_get_axnpby_kerns(*rs, subdims=None)
+
+
+
+
+_get_gndofs()
+
+
+
+
+_get_plugins(initsoln)
+
+
+
+
+_get_reduction_kerns(*rs, **kwargs)
+
+
+
+
+_invalidate_caches()
+
+
+
+
+_run_plugins()
+
+
+
+
+property _stepper_nfevals
+
+
+
+
+advance_to(t)
+
+
+
+
+call_plugin_dt(tstart, dt)
+
+
+
+
+property cfgmeta
+
+
+
+
+collect_stats(stats)
+
+
+
+
+property controller_needs_errest
+
+
+
+
+property dt_soln
+
+
+
+
+formulation = 'std'
+
+
+
+
+property grad_soln
+
+
+
+
+property nsteps
+
+
+
+
+plugin_abort(reason)
+
+
+
+
+run()
+
+
+
+
+property soln
+
+
+
+
+step(t, dt)[source]
+
+
+
+
+stepper_has_errest = False
+
+
+
+
+stepper_name = 'tvd-rk3'
+
+
+
+
+stepper_nregs = 3
+
+
+
+
+stepper_order = 3
+
+
+
+
+
+
+DualBackwardEulerStepper Click to show
+
+
+
+
+class pyfr.integrators.dual.phys.steppers.DualBackwardEulerStepper(*args, **kwargs)[source]
+
+
+_check_abort()
+
+
+
+
+_finalise_plugins()
+
+
+
+
+_get_plugins(initsoln)
+
+
+
+
+_invalidate_caches()
+
+
+
+
+_run_plugins()
+
+
+
+
+a = [[1]]
+
+
+
+
+advance_to(t)
+
+
+
+
+call_plugin_dt(tstart, dt)
+
+
+
+
+property cfgmeta
+
+
+
+
+collect_stats(stats)
+
+
+
+
+property dt_soln
+
+
+
+
+formulation = 'dual'
+
+
+
+
+fsal = True
+
+
+
+
+property grad_soln
+
+
+
+
+nstages = 1
+
+
+
+
+property nsteps
+
+
+
+
+plugin_abort(reason)
+
+
+
+
+property pseudostepinfo
+
+
+
+
+run()
+
+
+
+
+property soln
+
+
+
+
+property stage_nregs
+
+
+
+
+step(t, dt)
+
+
+
+
+stepper_name = 'backward-euler'
+
+
+
+
+stepper_nregs = 1
+
+
+
+
+property system
+
+
+
+
+
+
+SDIRK33Stepper Click to show
+
+
+
+
+class pyfr.integrators.dual.phys.steppers.SDIRK33Stepper(*args, **kwargs)[source]
+
+
+_al = 0.43586652150845906
+
+
+
+
+_at = 0.11327896981804066
+
+
+
+
+_check_abort()
+
+
+
+
+_finalise_plugins()
+
+
+
+
+_get_plugins(initsoln)
+
+
+
+
+_invalidate_caches()
+
+
+
+
+_run_plugins()
+
+
+
+
+a = [[0.43586652150845906], [0.28206673924577047, 0.43586652150845906], [1.2084966491760103, -0.6443631706844692, 0.43586652150845906]]
+
+
+
+
+advance_to(t)
+
+
+
+
+call_plugin_dt(tstart, dt)
+
+
+
+
+property cfgmeta
+
+
+
+
+collect_stats(stats)
+
+
+
+
+property dt_soln
+
+
+
+
+formulation = 'dual'
+
+
+
+
+fsal = True
+
+
+
+
+property grad_soln
+
+
+
+
+nstages = 3
+
+
+
+
+property nsteps
+
+
+
+
+plugin_abort(reason)
+
+
+
+
+property pseudostepinfo
+
+
+
+
+run()
+
+
+
+
+property soln
+
+
+
+
+property stage_nregs
+
+
+
+
+step(t, dt)
+
+
+
+
+stepper_name = 'sdirk33'
+
+
+
+
+stepper_nregs = 1
+
+
+
+
+property system
+
+
+
+
+
+
+SDIRK43Stepper Click to show
+
+
+
+
+class pyfr.integrators.dual.phys.steppers.SDIRK43Stepper(*args, **kwargs)[source]
+
+
+_a_lam = 1.0685790213016289
+
+
+
+
+_b_rlam = 0.1288864005157204
+
+
+
+
+_check_abort()
+
+
+
+
+_finalise_plugins()
+
+
+
+
+_get_plugins(initsoln)
+
+
+
+
+_invalidate_caches()
+
+
+
+
+_run_plugins()
+
+
+
+
+a = [[1.0685790213016289], [-0.5685790213016289, 1.0685790213016289], [2.1371580426032577, -3.2743160852065154, 1.0685790213016289]]
+
+
+
+
+advance_to(t)
+
+
+
+
+b = [0.1288864005157204, 0.7422271989685592, 0.1288864005157204]
+
+
+
+
+call_plugin_dt(tstart, dt)
+
+
+
+
+property cfgmeta
+
+
+
+
+collect_stats(stats)
+
+
+
+
+property dt_soln
+
+
+
+
+formulation = 'dual'
+
+
+
+
+fsal = False
+
+
+
+
+property grad_soln
+
+
+
+
+nstages = 3
+
+
+
+
+property nsteps
+
+
+
+
+plugin_abort(reason)
+
+
+
+
+property pseudostepinfo
+
+
+
+
+run()
+
+
+
+
+property soln
+
+
+
+
+property stage_nregs
+
+
+
+
+step(t, dt)
+
+
+
+
+stepper_name = 'sdirk43'
+
+
+
+
+stepper_nregs = 1
+
+
+
+
+property system
+
+
+
+
+
+
+
+
+Types of Stepper are related via the following inheritance diagram:
+
+Inheritance diagram of pyfr.integrators.std.steppers, pyfr.integrators.dual.phys.steppers
+
+
+
+
+
+PseudoStepper
+A PseudoStepper acts to advance the simulation by a single pseudo-time-step.
+They are used to converge implicit Stepper time-steps via a dual
+time-stepping formulation. There are five types of PseudoStepper available
+in PyFR 3.1:
+
+DualRK4PseudoStepper Click to show
+
+
+
+
+class pyfr.integrators.dual.pseudo.pseudosteppers.DualRK4PseudoStepper(backend, systemcls, mesh, initsoln, cfg, stepper_nregs, stage_nregs, dt)[source]
+
+
+_add(*args, subdims=None)
+
+
+
+
+_addv(consts, regidxs, subdims=None)
+
+
+
+
+_get_axnpby_kerns(*rs, subdims=None)
+
+
+
+
+_get_gndofs()
+
+
+
+
+_get_reduction_kerns(*rs, **kwargs)
+
+
+
+
+property _pseudo_stepper_regidx
+
+
+
+
+_rhs_with_dts(t, uin, fout)
+
+
+
+
+property _source_regidx
+
+
+
+
+property _stage_regidx
+
+
+
+
+property _stepper_regidx
+
+
+
+
+aux_nregs = 0
+
+
+
+
+collect_stats(stats)
+
+
+
+
+finalise_stage(currstg, tcurr)
+
+
+
+
+formulation = 'dual'
+
+
+
+
+init_stage(currstg, stepper_coeffs, dt)
+
+
+
+
+property ntotiters
+
+
+
+
+obtain_solution(bcoeffs)
+
+
+
+
+pseudo_stepper_has_lerrest = False
+
+
+
+
+pseudo_stepper_name = 'rk4'
+
+
+
+
+property pseudo_stepper_nfevals
+
+
+
+
+pseudo_stepper_nregs = 3
+
+
+
+
+pseudo_stepper_order = 4
+
+
+
+
+step(t)[source]
+
+
+
+
+store_current_soln()
+
+
+
+
+
+
+DualTVDRK3PseudoStepper Click to show
+
+
+
+
+class pyfr.integrators.dual.pseudo.pseudosteppers.DualTVDRK3PseudoStepper(backend, systemcls, mesh, initsoln, cfg, stepper_nregs, stage_nregs, dt)[source]
+
+
+_add(*args, subdims=None)
+
+
+
+
+_addv(consts, regidxs, subdims=None)
+
+
+
+
+_get_axnpby_kerns(*rs, subdims=None)
+
+
+
+
+_get_gndofs()
+
+
+
+
+_get_reduction_kerns(*rs, **kwargs)
+
+
+
+
+property _pseudo_stepper_regidx
+
+
+
+
+_rhs_with_dts(t, uin, fout)
+
+
+
+
+property _source_regidx
+
+
+
+
+property _stage_regidx
+
+
+
+
+property _stepper_regidx
+
+
+
+
+aux_nregs = 0
+
+
+
+
+collect_stats(stats)
+
+
+
+
+finalise_stage(currstg, tcurr)
+
+
+
+
+formulation = 'dual'
+
+
+
+
+init_stage(currstg, stepper_coeffs, dt)
+
+
+
+
+property ntotiters
+
+
+
+
+obtain_solution(bcoeffs)
+
+
+
+
+pseudo_stepper_has_lerrest = False
+
+
+
+
+pseudo_stepper_name = 'tvd-rk3'
+
+
+
+
+property pseudo_stepper_nfevals
+
+
+
+
+pseudo_stepper_nregs = 3
+
+
+
+
+pseudo_stepper_order = 3
+
+
+
+
+step(t)[source]
+
+
+
+
+store_current_soln()
+
+
+
+
+
+
+DualEulerPseudoStepper Click to show
+
+
+
+
+class pyfr.integrators.dual.pseudo.pseudosteppers.DualEulerPseudoStepper(backend, systemcls, mesh, initsoln, cfg, stepper_nregs, stage_nregs, dt)[source]
+
+
+_add(*args, subdims=None)
+
+
+
+
+_addv(consts, regidxs, subdims=None)
+
+
+
+
+_get_axnpby_kerns(*rs, subdims=None)
+
+
+
+
+_get_gndofs()
+
+
+
+
+_get_reduction_kerns(*rs, **kwargs)
+
+
+
+
+property _pseudo_stepper_regidx
+
+
+
+
+_rhs_with_dts(t, uin, fout)
+
+
+
+
+property _source_regidx
+
+
+
+
+property _stage_regidx
+
+
+
+
+property _stepper_regidx
+
+
+
+
+aux_nregs = 0
+
+
+
+
+collect_stats(stats)
+
+
+
+
+finalise_stage(currstg, tcurr)
+
+
+
+
+formulation = 'dual'
+
+
+
+
+init_stage(currstg, stepper_coeffs, dt)
+
+
+
+
+property ntotiters
+
+
+
+
+obtain_solution(bcoeffs)
+
+
+
+
+pseudo_stepper_has_lerrest = False
+
+
+
+
+pseudo_stepper_name = 'euler'
+
+
+
+
+property pseudo_stepper_nfevals
+
+
+
+
+pseudo_stepper_nregs = 2
+
+
+
+
+pseudo_stepper_order = 1
+
+
+
+
+step(t)[source]
+
+
+
+
+store_current_soln()
+
+
+
+
+
+
+DualRK34PseudoStepper Click to show
+
+
+
+
+class pyfr.integrators.dual.pseudo.pseudosteppers.DualRK34PseudoStepper(*args, **kwargs)[source]
+
+
+_add(*args, subdims=None)
+
+
+
+
+_addv(consts, regidxs, subdims=None)
+
+
+
+
+_get_axnpby_kerns(*rs, subdims=None)
+
+
+
+
+_get_gndofs()
+
+
+
+
+_get_reduction_kerns(*rs, **kwargs)
+
+
+
+
+_get_rkvdh2pseudo_kerns(stage, r1, r2, rold, rerr=None)
+
+
+
+
+property _pseudo_stepper_regidx
+
+
+
+
+_rhs_with_dts(t, uin, fout)
+
+
+
+
+property _source_regidx
+
+
+
+
+property _stage_regidx
+
+
+
+
+property _stepper_regidx
+
+
+
+
+a = [0.32416573882874605, 0.5570978645055429, -0.08605491431272755]
+
+
+
+
+aux_nregs = 0
+
+
+
+
+b = [0.10407986927510238, 0.6019391368822611, 2.9750900268840206, -2.681109033041384]
+
+
+
+
+bhat = [0.3406814840808433, 0.09091523008632837, 2.866496742725443, -2.298093456892615]
+
+
+
+
+collect_stats(stats)
+
+
+
+
+finalise_stage(currstg, tcurr)
+
+
+
+
+formulation = 'dual'
+
+
+
+
+init_stage(currstg, stepper_coeffs, dt)
+
+
+
+
+property ntotiters
+
+
+
+
+obtain_solution(bcoeffs)
+
+
+
+
+property pseudo_stepper_has_lerrest
+
+
+
+
+pseudo_stepper_name = 'rk34'
+
+
+
+
+property pseudo_stepper_nfevals
+
+
+
+
+property pseudo_stepper_nregs
+
+
+
+
+pseudo_stepper_order = 3
+
+
+
+
+step(t)
+
+
+
+
+store_current_soln()
+
+
+
+
+
+
+DualRK45PseudoStepper Click to show
+
+
+
+
+class pyfr.integrators.dual.pseudo.pseudosteppers.DualRK45PseudoStepper(*args, **kwargs)[source]
+
+
+_add(*args, subdims=None)
+
+
+
+
+_addv(consts, regidxs, subdims=None)
+
+
+
+
+_get_axnpby_kerns(*rs, subdims=None)
+
+
+
+
+_get_gndofs()
+
+
+
+
+_get_reduction_kerns(*rs, **kwargs)
+
+
+
+
+_get_rkvdh2pseudo_kerns(stage, r1, r2, rold, rerr=None)
+
+
+
+
+property _pseudo_stepper_regidx
+
+
+
+
+_rhs_with_dts(t, uin, fout)
+
+
+
+
+property _source_regidx
+
+
+
+
+property _stage_regidx
+
+
+
+
+property _stepper_regidx
+
+
+
+
+a = [0.22502245872571303, 0.5440433129514047, 0.14456824349399464, 0.7866643421983568]
+
+
+
+
+aux_nregs = 0
+
+
+
+
+b = [0.05122930664033915, 0.3809548257264019, -0.3733525963923833, 0.5925012850263623, 0.34866717899927996]
+
+
+
+
+bhat = [0.13721732210321927, 0.19188076232938728, -0.2292067211595315, 0.6242946765438954, 0.27581396018302956]
+
+
+
+
+collect_stats(stats)
+
+
+
+
+finalise_stage(currstg, tcurr)
+
+
+
+
+formulation = 'dual'
+
+
+
+
+init_stage(currstg, stepper_coeffs, dt)
+
+
+
+
+property ntotiters
+
+
+
+
+obtain_solution(bcoeffs)
+
+
+
+
+property pseudo_stepper_has_lerrest
+
+
+
+
+pseudo_stepper_name = 'rk45'
+
+
+
+
+property pseudo_stepper_nfevals
+
+
+
+
+property pseudo_stepper_nregs
+
+
+
+
+pseudo_stepper_order = 4
+
+
+
+
+step(t)
+
+
+
+
+store_current_soln()
+
+
+
+
+
+
+
+
+Types of PseudoStepper are related via the following inheritance
+diagram:
+
+Inheritance diagram of pyfr.integrators.dual.pseudo.pseudosteppers
+
+
+
+
+
+System
+A System holds information/data for the system, including
+Elements, Interfaces, and the Backend with which the
+simulation is to run. A System has a method named rhs, which
+obtains the divergence of the flux (the ‘right-hand-side’) at each
+solution point. The method rhs invokes various kernels which
+have been pre-generated and loaded into queues. A System also has a
+method named _gen_kernels which acts to generate all the
+kernels required by a particular System. A kernel is an instance of
+a ‘one-off’ class with a method named run that implements the
+required kernel functionality. Individual kernels are produced by a
+kernel provider. PyFR 3.1 has various types of kernel provider. A
+Pointwise Kernel Provider produces point-wise kernels such as
+Riemann solvers and flux functions etc. These point-wise kernels are
+specified using an in-built platform-independent templating language
+derived from Mako, henceforth
+referred to as PyFR-Mako. There are four types of System available
+in PyFR 3.1:
+
+ACEulerSystem Click to show
+
+
+
+
+class pyfr.solvers.aceuler.system.ACEulerSystem(backend, mesh, initsoln, nregs, cfg, serialiser)[source]
+
+
+_compute_grads_graph(t, uinbank)
+
+
+
+
+_gen_kernels(nregs, eles, iint, mpiint, bcint)
+
+
+
+
+_gen_mpireqs(mpiint)
+
+
+
+
+_get_kernels(uinbank, foutbank)
+
+
+
+
+_group(g, kerns, subs=[])
+
+
+
+
+_kdeps(kdict, kern, *dnames)
+
+
+
+
+_load_bc_inters(mesh, elemap, initsoln, serialiser)
+
+
+
+
+_load_eles(mesh, initsoln, nregs, nonce)
+
+
+
+
+_load_int_inters(mesh, elemap)
+
+
+
+
+_load_mpi_inters(mesh, elemap)
+
+
+
+
+_nonce_seq = count(0)
+
+
+
+
+_prepare_kernels(t, uinbank, foutbank)
+
+
+
+
+_preproc_graphs(uinbank)
+
+
+
+
+_rhs_graphs(uinbank, foutbank)
+
+
+
+
+bbcinterscls
+alias of ACEulerBaseBCInters
+
+
+
+
+commit()
+
+
+
+
+compute_grads(t, uinbank)
+
+
+
+
+ele_scal_upts(idx)
+
+
+
+
+elementscls
+alias of ACEulerElements
+
+
+
+
+evalsrcmacros(uinoutbank)
+
+
+
+
+filt(uinoutbank)
+
+
+
+
+intinterscls
+alias of ACEulerIntInters
+
+
+
+
+mpiinterscls
+alias of ACEulerMPIInters
+
+
+
+
+name = 'ac-euler'
+
+
+
+
+postproc(uinbank)
+
+
+
+
+preproc(t, uinbank)
+
+
+
+
+rhs(t, uinbank, foutbank)
+
+
+
+
+rhs_wait_times()
+
+
+
+
+
+
+ACNavierStokesSystem Click to show
+
+
+
+
+class pyfr.solvers.acnavstokes.system.ACNavierStokesSystem(backend, mesh, initsoln, nregs, cfg, serialiser)[source]
+
+
+_compute_grads_graph(uinbank)
+
+
+
+
+_gen_kernels(nregs, eles, iint, mpiint, bcint)
+
+
+
+
+_gen_mpireqs(mpiint)
+
+
+
+
+_get_kernels(uinbank, foutbank)
+
+
+
+
+_group(g, kerns, subs=[])
+
+
+
+
+_kdeps(kdict, kern, *dnames)
+
+
+
+
+_load_bc_inters(mesh, elemap, initsoln, serialiser)
+
+
+
+
+_load_eles(mesh, initsoln, nregs, nonce)
+
+
+
+
+_load_int_inters(mesh, elemap)
+
+
+
+
+_load_mpi_inters(mesh, elemap)
+
+
+
+
+_nonce_seq = count(0)
+
+
+
+
+_prepare_kernels(t, uinbank, foutbank)
+
+
+
+
+_preproc_graphs(uinbank)
+
+
+
+
+_rhs_graphs(uinbank, foutbank)
+
+
+
+
+bbcinterscls
+alias of ACNavierStokesBaseBCInters
+
+
+
+
+commit()
+
+
+
+
+compute_grads(t, uinbank)
+
+
+
+
+ele_scal_upts(idx)
+
+
+
+
+elementscls
+alias of ACNavierStokesElements
+
+
+
+
+evalsrcmacros(uinoutbank)
+
+
+
+
+filt(uinoutbank)
+
+
+
+
+intinterscls
+alias of ACNavierStokesIntInters
+
+
+
+
+mpiinterscls
+alias of ACNavierStokesMPIInters
+
+
+
+
+name = 'ac-navier-stokes'
+
+
+
+
+postproc(uinbank)
+
+
+
+
+preproc(t, uinbank)
+
+
+
+
+rhs(t, uinbank, foutbank)
+
+
+
+
+rhs_wait_times()
+
+
+
+
+
+
+EulerSystem Click to show
+
+
+
+
+class pyfr.solvers.euler.system.EulerSystem(backend, mesh, initsoln, nregs, cfg, serialiser)[source]
+
+
+_compute_grads_graph(t, uinbank)
+
+
+
+
+_gen_kernels(nregs, eles, iint, mpiint, bcint)
+
+
+
+
+_gen_mpireqs(mpiint)
+
+
+
+
+_get_kernels(uinbank, foutbank)
+
+
+
+
+_group(g, kerns, subs=[])
+
+
+
+
+_kdeps(kdict, kern, *dnames)
+
+
+
+
+_load_bc_inters(mesh, elemap, initsoln, serialiser)
+
+
+
+
+_load_eles(mesh, initsoln, nregs, nonce)
+
+
+
+
+_load_int_inters(mesh, elemap)
+
+
+
+
+_load_mpi_inters(mesh, elemap)
+
+
+
+
+_nonce_seq = count(0)
+
+
+
+
+_prepare_kernels(t, uinbank, foutbank)
+
+
+
+
+_preproc_graphs(uinbank)
+
+
+
+
+_rhs_graphs(uinbank, foutbank)
+
+
+
+
+bbcinterscls
+alias of EulerBaseBCInters
+
+
+
+
+commit()
+
+
+
+
+compute_grads(t, uinbank)
+
+
+
+
+ele_scal_upts(idx)
+
+
+
+
+elementscls
+alias of EulerElements
+
+
+
+
+evalsrcmacros(uinoutbank)
+
+
+
+
+filt(uinoutbank)
+
+
+
+
+intinterscls
+alias of EulerIntInters
+
+
+
+
+mpiinterscls
+alias of EulerMPIInters
+
+
+
+
+name = 'euler'
+
+
+
+
+postproc(uinbank)
+
+
+
+
+preproc(t, uinbank)
+
+
+
+
+rhs(t, uinbank, foutbank)
+
+
+
+
+rhs_wait_times()
+
+
+
+
+
+
+NavierStokesSystem Click to show
+
+
+
+
+class pyfr.solvers.navstokes.system.NavierStokesSystem(backend, mesh, initsoln, nregs, cfg, serialiser)[source]
+
+
+_compute_grads_graph(uinbank)
+
+
+
+
+_gen_kernels(nregs, eles, iint, mpiint, bcint)
+
+
+
+
+_gen_mpireqs(mpiint)
+
+
+
+
+_get_kernels(uinbank, foutbank)
+
+
+
+
+_group(g, kerns, subs=[])
+
+
+
+
+_kdeps(kdict, kern, *dnames)
+
+
+
+
+_load_bc_inters(mesh, elemap, initsoln, serialiser)
+
+
+
+
+_load_eles(mesh, initsoln, nregs, nonce)
+
+
+
+
+_load_int_inters(mesh, elemap)
+
+
+
+
+_load_mpi_inters(mesh, elemap)
+
+
+
+
+_nonce_seq = count(0)
+
+
+
+
+_prepare_kernels(t, uinbank, foutbank)
+
+
+
+
+_preproc_graphs(uinbank)
+
+
+
+
+_rhs_graphs(uinbank, foutbank)
+
+
+
+
+bbcinterscls
+alias of NavierStokesBaseBCInters
+
+
+
+
+commit()
+
+
+
+
+compute_grads(t, uinbank)
+
+
+
+
+ele_scal_upts(idx)
+
+
+
+
+elementscls
+alias of NavierStokesElements
+
+
+
+
+evalsrcmacros(uinoutbank)
+
+
+
+
+filt(uinoutbank)
+
+
+
+
+intinterscls
+alias of NavierStokesIntInters
+
+
+
+
+mpiinterscls
+alias of NavierStokesMPIInters
+
+
+
+
+name = 'navier-stokes'
+
+
+
+
+postproc(uinbank)
+
+
+
+
+preproc(t, uinbank)
+
+
+
+
+rhs(t, uinbank, foutbank)
+
+
+
+
+rhs_wait_times()
+
+
+
+
+
+
+
+
+Types of System are related via the following inheritance diagram:
+
+Inheritance diagram of pyfr.solvers.navstokes.system, pyfr.solvers.euler.system, pyfr.solvers.acnavstokes.system, pyfr.solvers.aceuler.system
+
+
+
+
+
+Elements
+An Elements holds information/data for a group of elements. There are
+four types of Elements available in PyFR 3.1:
+
+ACEulerElements Click to show
+
+
+
+
+class pyfr.solvers.aceuler.elements.ACEulerElements(*kargs, **kwargs)[source]
+
+
+_get_comm_fpts_for_inter(eidx, fidx)
+
+
+
+
+_get_vect_fpts_for_inter(eidx, fidx)
+
+
+
+
+_get_vect_upts_for_inter(eidx, fidx)
+
+
+
+
+_make_sliced_kernel(kseq)
+
+
+
+
+property _mesh_regions
+
+
+
+
+property _pnorm_fpts
+
+
+
+
+property _scal_upts_cpy
+
+
+
+
+property _scratch_bufs
+
+
+
+
+_set_external(name, spec, value=None)
+
+
+
+
+_slice_mat(mat, region, ra=None, rb=None)
+
+
+
+
+property _smats_djacs_mpts
+
+
+
+
+property _srtd_face_fpts
+
+
+
+
+add_src_macro(mod, name, tplargs, ploc=False, soln=False)
+
+
+
+
+static con_to_pri(convs, cfg)
+
+
+
+
+static convars(ndims, cfg)
+
+
+
+
+curved_smat_at(name)
+
+
+
+
+static diff_con_to_pri(cons, diff_cons, cfg)
+
+
+
+
+static dualcoeffs(ndims, cfg)
+
+
+
+
+get_entmin_bc_fpts_for_inter(eidx, fidx)
+
+
+
+
+get_entmin_int_fpts_for_inter(eidx, fidx)
+
+
+
+
+get_ploc_for_inter(eidx, fidx)
+
+
+
+
+get_pnorms(eidx, fidx)
+
+
+
+
+get_pnorms_for_inter(eidx, fidx)
+
+
+
+
+get_scal_fpts_for_inter(eidx, fidx)
+
+
+
+
+property has_src_macros
+
+
+
+
+property mean_wts
+
+
+
+
+opmat(expr)
+
+
+
+
+ploc_at(name)
+
+
+
+
+ploc_at_np(name)
+
+
+
+
+property plocfpts
+
+
+
+
+pnorm_at(name, norm)
+
+
+
+
+static pri_to_con(pris, cfg)
+
+
+
+
+static privars(ndims, cfg)
+
+
+
+
+property qpts
+
+
+
+
+rcpdjac_at(name)
+
+
+
+
+rcpdjac_at_np(name)
+
+
+
+
+set_backend(*args, **kwargs)[source]
+
+
+
+
+set_ics_from_cfg()
+
+
+
+
+set_ics_from_soln(solnmat, solncfg)
+
+
+
+
+sliceat()
+
+
+
+
+smat_at_np(name)
+
+
+
+
+property upts
+
+
+
+
+static validate_formulation(controller)
+
+
+
+
+static visvars(ndims, cfg)
+
+
+
+
+
+
+ACNavierStokesElements Click to show
+
+
+
+
+class pyfr.solvers.acnavstokes.elements.ACNavierStokesElements(*kargs, **kwargs)[source]
+
+
+_get_comm_fpts_for_inter(eidx, fidx)
+
+
+
+
+_get_grad_upts_for_inter(eidx, fidx)
+
+
+
+
+_get_vect_fpts_for_inter(eidx, fidx)
+
+
+
+
+_get_vect_upts_for_inter(eidx, fidx)
+
+
+
+
+_make_sliced_kernel(kseq)
+
+
+
+
+property _mesh_regions
+
+
+
+
+property _pnorm_fpts
+
+
+
+
+property _scal_upts_cpy
+
+
+
+
+property _scratch_bufs
+
+
+
+
+_set_external(name, spec, value=None)
+
+
+
+
+_slice_mat(mat, region, ra=None, rb=None)
+
+
+
+
+property _smats_djacs_mpts
+
+
+
+
+property _srtd_face_fpts
+
+
+
+
+add_src_macro(mod, name, tplargs, ploc=False, soln=False)
+
+
+
+
+static con_to_pri(convs, cfg)
+
+
+
+
+static convars(ndims, cfg)
+
+
+
+
+curved_smat_at(name)
+
+
+
+
+static diff_con_to_pri(cons, diff_cons, cfg)
+
+
+
+
+static dualcoeffs(ndims, cfg)
+
+
+
+
+get_artvisc_fpts_for_inter(eidx, fidx)
+
+
+
+
+get_entmin_bc_fpts_for_inter(eidx, fidx)
+
+
+
+
+get_entmin_int_fpts_for_inter(eidx, fidx)
+
+
+
+
+get_ploc_for_inter(eidx, fidx)
+
+
+
+
+get_pnorms(eidx, fidx)
+
+
+
+
+get_pnorms_for_inter(eidx, fidx)
+
+
+
+
+get_scal_fpts_for_inter(eidx, fidx)
+
+
+
+
+static grad_con_to_pri(cons, grad_cons, cfg)[source]
+
+
+
+
+property has_src_macros
+
+
+
+
+property mean_wts
+
+
+
+
+opmat(expr)
+
+
+
+
+ploc_at(name)
+
+
+
+
+ploc_at_np(name)
+
+
+
+
+property plocfpts
+
+
+
+
+pnorm_at(name, norm)
+
+
+
+
+static pri_to_con(pris, cfg)
+
+
+
+
+static privars(ndims, cfg)
+
+
+
+
+property qpts
+
+
+
+
+rcpdjac_at(name)
+
+
+
+
+rcpdjac_at_np(name)
+
+
+
+
+set_backend(*args, **kwargs)[source]
+
+
+
+
+set_ics_from_cfg()
+
+
+
+
+set_ics_from_soln(solnmat, solncfg)
+
+
+
+
+sliceat()
+
+
+
+
+smat_at_np(name)
+
+
+
+
+property upts
+
+
+
+
+static validate_formulation(controller)
+
+
+
+
+static visvars(ndims, cfg)
+
+
+
+
+
+
+EulerElements Click to show
+
+
+
+
+class pyfr.solvers.euler.elements.EulerElements(*kargs, **kwargs)[source]
+
+
+_get_comm_fpts_for_inter(eidx, fidx)
+
+
+
+
+_get_vect_fpts_for_inter(eidx, fidx)
+
+
+
+
+_get_vect_upts_for_inter(eidx, fidx)
+
+
+
+
+_make_sliced_kernel(kseq)
+
+
+
+
+property _mesh_regions
+
+
+
+
+property _pnorm_fpts
+
+
+
+
+property _scal_upts_cpy
+
+
+
+
+property _scratch_bufs
+
+
+
+
+_set_external(name, spec, value=None)
+
+
+
+
+_slice_mat(mat, region, ra=None, rb=None)
+
+
+
+
+property _smats_djacs_mpts
+
+
+
+
+property _srtd_face_fpts
+
+
+
+
+add_src_macro(mod, name, tplargs, ploc=False, soln=False)
+
+
+
+
+static con_to_pri(cons, cfg)
+
+
+
+
+static convars(ndims, cfg)
+
+
+
+
+curved_smat_at(name)
+
+
+
+
+static diff_con_to_pri(cons, diff_cons, cfg)
+
+
+
+
+static dualcoeffs(ndims, cfg)
+
+
+
+
+get_entmin_bc_fpts_for_inter(eidx, fidx)
+
+
+
+
+get_entmin_int_fpts_for_inter(eidx, fidx)
+
+
+
+
+get_ploc_for_inter(eidx, fidx)
+
+
+
+
+get_pnorms(eidx, fidx)
+
+
+
+
+get_pnorms_for_inter(eidx, fidx)
+
+
+
+
+get_scal_fpts_for_inter(eidx, fidx)
+
+
+
+
+property has_src_macros
+
+
+
+
+property mean_wts
+
+
+
+
+opmat(expr)
+
+
+
+
+ploc_at(name)
+
+
+
+
+ploc_at_np(name)
+
+
+
+
+property plocfpts
+
+
+
+
+pnorm_at(name, norm)
+
+
+
+
+static pri_to_con(pris, cfg)
+
+
+
+
+static privars(ndims, cfg)
+
+
+
+
+property qpts
+
+
+
+
+rcpdjac_at(name)
+
+
+
+
+rcpdjac_at_np(name)
+
+
+
+
+set_backend(*args, **kwargs)[source]
+
+
+
+
+set_ics_from_cfg()
+
+
+
+
+set_ics_from_soln(solnmat, solncfg)
+
+
+
+
+sliceat()
+
+
+
+
+smat_at_np(name)
+
+
+
+
+property upts
+
+
+
+
+static validate_formulation(ctrl)
+
+
+
+
+static visvars(ndims, cfg)
+
+
+
+
+
+
+NavierStokesElements Click to show
+
+
+
+
+class pyfr.solvers.navstokes.elements.NavierStokesElements(*kargs, **kwargs)[source]
+
+
+_get_comm_fpts_for_inter(eidx, fidx)
+
+
+
+
+_get_grad_upts_for_inter(eidx, fidx)
+
+
+
+
+_get_vect_fpts_for_inter(eidx, fidx)
+
+
+
+
+_get_vect_upts_for_inter(eidx, fidx)
+
+
+
+
+_make_sliced_kernel(kseq)
+
+
+
+
+property _mesh_regions
+
+
+
+
+property _pnorm_fpts
+
+
+
+
+property _scal_upts_cpy
+
+
+
+
+property _scratch_bufs
+
+
+
+
+_set_external(name, spec, value=None)
+
+
+
+
+_slice_mat(mat, region, ra=None, rb=None)
+
+
+
+
+property _smats_djacs_mpts
+
+
+
+
+property _srtd_face_fpts
+
+
+
+
+add_src_macro(mod, name, tplargs, ploc=False, soln=False)
+
+
+
+
+static con_to_pri(cons, cfg)
+
+
+
+
+static convars(ndims, cfg)
+
+
+
+
+curved_smat_at(name)
+
+
+
+
+static diff_con_to_pri(cons, diff_cons, cfg)
+
+
+
+
+static dualcoeffs(ndims, cfg)
+
+
+
+
+get_artvisc_fpts_for_inter(eidx, fidx)
+
+
+
+
+get_entmin_bc_fpts_for_inter(eidx, fidx)
+
+
+
+
+get_entmin_int_fpts_for_inter(eidx, fidx)
+
+
+
+
+get_ploc_for_inter(eidx, fidx)
+
+
+
+
+get_pnorms(eidx, fidx)
+
+
+
+
+get_pnorms_for_inter(eidx, fidx)
+
+
+
+
+get_scal_fpts_for_inter(eidx, fidx)
+
+
+
+
+static grad_con_to_pri(cons, grad_cons, cfg)[source]
+
+
+
+
+property has_src_macros
+
+
+
+
+property mean_wts
+
+
+
+
+opmat(expr)
+
+
+
+
+ploc_at(name)
+
+
+
+
+ploc_at_np(name)
+
+
+
+
+property plocfpts
+
+
+
+
+pnorm_at(name, norm)
+
+
+
+
+static pri_to_con(pris, cfg)
+
+
+
+
+static privars(ndims, cfg)
+
+
+
+
+property qpts
+
+
+
+
+rcpdjac_at(name)
+
+
+
+
+rcpdjac_at_np(name)
+
+
+
+
+set_backend(*args, **kwargs)[source]
+
+
+
+
+set_ics_from_cfg()
+
+
+
+
+set_ics_from_soln(solnmat, solncfg)
+
+
+
+
+shockvar = 'rho'
+
+
+
+
+sliceat()
+
+
+
+
+smat_at_np(name)
+
+
+
+
+property upts
+
+
+
+
+static validate_formulation(ctrl)
+
+
+
+
+static visvars(ndims, cfg)
+
+
+
+
+
+
+
+
+Types of Elements are related via the following inheritance diagram:
+
+Inheritance diagram of pyfr.solvers.navstokes.elements, pyfr.solvers.euler.elements, pyfr.solvers.acnavstokes.elements, pyfr.solvers.aceuler.elements
+
+
+
+
+
+Interfaces
+An Interfaces holds information/data for a group of interfaces. There
+are eight types of (non-boundary) Interfaces available in PyFR
+3.1:
+
+ACEulerIntInters Click to show
+
+
+
+
+class pyfr.solvers.aceuler.inters.ACEulerIntInters(*args, **kwargs)[source]
+
+
+_const_mat(inter, meth)
+
+
+
+
+_gen_perm(lhs, rhs)
+
+
+
+
+_get_perm_for_view(inter, meth)
+
+
+
+
+_scal_view(inter, meth)
+
+
+
+
+_scal_xchg_view(inter, meth)
+
+
+
+
+_set_external(name, spec, value=None)
+
+
+
+
+_vect_view(inter, meth)
+
+
+
+
+_vect_xchg_view(inter, meth)
+
+
+
+
+_view(inter, meth, vshape=(), with_perm=True)
+
+
+
+
+_xchg_view(inter, meth, vshape=(), with_perm=True)
+
+
+
+
+classmethod serialisefn(iface, prefix, srl)
+
+
+
+
+setup(sdata)
+
+
+
+
+
+
+ACEulerMPIInters Click to show
+
+
+
+
+class pyfr.solvers.aceuler.inters.ACEulerMPIInters(*args, **kwargs)[source]
+
+
+BASE_MPI_TAG = 2314
+
+
+
+
+_const_mat(inter, meth)
+
+
+
+
+_get_perm_for_view(inter, meth)
+
+
+
+
+_scal_view(inter, meth)
+
+
+
+
+_scal_xchg_view(inter, meth)
+
+
+
+
+_set_external(name, spec, value=None)
+
+
+
+
+_vect_view(inter, meth)
+
+
+
+
+_vect_xchg_view(inter, meth)
+
+
+
+
+_view(inter, meth, vshape=(), with_perm=True)
+
+
+
+
+_xchg_view(inter, meth, vshape=(), with_perm=True)
+
+
+
+
+classmethod serialisefn(iface, prefix, srl)
+
+
+
+
+setup(sdata)
+
+
+
+
+
+
+ACNavierStokesIntInters Click to show
+
+
+
+
+class pyfr.solvers.acnavstokes.inters.ACNavierStokesIntInters(be, lhs, rhs, elemap, cfg)[source]
+
+
+_const_mat(inter, meth)
+
+
+
+
+_gen_perm(lhs, rhs)
+
+
+
+
+_get_perm_for_view(inter, meth)
+
+
+
+
+_scal_view(inter, meth)
+
+
+
+
+_scal_xchg_view(inter, meth)
+
+
+
+
+_set_external(name, spec, value=None)
+
+
+
+
+_vect_view(inter, meth)
+
+
+
+
+_vect_xchg_view(inter, meth)
+
+
+
+
+_view(inter, meth, vshape=(), with_perm=True)
+
+
+
+
+_xchg_view(inter, meth, vshape=(), with_perm=True)
+
+
+
+
+classmethod serialisefn(iface, prefix, srl)
+
+
+
+
+setup(sdata)
+
+
+
+
+
+
+ACNavierStokesMPIInters Click to show
+
+
+
+
+class pyfr.solvers.acnavstokes.inters.ACNavierStokesMPIInters(be, lhs, rhsrank, elemap, cfg)[source]
+
+
+BASE_MPI_TAG = 2314
+
+
+
+
+_const_mat(inter, meth)
+
+
+
+
+_get_perm_for_view(inter, meth)
+
+
+
+
+_scal_view(inter, meth)
+
+
+
+
+_scal_xchg_view(inter, meth)
+
+
+
+
+_set_external(name, spec, value=None)
+
+
+
+
+_vect_view(inter, meth)
+
+
+
+
+_vect_xchg_view(inter, meth)
+
+
+
+
+_view(inter, meth, vshape=(), with_perm=True)
+
+
+
+
+_xchg_view(inter, meth, vshape=(), with_perm=True)
+
+
+
+
+classmethod serialisefn(iface, prefix, srl)
+
+
+
+
+setup(sdata)
+
+
+
+
+
+
+EulerIntInters Click to show
+
+
+
+
+class pyfr.solvers.euler.inters.EulerIntInters(*args, **kwargs)[source]
+
+
+_const_mat(inter, meth)
+
+
+
+
+_gen_perm(lhs, rhs)
+
+
+
+
+_get_perm_for_view(inter, meth)
+
+
+
+
+_scal_view(inter, meth)
+
+
+
+
+_scal_xchg_view(inter, meth)
+
+
+
+
+_set_external(name, spec, value=None)
+
+
+
+
+_vect_view(inter, meth)
+
+
+
+
+_vect_xchg_view(inter, meth)
+
+
+
+
+_view(inter, meth, vshape=(), with_perm=True)
+
+
+
+
+_xchg_view(inter, meth, vshape=(), with_perm=True)
+
+
+
+
+classmethod serialisefn(iface, prefix, srl)
+
+
+
+
+setup(sdata)
+
+
+
+
+
+
+EulerMPIInters Click to show
+
+
+
+
+class pyfr.solvers.euler.inters.EulerMPIInters(*args, **kwargs)[source]
+
+
+BASE_MPI_TAG = 2314
+
+
+
+
+_const_mat(inter, meth)
+
+
+
+
+_get_perm_for_view(inter, meth)
+
+
+
+
+_scal_view(inter, meth)
+
+
+
+
+_scal_xchg_view(inter, meth)
+
+
+
+
+_set_external(name, spec, value=None)
+
+
+
+
+_vect_view(inter, meth)
+
+
+
+
+_vect_xchg_view(inter, meth)
+
+
+
+
+_view(inter, meth, vshape=(), with_perm=True)
+
+
+
+
+_xchg_view(inter, meth, vshape=(), with_perm=True)
+
+
+
+
+classmethod serialisefn(iface, prefix, srl)
+
+
+
+
+setup(sdata)
+
+
+
+
+
+
+NavierStokesIntInters Click to show
+
+
+
+
+class pyfr.solvers.navstokes.inters.NavierStokesIntInters(*args, **kwargs)[source]
+
+
+_const_mat(inter, meth)
+
+
+
+
+_gen_perm(lhs, rhs)
+
+
+
+
+_get_perm_for_view(inter, meth)
+
+
+
+
+_scal_view(inter, meth)
+
+
+
+
+_scal_xchg_view(inter, meth)
+
+
+
+
+_set_external(name, spec, value=None)
+
+
+
+
+_vect_view(inter, meth)
+
+
+
+
+_vect_xchg_view(inter, meth)
+
+
+
+
+_view(inter, meth, vshape=(), with_perm=True)
+
+
+
+
+_xchg_view(inter, meth, vshape=(), with_perm=True)
+
+
+
+
+classmethod serialisefn(iface, prefix, srl)
+
+
+
+
+setup(sdata)
+
+
+
+
+
+
+NavierStokesMPIInters Click to show
+
+
+
+
+class pyfr.solvers.navstokes.inters.NavierStokesMPIInters(*args, **kwargs)[source]
+
+
+BASE_MPI_TAG = 2314
+
+
+
+
+_const_mat(inter, meth)
+
+
+
+
+_get_perm_for_view(inter, meth)
+
+
+
+
+_scal_view(inter, meth)
+
+
+
+
+_scal_xchg_view(inter, meth)
+
+
+
+
+_set_external(name, spec, value=None)
+
+
+
+
+_vect_view(inter, meth)
+
+
+
+
+_vect_xchg_view(inter, meth)
+
+
+
+
+_view(inter, meth, vshape=(), with_perm=True)
+
+
+
+
+_xchg_view(inter, meth, vshape=(), with_perm=True)
+
+
+
+
+classmethod serialisefn(iface, prefix, srl)
+
+
+
+
+setup(sdata)
+
+
+
+
+
+
+
+
+Types of (non-boundary) Interfaces are related via the following
+inheritance diagram:
+
+Inheritance diagram of pyfr.solvers.navstokes.inters.NavierStokesMPIInters, pyfr.solvers.navstokes.inters.NavierStokesIntInters, pyfr.solvers.euler.inters.EulerMPIInters, pyfr.solvers.euler.inters.EulerIntInters, pyfr.solvers.acnavstokes.inters.ACNavierStokesMPIInters, pyfr.solvers.acnavstokes.inters.ACNavierStokesIntInters, pyfr.solvers.aceuler.inters.ACEulerMPIInters, pyfr.solvers.aceuler.inters.ACEulerIntInters
+
+
+
+
+
+Backend
+A Backend holds information/data for a backend. There are five types
+of Backend available in PyFR 3.1:
+
+CUDABackend Click to show
+
+
+
+
+class pyfr.backends.cuda.base.CUDABackend(cfg)[source]
+
+
+_malloc_checked(nbytes)
+
+
+
+
+_malloc_impl(nbytes)[source]
+
+
+
+
+alias(obj, aobj)
+
+
+
+
+blocks = False
+
+
+
+
+commit()
+
+
+
+
+const_matrix(initval, dtype=None, tags={})
+
+
+
+
+graph()
+
+
+
+
+kernel(name, *args, **kwargs)
+
+
+
+
+property lookup
+
+
+
+
+malloc(obj, extent)
+
+
+
+
+matrix(ioshape, initval=None, extent=None, aliases=None, tags={}, dtype=None)
+
+
+
+
+matrix_slice(mat, ra, rb, ca, cb)
+
+
+
+
+name = 'cuda'
+
+
+
+
+ordered_meta_kernel(kerns)
+
+
+
+
+run_graph(graph, wait=False)[source]
+
+
+
+
+run_kernels(kernels, wait=False)[source]
+
+
+
+
+unordered_meta_kernel(kerns, splits=None)
+
+
+
+
+view(matmap, rmap, cmap, rstridemap=None, vshape=(), tags={})
+
+
+
+
+wait()[source]
+
+
+
+
+xchg_matrix(ioshape, initval=None, extent=None, aliases=None, tags={})
+
+
+
+
+xchg_matrix_for_view(view, tags={})
+
+
+
+
+xchg_view(matmap, rmap, cmap, rstridemap=None, vshape=(), tags={})
+
+
+
+
+
+
+HIPBackend Click to show
+
+
+
+
+class pyfr.backends.hip.base.HIPBackend(cfg)[source]
+
+
+_malloc_checked(nbytes)
+
+
+
+
+_malloc_impl(nbytes)[source]
+
+
+
+
+alias(obj, aobj)
+
+
+
+
+blocks = False
+
+
+
+
+commit()
+
+
+
+
+const_matrix(initval, dtype=None, tags={})
+
+
+
+
+graph()
+
+
+
+
+kernel(name, *args, **kwargs)
+
+
+
+
+property lookup
+
+
+
+
+malloc(obj, extent)
+
+
+
+
+matrix(ioshape, initval=None, extent=None, aliases=None, tags={}, dtype=None)
+
+
+
+
+matrix_slice(mat, ra, rb, ca, cb)
+
+
+
+
+name = 'hip'
+
+
+
+
+ordered_meta_kernel(kerns)
+
+
+
+
+run_graph(graph, wait=False)[source]
+
+
+
+
+run_kernels(kernels, wait=False)[source]
+
+
+
+
+unordered_meta_kernel(kerns, splits=None)
+
+
+
+
+view(matmap, rmap, cmap, rstridemap=None, vshape=(), tags={})
+
+
+
+
+wait()[source]
+
+
+
+
+xchg_matrix(ioshape, initval=None, extent=None, aliases=None, tags={})
+
+
+
+
+xchg_matrix_for_view(view, tags={})
+
+
+
+
+xchg_view(matmap, rmap, cmap, rstridemap=None, vshape=(), tags={})
+
+
+
+
+
+
+OpenCLBackend Click to show
+
+
+
+
+class pyfr.backends.opencl.base.OpenCLBackend(cfg)[source]
+
+
+_malloc_checked(nbytes)
+
+
+
+
+_malloc_impl(nbytes)[source]
+
+
+
+
+alias(obj, aobj)
+
+
+
+
+blocks = False
+
+
+
+
+commit()
+
+
+
+
+const_matrix(initval, dtype=None, tags={})
+
+
+
+
+graph()
+
+
+
+
+kernel(name, *args, **kwargs)
+
+
+
+
+property lookup
+
+
+
+
+malloc(obj, extent)
+
+
+
+
+matrix(ioshape, initval=None, extent=None, aliases=None, tags={}, dtype=None)
+
+
+
+
+matrix_slice(mat, ra, rb, ca, cb)
+
+
+
+
+name = 'opencl'
+
+
+
+
+ordered_meta_kernel(kerns)
+
+
+
+
+run_graph(graph, wait=False)[source]
+
+
+
+
+run_kernels(kernels, wait=False)[source]
+
+
+
+
+unordered_meta_kernel(kerns, splits=None)
+
+
+
+
+view(matmap, rmap, cmap, rstridemap=None, vshape=(), tags={})
+
+
+
+
+wait()[source]
+
+
+
+
+xchg_matrix(ioshape, initval=None, extent=None, aliases=None, tags={})
+
+
+
+
+xchg_matrix_for_view(view, tags={})
+
+
+
+
+xchg_view(matmap, rmap, cmap, rstridemap=None, vshape=(), tags={})
+
+
+
+
+
+
+OpenMPBackend Click to show
+
+
+
+
+class pyfr.backends.openmp.base.OpenMPBackend(cfg)[source]
+
+
+_malloc_checked(nbytes)
+
+
+
+
+_malloc_impl(nbytes)[source]
+
+
+
+
+alias(obj, aobj)
+
+
+
+
+blocks = True
+
+
+
+
+commit()
+
+
+
+
+const_matrix(initval, dtype=None, tags={})
+
+
+
+
+graph()
+
+
+
+
+kernel(name, *args, **kwargs)
+
+
+
+
+property krunner
+
+
+
+
+property lookup
+
+
+
+
+malloc(obj, extent)
+
+
+
+
+matrix(ioshape, initval=None, extent=None, aliases=None, tags={}, dtype=None)
+
+
+
+
+matrix_slice(mat, ra, rb, ca, cb)
+
+
+
+
+name = 'openmp'
+
+
+
+
+ordered_meta_kernel(kerns)
+
+
+
+
+run_graph(graph, wait=False)[source]
+
+
+
+
+run_kernels(kernels, wait=False)[source]
+
+
+
+
+unordered_meta_kernel(kerns, splits=None)
+
+
+
+
+view(matmap, rmap, cmap, rstridemap=None, vshape=(), tags={})
+
+
+
+
+wait()[source]
+
+
+
+
+xchg_matrix(ioshape, initval=None, extent=None, aliases=None, tags={})
+
+
+
+
+xchg_matrix_for_view(view, tags={})
+
+
+
+
+xchg_view(matmap, rmap, cmap, rstridemap=None, vshape=(), tags={})
+
+
+
+
+
+
+MetalBackend Click to show
+
+
+
+
+class pyfr.backends.metal.base.MetalBackend(cfg)[source]
+
+
+_malloc_checked(nbytes)
+
+
+
+
+_malloc_impl(nbytes)[source]
+
+
+
+
+alias(obj, aobj)
+
+
+
+
+blocks = False
+
+
+
+
+commit()
+
+
+
+
+const_matrix(initval, dtype=None, tags={})
+
+
+
+
+graph()
+
+
+
+
+kernel(name, *args, **kwargs)
+
+
+
+
+property lookup
+
+
+
+
+malloc(obj, extent)
+
+
+
+
+matrix(ioshape, initval=None, extent=None, aliases=None, tags={}, dtype=None)
+
+
+
+
+matrix_slice(mat, ra, rb, ca, cb)
+
+
+
+
+name = 'metal'
+
+
+
+
+ordered_meta_kernel(kerns)
+
+
+
+
+run_graph(graph, wait=False)[source]
+
+
+
+
+run_kernels(kernels, wait=False)[source]
+
+
+
+
+unordered_meta_kernel(kerns, splits=None)
+
+
+
+
+view(matmap, rmap, cmap, rstridemap=None, vshape=(), tags={})
+
+
+
+
+wait()[source]
+
+
+
+
+xchg_matrix(ioshape, initval=None, extent=None, aliases=None, tags={})
+
+
+
+
+xchg_matrix_for_view(view, tags={})
+
+
+
+
+xchg_view(matmap, rmap, cmap, rstridemap=None, vshape=(), tags={})
+
+
+
+
+
+
+
+
+Types of Backend are related via the following inheritance diagram:
+
+Inheritance diagram of pyfr.backends.cuda.base, pyfr.backends.hip.base, pyfr.backends.opencl.base, pyfr.backends.openmp.base, pyfr.backends.metal.base
+
+
+
+
+
+Pointwise Kernel Provider
+A Pointwise Kernel Provider produces point-wise kernels.
+Specifically, a Pointwise Kernel Provider has a method named
+register, which adds a new method to an instance of a
+Pointwise Kernel Provider. This new method, when called, returns a
+kernel. A kernel is an instance of a ‘one-off’ class with a method
+named run that implements the required kernel functionality.
+The kernel functionality itself is specified using PyFR-Mako. Hence,
+a Pointwise Kernel Provider also has a method named
+_render_kernel, which renders PyFR-Mako into low-level
+platform-specific code. The _render_kernel method first sets
+the context for Mako (i.e. details about the Backend etc.) and then
+uses Mako to begin rendering the PyFR-Mako specification. When Mako
+encounters a pyfr:kernel an instance of a Kernel Generator
+is created, which is used to render the body of the
+pyfr:kernel. There are four types of Pointwise Kernel
+Provider available in PyFR 3.1:
+
+CUDAPointwiseKernelProvider Click to show
+
+
+
+
+class pyfr.backends.cuda.provider.CUDAPointwiseKernelProvider(*args, **kwargs)[source]
+
+
+_benchmark(kfunc, nbench=4, nwarmup=1)
+
+
+
+
+_build_arglst(dims, argn, argt, argdict)
+
+
+
+
+_build_kernel(name, src, argtypes, argn=[])
+
+
+
+
+_instantiate_kernel(dims, fun, arglst, argm, argv)[source]
+
+
+
+
+_render_kernel(name, mod, extrns, tplargs)
+
+
+
+
+kernel_generator_cls = None
+
+
+
+
+register(mod)
+
+
+
+
+
+
+HIPPointwiseKernelProvider Click to show
+
+
+
+
+class pyfr.backends.hip.provider.HIPPointwiseKernelProvider(*args, **kwargs)[source]
+
+
+_benchmark(kfunc, nbench=4, nwarmup=1)
+
+
+
+
+_build_arglst(dims, argn, argt, argdict)
+
+
+
+
+_build_kernel(name, src, argtypes, argn=[])
+
+
+
+
+_instantiate_kernel(dims, fun, arglst, argm, argv)[source]
+
+
+
+
+_render_kernel(name, mod, extrns, tplargs)
+
+
+
+
+kernel_generator_cls = None
+
+
+
+
+register(mod)
+
+
+
+
+
+
+OpenCLPointwiseKernelProvider Click to show
+
+
+
+
+class pyfr.backends.opencl.provider.OpenCLPointwiseKernelProvider(*args, **kwargs)[source]
+
+
+_benchmark(kfunc, nbench=4, nwarmup=1)
+
+
+
+
+_build_arglst(dims, argn, argt, argdict)
+
+
+
+
+_build_kernel(name, src, argtypes, argn=[])
+
+
+
+
+_build_program(src)
+
+
+
+
+_instantiate_kernel(dims, fun, arglst, argm, argv)[source]
+
+
+
+
+_render_kernel(name, mod, extrns, tplargs)
+
+
+
+
+kernel_generator_cls = None
+
+
+
+
+register(mod)
+
+
+
+
+
+
+OpenMPPointwiseKernelProvider Click to show
+
+
+
+
+class pyfr.backends.openmp.provider.OpenMPPointwiseKernelProvider(backend)[source]
+
+
+_build_arglst(dims, argn, argt, argdict)
+
+
+
+
+_build_function(name, src, argtypes, restype=None)
+
+
+
+
+_build_kernel(name, src, argtypes, argnames=[])
+
+
+
+
+_build_library(src)
+
+
+
+
+_get_arg_cls(argtypes)
+
+
+
+
+_instantiate_kernel(dims, fun, arglst, argm, argv)[source]
+
+
+
+
+_render_kernel(name, mod, extrns, tplargs)
+
+
+
+
+kernel_generator_cls
+alias of OpenMPKernelGenerator
+
+
+
+
+register(mod)
+
+
+
+
+
+
+MetalPointwiseKernelProvider Click to show
+
+
+
+
+class pyfr.backends.metal.provider.MetalPointwiseKernelProvider(*args, **kwargs)[source]
+
+
+_benchmark(kfunc, nbench=40, nwarmup=25)
+
+
+
+
+_build_arglst(dims, argn, argt, argdict)
+
+
+
+
+_build_kernel(name, src, argtypes, argn=[])
+
+
+
+
+_build_program(src)
+
+
+
+
+_instantiate_kernel(dims, fun, arglst, argm, argv)[source]
+
+
+
+
+_render_kernel(name, mod, extrns, tplargs)
+
+
+
+
+kernel_generator_cls = None
+
+
+
+
+register(mod)
+
+
+
+
+
+
+
+
+Types of Pointwise Kernel Provider are related via the following
+inheritance diagram:
+
+Inheritance diagram of pyfr.backends.openmp.provider, pyfr.backends.cuda.provider, pyfr.backends.hip.provider, pyfr.backends.opencl.provider, pyfr.backends.metal.provider, pyfr.backends.base.kernels.BasePointwiseKernelProvider
+
+
+
+
+
+Kernel Generator
+A Kernel Generator renders the PyFR-Mako in a pyfr:kernel
+into low-level platform-specific code. Specifically, a Kernel
+Generator has a method named render, which applies Backend
+specific regex and adds Backend specific ‘boiler plate’ code to
+produce the low-level platform-specific source – which is compiled,
+linked, and loaded. There are four types of Kernel Generator
+available in PyFR 3.1:
+
+CUDAKernelGenerator Click to show
+
+
+
+
+class pyfr.backends.cuda.generator.CUDAKernelGenerator(*args, **kwargs)[source]
+
+
+_deref_arg(arg)
+
+
+
+
+_deref_arg_array_1d(arg)
+
+
+
+
+_deref_arg_array_2d(arg)
+
+
+
+
+_deref_arg_view(arg)
+
+
+
+
+_gid = 'ixdtype_t(blockIdx.x)*blockDim.x + threadIdx.x'
+
+
+
+
+_lid = ('threadIdx.x', 'threadIdx.y')
+
+
+
+
+_match_arg(arg)
+
+
+
+
+_preload_arg(arg)
+
+
+
+
+_render_body(body)
+
+
+
+
+_render_body_preamble(body)
+
+
+
+
+_render_spec()[source]
+
+
+
+
+_shared_prfx = '__shared__'
+
+
+
+
+_shared_sync = '__syncthreads()'
+
+
+
+
+argspec()
+
+
+
+
+block1d = None
+
+
+
+
+block2d = None
+
+
+
+
+ldim_size(name, factor=1)
+
+
+
+
+needs_ldim(arg)
+
+
+
+
+render()
+
+
+
+
+
+
+HIPKernelGenerator Click to show
+
+
+
+
+class pyfr.backends.hip.generator.HIPKernelGenerator(*args, **kwargs)[source]
+
+
+_deref_arg(arg)
+
+
+
+
+_deref_arg_array_1d(arg)
+
+
+
+
+_deref_arg_array_2d(arg)
+
+
+
+
+_deref_arg_view(arg)
+
+
+
+
+_gid = 'ixdtype_t(blockIdx.x)*blockDim.x + threadIdx.x'
+
+
+
+
+_lid = ('threadIdx.x', 'threadIdx.y')
+
+
+
+
+_match_arg(arg)
+
+
+
+
+_preload_arg(arg)
+
+
+
+
+_render_body(body)
+
+
+
+
+_render_body_preamble(body)
+
+
+
+
+_render_spec()[source]
+
+
+
+
+_shared_prfx = '__shared__'
+
+
+
+
+_shared_sync = '__syncthreads()'
+
+
+
+
+argspec()
+
+
+
+
+block1d = None
+
+
+
+
+block2d = None
+
+
+
+
+ldim_size(name, factor=1)
+
+
+
+
+needs_ldim(arg)
+
+
+
+
+render()
+
+
+
+
+
+
+OpenCLKernelGenerator Click to show
+
+
+
+
+class pyfr.backends.opencl.generator.OpenCLKernelGenerator(*args, **kwargs)[source]
+
+
+_deref_arg(arg)
+
+
+
+
+_deref_arg_array_1d(arg)
+
+
+
+
+_deref_arg_array_2d(arg)
+
+
+
+
+_deref_arg_view(arg)
+
+
+
+
+_gid = 'get_global_id(0)'
+
+
+
+
+_lid = ('get_local_id(0)', 'get_local_id(1)')
+
+
+
+
+_match_arg(arg)
+
+
+
+
+_preload_arg(arg)
+
+
+
+
+_render_body(body)
+
+
+
+
+_render_body_preamble(body)
+
+
+
+
+_render_spec()[source]
+
+
+
+
+_shared_prfx = '__local'
+
+
+
+
+_shared_sync = 'work_group_barrier(CLK_GLOBAL_MEM_FENCE)'
+
+
+
+
+argspec()
+
+
+
+
+block1d = None
+
+
+
+
+block2d = None
+
+
+
+
+ldim_size(name, factor=1)
+
+
+
+
+needs_ldim(arg)
+
+
+
+
+render()
+
+
+
+
+
+
+OpenMPKernelGenerator Click to show
+
+
+
+
+class pyfr.backends.openmp.generator.OpenMPKernelGenerator(name, ndim, args, body, fpdtype, ixdtype)[source]
+
+
+_deref_arg(arg)
+
+
+
+
+_deref_arg_array_1d(arg)
+
+
+
+
+_deref_arg_array_2d(arg)
+
+
+
+
+_deref_arg_view(arg)
+
+
+
+
+_displace_arg(arg)[source]
+
+
+
+
+_match_arg(arg)
+
+
+
+
+_render_args(argn)[source]
+
+
+
+
+_render_body(body)
+
+
+
+
+_render_body_preamble(body)
+
+
+
+
+argspec()
+
+
+
+
+ldim_size(name, factor=1)[source]
+
+
+
+
+needs_ldim(arg)[source]
+
+
+
+
+render()[source]
+
+
+
+
+
+
+MetalKernelGenerator Click to show
+
+
+
+
+class pyfr.backends.metal.generator.MetalKernelGenerator(*args, **kwargs)[source]
+
+
+_deref_arg(arg)
+
+
+
+
+_deref_arg_array_1d(arg)
+
+
+
+
+_deref_arg_array_2d(arg)
+
+
+
+
+_deref_arg_view(arg)
+
+
+
+
+_gid = '_tpig.x'
+
+
+
+
+_lid = ('_tpitg.x', '_tpitg.y')
+
+
+
+
+_match_arg(arg)
+
+
+
+
+_preload_arg(arg)
+
+
+
+
+_render_body(body)
+
+
+
+
+_render_body_preamble(body)
+
+
+
+
+_render_spec()[source]
+
+
+
+
+_shared_prfx = 'threadgroup'
+
+
+
+
+_shared_sync = 'threadgroup_barrier(mem_flags::mem_threadgroup)'
+
+
+
+
+argspec()
+
+
+
+
+block1d = None
+
+
+
+
+block2d = None
+
+
+
+
+ldim_size(name, factor=1)
+
+
+
+
+needs_ldim(arg)
+
+
+
+
+render()
+
+
+
+
+
+
+
+
+Types of Kernel Generator are related via the following inheritance diagram:
+
+Inheritance diagram of pyfr.backends.cuda.generator.CUDAKernelGenerator, pyfr.backends.opencl.generator.OpenCLKernelGenerator, pyfr.backends.openmp.generator.OpenMPKernelGenerator, pyfr.backends.hip.generator.HIPKernelGenerator, pyfr.backends.metal.generator.MetalKernelGenerator
+
+
+
+
+
+
+PyFR-Mako
+
+PyFR-Mako Kernels
+PyFR-Mako kernels are specifications of point-wise functionality that
+can be invoked directly from within PyFR. They are opened with a header
+of the form:
+<%pyfr:kernel name='kernel-name' ndim='data-dimensionality' [argument-name='argument-intent argument-attribute argument-data-type' ...]>
+
+
+where
+
+kernel-name — name of kernel
+
+string
+
+
+data-dimensionality — dimensionality of data
+
+int
+
+
+argument-name — name of argument
+
+string
+
+
+argument-intent — intent of argument
+
+in | out | inout
+
+
+argument-attribute — attribute of argument
+
+mpi | scalar | view
+
+
+argument-data-type — data type of argument
+
+string
+
+
+
+and are closed with a footer of the form:
+</%pyfr:kernel>
+
+
+
+
+PyFR-Mako Macros
+PyFR-Mako macros are specifications of point-wise functionality that
+cannot be invoked directly from within PyFR, but can be embedded into
+PyFR-Mako kernels. PyFR-Mako macros can be viewed as building blocks
+for PyFR-mako kernels. They are opened with a header of the form:
+<%pyfr:macro name='macro-name' params='param1, param2, ..., py:arg1, ...'>
+
+
+where
+
+macro-name — name of macro
+
+string
+
+
+param1, param2, ..., py:arg1, ... — macro parameter/argument names
+
+string
+
+
+
+and are closed with a footer of the form:
+</%pyfr:macro>
+
+
+Macro params can be either regular parameters (source code variables) or
+Python arguments (when prefixed with py:). Python arguments receive Python
+objects that can be accessed during template rendering. All parameters prefixed
+with py: must be accessed in the macro body within the usual ${}
+expression without the py: prefix.
+PyFR-Mako macros are embedded within a kernel using an expression of
+the following form:
+${pyfr.expand('macro-name', 'value1', ..., data1, ..., param2='value2', ..., arg1=value, ...)};
+
+
+where
+
+macro-name — name of the macro
+
+string
+
+
+'value1', ... — positional values for regular parameters
+
+string
+
+
+data1, ... — positional Python data
+
+Python object
+
+
+param2='value2', ... — keyword arguments for regular parameter
+
+string or compilable
+
+
+arg1=value, ... — keyword arguments for Python arguments
+
+Python object
+
+
+
+
+
+Syntax
+
+Basic Functionality
+Basic functionality can be expressed using a restricted subset of the C
+programming language. Specifically, use of the following is allowed:
+
++,-,*,/ — basic arithmetic
+sin, cos, tan — basic trigonometric functions
+exp — exponential
+pow — power
+fabs — absolute value
+output = ( condition ? satisfied : unsatisfied ) — ternary if
+min — minimum
+max — maximum
+
+However, conditional if statements, as well as for/while loops, are
+not allowed.
+
+
+Expression Substitution
+Mako expression substitution can be used to facilitate PyFR-Mako kernel
+specification. A Python expression expression prescribed thus
+${expression} is substituted for the result when the PyFR-Mako
+kernel specification is interpreted at runtime.
+Example:
+E = s[${ndims - 1}]
+
+
+
+
+Conditionals
+Mako conditionals can be used to facilitate PyFR-Mako kernel
+specification. Conditionals are opened with % if condition: and
+closed with % endif. Note that such conditionals are evaluated
+when the PyFR-Mako kernel specification is interpreted at runtime, they
+are not embedded into the low-level kernel.
+Example:
+% if ndims == 2:
+    fout[0][1] += t_xx;     fout[1][1] += t_xy;
+    fout[0][2] += t_xy;     fout[1][2] += t_yy;
+    fout[0][3] += u*t_xx + v*t_xy + ${-c['mu']*c['gamma']/c['Pr']}*T_x;
+    fout[1][3] += u*t_xy + v*t_yy + ${-c['mu']*c['gamma']/c['Pr']}*T_y;
+% endif
+
+
+
+
+Loops
+Mako loops can be used to facilitate PyFR-Mako kernel specification.
+Loops are opened with % for condition: and closed with %
+endfor. Note that such loops are unrolled when the PyFR-Mako kernel
+specification is interpreted at runtime, they are not embedded into the
+low-level kernel.
+Example:
+% for i in range(ndims):
+    rhov[${i}] = s[${i + 1}];
+    v[${i}] = invrho*rhov[${i}];
+% endfor
+
+
+
+
+
+
+
+
+           
+          
+          
+         Previous
+        Next 
+    
+
+  
+
+  
+    © Copyright 2013–2026, Imperial College London.
+  
+
+  Built with Sphinx using a
+    theme
+    provided by Read the Docs.
+   
+
+
+        
+      
+    
+  
+   
+
+

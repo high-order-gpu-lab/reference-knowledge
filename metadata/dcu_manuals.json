@@ -1,0 +1,80 @@
+[
+  {
+    "file": "ref-paper/manuals/DCU/DCU编程实战2026版-26版v1.pdf",
+    "source_local": "doc/files/背景材料/曙光DCU/DCU编程实战2026版-26版v1.pdf",
+    "sha256": "119da3962dea9effed03f554142c8112381bdffcc14515b49e657d233ea21f0b",
+    "bytes": 24373972
+  },
+  {
+    "file": "ref-paper/manuals/DCU/DTK 26.10 CUDA 程序适配使用手册.pdf",
+    "source_local": "doc/files/背景材料/曙光DCU/DTK 26.10 CUDA 程序适配使用手册.pdf",
+    "sha256": "b019fc59de4df07b27fb4e576401540c14106e20bdcffbbb3ccb778ae6534160",
+    "bytes": 2765481
+  },
+  {
+    "file": "ref-paper/manuals/DCU/DTK 26.10 DCC使用手册.pdf",
+    "source_local": "doc/files/背景材料/曙光DCU/DTK 26.10 DCC使用手册.pdf",
+    "sha256": "565ce6d323c086515a43179b62616500cf5e8dbfad01c62af9b088a64c1dd961",
+    "bytes": 858267
+  },
+  {
+    "file": "ref-paper/manuals/DCU/DTK 26.10 HIP C++编程指南.pdf",
+    "source_local": "doc/files/背景材料/曙光DCU/DTK 26.10 HIP C++编程指南.pdf",
+    "sha256": "30aeb949be5621ce3fcac47f92dae99e483b1a450b820e061c42b2eb474a0865",
+    "bytes": 4177766
+  },
+  {
+    "file": "ref-paper/manuals/DCU/DTK 26.10 HIP Runtime API开发手册.pdf",
+    "source_local": "doc/files/背景材料/曙光DCU/DTK 26.10 HIP Runtime API开发手册.pdf",
+    "sha256": "8c1adc27cd0a3c187349fcb2dfcae465faf914febf89bed4862ac24c3e394005",
+    "bytes": 4334681
+  },
+  {
+    "file": "ref-paper/manuals/DCU/DTK 26.10 HIP最佳实践手册.pdf",
+    "source_local": "doc/files/背景材料/曙光DCU/DTK 26.10 HIP最佳实践手册.pdf",
+    "sha256": "729acf9d0b57793117a66e5700938e9865da1381ef602f82260f481aaabccdc5",
+    "bytes": 1747498
+  },
+  {
+    "file": "ref-paper/manuals/DCU/DTK 26.10 RCCL库使用手册.pdf",
+    "source_local": "doc/files/背景材料/曙光DCU/DTK 26.10 RCCL库使用手册.pdf",
+    "sha256": "59caeb7637b07b46267b0fdb6d72608949b08dc5dc2ea540ab15d084338f1a10",
+    "bytes": 2969892
+  },
+  {
+    "file": "ref-paper/manuals/DCU/DTK 26.10 hipSOLVER库使用手册.pdf",
+    "source_local": "doc/files/背景材料/曙光DCU/DTK 26.10 hipSOLVER库使用手册.pdf",
+    "sha256": "7ead329ae7f3967a94bb4b8f5e25c3bea28c15ea9d5d0a3786158d95cbc801be",
+    "bytes": 2932354
+  },
+  {
+    "file": "ref-paper/manuals/DCU/DTK 26.10 hipSPARSE使用手册.pdf",
+    "source_local": "doc/files/背景材料/曙光DCU/DTK 26.10 hipSPARSE使用手册.pdf",
+    "sha256": "065425cfd8ce3d210cf708dad500832ee63492318b76b4f0832b9055eb9dddda",
+    "bytes": 2044367
+  },
+  {
+    "file": "ref-paper/manuals/DCU/DTK 26.10 hipprof使用手册.pdf",
+    "source_local": "doc/files/背景材料/曙光DCU/DTK 26.10 hipprof使用手册.pdf",
+    "sha256": "5ecf1c2d1fa8ca31c3ba62cce005d18291ae6a6924363dffd3ed2b6dbe71b767",
+    "bytes": 12291717
+  },
+  {
+    "file": "ref-paper/manuals/DCU/DTK 26.10 rocBLAS库使用手册.pdf",
+    "source_local": "doc/files/背景材料/曙光DCU/DTK 26.10 rocBLAS库使用手册.pdf",
+    "sha256": "05d8750756ed42b4048addb834ae9fa8fb0ee0830fe510ea8d0a021b3bf0ca3e",
+    "bytes": 4457073
+  },
+  {
+    "file": "ref-paper/manuals/DCU/DTK 26.10 兼容性手册.pdf",
+    "source_local": "doc/files/背景材料/曙光DCU/DTK 26.10 兼容性手册.pdf",
+    "sha256": "523fc51f0dd193c1df9af8be085a57126a6b467900113eb6db364c82c713205b",
+    "bytes": 3331766
+  },
+  {
+    "file": "ref-paper/manuals/DCU/DTK 26.10 开发环境安装部署手册.pdf",
+    "source_local": "doc/files/背景材料/曙光DCU/DTK 26.10 开发环境安装部署手册.pdf",
+    "sha256": "9d54005d5bcb61c95ea662df5f79c18da376d0d8b56222336a2ad42f7bd3808f",
+    "bytes": 5003372
+  }
+]

@@ -1,0 +1,1833 @@
+                                            HORSES3D-GPU: A high-order discontinuous Galerkin solver
+                                                          for multi-GPU systems
+                                            Gerasimos Ntoukas∗1,3 , Gonzalo Rubio†1,2 , Abbas Ballout1 , Stefano Colombo1 , David
+                                           Huergo1 , Eduardo Jané1 , Albert Jiménez-Ramos1 , Hatem Kessasra1 , Himpu Marbona1 ,
+                                            Oscar Mariño1 , Rodrigo Salado1 , Pol Solé-Miró1 , Andrés M. Rueda-Ramírez1 , Miguel
+                                                        Chávez-Módena1,2 , Eusebio Valero1,2 , and Esteban Ferrer1,2
+                                             1
+                                               ETSIAE-UPM - School of Aeronautics, Universidad Politécnica de Madrid, Plaza
+                                                               Cardenal Cisneros 3, E-28040 Madrid, Spain
+                                           2
+                                             Center for Computational Simulation, Universidad Politécnica de Madrid, Campus de
+                                                          Montegancedo, Boadilla del Monte, 28660 Madrid, Spain
+                                                                3
+                                                                  Simerics Inc, Bellevue, WA, United States
+arXiv:2607.26674v1 [math.NA] 29 Jul 2026
+
+
+
+
+                                                                                          Abstract
+                                                     We present the GPU acceleration and large-scale performance assessment of HORSES3D,
+                                                 an open-source high-order discontinuous Galerkin solver for computational fluid dynamics.
+                                                 The solver is ported to NVIDIA GPU architectures using OpenACC directives, preserving
+                                                 the original Fortran code structure while enabling GPU-resident execution of the main com-
+                                                 putational kernels. The implementation exploits the element-local structure of discontinuous
+                                                 Galerkin spectral element methods by mapping element-level loops to GPU gangs and nodal
+                                                 operations to vector-level parallelism.
+                                                     The GPU version is verified using the method of manufactured solutions and validated
+                                                 on canonical turbulent-flow benchmarks. Its performance is assessed on the MareNostrum 5
+                                                 accelerated partition using NVIDIA H100 GPUs. Taylor–Green vortex benchmarks show
+                                                 that solver efficiency improves with polynomial order and that near-ideal strong and weak
+                                                 scaling is obtained when the workload exceeds approximately 16, 000 to 20, 000 elements per
+                                                 GPU.
+                                                     The solver is further evaluated on the High-Lift Common Research Model wing–body
+                                                 configuration, which involves a complex geometry, realistic boundary conditions, and un-
+                                                 structured meshes with (up to 20.8 million) hexahedral elements. Simulations with polyno-
+                                                 mial orders up to P = 7 reach approximately 10.7 × 109 degrees of freedom and scale effi-
+                                                 ciently to 2048 GPUs. The results demonstrate that HORSES3D preserves its performance
+                                                 characteristics for industrially relevant configurations and can exploit modern GPU-based
+                                                 supercomputers for billion-degree-of-freedom high-order CFD simulations.
+
+
+
+
+                                           Keywords: High-order methods, Discontinuous Galerkin method, Computational fluid dynam-
+                                           ics, GPU acceleration, OpenACC, Multi-GPU scalability, High-performance computing, Com-
+                                           pressible Navier–Stokes equations, Taylor–Green vortex, Common Research Model
+                                             ∗
+                                               Corresponding Author
+                                               E-mail address: gerasimos.ntoukas@upm.es (G. Ntoukas)
+                                             †
+                                               Corresponding Author
+                                               E-mail address: g.rubio@upm.es (G. Rubio)
+PROGRAM SUMMARY
+Program Title: HORSES3D-GPU
+CPC Library link to program files: (to be added by Technical Editor)
+Developer’s repository link: https://github.com/horses-framework/HORSES3D-gpu (GPU ver-
+sion); https://github.com/horses-framework/HORSES3D (main framework).
+Code Ocean capsule: (to be added by Technical Editor)
+Licensing provisions: MIT License
+Programming language: Fortran 2008 with OpenACC directives
+External routines/libraries: MPI, HDF5 and METIS; the NVIDIA HPC SDK is used to compile the Ope-
+nACC GPU implementation. MKL and PETSc are optional for CPU and implicit-solver configurations.
+
+Nature of problem: HORSES3D-GPU is a high-order discontinuous Galerkin framework for computational
+fluid dynamics on multi-GPU systems. The program solves the compressible Navier–Stokes equations
+for laminar, transitional and turbulent flows, including configurations with shocks, complex geometries
+and wall-bounded turbulence. It supports direct and large-eddy simulations, several subgrid-scale and
+wall models, and a broad selection of numerical fluxes. The wider HORSES3D framework also includes
+incompressible and multiphase flows, immersed-boundary and actuator-line methods, particle dynamics
+and aeroacoustics.
+
+Solution method: The spatial discretisation is based on the nodal discontinuous Galerkin spectral element
+method (DGSEM) on curvilinear hexahedral meshes, using Gauss–Legendre or Gauss–Lobatto–Legendre
+collocation points. Standard weak-form and split-form flux-differencing formulations are available, to-
+gether with several approximate Riemann solvers. Viscous terms are discretised using the Bassi–Rebay 1
+scheme. The solution is advanced using explicit low-storage Runge–Kutta methods. The framework
+supports arbitrary polynomial orders and h/p discretisations.
+
+Additional comments including restrictions and unusual features: The GPU implementation uses Ope-
+nACC to preserve a single Fortran source code for CPU and GPU executions. The main computational
+kernels remain resident in GPU memory, with element-level loops mapped to OpenACC gangs and nodal
+operations mapped to vector-level parallelism. MPI-based domain decomposition is used for multi-GPU
+execution. The GPU implementation includes standard and split-form DGSEM volume operators, mul-
+tiple Riemann solvers, the BR1 viscous discretisation, explicit time integrators, positivity-preserving
+limiting, LES models and wall modelling. CPU and GPU implementations retain the same numerical
+formulation and are checked through common verification and validation cases. The current GPU im-
+plementation and performance assessment primarily target NVIDIA GPU systems through the NVIDIA
+HPC SDK OpenACC compiler. The solver currently uses conforming, curvilinear hexahedral meshes,
+with mesh formats including GMSH, HDF5 and SpecMesh/HOHQMesh.
+
+
+1    Introduction
+In the current era of artificial intelligence (AI), the quality and quantity of training data directly
+dictate the accuracy and generalisability of machine learning models. Although AI excels at pat-
+tern recognition and rapid inference, it remains fundamentally reliant on large volumes of high-
+fidelity data that, for many fluid dynamic phenomena, can only be generated by accurate and
+efficient computational fluid dynamics (CFD) solvers [1]. Traditional low-order, CPU-bounded
+CFD codes struggle to keep up with these demands, leading to prohibitive compute times and
+limited parametric coverage.
+CFD has become an indispensable tool across a wide range of engineering and scientific dis-
+ciplines, underpinning the design and analysis of applications ranging from aerospace vehicles
+and wind turbines to cardiovascular flows. As the complexity and fidelity requirements of these
+simulations continue to grow, the computational cost of state-of-the-art CFD solvers has risen
+dramatically. The growing role of CFD in early-stage design optimisation and uncertainty quan-
+tification, where ensembles of simulations must be performed within tight time frames, is be-
+coming standard practice. In fields such as aerodynamic shape optimisation or wind farm layout
+
+
+                                                   2
+design, the ability to complete hundreds or thousands of high-resolution runs in parallel can
+mean the difference between timely, accurate answers and prohibitive compute costs.
+In parallel, high-performance computing (HPC) architectures have evolved towards heteroge-
+neous accelerator–based systems in which multiple Graphics Processing Units (multi-GPU) nodes
+now dominate the Top500 and Green500 lists [2]. This convergence of escalating CFD demands
+and GPU-centric hardware presents both a challenge and an opportunity: without careful porting
+and optimisation, traditional CPU-centric solvers will fail to harness the full potential of modern
+supercomputers; conversely, GPU-accelerated implementations can deliver orders-of-magnitude
+speedups, enabling simulations of unprecedented scale and fidelity.
+Graphics Processing Units excel at data-parallel workloads due to their massive on-chip paral-
+lelism, high memory bandwidth, and specialised tensor and matrix engines. Yet fully exploiting
+these capabilities for CFD requires more than recompiling existing code; it demands rethinking
+data layouts, communication patterns, and algorithmic kernels to minimise memory traffic, over-
+lap computation and data transfer, and adapt to the SIMD/SIMT (Single Instruction, Multiple
+Data/Multiple Threads) execution model. In addition, multi-GPU clusters impose additional
+constraints on domain decomposition, halo-exchange, and load balancing, especially for highly
+adaptive or unstructured discretisations. As CFD codes transition from single-GPU demonstra-
+tions to production-scale, multi-GPU deployments, developers must address issues of scalability,
+portability, and maintainability to ensure robust performance on current and future exascale
+platforms.
+High-order discretisations for CFD — such as discontinuous Galerkin (DG), spectral element
+methods (SEM), and flux-reconstruction (FR) methods — offer a compelling solution: they de-
+liver superior per-degree-of-freedom accuracy and reduced numerical dissipation, enabling coarser
+meshes (and thus fewer degrees of freedom) for a given solution fidelity [3]. However, their
+increased arithmetic intensity and more complex data-access patterns also impose greater de-
+mands on memory bandwidth. Modern GPUs, with their thousands of computing cores and
+high-bandwidth on-chip memory, are ideally suited to element-local, compute-dominated kernels
+of high-order schemes—but only if the solver is carefully ported and tuned for the GPU execution
+model.
+Porting high–order CFD solvers to multi-GPU systems is therefore not merely a performance
+exercise, but a strategic imperative in the AI-driven age. Efficient GPU implementations can
+produce large volumes of high-fidelity flow data at rates orders of magnitude faster than their
+CPU counterparts only, powering deep learning framework training and enabling real-time digital
+twins. However, achieving this performance on scale requires overcoming challenges in data lay-
+out, kernel fusion, inter-GPU communication, and load balancing, particularly for unstructured
+meshes and adaptive refinement.
+In this paper, we port the high order DG solver HORSES3D [4] to multi-GPUs systems demon-
+strating how a high order finite element type solver can be restructured to new architectures using
+directive-based offload (OpenACC) and domain decomposition techniques, and we report strong
+and weak scaling on up to 2048 NVIDIA H100 GPUs for problems exceeding ten billion degrees
+of freedom. Our results illustrate the path toward rapid large-ensemble CFD data generation to
+fuel the next wave of AI-enabled discoveries in fluid dynamics.
+
+1.1   State of the art - high order solvers in GPUs
+High-order numerical methods—such as discontinuous Galerkin (DG), spectral element methods
+(SEM), and flux reconstruction (FR)—are particularly well suited for GPU-based acceleration
+due to their high arithmetic intensity and element-local computations. These features align well
+with GPU architectures, leading to substantial performance gains. A wide range of solvers have
+been developed to exploit this potential. For example, GALÆXI [5], an extension of FLEXI [6],
+implements high-order DGSEM on GPUs and demonstrates excellent strong scaling up to 1024
+GPUs, with more than 106 degrees of freedom (DOFs) per device. NekRS [7], the GPUs-focused
+
+                                                3
+successor of Nek5000, adopts spectral elements and has been shown to scale to over 27,000 GPUs
+in Summit. PyFR [8] and ZEFR [9] implement FR schemes using OpenCL and CUDA, targeting
+compressible viscous flows. Trixi.jl [10–12] implements high-order DG methods for conservation
+laws in the Julia programming language [13] and offers limited GPU support via KernelAb-
+stractions.jl [14]. In contrast, other DGSEM codes like Nektar++ [15, 16] and FLEXI [6] have
+remained CPU-oriented. These codes use a variety of programming frameworks and strategies
+to exploit GPUs efficiently. CUDA and HIP remain the most commonly used for high perfor-
+mance, but directive-based approaches (e.g. OpenACC) and portability layers (e.g. Kokkos [17],
+RAJA [18], SYCL [19]) are also widely used. NekRS relies on OCCA to generate portable ker-
+nels for both CUDA and HIP targets, while Gasparino et al. [20] used OpenACC to accelerate
+SOD2D, an SEM solver with minimal changes to the original code. In all cases, high efficiency
+is achieved by optimising memory access patterns (e.g., one element per thread block), fusing
+kernels, and overlapping computation and communication.
+Performance results consistently highlight the advantages of GPU acceleration. Speedups of over
+3× compared to dual-socket CPU nodes have been reported on single GPUs like V100 [20], and
+newer architectures (e.g., A100, MI250X) provide further gains—up to 1.6× in throughput for
+the same problem size.
+The range of applications of GPU-accelerated high-order solvers is broad and continues to ex-
+pand. In aerodynamics and turbomachinery, these methods are increasingly used for complex
+compressible-flow configurations, as illustrated by GALÆXI simulations of the NASA Rotor 37
+compressor rotor [5]. PyFR has also demonstrated the viability of GPU-accelerated high-order
+flux-reconstruction methods for scale-resolving simulations of turbulent flows over wings, airfoils,
+and control-surface configurations [9, 21]. Beyond external aerodynamics, canonical turbulence
+benchmarks, including the Taylor–Green vortex, turbulent jets, and channel-flow configurations,
+have been used extensively to assess the accuracy, robustness, and scalability of high-order GPU-
+enabled solvers such as SOD2D and related DG/FR frameworks [20, 22, 23]. Across all these do-
+mains, GPU acceleration is enabling simulations with finer resolution and longer time horizons
+than were previously feasible, dramatically expanding the capabilities of high-order computa-
+tional fluid dynamics.
+
+
+2     HORSES3D on multi-GPU systems
+2.1   HORSES3D: High order solver
+HORSES3D is an open source solver [4] developed at the ETSIAE-UPM School of Aeronautics in
+Madrid, and available on Github (https://github.com/horses-framework/HORSES3D)
+with the GPU ported version available in (https://github.com/horses-framework/
+HORSES3D-gpu). HORSES3D is a high-order discontinuous Galerkin (DG) framework with
+capabilities covering a wide range of flow regimes and physical models, including incompress-
+ible flows [24], compressible and supersonic flows [25–28], multiphase flows [29, 30], and aeroa-
+coustics [31, 32]. In the present work, we focus on the compressible-flow formulation to assess
+and illustrate the performance of the GPU implementation. Note that the incompressible and
+multiphase formulations have also been ported to GPU architectures, although their detailed
+performance analysis is beyond the scope of this paper.
+HORSES3D is an h/p discontinuous Galerkin solver designed for high-order simulations of fluid
+dynamics. The "h" in h/p refers to mesh refinement (h-refinement), while "p" refers to increasing
+the polynomial order of the solution approximation (p-refinement). This dual approach allows
+HORSES3D to achieve high accuracy with fewer degrees of freedom compared to traditional low-
+order methods, making it particularly effective for capturing the fine details of the complex,
+multi-scale flow phenomena (e.g., turbulent flows) [33]. One of the main advantages of DG
+methods is their ability to accurately capture high-order spatial and temporal variations of the
+solution, which makes them particularly suitable for simulating flows with sharp gradients and
+
+                                                 4
+complex flow phenomena. DG methods also exhibit good numerical stability and conservation
+properties because of the local nature of the approximation and the use of fluxes at the interfaces
+of the elements.
+Here, we provide only a brief overview of the fundamental concepts of DG discretisations for the
+compressible Navier–Stokes (NS) retained in this work; see the Appendix A. The physical domain
+is subdivided into non-overlapping curvilinear hexahedral elements, e, which are geometrically
+transformed to a reference element, el, using a polynomial transfinite mapping that relates the
+                                                            ⃗ This transformation is applied to
+physical coordinates ⃗x and the local reference coordinates ξ.
+Eq. (1), resulting in the following:
+
+                     ⃗ e = ∇x · F
+          qt + ∇ x · F                                        ⃗ = ∇ · F̃
+                                ⃗ v,turb + S(q), → Jqt + ∇ξ · F̃      ⃗
+                                                                 e ξ     v,turb + JS(q),        (1)
+where J is the Jacobian determinant of the transfinite mapping, ∇ξ is the differential operator
+                           ⃗ are the contravariant fluxes [34].
+in the reference space and F̃
+To derive DG schemes, we multiply Eq. (1) by a locally smooth test function ϕ. We integrate
+over an element el to obtain the weak form:
+                         Z              Z                Z
+                            Jqt ϕ d⃗x +        ⃗
+                                          ∇ξ · F̃ϕ d⃗x =   JS(q)ϕ d⃗x,                  (2)
+                           el               el                 el
+
+where we have gathered the contributions of inviscid and viscous terms in the flux F̃   ⃗ := F̃
+                                                                                              ⃗ −
+                                                                                                e
+⃗
+F̃v,turb . By integrating the flux term by parts, we obtain a local weak form of the equations (one
+per mesh element) with the boundary fluxes separated from the interior,
+                    Z              Z                 Z                 Z
+                       Jqt ϕ d⃗x +     ⃗
+                                      F̃ · n̂ϕ d⃗s −   ⃗
+                                                       F̃ · ∇ξ ϕ d⃗x =   JS(q)ϕ d⃗x,            (3)
+                    el                ∂el         el                el
+
+where n̂ is the unit outward-pointing vector of each face of the reference element ∂el. Since the
+solution is allowed to be discontinuous at inter-element faces, surface fluxes are replaced with a
+numerical flux F⋆e , to couple the elements:
+                  Z               Z                 Z                 Z
+                      Jqt ϕ d⃗x +    ⃗ ⋆
+                                     F̃ · n̂ϕ d⃗s −   ⃗
+                                                      F̃ · ∇ξ ϕ d⃗x =   JS(q)ϕ d⃗x,            (4)
+                    el                ∂el            el             el
+
+The equations for each element are coupled with the equations of the neighboring elements
+through the numerical fluxes, which are composed of inviscid and viscous parts, F⋆ := F⋆e −
+F⋆v,turb . The inviscid numerical flux function, F⋆e , is computed with an approximate Riemann
+solver (see, e.g., [35]), and the viscous numerical flux function, F⋆v,turb , is computed using a
+consistent discontinuous Galerkin discretization [4, 36]. Non-linear inviscid and viscous numer-
+ical fluxes (including turbulent ones) can be chosen appropriately to control dissipation in the
+numerical scheme [37–39].
+A common strategy consists in using integration by parts on the flux volume integral again to
+arrive at the so-called weak-strong form of the DG discretisation:
+               Z              Z                       Z               Z
+                                  ⃗ ⋆ − F̃
+                                        ⃗ · n̂ϕ d⃗s +          ⃗ d⃗x =
+                                           
+                  Jqt ϕ d⃗x +     F̃                      ∇ξ · F̃ϕ       JS(q)ϕ d⃗x.          (5)
+               el               ∂el                       el             el
+
+In a final step, we approximate the numerical solution and fluxes using polynomials (of order
+p) and evaluate all integrals using Gaussian quadrature rules. In HORSES3D-GPU, we use a
+collocated discontinuous Galerkin spectral element method (DGSEM) [34, 40] and can select
+either Gauss–Legendre or Gauss–Lobatto–Legendre collocation points. For the latter choice of
+collocation points, we have implemented the so-called split-form (or flux-differencing) form of the
+differentiation operator [41,42,42] based on two-point fluxes, which allows the selection of several
+kinetic-energy-preserving and entropy-conservative volume numerical fluxes. The implementa-
+tion of the split-form DGSEM in HORSES3D-GPU includes several performance optimizations,
+which are detailed in [43].
+
+                                                 5
+Several choices of split forms and Riemann fluxes are included and have been ported to the
+GPU version of the code; see Section 2.4. In addition, we have complemented the compressible
+Navier–Stokes equations with the Vreman [44] and Wale [45] Large Eddy Simulation subgrid
+models. Note that the source term S can be used to incorporate additional physics, such as
+immersed boundaries (mesh free methods) [4, 46, 47] or actuator lines to simulate wind turbines
+[48, 49]. Finally, to advance the solution in time, we use explicit low-storage Runge-Kutta time
+marching schemes.
+
+2.2   Preliminaries: Selecting a GPU paradigm
+There are several approaches for porting scientific codes to GPU architectures, ranging from
+low-level, vendor-specific programming models to higher-level directive-based or performance-
+portability frameworks. These approaches differ in terms of development effort, required code
+restructuring, degree of control over the GPU memory hierarchy and execution model, achiev-
+able performance, and long-term maintainability. At the lowest level, CUDA remains the native
+programming model for NVIDIA GPUs [50], while HIP provides a CUDA-like C++ program-
+ming interface within the AMD ROCm ecosystem and is commonly used to target AMD GPUs
+while facilitating the porting of CUDA codes [51, 52]. Higher-level alternatives include directive-
+based models such as OpenACC and OpenMP target offloading [53, 54], as well as performance-
+portability frameworks such as Kokkos, RAJA, and SYCL, which aim to reduce vendor lock-in
+by enabling a single source code to target multiple CPU and GPU back ends [55–57].
+Low-level GPU programming models, such as CUDA and HIP, extend popular languages such as
+C/C++ and Fortran and provide fine-grained control over the GPU execution model, memory
+hierarchy, and hardware resources through dedicated APIs. This approach can deliver the highest
+performance when implemented by expert GPU developers, but it often requires substantial code
+restructuring and may lead to the parallel maintenance of multiple code paths for CPUs and
+different GPU vendors. It is therefore particularly attractive for relatively mature codebases
+whose numerical kernels are stable and where peak performance is the dominant requirement. At
+a higher level, performance-portability approaches such as OpenCL, SYCL, Kokkos, and RAJA
+aim to reduce vendor lock-in by enabling a single source code to target different CPU and GPU
+back ends. These frameworks generally require less hardware-specific programming than CUDA
+or HIP, while still allowing good control over parallel execution and data management. As a
+result, they offer an attractive compromise between performance, portability, and maintainability,
+especially for large scientific codes intended to run on heterogeneous HPC platforms. However,
+most of these approaches are primarily designed around C and C++ programming models,
+and their support for Fortran codes is either limited, indirect, or unavailable, which can be a
+significant constraint for legacy scientific software.
+
+2.3   Porting HORSES3D to GPUs using openACC
+The porting process of HORSES3D to GPUs had some requirements that led the development
+team to select OpenACC. Since multiple developers work on this multiphysics CFD framework,
+the GPU version should enable a quick and straightforward process. OpenACC works through
+directives on top of the original code, so development time is kept to a minimum, and there
+is no need for every developer to be an expert in CUDA/HIP to create an equivalent GPU
+version. The back-end should support the already existing data structure of the code with little
+modifications. OpenACC is able to handle complex data structures and data stored in AoS
+(array of structures) format. This was the deciding factor for selecting OpenACC over OpenMP,
+as OpenMP offloading to GPUs does not offer support for data structures as complex as in
+HORSES3D.
+In the HORSES3D GPU solver, all data are initialised on the CPU and then transferred to the
+GPU before starting the time-stepping procedure. As in other high-performance GPU-resident
+
+
+                                                6
+     CFD frameworks, all computationally intensive operations have been ported to the GPU to
+     avoid the bottleneck associated with slow CPU–GPU data transfers. An example of the ported
+     code with OpenACC is presented in Listings 1 and 2. The element and face level loops are
+     exposed to the gang level of parallelisation, where each gang is associated with one element. A
+     gang corresponds to a thread-block in CUDA/HIP terminology. This is presented in Listing 1
+     for a volumetric integral. Then for the inner loop, presented in Listing 2, we use vector loops
+     to associate the nodal points within each element with each thread (compute unit). Through
+     this simple approach, we have been able to effectively port the HORSES3D code to GPUs and
+     exploit the significant performance advantage that modern GPU hardware offers. The use of the
+     variable r_volInt reduces the successive reads and writes to global memory and increases the
+     code efficiency. We have used this strategy in several parts of HORSES3D and re-designed the
+     loops to improve the memory management. This has been necessary to extract the maximum
+     available performance from HORSES3D on GPUs and have a framework that is easy to maintain
+     and has performance comparable to other known CFD frameworks that have native CUDA/HIP
+     support.
+     More generally, the porting effort prioritises performance-critical kernels, including the evalua-
+     tion of volume integrals, surface fluxes, viscous terms, and time integration. These kernels are
+     executed on the GPU with data that reside entirely in device memory, minimising data transfers
+     between the host and the device.
+
+ 1   subroutine TimeDerivative_VolumetricContribution(mesh)
+ 2
+ 3      !...Operations before...
+ 4
+ 5      !$acc parallel loop gang vector_length(128) present(mesh) async(1)
+ 6      do eID = 1 , size(mesh % elements)
+ 7
+ 8          !...Operations before...
+ 9
+10           call ScalarWeakIntegrals_StdVolumeGreen(mesh % elements(eID) % Nxyz, NCONS, &
+11                                                   mesh % elements(eID) % storage % contravariantFlux, &
+12                                                   mesh % elements(eID) % storage % QDot)
+13       end do
+14       !$acc end parallel loop
+15
+16   end subroutine TimeDerivative_VolumetricContribution
+
+
+
+
+                         Listing 1: Example of outer loop parallelisation with OpenACC.
+
+ 1   subroutine ScalarWeakIntegrals_StdVolumeGreen( Nxyz, NEQ, F, volInt )
+ 2      !$acc routine vector
+ 3      implicit none
+ 4      integer,             intent(in) :: Nxyz(3)
+ 5      integer,             intent(in) :: NEQ
+ 6      real(kind=RP),       intent(in) :: F      (1:NCONS, 0:Nxyz(1), 0:Nxyz(2), 0:Nxyz(3), 1:NDIM)
+ 7      real(kind=RP),    intent(inout) :: volInt(1:NCONS, 0:Nxyz(1), 0:Nxyz(2), 0:Nxyz(3))
+ 8   !
+ 9   ! ---------------
+10   ! Local variables
+11   ! ---------------
+12   !
+13      integer   :: i, j, k, l, eq
+14      real(kind=RP) :: r_volInt
+15
+16      !$acc loop vector collapse(4) private(r_volInt)
+17         do k = 0, Nxyz(3) ; do j = 0, Nxyz(2) ; do i = 0, Nxyz(1) ; do eq = 1, NEQ
+18
+19         r_volInt = volInt(eq,i,j,k)
+20
+21         !$acc loop seq
+22         do l = 0, Nxyz(1)
+23            r_volInt = r_volInt + NodalStorage(Nxyz(1)) % hatD(i,l) * F(eq,l,j,k,IX)
+24         end do
+25
+26         !$acc loop seq
+27         do l = 0, Nxyz(2)
+28            r_volInt = r_volInt + NodalStorage(Nxyz(2)) % hatD(j,l) * F(eq,i,l,k,IY)
+29         end do
+30
+31         !$acc loop seq
+32         do l = 0, Nxyz(3)
+33            r_volInt = r_volInt + NodalStorage(Nxyz(3)) % hatD(k,l) * F(eq,i,j,l,IZ)
+34         end do
+35
+36         ! Write back to global memory
+37         volInt(eq,i,j,k) = r_volInt
+
+
+
+
+                                                                   7
+38      end do ; end do ; end do ; end do
+39
+40   end subroutine ScalarWeakIntegrals_StdVolumeGreen
+
+
+     Listing 2: Example of inner loop parallelisation with OpenACC: Standard weak divergence
+     operator.
+
+     The split-form volume integral, presented in Listing 3, follows the same gang/vector mapping
+     as the standard weak-form kernel: one gang per element and one vector lane per nodal point
+     (i, j, k), with the summation index l and the equation index eq kept as sequential loops within
+     each lane. Unlike the standard divergence operator, the two-point flux entering this integral is
+     evaluated on the fly for every pair of nodes along each coordinate line rather than read from a
+     precomputed tensor, since materialising the full two-point flux array in global memory for every
+     element would introduce a memory-bandwidth bottleneck that offsets the benefit of the split-
+     form scheme. As in Listing 2, the partial sum over l is accumulated in a register-resident variable
+     before being written back to QDot once per node, avoiding repeated global-memory reads and
+     writes at every step of the summation.
+     Two-point fluxes of this type are symmetric, F (Qi , Ql ) = F (Ql , Qi ), a property that can be
+     exploited on CPU to halve the number of flux evaluations by scattering each computed pair to
+     both output indices [43]. This is deliberately not exploited on GPU: scattering a single evaluation
+     to two output nodes would require two different vector lanes to update each other’s contribution
+     to QDot within the same vectorised loop, which is only safe with atomic memory operations.
+     Since atomic throughput on current GPU hardware is substantially lower than that of private,
+     per-lane accumulation, the redundant flux evaluations avoided by exploiting symmetry are, in
+     this setting, cheaper than the synchronisation cost of exploiting it. HORSES3D therefore evaluates
+     the two-point flux independently for both orderings of each node pair and keeps the accumulation
+     strictly private to a single vector lane. The advective split-form contribution and the viscous
+     weak-form contribution are further fused into the accumulation performed within a single kernel
+     launch, rather than being computed in two separate !$acc parallel regions, which removes
+     an additional full read-modify-write pass over QDot per element per Runge–Kutta stage.
+ 1   subroutine ScalarWeakIntegrals_SplitVolumeDivergence( e, Fv, QDot )
+ 2      !$acc routine vector
+ 3      use ElementClass
+ 4      use RiemannSolvers_NS
+ 5      implicit none
+ 6      type(Element), intent(in)    :: e
+ 7      real(kind=RP), intent(in)    :: Fv (1:NCONS, 0:e%Nxyz(1), 0:e%Nxyz(2), 0:e%Nxyz(3), 1:NDIM)
+ 8      real(kind=RP), intent(inout) :: QDot(1:NCONS, 0:e%Nxyz(1), 0:e%Nxyz(2), 0:e%Nxyz(3))
+ 9   !
+10   ! ---------------
+11   ! Local variables
+12   ! ---------------
+13   !
+14      integer       :: i, j, k, l, eq, Nx, Ny, Nz
+15      real(kind=RP) :: Fs(1:NCONS)
+16      real(kind=RP) :: r_QDot(1:NCONS)
+17
+18      Nx = e % Nxyz(1) ; Ny = e % Nxyz(2) ; Nz = e % Nxyz(3)
+19
+20      !$acc loop vector collapse(3) private(Fs, r_QDot)
+21      do k = 0, Nz ; do j = 0, Ny ; do i = 0, Nx
+22
+23         !$acc loop seq
+24         do eq = 1, NCONS
+25            r_QDot(eq) = QDot(eq,i,j,k)          ! single read from global memory
+26         end do
+27
+28         ! xi
+29         !$acc loop seq
+30         do l = 0, Nx
+31            call TwoPointFlux_Selector(e % storage % Q(:,i,j,k), e % storage % Q(:,l,j,k), &
+32                                       e % geom % jGradXi(:,i,j,k), e % geom % jGradXi(:,l,j,k), Fs )
+33            !$acc loop seq
+34            do eq = 1, NCONS
+35               r_QDot(eq) = r_QDot(eq) - NodalStorage(Nx) % sharpD(i,l) * Fs(eq) &
+36                                       + NodalStorage(Nx) % hatD(i,l)   * Fv(eq,l,j,k,IX)
+37            end do
+38         end do
+39
+40         ! eta
+41         !$acc loop seq
+42         do l = 0, Ny
+43            call TwoPointFlux_Selector( e % storage % Q(:,i,j,k), e % storage % Q(:,i,l,k), &
+44                                       e % geom % jGradEta(:,i,j,k), e % geom % jGradEta(:,i,l,k), Fs )
+45            !$acc loop seq
+
+
+
+
+                                                                   8
+46             do eq = 1, NCONS
+47                r_QDot(eq) = r_QDot(eq) - NodalStorage(Ny) % sharpD(j,l) * Fs(eq) &
+48                                        + NodalStorage(Ny) % hatD(j,l)   * Fv(eq,i,l,k,IY)
+49             end do
+50          end do
+51
+52          ! zeta
+53          !$acc loop seq
+54          do l = 0, Nz
+55             call TwoPointFlux_Selector( e % storage % Q(:,i,j,k), e % storage % Q(:,i,j,l), &
+56                                        e % geom % jGradZeta(:,i,j,k), e % geom % jGradZeta(:,i,j,l), Fs )
+57             !$acc loop seq
+58             do eq = 1, NCONS
+59                r_QDot(eq) = r_QDot(eq) - NodalStorage(Nz) % sharpD(k,l) * Fs(eq) &
+60                                        + NodalStorage(Nz) % hatD(k,l)   * Fv(eq,i,j,l,IZ)
+61             end do
+62          end do
+63
+64          !$acc loop seq
+65          do eq = 1, NCONS
+66             QDot(eq,i,j,k) = r_QDot(eq)         ! single write back to global memory
+67          end do
+68
+69       end do ; end do ; end do
+70
+71   end subroutine ScalarWeakIntegrals_SplitVolumeDivergence
+
+
+     Listing 3: Example of inner loop parallelisation with OpenACC: Split-form divergence operator.
+
+
+     2.4      Overall GPU Implementation and Ported Functionalities
+     The GPU version of HORSES3D preserves the numerical formulation of the original CPU solver
+     while restructuring the computational kernels for efficient execution on GPU architectures. The
+     porting strategy relies on directive-based parallelisation to maintain a single code base, ensuring
+     that the physical models and numerical discretisations remain identical in CPU and GPU execu-
+     tions. All features listed in Table 1 have been ported to GPUs and verified through dedicated test
+     cases included in the HORSES3D repository. These tests are part of the continuous-integration
+     workflow and can be executed on both CPU and GPU backends, enabling direct numerical-
+     consistency checks across architectures.
+     The configuration considered in the present work represents a subset of these capabilities. In par-
+     ticular, the Taylor–Green vortex and turbulent channel-flow cases and the full aircraft (Common
+     Research Model) rely on combinations of split forms, Riemann solvers, and turbulence models
+     that are representative of production CFD simulations, while remaining fully supported and
+     validated in the GPU implementation.
+
+
+     3      Verification and validation
+     The GPU implementation of HORSES3D retains the numerical implementation of the original
+     CPU code [4]. The porting process consists of restructuring and annotating the existing compu-
+     tational kernels for execution on GPU devices, while maintaining the definitions for the spatial
+     discretisation, time-integration schemes, numerical fluxes, boundary conditions, and physical
+     models. Therefore, the objective of this section is not to revalidate the full numerical method-
+     ology of HORSES3D, which has already been extensively assessed in previous work [76], but
+     rather to verify that the GPU-accelerated implementation preserves the accuracy and physical
+     behaviour of the original solver.
+     For completeness, three representative verification and validation cases are included for the 3D
+     compressible Navier–Stokes equations. First, a method of manufactured solutions (MMS) test
+     is used to verify the expected high-order convergence of the GPU implementation. Second,
+     the Taylor–Green vortex at Re = 1600 is considered to validate the solver against established
+     DNS/reference data for transitional and turbulent flows. Additionally, a turbulent channel-flow
+     including wall modelling is used to assess the behaviour of the GPU solver in a wall-bounded
+     turbulent-flow case.
+
+
+
+
+                                                                    9
+      Category                      Implemented features (GPU)
+      Choice of nodes               Gauss–Legendre (GL), Gauss–Legendre–Lobatto (GLL)
+      Split forms                   Standard [58], Morinishi [58, 59],
+      (for GLL)                     Ducros [58, 60], Kennedy–Gruber [61],
+                                    Pirozzoli [62], Ismail–Roe [63], Chandrasekhar [64]
+      Riemann solvers               Central (non-dissipative), Roe [35],
+                                    Low-dissipation Roe [65], Roe–Pike [66],
+                                    Matrix dissipation [63], Local Lax–Friedrichs/Rusanov [67]
+      Viscous discretisation        Bassi–Rebay 1 (BR1) [68]
+      Time integration              Explicit Euler, Low-storage RK3 [69],
+                                    Low-storage RK5 (Carpenter–Kennedy) [70],
+                                    SSPRK33 [71], SSPRK43 [72]
+      Limiters                      Positivity-preserving limiter [73]
+      Turbulence models             WALE [45], Vreman [74]
+      Wall modelling                Reichardt wall model [75]
+
+Table 1: Functionalities ported to the GPU version of HORSES3D and validated through
+CPU/GPU cases.
+
+
+3.1    Verification: Method of Manufactured Solutions
+To verify that the GPU-accelerated implementation of HORSES3D preserves the expected order
+of accuracy of the underlying DG discretisation, a method of manufactured solutions (MMS)
+test is performed. Since the GPU port retains the same spatial discretisation, time-integration
+schemes, and numerical fluxes as the CPU version, this test focuses on confirming that the
+GPU-specific optimisations do not alter the numerical convergence properties of the solver.
+A smooth analytical solution is prescribed for all flow variables, and the corresponding source
+term is added to the compressible Navier–Stokes equations such that the manufactured solution
+satisfies the modified governing equations exactly. The analytical expression for the manufactured
+solution is defined as:
+
+
+   ρ(x, y, z, t) = 1.0,
+  ρu(x, y, z, t) = sin(t) sin(πx) cos(πy) cos(πz),
+  ρv(x, y, z, t) = sin(t) sin(πy) cos(πx) cos(πz),
+ ρw(x, y, z, t) = −2 sin(t) sin(πz) cos(πx) cos(πy),
+  ρe(x, y, z, t) = 0.5 sin2 (t) sin2 (πx) cos2 (πy) cos2 (πz) + 0.5 sin2 (t) sin2 (πy) cos2 (πx) cos2 (πz)+
+                 2 sin2 (t) sin2 (πz) cos2 (πx) cos2 (πy) + 0.25 cos(t) sin(πx) sin(πy) sin(πz) + 2.5,
+                                                                                                     (6)
+with ρ as the density, (u, v, w) as the three components of the velocity, and e as the total energy.
+The associated forcing terms are omitted here for brevity.
+
+Numerical setup: The MMS test is carried out on a sequence of uniform Cartesian meshes
+with hexahedral elements 33 , 43 , 53 , and 63 , within a domain defined as a cube of size L = 2
+with periodic boundary conditions on all faces. For each mesh, simulations are performed using
+increasing polynomial orders, and the numerical solution is advanced until convergence. The
+L2 error norm of the conservative variables is then computed with respect to the manufactured
+
+
+                                                     10
+                  10 8                                                Mesh           p
+                                  1                                    3×3×3         p=1
+                                      2                                4×4×4         p=2
+                                                                       5×5×5         p=3
+                  10 9                              1                  6×6×6         p=4
+                                                         3
+      L 2 error
+
+
+
+
+                                                                  1
+                  10 10                                                4
+
+
+                  10 11                                                      1
+                                                                                 5
+
+
+                          101             2 × 101            3 × 101       4 × 101
+                                               NDOF1/3
+Figure 1: Convergence of the L2 error against the number of degrees of freedom for different
+meshes and polynomial orders in the manufactured solution test case.
+
+
+analytical solution.
+The compressible Navier–Stokes equations are solved, for a Mach number of M = 0.3 and a
+Reynolds number of Re = 100000, using the DGSEM formulation with Gauss–Lobatto nodes
+and the Roe Riemann solver for inter-element fluxes. Viscous terms are discretised using the
+BR1 scheme. Time integration is performed using an explicit third-order Runge–Kutta method
+with a fixed time step ∆t = 10−8 .
+
+Results: Figure 1 shows the exponential convergence, for h- and p-refinement, characteristic
+of high order solvers. The figure shows the error L2 as a function of the square root of the
+total number of degrees of freedom for the different meshes and polynomial orders. For each
+fixed mesh, increasing the degree of the polynomial leads to an exponential reduction in the
+error, whereas mesh refinement for a fixed polynomial order yields consistent error decay. The
+reported convergence rates are in agreement with the theoretical expectations for high order
+formulations, confirming that the GPU-accelerated solver achieves the designed high order ac-
+curacy. Furthermore, the validation test case has been run both in CPU and GPU, providing
+the same results up to double-precision accuracy. These results demonstrate that the GPU im-
+plementation of HORSES3D reproduces the same convergence behaviour as the original CPU
+solver.
+
+3.2       Validation: Taylor–Green Vortex at Re = 1600
+The three-dimensional Taylor–Green vortex (TGV) at Reynolds number Re = 1600 is used to
+validate the GPU-accelerated version of HORSES3D to compute transitional and turbulent flows.
+This test case is widely adopted as a benchmark for assessing the ability of numerical schemes
+to reproduce the laminar–turbulent transition and the subsequent development of homogeneous
+isotropic turbulence.
+
+
+
+
+                                             11
+The initial condition is given by the standard divergence-free TGV velocity field,
+
+                              ρ = ρ0 ,
+                              u = u0 sin(x/L0 ) cos(y/L0 ) cos(z/L0 ),
+                                                                                                   (7)
+                              v = −u0 cos(x/L0 ) sin(y/L0 ) cos(z/L0 ),
+                             w = 0,
+
+with the corresponding pressure field
+
+                     ρ0 u20   ρ0 u20
+                p=          +        [(cos(2x/L0 ) + cos(2y/L0 )) (cos(2z/L0 ) + 2)] ,             (8)
+                     γM02      16
+
+where γ = 1.4, M0 = 0.1, ρ0 = 1, u0 = 1, and L0 = 1. Time is non-dimensionalised using the
+convective time scale tc = L0 /u0 .
+
+
+Numerical setup: The computational domain is a periodic cube of size L = 2π, discretised
+using 163 uniform hexahedral elements with polynomial order P = 7, corresponding to approxi-
+mately 2.1 × 106 degrees of freedom. The compressible Navier–Stokes equations are solved using
+the DGSEM formulation with Gauss–Lobatto nodes, the Chandrasekhar split form, and the Lax-
+Friedrichs solver for inter-element fluxes. Viscous terms are discretised using the BR1 scheme.
+Time integration is performed using an explicit third-order Runge–Kutta method with a fixed
+non-dimensional time step ∆t = 2 × 10−4 . No explicit subgrid-scale model is used, resulting in
+an implicit LES configuration. This configuration is considered here because it provides a rep-
+resentative baseline set of coefficients for HORSES3D. The full set of combinations of split forms
+and Riemann fluxes available in the GPU-ported version of HORSES3D has been systematically
+analysed in a separate study [77].
+We verify the accuracy of the solver by computing the kinetic energy as
+                                                Z
+                                              1    1
+                                       E=            ρu · u dV,                                 (9)
+                                            ρ0 V V 2
+
+and the kinetic energy dissipation rate, which is defined as −dE/dt.
+
+
+
+
+        a Kinetic energy dissipation rate.                b Kinetic energy spectrum at t/tc = 9.
+
+Figure 2: Validation of the GPU-accelerated HORSES3D solver for the Taylor–Green vortex at
+Re = 1600. Panel (a) shows the kinetic energy dissipation rate compared with the high-resolution
+DRP reference solution of Bull and Jameson [78]. Panel (b) shows the kinetic energy spectrum
+at t/tc = 9 compared with the pseudo-spectral reference solution of Carton de Wiart et al. [79].
+
+
+
+                                                 12
+Results: Figure 2a shows the time evolution of the kinetic energy dissipation rate and compares
+the present results to the high-resolution dispersion-relation-preserving (DRP) reference solution
+on a fine 5123 grid reported by Bull and Jameson [78]. The GPU-accelerated HORSES3D solution
+accurately captures the characteristic dissipation peak associated with the laminar–turbulent
+transition, as well as the subsequent decay in the fully turbulent regime. Minor discrepancies
+during the peak-dissipation phase are consistent with the reduced spatial resolution and are
+typical of high-order implicit LES approaches. The kinetic energy spectrum at t/tc = 9 is shown
+in Fig. 2b and compared with the pseudo-spectral reference solution on a 5123 grid from Carton
+de Wiart et al. [79]. The spectrum is in good agreement with the reference solution over the
+energy-containing and intermediate wavenumber ranges, with only minor discrepancies near the
+cut-off wavenumber, as expected for the present resolution, indicating that the selected numerical
+configuration provides a robust representation of the flow dynamics.
+In general, the results demonstrate that the GPU-accelerated implementation of HORSES3D
+reproduces the established reference behaviour of the Taylor–Green vortex at Re = 1600.
+The agreement in both kinetic energy dissipation and spectral content confirms the correctness
+of the numerical formulation and validates the GPU port prior to the large-scale performance
+and scalability studies presented in the following sections.
+
+3.3   Validation: Turbulent channel flow with wall modelling
+The GPU implementation of a wall-function boundary condition in HORSES3D is validated using
+a high-Reynolds-number turbulent channel flow. This test assesses both the correctness of the
+wall modelling and its robustness under distributed-memory parallel execution. The wall model
+follows the Reichardt law-of-the wall formulation following [75, 80, 81], see the implementation
+details in the Appendix B. The wall shear stress is reconstructed from a sampled off-wall velocity
+and is imposed weakly through the viscous numerical fluxes.
+The test case consists of a fully developed turbulent channel flow between two parallel walls
+separated by a distance 2h. Periodic boundary conditions are imposed in the streamwise and
+spanwise directions, with domain lengths 2πh and πh, respectively. The friction Reynolds number
+is fixed to Reτ = 5200 through a constant pressure-gradient forcing. The Mach number is
+maintained at M ≈ 0.1 to approximate incompressible conditions. The DNS database of Lee
+and Moser [82] is used as reference.
+
+Numerical setup: The computational mesh comprises 20 × 10 × 10 uniformly distributed
+hexahedral elements of polynomial order P = 4. The compressible Navier–Stokes equations
+are solved using a DGSEM discretisation with Gauss–Lobatto nodes. The inviscid terms are
+discretised using the Pirozzoli split form, with interface fluxes computed using the Roe Riemann
+solver. Viscous terms are discretised using the BR1 scheme. Time integration is performed using
+an explicit third-order Runge–Kutta method.
+
+Results: Figure 3 shows the mean velocity profiles in wall units obtained with the GPU im-
+plementation. Excellent agreement is observed with respect to the DNS data, confirming that
+the GPU wall-function implementation reproduces the expected behaviour.
+
+
+4     Performance Analysis of HORSES3D-GPU
+4.1   Hardware
+The performance analysis is performed in MareNostrum 5 ACC, thanks to various EuroHPC and
+Red Española de Supercomputación (RES) projects. The MareNostrum 5 ACC partition contains
+1,120 accelerated compute nodes based on Intel Sapphire Rapids processors and NVIDIA Hopper
+GPUs. Each node has two CPU sockets, with one Intel Xeon Platinum 8460Y+ processor per
+
+                                               13
+           28
+                   DNS
+                   HORSES3D GPU
+           26
+
+
+           24
+      u+
+
+
+
+
+           22
+
+
+           20
+
+
+           18
+                                                          103
+                                                     y+
+Figure 3: Mean velocity profiles for the turbulent channel flow test case using wall function.
+Results are compared with reference DNS data (Reτ = 5200) [82].
+
+
+socket. Each processor provides 40 cores at 2.3 GHz, resulting in a total of 80 CPU cores per node.
+In addition, each node contains four NVIDIA Hopper H100 GPUs, each equipped with 64 GB of
+HBM2e memory. Note that these GPUs use HBM2e rather than the higher-bandwidth HBM3
+memory available in other H100 configurations. The latter is important, as profiling of the GPU
+version of HORSES3D indicates that multiple performance critical kernels are memory bound.
+Therefore, the available bandwidth has a direct effect on the code performance. Each node has
+sixteen DIMM 32GB 4800MHz DDR5 for a total of 512GB of RAM. Intranode communications
+are through NVLink 2.0 and internode communications are through four ConnectX-7 NDR200
+InfiniBand for a total of 800Gbit/s of bandwidth per node. MareNostrum 5 is one of the most
+advanced supercomputing facilities in the world with a theoretical peak performance of 260
+PFlops for its accelerated partition.
+
+4.2    Performance analysis - Taylor–Green Vortex
+Our first benchmark uses the TGV problem described in Section 3.2. The benchmarking has been
+conducted using a Taylor Green Vortex (TGV) test case using a cubic domain split into non–
+overlapping hexahedral elements. The smallest mesh in the numerical experiments comprises
+4,096 elements (16 × 16 × 16) and the largest of 4,194,304 elements (256 × 128 × 128). We used
+polynomial orders from P=3 to P=7 to estimate the performance and efficiency of the code for
+a wide spectrum and find which configuration makes the best use of available resources.
+HORSES3D offers a plethora of numerical setups to perform LES simulations in GPUs, as detailed
+in Section 2.4. Here, we compare on a standard DGSEM (SDG) configuration using Gauss-
+Legendre (LG) points, without explicit subgrid model, and on a kinetic energy preserving scheme
+(KEP) that uses Kennedy and Grubber fluxes on Gauss-Lobatto points. The latter has been
+found to be robust and accurate for complex test cases, often without the need for an explicit
+subgrid model [83, 84] .
+The performance of the code is quantified using the performance index (PID) metric, a commonly
+
+
+
+                                                14
+used metric for measuring computational efficiency [5, 6], defined as
+
+                                        Walltime × #Ranks
+                              PID =                          .                               (10)
+                                      #RK stages × DOF × #∆t
+
+This metric measures the time required to evaluate the right-hand side (RHS) and advance the
+solution in time per degree of freedom (DOF). For example, for an explicit 3rd order Runge-
+Kutta scheme, we have three RHS evaluations per non-dimensional time step. The #Ranks in
+this work is the number of GPUs used to run the simulation. The total number of degrees of
+freedom is computed as DOF = Ne × (P + 1)3 , where Ne is the number of hexahedral elements.
+All performance metrics reported here were collected over 1000 non-dimensional time steps, #∆t.
+To establish the baseline performance, the code is first executed on a single GPU. The problem
+size and number of devices are then progressively increased to evaluate both strong and weak
+scalability. In addition to demonstrating the computational performance and parallel efficiency
+of the code, these studies provide practical guidance in selecting the problem size and hardware
+configuration required to achieve optimal performance.
+
+4.2.1   Single GPU performance
+The first set of tests is performed on a single Nvidia H100 GPU. We use meshes with 4,096
+up to 131,072 elements for P = 3 to P = 5 and 4,096 up to 65,536 elements for P = 6 and
+above. This is because for P > 5, we cannot fit a mesh with 131,072 elements on a single GPU.
+The results are presented in Figure 4 for the standard DGSEM (SDG) and the kinetic energy
+preserving DGSEM (KEP). The first thing to notice from Figure 4 is that the efficiency of the
+solver increases as we increase the polynomial order, measured via the PID metric. Moving from
+P = 3 to P = 7 increases efficiency by a factor of 2. This result is expected given the particular
+implementation of HORSES3D, the locality of the data, and the structure of the DGSEM opera-
+tions. Increasing the polynomial order results in more degrees of freedom being processed locally
+within each element, thereby increasing the amount of work performed by each launched kernel
+and reducing the relative pressure on device memory bandwidth. This observation is particularly
+relevant because it indicates that for a fixed number of degrees of freedom, p–refinement can be
+more efficient on GPUs than h–refinement. This computational advantage is consistent with a
+key property of high-order DGSEM discretisations: for sufficiently smooth solutions, increasing
+the polynomial order can yield exponential convergence, whereas mesh refinement alone gen-
+erally provides polynomial convergence in h. High-order DGSEM discretisations in HORSES3D
+therefore offer an additional advantage on GPU architectures: improved computational efficiency.
+
+
+
+
+                                               15
+              1.4 × 10 8
+                                                                              KEP p = 3
+              1.2 × 10 8                                                      KEP p = 4
+                                                                              KEP p = 5
+                   10 8                                                       KEP p = 6
+                                                                              KEP p = 7
+                                                                              SDG p = 5
+                                                                              SDG p = 7
+    PID [s]
+
+
+
+
+               6 × 10 9
+
+
+
+
+               4 × 10 9
+                                       106                            107
+                                                    DOF /GPU
+Figure 4: Single GPU performance of HORSES3D for the KEP and SDG schemes for different
+polynomial orders and different mesh sizes. The figure depicts performance index, PID, (Eq. 10,
+the lower the better) vs degrees of freedom (DOF) per GPU.
+
+The second important result of Figure 4 is that if we increase the load per GPU or the degrees of
+freedom per GPU (DOF/GPU), we see an increase in the solver efficiency. This is also expected
+because it is related to the occupancy of computing resources. By offloading more work to the
+GPU, we can hide the latency of the device. The results indicate that for a load of more than
+16384 elements per GPU, we are in 90% of the optimum performance achieved with the highest
+number of DOFs for each polynomial order. This trend is consistent across all curves and it is
+a strong indicator for setting up the HORSES3D-GPU solver. More specifically, to make efficient
+use of the hardware, a minimum of 16,000 to 20,000 elements per GPU are required. The third
+interesting result of the results presented in Figure 4 is that the SDG is more efficient than the
+KEP setup in HORSES3D. More specifically, the P = 7 KEP solver is as efficient as the P = 5
+SDG solver and 25% less efficient than the P = 7 SDG solver. This first study provides valuable
+information about the performance characteristics of HORSES3D on GPUs and establishes an
+initial guideline for creating optimal setups that make efficient use of computational resources.
+
+4.2.2     Multi GPU performance
+To evaluate the performance of HORSES3D in modern HPC systems, we perform numerical
+experiments to determine both strong and weak scalability characteristics of the code. We use
+the same TGV case with a cubical domain and run the simulations for 1000 non-dimensional
+time steps using an explicit RK3 scheme. We focus on the KEP scheme of HORSES3D as this is
+the preferred configuration for large and complex industrial cases [83, 84].
+The first set of tests is conducted to determine the strong scalability. The strong scalability is
+a test measuring the speed-up of the code by keeping the problem size constant and increasing
+the number of GPUs for each test. Ideally, a code should showcase a speed-up equivalent to the
+number of GPUs used. The results for the KEP setup are presented in Figure 5. We use three
+different meshes with 524,288, 1,048,576 and 2097152 elements. We also use P = 5 and P = 7,
+as these are two typical options. The baseline for each curve is set as the performance using the
+minimum amount of resources that can fit each test case. We then double the number of GPUs
+
+                                               16
+and start collecting the performance figures.
+
+              256
+                        KEP p = 5 0.5M
+                        KEP p = 5 1M
+              128       KEP p = 5 2M
+                        KEP p = 7 2M
+                        Ideal
+              64
+    Speedup
+
+
+
+
+              32
+
+              16
+
+               8
+
+               4
+                    4        8           16          32         64          128          256
+                                                  GPUs
+Figure 5: Strong scalability for the KEP scheme for polynomial orders P = 5 and P = 7 and
+meshes with 0.5, 1 and 2 million elements.
+
+The results presented in Figure 5 indicate a near-perfect scaling of HORSES3D under the condition
+that we have a sufficient load per GPU. The data points start to deviate from the ideal scaling
+curve when the load per GPU falls below 16,000 elements. This is consistent for both P = 5 and
+P = 7, although it is less pronounced for P = 7. These results indicate that if the load per GPU is
+less than this threshold, there is not enough work on each GPU to hide the MPI communications.
+Therefore, some performance loss is expected that can be severe if the load becomes extremely
+low, as showcased for the case KEP-P5-1M in Figure 5. These results set a guideline for making
+efficient usage of GPU resources, indicating again that a minimum of 16,000 elements per GPU
+should be used. This threshold coincides with the threshold for optimum performance on a single
+GPU device. We observe in Figure 5 that if there is sufficient load per GPU, HORSES3D is able
+to efficiently exploit hundreds of GPUs.
+Now, we consider the largest case with 2,097,152 elements and P = 7, which is approximately
+1.07 billion degrees of freedom, and we compare the strong scalability for the KEP and SDG
+implementations. The smallest number of GPUs that can fit this case is 32 and we test the
+scaling up to 256 GPUs. The results in Figure 6a show that for both schemes we have perfect
+scaling, and only for a load of 8,192 elements per GPU we start to see performance degradation
+for the SDG scheme. Also, for the results in Figure 6a, the baseline performance is that of 32
+GPUs. We also define the ratio of multi to-one GPU simulations, and compare SDG to KEP in
+Figure 6b. For the KEP scheme, we see that for a wide range of elements per GPU, even for
+lower than 16000 elements, we are close to or above 95% of the performance of a single GPU,
+showing that HORSES3D is able to hide the MPI communications and scale perfectly for a wide
+range of loads per GPU.
+
+
+
+
+                                                17
+          256        SDG p = 7
+                     KEP p = 7                                             0.95
+                     Ideal
+
+
+
+
+                                                          Single GPU eff
+          128                                                              0.90
+Speedup
+
+
+
+
+                                                             Eff/GPU
+                                                                           0.85
+           64                                                              0.80
+                                                                           0.75                     SDG p = 7
+           32                                                                                       KEP p = 7
+                32          64          128   256                                 20000     40000      60000
+                                 GPUs                                                 Elements / GPU
+ a Strong scalability for P = 7 and 2 million ele-         b Ratio of Multi-GPU to Single-GPU performance
+ ments.                                                    (PID) for specific load per device.
+
+ Figure 6: Strong scalability results for the KEP and SDG schemes for P = 7 and a 2 million
+ element mesh.
+
+ The last metric to evaluate the parallel performance of the GPU version of HORSES3D is to
+ evaluate the weak scalability. In this test, we maintain the load per device constant, and we
+ measure the time to complete 1,000 non-dimensional time steps as we increase the number of
+ GPUs. The baseline performance is that for a single node and 4 GPUs. For this series of tests, we
+ select the KEP scheme with P = 5. The load per GPU is set to 16,384 elements. Thus, the first
+ mesh on a single GPU has 16,384 elements and 3.5 million degrees of freedom, and the last one on
+ 256 GPUs has 4.2 million elements and 905 million degrees of freedom. The results are presented
+ in Figure 7. For a perfect weak scaling the points should be above or as close as possible to 1.
+ We observe that for 1 and 2 GPUs we obtain slightly better performance, which is expected. As
+ we increase the number of nodes and GPUs we see that the performance drop slightly. This is
+ because the work is spread out on GPUs (which are not physically adjacent in Marenostrum)
+ and internode MPI communications become less efficient, therefore reducing the performance of
+ HORSES3D. This particularity cannot be controlled by the user in most cases and within heavily
+ used HPC facilities. Nonetheless, the code runs efficiently under these conditions. The results
+ indicate that for 128 GPUs or less we are in the 95% of the single-node performance and in the
+ 90% for 256 GPUs. These results show that HORSES3D can run efficiently and takes advantage
+ of state-of-the-art hardware. These figures were obtained for P = 5 and for the minimum load
+ per GPU, as indicated in the results in this work. We expect that for higher number of elements
+ per GPU and higher polynomial order, the weak scalability to be even better for larger number
+ of nodes and GPUs.
+
+
+ 5         Towards aeronautic simulations on GPUs - Common Research
+           Model
+ To demonstrate the capabilities of the GPU-accelerated HORSES3D solver in industrially relevant
+ geometries, we present strong and weak scalability results for the High-Lift Common Research
+ Model (CRM-HL) [85]. The CRM-HL is an open, publicly available geometry representative
+ of a commercial transport aircraft in high-lift configuration and has been widely used for CFD
+ validation, notably in the AIAA High-Lift Prediction Workshops, including HLPW-5. This
+ section is carried out with the test Case 1 which contains only the wing and body geometry.
+
+
+
+
+                                                     18
+                            1.05
+
+                            1.00
+
+                            0.95
+      Parallel Efficiency
+
+
+
+                            0.90
+
+                            0.85
+
+                            0.80
+
+                            0.75         Weak scaling
+                                         Ideal
+                            0.70
+                                   100                         101                          102
+                                                                          GPUs
+Figure 7: Weak scalability of HORSES3D for P = 5 and 16384 elements per GPU. Results are
+relative to single node performance (4 GPUs).
+
+
+5.1            Computational Setup
+The simulations are performed using HORSES3D and the compressible Navier–Stokes formulation,
+employing Chandrashekar entropy-conserving averaging together with Gauss–Lobatto points.
+The Lax–Friedrichs Riemann solver is used for numerical fluxes, while the viscous terms are
+discretised using BR1 formulation. This combination of entropy-conserving averaging and flux
+discretisation has been found to be robust for challenging simulations. Time is discretised with
+an RK3 scheme. The Mach number is M = 0.2 and the Reynolds number of Re = 5.6×106 , based
+on the mean aerodynamic chord of the wing and an angle of attack of AoA = 11◦ . All simulations
+are run for 1,000 non-dimensional time steps to measure the efficiency of the PID, defined in
+Eq. (10). All timing measurements exclude mesh generation and storage operations; only the
+residual evaluation phase is considered, as recorded by the internal stopwatch instrumentation.
+Four levels of hexahedral mesh refinement are used, labelled h0 through h3, with element counts
+ranging from approximately 3.3 million (h0) to 20.8 million (h3) elements, as detailed in Table 2.
+
+
+                                                          Grid    Elements
+                                                          h0       3,342,208
+                                                          h1       5,839,712
+                                                          h2      11,658,356
+                                                          h3      20,833,704
+
+                                         Table 2: Number of hexahedral elements for each grid.
+
+The range covered by the benchmark is substantial: the smallest configuration (h0, P = 1)
+contains approximately 26.7 million DOF, while the largest (h3, P = 7) reaches approximately
+10.7 billion DOF, spanning nearly three orders of magnitude and enabling a thorough assessment
+of the solver across a wide range of problem sizes.
+Figure 8 presents a representative solution obtained on the h1 grid using a polynomial order of
+
+
+                                                                     19
+Figure 8: Representative flow solution used in the performance assessment. Instantaneous pres-
+sure coefficient distribution on the CRM configuration obtained on the h1 grid with P = 2
+(≈ 157.7 × 106 degrees of freedom).
+
+
+P = 2, corresponding to approximately 157.7 million degrees of freedom. The pressure coeffi-
+cient distribution illustrates the complex aerodynamic loading over the CRM configuration and
+demonstrates the capability of the solver to handle realistic industrial-scale flow simulations.
+
+5.2     Performance analysis
+The scaling studies have been carried out on the MareNostrum 5 accelerated partition, using up
+to 2048 GPUs, corresponding to half of the full system capacity (4,096 GPUs).
+
+5.2.1    Baseline performance and scaling strategy
+Due to the significantly larger problem sizes considered in the present configurations, single-
+GPU executions are not feasible in practice. For this reason, all performance measurements are
+obtained using multi-GPU runs.
+To enable a consistent comparison across different configurations, the results are normalised
+with respect to the number of GPUs and reported in terms of the efficiency metric PID defined
+in Eq. (10). While this rescaling allows a coherent comparison between setups, it must be
+emphasised that perfect linear scaling is not achieved in practice due to communication overheads
+and load imbalance effects. Nevertheless, the resulting metrics provide a meaningful basis for
+assessing the relative efficiency of the different discretisations and mesh resolutions.
+The performance metric PID is first introduced as in the TGV case. The resulting performance
+index PID is summarised in Figure 9, which shows the efficiency between mesh levels h0–h3 and
+polynomial orders P = 1–7 as a function of the number of elements per GPU. As observed,
+general trends are consistent with those reported for the TGV benchmark, with only moderate
+variations due to the increased complexity of the CRM configuration. In particular, once a
+minimum load of approximately 20, 000 elements per GPU is reached, the PID metric becomes
+essentially independent of the problem size, indicating that the computation operates in a regime
+of near-optimal GPU utilisation.
+For completeness, Figure 10 provides the same efficiency metric reorganised by mesh level and
+polynomial order as a function of the number of DOF per GPU, enabling a more direct com-
+parison with the single-GPU TGV baseline case. This representation confirms that the trends
+with respect to polynomial order are preserved in the CRM configuration, with higher orders
+consistently yielding improved efficiency due to increased computational intensity per degree of
+freedom. Direct comparison with the single-GPU TGV results reported in Section 4 confirms
+that the CRM efficiency values remain of the same order of magnitude. In particular, for the
+highest polynomial orders (P = 5–7), the CRM configuration achieves PID ≈ 8–10 × 10−9 s at
+optimal load, which closely matches the single-GPU TGV performance of PID ≈ 4–6 × 10−9 s.
+
+
+                                               20
+For lower orders (P = 3), the CRM efficiency is approximately PID ≈ 1×10−8 s, again consistent
+with the TGV baseline of PID ≈ 9 × 10−9 s.
+The slightly higher values observed for the CRM configuration are attributed to two main factors.
+First, the CRM geometry introduces additional computational overhead associated with com-
+plex boundary condition treatment (including viscous walls, inlet, and outlet conditions) that is
+absent in the periodic TGV setup. Second, the reported efficiency is obtained from wall-clock
+measurements of multi-GPU runs and rescaled under the assumption of ideal strong scalability;
+consequently, any loss of parallel efficiency due to MPI communication, load imbalance arising
+from unstructured mesh partitioning, or network contention manifests itself as an apparent in-
+crease in PID relative to the single-GPU baseline. Despite these effects, the close agreement
+between CRM and TGV efficiency levels demonstrates that the GPU-accelerated HORSES3D
+solver preserves its performance characteristics when applied to geometrically complex, industri-
+ally relevant configurations.
+
+                                                                       Mesh          p
+                                                                       h0 (3.3M)      p=1
+                                                                       h1 (5.8M)      p=2
+                                                                       h2 (11.7M)     p=3
+              10 7                                                     h3 (20.8M)     p=4
+                                                                                      p=5
+                                                                                      p=6
+                                                                                      p=7
+    PID [s]
+
+
+
+
+              10 8
+
+                         104                                    105
+                                             Elements /GPU
+Figure 9: Performance index PID (Eq. (10)) for the CRM wing–body configuration across mesh
+levels h0–h3 and polynomial orders P = 1–7. The results are shown as a function of elements
+per GPU, highlighting the onset of efficiency saturation once a minimum load of approximately
+2 × 104 elements per device is reached.
+
+
+5.2.2     Strong scalability results
+Regarding the strong scaling behaviour shown in Figure 11, the solver exhibits the expected
+dependence on the load per GPU across all mesh levels. Overall, near-optimal efficiency is
+achieved when the number of elements per GPU remains above the previously identified threshold
+of O(104 ). For the h1 mesh (≈ 5.8 million elements), strong scaling remains close to ideal for
+moderate GPU counts. For example, a speedup of 1.91 is obtained when doubling the number of
+GPUs from 32 to 64 for P = 4, with approximately 9.1 × 104 elements per GPU. As the number
+of GPU increases to 1024, the load decreases to approximately 5.7 × 103 elements per GPU, and
+the efficiency decreases to 56%, indicating the onset of communication-dominated behaviour.
+A similar trend is observed for P = 5 in the same mesh, although with improved robustness
+at intermediate loads. At 256 GPUs, corresponding to approximately 2.3 × 104 elements per
+
+
+                                               21
+                                                                          Mesh          p
+                                                                          h0 (3.3M)      p=1
+                                                                          h1 (5.8M)      p=2
+                                                                          h2 (11.7M)     p=3
+              10 7                                                        h3 (20.8M)     p=4
+                                                                                         p=5
+                                                                                         p=6
+                                                                                         p=7
+    PID [s]
+
+
+
+
+              10 8
+
+                         105                         106                       107
+                                                 DOF /GPU
+Figure 10: Performance index PID (Eq. (10)) for the CRM wing–body configuration across mesh
+levels h0–h3 and polynomial orders P = 1–7. The results are reported as a function of degrees
+of freedom per GPU, allowing direct assessment of efficiency saturation with increasing load per
+device.
+
+
+GPU, the efficiency remains high (∼ 89.6%), while at 1024 GPUs it reduces to 66.8% as the
+workload per-device falls below the optimal regime. This confirms the increased resilience of
+higher polynomial orders to reduced per-GPU load, consistent with the TGV observations. The
+largest configuration (h3, ≈ 20.8 million elements) is used to assess scalability at extreme problem
+sizes, reaching up to 2048 GPUs. In this regime, the solver maintains strong scaling behaviour
+close to optimal up to approximately 1024 GPUs, where the load is still around 2.0×104 elements
+per GPU and efficiencies of the order of 80% are observed for P = 2. When further increasing the
+number of GPUs to 2048, the workload decreases to approximately 1.0 × 104 elements per GPU,
+and the efficiency drops to around 53%. This transition is consistent with entering a regime where
+inter-node communication and global synchronisation start to dominate the computational cost.
+It should be noted that the largest execution reported in this study corresponds to the h3 mesh
+with P = 7 on 2048 GPUs, resulting in approximately 10.7 × 109 degrees of freedom. Given
+the recent commissioning of the system (2023), this places the present study among the early
+CFD applications exploiting a significant fraction of its GPU resources. Overall, these results
+confirm that the GPU-accelerated HORSES3D solver is capable of sustaining efficient execution
+for geometrically complex, industrial-scale CFD problems at the billion-degree-of-freedom level,
+while maintaining predictable scalability behaviour across modern HPC architectures.
+
+5.2.3     Weak scalability results - Load-dependent performance clustering
+To further analyse the dependence of solver performance on the computational load per GPU, a
+clustering-based weak scaling study is performed. The results are obtained from the entire CRM
+dataset by grouping configurations with similar elements-per-GPU ratios using a tolerance-based
+clustering strategy. More specifically, configurations are assigned to the same cluster if their
+elements-per-GPU value differ by less than 25%. This procedure enables the identification of
+quasi-equivalent load regimes across different mesh levels, polynomial orders, and GPU counts,
+
+
+                                                22
+                                    h0 (3.3M)                                                    h1 (5.8M)
+                     Ideal         p=4                                      210        Ideal    p=3
+           29        p=1           p=5                      77%                        p=1      p=4                 67%
+                     p=2           p=6            87%                        29        p=2      p=5           78%
+           28        p=3                                                                                90%
+ Speedup
+
+
+
+
+                                                                  Speedup
+                                        98%                 38%
+                                                                             28                                     35%
+           27                                                                                   97%           48%
+                         100%                     56%                        27                         68%
+                                        78%                                              100%
+           26                                                                26                 80%
+                             90%                                                          95%
+           25                                                                25
+                32           64         128       256       512                   32      64    128     256   512   1024
+                                       GPUs                                                         GPUs
+                                    h2 (11.7M)                                                   h3 (20.8M)
+                     Ideal         p=3                                      211        Ideal    p=2
+                     p=1           p=4                                                 p=1      p=3                 59%
+          210        p=2                              68%
+                                                                            210                               70%
+                                                83%
+                                                                                                                    47%
+Speedup
+
+
+
+
+                                                                  Speedup
+                                        91%                                  29                         85%
+           28                                         48%                                                     60%
+                                  93%           67%                                             84%
+                                        80%                                  28
+                      100%                                                               100%
+           26                     89%                                        27
+                      100%                                                                96%
+                                                                             26
+                32     64         128 256 512 1024 2048                           64      128   256     512   1024 2048
+                                        GPUs                                                        GPUs
+
+Figure 11: Strong scaling speedup relative to the baseline GPU count for the CRM wing–body
+configuration. Results are shown for mesh levels h0 (3.3M hexas), h1 (5.8M hexas), h2 (11.7M
+hexas), and h3 (20.8M hexas).
+
+
+providing a unified view of performance trends.
+The resulting behaviour is shown in Figure 12, where the execution time of the solver is reported
+as a function of the number of GPUs for each identified cluster. Each curve therefore represents a
+family of configurations with approximately constant elements-per-GPU load, while varying the
+global problem size and parallel decomposition. Across all polynomial orders, the results confirm
+that performance is primarily governed by the per-GPU workload rather than the absolute
+number of degrees of freedom. In particular, the curves exhibit near-flat behaviour over a wide
+range of GPU counts for all configurations, indicating that weak scaling is well preserved across
+the different load regimes considered.
+
+
+6          Conclusions
+In this work, we have presented the GPU-accelerated performance of the high-order DG solver
+HORSES3D on modern HPC architectures, using both the canonical Taylor–Green vortex (TGV)
+benchmark and the industrially relevant CRM wing–body configuration. The study provides a
+comprehensive assessment of solver efficiency, scalability, and robustness across a wide range of
+polynomial orders, mesh resolutions, and GPU counts.
+The results obtained for the TGV benchmark establish the baseline performance characteristics of
+the solver, showing that efficiency increases with polynomial order due to improved data locality
+and higher arithmetic intensity. In particular, the analysis demonstrates that performance is
+governed primarily by the number of elements per GPU, with an optimal regime identified at
+approximately 16,000 to 20,000 elements per device. This threshold ensures sufficient workload
+to hide memory latency and communication overheads and is shown to be consistent across all
+configurations considered.
+
+
+                                                                  23
+                                                          p order           Cluster
+                                                             p=1          ~7k elem/GPU
+                                                             p=2          ~13k elem/GPU
+                                                             p=3          ~26k elem/GPU
+                                                             p=4          ~52k elem/GPU
+                                                             p=5          ~104k elem/GPU
+                                                                          ~182k elem/GPU
+    Solver time [s]
+
+
+
+
+                      102
+
+
+
+
+                            32   64    128          256        512         1024        2048
+                                                 GPUs
+Figure 12: Weak scaling behaviour of the CRM wing–body configuration grouped by clusters
+of similar elements-per-GPU ratios. Each curve represents a set of configurations with approx-
+imately constant computational load per GPU across different mesh levels, polynomial orders,
+and GPU counts. The results highlight the dominant role of load per device in determining
+solver efficiency and scaling behaviour.
+
+
+The CRM configuration extends this analysis to a complex, geometrically realistic case including
+boundary conditions and non-trivial flow features. Despite the increased complexity, the solver
+retains performance levels comparable to the TGV benchmark, with efficiency metrics of the
+same order of magnitude. This shows that the GPU implementation of HORSES3D preserves its
+computational characteristics when applied to industrial-scale CFD problems.
+Strong scaling studies show near-ideal behaviour as long as the load per GPU remains above the
+identified threshold. As the workload decreases, a gradual degradation in efficiency is observed
+due to the increasing impact of inter-GPU communication and synchronisation. Weak scaling
+analysis, including the clustering-based approach, further confirms that the dominant parameter
+controlling performance is the elements-per-GPU ratio, with consistent behaviour across mesh
+levels and polynomial orders.
+The solver scales efficiently to 2048 GPUs on the MareNostrum 5 system, The largest simulation
+performed in this study reaches approximately 10.7 × 109 degrees of freedom, representing the
+largest computation performed with HORSES3D to date and one of the first CFD applications
+to take advantage of a substantial fraction of the MareNostrum 5 accelerated partition.
+Overall, the results presented in this work confirm that HORSES3D is capable of delivering high
+accuracy, efficiency and excellent scalability for high-order CFD simulations on state-of-the-art
+GPU-based HPC systems. The combination of robustness, performance, and flexibility makes it
+a suitable tool for large-scale industrial applications and positions it as a strong candidate for
+next-generation exascale computing environments. We have demonstrated that the GPU version
+of HORSES3D is able to exploit the current generation of HPC architectures and serves as a
+useful and competitive tool to address the present and future demands of AI.
+Future work will investigate the use of higher polynomial orders and larger computational meshes
+to further exploit modern GPU architectures. Particular emphasis will be placed on production-
+scale aerodynamic applications, where the favourable performance characteristics observed for
+
+                                               24
+high-order discretisations may translate into significant reductions in time-to-solution.
+Finally, HORSES3D includes a wide range of multiphysics capabilities that have not been ex-
+plored in this work, such as multiphase flows, shock-capturing techniques, actuator line models,
+immersed boundary methods, and aeroacoustic simulations. Parts of these modules have already
+been ported to GPUs, and their performance and applicability to large-scale simulations will be
+the subject of future work.
+
+
+Acknowledgments
+The authors acknowledge the funding received by the Grant DeepCFD (Project No. PID2022-
+137899OB-I00) funded by MICIU/AEI/10.13039/501100011033 and by ERDF, EU and also the
+funding from the European Union (ERC, Off-coustics, project number 101086075). This project
+has received funding from the European Research Council (ERC) under the European Union’s
+Horizon Europe research and innovation programme (grant agreement No. 101167322 - TRANS-
+DIFFUSE). Views and opinions expressed are, however, those of the authors only and do not
+necessarily reflect those of the European Union or the European Research Council. Neither
+the European Union nor the granting authority can be held responsible for them. The authors
+gratefully acknowledge the EuroHPC JU Benchmark Access project EHPC-BEN-2024B11-035
+and the RES projects RES-IM-2025-2-0013 and RES-IM-2025-3-0007 for providing access to the
+MareNostrum 5 supercomputer, which enabled the simulations presented in this work. The
+authors also acknowledge the EPICURE program under the EuroHPC project EHPC-DEV-
+2025D12-017 for its support in profiling and optimizing HORSES3D on GPU architectures, as well
+as for organizing the 2026 High-Scalability Workshop on MareNostrum 5. Andrés M. Rueda-
+Ramírez gratefully acknowledges funding from the Spanish Ministry of Science, Innovation, and
+Universities through the “Beatriz Galindo” grant (BG23-00062). Andrés M. Rueda-Ramírez ac-
+knowledge funding through the German Federal Ministry for Education and Research (BMBF)
+project “ICON-DG” (01LK2315B) of the “WarmWorld Smarter” program.
+
+
+A     Compressible Navier–Stokes solver
+In this work, we solve the 3D Navier–Stokes equations that can be compactly written as:
+                                                ⃗e = ∇·F
+                                       qt + ∇ · F      ⃗ v,turb ,                                     (11)
+
+where q is the state vector of large scale resolved conservative variables q = [ρ, ρv1 , ρv2 , ρv3 , ρe]T ,
+⃗ e are the inviscid, or Euler fluxes,
+F
+                                                                   
+                                          ρv1       ρv2      ρv3
+                                      ρv12 + p ρv1 v2      ρv1 v3 
+                               ⃗
+                                                   2
+                                                                    
+                               Fe =  ρv1 v2 ρv2 + p ρv2 v3 
+                                     
+                                                                    ,                                (12)
+                                      ρv1 v3                 2
+                                                   ρv2 v3 ρv3 + p   
+                                         ρv1 H     ρv2 H    ρv3 H
+
+where ρ, e, H = e+p/ρ, and p are the large scale density, total energy, total enthalpy and pressure,
+respectively, and ⃗v = [v1 , v2 , v3 ]T is the large scale resolved velocity components. Additionally,
+⃗ v,turb defines the viscous and turbulent fluxes,
+F
+                                                                              
+                                 0                 0                 0
+                              τxx               τxy               τxz         
+             ⃗
+                                                                              
+             Fv,turb = 
+                              τyx               τyy               τyz         ,
+                                                                                                     (13)
+                              τzx               τzy               τzz         
+                         P3                P3                P3
+                          j=1 vj τ1j + κTx  j=1 vj τ2j + κTy  j=1 vj τ3j + κTz
+
+
+                                                    25
+where κ is the thermal conductivity, Tx , Ty and Tz denote the temperature gradients and the
+stress tensor τ is defined as τ = µ(∇⃗v + (∇⃗v )T ) − 2/3µI∇ · ⃗v , with µ the dynamic viscosity and
+I the three-dimensional identity matrix.
+
+
+B    Wall-model formulation and implementation details
+Reichardt wall law. The wall model is based on the Reichardt law-of-the wall [75], given by
+
+                                                                y + −y+ /3
+                                                                        
+             +    1        +
+                                       1            −y + /11
+            u∥ = ln 1 + κy + C − ln κ            1−e          −    e         ,         (14)
+                  κ                    κ                        11
+
+where κ and C are model constants.
+The friction velocity is obtained by solving this nonlinear relation locally at each quadrature
+point.
+
+Velocity projection and wall shear stress. The tangential velocity is computed by pro-
+jecting the sampled velocity onto the wall-parallel direction:
+
+                                           uLES − (uLES · n)n
+                                   x∥ =                        ,                               (15)
+                                          |uLES − (uLES · n)n|
+
+                                          u∥ = uLES · x∥ ,                                     (16)
+where uLES is the sampled velocity and n is the wall-normal vector. The resulting wall shear
+stress is projected back to the global reference frame and imposed via the viscous flux formulation.
+
+Local wall-model implementation. The implementation uses only locally available data
+within the wall-adjacent element. The input of the wall-model is extracted from the face opposite
+to the wall inside the first off-wall element, avoiding dependencies on neighboring elements or
+MPI partitions.
+
+MPI and Runge–Kutta considerations. Due to the ordering of halo exchanges and Runge–
+Kutta updates, the wall-model input may correspond to solution values from the previous Runge–
+Kutta stage in some MPI configurations. This avoids additional synchronisation and communi-
+cation overhead, at the cost of a slight temporal lag.
+
+Additional numerical details. The flow is initialized from uniform thermodynamic fields
+and a laminar parabolic velocity profile. The simulation is advanced until statistically station-
+ary conditions are reached (approximately 25 flow-through times), followed by averaging over
+more than 15 flow-through times. Mean velocity profiles are obtained through temporal and
+homogeneous spatial averaging.
+Additional simulations using different MPI partitionings were performed to assess robustness in
+distributed-memory environments.
+
+
+References
+ [1] Brunton SL, Noack BR, Koumoutsakos P. Machine learning for fluid mechanics. Annual
+     review of fluid mechanics. 2020;52(1):477-508.
+
+ [2] TOP500: The list of the world’s 500 most powerful supercomputers; 2025. Founded 1993
+     by Meuer, Strohmaier, Dongarra, Simon et al. https://www.top500.org.
+
+
+
+                                                 26
+ [3] Wang ZJ, Fidkowski K, Abgrall R, Bassi F, Caraeni D, Cary A, et al. High-order CFD
+     methods: current status and perspective. International Journal for Numerical Methods in
+     Fluids. 2013;72(8):811-45.
+
+ [4] Ferrer E, Rubio G, Ntoukas G, Laskowski W, Mariño OA, Colombo S, et al. HORSES3D: A
+     high-order discontinuous Galerkin solver for flow simulations and multi-physics applications.
+     Computer Physics Communications. 2023;287:108700. Available from: https://www.
+     sciencedirect.com/science/article/pii/S0010465523000450.
+
+ [5] Kurz M, Kempf D, Blind MP, Kopper P, Offenhäuser P, Schwarz A, et al. GALæXI: Solving
+     complex compressible flows with high-order discontinuous Galerkin methods on accelerator-
+     based systems. Computer Physics Communications. 2025;306:109388.
+
+ [6] Krais N, Beck A, Bolemann T, Frank H, Flad D, Gassner G, et al. FLEXI: A high order
+     discontinuous Galerkin framework for hyperbolic–parabolic conservation laws. Computers
+     & Mathematics with Applications. 2021;81:186-219.
+
+ [7] Fischer PF, Kerkemeier S, Min M, Lan YH, Phillips MA, Rathnayake T, et al.
+     NekRS, a GPU-accelerated spectral element Navier–Stokes solver. Parallel Computing.
+     2023;119:102782.
+
+ [8] Vermeire BC, Witherden FD, Vincent PE. On the utility of GPU-accelerated high-order
+     methods for unsteady flow simulations: A comparison with industry-standard tools. Journal
+     of Computational Physics. 2017;334:497-521.
+
+ [9] Romero J, Crabill J, Watkins JE, Witherden FD, Jameson A. ZEFR: A GPU-accelerated
+     high-order solver for compressible viscous flows using the flux reconstruction method. Com-
+     puter Physics Communications. 2020;250:107169.
+
+[10] Schlottke-Lakemper M, Gassner GJ, Ranocha H, Winters AR, Chan J, Rueda-Ramírez
+     A. Trixi.jl: Adaptive high-order numerical simulations of hyperbolic PDEs in Julia; 2025.
+     https://github.com/trixi-framework/Trixi.jl.
+
+[11] Ranocha H, Schlottke-Lakemper M, Winters AR, Faulhaber E, Chan J, Gassner G. Adap-
+     tive numerical simulations with Trixi.jl: A case study of Julia for scientific computing.
+     Proceedings of the JuliaCon Conferences. 2022;1(1):77.
+
+[12] Schlottke-Lakemper M, Winters AR, Ranocha H, Gassner GJ. A purely hyperbolic dis-
+     continuous Galerkin approach for self-gravitating gas dynamics. Journal of Computational
+     Physics. 2021 06;442:110467.
+
+[13] Bezanson J, Edelman A, Karpinski S, Shah VB. Julia: A fresh approach to numerical
+     computing. SIAM review. 2017;59(1):65-98. Available from: https://doi.org/10.
+     1137/141000671.
+
+[14] Churavy V. KernelAbstractions.jl;. Available from: https://github.com/JuliaGPU/
+     KernelAbstractions.jl.
+
+[15] Moxey D, Cantwell CD, Bao Y, Cassinelli A, Castiglioni G, Chun S, et al. Nektar++: En-
+     hancing the capability and application of high-fidelity spectral/hp element methods. Com-
+     puter Physics Communications. 2020;249:107110.
+
+[16] Cantwell CD, Moxey D, Comerford A, Bolis A, Rocco G, Mengaldo G, et al. Nek-
+     tar++: An open-source spectral/hp element framework. Computer Physics Communica-
+     tions. 2015;192:205-19.
+
+
+
+                                               27
+[17] Trott CR, Lebrun-Grandié D, Arndt D, Ciesko J, Dang V, Ellingwood N, et al. Kokkos
+     3: Programming model extensions for the exascale era. IEEE Transactions on Parallel and
+     Distributed Systems. 2021;33(4):805-17.
+
+[18] Beckingsale DA, Burmark J, Hornung R, Jones H, Killian W, Kunen AJ, et al. RAJA:
+     Portable performance for large-scale scientific applications. In: 2019 ieee/acm international
+     workshop on performance, portability and productivity in hpc (p3hpc). IEEE; 2019. p.
+     71-81.
+
+[19] Alpay A, Heuveline V. SYCL beyond OpenCL: The architecture, current state and future
+     direction of hipSYCL. In: Proceedings of the International Workshop on OpenCL; 2020. p.
+     1-1.
+
+[20] Gasparino L, Spiga F, Lehmkuhl O. SOD2D: A GPU-enabled spectral finite elements
+     method for compressible scale-resolving simulations. Computer Physics Communications.
+     2024;297:109067.
+
+[21] Witherden FD, Vincent PE, Trojak W, Abe Y, Akbarzadeh A, Akkurt S, et al. PyFR v2.
+     0.3: Towards industrial adoption of scale-resolving simulations. Computer Physics Commu-
+     nications. 2025;311:109567.
+
+[22] Bull JR, Jameson A. Simulation of the Taylor–Green vortex using high-order flux recon-
+     struction schemes. AIAA Journal. 2015;53(9):2750-61.
+
+[23] Karakus A, Chalmers N, Swirydowicz K, Warburton T. A GPU accelerated discontinuous
+     Galerkin incompressible flow solver. Journal of Computational Physics. 2019;390:380-404.
+
+[24] Manzanero J, Rubio G, Kopriva DA, Ferrer E, Valero E. An entropy–stable discontinu-
+     ous Galerkin approximation for the incompressible Navier–Stokes equations with variable
+     density and artificial compressibility. Journal of Computational Physics. 2020;408:109241.
+
+[25] Ntoukas G, Rubio G, Marino O, Liosi A, Bottone F, Hoessler J, et al. A comparative study
+     of explicit and implicit Large Eddy Simulations using a high-order discontinuous Galerkin
+     solver: application to a Formula 1 front wing. Results in Engineering. 2025:104425.
+
+[26] Mateo-Gabin A, Tlales K, Valero E, Ferrer E, Rubio G. An unsupervised machine-learning-
+     based shock sensor: Application to high-order supersonic flow solvers. Expert Systems with
+     Applications. 2025;270:126352.
+
+[27] Lodares D, Manzanero J, Ferrer E, Valero E. An entropy–stable discontinuous Galerkin
+     approximation of the Spalart–Allmaras turbulence model for the compressible Reynolds
+     Averaged Navier–Stokes equations. Journal of Computational Physics. 2022;455:110998.
+
+[28] Rueda-Ramírez AM, Manzanero J, Ferrer E, Rubio G, Valero E. A p-multigrid strategy with
+     anisotropic p-adaptation based on truncation errors for high-order discontinuous Galerkin
+     methods. Journal of Computational Physics. 2019;378:209-33.
+
+[29] Ballout A, Marino OA, Ntoukas G, Rubio G, Ferrer E. Acoustic Propagation/Refraction
+     Through Diffuse Interface Models. Journal of Computational Physics. 2025. Available from:
+     https://doi.org/10.1016/j.jcp.2025.114478.
+
+[30] Ntoukas G, Manzanero J, Rubio G, Valero E, Ferrer E. An entropy–stable p–adaptive
+     nodal discontinuous Galerkin for the coupled Navier–Stokes/Cahn–Hilliard system. Journal
+     of Computational Physics. 2022;458:111093.
+
+
+
+
+                                               28
+[31] Botero-Bolívar L, Marino OA, Venner CH, de Santana LD, Ferrer E.             Low-
+     cost wind turbine aeroacoustic predictions using actuator lines. Renewable Energy.
+     2024;227:120476. Available from: https://www.sciencedirect.com/science/
+     article/pii/S096014812400541X.
+
+[32] Marino OA, Sanz R, Colombo S, Sivaramakrishnan A, Ferrer E. Modelling wind turbines
+     via actuator lines in high-order h/p solvers. arXiv preprint arXiv:240609993. 2024.
+
+[33] Kessasra H, Cordero-Gracia M, Gómez M, Valero E, Rubio G, Ferrer E. A comparison of
+     h-and p-refinement to capture wind turbine wakes. Physics of Fluids. 2024;36(12).
+
+[34] Kopriva DA. Implementing spectral methods for partial differential equations: Algorithms
+     for scientists and engineers. Springer Science & Business Media; 2009.
+
+[35] Toro EF. Riemann solvers and numerical methods for fluid dynamics: a practical introduc-
+     tion. Springer Science & Business Media; 2013.
+
+[36] Arnold DN, Brezzi F, Cockburn B, Marini LD. Unified analysis of discontinuous Galerkin
+     methods for elliptic problems. SIAM Journal of Numerical Analysis. 2001;39(5):1749-79.
+
+[37] Manzanero J, Ferrer E, Rubio G, Valero E. Design of a Smagorinsky spectral Vanishing
+     Viscosity turbulence model for discontinuous Galerkin methods. Computers & Fluids. 2020
+     mar;200:104440.
+
+[38] Ferrer E. An interior penalty stabilised incompressible discontinuous Galerkin–Fourier solver
+     for implicit large eddy simulations. Journal of Computational Physics. 2017;348:754-75.
+
+[39] Kou J, Marino OA, Ferrer E. Jump penalty stabilization techniques for under-resolved
+     turbulence in discontinuous Galerkin schemes.  Journal of Computational Physics.
+     2023;491:112399. Available from: https://www.sciencedirect.com/science/
+     article/pii/S0021999123004941.
+
+[40] Black K. A conservative spectral element method for the approximation of compressible
+     fluid flow. Kybernetika. 1999;35(1):133-46.
+
+[41] Gassner GJ, Winters AR, Kopriva DA. Split form nodal discontinuous Galerkin schemes
+     with summation-by-parts property for the compressible Euler equations. Journal of Com-
+     putational Physics. 2016;327:39-66.
+
+[42] Carpenter MH, Fisher TC. High-order entropy stable formulations for computational fluid
+     dynamics. In: 21st AIAA Computational Fluid Dynamics Conference; 2013. p. 2868.
+
+[43] Ranocha H, Schlottke-Lakemper M, Chan J, Rueda-Ramírez AM, Winters AR, Hindenlang
+     F, et al. Efficient implementation of modern entropy stable and kinetic energy preserving
+     discontinuous Galerkin methods for conservation laws. ACM Transactions on Mathematical
+     Software. 2023;49(4):1-30.
+
+[44] Vreman AW. An eddy-viscosity subgrid-scale model for turbulent shear flow: Algebraic
+     theory and applications. Physics of Fluids. 2004 oct;16(10):3670-81.
+
+[45] Nicoud F, Ducros F. Subgrid-scale stress modelling based on the square of the velocity
+     gradient tensor. Flow, turbulence and Combustion. 1999;62(3):183-200.
+
+[46] Kou J, Joshi S, Hurtado-de Mendoza A, Puri K, Hirsch C, Ferrer E. Immersed bound-
+     ary method for high-order flux reconstruction based on volume penalization. Journal of
+     Computational Physics. 2022;448:110721.
+
+
+                                               29
+[47] Colombo S, Rubio G, Kou J, Valero E, Codina R, Ferrer E. A high-order immersed bound-
+     ary method to approximate flow problems in domains with curved boundaries. Journal of
+     Computational Physics. 2025;528:113807.
+
+[48] Marino OA, Sanz R, Colombo S, Sivaramakrishnan A, Ferrer E. Modelling Wind Turbines
+     via Actuator Lines in High-Order h/p Solvers. arXiv. 2024 6.
+
+[49] Botero-Bolívar L, Marino OA, Venner CH, de Santana LD, Ferrer E.             Low-
+     cost wind turbine aeroacoustic predictions using actuator lines. Renewable Energy.
+     2024;227:120476. Available from: https://www.sciencedirect.com/science/
+     article/pii/S096014812400541X.
+
+[50] CUDA C++ Programming Guide; 2026. Accessed: 2026-05-29. Available from: https:
+     //docs.nvidia.com/cuda/cuda-programming-guide/.
+
+[51] ROCm Programming Guide; 2026. Accessed: 2026-05-29. Available from: https://rocm.
+     docs.amd.com/en/latest/how-to/programming_guide.html.
+
+[52] Introduction to the HIP Programming Model; 2026. Accessed: 2026-05-29. Available
+     from: https://rocm.docs.amd.com/projects/HIP/en/latest/understand/
+     programming_model.html.
+
+[53] OpenACC Programming and Best Practices Guide; 2020. Accessed: 2026-05-29. Avail-
+     able from: https://www.openacc.org/sites/default/files/inline-files/
+     OpenACC_Programming_Guide_0_0.pdf.
+
+[54] OpenMP Application Programming Interface; 2025. Accessed: 2026-05-29. Available from:
+     https://www.openmp.org/.
+
+[55] Edwards HC, Trott CR, Sunderland D. Kokkos: Enabling manycore performance porta-
+     bility through polymorphic memory access patterns. Journal of Parallel and Distributed
+     Computing. 2014;74(12):3202-16.
+
+[56] Davis JH, Sivaraman P, Kitson J, Parasyris K, Menon H, Minn I, et al. Taking GPU
+     Programming Models to Task for Performance Portability. arXiv preprint arXiv:240208950.
+     2024. Available from: https://arxiv.org/abs/2402.08950.
+
+[57] SYCL 2020 Specification; 2025. Accessed: 2026-05-29. Available from: https://www.
+     khronos.org/sycl/.
+
+[58] Gassner GJ, Winters AR, Kopriva DA. Split form nodal discontinuous Galerkin schemes
+     with summation-by-parts property for the compressible Euler equations. Journal of Com-
+     putational Physics. 2016;327:39-66.
+
+[59] Morinishi Y. Skew-symmetric form of convective terms and fully conservative finite difference
+     schemes for variable density low-Mach number flows. Journal of Computational Physics.
+     2010;229(2):276-300.
+
+[60] Ducros F, Laporte F, Soulères T, Guinot V, Moinat P, Caruelle B. High-Order Fluxes for
+     Conservative Skew-Symmetric-like Schemes in Structured Meshes: Application to Compress-
+     ible Flows. Journal of Computational Physics. 2000;161(1):114-39. Available from: https:
+     //www.sciencedirect.com/science/article/pii/S0021999100964921.
+
+[61] Kennedy CA, Gruber A. Reduced aliasing formulations of the convective terms within
+     the Navier–Stokes equations for a compressible fluid. Journal of Computational Physics.
+     2008;227(3):1676-700.
+
+
+                                               30
+[62] Pirozzoli S. Generalized conservative approximations of split convective derivative operators.
+     Journal of Computational Physics. 2010;229(19):7180-90.
+
+[63] Ismail F, Roe PL. Affordable, entropy-consistent Euler flux functions II: Entropy production
+     at shocks. Journal of Computational Physics. 2009;228(15):5410-36.
+
+[64] Chandrashekar P. Kinetic energy preserving and entropy stable finite volume schemes
+     for compressible Euler and Navier-Stokes equations. Communications in Computational
+     Physics. 2013;14(5):1252-86.
+
+[65] Oßwald K, Siegmund A, Birken P, Hannemann V, Meister A. L2Roe: a low dissipation
+     version of Roe’s approximate Riemann solver for low Mach numbers. International Journal
+     for Numerical Methods in Fluids. 2016;81(2):71-86.
+
+[66] Roe PL, Pike J. Efficient Construction and Utilization of Approximate Riemann Solutions.
+     Lecture Notes in Physics. 1984;141:162-7.
+
+[67] Friedrichs KO, Lax PD. Systems of Conservation Equations with a Convex Extension.
+     Proceedings of the National Academy of Sciences. 1971 8;68:1686-8.
+
+[68] Bassi F, Rebay S. A high-order accurate discontinuous finite element method for the nu-
+     merical solution of the compressible Navier–Stokes equations. Journal of Computational
+     Physics. 1997;131(2):267-79.
+
+[69] Williamson J. Low-storage Runge-Kutta schemes. Journal of Computational Physics.
+     1980;35(1):48-56.
+
+[70] Carpenter MH, Kennedy CA. Fourth-Order 2N-Storage Runge–Kutta Schemes. NASA
+     Langley Research Center; 1994. NASA TM-109112.
+
+[71] Shu CW, Osher S. Efficient Implementation of Essentially Non-Oscillatory Shock-Capturing
+     Schemes. Journal of Computational Physics. 1988;77(2):439-71.
+
+[72] Spiteri RJ, Ruuth SJ. A New Class of Optimal High-Order Strong-Stability-Preserving
+     Time Discretization Methods. SIAM Journal on Numerical Analysis. 2002;40(2):469-91.
+
+[73] Zhang X, Shu CW. Maximum-Principle-Satisfying and Positivity-Preserving High-Order
+     Schemes for Conservation Laws: Survey and New Developments. Proceedings of the Royal
+     Society A. 2011;467(2134):2752-76.
+
+[74] Vreman A. An eddy-viscosity subgrid-scale model for turbulent shear flow: Algebraic theory
+     and applications. Physics of fluids. 2004;16(10):3670-81.
+
+[75] Frère A, Carton de Wiart C, Hillewaert K, Chatelain P, Winckelmans G. Application of
+     wall-models to discontinuous Galerkin LES. Physics of Fluids. 2017;29(8).
+
+[76] Ferrer E, Rubio G, Ntoukas G, Laskowski W, Mariño OA, Colombo S, et al. : A high-order
+     discontinuous Galerkin solver for flow simulations and multi-physics applications. Computer
+     Physics Communications. 2023;287:108700.
+
+[77] Rubio G, Ntoukas G, Chávez-Módena M, Mariño O, Font B, Lehmkuhl O, et al. Can Explicit
+     Subgrid Models Enhance Implicit LES Simulations? A GPU-Oriented High-Order-Solver
+     Perspective. arXiv preprint arXiv:251204574. 2025.
+
+[78] Bull JR, Jameson A. Simulation of the Taylor–Green vortex using high-order flux recon-
+     struction schemes. AIAA Journal. 2015;53(9):2750-61.
+
+
+
+                                                31
+[79] Carton De Wiart C, Hillewaert K, Duponcheel M, Winckelmans G. Assessment of a dis-
+     continuous Galerkin method for the simulation of vortical flows at high Reynolds number.
+     International Journal for Numerical Methods in Fluids. 2014;74(7):469-93.
+
+[80] Reichardt H. Vollständige Darstellung der turbulenten Geschwindigkeitsverteilung in glatten
+     Leitungen. ZAMM – Zeitschrift für Angewandte Mathematik und Mechanik. 1951;31(7):208-
+     19.
+
+[81] Spalding DB. A Single Formula for the “Law of the Wall”. Journal of Applied Mechanics.
+     1961;28(3):455-8.
+
+[82] Lee M, Moser RD. Direct numerical simulation of turbulent channel flow up to. Journal
+     of Fluid Mechanics. 2015;774:395–415. Available from: http://dx.doi.org/10.1017/
+     jfm.2015.268.
+
+[83] Ntoukas G, Rubio G, Marino O, Liosi A, Bottone F, Hoessler J, et al. A compar-
+     ative study of explicit and implicit Large Eddy simulations using a high-order discon-
+     tinuous Galerkin solver: Application to a Formula 1 front wing. Results in Engineer-
+     ing. 2025;25:104425. Available from: https://www.sciencedirect.com/science/
+     article/pii/S2590123025005043.
+
+[84] Rubio G, Ntoukas G, Chávez-Módena M, Mariño O, Font B, Lehmkuhl O, et al.. Can
+     Explicit Subgrid Models Enhance Implicit LES Simulations? A GPU-Oriented High-Order-
+     Solver Perspective; 2025. Available from: https://arxiv.org/abs/2512.04574.
+
+[85] Clark AM, Rumsey C, Slotnick JP, Wang L. HLPW-5: Overview and Workshop Summary.
+     In: AIAA SciTech Forum; 2025. .
+
+
+
+
+                                              32
+

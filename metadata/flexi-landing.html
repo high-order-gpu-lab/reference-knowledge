@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numerics Research Group</title>
+    <!-- Include style files -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="button.css">
+    <link rel="stylesheet" href="codes.css">
+    <!-- Include Icons and Fontawesome Links-->
+    <link rel="shortcut icon" type="image/x-icon" href="https://test.numericsresearchgroup.org/test/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Include templates -->
+    <script src="components/header_nrg.js"    type="text/javascript" defer></script>
+    <script src="components/footer.js"        type="text/javascript" defer></script>
+    <script src="components/slideshow_nrg.js" type="text/javascript" defer></script>
+    <script src="scripts/slideshow_nrg.js"    type="text/javascript" ></script>
+    <script src="scripts/navbar_scroll_nrg.js"type="text/javascript" ></script>
+    <script src="scripts/mobile_navbar.js    "type="text/javascript" ></script>
+    <script src="scripts/nrg_logos.js         "type="text/javascript" ></script>
+    <script src="https://cdn.usefathom.com/script.js" data-site="QEFCZDDJ" defer></script>
+  </head>
+  <body>
+    <img class="hidden" alt="preloading" />
+
+    <!-- Include Header template -->
+    <header-nrg-component></header-nrg-component>
+    <!-- Include Slideshow template -->
+    <slideshow-nrg-component></slideshow-nrg-component>
+
+    <section class="portfolio" id="portfolio">
+        <h2>Code Development</h2>
+        <div class="page-content">
+            <p>A key aspect of our work is the implementation of a software toolchain for the simulation of the most challenging
+               CFD problems. The focus of this work is dedicated to the development of our high-order fluid-dynamics solver FLEXI
+               and its extensions for multi-phase flows and particle-laden flow applications. With our GPU code GAL&AEligXI and an
+               the reinforcement-learning platform RELEXI, we strive to exploit the rapid advances of modern GPU-based high-performance
+               architectures and AI-enhanced simulation techniques. Finally, the software toolchain provides the versatile
+               high-order mesh generator HOPR. </p>
+        </div>
+        <ul class="project_container">
+            <div class="proj_header" id="codes_flexi">
+                <div class="proj_logo">
+                    <a href="https://github.com/flexi-framework/flexi"><img src="images/icons/flexi.svg" alt="FLEXI" style=""></a>
+                </div>
+                <div class="github_link">
+                    <a href="https://github.com/flexi-framework/flexi"  style="font-size:50px; color:rgb(255, 255, 255)" class="fa fa-github"></a>
+                </div>
+            </div>
+            <p>The FLEXI framework is engineered to efficiently solve the unsteady compressible Navier-Stokes equations and more. Its primary focus lies in applications such as DNS and LES of both internal and external compressible flows. Thanks to its open-source nature under GPL V3.0, FLEXI and its tools are freely accessible to all users. Furthermore, its intuitive algorithmic design, combined with a vibrant community and comprehensive documentation, guarantees a seamless process for customizing or expanding FLEXI to meet specific requirements.</p>
+            <p>This comprehensive CFD solution comprises several components, including the high-order mesh generator and preprocessor HOPR, the solver FLEXI itself, and a converter to the Paraview format for visualization and postprocessing tasks. FLEXI's support for fully unstructured curved hexahedral meshes with non-conforming element interfaces enables users to handle complex geometries with ease. Moreover, its preprocessor HOPR facilitates the generation of curved meshes from various linear meshes obtained from both open-source and commercial grid generators.</p>
+            <p>FLEXI's foundation on the highly efficient Discontinuous Galerkin Spectral Element Method enables users to achieve remarkable levels of accuracy, with simulations reaching orders as high as O(20) and beyond. Furthermore, the framework is designed to leverage modern parallel architectures to their fullest potential. The solver, along with its input/output functionalities, scales efficiently to production runs with over 500,000 CPU cores. Additionally, the integrated toolchain supports parallel post-processing and visualization, ensuring seamless handling of large datasets.</p>
+            <p>In summary, FLEXI emerges as a versatile and user-friendly framework, capable of addressing a wide range of challenges in the realm of compressible flows while maintaining efficiency and scalability.</p>
+            <hr class="separator"/>
+            <div class="proj_header" id="codes_mphase">
+                <div class="proj_logo">
+                    <a href="https://github.com/flexi-framework"><img src="images/icons/flexi_mphase.svg" alt="FLEXImultiphase" style=""></a>
+                </div>
+                <div class="github_link">
+                    <a href="https://github.com/flexi-framework"  style="font-size:50px; color:rgb(255, 255, 255)" class="fa fa-github"></a>
+                </div>
+            </div>
+            <p>FLEXImultiphase extends the capabilities of the open-source framework FLEXI to real gas applications, using a tabulation tool for the equations of state, as well as multi-phase and multi-species simulations based on either a diffuse or a sharp interface approximation. Fully integrated in the pre- and post-processing HPC tool chain of FLEXI, the framework also introduces an hp-adaptive discretization strategy and an efficient load balancing scheme, and has been successfully applied to e.g. shock-drop interactions, evaporation in the compressible flow regime, subcritical injection and low-Mach number flows.</p>
+            <hr class="separator"/>
+            <div class="proj_header" id="codes_galexi">
+                <div class="proj_logo">
+                    <a href="https://github.com/flexi-framework/galaexi"><img src="images/icons/galexi.svg" alt="GAL&AEligXI" style=""></a>
+                </div>
+                <div class="github_link">
+                    <a href="https://github.com/flexi-framework/galaexi"  style="font-size:50px; color:rgb(255, 255, 255)" class="fa fa-github"></a>
+                </div>
+            </div>
+            <p>GAL&AEligXI is a GPU-accelerated implementation of the FLEXI solver, specifically designed for solving the compressible Navier-Stokes equations using the discontinuous Galerkin spectral Element Method (DGSEM). It utilizes high-order numerical methods to efficiently simulate large-scale problems with complex geometries, such as shock-turbulence interactions. GAL&AEligXI boasts several key features and capabilities that make it a powerful tool for conducting large-scale simulations, particularly in the realm of fluid dynamics:</p>
+            <p>Firstly, its GPU implementation, leveraging the CUDA Fortran framework from Nvidia, enables efficient execution of compute kernels on GPU architectures. This allows for significant computational acceleration compared to traditional CPU-based systems.</p>
+            <p>In terms of numerical methods, GAL&AEligXI employs sophisticated techniques such as the split-flux approach and a shock-capturing scheme based on the blending approach. These methods effectively address aliasing errors in underresolved simulations and handle shocks within the computational domain, ensuring accurate results even in complex flow scenarios.
+                Moreover, GAL&AEligXI's parallelization strategy is robust, utilizing CUDA-aware MPI to effectively distribute computational tasks across multiple GPU cores. By leveraging a latency hiding strategy, GAL&AEligXI is able to overlap necessary communication with local computations, further enhancing overall efficiency.</p>
+            <p>The implementation of GAL&AEligXI adheres to specific design principles aimed at maximizing performance and scalability. For instance, all routines run directly on the GPU during time-stepping to minimize data transfer to main memory. Additionally, computations are carefully reorganized to maximize parallelization, and small kernels are fused to optimize operations on loaded data. Furthermore, the organization of kernels in parallel streams helps to mitigate starting latency and reduce tail effects, ensuring smooth and efficient execution.
+                In summary, GAL&AEligXI offers researchers and engineers a scalable and efficient solution for tackling challenging fluid dynamics simulations. Its ability to handle complex flow cases, such as shock buffet-induced shock-turbulence interactions, demonstrates its effectiveness in addressing real-world engineering problems.</p>
+            <hr class="separator" />
+            <div class="proj_header" id="codes_relexi">
+                <div class="proj_logo">
+                    <a href="https://github.com/flexi-framework/relexi"><img src="images/icons/relexi.svg" alt="RELEXI" style=""></a>
+                </div>
+                <div class="github_link">
+                    <a href="https://github.com/flexi-framework/relexi"  style="font-size:50px; color:rgb(255, 255, 255)" class="fa fa-github"></a>
+                </div>
+            </div>
+            <p>Relexi is a comprehensive framework comprising three major components. Its functionality is centered around implementing a reinforcement learning (RL) training loop within the TensorFlow framework, utilizing TensorFlow's RL extension TF-Agents. This loop encompasses key steps of RL algorithms, including interaction sampling with the environment and agent training. Relexi seamlessly integrates with external High-Performance Computing (HPC) solvers, managing the launch, termination, and workload distribution of parallelized simulation instances on HPC clusters.</p>
+            <p>To facilitate efficient communication with simulation instances on distributed systems, Relexi utilizes the SmartSim library. SmartSim manages task orchestration on distributed HPC systems and establishes communication via an in-memory Redis database. The SmartRedis client facilitates data exchange between Relexi and the solver, minimizing required changes in the solver's codebase and enabling straightforward coupling of solvers written in different programming languages.</p>
+            <p>Relexi's training procedure begins with initializing the agent and launching simulation instances. The agent evolves based on predictions from Relexi and interactions with the environment, with iterative training cycles until convergence. A YAML configuration file controls Relexi's settings, including solver executable paths, parallel simulation instances, and maximum training iterations. Training progress metrics are logged to the terminal and visualized using Tensorboard for comprehensive analysis.
+                Key features distinguishing Relexi from other RL frameworks include its emphasis on sustainability, scalability, and modularity. Relexi facilitates RL workflows with legacy HPC solvers without extensive code rewriting, maintains parallel efficiency, and ensures modularity within the TF-Agents framework.</p>
+            <p>Relexi's impacts are significant, addressing fundamental research questions surrounding RL training on modern HPC resources and the application of RL in scientific computing. Demonstrations coupling Relexi with FLEXI showcased its efficiency and scalability on heterogeneous HPC hardware, enabling data-driven turbulence modeling with improved accuracy. Future applications of Relexi extend to various fields in fluid mechanics and beyond, promising advancements in computational modeling and simulation.</p>
+            <hr class="separator"/>
+            <div class="proj_header" id="codes_particle">
+                <div class="proj_logo">
+                    <a href="https://github.com/flexi-framework/elexi"><img src="images/icons/elexi.svg" alt="&existLEXI" style=""></a>
+                </div>
+                <div class="github_link">
+                    <a href="https://github.com/flexi-framework/elexi"  style="font-size:50px; color:rgb(255, 255, 255)" class="fa fa-github"></a>
+                </div>
+            </div>
+            <p>ÆLEXI expands the capabilities of the open-source, high-order accurate CFD framework FLEXI to effectively address particle-laden flows using the Euler-Lagrange approach, from 1-way to 4-way coupling. This extension incorporates an particle tracking approach in physical space, drawing upon methods derived from ray-tracing techniques to handle intersections with curved boundaries seamlessly. In our exploration of the dispersed phase models and their numerical treatment, we place significant emphasis on elucidating the background and rationale behind specific implementation choices.
+            An important consideration throughout the development process was the preservation of the exceptional scaling properties inherent in FLEXI, ensuring optimal performance across high-performance computing infrastructures. This optimization encompasses the entire tool chain, including high-order accurate post-processing procedures. The particle extension broadens the scope of applications to include simulation of particle-laden compressible multi-scale flows across subsonic to supersonic regimes, encompassing areas such as turbulent jets and turbomachinery.</p>
+            <hr class="separator"/>
+            <div class="proj_header" id="codes_pounce">
+                <div class="proj_logo">
+                    <a href="https://github.com/JakobBD/pounce"><img src="images/icons/pounce_logo.svg" alt="PoUnce" style=""></a>
+                </div>
+                <div class="github_link">
+                    <a href="https://github.com/JakobBD/pounce"  style="font-size:50px; color:rgb(255, 255, 255)" class="fa fa-github"></a>
+                </div>
+            </div>
+            <p>PoUnce (Propagation Of UNCErtainties) is a Python framework for fully automatized runs of non-intrusive forward UQ simulations with a focus on efficiency on HPC clusters.
+                It is designed for fully automated runs of non-intrusive forward UQ simulations on HPC systems and allows optimal scaling, scheduling, and handling of heterogeneous data sets.
+                The program has a modular design to include different UQ methods (already included methods: Monte Carlo, Multilevel Monte Carlo, Non-intrusive spectral projection, stochastic collocation), to work on different computer systems including queue based HPC sytems and to provide an interface for different deterministic PDE solvers (e.g. FLEXI). </p>
+            <p>In summary, the main tasks of POUNCE are:</p>
+            <ul>
+                <li>Preparation: Generate input samples based on the chosen UQ method. Preparation and pre-processing of simulation setups.</li>
+                <li>Simulation: Running computations of all samples in a collective approach, optimized for HPC system.</li>
+                <li>Post-processing: Collecting and post-processing of all samples to evaluate desired stochastic moments and response surfaces.</li>
+            </ul>
+            <hr class="separator"/>
+            <div class="proj_header" id="codes_hopr">
+                <div class="proj_logo">
+                    <a href="https://github.com/hopr-framework/hopr"><img src="images/codes/HOPR.jpg" alt="HOPR" style=""></a>
+                </div>
+                <div class="github_link">
+                    <a href="https://github.com/hopr-framework/hopr"  style="font-size:50px; color:rgb(255, 255, 255)" class="fa fa-github"></a>
+                </div>
+            </div>
+            <p>HOPR (High Order Preprocessor) is an open-source software for the generation of three-dimensional unstructured high-order meshes. These meshes are needed by high-order numerical methods like Discontinuous Galerkin, Spectral Element Methods or pFEM, in order to retain their accuracy if the computational domain includes curved boundaries. The mesh generator HOPR boasts a suite of robust capabilities geared towards facilitating the generation of high-quality grids for intricate geometries. Its foremost feature lies in its ability to produce curved meshes, ensuring the accurate representation of complex geometries crucial for realistic simulations. Additionally, HOPR supports the creation of fully unstructured hexahedral meshes, offering flexibility in modeling diverse flow geometries.</p>
+            <p>Another key strength is its adeptness in handling non-conforming element interfaces, facilitating seamless integration of different meshes and preserving accuracy in transition regions between grids. Moreover, HOPR excels in adapting linear meshes from various sources into curved grids, enhancing compatibility with external grid generators. Lastly, the mesh generator is engineered for scalability and efficiency, enabling swift generation of high-quality grids even for intricate geometries. Overall, HOPR provides a comprehensive toolkit for users to create grids tailored to their specific needs in fluid mechanics applications.</p>
+            <hr class="separator" id="project_simtech"/>
+        </ul>
+    </section>
+
+    <!-- Include Footer template -->
+    <footer-component></footer-component>
+
+  </body>
+</html>

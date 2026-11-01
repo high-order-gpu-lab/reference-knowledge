@@ -1,0 +1,605 @@
+[
+  {
+    "id": "P01_PyFR_v2",
+    "doi": "10.1016/j.cpc.2025.109567",
+    "status": "verified",
+    "title": [
+      "PyFR v2.0.3: Towards industrial adoption of scale-resolving simulations"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2025,
+          6
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2025,
+          6
+        ]
+      ]
+    },
+    "published-online": null
+  },
+  {
+    "id": "P02_GALAEXI",
+    "doi": "10.1016/j.cpc.2024.109388",
+    "status": "verified",
+    "title": [
+      "GALÆXI: Solving complex compressible flows with high-order discontinuous Galerkin methods on accelerator-based systems"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2025,
+          1
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2025,
+          1
+        ]
+      ]
+    },
+    "published-online": null
+  },
+  {
+    "id": "P04_HORSES3D",
+    "doi": "10.1016/j.cpc.2023.108700",
+    "status": "verified",
+    "title": [
+      ": A high-order discontinuous Galerkin solver for flow simulations and multi-physics applications"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2023,
+          6
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2023,
+          6
+        ]
+      ]
+    },
+    "published-online": null
+  },
+  {
+    "id": "P05_MFEM",
+    "doi": "10.1016/j.camwa.2020.06.009",
+    "status": "verified",
+    "title": [
+      "MFEM: A modular finite element methods library"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2021,
+          1
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2021,
+          1
+        ]
+      ]
+    },
+    "published-online": null
+  },
+  {
+    "id": "P06_LOR_GPU",
+    "doi": "10.1177/10943420231175462",
+    "status": "verified",
+    "title": [
+      "End-to-end GPU acceleration of low-order-refined preconditioning for high-order finite element discretizations"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2023,
+          6,
+          1
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2023,
+          9
+        ]
+      ]
+    },
+    "published-online": {
+      "date-parts": [
+        [
+          2023,
+          6,
+          1
+        ]
+      ]
+    }
+  },
+  {
+    "id": "P07_MFEM_RAJA",
+    "doi": "10.1177/10943420221100262",
+    "status": "verified",
+    "title": [
+      "Matrix-free approaches for GPU acceleration of a high-order finite element hydrodynamics application using MFEM, Umpire, and RAJA"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2022,
+          5,
+          25
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2022,
+          7
+        ]
+      ]
+    },
+    "published-online": {
+      "date-parts": [
+        [
+          2022,
+          5,
+          25
+        ]
+      ]
+    }
+  },
+  {
+    "id": "P08_Mesh_GPU",
+    "doi": "10.1016/j.jcp.2022.111808",
+    "status": "verified",
+    "title": [
+      "Accelerating high-order mesh optimization using finite element partial assembly on GPUs"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2023,
+          2
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2023,
+          2
+        ]
+      ]
+    },
+    "published-online": null
+  },
+  {
+    "id": "P11_FP64_Tensor",
+    "doi": "10.23919/ISC.2026.11520474",
+    "status": "verified",
+    "title": [
+      "Accelerating High-Order Finite Element Simulations at Extreme Scale with FP64 Tensor Cores"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2026,
+          6
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2026,
+          6
+        ]
+      ]
+    },
+    "published-online": null
+  },
+  {
+    "id": "P12_Hdiv_solver",
+    "doi": "10.1137/23M1568806",
+    "status": "verified",
+    "title": [
+      "Matrix-Free High-Performance Saddle-Point Solvers for High-Order Problems in \\(\\boldsymbol{H}(\\operatorname{\\textbf{div}})\\)"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2024,
+          5,
+          2
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2024,
+          6,
+          30
+        ]
+      ]
+    },
+    "published-online": {
+      "date-parts": [
+        [
+          2024,
+          5,
+          2
+        ]
+      ]
+    }
+  },
+  {
+    "id": "P13_PyFR_original",
+    "doi": "10.1016/j.cpc.2014.07.011",
+    "status": "verified",
+    "title": [
+      "PyFR: An open source framework for solving advection–diffusion type problems on streaming architectures using the flux reconstruction approach"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2014,
+          11
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2014,
+          11
+        ]
+      ]
+    },
+    "published-online": null
+  },
+  {
+    "id": "P14_PyFR_mixed",
+    "doi": "10.1016/j.compfluid.2015.07.016",
+    "status": "verified",
+    "title": [
+      "Heterogeneous computing on mixed unstructured grids with PyFR"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2015,
+          10
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2015,
+          10
+        ]
+      ]
+    },
+    "published-online": null
+  },
+  {
+    "id": "P15_FLEXI",
+    "doi": "10.1016/j.camwa.2020.05.004",
+    "status": "verified",
+    "title": [
+      "FLEXI: A high order discontinuous Galerkin framework for hyperbolic–parabolic conservation laws"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2021,
+          1
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2021,
+          1
+        ]
+      ]
+    },
+    "published-online": null
+  },
+  {
+    "id": "P16_GPU_CEED",
+    "doi": "10.1016/j.parco.2021.102841",
+    "status": "verified",
+    "title": [
+      "GPU algorithms for Efficient Exascale Discretizations"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2021,
+          12
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2021,
+          12
+        ]
+      ]
+    },
+    "published-online": null
+  },
+  {
+    "id": "P17_CEED_review",
+    "doi": "10.1177/10943420211020803",
+    "status": "verified",
+    "title": [
+      "Efficient exascale discretizations: High-order finite element methods"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2021,
+          6,
+          8
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2021,
+          11
+        ]
+      ]
+    },
+    "published-online": {
+      "date-parts": [
+        [
+          2021,
+          6,
+          8
+        ]
+      ]
+    }
+  },
+  {
+    "id": "P18_GPU_DG_INS",
+    "doi": "10.1016/j.jcp.2019.04.010",
+    "status": "verified",
+    "title": [
+      "A GPU accelerated discontinuous Galerkin incompressible flow solver"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2019,
+          8
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2019,
+          8
+        ]
+      ]
+    },
+    "published-online": null
+  },
+  {
+    "id": "P19_PETSc_GPU",
+    "doi": "10.1016/j.parco.2021.102831",
+    "status": "verified",
+    "title": [
+      "Toward performance-portable PETSc for GPU-based exascale systems"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2021,
+          12
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2021,
+          12
+        ]
+      ]
+    },
+    "published-online": null
+  },
+  {
+    "id": "P20_libCEED",
+    "doi": "10.21105/joss.02945",
+    "status": "verified",
+    "title": [
+      "libCEED: Fast algebra for high-order element-based discretizations"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2021,
+          7,
+          9
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2021,
+          7,
+          9
+        ]
+      ]
+    },
+    "published-online": null
+  },
+  {
+    "id": "P21_HiFiLES",
+    "doi": "10.2514/6.2014-3168",
+    "status": "verified",
+    "title": [
+      "Verification and Validation of HiFiLES: a High-Order LES unstructured solver on multi-GPU platforms"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2014,
+          6,
+          13
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2014,
+          6,
+          16
+        ]
+      ]
+    },
+    "published-online": {
+      "date-parts": [
+        [
+          2014,
+          6,
+          13
+        ]
+      ]
+    }
+  },
+  {
+    "id": "P22_GiMMiK",
+    "doi": "10.1016/j.cpc.2015.12.012",
+    "status": "verified",
+    "title": [
+      "GiMMiK—Generating bespoke matrix multiplication kernels for accelerators: Application to high-order Computational Fluid Dynamics"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2016,
+          5
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2016,
+          5
+        ]
+      ]
+    },
+    "published-online": null
+  },
+  {
+    "id": "P23_Kokkos",
+    "doi": "10.1109/mcse.2021.3098509",
+    "status": "verified",
+    "title": [
+      "The Kokkos EcoSystem: Comprehensive Performance Portability for High Performance Computing"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2021,
+          9,
+          1
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2021,
+          9,
+          1
+        ]
+      ]
+    },
+    "published-online": null
+  },
+  {
+    "id": "P24_Portability",
+    "doi": "10.1016/j.jpdc.2023.104831",
+    "status": "verified",
+    "title": [
+      "Evaluating performance portability of five shared-memory programming models using a high-order unstructured CFD solver"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2024,
+          5
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2024,
+          5
+        ]
+      ]
+    },
+    "published-online": null
+  },
+  {
+    "id": "P25_Kokkos3",
+    "doi": "10.1109/tpds.2021.3097283",
+    "status": "verified",
+    "title": [
+      "Kokkos 3: Programming Model Extensions for the Exascale Era"
+    ],
+    "published": {
+      "date-parts": [
+        [
+          2022,
+          4,
+          1
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2022,
+          4,
+          1
+        ]
+      ]
+    },
+    "published-online": null
+  }
+]

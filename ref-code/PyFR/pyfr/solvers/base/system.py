@@ -1,0 +1,479 @@
+from collections import defaultdict
+import inspect
+import itertools as it
+import statistics
+
+from pyfr.backends.base import NullKernel
+from pyfr.cache import memoize
+from pyfr.mpiutil import autofree, get_comm_rank_root, mpi
+from pyfr.shapes import BaseShape
+from pyfr.solvers.base.inters import field_mapping
+from pyfr.util import subclasses
+
+
+class BaseSystem:
+    elementscls = None
+    intinterscls = None
+    mpiinterscls = None
+    bbcinterscls = None
+
+    # Nonce sequence
+    _nonce_seq = it.count()
+
+    # Extra kernel/MPI providers (overridden by subclasses, e.g., for AV)
+    _extra_kern_parts = {}
+    _extra_mpi_parts = []
+
+    def __init__(self, backend, mesh, initsoln, registers, cfg, serialiser):
+        self.backend = backend
+        self.mesh = mesh
+        self.cfg = cfg
+
+        # Plugin kernel-creation callbacks
+        self._kernel_callbacks = []
+
+        # Conservative and physical variable names
+        convars = self.elementscls.convars(mesh.ndims, cfg)
+        privars = self.elementscls.privars(mesh.ndims, cfg)
+
+        # Validate the constants block
+        for c in cfg.items('constants'):
+            if c in convars or c in privars:
+                raise ValueError(f'Invalid variable {c!r} in [constants]')
+
+        # Save the number of dimensions and field variables
+        self.ndims = mesh.ndims
+        self.nvars = len(convars)
+
+        # Obtain a nonce to uniquely identify this system
+        self.nonce = nonce = str(next(self._nonce_seq))
+
+        # Load the elements
+        eles, elemap, ics = self._load_eles(mesh, initsoln, nonce)
+        backend.commit()
+
+        # Retain the element map; this may be deleted by clients
+        self.ele_map = elemap
+
+        # Get the types, num DOFs and shapes of the elements
+        self.ele_types = list(elemap)
+        self.ele_ndofs = [e.neles*e.nupts*e.nvars for e in eles]
+        self.ele_shapes = {etype: (e.nupts, e.nvars, e.neles)
+                           for etype, e in elemap.items()}
+
+        # Get all the solution point locations for the elements
+        self.ele_ploc_upts = [e.ploc_at_np('upts') for e in eles]
+
+        self.eles_vect_upts = None
+        if hasattr(eles[0], '_grad_upts'):
+            self.eles_vect_upts = [e._grad_upts for e in eles]
+
+        # Allocate register banks (RHS first, then non-RHS)
+        self._alloc_register_banks(registers, eles, ics)
+
+        # Load the interfaces
+        self._int_inters = self._load_int_inters(mesh, elemap)
+        self._mpi_inters = self._load_mpi_inters(mesh, elemap)
+        bcs = self._load_bc_inters(mesh, elemap, initsoln, serialiser)
+        self._bc_inters, self._bc_bindfns, self._bc_advfns = bcs
+
+    def _alloc_register_banks(self, registers, eles, ics):
+        self.ele_banks = [[] for _ in eles]
+        self.nrhs = 0
+
+        # Allocate RHS banks first (with initial conditions), then non-RHS
+        for rhs in [True, False]:
+            for r in registers:
+                if r.rhs != rhs or r.dynamic or not r.n:
+                    continue
+
+                if rhs:
+                    self.nrhs += r.n
+
+                for eidx, (ele, ic) in enumerate(zip(eles, ics)):
+                    extent = r.extent or f'bank_{id(ele)}'
+
+                    for _ in range(r.n):
+                        m = ele.alloc_bank(extent, ic=ic if rhs else None)
+                        self.ele_banks[eidx].append(m)
+
+        self.nother = sum(
+            r.n for r in registers
+            if not r.rhs and not r.dynamic and r.n
+        )
+
+    def register_kernel_callback(self, names, callback):
+        # Check for extern name clashes with other plugins
+        for cb_names, _ in self._kernel_callbacks:
+            if clash := [n for n in names if n in cb_names]:
+                raise ValueError(f'Extern name clash: {clash}')
+
+        self._kernel_callbacks.append((tuple(names), callback))
+
+    def make_field_views(self, field, layout='fpts', bc_layout=None,
+                         vshape=()):
+        bc_layout = bc_layout or layout
+        be, elemap = self.backend, self.ele_map
+
+        # Leave face-granular views in interface order
+        def side_perm(i, side, l):
+            return Ellipsis if l == 'face' else i.side_perm(side)
+
+        def fmap(side, l, perm=Ellipsis):
+            return field_mapping(be, side, field, elemap, l, perm, vshape)
+
+        iint_views = []
+        for i in self._int_inters:
+            lperm = side_perm(i, i.lhs, layout)
+            rperm = side_perm(i, i.rhs, layout)
+            lhs = be.view(fmap(i.lhs, layout, lperm))
+            rhs = be.view(fmap(i.rhs, layout, rperm))
+            iint_views.append((lhs, rhs))
+
+        mpi_views = []
+        for m in self._mpi_inters:
+            lhs = be.xchg_view(fmap(m.lhs, layout))
+            rhs = be.xchg_matrix_for_view(lhs)
+            mpi_views.append((lhs, rhs))
+
+        bc_views = []
+        for b in self._bc_inters:
+            perm = side_perm(b, b.lhs, bc_layout)
+            lhs = be.view(fmap(b.lhs, bc_layout, perm))
+            bc_views.append(lhs)
+
+        return iint_views, mpi_views, bc_views
+
+    def register_mpi_exchange(self, name, mpi_views, send=None, recv=None):
+        be = self.backend
+        comm, rank, root = get_comm_rank_root()
+
+        def register(m, lhs, rhs, tag):
+            if not send or send(m):
+                m.kernels[f'{name}_pack'] = lambda: be.kernel('pack', lhs)
+                m.mpireqs[f'{name}_send'] = lambda: lhs.sendreq(
+                    comm, m.rhsrank, tag
+                )
+            if not recv or recv(m):
+                m.kernels[f'{name}_unpack'] = lambda: be.kernel('unpack', rhs)
+                m.mpireqs[f'{name}_recv'] = lambda: rhs.recvreq(
+                    comm, m.rhsrank, tag
+                )
+
+        for m, (lhs, rhs) in zip(self._mpi_inters, mpi_views):
+            register(m, lhs, rhs, m.next_mpi_tag())
+
+    def commit(self):
+        # Prepare the kernels and any associated MPI requests
+        self._gen_kernels(self.nrhs, self.ele_map.values(), self._int_inters,
+                          self._mpi_inters, self._bc_inters)
+        self._gen_mpireqs(self._mpi_inters)
+        self.backend.commit()
+
+        self.has_src_macros = any(eles.has_src_macros
+                                  for eles in self.ele_map.values())
+
+        # Delete the memory-intensive ele_map and interface objects
+        del self.ele_map
+        del self._int_inters
+        del self._mpi_inters
+
+        for b in self._bc_inters:
+            del b.elemap
+
+        # Observed input/output bank numbers
+        self._rhs_uin_fout = set()
+
+    def _load_eles(self, mesh, initsoln, nonce):
+        basismap = {b.name: b for b in subclasses(BaseShape, just_leaf=True)}
+
+        # Load the elements
+        elemap = {etype: self.elementscls(basismap[etype], spts, self.cfg,
+                                          mesh.spts_curved[etype])
+                  for etype, spts in mesh.spts.items()}
+
+        eles = list(elemap.values())
+
+        # Compute the initial conditions
+        if initsoln:
+            ics = [ele.set_ics_from_soln(initsoln.data[et], initsoln.config)
+                   for et, ele in elemap.items()]
+        else:
+            ics = [ele.set_ics_from_cfg() for ele in eles]
+
+        # Allocate these elements on the backend
+        for ele in eles:
+            ele.set_backend(self.backend, nonce)
+
+        return eles, elemap, ics
+
+    def _load_int_inters(self, mesh, elemap):
+        cons = [mesh.con, *mesh.pcon.values()]
+
+        return [self.intinterscls(self.backend, *c, elemap, self.cfg)
+                for c in cons]
+
+    def _load_mpi_inters(self, mesh, elemap):
+        mpi_inters = []
+        for p, con in mesh.con_p.items():
+            mpiiface = self.mpiinterscls(self.backend, con, p, elemap,
+                                         self.cfg)
+            mpi_inters.append(mpiiface)
+
+        return mpi_inters
+
+    def _load_bc_inters(self, mesh, elemap, initsoln, serialiser):
+        comm, rank, root = get_comm_rank_root()
+
+        bccls = self.bbcinterscls
+        bcmap = {b.type: b for b in subclasses(bccls, just_leaf=True)}
+        bc_inters, bc_bindfns, bc_advfns = [], {}, {}
+
+        prevcfg = initsoln.config if initsoln else None
+
+        # Map each boundary onto its governing section
+        bcsects = mesh.bc_sections(self.cfg)
+
+        # Determine the active sections, in codec order
+        sects = []
+        for c in mesh.codec:
+            if not c.startswith('bc/'):
+                continue
+
+            # Unclaimed boundaries fall back to their nominal section,
+            # with the resulting error coming from the config lookup
+            bname = c.removeprefix('bc/')
+            sect = bcsects.get(bname, f'soln-bcs-{bname}')
+            if sect not in sects:
+                sects.append(sect)
+
+        # Iterate over the boundary conditions
+        for cfgsect in sects:
+            # Name the constituent boundaries
+            sname = cfgsect.removeprefix('soln-bcs-')
+
+            # Fuse the boundaries
+            con = mesh.bcon_for(sname)
+
+            # Construct an MPI communicator for this BC
+            localbc = con is not None
+            bccomm = autofree(comm.Split(1 if localbc else mpi.UNDEFINED))
+
+            # Get the class
+            bcclass = bcmap[self.cfg.get(cfgsect, 'type')]
+
+            # Serialised state and kernel tags follow suffix
+            sdata = initsoln.state.get(f'bcs/{sname}') if initsoln else None
+
+            # If we have this boundary then create an instance
+            if localbc:
+                bciface = bcclass(self.backend, con, elemap, cfgsect,
+                                  self.cfg, bccomm)
+                bciface.setup(sdata, prevcfg)
+                bc_inters.append(bciface)
+            else:
+                bciface = None
+
+            # Allow the boundary to return bind and advance callbacks
+            bfn, afn = bcclass.hookfns(bciface, mesh, elemap)
+            if bfn:
+                bc_bindfns[sname] = bfn
+            if afn:
+                bc_advfns[sname] = afn
+
+            bcclass.serialisefn(bciface, f'bcs/{sname}', serialiser)
+
+        return bc_inters, bc_bindfns, bc_advfns
+
+    def _gen_kernels(self, nregs, eles, iint, mpiint, bcint):
+        self._kernels = kernels = defaultdict(list)
+
+        # Helper function to tag the element type/MPI interface
+        # associated with a kernel; used for dependency analysis
+        self._ktags = {}
+
+        def tag_kern(pname, prov, kern):
+            self._ktags[kern] = f'{pname}/{prov.name}'
+
+        provnames = ['eles', 'iint', 'mpiint', 'bcint']
+        provlists = [eles, iint, mpiint, bcint]
+
+        for pn, provs in self._extra_kern_parts.items():
+            provnames.append(pn)
+            provlists.append(provs)
+
+        for pn, provs in zip(provnames, provlists):
+            for p in provs:
+                for kn, kgetter in p.kernels.items():
+                    # Skip private kernels
+                    if kn.startswith('_'):
+                        continue
+
+                    # See if the kernel depends on uin/fout
+                    kparams = inspect.signature(kgetter).parameters
+                    if 'uin' in kparams or 'fout' in kparams:
+                        for i in range(nregs):
+                            kern = kgetter(i)
+                            if isinstance(kern, NullKernel):
+                                continue
+
+                            if 'uin' in kparams:
+                                kernels[f'{pn}/{kn}', i, None].append(kern)
+                            else:
+                                kernels[f'{pn}/{kn}', None, i].append(kern)
+
+                            tag_kern(pn, p, kern)
+                    else:
+                        kerns = kgetter()
+                        if not isinstance(kerns, list):
+                            kerns = [kerns]
+
+                        for kern in kerns:
+                            if isinstance(kern, NullKernel):
+                                continue
+
+                            kernels[f'{pn}/{kn}', None, None].append(kern)
+
+                            tag_kern(pn, p, kern)
+
+        allkerns = [k for ks in kernels.values() for k in ks]
+        for cb_names, cb in self._kernel_callbacks:
+            for k in allkerns:
+                if not k.argnames.isdisjoint(cb_names):
+                    cb(k)
+
+    def _gen_mpireqs(self, mpiint):
+        self._mpireqs = mpireqs = defaultdict(list)
+
+        for m in [*mpiint, *self._extra_mpi_parts]:
+            for mn, mgetter in m.mpireqs.items():
+                mpireqs[mn].append(mgetter())
+
+    @memoize
+    def _get_kernels(self, uinbank, foutbank):
+        kernels = defaultdict(list)
+
+        # Filter down the kernels dictionary
+        for (kn, ui, fo), k in self._kernels.items():
+            if ((ui is None and fo is None) or
+                (ui is not None and ui == uinbank) or
+                (fo is not None and fo == foutbank)):
+                kernels[kn].extend(k)
+
+        # Handle kernels which have arguments that can be bound at runtime
+        binders, bckerns = [], defaultdict(dict)
+        for kn, kerns in kernels.items():
+            for k in kerns:
+                if 't' in k.argnames:
+                    binders.append(k.bind)
+
+                if kn.startswith('bcint/'):
+                    bcname = self._ktags[k].removeprefix('bcint/')
+                    bkname = kn.removeprefix('bcint/')
+
+                    bckerns[bcname][bkname] = k
+
+        return kernels, binders, bckerns
+
+    def _kdeps(self, kdict, kern, *dnames):
+        deps = []
+
+        for name in dnames:
+            for k in kdict[name]:
+                if self._ktags[kern] == self._ktags[k]:
+                    deps.append(k)
+
+        return deps
+
+    def bc_advance(self, intg):
+        # Advance any boundary condition controller state
+        for fn in self._bc_advfns.values():
+            fn(intg)
+
+    def _prepare_kernels(self, t, uinbank, foutbank):
+        _, binders, bckerns = self._get_kernels(uinbank, foutbank)
+
+        for b, bfn in self._bc_bindfns.items():
+            bfn(self, uinbank, t, bckerns[b])
+
+        for b in binders:
+            b(t=t)
+
+    def _rhs_graphs(self, uinbank, foutbank):
+        pass
+
+    def rhs(self, t, uinbank, foutbank):
+        if uinbank >= self.nrhs or foutbank >= self.nrhs:
+            raise ValueError('Invalid register numbers')
+
+        self._rhs_uin_fout.add((uinbank, foutbank))
+
+        with self.backend.region('rhs'):
+            self._prepare_kernels(t, uinbank, foutbank)
+
+            for graph in self._rhs_graphs(uinbank, foutbank):
+                self.backend.run_graph(graph)
+
+    def _preproc_graphs(self, uinbank):
+        return ()
+
+    def preproc(self, t, uinbank):
+        if uinbank >= self.nrhs:
+            raise ValueError('Invalid register number')
+
+        self._prepare_kernels(t, uinbank, None)
+
+        for graph in self._preproc_graphs(uinbank):
+            self.backend.run_graph(graph)
+
+    def postproc(self, uinbank):
+        pass
+
+    def rhs_wait_times(self):
+        # Group together timings for graphs which are semantically equivalent
+        times = defaultdict(list)
+        for u, f in self._rhs_uin_fout:
+            for i, g in enumerate(self._rhs_graphs(u, f)):
+                times[i].extend(g.get_wait_times())
+
+        # Compute the mean and standard deviation
+        stats = []
+        for t in times.values():
+            mean = statistics.mean(t) if t else 0
+            stdev = statistics.stdev(t, mean) if len(t) >= 2 else 0
+            median = statistics.median(t) if t else 0
+
+            stats.append((mean, stdev, median))
+
+        return stats
+
+    def _compute_grads_graph(self, uinbank):
+        raise NotImplementedError(f'Solver {self.name!r} does not compute '
+                                  'corrected gradients of the solution')
+
+    def compute_grads(self, t, uinbank):
+        if uinbank >= self.nrhs:
+            raise ValueError('Invalid register number')
+
+        self._prepare_kernels(t, uinbank, None)
+
+        for graph in self._compute_grads_graph(uinbank):
+            self.backend.run_graph(graph)
+
+    def evalsrcmacros(self, uinoutbank):
+        kkey = ('eles/evalsrcmacros', uinoutbank, None)
+
+        self.backend.run_kernels(self._kernels[kkey])
+
+    def ele_scal_upts(self, idx):
+        return [eb[idx].get() for eb in self.ele_banks]
+
+    def _group(self, g, kerns, subs=[]):
+        # Eliminate non-existent kernels
+        kerns = [k for k in kerns if k is not None]
+
+        # Eliminate substitutions associated with non-existent kernels
+        subs = [[(k, n) for k, n in sub if k] for sub in subs]
+        subs = [sub for sub in subs if len(sub) > 1]
+
+        g.group(kerns, subs)

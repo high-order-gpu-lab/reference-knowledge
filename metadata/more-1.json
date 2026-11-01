@@ -1,0 +1,3421 @@
+{
+  "meta": {
+    "notice": "No API key, so this request shares one free daily budget ($0.10) with everyone on your network's IP address. Get a free key with its own $1/day at https://openalex.org/settings/api and add api_key=YOUR_KEY to your requests. An AI agent can get one for its user in one call: POST https://api.openalex.org/api-keys with {\"email\": \"<your user's email>\"}; we email them a link, and the key works once they click it. Docs for agents: https://help.openalex.org/llms.txt",
+    "count": 10038,
+    "db_response_time_ms": 70,
+    "page": 1,
+    "per_page": 4,
+    "groups_count": null,
+    "x_query": {
+      "oql": "get works with (FLEXI high order framework) in the full text",
+      "x_new_oql": "get works with (FLEXI high order framework) in the full text",
+      "oqo": {
+        "get_rows": "works",
+        "filter_rows": [
+          {
+            "column_id": "fulltext.search",
+            "value": "FLEXI high order framework",
+            "operator": "has"
+          }
+        ]
+      },
+      "url": "/works?filter=fulltext.search:FLEXI high order framework&per_page=4",
+      "order": "best matches first",
+      "order_default": true
+    },
+    "cost_usd": 0.001
+  },
+  "results": [
+    {
+      "id": "https://openalex.org/W2979261302",
+      "doi": "https://doi.org/10.1016/j.camwa.2020.05.004",
+      "title": "FLEXI: A high order discontinuous Galerkin framework for hyperbolic–parabolic conservation laws",
+      "display_name": "FLEXI: A high order discontinuous Galerkin framework for hyperbolic–parabolic conservation laws",
+      "relevance_score": 116.09549,
+      "publication_year": 2020,
+      "publication_date": "2020-05-28",
+      "ids": {
+        "openalex": "https://openalex.org/W2979261302",
+        "doi": "https://doi.org/10.1016/j.camwa.2020.05.004",
+        "mag": "2979261302"
+      },
+      "language": "en",
+      "primary_location": {
+        "id": "doi:10.1016/j.camwa.2020.05.004",
+        "doi": "https://doi.org/10.1016/j.camwa.2020.05.004",
+        "is_oa": true,
+        "landing_page_url": "https://doi.org/10.1016/j.camwa.2020.05.004",
+        "pdf_url": null,
+        "source": {
+          "id": "https://openalex.org/S4210205691",
+          "display_name": "Computers & Mathematics with Applications",
+          "issn_l": "0898-1221",
+          "issn": [
+            "0898-1221",
+            "1873-7668"
+          ],
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": true,
+          "listed_in": [
+            "anvur-class-a",
+            "anvur-scientific",
+            "cwts-core",
+            "dongbi-d",
+            "jufo-1",
+            "norway-1",
+            "poland-140",
+            "russia-white-list-1",
+            "vabb-shw"
+          ],
+          "host_organization": "https://openalex.org/P4310320990",
+          "host_organization_name": "Elsevier BV",
+          "host_organization_lineage": [
+            "https://openalex.org/P4310320990"
+          ],
+          "host_organization_lineage_names": [
+            "Elsevier BV"
+          ],
+          "type": "journal"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "publishedVersion",
+        "is_accepted": true,
+        "is_published": true,
+        "raw_source_name": "Computers &amp; Mathematics with Applications",
+        "raw_type": "journal-article"
+      },
+      "volume": null,
+      "type": "article",
+      "indexed_in": [
+        "arxiv",
+        "crossref",
+        "datacite"
+      ],
+      "open_access": {
+        "is_oa": true,
+        "oa_status": "bronze",
+        "oa_url": "https://doi.org/10.1016/j.camwa.2020.05.004",
+        "any_repository_has_fulltext": true
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": "https://openalex.org/A5005405861",
+            "display_name": "Nico Krais",
+            "orcid": "https://orcid.org/0000-0002-8739-9530",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-8739-9530"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": true,
+          "raw_author_name": "Nico Krais",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany",
+            "Univ. of Stuttgart#TAB#"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0002-8739-9530",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            },
+            {
+              "raw_affiliation_string": "Univ. of Stuttgart#TAB#",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5029279895",
+            "display_name": "Andrea Beck",
+            "orcid": "https://orcid.org/0000-0003-3634-7447",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-3634-7447"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Andrea Beck",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany",
+            "Univ. of Stuttgart#TAB#"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0003-3634-7447",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            },
+            {
+              "raw_affiliation_string": "Univ. of Stuttgart#TAB#",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5110196192",
+            "display_name": "Thomas Bolemann",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            },
+            {
+              "id": "https://openalex.org/I891521709",
+              "display_name": "Daimler (Germany)",
+              "ror": "https://ror.org/00m0j3d84",
+              "country_code": "DE",
+              "type": "company",
+              "lineage": [
+                "https://openalex.org/I891521709"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Thomas Bolemann",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany",
+            "Daimler AG#TAB#"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            },
+            {
+              "raw_affiliation_string": "Daimler AG#TAB#",
+              "institution_ids": [
+                "https://openalex.org/I891521709"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5063899578",
+            "display_name": "Hannes M. Frank",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Hannes Frank",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5082275050",
+            "display_name": "David Flad",
+            "orcid": "https://orcid.org/0000-0003-1155-9355",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-1155-9355"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "David Flad",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5045031334",
+            "display_name": "Gregor J. Gassner",
+            "orcid": "https://orcid.org/0000-0002-1752-1158",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-1752-1158"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I180923762",
+              "display_name": "University of Cologne",
+              "ror": "https://ror.org/00rcxh774",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I180923762"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Gregor Gassner",
+          "raw_affiliation_strings": [
+            "Mathematical Institute, Center for Data and Simulation Science (CDS), University of Cologne, Germany",
+            "UNIVERSITY OF COLOGNE"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Mathematical Institute, Center for Data and Simulation Science (CDS), University of Cologne, Germany",
+              "institution_ids": [
+                "https://openalex.org/I180923762"
+              ]
+            },
+            {
+              "raw_affiliation_string": "UNIVERSITY OF COLOGNE",
+              "institution_ids": [
+                "https://openalex.org/I180923762"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5078762367",
+            "display_name": "Florian Hindenlang",
+            "orcid": "https://orcid.org/0000-0002-0439-249X",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-0439-249X"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I149899117",
+              "display_name": "Max Planck Society",
+              "ror": "https://ror.org/01hhn8329",
+              "country_code": "DE",
+              "type": "nonprofit",
+              "lineage": [
+                "https://openalex.org/I149899117"
+              ]
+            },
+            {
+              "id": "https://openalex.org/I4210139716",
+              "display_name": "Max Planck Institute for Plasma Physics",
+              "ror": "https://ror.org/03taest98",
+              "country_code": "DE",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I149899117",
+                "https://openalex.org/I4210139716"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Florian Hindenlang",
+          "raw_affiliation_strings": [
+            "Max Planck Institute for Plasma Physics, Germany",
+            "Max-Planck-Society"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Max Planck Institute for Plasma Physics, Germany",
+              "institution_ids": [
+                "https://openalex.org/I4210139716"
+              ]
+            },
+            {
+              "raw_affiliation_string": "Max-Planck-Society",
+              "institution_ids": [
+                "https://openalex.org/I149899117"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": null,
+            "display_name": "Malte Hoffmann",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Malte Hoffmann",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany",
+            "Univ. of Stuttgart#TAB#"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            },
+            {
+              "raw_affiliation_string": "Univ. of Stuttgart#TAB#",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": null,
+            "display_name": "Thomas Kuhn",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Thomas Kuhn",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany",
+            "Univ. of Stuttgart#TAB#"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            },
+            {
+              "raw_affiliation_string": "Univ. of Stuttgart#TAB#",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5032928823",
+            "display_name": "Matthias Sonntag",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Matthias Sonntag",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "last",
+          "author": {
+            "id": "https://openalex.org/A5112858542",
+            "display_name": "Claus‐Dieter Munz",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Claus-Dieter Munz",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany",
+            "Univ. of Stuttgart#TAB#"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gasdynamics, University of Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            },
+            {
+              "raw_affiliation_string": "Univ. of Stuttgart#TAB#",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        }
+      ],
+      "institutions": [],
+      "countries_distinct_count": 1,
+      "institutions_distinct_count": 5,
+      "corresponding_author_ids": [
+        "https://openalex.org/A5005405861"
+      ],
+      "corresponding_institution_ids": [
+        "https://openalex.org/I100066346"
+      ],
+      "apc_list": {
+        "value": 1600,
+        "currency": "USD",
+        "value_usd": 1600
+      },
+      "apc_paid": null,
+      "fwci": 11.582,
+      "has_fulltext": false,
+      "cited_by_count": 132,
+      "citation_normalized_percentile": {
+        "value": 0.99657513,
+        "is_in_top_1_percent": true,
+        "is_in_top_10_percent": true
+      },
+      "cited_by_percentile_year": {
+        "min": 98,
+        "max": 100
+      },
+      "biblio": {
+        "volume": "81",
+        "issue": null,
+        "first_page": "186",
+        "last_page": "219"
+      },
+      "is_retracted": false,
+      "is_paratext": false,
+      "is_xpac": false,
+      "primary_topic": {
+        "id": "https://openalex.org/T10173",
+        "display_name": "Computational Fluid Dynamics and Aerodynamics",
+        "score": 0.9639000296592712,
+        "subfield": {
+          "id": "https://openalex.org/subfields/2206",
+          "display_name": "Computational Mechanics"
+        },
+        "field": {
+          "id": "https://openalex.org/fields/22",
+          "display_name": "Engineering"
+        },
+        "domain": {
+          "id": "https://openalex.org/domains/3",
+          "display_name": "Physical Sciences"
+        }
+      },
+      "topics": [
+        {
+          "id": "https://openalex.org/T10173",
+          "display_name": "Computational Fluid Dynamics and Aerodynamics",
+          "score": 0.9639000296592712,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10339",
+          "display_name": "Advanced Numerical Methods in Computational Mathematics",
+          "score": 0.03590000048279762,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10054",
+          "display_name": "Parallel Computing and Optimization Techniques",
+          "score": 0.0,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1708",
+            "display_name": "Hardware and Architecture"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        }
+      ],
+      "keywords": [
+        {
+          "id": "https://openalex.org/keywords/discontinuous-galerkin-method",
+          "display_name": "discontinuous Galerkin method",
+          "score": 0.921999990940094
+        },
+        {
+          "id": "https://openalex.org/keywords/high-order-methods",
+          "display_name": "high-order methods",
+          "score": 0.824999988079071
+        },
+        {
+          "id": "https://openalex.org/keywords/compressible-navier-stokes-equations",
+          "display_name": "compressible Navier-Stokes equations",
+          "score": 0.9580000042915344
+        },
+        {
+          "id": "https://openalex.org/keywords/open-source-simulation-tools",
+          "display_name": "open-source simulation software",
+          "score": 0.8650000095367432
+        },
+        {
+          "id": "https://openalex.org/keywords/reproducibility",
+          "display_name": "reproducibility",
+          "score": 0.9580000042915344
+        },
+        {
+          "id": "https://openalex.org/keywords/cpu-clusters",
+          "display_name": "CPU clusters",
+          "score": 0.5220000147819519
+        }
+      ],
+      "concepts": [
+        {
+          "id": "https://openalex.org/C92244383",
+          "wikidata": "https://www.wikidata.org/wiki/Q428273",
+          "display_name": "Discontinuous Galerkin method",
+          "level": 3,
+          "score": 0.7907229065895081
+        },
+        {
+          "id": "https://openalex.org/C73000952",
+          "wikidata": "https://www.wikidata.org/wiki/Q17007827",
+          "display_name": "Discretization",
+          "level": 2,
+          "score": 0.6672762036323547
+        },
+        {
+          "id": "https://openalex.org/C41008148",
+          "wikidata": "https://www.wikidata.org/wiki/Q21198",
+          "display_name": "Computer science",
+          "level": 0,
+          "score": 0.624962329864502
+        },
+        {
+          "id": "https://openalex.org/C3445786",
+          "wikidata": "https://www.wikidata.org/wiki/Q205805",
+          "display_name": "Conservation law",
+          "level": 2,
+          "score": 0.4983391761779785
+        },
+        {
+          "id": "https://openalex.org/C204323151",
+          "wikidata": "https://www.wikidata.org/wiki/Q905424",
+          "display_name": "Range (aeronautics)",
+          "level": 2,
+          "score": 0.49466702342033386
+        },
+        {
+          "id": "https://openalex.org/C112972136",
+          "wikidata": "https://www.wikidata.org/wiki/Q7595718",
+          "display_name": "Stability (learning theory)",
+          "level": 2,
+          "score": 0.48961931467056274
+        },
+        {
+          "id": "https://openalex.org/C170130773",
+          "wikidata": "https://www.wikidata.org/wiki/Q216378",
+          "display_name": "Usability",
+          "level": 2,
+          "score": 0.47111204266548157
+        },
+        {
+          "id": "https://openalex.org/C459310",
+          "wikidata": "https://www.wikidata.org/wiki/Q117801",
+          "display_name": "Computational science",
+          "level": 1,
+          "score": 0.4401780664920807
+        },
+        {
+          "id": "https://openalex.org/C121448008",
+          "wikidata": "https://www.wikidata.org/wiki/Q1755722",
+          "display_name": "Large eddy simulation",
+          "level": 3,
+          "score": 0.4314887523651123
+        },
+        {
+          "id": "https://openalex.org/C39177556",
+          "wikidata": "https://www.wikidata.org/wiki/Q7100567",
+          "display_name": "Order of accuracy",
+          "level": 4,
+          "score": 0.4112217128276825
+        },
+        {
+          "id": "https://openalex.org/C126255220",
+          "wikidata": "https://www.wikidata.org/wiki/Q141495",
+          "display_name": "Mathematical optimization",
+          "level": 1,
+          "score": 0.3621874451637268
+        },
+        {
+          "id": "https://openalex.org/C196558001",
+          "wikidata": "https://www.wikidata.org/wiki/Q190132",
+          "display_name": "Turbulence",
+          "level": 2,
+          "score": 0.3208196759223938
+        },
+        {
+          "id": "https://openalex.org/C176321772",
+          "wikidata": "https://www.wikidata.org/wiki/Q1430640",
+          "display_name": "Numerical stability",
+          "level": 3,
+          "score": 0.28625088930130005
+        },
+        {
+          "id": "https://openalex.org/C48753275",
+          "wikidata": "https://www.wikidata.org/wiki/Q11216",
+          "display_name": "Numerical analysis",
+          "level": 2,
+          "score": 0.2713887691497803
+        },
+        {
+          "id": "https://openalex.org/C135628077",
+          "wikidata": "https://www.wikidata.org/wiki/Q220184",
+          "display_name": "Finite element method",
+          "level": 2,
+          "score": 0.2501891255378723
+        },
+        {
+          "id": "https://openalex.org/C33923547",
+          "wikidata": "https://www.wikidata.org/wiki/Q395",
+          "display_name": "Mathematics",
+          "level": 0,
+          "score": 0.23734226822853088
+        },
+        {
+          "id": "https://openalex.org/C146978453",
+          "wikidata": "https://www.wikidata.org/wiki/Q3798668",
+          "display_name": "Aerospace engineering",
+          "level": 1,
+          "score": 0.20857033133506775
+        },
+        {
+          "id": "https://openalex.org/C127413603",
+          "wikidata": "https://www.wikidata.org/wiki/Q11023",
+          "display_name": "Engineering",
+          "level": 0,
+          "score": 0.15343624353408813
+        },
+        {
+          "id": "https://openalex.org/C121332964",
+          "wikidata": "https://www.wikidata.org/wiki/Q413",
+          "display_name": "Physics",
+          "level": 0,
+          "score": 0.11721214652061462
+        },
+        {
+          "id": "https://openalex.org/C134306372",
+          "wikidata": "https://www.wikidata.org/wiki/Q7754",
+          "display_name": "Mathematical analysis",
+          "level": 1,
+          "score": 0.10044839978218079
+        },
+        {
+          "id": "https://openalex.org/C119857082",
+          "wikidata": "https://www.wikidata.org/wiki/Q2539",
+          "display_name": "Machine learning",
+          "level": 1,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C97355855",
+          "wikidata": "https://www.wikidata.org/wiki/Q11473",
+          "display_name": "Thermodynamics",
+          "level": 1,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C66938386",
+          "wikidata": "https://www.wikidata.org/wiki/Q633538",
+          "display_name": "Structural engineering",
+          "level": 1,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C107457646",
+          "wikidata": "https://www.wikidata.org/wiki/Q207434",
+          "display_name": "Human–computer interaction",
+          "level": 1,
+          "score": 0.0
+        }
+      ],
+      "mesh": [],
+      "locations_count": 5,
+      "locations": [
+        {
+          "id": "doi:10.1016/j.camwa.2020.05.004",
+          "doi": "https://doi.org/10.1016/j.camwa.2020.05.004",
+          "is_oa": true,
+          "landing_page_url": "https://doi.org/10.1016/j.camwa.2020.05.004",
+          "pdf_url": null,
+          "source": {
+            "id": "https://openalex.org/S4210205691",
+            "display_name": "Computers & Mathematics with Applications",
+            "issn_l": "0898-1221",
+            "issn": [
+              "0898-1221",
+              "1873-7668"
+            ],
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": true,
+            "listed_in": [
+              "anvur-class-a",
+              "anvur-scientific",
+              "cwts-core",
+              "dongbi-d",
+              "jufo-1",
+              "norway-1",
+              "poland-140",
+              "russia-white-list-1",
+              "vabb-shw"
+            ],
+            "host_organization": "https://openalex.org/P4310320990",
+            "host_organization_name": "Elsevier BV",
+            "host_organization_lineage": [
+              "https://openalex.org/P4310320990"
+            ],
+            "host_organization_lineage_names": [
+              "Elsevier BV"
+            ],
+            "type": "journal"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "publishedVersion",
+          "is_accepted": true,
+          "is_published": true,
+          "raw_source_name": "Computers &amp; Mathematics with Applications",
+          "raw_type": "journal-article"
+        },
+        {
+          "id": "pmh:oai:USBKOELN.ub.uni-koeln.de:57985",
+          "doi": null,
+          "is_oa": false,
+          "landing_page_url": "https://kups.ub.uni-koeln.de/57985/",
+          "pdf_url": null,
+          "source": {
+            "id": "https://openalex.org/S4306400371",
+            "display_name": "Kölner Universitäts PublikationsServer (Universität zu Köln)",
+            "issn_l": null,
+            "issn": null,
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": "https://openalex.org/I4210115942",
+            "host_organization_name": "Rhenish Institute for Environmental Research",
+            "host_organization_lineage": [
+              "https://openalex.org/I4210115942"
+            ],
+            "host_organization_lineage_names": [],
+            "type": "repository"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "publishedVersion",
+          "is_accepted": true,
+          "is_published": true,
+          "raw_source_name": "",
+          "raw_type": "doc-type:article"
+        },
+        {
+          "id": "pmh:oai:arXiv.org:1910.02858",
+          "doi": null,
+          "is_oa": true,
+          "landing_page_url": "http://arxiv.org/abs/1910.02858",
+          "pdf_url": "https://arxiv.org/pdf/1910.02858",
+          "source": {
+            "id": "https://openalex.org/S4306400194",
+            "display_name": "arXiv (Cornell University)",
+            "issn_l": "2331-8422",
+            "issn": [
+              "2331-8422"
+            ],
+            "is_oa": true,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": "https://openalex.org/I205783295",
+            "host_organization_name": "Cornell University",
+            "host_organization_lineage": [
+              "https://openalex.org/I205783295"
+            ],
+            "host_organization_lineage_names": [],
+            "type": "repository"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "submittedVersion",
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": null,
+          "raw_type": "text"
+        },
+        {
+          "id": "pmh:oai:pure.mpg.de:item_3279342",
+          "doi": null,
+          "is_oa": false,
+          "landing_page_url": "http://hdl.handle.net/21.11116/0000-0007-CD80-1",
+          "pdf_url": null,
+          "source": {
+            "id": "https://openalex.org/S4306400654",
+            "display_name": "MPG.PuRe (Max Planck Society)",
+            "issn_l": null,
+            "issn": null,
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": "https://openalex.org/I149899117",
+            "host_organization_name": "Max Planck Society",
+            "host_organization_lineage": [
+              "https://openalex.org/I149899117"
+            ],
+            "host_organization_lineage_names": [],
+            "type": "repository"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "submittedVersion",
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": "Computers and Mathematics with Applications",
+          "raw_type": "info:eu-repo/semantics/article"
+        },
+        {
+          "id": "doi:10.48550/arxiv.1910.02858",
+          "doi": "https://doi.org/10.48550/arxiv.1910.02858",
+          "is_oa": true,
+          "landing_page_url": "https://doi.org/10.48550/arxiv.1910.02858",
+          "pdf_url": null,
+          "source": {
+            "id": "https://openalex.org/S4306400194",
+            "display_name": "arXiv (Cornell University)",
+            "issn_l": "2331-8422",
+            "issn": [
+              "2331-8422"
+            ],
+            "is_oa": true,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": "https://openalex.org/I205783295",
+            "host_organization_name": "Cornell University",
+            "host_organization_lineage": [
+              "https://openalex.org/I205783295"
+            ],
+            "host_organization_lineage_names": [],
+            "type": "repository"
+          },
+          "license": null,
+          "license_id": null,
+          "version": null,
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": null,
+          "raw_type": "Preprint"
+        }
+      ],
+      "best_oa_location": {
+        "id": "doi:10.1016/j.camwa.2020.05.004",
+        "doi": "https://doi.org/10.1016/j.camwa.2020.05.004",
+        "is_oa": true,
+        "landing_page_url": "https://doi.org/10.1016/j.camwa.2020.05.004",
+        "pdf_url": null,
+        "source": {
+          "id": "https://openalex.org/S4210205691",
+          "display_name": "Computers & Mathematics with Applications",
+          "issn_l": "0898-1221",
+          "issn": [
+            "0898-1221",
+            "1873-7668"
+          ],
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": true,
+          "listed_in": [
+            "anvur-class-a",
+            "anvur-scientific",
+            "cwts-core",
+            "dongbi-d",
+            "jufo-1",
+            "norway-1",
+            "poland-140",
+            "russia-white-list-1",
+            "vabb-shw"
+          ],
+          "host_organization": "https://openalex.org/P4310320990",
+          "host_organization_name": "Elsevier BV",
+          "host_organization_lineage": [
+            "https://openalex.org/P4310320990"
+          ],
+          "host_organization_lineage_names": [
+            "Elsevier BV"
+          ],
+          "type": "journal"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "publishedVersion",
+        "is_accepted": true,
+        "is_published": true,
+        "raw_source_name": "Computers &amp; Mathematics with Applications",
+        "raw_type": "journal-article"
+      },
+      "sustainable_development_goals": [],
+      "sustainable_development_goals_aurora": [
+        {
+          "display_name": "Life on land",
+          "id": "https://metadata.un.org/sdg/15",
+          "score": 0.6000000238418579
+        }
+      ],
+      "study_designs": [],
+      "awards": [
+        {
+          "id": "https://openalex.org/G3990217178",
+          "display_name": null,
+          "funder_award_id": "714487",
+          "funder_id": "https://openalex.org/F4320334678",
+          "funder_display_name": "European Research Council"
+        }
+      ],
+      "funders": [
+        {
+          "id": "https://openalex.org/F4320320300",
+          "display_name": "European Commission",
+          "ror": "https://ror.org/00k4n6c32"
+        },
+        {
+          "id": "https://openalex.org/F4320325850",
+          "display_name": "Universität Stuttgart",
+          "ror": "https://ror.org/04vnq7t77"
+        },
+        {
+          "id": "https://openalex.org/F4320334678",
+          "display_name": "European Research Council",
+          "ror": "https://ror.org/0472cxd90"
+        }
+      ],
+      "has_content": {
+        "pdf": false,
+        "grobid_xml": false
+      },
+      "content_urls": null,
+      "referenced_works_count": 101,
+      "referenced_works": [
+        "https://openalex.org/W41461700",
+        "https://openalex.org/W56296506",
+        "https://openalex.org/W378875284",
+        "https://openalex.org/W1498712972",
+        "https://openalex.org/W1503778029",
+        "https://openalex.org/W1507767947",
+        "https://openalex.org/W1508909625",
+        "https://openalex.org/W1515007632",
+        "https://openalex.org/W1528562574",
+        "https://openalex.org/W1583892864",
+        "https://openalex.org/W1587477963",
+        "https://openalex.org/W1621885647",
+        "https://openalex.org/W1693063735",
+        "https://openalex.org/W1886421468",
+        "https://openalex.org/W1965116439",
+        "https://openalex.org/W1966043329",
+        "https://openalex.org/W1969388914",
+        "https://openalex.org/W1969915246",
+        "https://openalex.org/W1970212576",
+        "https://openalex.org/W1972119727",
+        "https://openalex.org/W1972295722",
+        "https://openalex.org/W1972770528",
+        "https://openalex.org/W1986328299",
+        "https://openalex.org/W1990142375",
+        "https://openalex.org/W1990596161",
+        "https://openalex.org/W1998830482",
+        "https://openalex.org/W2006561108",
+        "https://openalex.org/W2008046188",
+        "https://openalex.org/W2008182598",
+        "https://openalex.org/W2008985174",
+        "https://openalex.org/W2011030306",
+        "https://openalex.org/W2014367637",
+        "https://openalex.org/W2025767439",
+        "https://openalex.org/W2027571497",
+        "https://openalex.org/W2028525550",
+        "https://openalex.org/W2030670821",
+        "https://openalex.org/W2031171101",
+        "https://openalex.org/W2039297754",
+        "https://openalex.org/W2043876541",
+        "https://openalex.org/W2046734098",
+        "https://openalex.org/W2046899724",
+        "https://openalex.org/W2049514147",
+        "https://openalex.org/W2056374778",
+        "https://openalex.org/W2059017100",
+        "https://openalex.org/W2061048870",
+        "https://openalex.org/W2066985111",
+        "https://openalex.org/W2067153599",
+        "https://openalex.org/W2071447842",
+        "https://openalex.org/W2079263908",
+        "https://openalex.org/W2085371976",
+        "https://openalex.org/W2088015803",
+        "https://openalex.org/W2092808148",
+        "https://openalex.org/W2095039621",
+        "https://openalex.org/W2112311198",
+        "https://openalex.org/W2112548197",
+        "https://openalex.org/W2121408925",
+        "https://openalex.org/W2126171617",
+        "https://openalex.org/W2132996587",
+        "https://openalex.org/W2141853430",
+        "https://openalex.org/W2143668178",
+        "https://openalex.org/W2148416740",
+        "https://openalex.org/W2148897203",
+        "https://openalex.org/W2150128292",
+        "https://openalex.org/W2154521282",
+        "https://openalex.org/W2156763065",
+        "https://openalex.org/W2157687279",
+        "https://openalex.org/W2168795429",
+        "https://openalex.org/W2172962898",
+        "https://openalex.org/W2174537302",
+        "https://openalex.org/W2175831267",
+        "https://openalex.org/W2193503232",
+        "https://openalex.org/W2228626927",
+        "https://openalex.org/W2254076825",
+        "https://openalex.org/W2281085214",
+        "https://openalex.org/W2295148167",
+        "https://openalex.org/W2313410817",
+        "https://openalex.org/W2313935542",
+        "https://openalex.org/W2329207685",
+        "https://openalex.org/W2329498394",
+        "https://openalex.org/W2340442749",
+        "https://openalex.org/W2343405662",
+        "https://openalex.org/W2483424860",
+        "https://openalex.org/W2523130954",
+        "https://openalex.org/W2540427529",
+        "https://openalex.org/W2561494727",
+        "https://openalex.org/W2618188941",
+        "https://openalex.org/W2717923103",
+        "https://openalex.org/W2767658338",
+        "https://openalex.org/W2788238611",
+        "https://openalex.org/W2806102590",
+        "https://openalex.org/W2810208379",
+        "https://openalex.org/W2889343555",
+        "https://openalex.org/W2898980574",
+        "https://openalex.org/W2910807777",
+        "https://openalex.org/W2922066482",
+        "https://openalex.org/W2931011133",
+        "https://openalex.org/W2945308743",
+        "https://openalex.org/W2965828412",
+        "https://openalex.org/W3010224402",
+        "https://openalex.org/W6679962583",
+        "https://openalex.org/W7047903211"
+      ],
+      "related_works": [
+        "https://openalex.org/W3032595401",
+        "https://openalex.org/W1799011773",
+        "https://openalex.org/W3107034725",
+        "https://openalex.org/W2187174978",
+        "https://openalex.org/W3025789774",
+        "https://openalex.org/W2740025001",
+        "https://openalex.org/W2783755506",
+        "https://openalex.org/W3033360607",
+        "https://openalex.org/W2126975124",
+        "https://openalex.org/W2075608097",
+        "https://openalex.org/W1509468687",
+        "https://openalex.org/W2039060561",
+        "https://openalex.org/W2296157902",
+        "https://openalex.org/W2099152001",
+        "https://openalex.org/W2062400406",
+        "https://openalex.org/W2948558727",
+        "https://openalex.org/W2553352334",
+        "https://openalex.org/W2798125070",
+        "https://openalex.org/W98687243",
+        "https://openalex.org/W2580199549"
+      ],
+      "abstract_inverted_index": null,
+      "counts_by_year": [
+        {
+          "year": 2026,
+          "cited_by_count": 22
+        },
+        {
+          "year": 2025,
+          "cited_by_count": 15
+        },
+        {
+          "year": 2024,
+          "cited_by_count": 20
+        },
+        {
+          "year": 2023,
+          "cited_by_count": 24
+        },
+        {
+          "year": 2022,
+          "cited_by_count": 28
+        },
+        {
+          "year": 2021,
+          "cited_by_count": 17
+        },
+        {
+          "year": 2020,
+          "cited_by_count": 6
+        }
+      ],
+      "updated_date": "2026-10-16T09:59:22.235173",
+      "created_date": "2022-07-28T00:00:00"
+    },
+    {
+      "id": "https://openalex.org/W4318539182",
+      "doi": "https://doi.org/10.1007/978-3-031-17937-2_17",
+      "title": "Development of turbulent inflow methods for the high order HPC framework FLEXI",
+      "display_name": "Development of turbulent inflow methods for the high order HPC framework FLEXI",
+      "relevance_score": 93.508194,
+      "publication_year": 2023,
+      "publication_date": "2023-01-01",
+      "ids": {
+        "openalex": "https://openalex.org/W4318539182",
+        "doi": "https://doi.org/10.1007/978-3-031-17937-2_17"
+      },
+      "language": "en",
+      "primary_location": {
+        "id": "doi:10.1007/978-3-031-17937-2_17",
+        "doi": "https://doi.org/10.1007/978-3-031-17937-2_17",
+        "is_oa": false,
+        "landing_page_url": "https://doi.org/10.1007/978-3-031-17937-2_17",
+        "pdf_url": null,
+        "source": {
+          "id": "https://openalex.org/S4306463937",
+          "display_name": "Springer eBooks",
+          "issn_l": null,
+          "issn": null,
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": false,
+          "listed_in": [],
+          "host_organization": "https://openalex.org/P4310319965",
+          "host_organization_name": "Springer Nature",
+          "host_organization_lineage": [
+            "https://openalex.org/P4310319965"
+          ],
+          "host_organization_lineage_names": [
+            "Springer Nature"
+          ],
+          "type": "ebook platform"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "publishedVersion",
+        "is_accepted": true,
+        "is_published": true,
+        "raw_source_name": "High Performance Computing in Science and Engineering '21",
+        "raw_type": "book-chapter"
+      },
+      "volume": {
+        "id": "https://openalex.org/W2603819451",
+        "display_name": "High Performance Computing in Science and Engineering '21"
+      },
+      "type": "conference-paper",
+      "indexed_in": [
+        "crossref"
+      ],
+      "open_access": {
+        "is_oa": false,
+        "oa_status": "closed",
+        "oa_url": null,
+        "any_repository_has_fulltext": false
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": "https://openalex.org/A5084826650",
+            "display_name": "Daniel Kempf",
+            "orcid": "https://orcid.org/0000-0002-1445-536X",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-1445-536X"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": true,
+          "raw_author_name": "Daniel Kempf",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5064048836",
+            "display_name": "Min Gao",
+            "orcid": "https://orcid.org/0000-0001-5684-4411",
+            "observed_orcids": [
+              "https://orcid.org/0000-0001-5684-4411"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Min Gao",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5029279895",
+            "display_name": "Andrea Beck",
+            "orcid": "https://orcid.org/0000-0003-3634-7447",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-3634-7447"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Andrea Beck",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5059509362",
+            "display_name": "Marcel Blind",
+            "orcid": "https://orcid.org/0000-0002-4737-9359",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-4737-9359"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Marcel Blind",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5057268348",
+            "display_name": "Patrick Kopper",
+            "orcid": "https://orcid.org/0000-0002-7613-0739",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-7613-0739"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Patrick Kopper",
+          "raw_affiliation_strings": [
+            "Institute of Aircraft Propulsion Systems, University of Stuttgart, Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aircraft Propulsion Systems, University of Stuttgart, Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": null,
+            "display_name": "Thomas Kuhn",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Thomas Kuhn",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5063509682",
+            "display_name": "Marius Kurz",
+            "orcid": "https://orcid.org/0009-0005-0844-0769",
+            "observed_orcids": [
+              "https://orcid.org/0009-0005-0844-0769"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Marius Kurz",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5018236438",
+            "display_name": "Anna Schwarz",
+            "orcid": "https://orcid.org/0000-0002-3181-8230",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-3181-8230"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Anna Schwarz",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "last",
+          "author": {
+            "id": "https://openalex.org/A5112858542",
+            "display_name": "Claus‐Dieter Munz",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Claus-Dieter Munz",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        }
+      ],
+      "institutions": [],
+      "countries_distinct_count": 1,
+      "institutions_distinct_count": 1,
+      "corresponding_author_ids": [
+        "https://openalex.org/A5084826650"
+      ],
+      "corresponding_institution_ids": [
+        "https://openalex.org/I100066346"
+      ],
+      "apc_list": null,
+      "apc_paid": null,
+      "fwci": 0.2134,
+      "has_fulltext": false,
+      "cited_by_count": 1,
+      "citation_normalized_percentile": {
+        "value": 0.5937564,
+        "is_in_top_1_percent": false,
+        "is_in_top_10_percent": false
+      },
+      "cited_by_percentile_year": {
+        "min": 88,
+        "max": 93
+      },
+      "biblio": {
+        "volume": null,
+        "issue": null,
+        "first_page": "289",
+        "last_page": "304"
+      },
+      "is_retracted": false,
+      "is_paratext": false,
+      "is_xpac": false,
+      "primary_topic": {
+        "id": "https://openalex.org/T10173",
+        "display_name": "Computational Fluid Dynamics and Aerodynamics",
+        "score": 0.9580000042915344,
+        "subfield": {
+          "id": "https://openalex.org/subfields/2206",
+          "display_name": "Computational Mechanics"
+        },
+        "field": {
+          "id": "https://openalex.org/fields/22",
+          "display_name": "Engineering"
+        },
+        "domain": {
+          "id": "https://openalex.org/domains/3",
+          "display_name": "Physical Sciences"
+        }
+      },
+      "topics": [
+        {
+          "id": "https://openalex.org/T10173",
+          "display_name": "Computational Fluid Dynamics and Aerodynamics",
+          "score": 0.9580000042915344,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10360",
+          "display_name": "Fluid Dynamics and Turbulent Flows",
+          "score": 0.03849999979138374,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T11008",
+          "display_name": "Aerodynamics and Acoustics in Jet Flows",
+          "score": 0.0008999999845400453,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2202",
+            "display_name": "Aerospace Engineering"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        }
+      ],
+      "keywords": [
+        {
+          "id": "https://openalex.org/keywords/synthetic-eddy-method",
+          "display_name": "synthetic eddy method",
+          "score": 0.9340000152587891
+        },
+        {
+          "id": "https://openalex.org/keywords/turbulent-boundary-layer",
+          "display_name": "turbulent boundary layer",
+          "score": 0.8569999933242798
+        },
+        {
+          "id": "https://openalex.org/keywords/flat-plate",
+          "display_name": "flat plate",
+          "score": 0.527999997138977
+        },
+        {
+          "id": "https://openalex.org/keywords/supersonic-turbulent-boundary-layer",
+          "display_name": "supersonic turbulent boundary layer",
+          "score": 0.7559999823570251
+        },
+        {
+          "id": "https://openalex.org/keywords/discontinuous-galerkin-method",
+          "display_name": "discontinuous Galerkin method",
+          "score": 0.7210000157356262
+        },
+        {
+          "id": "https://openalex.org/keywords/high-order-methods",
+          "display_name": "high-order methods",
+          "score": 0.7990000247955322
+        },
+        {
+          "id": "https://openalex.org/keywords/high-performance-computing",
+          "display_name": "high-performance computing",
+          "score": 0.8259999752044678
+        },
+        {
+          "id": "https://openalex.org/keywords/performance-optimization",
+          "display_name": "performance optimization",
+          "score": 0.4580000042915344
+        }
+      ],
+      "concepts": [
+        {
+          "id": "https://openalex.org/C2776132308",
+          "wikidata": "https://www.wikidata.org/wiki/Q11070850",
+          "display_name": "Inflow",
+          "level": 2,
+          "score": 0.754500150680542
+        },
+        {
+          "id": "https://openalex.org/C111603439",
+          "wikidata": "https://www.wikidata.org/wiki/Q752193",
+          "display_name": "Boundary layer",
+          "level": 2,
+          "score": 0.5777715444564819
+        },
+        {
+          "id": "https://openalex.org/C196558001",
+          "wikidata": "https://www.wikidata.org/wiki/Q190132",
+          "display_name": "Turbulence",
+          "level": 2,
+          "score": 0.57012939453125
+        },
+        {
+          "id": "https://openalex.org/C121448008",
+          "wikidata": "https://www.wikidata.org/wiki/Q1755722",
+          "display_name": "Large eddy simulation",
+          "level": 3,
+          "score": 0.4755777418613434
+        },
+        {
+          "id": "https://openalex.org/C197115733",
+          "wikidata": "https://www.wikidata.org/wiki/Q1003136",
+          "display_name": "Forcing (mathematics)",
+          "level": 2,
+          "score": 0.44324877858161926
+        },
+        {
+          "id": "https://openalex.org/C41008148",
+          "wikidata": "https://www.wikidata.org/wiki/Q21198",
+          "display_name": "Computer science",
+          "level": 0,
+          "score": 0.42846763134002686
+        },
+        {
+          "id": "https://openalex.org/C57879066",
+          "wikidata": "https://www.wikidata.org/wiki/Q41217",
+          "display_name": "Mechanics",
+          "level": 1,
+          "score": 0.3725941777229309
+        },
+        {
+          "id": "https://openalex.org/C146978453",
+          "wikidata": "https://www.wikidata.org/wiki/Q3798668",
+          "display_name": "Aerospace engineering",
+          "level": 1,
+          "score": 0.37088248133659363
+        },
+        {
+          "id": "https://openalex.org/C459310",
+          "wikidata": "https://www.wikidata.org/wiki/Q117801",
+          "display_name": "Computational science",
+          "level": 1,
+          "score": 0.33599820733070374
+        },
+        {
+          "id": "https://openalex.org/C127313418",
+          "wikidata": "https://www.wikidata.org/wiki/Q1069",
+          "display_name": "Geology",
+          "level": 0,
+          "score": 0.31726473569869995
+        },
+        {
+          "id": "https://openalex.org/C121332964",
+          "wikidata": "https://www.wikidata.org/wiki/Q413",
+          "display_name": "Physics",
+          "level": 0,
+          "score": 0.259054958820343
+        },
+        {
+          "id": "https://openalex.org/C127413603",
+          "wikidata": "https://www.wikidata.org/wiki/Q11023",
+          "display_name": "Engineering",
+          "level": 0,
+          "score": 0.16886046528816223
+        },
+        {
+          "id": "https://openalex.org/C91586092",
+          "wikidata": "https://www.wikidata.org/wiki/Q757520",
+          "display_name": "Atmospheric sciences",
+          "level": 1,
+          "score": 0.05800187587738037
+        }
+      ],
+      "mesh": [],
+      "locations_count": 1,
+      "locations": [
+        {
+          "id": "doi:10.1007/978-3-031-17937-2_17",
+          "doi": "https://doi.org/10.1007/978-3-031-17937-2_17",
+          "is_oa": false,
+          "landing_page_url": "https://doi.org/10.1007/978-3-031-17937-2_17",
+          "pdf_url": null,
+          "source": {
+            "id": "https://openalex.org/S4306463937",
+            "display_name": "Springer eBooks",
+            "issn_l": null,
+            "issn": null,
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": "https://openalex.org/P4310319965",
+            "host_organization_name": "Springer Nature",
+            "host_organization_lineage": [
+              "https://openalex.org/P4310319965"
+            ],
+            "host_organization_lineage_names": [
+              "Springer Nature"
+            ],
+            "type": "ebook platform"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "publishedVersion",
+          "is_accepted": true,
+          "is_published": true,
+          "raw_source_name": "High Performance Computing in Science and Engineering '21",
+          "raw_type": "book-chapter"
+        }
+      ],
+      "best_oa_location": null,
+      "sustainable_development_goals": [],
+      "sustainable_development_goals_aurora": [
+        {
+          "display_name": "Industry, innovation and infrastructure",
+          "id": "https://metadata.un.org/sdg/9",
+          "score": 0.4099999964237213
+        }
+      ],
+      "study_designs": [],
+      "awards": [],
+      "funders": [],
+      "has_content": {
+        "pdf": false,
+        "grobid_xml": false
+      },
+      "content_urls": null,
+      "referenced_works_count": 0,
+      "referenced_works": [],
+      "related_works": [
+        "https://openalex.org/W2743633070",
+        "https://openalex.org/W2317820511",
+        "https://openalex.org/W2607466420",
+        "https://openalex.org/W1611493620",
+        "https://openalex.org/W2297317948",
+        "https://openalex.org/W1965940669",
+        "https://openalex.org/W2316120004",
+        "https://openalex.org/W1993318338",
+        "https://openalex.org/W2170245127",
+        "https://openalex.org/W3212700568"
+      ],
+      "abstract_inverted_index": null,
+      "counts_by_year": [
+        {
+          "year": 2023,
+          "cited_by_count": 1
+        }
+      ],
+      "updated_date": "2026-10-16T09:59:22.235173",
+      "created_date": "2025-10-10T00:00:00"
+    },
+    {
+      "id": "https://openalex.org/W4205680816",
+      "doi": "https://doi.org/10.1007/978-3-030-80602-6_22",
+      "title": "Increasing the Flexibility of the High Order Discontinuous Galerkin Framework FLEXI Towards Large Scale Industrial Applications",
+      "display_name": "Increasing the Flexibility of the High Order Discontinuous Galerkin Framework FLEXI Towards Large Scale Industrial Applications",
+      "relevance_score": 75.16052,
+      "publication_year": 2021,
+      "publication_date": "2021-01-01",
+      "ids": {
+        "openalex": "https://openalex.org/W4205680816",
+        "doi": "https://doi.org/10.1007/978-3-030-80602-6_22"
+      },
+      "language": "en",
+      "primary_location": {
+        "id": "doi:10.1007/978-3-030-80602-6_22",
+        "doi": "https://doi.org/10.1007/978-3-030-80602-6_22",
+        "is_oa": false,
+        "landing_page_url": "https://doi.org/10.1007/978-3-030-80602-6_22",
+        "pdf_url": null,
+        "source": {
+          "id": "https://openalex.org/S4306463937",
+          "display_name": "Springer eBooks",
+          "issn_l": null,
+          "issn": null,
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": false,
+          "listed_in": [],
+          "host_organization": "https://openalex.org/P4310319965",
+          "host_organization_name": "Springer Nature",
+          "host_organization_lineage": [
+            "https://openalex.org/P4310319965"
+          ],
+          "host_organization_lineage_names": [
+            "Springer Nature"
+          ],
+          "type": "ebook platform"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "publishedVersion",
+        "is_accepted": true,
+        "is_published": true,
+        "raw_source_name": "High Performance Computing in Science and Engineering '20",
+        "raw_type": "book-chapter"
+      },
+      "volume": {
+        "id": "https://openalex.org/W4205489896",
+        "display_name": "High Performance Computing in Science and Engineering '20"
+      },
+      "type": "book-chapter",
+      "indexed_in": [
+        "crossref"
+      ],
+      "open_access": {
+        "is_oa": false,
+        "oa_status": "closed",
+        "oa_url": null,
+        "any_repository_has_fulltext": false
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": "https://openalex.org/A5029279895",
+            "display_name": "Andrea Beck",
+            "orcid": "https://orcid.org/0000-0003-3634-7447",
+            "observed_orcids": [
+              "https://orcid.org/0000-0003-3634-7447"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I95793202",
+              "display_name": "Otto-von-Guericke-Universität Magdeburg",
+              "ror": "https://ror.org/00ggpsq73",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I95793202"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": true,
+          "raw_author_name": "Andrea Beck",
+          "raw_affiliation_strings": [
+            "Laboratory of Fluid Dynamics and Technical Flows, Otto-von-Guericke University Magdeburg, Magdeburg, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Laboratory of Fluid Dynamics and Technical Flows, Otto-von-Guericke University Magdeburg, Magdeburg, Germany",
+              "institution_ids": [
+                "https://openalex.org/I95793202"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5064048836",
+            "display_name": "Min Gao",
+            "orcid": "https://orcid.org/0000-0001-5684-4411",
+            "observed_orcids": [
+              "https://orcid.org/0000-0001-5684-4411"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Min Gao",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5084826650",
+            "display_name": "Daniel Kempf",
+            "orcid": "https://orcid.org/0000-0002-1445-536X",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-1445-536X"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Daniel Kempf",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5057268348",
+            "display_name": "Patrick Kopper",
+            "orcid": "https://orcid.org/0000-0002-7613-0739",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-7613-0739"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Patrick Kopper",
+          "raw_affiliation_strings": [
+            "Institute of Aircraft Propulsion Systems, University of Stuttgart, Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aircraft Propulsion Systems, University of Stuttgart, Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5005405861",
+            "display_name": "Nico Krais",
+            "orcid": "https://orcid.org/0000-0002-8739-9530",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-8739-9530"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Nico Krais",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5063509682",
+            "display_name": "Marius Kurz",
+            "orcid": "https://orcid.org/0009-0005-0844-0769",
+            "observed_orcids": [
+              "https://orcid.org/0009-0005-0844-0769"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Marius Kurz",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5012600611",
+            "display_name": "Jonas Zeifang",
+            "orcid": "https://orcid.org/0000-0002-7388-923X",
+            "observed_orcids": [
+              "https://orcid.org/0000-0002-7388-923X"
+            ]
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Jonas Zeifang",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "last",
+          "author": {
+            "id": "https://openalex.org/A5112858542",
+            "display_name": "Claus‐Dieter Munz",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I100066346",
+              "display_name": "University of Stuttgart",
+              "ror": "https://ror.org/04vnq7t77",
+              "country_code": "DE",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ],
+          "countries": [
+            "DE"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Claus-Dieter Munz",
+          "raw_affiliation_strings": [
+            "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Institute of Aerodynamics and Gas Dynamics, University of Stuttgart, Stuttgart, Germany",
+              "institution_ids": [
+                "https://openalex.org/I100066346"
+              ]
+            }
+          ]
+        }
+      ],
+      "institutions": [],
+      "countries_distinct_count": 1,
+      "institutions_distinct_count": 2,
+      "corresponding_author_ids": [
+        "https://openalex.org/A5029279895"
+      ],
+      "corresponding_institution_ids": [
+        "https://openalex.org/I95793202"
+      ],
+      "apc_list": null,
+      "apc_paid": null,
+      "fwci": 2.4639,
+      "has_fulltext": false,
+      "cited_by_count": 3,
+      "citation_normalized_percentile": {
+        "value": 0.91520979,
+        "is_in_top_1_percent": false,
+        "is_in_top_10_percent": true
+      },
+      "cited_by_percentile_year": {
+        "min": 88,
+        "max": 96
+      },
+      "biblio": {
+        "volume": null,
+        "issue": null,
+        "first_page": "343",
+        "last_page": "358"
+      },
+      "is_retracted": false,
+      "is_paratext": false,
+      "is_xpac": false,
+      "primary_topic": {
+        "id": "https://openalex.org/T10173",
+        "display_name": "Computational Fluid Dynamics and Aerodynamics",
+        "score": 0.9800000190734863,
+        "subfield": {
+          "id": "https://openalex.org/subfields/2206",
+          "display_name": "Computational Mechanics"
+        },
+        "field": {
+          "id": "https://openalex.org/fields/22",
+          "display_name": "Engineering"
+        },
+        "domain": {
+          "id": "https://openalex.org/domains/3",
+          "display_name": "Physical Sciences"
+        }
+      },
+      "topics": [
+        {
+          "id": "https://openalex.org/T10173",
+          "display_name": "Computational Fluid Dynamics and Aerodynamics",
+          "score": 0.9800000190734863,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10339",
+          "display_name": "Advanced Numerical Methods in Computational Mathematics",
+          "score": 0.018200000748038292,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10360",
+          "display_name": "Fluid Dynamics and Turbulent Flows",
+          "score": 0.0007999999797903001,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        }
+      ],
+      "keywords": [
+        {
+          "id": "https://openalex.org/keywords/high-order-discontinuous-galerkin-method",
+          "display_name": "high-order discontinuous Galerkin method",
+          "score": 0.8759999871253967
+        },
+        {
+          "id": "https://openalex.org/keywords/implicit-time-integration",
+          "display_name": "implicit time integration",
+          "score": 0.9869999885559082
+        },
+        {
+          "id": "https://openalex.org/keywords/stiff-problems",
+          "display_name": "stiff problems",
+          "score": 0.9100000262260437
+        },
+        {
+          "id": "https://openalex.org/keywords/large-eddy-simulation",
+          "display_name": "large eddy simulation",
+          "score": 0.9750000238418579
+        },
+        {
+          "id": "https://openalex.org/keywords/compressible-turbulent-boundary-layer",
+          "display_name": "compressible turbulent boundary layer",
+          "score": 0.9890000224113464
+        },
+        {
+          "id": "https://openalex.org/keywords/direct-numerical-simulation-comparison",
+          "display_name": "direct numerical simulation comparison",
+          "score": 0.8679999709129333
+        },
+        {
+          "id": "https://openalex.org/keywords/turbine-simulation",
+          "display_name": "turbine simulation",
+          "score": 0.7229999899864197
+        },
+        {
+          "id": "https://openalex.org/keywords/code-performance",
+          "display_name": "code performance",
+          "score": 0.49300000071525574
+        }
+      ],
+      "concepts": [
+        {
+          "id": "https://openalex.org/C121448008",
+          "wikidata": "https://www.wikidata.org/wiki/Q1755722",
+          "display_name": "Large eddy simulation",
+          "level": 3,
+          "score": 0.6272805333137512
+        },
+        {
+          "id": "https://openalex.org/C92244383",
+          "wikidata": "https://www.wikidata.org/wiki/Q428273",
+          "display_name": "Discontinuous Galerkin method",
+          "level": 3,
+          "score": 0.5626435279846191
+        },
+        {
+          "id": "https://openalex.org/C459310",
+          "wikidata": "https://www.wikidata.org/wiki/Q117801",
+          "display_name": "Computational science",
+          "level": 1,
+          "score": 0.5615078806877136
+        },
+        {
+          "id": "https://openalex.org/C2780598303",
+          "wikidata": "https://www.wikidata.org/wiki/Q65921492",
+          "display_name": "Flexibility (engineering)",
+          "level": 2,
+          "score": 0.5452201962471008
+        },
+        {
+          "id": "https://openalex.org/C41008148",
+          "wikidata": "https://www.wikidata.org/wiki/Q21198",
+          "display_name": "Computer science",
+          "level": 0,
+          "score": 0.5425871014595032
+        },
+        {
+          "id": "https://openalex.org/C77618280",
+          "wikidata": "https://www.wikidata.org/wiki/Q1155772",
+          "display_name": "Scheme (mathematics)",
+          "level": 2,
+          "score": 0.5394779443740845
+        },
+        {
+          "id": "https://openalex.org/C84655787",
+          "wikidata": "https://www.wikidata.org/wiki/Q8067817",
+          "display_name": "Compressibility",
+          "level": 2,
+          "score": 0.49072039127349854
+        },
+        {
+          "id": "https://openalex.org/C2778755073",
+          "wikidata": "https://www.wikidata.org/wiki/Q10858537",
+          "display_name": "Scale (ratio)",
+          "level": 2,
+          "score": 0.481764554977417
+        },
+        {
+          "id": "https://openalex.org/C111603439",
+          "wikidata": "https://www.wikidata.org/wiki/Q752193",
+          "display_name": "Boundary layer",
+          "level": 2,
+          "score": 0.46333208680152893
+        },
+        {
+          "id": "https://openalex.org/C28826006",
+          "wikidata": "https://www.wikidata.org/wiki/Q33521",
+          "display_name": "Applied mathematics",
+          "level": 1,
+          "score": 0.41881391406059265
+        },
+        {
+          "id": "https://openalex.org/C146978453",
+          "wikidata": "https://www.wikidata.org/wiki/Q3798668",
+          "display_name": "Aerospace engineering",
+          "level": 1,
+          "score": 0.4029979407787323
+        },
+        {
+          "id": "https://openalex.org/C196558001",
+          "wikidata": "https://www.wikidata.org/wiki/Q190132",
+          "display_name": "Turbulence",
+          "level": 2,
+          "score": 0.34392982721328735
+        },
+        {
+          "id": "https://openalex.org/C13736549",
+          "wikidata": "https://www.wikidata.org/wiki/Q4489420",
+          "display_name": "Industrial engineering",
+          "level": 1,
+          "score": 0.33084753155708313
+        },
+        {
+          "id": "https://openalex.org/C78519656",
+          "wikidata": "https://www.wikidata.org/wiki/Q101333",
+          "display_name": "Mechanical engineering",
+          "level": 1,
+          "score": 0.3236013352870941
+        },
+        {
+          "id": "https://openalex.org/C57879066",
+          "wikidata": "https://www.wikidata.org/wiki/Q41217",
+          "display_name": "Mechanics",
+          "level": 1,
+          "score": 0.23566895723342896
+        },
+        {
+          "id": "https://openalex.org/C33923547",
+          "wikidata": "https://www.wikidata.org/wiki/Q395",
+          "display_name": "Mathematics",
+          "level": 0,
+          "score": 0.21396586298942566
+        },
+        {
+          "id": "https://openalex.org/C127413603",
+          "wikidata": "https://www.wikidata.org/wiki/Q11023",
+          "display_name": "Engineering",
+          "level": 0,
+          "score": 0.20545685291290283
+        },
+        {
+          "id": "https://openalex.org/C121332964",
+          "wikidata": "https://www.wikidata.org/wiki/Q413",
+          "display_name": "Physics",
+          "level": 0,
+          "score": 0.1782272458076477
+        },
+        {
+          "id": "https://openalex.org/C135628077",
+          "wikidata": "https://www.wikidata.org/wiki/Q220184",
+          "display_name": "Finite element method",
+          "level": 2,
+          "score": 0.13765153288841248
+        },
+        {
+          "id": "https://openalex.org/C134306372",
+          "wikidata": "https://www.wikidata.org/wiki/Q7754",
+          "display_name": "Mathematical analysis",
+          "level": 1,
+          "score": 0.12700486183166504
+        },
+        {
+          "id": "https://openalex.org/C66938386",
+          "wikidata": "https://www.wikidata.org/wiki/Q633538",
+          "display_name": "Structural engineering",
+          "level": 1,
+          "score": 0.12578091025352478
+        },
+        {
+          "id": "https://openalex.org/C105795698",
+          "wikidata": "https://www.wikidata.org/wiki/Q12483",
+          "display_name": "Statistics",
+          "level": 1,
+          "score": 0.0
+        },
+        {
+          "id": "https://openalex.org/C62520636",
+          "wikidata": "https://www.wikidata.org/wiki/Q944",
+          "display_name": "Quantum mechanics",
+          "level": 1,
+          "score": 0.0
+        }
+      ],
+      "mesh": [],
+      "locations_count": 1,
+      "locations": [
+        {
+          "id": "doi:10.1007/978-3-030-80602-6_22",
+          "doi": "https://doi.org/10.1007/978-3-030-80602-6_22",
+          "is_oa": false,
+          "landing_page_url": "https://doi.org/10.1007/978-3-030-80602-6_22",
+          "pdf_url": null,
+          "source": {
+            "id": "https://openalex.org/S4306463937",
+            "display_name": "Springer eBooks",
+            "issn_l": null,
+            "issn": null,
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": "https://openalex.org/P4310319965",
+            "host_organization_name": "Springer Nature",
+            "host_organization_lineage": [
+              "https://openalex.org/P4310319965"
+            ],
+            "host_organization_lineage_names": [
+              "Springer Nature"
+            ],
+            "type": "ebook platform"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "publishedVersion",
+          "is_accepted": true,
+          "is_published": true,
+          "raw_source_name": "High Performance Computing in Science and Engineering '20",
+          "raw_type": "book-chapter"
+        }
+      ],
+      "best_oa_location": null,
+      "sustainable_development_goals": [],
+      "sustainable_development_goals_aurora": [
+        {
+          "display_name": "Industry, innovation and infrastructure",
+          "id": "https://metadata.un.org/sdg/9",
+          "score": 0.5600000023841858
+        }
+      ],
+      "study_designs": [],
+      "awards": [],
+      "funders": [],
+      "has_content": {
+        "pdf": false,
+        "grobid_xml": false
+      },
+      "content_urls": null,
+      "referenced_works_count": 22,
+      "referenced_works": [
+        "https://openalex.org/W110581953",
+        "https://openalex.org/W1969915246",
+        "https://openalex.org/W1980119760",
+        "https://openalex.org/W1991962363",
+        "https://openalex.org/W2026525199",
+        "https://openalex.org/W2044199881",
+        "https://openalex.org/W2100734229",
+        "https://openalex.org/W2140153041",
+        "https://openalex.org/W2141853430",
+        "https://openalex.org/W2156763065",
+        "https://openalex.org/W2171303908",
+        "https://openalex.org/W2315764759",
+        "https://openalex.org/W2343405662",
+        "https://openalex.org/W2395445285",
+        "https://openalex.org/W2788867445",
+        "https://openalex.org/W2792239802",
+        "https://openalex.org/W2889343555",
+        "https://openalex.org/W2965828412",
+        "https://openalex.org/W2979261302",
+        "https://openalex.org/W4248006397",
+        "https://openalex.org/W4254497763",
+        "https://openalex.org/W4255155754"
+      ],
+      "related_works": [
+        "https://openalex.org/W623557396",
+        "https://openalex.org/W2012983134",
+        "https://openalex.org/W2120874885",
+        "https://openalex.org/W4388599312",
+        "https://openalex.org/W2053355289",
+        "https://openalex.org/W2368811332",
+        "https://openalex.org/W4205276374",
+        "https://openalex.org/W2090218458",
+        "https://openalex.org/W1965109456",
+        "https://openalex.org/W1684014906"
+      ],
+      "abstract_inverted_index": null,
+      "counts_by_year": [
+        {
+          "year": 2026,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2022,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2021,
+          "cited_by_count": 1
+        }
+      ],
+      "updated_date": "2026-10-16T09:59:22.235173",
+      "created_date": "2025-10-10T00:00:00"
+    },
+    {
+      "id": "https://openalex.org/W7162902167",
+      "doi": null,
+      "title": "flexi-framework/flexi",
+      "display_name": "flexi-framework/flexi",
+      "relevance_score": 61.738228,
+      "publication_year": 2024,
+      "publication_date": "2024-10-11",
+      "ids": {
+        "openalex": "https://openalex.org/W7162902167"
+      },
+      "language": "en",
+      "primary_location": {
+        "id": "pmh:oai:cwi.nl:34484",
+        "doi": null,
+        "is_oa": false,
+        "landing_page_url": "https://ir.cwi.nl/pub/34484",
+        "pdf_url": null,
+        "source": {
+          "id": "https://openalex.org/S7407055335",
+          "display_name": "Centrum Wiskunde & Informatica (CWI), the national research institute for mathematics and computer science in the Netherlands",
+          "issn_l": null,
+          "issn": null,
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": false,
+          "listed_in": [],
+          "host_organization": null,
+          "host_organization_name": null,
+          "host_organization_lineage": [],
+          "host_organization_lineage_names": [],
+          "type": "repository"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "submittedVersion",
+        "is_accepted": false,
+        "is_published": false,
+        "raw_source_name": null,
+        "raw_type": "info:eu-repo/semantics/other"
+      },
+      "volume": null,
+      "type": "other",
+      "indexed_in": [],
+      "open_access": {
+        "is_oa": false,
+        "oa_status": "closed",
+        "oa_url": null,
+        "any_repository_has_fulltext": false
+      },
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": "https://openalex.org/A5137409409",
+            "display_name": "M. (Marius) Kurz",
+            "orcid": null,
+            "observed_orcids": []
+          },
+          "institutions": [],
+          "countries": [],
+          "is_corresponding": true,
+          "raw_author_name": "Kurz, M. (Marius)",
+          "raw_affiliation_strings": [],
+          "raw_orcid": null,
+          "affiliations": []
+        }
+      ],
+      "institutions": [],
+      "countries_distinct_count": 0,
+      "institutions_distinct_count": 0,
+      "corresponding_author_ids": [
+        "https://openalex.org/A5137409409"
+      ],
+      "corresponding_institution_ids": [],
+      "apc_list": null,
+      "apc_paid": null,
+      "fwci": null,
+      "has_fulltext": false,
+      "cited_by_count": 0,
+      "citation_normalized_percentile": null,
+      "cited_by_percentile_year": null,
+      "biblio": {
+        "volume": null,
+        "issue": null,
+        "first_page": null,
+        "last_page": null
+      },
+      "is_retracted": false,
+      "is_paratext": false,
+      "is_xpac": false,
+      "primary_topic": {
+        "id": "https://openalex.org/T10173",
+        "display_name": "Computational Fluid Dynamics and Aerodynamics",
+        "score": 0.6104000210762024,
+        "subfield": {
+          "id": "https://openalex.org/subfields/2206",
+          "display_name": "Computational Mechanics"
+        },
+        "field": {
+          "id": "https://openalex.org/fields/22",
+          "display_name": "Engineering"
+        },
+        "domain": {
+          "id": "https://openalex.org/domains/3",
+          "display_name": "Physical Sciences"
+        }
+      },
+      "topics": [
+        {
+          "id": "https://openalex.org/T10173",
+          "display_name": "Computational Fluid Dynamics and Aerodynamics",
+          "score": 0.6104000210762024,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10339",
+          "display_name": "Advanced Numerical Methods in Computational Mathematics",
+          "score": 0.38839998841285706,
+          "subfield": {
+            "id": "https://openalex.org/subfields/2206",
+            "display_name": "Computational Mechanics"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/22",
+            "display_name": "Engineering"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        },
+        {
+          "id": "https://openalex.org/T10054",
+          "display_name": "Parallel Computing and Optimization Techniques",
+          "score": 0.00019999999494757503,
+          "subfield": {
+            "id": "https://openalex.org/subfields/1708",
+            "display_name": "Hardware and Architecture"
+          },
+          "field": {
+            "id": "https://openalex.org/fields/17",
+            "display_name": "Computer Science"
+          },
+          "domain": {
+            "id": "https://openalex.org/domains/3",
+            "display_name": "Physical Sciences"
+          }
+        }
+      ],
+      "keywords": [
+        {
+          "id": "https://openalex.org/keywords/discontinuous-galerkin-spectral-element-method",
+          "display_name": "discontinuous Galerkin spectral element method",
+          "score": 0.9679999947547913
+        },
+        {
+          "id": "https://openalex.org/keywords/high-order-methods",
+          "display_name": "high-order methods",
+          "score": 0.8600000143051147
+        },
+        {
+          "id": "https://openalex.org/keywords/partial-differential-equations",
+          "display_name": "partial differential equations",
+          "score": 0.9070000052452087
+        },
+        {
+          "id": "https://openalex.org/keywords/computational-fluid-dynamics",
+          "display_name": "computational fluid dynamics",
+          "score": 0.9980000257492065
+        },
+        {
+          "id": "https://openalex.org/keywords/parallel-computing",
+          "display_name": "parallel computing",
+          "score": 0.7940000295639038
+        },
+        {
+          "id": "https://openalex.org/keywords/simulation-visualization",
+          "display_name": "simulation visualization",
+          "score": 0.4740000069141388
+        }
+      ],
+      "concepts": [
+        {
+          "id": "https://openalex.org/C22411076",
+          "wikidata": "https://www.wikidata.org/wiki/Q668113",
+          "display_name": "Hexahedron",
+          "level": 3,
+          "score": 0.8062000274658203
+        },
+        {
+          "id": "https://openalex.org/C192209626",
+          "wikidata": "https://www.wikidata.org/wiki/Q190909",
+          "display_name": "Focus (optics)",
+          "level": 2,
+          "score": 0.6471999883651733
+        },
+        {
+          "id": "https://openalex.org/C2778770139",
+          "wikidata": "https://www.wikidata.org/wiki/Q1966904",
+          "display_name": "Solver",
+          "level": 2,
+          "score": 0.6078000068664551
+        },
+        {
+          "id": "https://openalex.org/C79581498",
+          "wikidata": "https://www.wikidata.org/wiki/Q1367530",
+          "display_name": "Suite",
+          "level": 2,
+          "score": 0.5325999855995178
+        },
+        {
+          "id": "https://openalex.org/C41008148",
+          "wikidata": "https://www.wikidata.org/wiki/Q21198",
+          "display_name": "Computer science",
+          "level": 0,
+          "score": 0.5120999813079834
+        },
+        {
+          "id": "https://openalex.org/C135628077",
+          "wikidata": "https://www.wikidata.org/wiki/Q220184",
+          "display_name": "Finite element method",
+          "level": 2,
+          "score": 0.4562000036239624
+        },
+        {
+          "id": "https://openalex.org/C459310",
+          "wikidata": "https://www.wikidata.org/wiki/Q117801",
+          "display_name": "Computational science",
+          "level": 1,
+          "score": 0.427700012922287
+        },
+        {
+          "id": "https://openalex.org/C11413529",
+          "wikidata": "https://www.wikidata.org/wiki/Q8366",
+          "display_name": "Algorithm",
+          "level": 1,
+          "score": 0.41830000281333923
+        },
+        {
+          "id": "https://openalex.org/C92244383",
+          "wikidata": "https://www.wikidata.org/wiki/Q428273",
+          "display_name": "Discontinuous Galerkin method",
+          "level": 3,
+          "score": 0.3260999917984009
+        },
+        {
+          "id": "https://openalex.org/C200288055",
+          "wikidata": "https://www.wikidata.org/wiki/Q2621792",
+          "display_name": "Element (criminal law)",
+          "level": 2,
+          "score": 0.2924000024795532
+        },
+        {
+          "id": "https://openalex.org/C33923547",
+          "wikidata": "https://www.wikidata.org/wiki/Q395",
+          "display_name": "Mathematics",
+          "level": 0,
+          "score": 0.2842999994754791
+        },
+        {
+          "id": "https://openalex.org/C186899397",
+          "wikidata": "https://www.wikidata.org/wiki/Q1491980",
+          "display_name": "Galerkin method",
+          "level": 3,
+          "score": 0.2709999978542328
+        },
+        {
+          "id": "https://openalex.org/C48753275",
+          "wikidata": "https://www.wikidata.org/wiki/Q11216",
+          "display_name": "Numerical analysis",
+          "level": 2,
+          "score": 0.2694000005722046
+        },
+        {
+          "id": "https://openalex.org/C38961997",
+          "wikidata": "https://www.wikidata.org/wiki/Q7575186",
+          "display_name": "Spectral element method",
+          "level": 4,
+          "score": 0.26350000500679016
+        },
+        {
+          "id": "https://openalex.org/C500300565",
+          "wikidata": "https://www.wikidata.org/wiki/Q925667",
+          "display_name": "Computer simulation",
+          "level": 2,
+          "score": 0.2531999945640564
+        },
+        {
+          "id": "https://openalex.org/C198880260",
+          "wikidata": "https://www.wikidata.org/wiki/Q5289813",
+          "display_name": "Domain decomposition methods",
+          "level": 3,
+          "score": 0.25189998745918274
+        }
+      ],
+      "mesh": [],
+      "locations_count": 1,
+      "locations": [
+        {
+          "id": "pmh:oai:cwi.nl:34484",
+          "doi": null,
+          "is_oa": false,
+          "landing_page_url": "https://ir.cwi.nl/pub/34484",
+          "pdf_url": null,
+          "source": {
+            "id": "https://openalex.org/S7407055335",
+            "display_name": "Centrum Wiskunde & Informatica (CWI), the national research institute for mathematics and computer science in the Netherlands",
+            "issn_l": null,
+            "issn": null,
+            "is_oa": false,
+            "is_in_doaj": false,
+            "is_core": false,
+            "listed_in": [],
+            "host_organization": null,
+            "host_organization_name": null,
+            "host_organization_lineage": [],
+            "host_organization_lineage_names": [],
+            "type": "repository"
+          },
+          "license": null,
+          "license_id": null,
+          "version": "submittedVersion",
+          "is_accepted": false,
+          "is_published": false,
+          "raw_source_name": null,
+          "raw_type": "info:eu-repo/semantics/other"
+        }
+      ],
+      "best_oa_location": null,
+      "sustainable_development_goals": [],
+      "sustainable_development_goals_aurora": [],
+      "study_designs": [],
+      "awards": [],
+      "funders": [],
+      "has_content": {
+        "pdf": false,
+        "grobid_xml": false
+      },
+      "content_urls": null,
+      "referenced_works_count": 0,
+      "referenced_works": [],
+      "related_works": [],
+      "abstract_inverted_index": {
+        "FLEXI": [
+          0,
+          17,
+          54
+        ],
+        "is": [
+          1,
+          18,
+          41
+        ],
+        "a": [
+          2,
+          10,
+          57
+        ],
+        "high-order": [
+          3,
+          31
+        ],
+        "numerical": [
+          4
+        ],
+        "framework": [
+          5
+        ],
+        "for": [
+          6,
+          30,
+          45
+        ],
+        "solving": [
+          7
+        ],
+        "PDEs,": [
+          8
+        ],
+        "with": [
+          9,
+          56
+        ],
+        "special": [
+          11
+        ],
+        "focus": [
+          12
+        ],
+        "on": [
+          13,
+          20
+        ],
+        "Computational": [
+          14
+        ],
+        "Fluid": [
+          15
+        ],
+        "Dynamics.": [
+          16
+        ],
+        "based": [
+          19
+        ],
+        "the": [
+          21,
+          70
+        ],
+        "Discontinuous": [
+          22
+        ],
+        "Galerkin": [
+          23
+        ],
+        "Spectral": [
+          24
+        ],
+        "Element": [
+          25
+        ],
+        "Method": [
+          26
+        ],
+        "(DGSEM),": [
+          27
+        ],
+        "which": [
+          28
+        ],
+        "allows": [
+          29
+        ],
+        "of": [
+          32
+        ],
+        "accuracy": [
+          33
+        ],
+        "and": [
+          34,
+          48,
+          60
+        ],
+        "fully": [
+          35
+        ],
+        "unstructured": [
+          36
+        ],
+        "hexahedral": [
+          37
+        ],
+        "meshes.": [
+          38
+        ],
+        "The": [
+          39
+        ],
+        "solver": [
+          40
+        ],
+        "parallelized": [
+          42
+        ],
+        "very": [
+          43
+        ],
+        "efficiently": [
+          44
+        ],
+        "large-scale": [
+          46
+        ],
+        "applications": [
+          47
+        ],
+        "scales": [
+          49
+        ],
+        "to": [
+          50,
+          69
+        ],
+        "500,000+": [
+          51
+        ],
+        "cores.": [
+          52
+        ],
+        "Moreover,": [
+          53
+        ],
+        "comes": [
+          55
+        ],
+        "capable": [
+          58
+        ],
+        "pre-": [
+          59
+        ],
+        "postprocessing": [
+          61
+        ],
+        "suite": [
+          62
+        ],
+        "that": [
+          63
+        ],
+        "enables": [
+          64
+        ],
+        "complex": [
+          65
+        ],
+        "simulation": [
+          66
+        ],
+        "setups": [
+          67
+        ],
+        "up": [
+          68
+        ],
+        "finished": [
+          71
+        ],
+        "visualization.": [
+          72
+        ]
+      },
+      "counts_by_year": [],
+      "updated_date": "2026-05-31T06:17:41.828283",
+      "created_date": "2026-05-31T00:00:00"
+    }
+  ],
+  "group_by": []
+}

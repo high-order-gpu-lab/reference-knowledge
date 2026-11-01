@@ -1,0 +1,769 @@
+{
+  "status": "ok",
+  "message-type": "work-list",
+  "message-version": "1.0.0",
+  "message": {
+    "facets": {},
+    "total-results": 473315,
+    "items": [
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              9,
+              24
+            ]
+          ],
+          "date-time": "2026-09-24T07:34:52Z",
+          "timestamp": 1790235292846,
+          "version": "4.1.0"
+        },
+        "reference-count": 17,
+        "publisher": "Elsevier BV",
+        "license": [
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2016,
+                  5,
+                  1
+                ]
+              ],
+              "date-time": "2016-05-01T00:00:00Z",
+              "timestamp": 1462060800000
+            },
+            "content-version": "tdm",
+            "delay-in-days": 0,
+            "URL": "https://www.elsevier.com/tdm/userlicense/1.0/"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2016,
+                  1,
+                  25
+                ]
+              ],
+              "date-time": "2016-01-25T00:00:00Z",
+              "timestamp": 1453680000000
+            },
+            "content-version": "vor",
+            "delay-in-days": 0,
+            "URL": "http://creativecommons.org/licenses/by/4.0/"
+          }
+        ],
+        "funder": [
+          {
+            "DOI": "10.13039/501100000266",
+            "name": "Engineering and Physical Sciences Research Council",
+            "doi-asserted-by": "publisher",
+            "award": [
+              "EP/K027379/1"
+            ],
+            "award-info": [
+              {
+                "award-number": [
+                  "EP/K027379/1"
+                ]
+              }
+            ],
+            "id": [
+              {
+                "id": "10.13039/501100000266",
+                "id-type": "DOI",
+                "asserted-by": "publisher"
+              }
+            ]
+          },
+          {
+            "DOI": "10.13039/501100000266",
+            "name": "Engineering and Physical Sciences Research Council",
+            "doi-asserted-by": "publisher",
+            "award": [
+              "EP/L000407/1"
+            ],
+            "award-info": [
+              {
+                "award-number": [
+                  "EP/L000407/1"
+                ]
+              }
+            ],
+            "id": [
+              {
+                "id": "10.13039/501100000266",
+                "id-type": "DOI",
+                "asserted-by": "publisher"
+              }
+            ]
+          },
+          {
+            "DOI": "10.13039/501100000266",
+            "name": "Engineering and Physical Sciences Research Council",
+            "doi-asserted-by": "publisher",
+            "award": [
+              "EP/I00677X/1"
+            ],
+            "award-info": [
+              {
+                "award-number": [
+                  "EP/I00677X/1"
+                ]
+              }
+            ],
+            "id": [
+              {
+                "id": "10.13039/501100000266",
+                "id-type": "DOI",
+                "asserted-by": "publisher"
+              }
+            ]
+          },
+          {
+            "DOI": "10.13039/501100000266",
+            "name": "Engineering and Physical Sciences Research Council",
+            "doi-asserted-by": "publisher",
+            "award": [
+              "EP/I006613/1"
+            ],
+            "award-info": [
+              {
+                "award-number": [
+                  "EP/I006613/1"
+                ]
+              }
+            ],
+            "id": [
+              {
+                "id": "10.13039/501100000266",
+                "id-type": "DOI",
+                "asserted-by": "publisher"
+              }
+            ]
+          }
+        ],
+        "content-domain": {
+          "domain": [
+            "elsevier.com",
+            "sciencedirect.com"
+          ],
+          "crossmark-restriction": true
+        },
+        "short-container-title": [
+          "Computer Physics Communications"
+        ],
+        "published-print": {
+          "date-parts": [
+            [
+              2016,
+              5
+            ]
+          ]
+        },
+        "DOI": "10.1016/j.cpc.2015.12.012",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2016,
+              1,
+              18
+            ]
+          ],
+          "date-time": "2016-01-18T12:00:39Z",
+          "timestamp": 1453118439000
+        },
+        "page": "12-22",
+        "update-policy": "https://doi.org/10.1016/elsevier_cm_policy",
+        "source": "Crossref",
+        "is-referenced-by-count": 29,
+        "special_numbering": "C",
+        "title": [
+          "GiMMiK—Generating bespoke matrix multiplication kernels for accelerators: Application to high-order Computational Fluid Dynamics"
+        ],
+        "prefix": "10.1016",
+        "volume": "202",
+        "author": [
+          {
+            "given": "Bartosz D.",
+            "family": "Wozniak",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Freddie D.",
+            "family": "Witherden",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0001-5831-2259",
+            "authenticated-orcid": false,
+            "given": "Francis P.",
+            "family": "Russell",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Peter E.",
+            "family": "Vincent",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Paul H.J.",
+            "family": "Kelly",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "member": "78",
+        "reference": [
+          {
+            "issue": "1–2",
+            "key": "10.1016/j.cpc.2015.12.012_br000005",
+            "doi-asserted-by": "crossref",
+            "first-page": "3",
+            "DOI": "10.1016/S0167-8191(00)00087-9",
+            "volume": "27",
+            "author": "Whaley",
+            "year": "2001",
+            "journal-title": "Parallel Comput."
+          },
+          {
+            "issue": "3",
+            "key": "10.1016/j.cpc.2015.12.012_br000010",
+            "doi-asserted-by": "crossref",
+            "first-page": "12:1",
+            "DOI": "10.1145/1356052.1356053",
+            "volume": "34",
+            "author": "Goto",
+            "year": "2008",
+            "journal-title": "ACM Trans. Math. Software"
+          },
+          {
+            "key": "10.1016/j.cpc.2015.12.012_br000015",
+            "doi-asserted-by": "crossref",
+            "first-page": "133",
+            "DOI": "10.1016/j.jpdc.2014.09.003",
+            "volume": "75",
+            "author": "Jhurani",
+            "year": "2015",
+            "journal-title": "J. Parallel Distrib. Comput."
+          },
+          {
+            "key": "10.1016/j.cpc.2015.12.012_br000020",
+            "series-title": "Developing optimized matrix multiplication kernels for CPU and GPU platforms: Application to high order CFD",
+            "author": "Georgiou",
+            "year": "2013"
+          },
+          {
+            "issue": "4",
+            "key": "10.1016/j.cpc.2015.12.012_br000025",
+            "doi-asserted-by": "crossref",
+            "first-page": "511",
+            "DOI": "10.1177/1094342010385729",
+            "volume": "24",
+            "author": "Nath",
+            "year": "2010",
+            "journal-title": "Int. J. High Perform. Comput. Appl."
+          },
+          {
+            "key": "10.1016/j.cpc.2015.12.012_br000030",
+            "doi-asserted-by": "crossref",
+            "unstructured": "H. Huynh, A Flux Reconstruction Approach to High-Order Schemes Including Discontinuous Galerkin Methods, AIAA Paper 4079. http://dx.doi.org/10.2514/6.2007-4079.",
+            "DOI": "10.2514/6.2007-4079"
+          },
+          {
+            "issue": "11",
+            "key": "10.1016/j.cpc.2015.12.012_br000035",
+            "doi-asserted-by": "crossref",
+            "first-page": "3028",
+            "DOI": "10.1016/j.cpc.2014.07.011",
+            "volume": "185",
+            "author": "Witherden",
+            "year": "2014",
+            "journal-title": "Comput. Phys. Comm."
+          },
+          {
+            "key": "10.1016/j.cpc.2015.12.012_br000040",
+            "unstructured": "NVIDIA, cuBLAS Library User Guide, http://docs.nvidia.com/cuda/cublas/index.html, [Online; accessed 31.08.15] (Mar. 2015)."
+          },
+          {
+            "key": "10.1016/j.cpc.2015.12.012_br000045",
+            "unstructured": "clBLAS: OpenCL BLAS, http://clmathlibraries.github.io/clBLAS/, [Online; accessed 31.08.15] (Aug. 2013)."
+          },
+          {
+            "key": "10.1016/j.cpc.2015.12.012_br000050",
+            "doi-asserted-by": "crossref",
+            "unstructured": "P. Castonguay, D. Williams, P. Vincent, M. López, A. Jameson, On the Development of a High-Order, Multi-GPU Enabled, Compressible Viscous Flow Solver for Mixed Unstructured Grids, AIAA paper 3229. http://dx.doi.org/10.2514/6.2011-3229.",
+            "DOI": "10.2514/6.2011-3229"
+          },
+          {
+            "key": "10.1016/j.cpc.2015.12.012_br000055",
+            "series-title": "Proceedings of the 15th ACM SIGPLAN Symposium on Principles and Practice of Parallel Programming, PPoPP’10",
+            "first-page": "115",
+            "author": "Choi",
+            "year": "2010"
+          },
+          {
+            "key": "10.1016/j.cpc.2015.12.012_br000060",
+            "series-title": "Proceedings of the 5th International Conference on High Performance Embedded Architectures and Compilers, HiPEAC’10",
+            "first-page": "111",
+            "author": "Monakov",
+            "year": "2010"
+          },
+          {
+            "key": "10.1016/j.cpc.2015.12.012_br000065",
+            "series-title": "Innovative Parallel Computing, InPar, 2012",
+            "first-page": "1",
+            "author": "Reguly",
+            "year": "2012"
+          },
+          {
+            "key": "10.1016/j.cpc.2015.12.012_br000070",
+            "series-title": "Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis, SC ’14",
+            "first-page": "769",
+            "author": "Greathouse",
+            "year": "2014"
+          },
+          {
+            "key": "10.1016/j.cpc.2015.12.012_br000075",
+            "series-title": "Parallel and Distributed Processing with Applications, ISPA, 2012 IEEE 10th International Symposium on",
+            "first-page": "669",
+            "author": "Vázquez",
+            "year": "2012"
+          },
+          {
+            "key": "10.1016/j.cpc.2015.12.012_br000080",
+            "series-title": "Proceedings of the 2014 IEEE 28th International Parallel and Distributed Processing Symposium, IPDPS’14",
+            "first-page": "1213",
+            "author": "Aktulga",
+            "year": "2014"
+          },
+          {
+            "key": "10.1016/j.cpc.2015.12.012_br000085",
+            "unstructured": "NVIDIA, cuSPARSE Library User Guide, http://docs.nvidia.com/cuda/cusparse/index.html, [Online; accessed 31.08.15] (Mar. 2015)."
+          }
+        ],
+        "container-title": [
+          "Computer Physics Communications"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "https://api.elsevier.com/content/article/PII:S0010465515004506?httpAccept=text/plain",
+            "content-type": "text/plain",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://api.elsevier.com/content/article/PII:S0010465515004506?httpAccept=text/xml",
+            "content-type": "text/xml",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2019,
+              11,
+              4
+            ]
+          ],
+          "date-time": "2019-11-04T16:47:17Z",
+          "timestamp": 1572886037000
+        },
+        "score": 44.569138,
+        "resource": {
+          "primary": {
+            "URL": "https://linkinghub.elsevier.com/retrieve/pii/S0010465515004506"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2016,
+              5
+            ]
+          ]
+        },
+        "references-count": 17,
+        "alternative-id": [
+          "S0010465515004506"
+        ],
+        "URL": "https://doi.org/10.1016/j.cpc.2015.12.012",
+        "ISSN": [
+          "0010-4655"
+        ],
+        "issn-type": [
+          {
+            "value": "0010-4655",
+            "type": "print"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2016,
+              5
+            ]
+          ]
+        },
+        "assertion": [
+          {
+            "value": "Elsevier",
+            "name": "publisher",
+            "label": "This article is maintained by"
+          },
+          {
+            "value": "GiMMiK—Generating bespoke matrix multiplication kernels for accelerators: Application to high-order Computational Fluid Dynamics",
+            "name": "articletitle",
+            "label": "Article Title"
+          },
+          {
+            "value": "Computer Physics Communications",
+            "name": "journaltitle",
+            "label": "Journal Title"
+          },
+          {
+            "value": "https://doi.org/10.1016/j.cpc.2015.12.012",
+            "name": "articlelink",
+            "label": "CrossRef DOI link to publisher maintained version"
+          },
+          {
+            "value": "article",
+            "name": "content_type",
+            "label": "Content Type"
+          },
+          {
+            "value": "Copyright © 2016 The Authors. Published by Elsevier B.V.",
+            "name": "copyright",
+            "label": "Copyright"
+          }
+        ]
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              3,
+              10
+            ]
+          ],
+          "date-time": "2026-03-10T16:37:30Z",
+          "timestamp": 1773160650578,
+          "version": "3.50.1"
+        },
+        "reference-count": 14,
+        "publisher": "Springer Science and Business Media LLC",
+        "issue": "1",
+        "license": [
+          {
+            "start": {
+              "date-parts": [
+                [
+                  1991,
+                  12,
+                  1
+                ]
+              ],
+              "date-time": "1991-12-01T00:00:00Z",
+              "timestamp": 691545600000
+            },
+            "content-version": "tdm",
+            "delay-in-days": 0,
+            "URL": "http://www.springer.com/tdm"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "short-container-title": [
+          "Semigroup Forum"
+        ],
+        "published-print": {
+          "date-parts": [
+            [
+              1991,
+              12
+            ]
+          ]
+        },
+        "DOI": "10.1007/bf02573417",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2007,
+              3,
+              22
+            ]
+          ],
+          "date-time": "2007-03-22T19:15:24Z",
+          "timestamp": 1174590924000
+        },
+        "page": "155-166",
+        "source": "Crossref",
+        "is-referenced-by-count": 15,
+        "title": [
+          "Matrix multiplication operators generating one parameter semigroups"
+        ],
+        "prefix": "10.1007",
+        "volume": "42",
+        "author": [
+          {
+            "given": "A.",
+            "family": "Holderrieth",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "297",
+        "reference": [
+          {
+            "key": "BF02573417_CR1",
+            "unstructured": "Dunford, N., and J. T. Schwartz,Linear Operators I, Pure and Applied Mathematics Vol. VII, Interscience Publishers, Inc. 1957."
+          },
+          {
+            "key": "BF02573417_CR2",
+            "volume-title": "Semigroups of Linear Operators and Applications",
+            "author": "J. A. Goldstein",
+            "year": "1985",
+            "unstructured": "Goldstein, J. A.,Semigroups of Linear Operators and Applications, Oxford University Press, New York 1985."
+          },
+          {
+            "key": "BF02573417_CR3",
+            "unstructured": "Holderrieth, A.,Matrixmultiplikatoren, Diplomarbeit, Universität Tübingen 1989."
+          },
+          {
+            "key": "BF02573417_CR4",
+            "series-title": "Grundlehren der Math. Wiss. in Einzeldarst",
+            "volume-title": "Perturbation Theory for Linear Operators",
+            "author": "T. Kato",
+            "year": "1966",
+            "unstructured": "Kato, T.,Perturbation Theory for Linear Operators, Grundlehren der Math. Wiss. in Einzeldarst. Band 132, Springer Verlag, Berlin-Heidelberg-New York 1966."
+          },
+          {
+            "key": "BF02573417_CR5",
+            "doi-asserted-by": "crossref",
+            "first-page": "160",
+            "DOI": "10.1016/0022-1236(89)90116-X",
+            "volume": "84",
+            "author": "H. Kellermann",
+            "year": "1989",
+            "unstructured": "Kellermann, H., and M. Hieber,Integrated semigroups, J. Funct. Anal.84 (1989), 160–180.",
+            "journal-title": "J. Funct. Anal."
+          },
+          {
+            "key": "BF02573417_CR6",
+            "doi-asserted-by": "crossref",
+            "first-page": "71",
+            "DOI": "10.7146/math.scand.a-10563",
+            "volume": "7",
+            "author": "H.-O. Kreiss",
+            "year": "1959",
+            "unstructured": "Kreiss, H.-O.,Über Matrizen die beschränkte Halbgruppen erzeugen, Math. Scand.7 (1959), 71–80.",
+            "journal-title": "Math. Scand."
+          },
+          {
+            "key": "BF02573417_CR7",
+            "unstructured": "Kreiss, H.-O., and J. Lorenz,Initial-Boundary Value Problems and the Navier-Stokes Equations, Pure and Applied Mathematics Vol. 136, Academic Press Inc. 1989."
+          },
+          {
+            "key": "BF02573417_CR8",
+            "volume-title": "A Survey of Matrix Theory and Matrix Inequalities",
+            "author": "M. Marcus",
+            "year": "1964",
+            "unstructured": "Marcus, M., and H. Minc,A Survey of Matrix Theory and Matrix Inequalities, Allyn and Bacon, Inc., Boston 1964."
+          },
+          {
+            "key": "BF02573417_CR9",
+            "series-title": "Lect. Notes Math.",
+            "volume-title": "One-parameter Semigroups of Positive Operators",
+            "year": "1986",
+            "unstructured": "Nagel, R. (Ed.),One-parameter Semigroups of Positive Operators, Lect. Notes Math.1184, Springer-Verlag, Berlin-Heidelberg-New York-Tokyo, 1986."
+          },
+          {
+            "key": "BF02573417_CR10",
+            "doi-asserted-by": "crossref",
+            "first-page": "75",
+            "DOI": "10.1007/BF02573317",
+            "volume": "29",
+            "author": "F. Neubrander",
+            "year": "1984",
+            "unstructured": "Neubrander, F.,Well-posedness of abstract Cauchy problems, Semigroup Forum29 (1984), 75–85.",
+            "journal-title": "Semigroup Forum"
+          },
+          {
+            "key": "BF02573417_CR11",
+            "doi-asserted-by": "crossref",
+            "first-page": "111",
+            "DOI": "10.2140/pjm.1988.135.111",
+            "volume": "135",
+            "author": "F. Neubrander",
+            "year": "1988",
+            "unstructured": "Neubrander, F.,Integrated semigroups and their applications to the abstract Cauchy problem, Pacific J. Math.135 (1988), 111–155.",
+            "journal-title": "Pacific J. Math."
+          },
+          {
+            "key": "BF02573417_CR12",
+            "volume-title": "Semigroups of Linear Operators and Applications to Partial Differential Equations",
+            "author": "A. Pazy",
+            "year": "1986",
+            "unstructured": "Pazy, A.,Semigroups of Linear Operators and Applications to Partial Differential Equations, Springer-Verlag, Berlin-Heidelberg-New York-Tokyo 1986."
+          },
+          {
+            "key": "BF02573417_CR13",
+            "unstructured": "Reed, M., and B. Simon,Methods of Modern Mathematical Physics, Vol. I: Functional Analysis, Academic Press Inc. 1972."
+          },
+          {
+            "key": "BF02573417_CR14",
+            "doi-asserted-by": "crossref",
+            "first-page": "152",
+            "DOI": "10.1137/1011033",
+            "volume": "11",
+            "author": "V. Thomée",
+            "year": "1969",
+            "unstructured": "Thomée, V.,Stability theory for partial difference operators, SIAM Review11 (1969), 152–195.",
+            "journal-title": "SIAM Review"
+          }
+        ],
+        "container-title": [
+          "Semigroup Forum"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "http://link.springer.com/content/pdf/10.1007/BF02573417.pdf",
+            "content-type": "application/pdf",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "http://link.springer.com/article/10.1007/BF02573417/fulltext.html",
+            "content-type": "text/html",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "http://link.springer.com/content/pdf/10.1007/BF02573417",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2019,
+              5,
+              18
+            ]
+          ],
+          "date-time": "2019-05-18T16:19:09Z",
+          "timestamp": 1558196349000
+        },
+        "score": 26.353697,
+        "resource": {
+          "primary": {
+            "URL": "http://link.springer.com/10.1007/BF02573417"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              1991,
+              12
+            ]
+          ]
+        },
+        "references-count": 14,
+        "journal-issue": {
+          "issue": "1",
+          "published-print": {
+            "date-parts": [
+              [
+                1991,
+                12
+              ]
+            ]
+          }
+        },
+        "alternative-id": [
+          "BF02573417"
+        ],
+        "URL": "https://doi.org/10.1007/bf02573417",
+        "ISSN": [
+          "0037-1912",
+          "1432-2137"
+        ],
+        "issn-type": [
+          {
+            "value": "0037-1912",
+            "type": "print"
+          },
+          {
+            "value": "1432-2137",
+            "type": "electronic"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [
+              1991,
+              12
+            ]
+          ]
+        }
+      }
+    ],
+    "items-per-page": 2,
+    "query": {
+      "start-index": 0,
+      "search-terms": null
+    }
+  }
+}

@@ -1,0 +1,81 @@
+********************
+[soln-plugin-writer]
+********************
+
+Periodically write the solution to disk in the pyfrs format.
+Parameterised with
+
+#. ``dt-out`` --- write to disk every ``dt-out`` time units.  This
+   parameter may be omitted when the writer is gated by a trigger
+   (``trigger-action = gate``), in which case the writer outputs
+   whenever the trigger is active:
+
+    *float*
+
+#. ``basedir`` --- relative path to directory where outputs will be
+   written:
+
+    *string*
+
+#. ``basename`` --- pattern of output names:
+
+    *string*
+
+#. ``write-gradients`` --- if to write out gradient data.  Only
+   available for systems which compute gradients, such as
+   Navier-Stokes:
+
+    *bool*
+
+#. ``write-resid`` --- if to write out the residual du/dt as
+   evaluated by the solver; costs at most one additional right hand
+   side evaluation per write.  On export and sampling the residual is
+   converted to primitive variable rates:
+
+    *bool*
+
+#. ``async-timeout`` --- how long asynchronous file writes are allowed
+   to take before becoming blocking:
+
+    *float*
+
+#. ``post-action`` --- command to execute after writing the file:
+
+    *string*
+
+#. ``post-action-mode`` --- how the post-action command should be
+   executed:
+
+    ``blocking`` | ``non-blocking``
+
+#. ``region`` --- region to be written, specified as either the
+   entire domain using ``*``, a combination of the geometric shapes
+   specified in :ref:`user_guide:regions`, or a sub-region of elements that have
+   faces on a specific domain boundary via the name of the domain
+   boundary:
+
+    ``*`` | ``shape(args, ...)`` | *string*
+
+#. ``region-type`` --- if to write all of the elements contained inside
+   the region or only those which are on its surface:
+
+    ``volume`` | ``surface``
+
+#. ``region-expand`` --- how many layers to grow the region by:
+
+    *int*
+
+Example:
+
+.. code-block:: ini
+
+    [soln-plugin-writer]
+    dt-out = 0.01
+    basedir = .
+    basename = files-{t:.2f}
+    async-timeout = 0
+    post-action = echo "Wrote file {soln} at time {t} for mesh {mesh}."
+    post-action-mode = blocking
+    region = box((-5, -5, -5), (5, 5, 5))
+    region-type = volume
+    region-expand = 0
